@@ -1,0 +1,6 @@
+FROM node:10.15.1-alpine as builder
+WORKDIR /usr/app
+COPY ./package*.json ./
+RUN npm ci
+COPY ./ ./
+CMD [ "npm", "run", "dev" ]

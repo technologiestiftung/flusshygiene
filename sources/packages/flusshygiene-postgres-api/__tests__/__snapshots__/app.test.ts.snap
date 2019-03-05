@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default testing get requests should response with 200 on / 1`] = `"Server is running. You called /"`;
