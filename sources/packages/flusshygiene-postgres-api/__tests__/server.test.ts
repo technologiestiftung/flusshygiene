@@ -1,7 +1,8 @@
 
 import express from 'express';
-const app = express();
+jest.useFakeTimers();
 
+const app = express();
 const mockListen = jest.fn();
 app.listen = mockListen;
 afterEach(() => {

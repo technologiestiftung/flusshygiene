@@ -1,5 +1,7 @@
 process.env.PG_PORT = '5432';
 import PG, { pgOptions } from '../src/lib/postgres';
+jest.useFakeTimers();
+
 describe('testing the postgres singleton class', ()=>{
   it('should alwas be the same object that gets returned', ()=>{
     expect(PG).toBeDefined();

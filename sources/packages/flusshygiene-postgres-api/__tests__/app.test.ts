@@ -3,6 +3,7 @@ import request from 'supertest';
 
 import app from '../src/lib/app';
 // let rclient: redis.RedisClient;
+jest.useFakeTimers();
 
 beforeAll(() => {
 });

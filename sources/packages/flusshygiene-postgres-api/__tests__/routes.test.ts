@@ -1,8 +1,9 @@
 
 import routes from '../src/lib/routes';
 import request from 'supertest';
-
 import express from 'express';
+jest.useFakeTimers();
+
 const app = express();
 app.use('/api/v1/', routes);
 
