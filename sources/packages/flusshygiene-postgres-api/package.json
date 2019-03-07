@@ -6,11 +6,12 @@
   "scripts": {
     "test": "jest",
     "testWithCoverage": "jest --coverage --setupFiles ../dotenv/config",
-    "dev": "nodemon",
+    "dev": "npm run clean && nodemon",
+    "clean": "rimraf ./dist && mkdirp ./dist",
     "dev:docker": "nodemon --config nodemon.docker.json",
     "build": "tsc -p .",
     "start": "node dist/index.js"
-    },
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fabianmoronzirfas/flusshygiene-postgres-api.git"
@@ -36,7 +37,9 @@
     "dotenv": "^6.2.0",
     "eslint": "^5.15.1",
     "jest": "^24.1.0",
+    "mkdirp": "^0.5.1",
     "nodemon": "^1.18.10",
+    "rimraf": "^2.6.3",
     "supertest": "^3.4.2",
     "ts-jest": "^24.0.0",
     "ts-node": "^8.0.2",
