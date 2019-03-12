@@ -5,8 +5,9 @@ import express = require('express');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
 app.use('/api/v1/', routes);
-describe('default testing get requests', () => {
+describe.skip('default testing get requests', () => {
   test('route read/:id', async () => {
     expect.assertions(2);
     const response = await request(app).get('/api/v1/read/1');
@@ -15,7 +16,7 @@ describe('default testing get requests', () => {
   });
 });
 
-describe('default testing post requests', () => {
+describe.skip('default testing post requests', () => {
   test('route write', async () => {
     expect.assertions(2);
     const response = await request(app).post('/api/v1/write').send({});

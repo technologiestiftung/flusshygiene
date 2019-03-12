@@ -1,17 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const types_interfaces_1 = require("../types-interfaces");
-exports.userIDErrorResponse = (id) => {
-    if (id === undefined) {
-        id = 'NULL';
+exports.userIDErrorResponse = (val) => {
+    if (val === undefined) {
+        val = 'NULL';
+    }
+    let msg = `request received but user with id: "${val}" does not exist`;
+    if (typeof val === 'string') {
+        msg = val;
     }
     const res = {
         success: false,
-        message: `request received but user with id: "${id}" does not exist`,
+        message: msg,
     };
     return res;
 };
 exports.errorResponse = (error) => {
+    if (process.env.NODE_ENV === 'development') {
+        throw error;
+    }
     const res = {
         success: false,
         message: process.env.NODE_ENV === 'development' ? error.message : 'internal server error'
@@ -42,5 +49,10 @@ exports.responderMissingId = (response) => {
     return exports.responder(response, types_interfaces_1.HttpCodes.badRequest, exports.userIDErrorResponse());
 };
 exports.responderWrongId = (response, id) => {
-    return exports.responder(response, types_interfaces_1.HttpCodes.badRequestNotFound, exports.userIDErrorResponse(id));
+    if (typeof id === 'number') {
+        return exports.responder(response, types_interfaces_1.HttpCodes.badRequestNotFound, exports.userIDErrorResponse(id));
+    }
+    else {
+        return;
+    }
 };

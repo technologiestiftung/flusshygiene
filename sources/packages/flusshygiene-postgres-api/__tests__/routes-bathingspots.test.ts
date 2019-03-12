@@ -46,7 +46,7 @@ beforeAll(async ()=>{
     // process.stdout.write(db.name);
     let databaseEmpty:boolean = true;
     const users = await getRepository(User).find();
-    process.stdout.write(`${users.length}\n`);
+    process.stdout.write(`There are no users ${users.length}\n`);
     if(users.length !== 0){
       databaseEmpty = false;
     }
@@ -58,12 +58,15 @@ beforeAll(async ()=>{
       user.lastName = 'Bond';
       user.role = UserRole.creator;
       user.email = 'faker@fake.com';
-      let spot = new Bathingspot();
-      let region = new Region();
+      const spot = new Bathingspot();
+      const region = new Region();
       region.name = Regions.berlinbrandenburg;
-      spot.isPublic = true;
       spot.region = region;
+      spot.isPublic = true;
+      spot.name = 'billabong';
       user.bathingspots = [spot];
+      await connection.manager.save(region);
+      await connection.manager.save(spot);
       await connection.manager.save(user);
     }
   }catch(error){

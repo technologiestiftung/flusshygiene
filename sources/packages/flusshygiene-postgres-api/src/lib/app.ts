@@ -9,6 +9,7 @@ import {createConnection, getRepository} from 'typeorm';
 import { User } from '../orm/entity/User';
 import { UserRole, Regions } from './types-interfaces';
 import { Region } from '../orm/entity/Region';
+import { createProtectedUser } from '../orm/fixtures/create-protected-user';
 
 const app = express();
 // let connection: Connection;
@@ -42,9 +43,16 @@ if (process.env.NODE_ENV === 'development') {
     if(users.length !== 0){
       databaseEmpty = false;
     }
+
     // process.stdout.write(`Users ${JSON.stringify(users)}\n`);
-    if (databaseEmpty === true && process.env.NODE_ENV === 'development'){
-      // gneerate some default data here
+    if (databaseEmpty === true && process.env.NODE_ENV === 'development') {
+      // the first user we create is a special user
+      // it is protected and cannot be deletet through the API easily
+      // it is for stashing data of deleted users
+      // because what should we do when we have to delete a user but maintain the bathingspots?
+      await connection.manager.save(createProtectedUser());
+
+      // generate some default data here
       let user = new User();
       user.firstName = 'James';
       user.lastName = 'Bond';
@@ -60,6 +68,19 @@ if (process.env.NODE_ENV === 'development') {
       await connection.manager.save(region);
       await connection.manager.save(spot);
       await connection.manager.save(user);
+
+    }
+    if(databaseEmpty === true && process.env.NODE_ENV === 'production'){
+      // uh oh we are in production
+      let protectedUser = await getRepository(User).find({where:{
+        protected: true
+      }});
+      if(protectedUser === undefined){
+        // uh oh no protected user,
+      await connection.manager.save(createProtectedUser());
+
+      }
+
     }
   }catch(error){
     throw error;

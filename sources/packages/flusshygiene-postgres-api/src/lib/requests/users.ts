@@ -1,6 +1,7 @@
+import { User } from './../../orm/entity/User';
+import { Bathingspot } from './../../orm/entity/Bathingspot';
 import { getResponse, HttpCodes, postResponse, UserRole, putResponse, deleteResponse } from '../types-interfaces';
-import { User } from '../../orm/entity/User';
-import { getRepository } from 'typeorm';
+import { getRepository, getManager } from 'typeorm';
 import { validate } from 'class-validator';
 import { errorResponse, responder, responderMissingId, responderWrongId, responderSuccess, responderSuccessCreated, responderMissingBodyValue } from './response-builders';
 
@@ -22,16 +23,16 @@ export const getUsers: getResponse = async (_request, response) => {
 export const getUser: getResponse = async (request, response) => {
   let user: User | undefined;
   try {
-    if (request.params.id === undefined) {
+    if (request.params.userId === undefined) {
       responderMissingId(response);
       // throw new Error('mssing id paramter');
     }
-    user = await getRepository(User).findOne(request.params.id);
+    user = await getRepository(User).findOne(request.params.userId);
     if (user === undefined) {
-      responderWrongId(response, request.params.id);
+      responderWrongId(response, request.params.userId);
 
     } else {
-    responder(response, HttpCodes.success, [user]);
+      responder(response, HttpCodes.success, [user]);
     }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
@@ -84,7 +85,7 @@ export const addUser: postResponse = async (request, response) => {
 
 export const updateUser: putResponse = async (request, response) => {
   try {
-    if (request.params.id === undefined) {
+    if (request.params.userId === undefined) {
       responderMissingId(response);
       // responder(
       //   response,
@@ -93,10 +94,10 @@ export const updateUser: putResponse = async (request, response) => {
       // );
       // throw new Error('Missing id paramater');
     }
-    const user: User | undefined = await getRepository(User).findOne(request.params.id);
+    const user: User | undefined = await getRepository(User).findOne(request.params.userId);
     if (user === undefined) {
 
-      responderWrongId(response, request.params.id);
+      responderWrongId(response, request.params.userId);
 
     } else {
       const userRepository = getRepository(User);
@@ -112,7 +113,7 @@ export const updateUser: putResponse = async (request, response) => {
 
 export const deleteUser: deleteResponse = async (request, response) => {
   try {
-    // console.log('req id value',request.params.id);
+    // console.log('req id value',request.params.userId);
     // if (request.params.hasOwnProperty('id') === false) {
     //   // throw new Error('Missing id paramter');
     //   responderMissingId(response);
@@ -122,19 +123,46 @@ export const deleteUser: deleteResponse = async (request, response) => {
     //   //   errorResponse(new Error('Missing ID paramter'))
     //   // );
     // }
-    const user = await getRepository(User).findOne(request.params.id);
+    const user = await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
     if (user === undefined) {
-      responderWrongId(response, request.params.id);
+      responderWrongId(response, request.params.userId);
 
       // responder(
       //   response,
       //   HttpCodes.badRequestNotFound,
-      //   userIDErrorResponse(request.params.id)
+      //   userIDErrorResponse(request.params.userId)
       // );
     } else {
-      await getRepository(User).remove(user);
+      if (user.protected === true) {
+        responder(response, HttpCodes.badRequestForbidden, errorResponse(new Error('You cannot delete a protected User')));
+      } else {
+        if (user.bathingspots.length !== 0) {
+          const protectedUser = await getRepository(User).findOne({ where: { protected: true }, relations: ['bathingspots'] });
+          if (protectedUser === undefined) {
+            throw new Error('No protected user found!');
+          } else {
+            const spots: Bathingspot[] = [];
+            user.bathingspots.forEach((spot) => {
+              // we must retain all the public bathingspots
+              // or not?
+              if (spot.isPublic === true) {
+                spot.isPublic = false; // keep them for moderation
+                spots.push(spot);
+              }
+            });
+            protectedUser.bathingspots = protectedUser.bathingspots.concat(spots);
+            const manager = getManager();
+            const res = await manager.save(protectedUser);
+            if (process.env.NODE_ENV === 'development') {
+              process.stdout.write(JSON.stringify(res));
+              process.stdout.write('\n');
+            }
+          }
+        }
+        await getRepository(User).remove(user);
+        responderSuccess(response, 'deleted user');
+      }
     }
-    responderSuccess(response,'deleted user');
 
     // responder(
     //   response,
@@ -147,4 +175,46 @@ export const deleteUser: deleteResponse = async (request, response) => {
     // response.status(HttpCodes.internalError).json(errorResponse(e));
   }
 
+}
+
+/**
+ * Gets single bathingspot of user by id
+ * @param request
+ * @param response
+ */
+export const getUserBathingspot: getResponse = async (request, response) => {
+  try {
+    const user: User | undefined = await getRepository(User).findOne(request.params.userId,{relations:['bathingspots']});
+    if (user === undefined) {
+      // throw new Error('user undefined or 0');
+      responderWrongId(response, request.params.userId);
+    }else{
+      console.log(user.bathingspots);
+
+      const spots: Bathingspot[] = user.bathingspots.filter(spot => spot.id === parseInt(request.params.spotId, 10));
+      responder(response, HttpCodes.success, spots);
+    }
+  } catch (e) {
+    responder(response, HttpCodes.internalError, errorResponse(e));
+  }
+}
+
+
+/**
+ * Gets all the bathingspots of the user
+ * @param request
+ * @param response
+ */
+export const getUserBathingspots: getResponse = async (request, response) => {
+  try {
+    const user: User | undefined = await getRepository(User).findOne(request.params.userId,{relations:['bathingspots']});
+    if (user === undefined) {
+      // throw new Error('user undefined or 0');
+      responderWrongId(response, request.params.userId);
+    }else{
+      responder(response, HttpCodes.success, user.bathingspots);
+    }
+  } catch (e) {
+    responder(response, HttpCodes.internalError, errorResponse(e));
+  }
 }

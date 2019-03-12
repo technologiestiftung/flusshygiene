@@ -1,36 +1,41 @@
 import Router from 'express-promise-router';
 import { getBathingspots, getBathingspot } from './requests/bathingspots';
-import { defaultGetResponse, defaultPostResponse } from './requests/default-requests';
-import { getUsers, getUser, addUser, updateUser, deleteUser } from './requests/users';
+// import { defaultGetResponse, defaultPostResponse } from './requests/default-requests';
+import { getUsers, getUser, addUser, updateUser, deleteUser, getUserBathingspots, getUserBathingspot } from './requests/users';
 
 const router = Router();
 
 
-router.get('/read/:id', defaultGetResponse);
+// router.get('/read/:id', defaultGetResponse);
 
-router.post('/write', defaultPostResponse);
+// router.post('/write', defaultPostResponse);
 
-router.post('/patch/:id', defaultPostResponse);
+// router.post('/patch/:id', defaultPostResponse);
 
-router.post('/remove/:id', defaultPostResponse);
+// router.post('/remove/:id', defaultPostResponse);
 
 
-router.get('/find', defaultGetResponse);
+// router.get('/find', defaultGetResponse);
 
 //  U S E R S
 // get all users
 
 router.get('/users', getUsers);
+// get user by id
+router.get('/users/:userId([0-9]+)', getUser);
+
+router.get('/users/:userId([0-9]+)/bathingspots', getUserBathingspots);
+router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)', getUserBathingspot);
 // add new user
 router.post('/users', addUser);
-// get user by id
-router.get('/users/:id([0-9]+)', getUser);
 // update user
-router.put('/users/:id([0-9]+)', updateUser);
+router.put('/users/:userId([0-9]+)', updateUser);
 // delete user
-router.delete('/users/:id([0-9]+)', deleteUser)
+router.delete('/users/:userId([0-9]+)', deleteUser)
+
 // get all bathingspots
 router.get('/bathingspots', getBathingspots);
+
 router.get('/bathingspots/:id([0-9]+)', getBathingspot);
 
 export default router;

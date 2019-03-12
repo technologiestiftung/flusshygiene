@@ -34,6 +34,7 @@ beforeAll(async ()=>{
         User,
         Questionaire,
         Bathingspot,
+        Region,
         BathingspotModel,
         BathingspotPrediction,
         BathingspotRawModelData
@@ -62,8 +63,8 @@ beforeAll(async ()=>{
       spot.isPublic = true;
       spot.name = 'billabong';
       user.bathingspots = [spot];
-      // await connection.manager.save(region);
-      // await connection.manager.save(spot);
+      await connection.manager.save(region);
+      await connection.manager.save(spot);
       await connection.manager.save(user);
     }
   }catch(error){
@@ -74,24 +75,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use('/api/v1/', routes);
-describe('default testing get requests', () => {
-  test('route read/:id', async () => {
-    expect.assertions(2);
-    const response = await request(app).get('/api/v1/read/1');
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual({"success": true});
-  });
-});
-describe('default testing post requests', () => {
-  test('route write', async () => {
-    expect.assertions(2);
-    const response = await request(app).post('/api/v1/write').send({});
-    expect(response.status).toBe(201);
-    expect(response.body).toEqual({success: true});
-  });
-});
-
-
 
 describe('testing get users', ()=>{
 

@@ -22,7 +22,11 @@ export enum HttpCodes {
   'successCreated' = 201,
   'suceessNoContent' = 204,
   'badRequest' = 400,
+  'badRequestUnAuthorized' = 401,
+  'badRequestForbidden' = 403,
   'badRequestNotFound' = 404,
+  'badRequestNotAllowed' = 405,
+  'badRequestConflict' = 409,
   'internalError' = 500,
 };
 

@@ -9,7 +9,7 @@ beforeAll(() => {
 });
 afterAll(() => {
 });
-describe('default testing get requests', () => {
+describe.skip('default testing get requests', () => {
   test('should response with 200 on /', async () => {
     expect.assertions(2);
     const response = await request(app).get('/');

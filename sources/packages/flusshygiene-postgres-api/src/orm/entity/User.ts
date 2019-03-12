@@ -10,6 +10,9 @@ export class User {
   id!: number;
 
   @Column({nullable: false})
+  protected: boolean = false;
+
+  @Column({nullable: false})
   firstName!: string;
 
   @Column({nullable: false})

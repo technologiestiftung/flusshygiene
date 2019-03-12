@@ -15,11 +15,18 @@ const typeorm_1 = require("typeorm");
 const Bathingspot_1 = require("./Bathingspot");
 const class_validator_1 = require("class-validator");
 let User = class User {
+    constructor() {
+        this.protected = false;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
+__decorate([
+    typeorm_1.Column({ nullable: false }),
+    __metadata("design:type", Boolean)
+], User.prototype, "protected", void 0);
 __decorate([
     typeorm_1.Column({ nullable: false }),
     __metadata("design:type", String)

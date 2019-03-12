@@ -5,17 +5,24 @@ import { User } from '../../orm/entity/User';
 
 type Responder = (response: Response, statusCode:number, payload: IDefaultResponsePayload | User[] | Bathingspot[]) => void;
 
-export const userIDErrorResponse = (id?: string|number|undefined) =>{
-  if(id === undefined){
-    id = 'NULL';
+export const userIDErrorResponse = (val?: string|number|undefined) =>{
+  if(val === undefined){
+    val = 'NULL';
+  }
+  let msg = `request received but user with id: "${val}" does not exist`;
+  if(typeof val==='string'){
+    msg = val;
   }
   const res: IDefaultResponsePayload = {
     success: false,
-    message: `request received but user with id: "${id}" does not exist`,
+    message: msg,
   }
   return res;
 }
 export const errorResponse: (error: Error) => IDefaultResponsePayload = (error) => {
+  if(process.env.NODE_ENV === 'development'){
+    throw error;
+  }
   const res: IDefaultResponsePayload = {
     success: false,
     message: process.env.NODE_ENV === 'development' ? error.message : 'internal server error'
@@ -48,6 +55,11 @@ export const responderSuccessCreated = (response: Response, message: string, dat
 export const responderMissingId = (response: Response)=>{
   return responder(response, HttpCodes.badRequest, userIDErrorResponse());
 }
-export const responderWrongId = (response: Response, id: string|number)=>{
-  return responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse(id));
+export const responderWrongId = (response: Response, id: number|string)=>{
+  if(typeof id === 'number'){
+    return responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse(id));
+
+  }else{
+    return
+  }
 }

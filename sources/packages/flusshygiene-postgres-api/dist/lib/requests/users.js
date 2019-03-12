@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const User_1 = require("./../../orm/entity/User");
 const types_interfaces_1 = require("../types-interfaces");
-const User_1 = require("../../orm/entity/User");
 const typeorm_1 = require("typeorm");
 const class_validator_1 = require("class-validator");
 const response_builders_1 = require("./response-builders");
@@ -19,13 +19,13 @@ exports.getUsers = async (_request, response) => {
 exports.getUser = async (request, response) => {
     let user;
     try {
-        if (request.params.id === undefined) {
+        if (request.params.userId === undefined) {
             response_builders_1.responderMissingId(response);
             // throw new Error('mssing id paramter');
         }
-        user = await typeorm_1.getRepository(User_1.User).findOne(request.params.id);
+        user = await typeorm_1.getRepository(User_1.User).findOne(request.params.userId);
         if (user === undefined) {
-            response_builders_1.responderWrongId(response, request.params.id);
+            response_builders_1.responderWrongId(response, request.params.userId);
         }
         else {
             response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, [user]);
@@ -76,7 +76,7 @@ exports.addUser = async (request, response) => {
 };
 exports.updateUser = async (request, response) => {
     try {
-        if (request.params.id === undefined) {
+        if (request.params.userId === undefined) {
             response_builders_1.responderMissingId(response);
             // responder(
             //   response,
@@ -85,9 +85,9 @@ exports.updateUser = async (request, response) => {
             // );
             // throw new Error('Missing id paramater');
         }
-        const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.id);
+        const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.userId);
         if (user === undefined) {
-            response_builders_1.responderWrongId(response, request.params.id);
+            response_builders_1.responderWrongId(response, request.params.userId);
         }
         else {
             const userRepository = typeorm_1.getRepository(User_1.User);
@@ -102,7 +102,7 @@ exports.updateUser = async (request, response) => {
 };
 exports.deleteUser = async (request, response) => {
     try {
-        // console.log('req id value',request.params.id);
+        // console.log('req id value',request.params.userId);
         // if (request.params.hasOwnProperty('id') === false) {
         //   // throw new Error('Missing id paramter');
         //   responderMissingId(response);
@@ -112,19 +112,48 @@ exports.deleteUser = async (request, response) => {
         //   //   errorResponse(new Error('Missing ID paramter'))
         //   // );
         // }
-        const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.id);
+        const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.userId, { relations: ['bathingspots'] });
         if (user === undefined) {
-            response_builders_1.responderWrongId(response, request.params.id);
+            response_builders_1.responderWrongId(response, request.params.userId);
             // responder(
             //   response,
             //   HttpCodes.badRequestNotFound,
-            //   userIDErrorResponse(request.params.id)
+            //   userIDErrorResponse(request.params.userId)
             // );
         }
         else {
-            await typeorm_1.getRepository(User_1.User).remove(user);
+            if (user.protected === true) {
+                response_builders_1.responder(response, types_interfaces_1.HttpCodes.badRequestForbidden, response_builders_1.errorResponse(new Error('You cannot delete a protected User')));
+            }
+            else {
+                if (user.bathingspots.length !== 0) {
+                    const protectedUser = await typeorm_1.getRepository(User_1.User).findOne({ where: { protected: true }, relations: ['bathingspots'] });
+                    if (protectedUser === undefined) {
+                        throw new Error('No protected user found!');
+                    }
+                    else {
+                        const spots = [];
+                        user.bathingspots.forEach((spot) => {
+                            // we must retain all the public bathingspots
+                            // or not?
+                            if (spot.isPublic === true) {
+                                spot.isPublic = false; // keep them for moderation
+                                spots.push(spot);
+                            }
+                        });
+                        protectedUser.bathingspots = protectedUser.bathingspots.concat(spots);
+                        const manager = typeorm_1.getManager();
+                        const res = await manager.save(protectedUser);
+                        if (process.env.NODE_ENV === 'development') {
+                            process.stdout.write(JSON.stringify(res));
+                            process.stdout.write('\n');
+                        }
+                    }
+                }
+                await typeorm_1.getRepository(User_1.User).remove(user);
+                response_builders_1.responderSuccess(response, 'deleted user');
+            }
         }
-        response_builders_1.responderSuccess(response, 'deleted user');
         // responder(
         //   response,
         //   HttpCodes.success,
@@ -135,5 +164,47 @@ exports.deleteUser = async (request, response) => {
     catch (e) {
         response_builders_1.responder(response, types_interfaces_1.HttpCodes.internalError, response_builders_1.errorResponse(e));
         // response.status(HttpCodes.internalError).json(errorResponse(e));
+    }
+};
+/**
+ * Gets single bathingspot of user by id
+ * @param request
+ * @param response
+ */
+exports.getUserBathingspot = async (request, response) => {
+    try {
+        const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.userId, { relations: ['bathingspots'] });
+        if (user === undefined) {
+            // throw new Error('user undefined or 0');
+            response_builders_1.responderWrongId(response, request.params.userId);
+        }
+        else {
+            console.log(user.bathingspots);
+            const spots = user.bathingspots.filter(spot => spot.id === parseInt(request.params.spotId, 10));
+            response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, spots);
+        }
+    }
+    catch (e) {
+        response_builders_1.responder(response, types_interfaces_1.HttpCodes.internalError, response_builders_1.errorResponse(e));
+    }
+};
+/**
+ * Gets all the bathingspots of the user
+ * @param request
+ * @param response
+ */
+exports.getUserBathingspots = async (request, response) => {
+    try {
+        const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.userId, { relations: ['bathingspots'] });
+        if (user === undefined) {
+            // throw new Error('user undefined or 0');
+            response_builders_1.responderWrongId(response, request.params.userId);
+        }
+        else {
+            response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, user.bathingspots);
+        }
+    }
+    catch (e) {
+        response_builders_1.responder(response, types_interfaces_1.HttpCodes.internalError, response_builders_1.errorResponse(e));
     }
 };
