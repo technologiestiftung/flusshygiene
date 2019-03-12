@@ -1,6 +1,6 @@
 
 import request from 'supertest';
-
+jest.mock('pg');
 import app from '../src/lib/app';
 // let rclient: redis.RedisClient;
 jest.useFakeTimers();
