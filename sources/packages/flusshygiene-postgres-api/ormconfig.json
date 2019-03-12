@@ -6,6 +6,7 @@
   "password": "postgres_password",
   "database": "postgres",
   "synchronize": true,
+  "dropSchema": true,
   "logging": false,
   "entities": [
      "dist/orm/entity/**/*.js"

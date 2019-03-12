@@ -1,5 +1,5 @@
 import Router from 'express-promise-router';
-import { getPublicBathingspots } from './requests/pg-requests';
+import { getBathingspots, getBathingspot } from './requests/bathingspots';
 import { defaultGetResponse, defaultPostResponse } from './requests/default-requests';
 import { getUsers, getUser, addUser, updateUser, deleteUser } from './requests/users';
 
@@ -19,6 +19,7 @@ router.get('/find', defaultGetResponse);
 
 //  U S E R S
 // get all users
+
 router.get('/users', getUsers);
 // add new user
 router.post('/users', addUser);
@@ -29,7 +30,7 @@ router.put('/users/:id([0-9]+)', updateUser);
 // delete user
 router.delete('/users/:id([0-9]+)', deleteUser)
 // get all bathingspots
-router.get('/find/publicbathingspots', getPublicBathingspots);
-
+router.get('/bathingspots', getBathingspots);
+router.get('/bathingspots/:id([0-9]+)', getBathingspot);
 
 export default router;

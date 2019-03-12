@@ -2,36 +2,39 @@ import { getResponse, HttpCodes, postResponse, UserRole, putResponse, deleteResp
 import { User } from '../../orm/entity/User';
 import { getRepository } from 'typeorm';
 import { validate } from 'class-validator';
-import { errorResponse, userIDErrorResponse, successResponse } from './response-builders';
+import { errorResponse, responder, responderMissingId, responderWrongId, responderSuccess, responderSuccessCreated, responderMissingBodyValue } from './response-builders';
 
 export const getUsers: getResponse = async (_request, response) => {
   let users: User[];
 
   try {
     users = await getRepository(User).find();
-    response.status(HttpCodes.success).json(users);
-  } catch (e) {
+    responder(response, HttpCodes.success, users);
 
-    response.status(HttpCodes.internalError).json(errorResponse(e));
+    // response.status(HttpCodes.success).json(users);
+  } catch (e) {
+    responder(response, HttpCodes.internalError, errorResponse(e));
+
+
   }
 }
-
-
 
 export const getUser: getResponse = async (request, response) => {
   let user: User | undefined;
   try {
     if (request.params.id === undefined) {
-      throw new Error('mssing id paramter');
+      responderMissingId(response);
+      // throw new Error('mssing id paramter');
     }
     user = await getRepository(User).findOne(request.params.id);
     if (user === undefined) {
-      response.status(HttpCodes.badRequest).json(userIDErrorResponse(request.params.id));
+      responderWrongId(response, request.params.id);
+
     } else {
-      response.status(HttpCodes.success).json([user]);
+    responder(response, HttpCodes.success, [user]);
     }
   } catch (e) {
-    response.status(HttpCodes.internalError).json(errorResponse(e));
+    responder(response, HttpCodes.internalError, errorResponse(e));
   }
 }
 
@@ -41,21 +44,21 @@ export const addUser: postResponse = async (request, response) => {
   const user: User = new User();
   try {
     if (request.body.role === undefined) {
-      throw Error('User "role" is not defined');
+      responderMissingBodyValue(response, 'User "role" is not defined');
     }
     if (!(request.body.role in UserRole)) {
       const types = Object.values(UserRole).filter((v: any) => typeof v === 'string');
-      throw Error(`User "role" is none of type: ${types}`);
+      responderMissingBodyValue(response, `User "role" is none of type: ${types}`);
     }
 
     if (request.body.firstName === undefined) {
-      throw Error('User "firstName" is not defined');
+      responderMissingBodyValue(response, 'User "firstName" is not defined');
     }
-    if (request.body.firstName === undefined) {
-      throw Error('User "lastName" is not defined');
+    if (request.body.lastName === undefined) {
+      responderMissingBodyValue(response, 'User "lastName" is not defined');
     }
     if (request.body.email === undefined) {
-      throw Error('User "email" is not defined');
+      responderMissingBodyValue(response, 'User "email" is not defined');
     }
     user.firstName = request.body.firstName;
     user.lastName = request.body.lastName;
@@ -68,10 +71,13 @@ export const addUser: postResponse = async (request, response) => {
     // could also be the below create event
     // but then we can't do the validation beforehand
     // const res = await getRepository(User).create(request.body);
-    await getRepository(User).save(user);// .save(user);
-    response.status(201).json(successResponse('User was created'));
+    const res = await getRepository(User).save(user);// .save(user);
+    responderSuccessCreated(response, 'User was created', res);
+    // response.status(201).json(successResponse('User was created'));
   } catch (e) {
-    response.status(HttpCodes.internalError).json(errorResponse(e));
+    responder(response, HttpCodes.internalError, errorResponse(e));
+
+    // response.status(HttpCodes.internalError).json(errorResponse(e));
   }
 }
 
@@ -79,16 +85,24 @@ export const addUser: postResponse = async (request, response) => {
 export const updateUser: putResponse = async (request, response) => {
   try {
     if (request.params.id === undefined) {
-      throw new Error('Missing id paramater');
+      responderMissingId(response);
+      // responder(
+      //   response,
+      //   HttpCodes.badRequest,
+      //   errorResponse(new Error('Missing ID paramter'))
+      // );
+      // throw new Error('Missing id paramater');
     }
     const user: User | undefined = await getRepository(User).findOne(request.params.id);
     if (user === undefined) {
-      response.status(HttpCodes.badRequest).json(userIDErrorResponse(request.params.id));
+
+      responderWrongId(response, request.params.id);
+
     } else {
       const userRepository = getRepository(User);
       userRepository.merge(user, request.body);
       userRepository.save(user);
-      response.status(HttpCodes.successCreated).json(successResponse('updated user'));
+      responderSuccessCreated(response, 'updated user');
     }
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));
@@ -98,18 +112,39 @@ export const updateUser: putResponse = async (request, response) => {
 
 export const deleteUser: deleteResponse = async (request, response) => {
   try {
-    if (request.params.id === undefined) {
-      throw new Error('Missing id paramter');
-    }
+    // console.log('req id value',request.params.id);
+    // if (request.params.hasOwnProperty('id') === false) {
+    //   // throw new Error('Missing id paramter');
+    //   responderMissingId(response);
+    //   // responder(
+    //   //   response,
+    //   //   HttpCodes.badRequest,
+    //   //   errorResponse(new Error('Missing ID paramter'))
+    //   // );
+    // }
     const user = await getRepository(User).findOne(request.params.id);
     if (user === undefined) {
-      response.status(HttpCodes.badRequest).json(userIDErrorResponse(request.params.id));
+      responderWrongId(response, request.params.id);
+
+      // responder(
+      //   response,
+      //   HttpCodes.badRequestNotFound,
+      //   userIDErrorResponse(request.params.id)
+      // );
     } else {
       await getRepository(User).remove(user);
     }
-    response.status(HttpCodes.success).json(successResponse('deleted user'));
+    responderSuccess(response,'deleted user');
+
+    // responder(
+    //   response,
+    //   HttpCodes.success,
+    //   successResponse('deleted user')
+    // );
+    // response.status(HttpCodes.success).json(successResponse('deleted user'));
   } catch (e) {
-    response.status(HttpCodes.internalError).json(errorResponse(e));
+    responder(response, HttpCodes.internalError, errorResponse(e));
+    // response.status(HttpCodes.internalError).json(errorResponse(e));
   }
 
 }

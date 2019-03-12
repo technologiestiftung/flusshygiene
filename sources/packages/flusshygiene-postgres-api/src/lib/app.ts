@@ -1,3 +1,4 @@
+import { Bathingspot } from './../orm/entity/Bathingspot';
 import cors from 'cors';
 import errorHandler from 'errorhandler';
 import express from 'express';
@@ -6,7 +7,8 @@ import morgan from 'morgan';
 import routes from './routes';
 import {createConnection, getRepository} from 'typeorm';
 import { User } from '../orm/entity/User';
-import { UserRole } from './types-interfaces';
+import { UserRole, Regions } from './types-interfaces';
+import { Region } from '../orm/entity/Region';
 
 const app = express();
 // let connection: Connection;
@@ -48,6 +50,15 @@ if (process.env.NODE_ENV === 'development') {
       user.lastName = 'Bond';
       user.role = UserRole.creator;
       user.email = 'faker@fake.com';
+      const spot = new Bathingspot();
+      const region = new Region();
+      region.name = Regions.berlinbrandenburg;
+      spot.region = region;
+      spot.isPublic = true;
+      spot.name = 'billabong';
+      user.bathingspots = [spot];
+      await connection.manager.save(region);
+      await connection.manager.save(spot);
       await connection.manager.save(user);
     }
   }catch(error){
