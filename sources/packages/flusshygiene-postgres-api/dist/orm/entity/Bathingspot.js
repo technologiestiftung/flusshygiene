@@ -25,6 +25,10 @@ __decorate([
     __metadata("design:type", String)
 ], Bathingspot.prototype, "name", void 0);
 __decorate([
+    typeorm_1.Column({ type: 'boolean' }),
+    __metadata("design:type", Boolean)
+], Bathingspot.prototype, "isPublic", void 0);
+__decorate([
     typeorm_1.Column({ type: 'json' }),
     __metadata("design:type", String)
 ], Bathingspot.prototype, "apiEndpoints", void 0);
@@ -36,6 +40,18 @@ __decorate([
     typeorm_1.Column({ type: "json" }),
     __metadata("design:type", String)
 ], Bathingspot.prototype, "location", void 0);
+__decorate([
+    typeorm_1.Column({ type: 'float8' }),
+    __metadata("design:type", Number)
+], Bathingspot.prototype, "latitde", void 0);
+__decorate([
+    typeorm_1.Column({ type: 'float8' }),
+    __metadata("design:type", Number)
+], Bathingspot.prototype, "longitude", void 0);
+__decorate([
+    typeorm_1.Column({ type: 'float8' }),
+    __metadata("design:type", Number)
+], Bathingspot.prototype, "elevation", void 0);
 __decorate([
     typeorm_1.ManyToOne(_type => User_1.User, user => user.bathingspots, {
         cascade: true,

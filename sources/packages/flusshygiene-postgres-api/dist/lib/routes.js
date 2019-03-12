@@ -4,37 +4,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_promise_router_1 = __importDefault(require("express-promise-router"));
-const typeorm_1 = require("typeorm");
-const User_1 = require("../orm/entity/User");
+const pg_requests_1 = require("./requests/pg-requests");
+const default_requests_1 = require("./requests/default-requests");
+const users_1 = require("./requests/users");
 const router = express_promise_router_1.default();
-;
-const defaultPostResponse = async (_request, response) => {
-    response.status(201).json(defaultResponsePayload);
-};
-const defaultGetResponse = async (request, response) => {
-    response.status(200).json(request.body);
-};
-const getUsers = async (_request, response) => {
-    let users;
-    try {
-        users = await typeorm_1.getRepository(User_1.User, 'getuser').find();
-        response.json(users);
-    }
-    catch (e) {
-        const res = {
-            success: false,
-            message: e.message
-        };
-        response.json(res);
-    }
-};
-const defaultResponsePayload = { success: true };
-router.get('/read/:id', defaultGetResponse);
-router.post('/write', defaultPostResponse);
-router.post('/patch/:id', defaultPostResponse);
-router.post('/remove/:id', defaultPostResponse);
-router.post('/find', defaultPostResponse);
-router.post('/find/users', getUsers);
-// subClient.subscribe('read');
-// subClient.subscribe('write');
+router.get('/read/:id', default_requests_1.defaultGetResponse);
+router.post('/write', default_requests_1.defaultPostResponse);
+router.post('/patch/:id', default_requests_1.defaultPostResponse);
+router.post('/remove/:id', default_requests_1.defaultPostResponse);
+router.get('/find', default_requests_1.defaultGetResponse);
+//  U S E R S
+// get all users
+router.get('/users', users_1.getUsers);
+// add new user
+router.post('/users', users_1.addUser);
+// get user by id
+router.get('/users/:id([0-9]+)', users_1.getUser);
+// update user
+router.put('/users/:id([0-9]+)', users_1.updateUser);
+// delete user
+router.delete('/users/:id([0-9]+)', users_1.deleteUser);
+// get all bathingspots
+router.get('/find/publicbathingspots', pg_requests_1.getPublicBathingspots);
 exports.default = router;

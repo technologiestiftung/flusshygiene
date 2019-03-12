@@ -13,6 +13,9 @@ export class Bathingspot {
   @Column()
   name!: string;
 
+  @Column({ type: 'boolean' })
+  isPublic!: boolean;
+
   @Column({type: 'json'})
   apiEndpoints!: string;
 
@@ -22,6 +25,13 @@ export class Bathingspot {
   // should be geojson
   @Column({type: "json"})
   location!: string;
+
+  @Column({type: 'float8'})
+  latitde!: number;
+  @Column({type: 'float8'})
+  longitude!: number;
+  @Column({type: 'float8'})
+  elevation!: number;
 
   @ManyToOne( _type => User, user => user.bathingspots, {
     cascade: true,

@@ -3,7 +3,7 @@ import http from 'http';
 import app from './app';
 
 
-const PORT = process.env.POSTGRES_EXPRESS_PORT || 5004;
+const PORT: number|string = process.env.POSTGRES_EXPRESS_PORT || 5004;
 
 const server = http.createServer(app);
 const log = devlogGen(PORT)

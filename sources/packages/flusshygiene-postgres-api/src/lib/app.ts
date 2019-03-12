@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import routes from './routes';
 import {createConnection, getRepository} from 'typeorm';
 import { User } from '../orm/entity/User';
+import { UserRole } from './types-interfaces';
 
 const app = express();
 // let connection: Connection;
@@ -45,7 +46,8 @@ if (process.env.NODE_ENV === 'development') {
       let user = new User();
       user.firstName = 'James';
       user.lastName = 'Bond';
-      user.role = 'creator';
+      user.role = UserRole.creator;
+      user.email = 'faker@fake.com';
       await connection.manager.save(user);
     }
   }catch(error){

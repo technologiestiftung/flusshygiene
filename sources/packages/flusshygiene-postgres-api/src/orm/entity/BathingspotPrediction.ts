@@ -16,6 +16,7 @@ export class BathingspotPrediction {
 
   @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.predictions, {
     cascade: true,
+    eager: true,
   })
   bathingspot!: Bathingspot;
 

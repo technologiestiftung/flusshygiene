@@ -10,6 +10,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const routes_1 = __importDefault(require("./routes"));
 const typeorm_1 = require("typeorm");
 const User_1 = require("../orm/entity/User");
+const types_interfaces_1 = require("./types-interfaces");
 const app = express_1.default();
 // let connection: Connection;
 app.use(cors_1.default());
@@ -49,7 +50,8 @@ if (process.env.NODE_ENV === 'development') {
             let user = new User_1.User();
             user.firstName = 'James';
             user.lastName = 'Bond';
-            user.role = 'creator';
+            user.role = types_interfaces_1.UserRole.creator;
+            user.email = 'faker@fake.com';
             await connection.manager.save(user);
         }
     }

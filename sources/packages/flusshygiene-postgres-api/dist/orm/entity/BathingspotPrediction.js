@@ -28,6 +28,7 @@ __decorate([
 __decorate([
     typeorm_1.ManyToOne(_type => Bathingspot_1.Bathingspot, bathingspot => bathingspot.predictions, {
         cascade: true,
+        eager: true,
     }),
     __metadata("design:type", Bathingspot_1.Bathingspot)
 ], BathingspotPrediction.prototype, "bathingspot", void 0);
