@@ -14,6 +14,7 @@ const BathingspotModel_1 = require("./BathingspotModel");
 const BathingspotPrediction_1 = require("./BathingspotPrediction");
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
+const Region_1 = require("./Region");
 let Bathingspot = class Bathingspot {
 };
 __decorate([
@@ -29,33 +30,31 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Bathingspot.prototype, "isPublic", void 0);
 __decorate([
-    typeorm_1.Column({ type: 'json' }),
+    typeorm_1.Column({ type: 'json', nullable: true }),
     __metadata("design:type", String)
 ], Bathingspot.prototype, "apiEndpoints", void 0);
 __decorate([
-    typeorm_1.Column({ type: 'json' }),
+    typeorm_1.Column({ type: 'json', nullable: true }),
     __metadata("design:type", String)
 ], Bathingspot.prototype, "state", void 0);
 __decorate([
-    typeorm_1.Column({ type: "json" }),
+    typeorm_1.Column({ type: "json", nullable: true }),
     __metadata("design:type", String)
 ], Bathingspot.prototype, "location", void 0);
 __decorate([
-    typeorm_1.Column({ type: 'float8' }),
+    typeorm_1.Column({ type: 'float8', nullable: true }),
     __metadata("design:type", Number)
 ], Bathingspot.prototype, "latitde", void 0);
 __decorate([
-    typeorm_1.Column({ type: 'float8' }),
+    typeorm_1.Column({ type: 'float8', nullable: true }),
     __metadata("design:type", Number)
 ], Bathingspot.prototype, "longitude", void 0);
 __decorate([
-    typeorm_1.Column({ type: 'float8' }),
+    typeorm_1.Column({ type: 'float8', nullable: true }),
     __metadata("design:type", Number)
 ], Bathingspot.prototype, "elevation", void 0);
 __decorate([
-    typeorm_1.ManyToOne(_type => User_1.User, user => user.bathingspots, {
-        cascade: true,
-    }),
+    typeorm_1.ManyToOne(_type => User_1.User, user => user.bathingspots),
     __metadata("design:type", User_1.User)
 ], Bathingspot.prototype, "user", void 0);
 __decorate([
@@ -70,6 +69,10 @@ __decorate([
     typeorm_1.OneToMany(_type => BathingspotRawModelData_1.BathingspotRawModelData, (rawModelData) => rawModelData.bathingspot),
     __metadata("design:type", Array)
 ], Bathingspot.prototype, "rawModelData", void 0);
+__decorate([
+    typeorm_1.ManyToOne(_type => Region_1.Region, region => region.bathingspots),
+    __metadata("design:type", Region_1.Region)
+], Bathingspot.prototype, "region", void 0);
 Bathingspot = __decorate([
     typeorm_1.Entity()
 ], Bathingspot);

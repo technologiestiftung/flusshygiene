@@ -3,6 +3,7 @@ import { BathingspotModel } from './BathingspotModel';
 import { BathingspotPrediction } from './BathingspotPrediction';
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from "typeorm";
 import { User } from './User';
+import { Region } from './Region';
 
 @Entity()
 export class Bathingspot {
@@ -16,26 +17,24 @@ export class Bathingspot {
   @Column({ type: 'boolean' })
   isPublic!: boolean;
 
-  @Column({type: 'json'})
+  @Column({type: 'json', nullable: true})
   apiEndpoints!: string;
 
-  @Column({type: 'json'})
+  @Column({type: 'json', nullable: true})
   state!: string;
 
   // should be geojson
-  @Column({type: "json"})
+  @Column({type: "json", nullable: true})
   location!: string;
 
-  @Column({type: 'float8'})
+  @Column({type: 'float8', nullable: true})
   latitde!: number;
-  @Column({type: 'float8'})
+  @Column({type: 'float8', nullable: true})
   longitude!: number;
-  @Column({type: 'float8'})
+  @Column({type: 'float8', nullable: true})
   elevation!: number;
 
-  @ManyToOne( _type => User, user => user.bathingspots, {
-    cascade: true,
-  })
+  @ManyToOne( _type => User, user => user.bathingspots)
   user!: User;
 
   @OneToMany(_type => BathingspotPrediction, (prediction) => prediction.bathingspot)
@@ -46,5 +45,7 @@ export class Bathingspot {
 
   @OneToMany(_type => BathingspotRawModelData, (rawModelData) => rawModelData.bathingspot)
   rawModelData!: BathingspotRawModelData[];
+  @ManyToOne(_type => Region, region => region.bathingspots)
+  region!: Region;
 }
 

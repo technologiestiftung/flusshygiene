@@ -9,48 +9,50 @@ exports.getUsers = async (_request, response) => {
     let users;
     try {
         users = await typeorm_1.getRepository(User_1.User).find();
-        response.status(types_interfaces_1.HttpCodes.success).json(users);
+        response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, users);
+        // response.status(HttpCodes.success).json(users);
     }
     catch (e) {
-        response.status(types_interfaces_1.HttpCodes.internalError).json(response_builders_1.errorResponse(e));
+        response_builders_1.responder(response, types_interfaces_1.HttpCodes.internalError, response_builders_1.errorResponse(e));
     }
 };
 exports.getUser = async (request, response) => {
     let user;
     try {
         if (request.params.id === undefined) {
-            throw new Error('mssing id paramter');
+            response_builders_1.responderMissingId(response);
+            // throw new Error('mssing id paramter');
         }
         user = await typeorm_1.getRepository(User_1.User).findOne(request.params.id);
         if (user === undefined) {
-            response.status(types_interfaces_1.HttpCodes.badRequest).json(response_builders_1.userIDErrorResponse(request.params.id));
+            response_builders_1.responderWrongId(response, request.params.id);
         }
         else {
-            response.status(types_interfaces_1.HttpCodes.success).json([user]);
+            response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, [user]);
         }
     }
     catch (e) {
-        response.status(types_interfaces_1.HttpCodes.internalError).json(response_builders_1.errorResponse(e));
+        response_builders_1.responder(response, types_interfaces_1.HttpCodes.internalError, response_builders_1.errorResponse(e));
     }
 };
 exports.addUser = async (request, response) => {
     const user = new User_1.User();
     try {
         if (request.body.role === undefined) {
-            throw Error('User "role" is not defined');
+            response_builders_1.responderMissingBodyValue(response, 'User "role" is not defined');
         }
         if (!(request.body.role in types_interfaces_1.UserRole)) {
             const types = Object.values(types_interfaces_1.UserRole).filter((v) => typeof v === 'string');
-            throw Error(`User "role" is none of type: ${types}`);
+            response_builders_1.responderMissingBodyValue(response, `User "role" is none of type: ${types}`);
         }
         if (request.body.firstName === undefined) {
-            throw Error('User "firstName" is not defined');
+            response_builders_1.responderMissingBodyValue(response, 'User "firstName" is not defined');
         }
-        if (request.body.firstName === undefined) {
-            throw Error('User "lastName" is not defined');
+        if (request.body.lastName === undefined) {
+            response_builders_1.responderMissingBodyValue(response, 'User "lastName" is not defined');
         }
         if (request.body.email === undefined) {
-            throw Error('User "email" is not defined');
+            response_builders_1.responderMissingBodyValue(response, 'User "email" is not defined');
         }
         user.firstName = request.body.firstName;
         user.lastName = request.body.lastName;
@@ -63,27 +65,35 @@ exports.addUser = async (request, response) => {
         // could also be the below create event
         // but then we can't do the validation beforehand
         // const res = await getRepository(User).create(request.body);
-        await typeorm_1.getRepository(User_1.User).save(user); // .save(user);
-        response.status(201).json(response_builders_1.successResponse('User was created'));
+        const res = await typeorm_1.getRepository(User_1.User).save(user); // .save(user);
+        response_builders_1.responderSuccessCreated(response, 'User was created', res);
+        // response.status(201).json(successResponse('User was created'));
     }
     catch (e) {
-        response.status(types_interfaces_1.HttpCodes.internalError).json(response_builders_1.errorResponse(e));
+        response_builders_1.responder(response, types_interfaces_1.HttpCodes.internalError, response_builders_1.errorResponse(e));
+        // response.status(HttpCodes.internalError).json(errorResponse(e));
     }
 };
 exports.updateUser = async (request, response) => {
     try {
         if (request.params.id === undefined) {
-            throw new Error('Missing id paramater');
+            response_builders_1.responderMissingId(response);
+            // responder(
+            //   response,
+            //   HttpCodes.badRequest,
+            //   errorResponse(new Error('Missing ID paramter'))
+            // );
+            // throw new Error('Missing id paramater');
         }
         const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.id);
         if (user === undefined) {
-            response.status(types_interfaces_1.HttpCodes.badRequest).json(response_builders_1.userIDErrorResponse(request.params.id));
+            response_builders_1.responderWrongId(response, request.params.id);
         }
         else {
             const userRepository = typeorm_1.getRepository(User_1.User);
             userRepository.merge(user, request.body);
             userRepository.save(user);
-            response.status(types_interfaces_1.HttpCodes.successCreated).json(response_builders_1.successResponse('updated user'));
+            response_builders_1.responderSuccessCreated(response, 'updated user');
         }
     }
     catch (e) {
@@ -92,19 +102,38 @@ exports.updateUser = async (request, response) => {
 };
 exports.deleteUser = async (request, response) => {
     try {
-        if (request.params.id === undefined) {
-            throw new Error('Missing id paramter');
-        }
+        // console.log('req id value',request.params.id);
+        // if (request.params.hasOwnProperty('id') === false) {
+        //   // throw new Error('Missing id paramter');
+        //   responderMissingId(response);
+        //   // responder(
+        //   //   response,
+        //   //   HttpCodes.badRequest,
+        //   //   errorResponse(new Error('Missing ID paramter'))
+        //   // );
+        // }
         const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.id);
         if (user === undefined) {
-            response.status(types_interfaces_1.HttpCodes.badRequest).json(response_builders_1.userIDErrorResponse(request.params.id));
+            response_builders_1.responderWrongId(response, request.params.id);
+            // responder(
+            //   response,
+            //   HttpCodes.badRequestNotFound,
+            //   userIDErrorResponse(request.params.id)
+            // );
         }
         else {
             await typeorm_1.getRepository(User_1.User).remove(user);
         }
-        response.status(types_interfaces_1.HttpCodes.success).json(response_builders_1.successResponse('deleted user'));
+        response_builders_1.responderSuccess(response, 'deleted user');
+        // responder(
+        //   response,
+        //   HttpCodes.success,
+        //   successResponse('deleted user')
+        // );
+        // response.status(HttpCodes.success).json(successResponse('deleted user'));
     }
     catch (e) {
-        response.status(types_interfaces_1.HttpCodes.internalError).json(response_builders_1.errorResponse(e));
+        response_builders_1.responder(response, types_interfaces_1.HttpCodes.internalError, response_builders_1.errorResponse(e));
+        // response.status(HttpCodes.internalError).json(errorResponse(e));
     }
 };

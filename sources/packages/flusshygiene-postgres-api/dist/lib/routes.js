@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_promise_router_1 = __importDefault(require("express-promise-router"));
-const pg_requests_1 = require("./requests/pg-requests");
+const bathingspots_1 = require("./requests/bathingspots");
 const default_requests_1 = require("./requests/default-requests");
 const users_1 = require("./requests/users");
 const router = express_promise_router_1.default();
@@ -25,5 +25,6 @@ router.put('/users/:id([0-9]+)', users_1.updateUser);
 // delete user
 router.delete('/users/:id([0-9]+)', users_1.deleteUser);
 // get all bathingspots
-router.get('/find/publicbathingspots', pg_requests_1.getPublicBathingspots);
+router.get('/bathingspots', bathingspots_1.getBathingspots);
+router.get('/bathingspots/:id([0-9]+)', bathingspots_1.getBathingspot);
 exports.default = router;

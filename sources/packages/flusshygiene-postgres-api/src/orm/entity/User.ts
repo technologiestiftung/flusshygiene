@@ -26,6 +26,8 @@ export class User {
   @OneToMany((_type) => Questionaire, (questionaire) => questionaire.user)
   questionaires!: Questionaire[];
 
-  @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user)
+  @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user,{
+    cascade: true
+  })
   bathingspots!: Bathingspot[];
 };

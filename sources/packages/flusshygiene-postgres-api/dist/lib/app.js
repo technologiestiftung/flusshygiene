@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+const Bathingspot_1 = require("./../orm/entity/Bathingspot");
 const cors_1 = __importDefault(require("cors"));
 const errorhandler_1 = __importDefault(require("errorhandler"));
 const express_1 = __importDefault(require("express"));
@@ -11,6 +12,7 @@ const routes_1 = __importDefault(require("./routes"));
 const typeorm_1 = require("typeorm");
 const User_1 = require("../orm/entity/User");
 const types_interfaces_1 = require("./types-interfaces");
+const Region_1 = require("../orm/entity/Region");
 const app = express_1.default();
 // let connection: Connection;
 app.use(cors_1.default());
@@ -52,6 +54,15 @@ if (process.env.NODE_ENV === 'development') {
             user.lastName = 'Bond';
             user.role = types_interfaces_1.UserRole.creator;
             user.email = 'faker@fake.com';
+            const spot = new Bathingspot_1.Bathingspot();
+            const region = new Region_1.Region();
+            region.name = types_interfaces_1.Regions.berlinbrandenburg;
+            spot.region = region;
+            spot.isPublic = true;
+            spot.name = 'billabong';
+            user.bathingspots = [spot];
+            await connection.manager.save(region);
+            await connection.manager.save(spot);
             await connection.manager.save(user);
         }
     }
