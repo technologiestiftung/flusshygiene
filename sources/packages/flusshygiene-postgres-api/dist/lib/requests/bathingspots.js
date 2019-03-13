@@ -4,6 +4,12 @@ const Bathingspot_1 = require("../../orm/entity/Bathingspot");
 const typeorm_1 = require("typeorm");
 const response_builders_1 = require("./response-builders");
 const types_interfaces_1 = require("../types-interfaces");
+// interface IfindParams extends FindOneOptions {
+//     where: {
+//         isPublic: boolean;
+//     };
+//     select: string[];
+// }
 /**
  * Todo: Which properties should be returned
  */
@@ -23,12 +29,12 @@ exports.getBathingspots = async (_request, response) => {
 };
 exports.getBathingspot = async (request, response) => {
     let spot;
-    let findParamters = {
-        where: {
-            isPublic: true
-        },
-        select: ['name']
-    };
+    // let findParamters: FindOneOptions = {
+    //     where: {
+    //         isPublic: true
+    //     },
+    //     select: ['name']
+    // }
     // if(!(Object.keys(request.query).length === 0)){
     //   if(request.query.hasOwnProperty('private') === true){
     //     findParamters.where.isPublic = false;
@@ -41,7 +47,7 @@ exports.getBathingspot = async (request, response) => {
         throw new Error('id is not defined');
     }
     try {
-        spot = await typeorm_1.getRepository(Bathingspot_1.Bathingspot).findOne(request.params.id, findParamters);
+        spot = await typeorm_1.getRepository(Bathingspot_1.Bathingspot).findOne(request.params.id);
         if (spot === undefined) {
             response_builders_1.responderWrongId(response, request.params.id);
         }

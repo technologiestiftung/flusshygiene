@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
+const typeorm_1 = require("typeorm");
 let Questionaire = class Questionaire {
 };
 __decorate([
@@ -26,7 +27,7 @@ __decorate([
     __metadata("design:type", String)
 ], Questionaire.prototype, "lastEdit", void 0);
 __decorate([
-    typeorm_1.ManyToOne(_type => User_1.User, user => user.questionaires, {
+    typeorm_1.ManyToOne((_type) => User_1.User, user => user.questionaires, {
         cascade: true,
     }),
     __metadata("design:type", User_1.User)

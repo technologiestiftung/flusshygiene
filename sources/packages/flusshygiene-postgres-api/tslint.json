@@ -5,6 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
+      "no-console":true,
         "semicolon":true,
         "quotemark":false,
         "await-promise": true,

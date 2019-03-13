@@ -49,10 +49,5 @@ exports.responderMissingId = (response) => {
     return exports.responder(response, types_interfaces_1.HttpCodes.badRequest, exports.userIDErrorResponse());
 };
 exports.responderWrongId = (response, id) => {
-    if (typeof id === 'number') {
-        return exports.responder(response, types_interfaces_1.HttpCodes.badRequestNotFound, exports.userIDErrorResponse(id));
-    }
-    else {
-        return;
-    }
+    return exports.responder(response, types_interfaces_1.HttpCodes.badRequestNotFound, exports.userIDErrorResponse(id));
 };

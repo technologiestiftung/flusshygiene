@@ -171,7 +171,7 @@ exports.deleteUser = async (request, response) => {
  * @param request
  * @param response
  */
-exports.getUserBathingspot = async (request, response) => {
+exports.getOneUserBathingspotById = async (request, response) => {
     try {
         const user = await typeorm_1.getRepository(User_1.User).findOne(request.params.userId, { relations: ['bathingspots'] });
         if (user === undefined) {
@@ -181,7 +181,12 @@ exports.getUserBathingspot = async (request, response) => {
         else {
             console.log(user.bathingspots);
             const spots = user.bathingspots.filter(spot => spot.id === parseInt(request.params.spotId, 10));
-            response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, spots);
+            if (spots.length > 0) {
+                response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, [spots[0]]);
+            }
+            else {
+                response_builders_1.responderWrongId(response, 'Wrong bathingspot id');
+            }
         }
     }
     catch (e) {
@@ -201,7 +206,7 @@ exports.getUserBathingspots = async (request, response) => {
             response_builders_1.responderWrongId(response, request.params.userId);
         }
         else {
-            response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, user.bathingspots);
+            response_builders_1.responder(response, types_interfaces_1.HttpCodes.success, response_builders_1.successResponse('all bathingspots', user.bathingspots));
         }
     }
     catch (e) {

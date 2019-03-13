@@ -30,7 +30,7 @@ export const errorResponse: (error: Error) => IDefaultResponsePayload = (error) 
   return res;
 }
 
-export const successResponse: (message?: string, data?:User) => IDefaultResponsePayload = (message, data)=> {
+export const successResponse: (message?: string, data?:User|User[]|Bathingspot[]) => IDefaultResponsePayload = (message, data)=> {
   const res: IDefaultResponsePayload = {
     success: true,
     message: message,
@@ -56,10 +56,5 @@ export const responderMissingId = (response: Response)=>{
   return responder(response, HttpCodes.badRequest, userIDErrorResponse());
 }
 export const responderWrongId = (response: Response, id: number|string)=>{
-  if(typeof id === 'number'){
     return responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse(id));
-
-  }else{
-    return
-  }
 }

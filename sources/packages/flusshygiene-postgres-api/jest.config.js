@@ -1,28 +1,84 @@
 module.exports = {
-  transform: {'^.+\\.ts?$': 'ts-jest'},
+  globals: {
+    'ts-jest': {
+      tsConfig: './tsconfig.jest.json',
+      diagnostics: false,
+    },
+  },
+  transform: {
+    '^.+\\.ts?$': 'ts-jest',
+  },
   testEnvironment: 'node',
   testRegex: '/__tests__/.*\\.(test|spec)?\\.(ts|tsx)$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  "collectCoverage": true,
-  "coverageReporters": [
-    "lcov",
-  "text",
-  "text-summary"],
-  "collectCoverageFrom": [
-    "src/**/*.{ts,tsx}",
-    "!src/index.ts",
-    "!src/lib/server.ts",
-    "!src/lib/old/**/*.ts",
-    "!src/orm/**/*.ts",
-    "!**/node_modules/**",
-    "!**/build/**",
-    "!**/coverage/**"],
-  "coverageThreshold": {
-    "global": {
-      "branches": 80,
-      "functions": 80,
-      "lines": 80,
-      "statements": 80
-    }
+  globalSetup:'<rootDir>/__tests__/jest.setup.ts',
+  globalTeardown:'<rootDir>/__tests__/jest.teardown.ts',
+  moduleFileExtensions: [
+    'js',
+    'json',
+    'jsx',
+    'node',
+    'ts',
+    'tsx',
+  ],
+  collectCoverage: true,
+  coverageReporters: [
+    'lcov',
+    'text',
+    'text-summary',
+  ],
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/index.ts',
+    '!src/lib/server.ts',
+    '!src/lib/old/**/*.ts',
+    '!src/orm/**/*.ts',
+    '!**/node_modules/**',
+    '!**/build/**',
+    '!**/coverage/**',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
   },
-};
+  preset: 'ts-jest/presets/js-with-babel',
+  testMatch: null,
+}
+
+// module.exports = {
+//   globals: {
+//     'ts-jest': {
+//       'tsConfigFile': './tsconfig.jest.json'
+//     }
+//   },
+//   transform: {'^.+\\.ts?$': 'ts-jest'},
+//   testEnvironment: 'node',
+//   testRegex: '/__tests__/.*\\.(test|spec)?\\.(ts|tsx)$',
+//   setupFiles:['<rootDir>/jest.test.setup.ts'],
+//   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+//   "collectCoverage": true,
+//   "coverageReporters": [
+//     "lcov",
+//   "text",
+//   "text-summary"],
+//   "collectCoverageFrom": [
+//     "src/**/*.{ts,tsx}",
+//     "!src/index.ts",
+//     "!src/lib/server.ts",
+//     "!src/lib/old/**/*.ts",
+//     "!src/orm/**/*.ts",
+//     "!**/node_modules/**",
+//     "!**/build/**",
+//     "!**/coverage/**"],
+//   "coverageThreshold": {
+//     "global": {
+//       "branches": 80,
+//       "functions": 80,
+//       "lines": 80,
+//       "statements": 80
+//     }
+//   },
+// };

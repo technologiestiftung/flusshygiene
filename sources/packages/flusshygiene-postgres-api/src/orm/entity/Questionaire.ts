@@ -1,11 +1,13 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
+
 import { User } from './User';
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
 
 @Entity()
 export class Questionaire {
 
   @PrimaryGeneratedColumn()
-  id!: number;
+    id!: number;
 
   @Column({type: 'json'})
   state!: string;
@@ -13,8 +15,9 @@ export class Questionaire {
   @Column({type:'timestamp'})
   lastEdit!: string;
 
-  @ManyToOne( _type => User, user => user.questionaires, {
-    cascade: true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @ManyToOne( (_type) => User, user => user.questionaires, {
+      cascade: true,
   })
   user!: User;
 }

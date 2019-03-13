@@ -5,24 +5,26 @@ import { BathingspotModel } from '../src/orm/entity/BathingspotModel';
 import { Bathingspot } from '../src/orm/entity/Bathingspot';
 import routes from '../src/lib/routes';
 import request from 'supertest';
-import express from 'express';
-import {createConnection, getRepository, Connection} from 'typeorm';
+import { Application } from 'express';
+import { Connection, createConnection, getConnection } from 'typeorm';
 import { User } from '../src/orm/entity/User';
 import { Questionaire } from '../src/orm/entity/Questionaire';
 import { UserRole, Regions } from '../src/lib/types-interfaces';
 import { Region } from '../src/orm/entity/Region';
 let connection: Connection;
+import express = require('express');
+let app: Application;
 
-afterAll(async ()=>{
-  const users = await getRepository(User).find();
-  await getRepository(User).remove(users);
-  if(connection !== undefined){
-    await connection.close();
+beforeAll((done) => {
+  if(process.env.NODE_ENV !== 'test'){
+    throw new Error('We are not in the test env this is harmful tables will be dropped');
   }
-});
-beforeAll(async ()=>{
-  try{
-    connection = await createConnection({
+    app = express();
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use('/api/v1/', routes);
+
+    const p = createConnection({
       type: 'postgres',
       host: 'localhost',
       port: 5432,
@@ -41,192 +43,81 @@ beforeAll(async ()=>{
         BathingspotPrediction,
         BathingspotRawModelData
       ],
+    });
+
+    p.then(con => {
+      // const db = await con.connect();
+      // process.stdout.write(db.name);
+        con.manager.save(createProtectedUser()).then(() => {
+          let user = new User();
+          user.firstName = 'James';
+          user.lastName = 'Bond';
+          user.role = UserRole.creator;
+          user.email = 'faker@fake.com';
+          const spot = new Bathingspot();
+          const region = new Region();
+          region.name = Regions.berlinbrandenburg;
+          spot.region = region;
+          spot.isPublic = true;
+          spot.name = 'billabong';
+          user.bathingspots = [spot];
+          con.manager.save(region).then(() => {
+            con.manager.save(spot).then(() => {
+              con.manager.save(user).then(() => {
+                connection = con;
+                done();
+                console.log('done with beforeAll setup');
+              }).catch(err => { throw err });
+            }).catch(err => { throw err });
+          }).catch(err => { throw err });
+        }).catch(err => { throw err });
+      }).catch(err => { throw err });
   });
-    // const db = await connection.connect();
-    // process.stdout.write(db.name);
-    let databaseEmpty:boolean = true;
-    const users = await getRepository(User).find();
-    process.stdout.write(`There are no users ${users.length}\n`);
-    if(users.length !== 0){
-      databaseEmpty = false;
-    }
-    // process.stdout.write(`Users ${JSON.stringify(users)}\n`);
-    if (databaseEmpty === true && process.env.NODE_ENV === 'test'){
-      // gneerate some default data here
-      let user = new User();
-      user.firstName = 'James';
-      user.lastName = 'Bond';
-      user.role = UserRole.creator;
-      user.email = 'faker@fake.com';
-      const spot = new Bathingspot();
-      const region = new Region();
-      region.name = Regions.berlinbrandenburg;
-      spot.region = region;
-      spot.isPublic = true;
-      spot.name = 'billabong';
-      user.bathingspots = [spot];
-      await connection.manager.save(region);
-      await connection.manager.save(spot);
-      await connection.manager.save(user);
-    }
-  }catch(error){
-    throw error;
-  }});
 
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use('/api/v1/', routes);
+  afterAll((done) => {
+    connection.dropDatabase().then(() => {
+      connection.close().then(() => {
+        console.log('Done with cleanup after all');
+        done();
+      }).catch(err => { throw err });
+    }).catch(err => { throw err });
+  });
 
-describe('testing get bathingspots', ()=>{
 
-  test.skip('route should fail due to wrong route', async () => {
+describe('testing get bathingspots', () => {
+
+  test.skip('route should fail due to wrong route', async (done) => {
     expect.assertions(2);
     const res = await request(app).get('/api/v1/');
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
+    done();
   });
 
-  test('route get bathingspots', async () => {
+  test('route get bathingspots', async (done) => {
     expect.assertions(2);
     const res = await request(app).get('/api/v1/bathingspots');
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
-    // expect(res.body[0]).toHaveProperty('email');
-    // expect(res.body[0]).toHaveProperty('firstName');
-    // expect(res.body[0]).toHaveProperty('lastName');
-    // expect(res.body[0]).toHaveProperty('role');
+    done();
   });
 
-  test('route get bathingspot by id', async () => {
+  test('route get bathingspot by id', async (done) => {
     expect.assertions(2);
     const res = await request(app).get('/api/v1/bathingspots/1');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
+    done();
   });
 
-  test('route get user should fail due to worng id', async () => {
+  test('route get single bathingspot should fail due to worng id', async (done) => {
     expect.assertions(2);
     const res = await request(app).get(`/api/v1/bathingspots/${100000}`);
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
+    done();
   });
 });
 
 
-
-
-// describe.skip('testing add users', ()=>{
-//   test('add user', async () => {
-//     // process.env.NODE_ENV = 'development';
-//     expect.assertions(2);
-//     const res = await request(app).post('/api/v1/users').send({
-//       firstName: 'Lilu',
-//       lastName: 'Mulitpass',
-//       email: 'lilu@fifth-element.com',
-//       role: 'reporter'
-//     })
-//     .set('Accept', 'application/json');
-//     expect(res.status).toBe(201);
-//     expect(res.body.success).toBe(true);
-//   });
-//   test('add user shoud fail due to missing values', async ()=>{
-//     expect.assertions(1);
-//     const res = await request(app).post('/api/v1/users').send({
-//     })
-//     .set('Accept', 'application/json');
-//     expect(res.status).toBe(400);
-//   });
-//   test('add user shoud fail due to missing firstName', async ()=>{
-//     expect.assertions(1);
-//     const res = await request(app).post('/api/v1/users').send({
-//       lastName: 'Mulitpass',
-//       email: 'lilu@fifth-element.com',
-//       role: 'reporter'
-//     })
-//     .set('Accept', 'application/json');
-//     expect(res.status).toBe(400);
-//   });
-//   test('add user shoud fail due to missing lastName', async ()=>{
-//     expect.assertions(1);
-//     const res = await request(app).post('/api/v1/users').send({
-//       firstName: 'Lilu',
-//       email: 'lilu@fifth-element.com',
-//       role: 'reporter'
-//     })
-//     .set('Accept', 'application/json');
-//     expect(res.status).toBe(400);
-//   });
-//   test('add user shoud fail due to missing email', async ()=>{
-//     expect.assertions(1);
-//     const res = await request(app).post('/api/v1/users').send({
-//       firstName: 'Lilu',
-//       lastName: 'Mulitpass',
-//       role: 'reporter'
-//     })
-//     .set('Accept', 'application/json');
-//     expect(res.status).toBe(400);
-//   });
-
-//   test('add user shoud fail due to missing role', async ()=>{
-//     expect.assertions(1);
-//     const res = await request(app).post('/api/v1/users').send({
-//       firstName: 'Lilu',
-//       lastName: 'Mulitpass',
-//       email: 'lilu@fifth-element.com'
-//     })
-//     .set('Accept', 'application/json');
-//     expect(res.status).toBe(400);
-//   });
-// });
-
-
-
-
-
-
-// describe.skip('testing update users', ()=>{
-//   test('update user', async () => {
-//     // process.env.NODE_ENV = 'development';
-//     expect.assertions(2);
-//     const usersres = await request(app).get('/api/v1/users');
-//     const id = usersres.body[usersres.body.length - 1].id;
-//     const res = await request(app).put(`/api/v1/bathingspots/${id}`).send({
-//       email: 'foo@test.com',
-//     })
-//     .set('Accept', 'application/json');
-//     expect(res.status).toBe(201);
-//     expect(res.body.success).toBe(true);
-//   });
-// });
-
-
-// describe.skip('testing delete users', ()=>{
-//   test('delete users', async (done) => {
-//     // process.env.NODE_ENV = 'development';
-//     const usersres = await request(app).get('/api/v1/users');
-//     expect.assertions(2);
-//     // for(let i = usersres.body.length -1; i >=0;i--){
-//       const id = usersres.body[usersres.body.length - 1].id;
-//       // console.log(id);
-//       const res = await request(app).delete(`/api/v1/bathingspots/${id}`);
-//       expect(res.status).toBe(200);
-//       expect(res.body.success).toBe(true);
-//       // console.log(res.body);
-//     // }
-//     done();
-//   });
-//   test('delete user should fail due to missing id', async (done)=>{
-//     expect.assertions(1);
-//     const res = await request(app).delete(`/api/v1/users`);
-//     // console.log(res);
-//     expect(res.status).toBe(404);
-//     done();
-//   });
-//   test('delete user should fail due to wrong id', async ()=>{
-//     expect.assertions(1);
-//     const res = await request(app).delete(`/api/v1/bathingspots/${10000000}`);
-//     expect(res.status).toBe(404);
-//   });
-// });

@@ -1,10 +1,11 @@
+import { Bathingspot } from './../orm/entity/Bathingspot';
 import { Request, Response} from 'express';
 import { User } from '../orm/entity/User';
 
 export interface IDefaultResponsePayload {
   success: boolean;
   message?: string;
-  data?: User|undefined;
+  data?: User|User[]|Bathingspot[]|undefined;
 };
 
 export type postResponse = (request: Request, response: Response) => void;

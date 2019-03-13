@@ -19,7 +19,7 @@ router.get('/users', users_1.getUsers);
 // get user by id
 router.get('/users/:userId([0-9]+)', users_1.getUser);
 router.get('/users/:userId([0-9]+)/bathingspots', users_1.getUserBathingspots);
-router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)', users_1.getUserBathingspot);
+router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)', users_1.getOneUserBathingspotById);
 // add new user
 router.post('/users', users_1.addUser);
 // update user
