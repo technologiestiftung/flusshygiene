@@ -352,7 +352,6 @@ describe('testing bathingspots for a specific user', () => {
     expect(res.body.success).toBe(true);
     expect(Array.isArray(res.body.data)).toBe(true);
     expect(againSpots.length).toBe(spots.length + 1);
-
     done();
   });
 
