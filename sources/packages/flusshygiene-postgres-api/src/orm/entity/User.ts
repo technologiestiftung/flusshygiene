@@ -33,4 +33,7 @@ export class User {
     cascade: true
   })
   bathingspots!: Bathingspot[];
+
+  // @ManyToMany
+  // Regions
 };

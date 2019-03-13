@@ -1,9 +1,21 @@
 import { User } from './../../orm/entity/User';
 import { Bathingspot } from './../../orm/entity/Bathingspot';
 import { getResponse, HttpCodes, postResponse, UserRole, putResponse, deleteResponse } from '../types-interfaces';
-import { getRepository, getManager } from 'typeorm';
+import { getRepository, getManager, getConnection } from 'typeorm';
 import { validate } from 'class-validator';
 import { errorResponse, responder, responderMissingId, responderWrongId, responderSuccess, responderSuccessCreated, responderMissingBodyValue, successResponse } from './response-builders';
+import { isObject } from 'util';
+
+
+
+//  ██████╗ ███████╗████████╗
+// ██╔════╝ ██╔════╝╚══██╔══╝
+// ██║  ███╗█████╗     ██║
+// ██║   ██║██╔══╝     ██║
+// ╚██████╔╝███████╗   ██║
+//  ╚═════╝ ╚══════╝   ╚═╝
+
+
 
 export const getUsers: getResponse = async (_request, response) => {
   let users: User[];
@@ -38,6 +50,14 @@ export const getUser: getResponse = async (request, response) => {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }
 }
+
+
+//  █████╗ ██████╗ ██████╗
+// ██╔══██╗██╔══██╗██╔══██╗
+// ███████║██║  ██║██║  ██║
+// ██╔══██║██║  ██║██║  ██║
+// ██║  ██║██████╔╝██████╔╝
+// ╚═╝  ╚═╝╚═════╝ ╚═════╝
 
 
 
@@ -83,6 +103,18 @@ export const addUser: postResponse = async (request, response) => {
 }
 
 
+
+
+// ██████╗ ██╗   ██╗████████╗
+// ██╔══██╗██║   ██║╚══██╔══╝
+// ██████╔╝██║   ██║   ██║
+// ██╔═══╝ ██║   ██║   ██║
+// ██║     ╚██████╔╝   ██║
+// ╚═╝      ╚═════╝    ╚═╝
+
+
+
+
 export const updateUser: putResponse = async (request, response) => {
   try {
     if (request.params.userId === undefined) {
@@ -109,6 +141,19 @@ export const updateUser: putResponse = async (request, response) => {
     response.status(HttpCodes.internalError).json(errorResponse(e));
   }
 };
+
+
+
+
+
+// ██████╗ ███████╗██╗     ███████╗████████╗███████╗
+// ██╔══██╗██╔════╝██║     ██╔════╝╚══██╔══╝██╔════╝
+// ██║  ██║█████╗  ██║     █████╗     ██║   █████╗
+// ██║  ██║██╔══╝  ██║     ██╔══╝     ██║   ██╔══╝
+// ██████╔╝███████╗███████╗███████╗   ██║   ███████╗
+// ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚══════╝
+
+
 
 
 export const deleteUser: deleteResponse = async (request, response) => {
@@ -152,11 +197,11 @@ export const deleteUser: deleteResponse = async (request, response) => {
             });
             protectedUser.bathingspots = protectedUser.bathingspots.concat(spots);
             const manager = getManager();
-            const res = await manager.save(protectedUser);
-            if (process.env.NODE_ENV === 'development') {
-              process.stdout.write(JSON.stringify(res));
-              process.stdout.write('\n');
-            }
+            await manager.save(protectedUser);
+            // if (process.env.NODE_ENV === 'development') {
+            //   process.stdout.write(JSON.stringify(res));
+            //   process.stdout.write('\n');
+            // }
           }
         }
         await getRepository(User).remove(user);
@@ -177,6 +222,19 @@ export const deleteUser: deleteResponse = async (request, response) => {
 
 }
 
+
+
+
+// ███████╗██████╗  ██████╗ ████████╗███████╗
+// ██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝
+// ███████╗██████╔╝██║   ██║   ██║   ███████╗
+// ╚════██║██╔═══╝ ██║   ██║   ██║   ╚════██║
+// ███████║██║     ╚██████╔╝   ██║   ███████║
+// ╚══════╝╚═╝      ╚═════╝    ╚═╝   ╚══════╝
+
+
+
+
 /**
  * Gets single bathingspot of user by id
  * @param request
@@ -184,15 +242,15 @@ export const deleteUser: deleteResponse = async (request, response) => {
  */
 export const getOneUserBathingspotById: getResponse = async (request, response) => {
   try {
-    const user: User | undefined = await getRepository(User).findOne(request.params.userId,{relations:['bathingspots']});
+    const user: User | undefined = await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
     if (user === undefined) {
       // throw new Error('user undefined or 0');
       responderWrongId(response, request.params.userId);
-    }else{
+    } else {
       const spots: Bathingspot[] = user.bathingspots.filter(spot => spot.id === parseInt(request.params.spotId, 10));
-      if(spots.length >0){
+      if (spots.length > 0) {
         responder(response, HttpCodes.success, [spots[0]]);
-      }else{
+      } else {
         responderWrongId(response, 'Wrong bathingspot id');
       }
     }
@@ -209,12 +267,98 @@ export const getOneUserBathingspotById: getResponse = async (request, response) 
  */
 export const getUserBathingspots: getResponse = async (request, response) => {
   try {
-    const user: User | undefined = await getRepository(User).findOne(request.params.userId,{relations:['bathingspots']});
+    const user: User | undefined = await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
     if (user === undefined) {
       // throw new Error('user undefined or 0');
       responderWrongId(response, request.params.userId);
-    }else{
+    } else {
       responder(response, HttpCodes.success, successResponse('all bathingspots', user.bathingspots));
+    }
+  } catch (e) {
+    responder(response, HttpCodes.internalError, errorResponse(e));
+  }
+}
+
+
+export const addBathingspotToUser: postResponse = async (request, response) => {
+  try {
+    const user = await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
+    if (user === undefined) {
+      responderWrongId(response, request.params.userId);
+    } else {
+      if (request.body.hasOwnProperty('name') !== true) {
+
+        responderMissingBodyValue(response, 'Bathingspot "name" is not defined');
+      }
+
+      if (request.body.hasOwnProperty('isPublic') !== true) {
+        responderMissingBodyValue(response, 'Bathingspot "isPublic" is not defined');
+      }
+      //
+      // get all the values we want from the request body
+      // they are all nullable s owe just fetch them.
+      // needs some typechecking though
+      // https://stackoverflow.com/a/38750895/1770432//
+      const spot = new Bathingspot();
+      const propertyNames = await getConnection().getMetadata(Bathingspot).ownColumns.map(column => column.propertyName);
+      // const propertyTypes = await getConnection().getMetadata(Bathingspot).ownColumns.map(column => column.type);
+      const propertyTypeList = await getConnection().getMetadata(Bathingspot).ownColumns.map(column => [column.propertyName, column.type]);
+      const lookupMap = new Map();
+      propertyTypeList.forEach(ele => {
+        lookupMap.set(ele[0], ele[1]);
+      })
+      // console.log(propertyTypeList);
+
+      const notAllowed: string[] = ['id', 'name', 'isPublic', 'user', 'region'];
+      const filteredPropNames = propertyNames.filter(ele => notAllowed.includes(ele) !== true);
+      const providedValues = Object.keys(request.body)
+        .filter(key => filteredPropNames.includes(key)).reduce((obj: any, key: string) => {
+          obj[key] = request.body[key];
+          return obj;
+        }, {});
+
+      try {
+        // curently silently fails needs some smarter way to set values on entities
+        if (isObject(providedValues['apiEndpoints'])) {
+          spot.apiEndpoints = providedValues['apiEndpoints'];// 'json' ]
+        }// 'json' ]
+        if (isObject(providedValues['state'])) {
+          spot.state = providedValues['state'];// 'json' ]
+
+        }// 'json' ]
+        if (isObject(providedValues['location'])) {
+          spot.location = providedValues['location'];// 'json' ]
+
+        }// 'json' ]
+        if (typeof providedValues['latitde'] === 'number') {
+          spot.latitde = providedValues['latitde'];// 'float8' ]
+
+        }// 'float8' ]
+        if (typeof providedValues['longitude'] === 'number') {
+          spot.longitude = providedValues['longitude'];// 'float8' ]
+
+        }// 'float8' ]
+        if (typeof providedValues['elevation'] === 'number') {
+          spot.elevation = providedValues['elevation'];// 'float8' ]
+        }// 'float8' ]
+      } catch (err) {
+        throw err;
+      }
+
+      const isPublic: boolean = request.body.isPublic;
+      const name: string = request.body.name;
+      spot.name = name;
+      spot.isPublic = isPublic;
+      user.bathingspots.push(spot);
+      await getManager().save(spot);
+      await getManager().save(user);
+      const userAgain = await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
+      if (userAgain !== undefined) {
+
+        responder(response, HttpCodes.successCreated, successResponse('Bathingspot created', [userAgain.bathingspots[userAgain.bathingspots.length - 1]]))
+      } else {
+        throw Error('user id did change user does not exist anymore should never happen');
+      }
     }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));

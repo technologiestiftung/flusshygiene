@@ -24,11 +24,12 @@ module.exports = {
   coverageReporters: [
     'lcov',
     'text',
-    'text-summary',
+    'text',
   ],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/index.ts',
+    '!src/lib/app.ts',
     '!src/lib/server.ts',
     '!src/lib/old/**/*.ts',
     '!src/orm/**/*.ts',

@@ -1,9 +1,9 @@
 
 // import request from 'supertest';
+jest.useFakeTimers();
 import http from 'http';
 
 import app from '../src/lib/app';
-jest.useFakeTimers();
 
 const mockListen = jest.fn();
 http.createServer(app).listen = mockListen;
