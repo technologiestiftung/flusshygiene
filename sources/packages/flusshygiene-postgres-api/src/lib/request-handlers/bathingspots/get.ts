@@ -1,7 +1,7 @@
-import { Bathingspot } from '../../orm/entity/Bathingspot';
+import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { getRepository } from 'typeorm';
-import { errorResponse, responder, responderWrongId } from './response-builders';
-import { getResponse, HttpCodes } from '../types-interfaces';
+import { errorResponse, responder, responderWrongId } from '../responders';
+import { getResponse, HttpCodes } from '../../types-interfaces';
 
 /**
  * Todo: Which properties should be returned

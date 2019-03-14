@@ -1,4 +1,4 @@
-import { Bathingspot } from './../../orm/entity/Bathingspot';
+import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { IDefaultResponsePayload, HttpCodes } from '../types-interfaces';
 import { Response } from 'express';
 import { User } from '../../orm/entity/User';

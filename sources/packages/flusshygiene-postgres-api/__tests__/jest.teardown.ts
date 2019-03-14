@@ -1,7 +1,3 @@
-
-import {getConnection } from 'typeorm';
-
-
 module.exports = async () => {
   // try {
   //  const connection = await getConnection();

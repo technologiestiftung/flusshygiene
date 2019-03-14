@@ -1,8 +1,16 @@
 import Router from 'express-promise-router';
-import { getBathingspots, getBathingspot } from './request-handlers/bathingspots';
 // import { defaultGetResponse, defaultPostResponse } from './request-handlers/default-requests';
-import {addUser, updateUser, deleteUser, getUserBathingspots, getOneUserBathingspotById, addBathingspotToUser } from './request-handlers/users';
-import {getUser, getUsers} from './request-handlers/users/index'
+import {
+  getUser,
+  getUsers,
+  addUser,
+  updateUser,
+  deleteUser,
+  getUserBathingspots,
+  getOneUserBathingspotById,
+  addBathingspotToUser
+} from './request-handlers/users/';
+import { getBathingspot, getBathingspots } from './request-handlers/bathingspots';
 
 const router = Router();
 

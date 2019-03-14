@@ -1,5 +1,5 @@
 import { putResponse, HttpCodes } from '../../types-interfaces';
-import { responderMissingId, responderWrongId, responderSuccessCreated, errorResponse } from '../response-builders';
+import { responderMissingId, responderWrongId, responderSuccessCreated, errorResponse } from '../responders';
 import { User } from '../../../orm/entity/User';
 import { getRepository } from 'typeorm';
 

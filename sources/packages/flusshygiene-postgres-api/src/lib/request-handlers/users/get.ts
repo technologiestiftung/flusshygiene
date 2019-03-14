@@ -1,7 +1,7 @@
 import { getResponse, HttpCodes } from '../../types-interfaces';
 import { User } from '../../../orm/entity/User';
 import { getRepository } from 'typeorm';
-import { responder, errorResponse, responderMissingId, responderWrongId, successResponse } from '../response-builders';
+import { responder, errorResponse, responderMissingId, responderWrongId, successResponse } from '../responders';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
 
 

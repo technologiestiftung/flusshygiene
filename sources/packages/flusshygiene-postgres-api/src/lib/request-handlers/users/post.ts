@@ -1,6 +1,6 @@
 import { postResponse, UserRole, HttpCodes } from '../../types-interfaces';
 import { User } from '../../../orm/entity/User';
-import { responderMissingBodyValue, responderSuccessCreated, responder, errorResponse, responderWrongId, successResponse } from '../response-builders';
+import { responderMissingBodyValue, responderSuccessCreated, responder, errorResponse, responderWrongId, successResponse } from '../responders';
 import { validate } from 'class-validator';
 import { getRepository, getConnection, getManager } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
