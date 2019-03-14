@@ -1,4 +1,4 @@
-import { defaultPostResponse, defaultGetResponse, wrongRoute } from './../src/lib/requests/default-requests';
+import { defaultPostResponse, defaultGetResponse, wrongRoute } from './../src/lib/request-handlers/default-requests';
 import routes from '../src/lib/routes';
 import request from 'supertest';
 import express = require('express');

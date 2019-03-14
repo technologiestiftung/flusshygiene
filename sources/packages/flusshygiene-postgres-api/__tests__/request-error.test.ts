@@ -7,7 +7,7 @@ import routes from '../src/lib/routes';
 import request from 'supertest';
 import { Application } from 'express';
 import express = require('express');
-import { getBathingspots, getBathingspot } from '../src/lib/requests/bathingspots';
+import { getBathingspots, getBathingspot } from '../src/lib/request-handlers/bathingspots';
 let app: Application;
 
 beforeAll(() => {

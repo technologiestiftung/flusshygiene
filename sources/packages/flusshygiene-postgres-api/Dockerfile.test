@@ -1,0 +1,13 @@
+FROM postgres:11.2-alpine
+
+WORKDIR /usr/app
+# install node and npm ✓
+#openssh git bash
+# do we need git and openssh and bash?
+# do the copy and build things
+# add my command on top of postgres (needs to go into bg?)
+RUN apk add --update --no-cache nodejs npm bash
+COPY ./package*json ./
+RUN npm ci
+COPY ./ ./
+ENTRYPOINT [ "npm", "test" ]
