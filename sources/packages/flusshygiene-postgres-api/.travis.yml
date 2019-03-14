@@ -3,7 +3,7 @@ services:
 
 language: node_js
 node_js:
-- stable
+- '10.15.1'
 
 # before_script:
   # - psql -c 'create database postgres;' -U postgres
