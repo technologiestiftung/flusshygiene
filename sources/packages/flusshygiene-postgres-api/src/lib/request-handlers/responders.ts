@@ -2,20 +2,15 @@ import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { IDefaultResponsePayload, HttpCodes } from '../types-interfaces';
 import { Response } from 'express';
 import { User } from '../../orm/entity/User';
+import { ERRORS } from '../messages';
 
 type Responder = (response: Response, statusCode:number, payload: IDefaultResponsePayload | User[] | Bathingspot[]) => void;
 
-export const userIDErrorResponse = (val?: string|number|undefined) =>{
-  if(val === undefined){
-    val = 'NULL';
-  }
-  let msg = `request received but user with id: "${val}" does not exist`;
-  if(typeof val==='string'){
-    msg = val;
-  }
+export const userIDErrorResponse = () =>{
+
   const res: IDefaultResponsePayload = {
     success: false,
-    message: msg,
+    message: ERRORS.badRequestMissingOrWrongID404,
   }
   return res;
 }
@@ -55,6 +50,6 @@ export const responderSuccessCreated = (response: Response, message: string, dat
 export const responderMissingId = (response: Response)=>{
   return responder(response, HttpCodes.badRequest, userIDErrorResponse());
 }
-export const responderWrongId = (response: Response, id: number|string)=>{
-    return responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse(id));
+export const responderWrongId = (response: Response)=>{
+    return responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());
 }

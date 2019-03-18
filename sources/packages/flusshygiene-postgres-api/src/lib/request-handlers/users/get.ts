@@ -3,6 +3,7 @@ import { User } from '../../../orm/entity/User';
 import { getRepository } from 'typeorm';
 import { responder, errorResponse, responderMissingId, responderWrongId, successResponse } from '../responders';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
+import { SUCCESS } from '../../messages';
 
 
 //  ██████╗ ███████╗████████╗
@@ -19,11 +20,16 @@ export const getUsers: getResponse = async (_request, response) => {
 
   try {
     users = await getRepository(User).find();
-    responder(response, HttpCodes.success, users);
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(SUCCESS.success200, users));
 
     // response.status(HttpCodes.success).json(users);
   } catch (e) {
-    responder(response, HttpCodes.internalError, errorResponse(e));
+    responder(response,
+      HttpCodes.internalError,
+      errorResponse(e));
 
 
   }
@@ -38,10 +44,13 @@ export const getUser: getResponse = async (request, response) => {
     }
     user = await getRepository(User).findOne(request.params.userId);
     if (user === undefined) {
-      responderWrongId(response, request.params.userId);
+      responderWrongId(response);
 
     } else {
-      responder(response, HttpCodes.success, [user]);
+      responder(
+        response,
+        HttpCodes.success,
+        successResponse(SUCCESS.success200, [user]));
     }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
