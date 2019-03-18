@@ -1,3 +1,4 @@
+import { SUGGESTIONS } from './../src/lib/messages/suggestions';
 jest.useFakeTimers();
 import 'reflect-metadata';
 import { BathingspotRawModelData } from '../src/orm/entity/BathingspotRawModelData';
@@ -7,7 +8,7 @@ import { Bathingspot } from '../src/orm/entity/Bathingspot';
 import routes from '../src/lib/routes';
 import request from 'supertest';
 import express, { Application } from 'express';
-import { createConnection, getRepository, Connection, getConnection } from 'typeorm';
+import { createConnection, getRepository, Connection, getConnection, getManager } from 'typeorm';
 import { User } from '../src/orm/entity/User';
 import { Questionaire } from '../src/orm/entity/Questionaire';
 import { UserRole, Regions } from '../src/lib/types-interfaces';
@@ -27,9 +28,9 @@ let app: Application;
 
 
 beforeAll((done) => {
-if(process.env.NODE_ENV !== 'test'){
-  throw new Error('We are not in the test env this is harmful tables will be dropped');
-}
+  if (process.env.NODE_ENV !== 'test') {
+    throw new Error('We are not in the test env this is harmful tables will be dropped');
+  }
   app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -59,30 +60,30 @@ if(process.env.NODE_ENV !== 'test'){
   p.then(con => {
     // const db = await con.connect();
     // process.stdout.write(db.name);
-      con.manager.save(createProtectedUser()).then(() => {
-        let user = new User();
-        user.firstName = 'James';
-        user.lastName = 'Bond';
-        user.role = UserRole.creator;
-        user.email = 'faker@fake.com';
-        const spot = new Bathingspot();
-        const region = new Region();
-        region.name = Regions.berlinbrandenburg;
-        spot.region = region;
-        spot.isPublic = true;
-        spot.name = 'billabong';
-        user.bathingspots = [spot];
-        con.manager.save(region).then(() => {
-          con.manager.save(spot).then(() => {
-            con.manager.save(user).then(() => {
-              // connection = con;
-              done();
-              console.log('done with beforeAll setup');
-            }).catch(err => { throw err });
+    con.manager.save(createProtectedUser()).then(() => {
+      let user = new User();
+      user.firstName = 'James';
+      user.lastName = 'Bond';
+      user.role = UserRole.creator;
+      user.email = 'faker@fake.com';
+      const spot = new Bathingspot();
+      const region = new Region();
+      region.name = Regions.berlinbrandenburg;
+      spot.region = region;
+      spot.isPublic = true;
+      spot.name = 'billabong';
+      user.bathingspots = [spot];
+      con.manager.save(region).then(() => {
+        con.manager.save(spot).then(() => {
+          con.manager.save(user).then(() => {
+            // connection = con;
+            done();
+            console.log('done with beforeAll setup');
           }).catch(err => { throw err });
         }).catch(err => { throw err });
       }).catch(err => { throw err });
     }).catch(err => { throw err });
+  }).catch(err => { throw err });
 });
 
 afterAll((done) => {
@@ -300,13 +301,18 @@ describe('testing update users', () => {
 // ███████║██║     ╚██████╔╝   ██║   ███████║
 // ╚══════╝╚═╝      ╚═════╝    ╚═╝   ╚══════╝
 
+//  ██████╗ ███████╗████████╗
+// ██╔════╝ ██╔════╝╚══██╔══╝
+// ██║  ███╗█████╗     ██║
+// ██║   ██║██╔══╝     ██║
+// ╚██████╔╝███████╗   ██║
+//  ╚═════╝ ╚══════╝   ╚═╝
 
 
 
 
 
-
-describe('testing bathingspots for a specific user', () => {
+describe('testing bathingspots get for a specific user', () => {
 
   test('should return at least an empty array of bathingspots', async (done) => {
     const res = await request(app).get('/api/v1/users/2/bathingspots');
@@ -334,18 +340,28 @@ describe('testing bathingspots for a specific user', () => {
     expect(res.body.success).toBe(false);
     done();
   });
+});
 
-  test('should add bathingspot to user',async(done)=>{
+// ██████╗  ██████╗ ███████╗████████╗
+// ██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝
+// ██████╔╝██║   ██║███████╗   ██║
+// ██╔═══╝ ██║   ██║╚════██║   ██║
+// ██║     ╚██████╔╝███████║   ██║
+// ╚═╝      ╚═════╝ ╚══════╝   ╚═╝
+
+describe('testing bathingspots post for a specific user', () => {
+
+  test('should add bathingspot to user', async (done) => {
     const userRepo = getRepository(User);
-    const users: User[] = await userRepo.find({relations:['bathingspots']});
-    const user: User = users[users.length -1]; // last created user
+    const users: User[] = await userRepo.find({ relations: ['bathingspots'] });
+    const user: User = users[users.length - 1]; // last created user
     const id = user.id;
     const spots = user.bathingspots;
     const res = await request(app).post(`/api/v1/users/${id}/bathingspots`).send({
       name: 'Sweetwater',
       isPublic: true,
     }).set('Accept', 'application/json');
-    const againUser = await userRepo.findOne(id,{relations:['bathingspots']});
+    const againUser = await userRepo.findOne(id, { relations: ['bathingspots'] });
     const againSpots = againUser.bathingspots;
 
     expect(res.status).toBe(201);
@@ -358,15 +374,71 @@ describe('testing bathingspots for a specific user', () => {
 });
 
 
+// ██████╗ ██╗   ██╗████████╗
+// ██╔══██╗██║   ██║╚══██╔══╝
+// ██████╔╝██║   ██║   ██║
+// ██╔═══╝ ██║   ██║   ██║
+// ██║     ╚██████╔╝   ██║
+// ╚═╝      ╚═════╝    ╚═╝
+
+
+describe('testing bathingspots update (put) for a specific user', () => {
+  test('should change the name of a bathingspot', async (done) => {
+    const userRepo = getRepository(User);
+    const spotRepo = getRepository(Bathingspot);
+    const usersAndSpots = await userRepo.find({relations:['bathingspots']})
+    // const usersAndSpots = await userRepo.createQueryBuilder('user')
+    // .leftJoinAndSelect('user.bathingspots', 'bathingspots')
+    //   .getMany();
+      const usersWithSpots = usersAndSpots.filter(user => user.bathingspots.length > 0);
+
+      // console.log(usersWithSpots);
+      const user = usersWithSpots[0];
+      const spot = user.bathingspots[0];
+      const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
+        name: 'watering hole'
+      }).set('Accept', 'application/json');
+      const spotAgain = await spotRepo.findOne(spot.id);
+      expect(res.status).toBe(201);
+      expect(res.body.success).toBe(true);
+      expect(Array.isArray(res.body.data)).toBe(true);
+      expect(res.body.data[0].name).toEqual('watering hole');
+      expect(spotAgain.name).toEqual('watering hole');
+    done();
+  });
+
+  test('should reject the change due to wrong fields but present an example', async (done)=>{
+    const userRepo = getRepository(User);
+    const spotRepo = getRepository(Bathingspot);
+    const usersAndSpots = await userRepo.find({relations:['bathingspots']})
+    // const usersAndSpots = await userRepo.createQueryBuilder('user')
+    // .leftJoinAndSelect('user.bathingspots', 'bathingspots')
+    //   .getMany();
+      const usersWithSpots = usersAndSpots.filter(user => user.bathingspots.length > 0);
+
+      // console.log(usersWithSpots);
+      const user = usersWithSpots[0];
+      const spot = user.bathingspots[0];
+      const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
+        name: 'watering hole'
+      }).set('Accept', 'application/json');
+      expect(res.status).toBe(404);
+      expect(res.body.success).toBe(false);
+      expect(res.body.message).toBe(SUGGESTIONS.missingFields);
+
+  });
+});
+
+
+
+
+
 // ███████╗██████╗  ██████╗ ████████╗███████╗
 // ██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝
 // ███████╗██████╔╝██║   ██║   ██║   ███████╗
 // ╚════██║██╔═══╝ ██║   ██║   ██║   ╚════██║
 // ███████║██║     ╚██████╔╝   ██║   ███████║
 // ╚══════╝╚═╝      ╚═════╝    ╚═╝   ╚══════╝
-
-
-
 
 
 
