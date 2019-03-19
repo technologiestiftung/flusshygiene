@@ -22,16 +22,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.get('/', (request, response) => {
-    response.send(`Server is running. You called ${request.url}`);
-  });
-app.use('/api/v1', routes);
-// app.use('/api/v1', router);
-if (process.env.NODE_ENV === 'development') {
-  // In Express an error handler,
-  // always has to be the last line before starting the server.
-  app.use(errorHandler());
-}
+
 (async ()=>{
   try{
     const connection = await createConnection();
@@ -85,7 +76,26 @@ if (process.env.NODE_ENV === 'development') {
   }catch(error){
     throw error;
   }
-
 })();
+
+app.get('/', (request, response) => {
+  response.send(`Server is running. You called ${request.url}`);
+});
+
+// app.use('/api/v1', async (err: Error, _req: Request, res: Response, next: NextFunction)=>{
+//   const con = await getConnection();
+//   if(con === undefined){
+//     responder(res, HttpCodes.internalError, errorResponse(err));
+//   }else{
+//     next(err);
+//   }
+// });
+app.use('/api/v1', routes);
+// app.use('/api/v1', router);
+if (process.env.NODE_ENV === 'development') {
+// In Express an error handler,
+// always has to be the last line before starting the server.
+app.use(errorHandler());
+}
 
 export = app;

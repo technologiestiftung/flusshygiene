@@ -29,7 +29,7 @@ export const updateUser: putResponse = async (request, response) => {
     const user: User | undefined = await getRepository(User).findOne(request.params.userId);
     if (user === undefined) {
 
-      responderWrongId(response, request.params.userId);
+      responderWrongId(response);
 
     } else {
       const userRepository = getRepository(User);

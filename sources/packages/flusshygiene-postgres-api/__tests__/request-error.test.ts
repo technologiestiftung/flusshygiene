@@ -56,11 +56,11 @@ describe('testing missing db connection', () => {
     done();
   });
 
-  it('should return 400 on route post new user due to missing body', async (done) => {
+  it('should return 500 on route post new user due to missing connection', async (done) => {
     // addUser);
 
     const res = await request(app).post('/api/v1/users');
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(500);
     expect(res.body.success).toBe(false);
     // update user
     done();

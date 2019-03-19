@@ -30,7 +30,7 @@ export const deleteUser: deleteResponse = async (request, response) => {
     // }
     const user = await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
     if (user === undefined) {
-      responderWrongId(response, request.params.userId);
+      responderWrongId(response);
 
       // responder(
       //   response,

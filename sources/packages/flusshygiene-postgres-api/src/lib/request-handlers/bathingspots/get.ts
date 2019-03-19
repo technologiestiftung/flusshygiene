@@ -28,7 +28,7 @@ export const getBathingspot: getResponse = async (request, response) => {
     try {
         spot = await getRepository(Bathingspot).findOne(request.params.id);
         if(spot === undefined){
-            responderWrongId(response, request.params.id);
+            responderWrongId(response);
         }else{
             responder(response, HttpCodes.success, [spot]);
         }

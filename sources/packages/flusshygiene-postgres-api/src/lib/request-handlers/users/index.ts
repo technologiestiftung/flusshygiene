@@ -1,13 +1,10 @@
 export {
   getUser,
-  getUsers,
-  getOneUserBathingspotById,
-  getUserBathingspots
+  getUsers
 } from './get';
 
 export {
   addUser,
-  addBathingspotToUser
 } from './post'
 
 export { updateUser } from './put'
