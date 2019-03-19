@@ -1,3 +1,4 @@
+import { SUCCESS } from './../src/lib/messages/success';
 jest.useFakeTimers();
 import 'reflect-metadata';
 import { Bathingspot } from '../src/orm/entity/Bathingspot';
@@ -14,6 +15,7 @@ import { UserRole, Regions } from '../src/lib/types-interfaces';
 import express, { Application } from 'express';
 import request from 'supertest';
 import routes from '../src/lib/routes';
+import { ERRORS } from '../src/lib/messages';
 // let connection: Connection;
 let app: Application;
 
@@ -366,9 +368,9 @@ describe('testing bathingspots post for a specific user', () => {
       name: 'Sweetwater',
       isPublic: true,
     }).set('Accept', 'application/json');
-    const againUser: User|undefined = await userRepo.findOne(id, { relations: ['bathingspots'] });
+    const againUser: User | undefined = await userRepo.findOne(id, { relations: ['bathingspots'] });
 
-    const againSpots: Bathingspot[]|undefined = againUser.bathingspots;
+    const againSpots: Bathingspot[] | undefined = againUser.bathingspots;
 
     expect(res.status).toBe(201);
     expect(res.body.success).toBe(true);
@@ -394,49 +396,124 @@ describe('testing bathingspots update (put) for a specific user', () => {
   test('should change the name of a bathingspot', async (done) => {
     const userRepo = getRepository(User);
     const spotRepo = getRepository(Bathingspot);
-    const usersAndSpots = await userRepo.find({relations:['bathingspots']})
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
     // const usersAndSpots = await userRepo.createQueryBuilder('user')
     // .leftJoinAndSelect('user.bathingspots', 'bathingspots')
     //   .getMany();
-      const usersWithSpots = usersAndSpots.filter(user => user.bathingspots.length > 0);
+    const usersWithSpots = usersAndSpots.filter(user => user.bathingspots.length > 0);
 
-      // console.log(usersWithSpots);
-      const user = usersWithSpots[0];
-      const spot = user.bathingspots[0];
-      const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
-        name: 'watering hole'
-      }).set('Accept', 'application/json');
-      const spotAgain: Bathingspot | undefined = await spotRepo.findOne(spot.id);
-      expect(res.status).toBe(201);
-      expect(res.body.success).toBe(true);
-      expect(Array.isArray(res.body.data)).toBe(true);
-      expect(res.body.data[0].name).toEqual('watering hole');
-      expect(spotAgain.name).toEqual('watering hole');
+    // console.log(usersWithSpots);
+    const user = usersWithSpots[0];
+    const spot = user.bathingspots[0];
+    const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
+      name: 'watering hole'
+    }).set('Accept', 'application/json');
+    const spotAgain: Bathingspot | undefined = await spotRepo.findOne(spot.id);
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0].name).toEqual('watering hole');
+    expect(spotAgain.name).toEqual('watering hole');
     done();
   });
 
-  test('should reject the change due to wrong fields but present an example', async (done)=>{
+  test('should reject the change due to wrong fields but present an example', async (done) => {
     const userRepo = getRepository(User);
     // const spotRepo = getRepository(Bathingspot);
-    const usersAndSpots = await userRepo.find({relations:['bathingspots']})
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] })
     // const usersAndSpots = await userRepo.createQueryBuilder('user')
     // .leftJoinAndSelect('user.bathingspots', 'bathingspots')
     //   .getMany();
-      const usersWithSpots = usersAndSpots.filter(user => user.bathingspots.length > 0);
+    const usersWithSpots = usersAndSpots.filter(user => user.bathingspots.length > 0);
 
-      // console.log(usersWithSpots);
-      const user = usersWithSpots[0];
-      const spot = user.bathingspots[0];
-      const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
-      }).set('Accept', 'application/json');
-      expect(res.status).toBe(404);
-      expect(res.body.success).toBe(false);
-      expect(res.body.message).toBe(SUGGESTIONS.missingFields);
-      done();
+    // console.log(usersWithSpots);
+    const user = usersWithSpots[0];
+    const spot = user.bathingspots[0];
+    const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
+    }).set('Accept', 'application/json');
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toBe(SUGGESTIONS.missingFields);
+    done();
   });
 });
 
 
+// ██████╗ ███████╗██╗     ███████╗████████╗███████╗
+// ██╔══██╗██╔════╝██║     ██╔════╝╚══██╔══╝██╔════╝
+// ██║  ██║█████╗  ██║     █████╗     ██║   █████╗
+// ██║  ██║██╔══╝  ██║     ██╔══╝     ██║   ██╔══╝
+// ██████╔╝███████╗███████╗███████╗   ██║   ███████╗
+// ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚══════╝
+
+// ███████╗██████╗  ██████╗ ████████╗
+// ██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝
+// ███████╗██████╔╝██║   ██║   ██║
+// ╚════██║██╔═══╝ ██║   ██║   ██║
+// ███████║██║     ╚██████╔╝   ██║
+// ╚══════╝╚═╝      ╚═════╝    ╚═╝
+
+
+describe('testing spot deletion', () => {
+  test('should fail due wrong spot id', async(done)=>{
+    const userRepo = getRepository(User);
+
+    const usersWithSpots = await userRepo.find({relations:['bathingspots']});
+    const user = usersWithSpots[0];
+    // const publicSpots = user.bathingspots.filter(spot => spot.isPublic === true);
+    // const spot = publicSpots[0];
+    const res = await request(app).delete(`/api/v1/users/${user.id}/bathingspots/${100000}`).send({}).set('Accept', 'application/json');
+    // console.log(res.body);
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toEqual(ERRORS.badRequestMissingOrWrongID404);
+    expect(res.body.data).toBe(undefined);
+    done();
+
+
+  });
+
+  test('should fail due to missing force', async(done)=>{
+    const userRepo = getRepository(User);
+
+    const usersWithSpots = await userRepo.find({relations:['bathingspots']});
+    const user = usersWithSpots[0];
+    const publicSpots = user.bathingspots.filter(spot => spot.isPublic === true);
+    const spot = publicSpots[0];
+    const res = await request(app).delete(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({}).set('Accept', 'application/json');
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toEqual(SUGGESTIONS.missingFields);
+    expect(res.body.data.hasOwnProperty('force')).toBe(true);
+    expect(res.body.data.force).toBe(true);
+    done();
+
+
+  });
+  test('should delete public bathingspot by using force', async (done) => {
+    const userRepo = getRepository(User);
+    const spotRepo = getRepository(Bathingspot);
+
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
+    const id = usersAndSpots[usersAndSpots.length -1].id;
+    // create one for deletion
+    const resCreation = await request(app).post(`/api/v1/users/${id}/bathingspots`).send({
+      name: 'Sweetwater',
+      isPublic: true,
+    }).set('Accept', 'application/json');
+
+    const spotsBefore = await spotRepo.find();
+    const spotNumBefore = spotsBefore.length;
+
+    const res = await request(app).delete(`/api/v1/users/${id}/bathingspots/${resCreation.body.data[0].id}`).send({force:true});
+    const spotsAfter = await spotRepo.find();
+    const spotNumAfter = spotsAfter.length;
+    expect(res.status).toBe(200);
+    expect(res.body.message).toEqual(SUCCESS.successDeleteSpot200);
+    expect(spotNumAfter).toBe(spotNumBefore -1);
+    done();
+  });
+});
 
 
 

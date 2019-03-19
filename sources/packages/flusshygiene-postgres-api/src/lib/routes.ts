@@ -12,7 +12,8 @@ import {
   addBathingspotToUser,
   updateBathingspotOfUser,
   getUserBathingspots,
-  getOneUserBathingspotById
+  getOneUserBathingspotById,
+  deleteBathingspotOfUser
 } from './request-handlers/users/bathingspots/';
 
 import {
@@ -37,6 +38,8 @@ router.post('/users/:userId([0-9]+)/bathingspots', addBathingspotToUser);
 // add new user
 
 router.put('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)', updateBathingspotOfUser);
+
+router.delete('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)', deleteBathingspotOfUser);
 // add new user
 
 

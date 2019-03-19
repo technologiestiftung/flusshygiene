@@ -33,11 +33,11 @@ const updateFields = (spot: Bathingspot, providedValues: IObject): Bathingspot =
 }
 export const addBathingspotToUser: postResponse = async (request, response) => {
 
-  const example = getEntityFields('Bathingspot');
-  if (request.body.hasOwnProperty('name') !== true || request.body.hasOwnProperty('isPublic') !== true) {
-    responderMissingBodyValue(response, example);
-  }
   try {
+    const example = await getEntityFields('Bathingspot');
+    if (request.body.hasOwnProperty('name') !== true || request.body.hasOwnProperty('isPublic') !== true) {
+      responderMissingBodyValue(response, example);
+    }
   const user = await getUserWithRelations(request.params.userId, ['bathingspots']);
 
     if (user === undefined) {
@@ -57,7 +57,7 @@ export const addBathingspotToUser: postResponse = async (request, response) => {
       if (userAgain === undefined) {
         throw Error('user id did change user does not exist anymore should never happen');
       }
-      responder(response, HttpCodes.successCreated, successResponse('Bathingspot created', [userAgain.bathingspots[userAgain.bathingspots.length - 1]]))
+      responder(response, HttpCodes.successCreated, successResponse('Bathingspot created', [userAgain.bathingspots[userAgain.bathingspots.length - 1]]));
     }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));

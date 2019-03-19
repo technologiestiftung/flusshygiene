@@ -28,37 +28,45 @@ describe('testing missing db connection', () => {
   it('should throw an error on test route ',()=>{
     // const res = await request(app).get('/test/spots/noid');
     return request(app).get('/test/spots/noid').catch(e => expect(e).toMatch('error'));
-
-    // done();
   });
   it('should return 500 on route getUsers', async (done) => {
-    // getUsers);
     const res = await request(app).get('/api/v1/users');
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 on route getUser id', async (done) => {
-    // getUser);
     const res = await request(app).get('/api/v1/users/1');
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 on route getUsers id bathingspots', async (done) => {
-    // getUserBathingspots);
     const res = await request(app).get('/api/v1/users/1/bathingspots');
     expect(res.status).toBe(500);
     done();
   });
-  it('should return 500 route getUsers id bathingspot  id', async (done) => {
-    // getOneUserBathingspotById);
+  it('should return 500 route getUsers id bathingspot id', async (done) => {
     const res = await request(app).get('/api/v1/users/1/bathingspots/1');
     expect(res.status).toBe(500);
     done();
   });
 
-  it('should return 500 on route post new user due to missing connection', async (done) => {
-    // addUser);
+  it('should return 500 route post user id bathingspot', async (done) => {
+    const res = await request(app).post('/api/v1/users/1/bathingspots').send({name:'foo', isPublic:true}).set('Accept', 'application/json');;
+    expect(res.status).toBe(500);
+    done();
+  });
 
+  it('should return 500 route put user id bathingspot', async (done) => {
+    const res = await request(app).put('/api/v1/users/1/bathingspots/1').send({name:'foo', isPublic:true}).set('Accept', 'application/json');
+    expect(res.status).toBe(500);
+    done();
+  });
+  it('should return 500 route delete user id bathingspot', async (done) => {
+    const res = await request(app).delete('/api/v1/users/1/bathingspots/1').send({force: true}).set('Accept', 'application/json');
+    expect(res.status).toBe(500);
+    done();
+  });
+  it('should return 500 on route post new user due to missing connection', async (done) => {
     const res = await request(app).post('/api/v1/users');
     expect(res.status).toBe(500);
     expect(res.body.success).toBe(false);
@@ -66,8 +74,19 @@ describe('testing missing db connection', () => {
     done();
   });
   it('should return 500 on route post new user', async (done) => {
-    // addUser);
-
+    const res = await request(app).post('/api/v1/users').send({
+      firstName: 'Lilu',
+      lastName: 'Mulitpass',
+      email: 'lilu@fifth-element.com',
+      role: 'reporter'
+    })
+      .set('Accept', 'application/json');
+    expect(res.status).toBe(500);
+    expect(res.body.success).toBe(false);
+    // update user
+    done();
+  });
+    it('should return 500 on route post new user', async (done) => {
     const res = await request(app).post('/api/v1/users').send({
       firstName: 'Lilu',
       lastName: 'Mulitpass',
@@ -81,14 +100,12 @@ describe('testing missing db connection', () => {
     done();
   });
   it('should return 500 on put user by id', async (done) => {
-    // updateUser);
     const res = await request(app).put('/api/v1/users/1');
     expect(res.status).toBe(500);
     // delete user
     done();
   });
   it('should return 500 on delete user by id', async (done) => {
-    // deleteUser)
     const res = await request(app).delete('/api/v1/users/1');
     expect(res.status).toBe(500);
     // get all bathingspots
@@ -106,6 +123,13 @@ describe('testing missing db connection', () => {
     // getBathingspot);
     const res = await request(app).get('/api/v1/bathingspots/1');
     expect(res.status).toBe(500);
+    done();
+  });
+
+  it('should return 500 post bathingspot by id', async (done) => {
+    // getBathingspot);
+    const res = await request(app).post('/api/v1/bathingspots').send({name:'foo', isPublic:true}).set('Accept', 'application/json');
+    expect(res.status).toBe(404);
     done();
   });
 });

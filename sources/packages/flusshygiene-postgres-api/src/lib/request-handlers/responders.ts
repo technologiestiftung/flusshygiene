@@ -45,8 +45,8 @@ export const successResponse: (message?: string, data?:User|User[]|Bathingspot[]
 export const responder: Responder = (response, statusCode, payload) =>{
   response.status(statusCode).json(payload);
 }
-export const responderMissingBodyValue = (response: Response, message:object ) =>{
-  return responder(response, HttpCodes.badRequestNotFound, suggestionResponse(SUGGESTIONS.missingFields, message));
+export const responderMissingBodyValue = (response: Response, example:object ) =>{
+  return responder(response, HttpCodes.badRequestNotFound, suggestionResponse(SUGGESTIONS.missingFields, example));
 }
 
 export const responderSuccess = (response: Response, message: string)=>{
