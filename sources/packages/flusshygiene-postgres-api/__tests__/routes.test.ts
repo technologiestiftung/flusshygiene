@@ -16,6 +16,7 @@ import express, { Application } from 'express';
 import request from 'supertest';
 import routes from '../src/lib/routes';
 import { ERRORS } from '../src/lib/messages';
+import { getUserWithRelations, getBathingspotById, getSpotByUserAndId } from '../src/lib/repositories/custom-repo-helpers';
 // let connection: Connection;
 let app: Application;
 
@@ -619,4 +620,36 @@ describe('testing delete users', () => {
 
 
 
+
+describe('testing errors on repo helpers', ()=>{
+  it('should be catch error due to missing db', (done)=>{
+    getUserWithRelations(10000,[]).then(res =>{
+      expect(res).toBe(undefined);
+      done();
+    }).catch(err =>{
+      expect(err.message).toEqual('Connection "default" was not found.');
+      done();
+    });
+  });
+
+  it('should be catch error due to missing db', (done)=>{
+    getBathingspotById(10000).then(res =>{
+      expect(res).toBe(undefined);
+      done();
+    }).catch(err =>{
+      expect(err.message).toEqual('Connection "default" was not found.');
+      done();
+    });
+  });
+
+  it('should be catch error due to missing db', (done)=>{
+    getSpotByUserAndId(10000,10000).then(res =>{
+      expect(res).toBe(undefined);
+      done();
+    }).catch(err =>{
+      expect(err.message).toEqual('Connection "default" was not found.');
+      done();
+    });
+  });
+});
 
