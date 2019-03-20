@@ -7,5 +7,4 @@ export const getMatchingValues = (body: any, propNames: string[]): IObject => {
     return obj;
   }, {});
   return matchingValues;
-}
-
+};

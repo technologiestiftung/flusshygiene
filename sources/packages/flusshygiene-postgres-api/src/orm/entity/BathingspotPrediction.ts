@@ -1,23 +1,22 @@
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import { Bathingspot } from './Bathingspot';
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
 
 @Entity()
 export class BathingspotPrediction {
 
   @PrimaryGeneratedColumn()
-  id!: number;
+  public id!: number;
 
   @Column({type: 'timestamp'})
-  timestamp!: string;
+  public timestamp!: string;
 
   @Column({type: 'json'})
-  prediction!: string;
-
+  public prediction!: string;
 
   @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.predictions, {
     cascade: true,
     eager: true,
   })
-  bathingspot!: Bathingspot;
+  public bathingspot!: Bathingspot;
 
 }

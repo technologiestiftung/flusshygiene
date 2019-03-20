@@ -1,23 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Bathingspot } from './Bathingspot';
-import { Regions } from '../../lib/types-interfaces';
 import { IsEnum } from 'class-validator';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Regions } from '../../lib/types-interfaces';
+import { Bathingspot } from './Bathingspot';
 @Entity()
 export class Region {
 
   @PrimaryGeneratedColumn()
-  id!: number;
+  public id!: number;
 
   // @Column({nullable: false})
   // name!: string;
 
   // if he can create badegewässer/bathing spot
-  @Column({type:'enum', nullable:false, enum: Regions})
+  @Column({ type: 'enum', nullable: false, enum: Regions })
   @IsEnum(Regions)
-  name!: string;
+  public name!: string;
 
-  @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user,{
-    cascade: true
+  @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user, {
+    cascade: true,
   })
-  bathingspots!: Bathingspot[];
-};
+  public bathingspots!: Bathingspot[];
+}

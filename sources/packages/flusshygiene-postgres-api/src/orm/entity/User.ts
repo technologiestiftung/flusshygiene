@@ -1,39 +1,39 @@
+import { IsEmail, IsEnum } from 'class-validator';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRole } from './../../lib/types-interfaces';
-import { Questionaire } from './Questionaire';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Bathingspot } from './Bathingspot';
-import {IsEmail, IsEnum} from 'class-validator';
+import { Questionaire } from './Questionaire';
 @Entity()
 export class User {
 
   @PrimaryGeneratedColumn()
-  id!: number;
+  public id!: number;
 
-  @Column({nullable: false})
-  protected: boolean = false;
+  @Column({ nullable: false })
+  public protected: boolean = false;
 
-  @Column({nullable: false})
-  firstName!: string;
+  @Column({ nullable: false })
+  public firstName!: string;
 
-  @Column({nullable: false})
-  lastName!: string;
+  @Column({ nullable: false })
+  public lastName!: string;
 
-  @Column({nullable: false})
+  @Column({ nullable: false })
   @IsEmail()
-  email!: string;
+  public email!: string;
   // if he can create badegewässer/bathing spot
-  @Column({type:'enum', nullable:false, enum: UserRole})
+  @Column({ type: 'enum', nullable: false, enum: UserRole })
   @IsEnum(UserRole)
-  role!: string;
+  public role!: string;
 
   @OneToMany((_type) => Questionaire, (questionaire) => questionaire.user)
-  questionaires!: Questionaire[];
+  public questionaires!: Questionaire[];
 
-  @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user,{
-    cascade: true
+  @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user, {
+    cascade: true,
   })
-  bathingspots!: Bathingspot[];
+  public bathingspots!: Bathingspot[];
 
   // @ManyToMany
   // Regions
-};
+}

@@ -7,7 +7,7 @@
     "rules": {
       "no-console":false,
         "semicolon":true,
-        "quotemark":false,
+        "quotemark":[true,"single"],
         "await-promise": true,
         "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
         "arrow-parens":false

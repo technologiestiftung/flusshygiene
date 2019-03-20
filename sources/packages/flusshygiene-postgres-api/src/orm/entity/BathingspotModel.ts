@@ -1,17 +1,17 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import { Bathingspot } from './Bathingspot';
 
 @Entity()
 export class BathingspotModel {
 
     @PrimaryGeneratedColumn()
-  id!: number;
+  public id!: number;
 
   @Column({type: 'text'})
-  rmodel!: string;
+  public rmodel!: string;
 
   @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.models, {
     cascade: true,
   })
-  bathingspot!: Bathingspot;
+  public bathingspot!: Bathingspot;
 }

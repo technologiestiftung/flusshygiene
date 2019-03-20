@@ -1,23 +1,28 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from './User';
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
 
 @Entity()
 export class Questionaire {
 
   @PrimaryGeneratedColumn()
-    id!: number;
+  public id!: number;
 
-  @Column({type: 'json'})
-  state!: string;
+  @Column({ type: 'json' })
+  public state!: string;
 
-  @Column({type:'timestamp'})
-  lastEdit!: string;
+  @Column({ type: 'timestamp' })
+  public lastEdit!: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne( (_type) => User, user => user.questionaires, {
-      cascade: true,
+  @ManyToOne((_type) => User, user => user.questionaires, {
+    cascade: true,
   })
-  user!: User;
+  public user!: User;
 }

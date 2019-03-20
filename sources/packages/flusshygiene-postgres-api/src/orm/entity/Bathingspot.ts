@@ -1,51 +1,51 @@
-import { BathingspotRawModelData } from './BathingspotRawModelData';
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import { BathingspotModel } from './BathingspotModel';
 import { BathingspotPrediction } from './BathingspotPrediction';
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from "typeorm";
-import { User } from './User';
+import { BathingspotRawModelData } from './BathingspotRawModelData';
 import { Region } from './Region';
+import { User } from './User';
 
 @Entity()
 export class Bathingspot {
 
   @PrimaryGeneratedColumn()
-  id!: number;
+  public id!: number;
 
   @Column()
-  name!: string;
+  public name!: string;
 
   @Column({ type: 'boolean' })
-  isPublic!: boolean;
+  public isPublic!: boolean;
 
   @Column({type: 'json', nullable: true})
-  apiEndpoints!: string;
+  public apiEndpoints!: string;
 
   @Column({type: 'json', nullable: true})
-  state!: string;
+  public state!: string;
 
   // should be geojson
-  @Column({type: "json", nullable: true})
-  location!: string;
+  @Column({type: 'json', nullable: true})
+  public location!: string;
 
   @Column({type: 'float8', nullable: true})
-  latitde!: number;
+  public latitude!: number;
   @Column({type: 'float8', nullable: true})
-  longitude!: number;
+  public longitude!: number;
   @Column({type: 'float8', nullable: true})
-  elevation!: number;
+  public elevation!: number;
 
   @ManyToOne( _type => User, user => user.bathingspots)
-  user!: User;
+  public user!: User;
 
   @OneToMany(_type => BathingspotPrediction, (prediction) => prediction.bathingspot)
-  predictions!: BathingspotPrediction[];
+  public predictions!: BathingspotPrediction[];
 
   @OneToMany(_type => BathingspotModel, (model) => model.bathingspot)
-  models!: BathingspotModel[];
+  public models!: BathingspotModel[];
 
   @OneToMany(_type => BathingspotRawModelData, (rawModelData) => rawModelData.bathingspot)
-  rawModelData!: BathingspotRawModelData[];
+  public rawModelData!: BathingspotRawModelData[];
   @ManyToOne(_type => Region, region => region.bathingspots)
-  region!: Region;
+  public region!: Region;
 }
 

@@ -30,6 +30,7 @@ export type getResponse = (request: Request, response: Response) => void;
 export type putResponse = (request: Request, response: Response) => void;
 export type deleteResponse = (request: Request, response: Response) => void;
 
+// responder.ts
 export type Responder = (
   response: Response,
   statusCode: number,
@@ -41,6 +42,12 @@ export type ErrorResponder = (error: Error) => IDefaultResponsePayload;
 export type SuggestionResponder = (message?: string, data?: object) => IDefaultResponsePayload;
 
 export type PayloadBuilder = (success: boolean, message?: string, data?: any) => IDefaultResponsePayload;
+
+// custom-repo-helpers.ts
+
+export type GetByIds = (userId: number, spotId: number) => Promise<Bathingspot | undefined>;
+export type GetById = (spotId: number) => Promise<Bathingspot | undefined>;
+export type GetByIdWithRelations = (userId: number, relations: string[]) => Promise<User | undefined>;
 
 export enum UserRole {
   admin = 'admin',

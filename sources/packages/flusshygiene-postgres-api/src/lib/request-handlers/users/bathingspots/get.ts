@@ -10,10 +10,9 @@ import { Bathingspot } from './../../../../orm/entity/Bathingspot';
 
 export const getUserBathingspots: getResponse = async (request, response) => {
   try {
+
     const user = await getUserWithRelations(request.params.userId, ['bathingspots']);
-    // const userRepo = getCustomRepository(UserRepository);
-// tslint:disable-next-line: max-line-length
-    // const user: User | undefined = await userRepo.findByIdWithRelations(request.params.userId, ['bathingspots']);// await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
+
     if (user === undefined) {
       responderWrongId(response);
     } else {

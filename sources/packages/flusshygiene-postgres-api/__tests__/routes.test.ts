@@ -1,5 +1,6 @@
-import { SUCCESS } from './../src/lib/messages/success';
+// tslint:disable: ordered-imports
 jest.useFakeTimers();
+import { SUCCESS } from './../src/lib/messages/success';
 import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
@@ -24,7 +25,7 @@ import { Region } from '../src/orm/entity/Region';
 import { createProtectedUser } from '../src/orm/fixtures/create-protected-user';
 import { SUGGESTIONS } from './../src/lib/messages/suggestions';
 import { User } from './../src/orm/entity/User';
-// let connection: Connection;
+
 let app: Application;
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
@@ -326,6 +327,45 @@ describe('testing bathingspots get for a specific user', () => {
 
 describe('testing bathingspots post for a specific user', () => {
 
+  test('should fail due to missing isPublic values', async (done) => {
+    const userRepo = getRepository(User);
+    const users: User[] = await userRepo.find({ relations: ['bathingspots'] });
+    const user: User = users[users.length - 1]; // last created user
+    const id = user.id;
+    const res = await request(app).post(`/api/v1/users/${id}/bathingspots`).send({
+      apiEndpoints: {},
+      elevation: 1,
+      /*isPublic: true,*/
+      latitude: 13,
+      location: {},
+      longitude: 52,
+      name: 'Sweetwater',
+      state: {},
+    }).set('Accept', 'application/json');
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toEqual(SUGGESTIONS.missingFields);
+    done();
+  });
+
+  test('should fail due to wrong user id', async (done) => {
+
+    const res = await request(app).post(`/api/v1/users/${100000}/bathingspots`).send({
+      apiEndpoints: {},
+      elevation: 1,
+      isPublic: true,
+      latitude: 13,
+      location: {},
+      longitude: 52,
+      name: 'Sweetwater',
+      state: {},
+    }).set('Accept', 'application/json');
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toEqual(ERRORS.badRequestMissingOrWrongID404);
+    done();
+  });
+
   test('should add bathingspot to user', async (done) => {
     const userRepo = getRepository(User);
     const users: User[] = await userRepo.find({ relations: ['bathingspots'] });
@@ -333,17 +373,29 @@ describe('testing bathingspots post for a specific user', () => {
     const id = user.id;
     const spots = user.bathingspots;
     const res = await request(app).post(`/api/v1/users/${id}/bathingspots`).send({
+      apiEndpoints: {},
+      elevation: 1,
       isPublic: true,
+      latitude: 13,
+      location: {},
+      longitude: 52,
       name: 'Sweetwater',
+      state: {},
     }).set('Accept', 'application/json');
     const againUser: User | undefined = await userRepo.findOne(id, { relations: ['bathingspots'] });
-
-    const againSpots: Bathingspot[] | undefined = againUser.bathingspots;
-
-    expect(res.status).toBe(201);
-    expect(res.body.success).toBe(true);
-    expect(Array.isArray(res.body.data)).toBe(true);
-    expect(againSpots.length).toBe(spots.length + 1);
+    if (againUser !== undefined) {
+      const againSpots: Bathingspot[] | undefined = againUser.bathingspots;
+      if (againSpots !== undefined) {
+        expect(res.status).toBe(201);
+        expect(res.body.success).toBe(true);
+        expect(Array.isArray(res.body.data)).toBe(true);
+        expect(againSpots.length).toBe(spots.length + 1);
+      } else {
+        throw new Error();
+      }
+    } else {
+      throw new Error();
+    }
     done();
   });
 
@@ -358,16 +410,27 @@ describe('testing bathingspots post for a specific user', () => {
 
 describe('testing bathingspots update (put) for a specific user', () => {
 
+  test('should fail due to wrong idof a bathingspot', async (done) => {
+    const userRepo = getRepository(User);
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
+    const usersWithSpots = usersAndSpots.filter(u => u.bathingspots.length > 0);
+    const user = usersWithSpots[0];
+    const spot = user.bathingspots[0];
+    const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${10000}`).send({
+      name: 'watering hole',
+    }).set('Accept', 'application/json');
+
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toEqual(ERRORS.badRequestMissingOrWrongID404);
+    done();
+  });
+
   test('should change the name of a bathingspot', async (done) => {
     const userRepo = getRepository(User);
     const spotRepo = getRepository(Bathingspot);
     const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
-    // const usersAndSpots = await userRepo.createQueryBuilder('user')
-    // .leftJoinAndSelect('user.bathingspots', 'bathingspots')
-    //   .getMany();
-    const usersWithSpots = usersAndSpots.filter(_user => _user.bathingspots.length > 0);
-
-    // console.log(usersWithSpots);
+    const usersWithSpots = usersAndSpots.filter(u => u.bathingspots.length > 0);
     const user = usersWithSpots[0];
     const spot = user.bathingspots[0];
     const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
@@ -379,6 +442,30 @@ describe('testing bathingspots update (put) for a specific user', () => {
     expect(Array.isArray(res.body.data)).toBe(true);
     expect(res.body.data[0].name).toEqual('watering hole');
     expect(spotAgain.name).toEqual('watering hole');
+    done();
+  });
+
+  test('should set all the fields of a bathingspot', async (done) => {
+    const userRepo = getRepository(User);
+    const spotRepo = getRepository(Bathingspot);
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
+    const usersWithSpots = usersAndSpots.filter(u => u.bathingspots.length > 0);
+    const user = usersWithSpots[0];
+    const spot = user.bathingspots[0];
+    const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
+      apiEndpoints: {},
+      elevation: 1,
+      isPublic: true,
+      latitude: 13,
+      location: {},
+      longitude: 52,
+      name: 'Sweetwater',
+      state: {},
+    }).set('Accept', 'application/json');
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0].name).toEqual('Sweetwater');
     done();
   });
 
@@ -425,7 +512,8 @@ describe('testing spot deletion', () => {
     const user = usersWithSpots[0];
     // const publicSpots = user.bathingspots.filter(spot => spot.isPublic === true);
     // const spot = publicSpots[0];
-    const res = await request(app).delete(`/api/v1/users/${user.id}/bathingspots/${100000}`).send({}).set('Accept', 'application/json');
+    const res = await request(app).delete(
+      `/api/v1/users/${user.id}/bathingspots/${100000}`).send({}).set('Accept', 'application/json');
     // console.log(res.body);
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
@@ -437,14 +525,13 @@ describe('testing spot deletion', () => {
 
   test('should fail due to missing force', async (done) => {
     const userRepo = getRepository(User);
-
     const usersWithSpots = await userRepo.find({ relations: ['bathingspots'] });
     const user = usersWithSpots[0];
     const publicSpots = user.bathingspots.filter(_spot => _spot.isPublic === true);
     const spot = publicSpots[0];
     const res = await request(app).delete(
       `/api/v1/users/${user.id}/bathingspots/${spot.id}`,
-      ).send({}).set('Accept', 'application/json');
+    ).send({}).set('Accept', 'application/json');
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
     expect(res.body.message).toEqual(SUGGESTIONS.missingFields);
@@ -456,7 +543,6 @@ describe('testing spot deletion', () => {
   test('should delete public bathingspot by using force', async (done) => {
     const userRepo = getRepository(User);
     const spotRepo = getRepository(Bathingspot);
-
     const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
     const id = usersAndSpots[usersAndSpots.length - 1].id;
     // create one for deletion
@@ -464,13 +550,11 @@ describe('testing spot deletion', () => {
       isPublic: true,
       name: 'Sweetwater',
     }).set('Accept', 'application/json');
-
     const spotsBefore = await spotRepo.find();
     const spotNumBefore = spotsBefore.length;
-
     const res = await request(app).delete(
       `/api/v1/users/${id}/bathingspots/${resCreation.body.data[0].id}`,
-      ).send({ force: true });
+    ).send({ force: true });
     const spotsAfter = await spotRepo.find();
     const spotNumAfter = spotsAfter.length;
     expect(res.status).toBe(200);
@@ -552,10 +636,11 @@ describe('testing delete users', () => {
     expect(res.status).toBe(404);
     done();
   });
-  test('delete user should fail due to wrong id', async () => {
+  test('delete user should fail due to wrong id', async (done) => {
     expect.assertions(1);
     const res = await request(app).delete(`/api/v1/users/${10000000}`);
     expect(res.status).toBe(404);
+    done();
   });
 });
 
@@ -590,4 +675,3 @@ describe('testing errors on repo helpers', () => {
     });
   });
 });
-

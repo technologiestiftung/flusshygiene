@@ -1,12 +1,7 @@
 import { getCustomRepository } from 'typeorm';
-import { User } from '../../orm/entity/User';
-import { Bathingspot } from './../../orm/entity/Bathingspot';
+import { GetById, GetByIds, GetByIdWithRelations } from '../types-interfaces';
 import { BathingspotRepository } from './BathingspotRepository';
 import { UserRepository } from './UserRepository';
-
-type GetByIds = (userId: number, spotId: number) => Promise<Bathingspot | undefined>;
-type GetById = (spotId: number) => Promise<Bathingspot | undefined>;
-type GetByIdWithRelations = (userId: number, relations: string[]) => Promise<User | undefined>;
 
 export const getUserWithRelations: GetByIdWithRelations = async (userId, relations) => {
   const userRepo = getCustomRepository(UserRepository);

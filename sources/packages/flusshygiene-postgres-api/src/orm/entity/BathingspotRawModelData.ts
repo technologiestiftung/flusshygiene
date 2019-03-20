@@ -1,27 +1,26 @@
 
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
-import { User } from './User';
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import { Bathingspot } from './Bathingspot';
+import { User } from './User';
 
 @Entity()
 export class BathingspotRawModelData {
 
   @PrimaryGeneratedColumn()
-  id!: number;
+  public id!: number;
 
   @Column({type: 'timestamp'})
-  lastEdit!: string;
+  public lastEdit!: string;
 
   @Column({type: 'json'})
-  rawData!:string;
+  public rawData!: string;
 
   @ManyToOne( _type => User, user => user.questionaires, {
     cascade: true,
   })
 
-
   @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.rawModelData, {
     cascade: true,
   })
-  bathingspot!: Bathingspot;
+  public bathingspot!: Bathingspot;
 }

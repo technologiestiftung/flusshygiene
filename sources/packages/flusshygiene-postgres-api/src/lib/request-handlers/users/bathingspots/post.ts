@@ -18,19 +18,15 @@ const updateFields = (spot: Bathingspot, providedValues: IObject): Bathingspot =
   }// 'json' ]
   if (isObject(providedValues.state)) {
     spot.state = providedValues.state; // 'json' ]
-
   }// 'json' ]
   if (isObject(providedValues.location)) {
     spot.location = providedValues.location; // 'json' ]
-
   }// 'json' ]
-  if (typeof providedValues.latitde === 'number') {
-    spot.latitde = providedValues.latitde; // 'float8' ]
-
+  if (typeof providedValues.latitude === 'number') {
+    spot.latitude = providedValues.latitude; // 'float8' ]
   }// 'float8' ]
   if (typeof providedValues.longitude === 'number') {
     spot.longitude = providedValues.longitude; // 'float8' ]
-
   }// 'float8' ]
   if (typeof providedValues.elevation === 'number') {
     spot.elevation = providedValues.elevation; // 'float8' ]

@@ -24,8 +24,8 @@ const updateFields = (spot: Bathingspot, providedValues: IObject) => {
     spot.location = providedValues.location; // 'json' ]
 
   }// 'json' ]
-  if (typeof providedValues.latitde === 'number') {
-    spot.latitde = providedValues.latitde; // 'float8' ]
+  if (typeof providedValues.latitude === 'number') {
+    spot.latitude = providedValues.latitude; // 'float8' ]
 
   }// 'float8' ]
   if (typeof providedValues.longitude === 'number') {
@@ -51,7 +51,7 @@ export const updateBathingspotOfUser: putResponse = async (request, response) =>
 
     // console.log('params user:spot', request.params.userId, ':', request.params.spotId);
     let spotFromUser = await getSpotByUserAndId(request.params.userId, request.params.spotId);
-    console.log('spot from user', spotFromUser);
+    // console.log('spot from user', spotFromUser);
 
     if (spotFromUser === undefined) {
       responderWrongId(response);
