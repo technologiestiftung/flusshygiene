@@ -1,28 +1,27 @@
 import Router from 'express-promise-router';
 // import { defaultGetResponse, defaultPostResponse } from './request-handlers/default-requests';
 import {
+  addUser,
+  deleteUser,
   getUser,
   getUsers,
-  addUser,
   updateUser,
-  deleteUser
 } from './request-handlers/users/';
 
 import {
   addBathingspotToUser,
-  updateBathingspotOfUser,
-  getUserBathingspots,
+  deleteBathingspotOfUser,
   getOneUserBathingspotById,
-  deleteBathingspotOfUser
+  getUserBathingspots,
+  updateBathingspotOfUser,
 } from './request-handlers/users/bathingspots/';
 
 import {
+  getBathingspot,
   getBathingspots,
-  getBathingspot
 } from './request-handlers/bathingspots';
 
 const router = Router();
-
 
 router.get('/users', getUsers);
 // get user by id
@@ -42,12 +41,11 @@ router.put('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)', updateBathings
 router.delete('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)', deleteBathingspotOfUser);
 // add new user
 
-
 router.post('/users', addUser);
 // update user
 router.put('/users/:userId([0-9]+)', updateUser);
 // delete user
-router.delete('/users/:userId([0-9]+)', deleteUser)
+router.delete('/users/:userId([0-9]+)', deleteUser);
 
 // get all bathingspots
 router.get('/bathingspots', getBathingspots);

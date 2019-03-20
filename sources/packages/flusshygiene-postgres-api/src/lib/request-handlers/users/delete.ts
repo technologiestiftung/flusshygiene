@@ -1,10 +1,8 @@
-import { deleteResponse, HttpCodes } from '../../types-interfaces';
-import { getRepository, getManager } from 'typeorm';
-import { User } from '../../../orm/entity/User';
-import { responderWrongId, responder, errorResponse, responderSuccess } from '../responders';
+import { getManager, getRepository } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
-
-
+import { User } from '../../../orm/entity/User';
+import { deleteResponse, HttpCodes } from '../../types-interfaces';
+import { errorResponse, responder, responderSuccess, responderWrongId } from '../responders';
 
 // ██████╗ ███████╗██╗     ███████╗████████╗███████╗
 // ██╔══██╗██╔════╝██║     ██╔════╝╚══██╔══╝██╔════╝
@@ -13,9 +11,6 @@ import { Bathingspot } from '../../../orm/entity/Bathingspot';
 // ██████╔╝███████╗███████╗███████╗   ██║   ███████╗
 // ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚══════╝
 
-
-
-
 export const deleteUser: deleteResponse = async (request, response) => {
   try {
     const user = await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
@@ -23,10 +18,13 @@ export const deleteUser: deleteResponse = async (request, response) => {
       responderWrongId(response);
     } else {
       if (user.protected === true) {
-        responder(response, HttpCodes.badRequestForbidden, errorResponse(new Error('You cannot delete a protected User')));
+        responder(response,
+          HttpCodes.badRequestForbidden,
+          errorResponse(new Error('You cannot delete a protected User')));
       } else {
         if (user.bathingspots.length !== 0) {
-          const protectedUser = await getRepository(User).findOne({ where: { protected: true }, relations: ['bathingspots'] });
+          const protectedUser = await getRepository(User).findOne(
+            { where: { protected: true }, relations: ['bathingspots'] });
           if (protectedUser === undefined) {
             throw new Error('No protected user found!');
           } else {
@@ -52,5 +50,5 @@ export const deleteUser: deleteResponse = async (request, response) => {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }
 
-}
+};
 

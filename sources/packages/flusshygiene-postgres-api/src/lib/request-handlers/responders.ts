@@ -1,63 +1,106 @@
-import { Bathingspot } from '../../orm/entity/Bathingspot';
-import { IDefaultResponsePayload, HttpCodes } from '../types-interfaces';
 import { Response } from 'express';
 import { User } from '../../orm/entity/User';
 import { ERRORS, SUGGESTIONS } from '../messages';
+import {
+  ErrorResponder,
+  HttpCodes,
+  PayloadBuilder,
+  Responder,
+  SuccessResponder,
+  SuggestionResponder,
+} from '../types-interfaces';
 
-type Responder = (response: Response, statusCode:number, payload: IDefaultResponsePayload | User[] | Bathingspot[]) => void;
+/**
+ * build a payload. This is to reduce repetition
+ * @param success
+ * @param message
+ * @param data
+ */
+const buildPayload: PayloadBuilder = (success, message, data) => {
+  return {
+    data,
+    message,
+    success,
+  };
+};
 
-export const userIDErrorResponse = () =>{
-
-  const res: IDefaultResponsePayload = {
-    success: false,
-    message: ERRORS.badRequestMissingOrWrongID404,
-  }
-  return res;
-}
-export const errorResponse: (error: Error) => IDefaultResponsePayload = (error) => {
-  if(process.env.NODE_ENV === 'development'){
+export const userIDErrorResponse = () => buildPayload(false, ERRORS.badRequestMissingOrWrongID404, undefined);
+/**
+ * Builds an error response to send out
+ *
+ * @param error The error to report to the user
+ */
+export const errorResponse: ErrorResponder = (error) => {
+  if (process.env.NODE_ENV === 'development') {
     throw error;
   }
-  const res: IDefaultResponsePayload = {
-    success: false,
-    message: process.env.NODE_ENV === 'development' ? error.message : 'internal server error'
-  };
-  return res;
-}
-export const suggestionResponse: (message?: string, data?:object) => IDefaultResponsePayload = (message, data)=> {
-  const res: IDefaultResponsePayload = {
-    success: false,
-    message: message,
-    data: data
-  }
-  return res;
-}
+  const msg = process.env.NODE_ENV === 'development' ? error.message : 'internal server error';
+  return buildPayload(false, msg, undefined);
+};
 
-export const successResponse: (message?: string, data?:User|User[]|Bathingspot[]) => IDefaultResponsePayload = (message, data)=> {
-  const res: IDefaultResponsePayload = {
-    success: true,
-    message: message,
-    data: data
-  }
-  return res;
-}
+/**
+ * Builds an response that holds a suggestion how to query the API
+ * @param message the message to send to the response
+ * @param data the example suggestion data
+ */
+export const suggestionResponse: SuggestionResponder = (message, data) => buildPayload(false, message, data);
 
-export const responder: Responder = (response, statusCode, payload) =>{
+/**
+ * Builds a success message normaly 200 or 201
+ * @param message
+ * @param data
+ */
+export const successResponse: SuccessResponder = (message, data) => buildPayload(true, message, data);
+/**
+ * The default responder for json
+ * @param response
+ * @param statusCode
+ * @param payload
+ */
+export const responder: Responder = (response, statusCode, payload) => {
   response.status(statusCode).json(payload);
-}
-export const responderMissingBodyValue = (response: Response, example:object ) =>{
-  return responder(response, HttpCodes.badRequestNotFound, suggestionResponse(SUGGESTIONS.missingFields, example));
-}
+};
 
-export const responderSuccess = (response: Response, message: string)=>{
+/**
+ * Response for missing values 404
+ * @param response
+ * @param example
+ */
+export const responderMissingBodyValue = (response: Response, example: object) => {
+  return responder(response, HttpCodes.badRequestNotFound, suggestionResponse(SUGGESTIONS.missingFields, example));
+};
+
+/**
+ * respoinder for success messages 200
+ * @param response
+ * @param message
+ */
+export const responderSuccess = (response: Response, message: string) => {
   return responder(response, HttpCodes.success, successResponse(message));
-}
-export const responderSuccessCreated = (response: Response, message: string, data?: User)=>{
+};
+
+/**
+ * Responder for created success 201
+ * @param response
+ * @param message
+ * @param data
+ */
+export const responderSuccessCreated = (response: Response, message: string, data?: User) => {
   return responder(response, HttpCodes.successCreated, successResponse(message, data));
-}
-export const responderMissingId = (response: Response)=>{
+};
+
+/**
+ * responder for missing ids. This actually should never happen 400
+ * @param response
+ */
+export const responderMissingId = (response: Response) => {
   return responder(response, HttpCodes.badRequest, userIDErrorResponse());
-}
-export const responderWrongId = (response: Response)=>{
-    return responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());
-}
+};
+
+/**
+ * responses for wrong ids 404
+ * @param response
+ */
+export const responderWrongId = (response: Response) => {
+  return responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());
+};

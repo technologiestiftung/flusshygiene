@@ -1,9 +1,8 @@
-import { getResponse, HttpCodes } from '../../types-interfaces';
-import { User } from '../../../orm/entity/User';
 import { getRepository } from 'typeorm';
-import { responder, errorResponse, responderMissingId, responderWrongId, successResponse } from '../responders';
+import { User } from '../../../orm/entity/User';
 import { SUCCESS } from '../../messages';
-
+import { getResponse, HttpCodes } from '../../types-interfaces';
+import { errorResponse, responder, responderMissingId, responderWrongId, successResponse } from '../responders';
 
 //  ██████╗ ███████╗████████╗
 // ██╔════╝ ██╔════╝╚══██╔══╝
@@ -11,8 +10,6 @@ import { SUCCESS } from '../../messages';
 // ██║   ██║██╔══╝     ██║
 // ╚██████╔╝███████╗   ██║
 //  ╚═════╝ ╚══════╝   ╚═╝
-
-
 
 export const getUsers: getResponse = async (_request, response) => {
   let users: User[];
@@ -30,9 +27,8 @@ export const getUsers: getResponse = async (_request, response) => {
       HttpCodes.internalError,
       errorResponse(e));
 
-
   }
-}
+};
 
 export const getUser: getResponse = async (request, response) => {
   let user: User | undefined;
@@ -54,4 +50,4 @@ export const getUser: getResponse = async (request, response) => {
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }
-}
+};

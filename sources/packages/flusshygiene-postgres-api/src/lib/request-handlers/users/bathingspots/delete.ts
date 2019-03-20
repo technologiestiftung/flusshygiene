@@ -1,9 +1,15 @@
-import { deleteResponse, HttpCodes } from '../../../types-interfaces';
-import { responder, errorResponse, responderWrongId, responderMissingBodyValue, responderSuccess } from '../../responders';
-import { getSpotByUserAndId } from '../../../repositories/custom-repo-helpers';
-import { Bathingspot } from '../../../../orm/entity/Bathingspot';
 import { getRepository } from 'typeorm';
+import { Bathingspot } from '../../../../orm/entity/Bathingspot';
 import { SUCCESS } from '../../../messages';
+import { getSpotByUserAndId } from '../../../repositories/custom-repo-helpers';
+import { deleteResponse, HttpCodes } from '../../../types-interfaces';
+import {
+  errorResponse,
+  responder,
+  responderMissingBodyValue,
+  responderSuccess,
+  responderWrongId,
+} from '../../responders';
 
 export const deleteBathingspotOfUser: deleteResponse = async (request, response) => {
   // console.log(request.params);
@@ -28,4 +34,4 @@ export const deleteBathingspotOfUser: deleteResponse = async (request, response)
     responder(response, HttpCodes.internalError, errorResponse(e));
 
   }
-}
+};

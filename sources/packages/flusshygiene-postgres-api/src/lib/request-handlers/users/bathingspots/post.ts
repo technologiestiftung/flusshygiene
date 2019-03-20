@@ -1,36 +1,42 @@
-import { Bathingspot } from './../../../../orm/entity/Bathingspot';
 import { getManager } from 'typeorm';
 import { getUserWithRelations } from '../../../repositories/custom-repo-helpers';
-import { isObject, getEntityFields, getMatchingValues } from '../../../utils';
-import { postResponse, HttpCodes, IObject } from '../../../types-interfaces';
-import { responderWrongId, responderMissingBodyValue, responder, successResponse, errorResponse } from '../../responders';
+import { HttpCodes, IObject, postResponse } from '../../../types-interfaces';
+import { getEntityFields, getMatchingValues, isObject } from '../../../utils';
+import {
+  errorResponse,
+  responder,
+  responderMissingBodyValue,
+  responderWrongId,
+  successResponse,
+} from '../../responders';
+import { Bathingspot } from './../../../../orm/entity/Bathingspot';
 
 const updateFields = (spot: Bathingspot, providedValues: IObject): Bathingspot => {
   // curently silently fails needs some smarter way to set values on entities
-  if (isObject(providedValues['apiEndpoints'])) {
-    spot.apiEndpoints = providedValues['apiEndpoints'];// 'json' ]
+  if (isObject(providedValues.apiEndpoints)) {
+    spot.apiEndpoints = providedValues.apiEndpoints; // 'json' ]
   }// 'json' ]
-  if (isObject(providedValues['state'])) {
-    spot.state = providedValues['state'];// 'json' ]
+  if (isObject(providedValues.state)) {
+    spot.state = providedValues.state; // 'json' ]
 
   }// 'json' ]
-  if (isObject(providedValues['location'])) {
-    spot.location = providedValues['location'];// 'json' ]
+  if (isObject(providedValues.location)) {
+    spot.location = providedValues.location; // 'json' ]
 
   }// 'json' ]
-  if (typeof providedValues['latitde'] === 'number') {
-    spot.latitde = providedValues['latitde'];// 'float8' ]
+  if (typeof providedValues.latitde === 'number') {
+    spot.latitde = providedValues.latitde; // 'float8' ]
 
   }// 'float8' ]
-  if (typeof providedValues['longitude'] === 'number') {
-    spot.longitude = providedValues['longitude'];// 'float8' ]
+  if (typeof providedValues.longitude === 'number') {
+    spot.longitude = providedValues.longitude; // 'float8' ]
 
   }// 'float8' ]
-  if (typeof providedValues['elevation'] === 'number') {
-    spot.elevation = providedValues['elevation'];// 'float8' ]
+  if (typeof providedValues.elevation === 'number') {
+    spot.elevation = providedValues.elevation; // 'float8' ]
   }// 'float8' ]
   return spot;
-}
+};
 export const addBathingspotToUser: postResponse = async (request, response) => {
 
   try {
@@ -38,7 +44,7 @@ export const addBathingspotToUser: postResponse = async (request, response) => {
     if (request.body.hasOwnProperty('name') !== true || request.body.hasOwnProperty('isPublic') !== true) {
       responderMissingBodyValue(response, example);
     }
-  const user = await getUserWithRelations(request.params.userId, ['bathingspots']);
+    const user = await getUserWithRelations(request.params.userId, ['bathingspots']);
 
     if (user === undefined) {
       responderWrongId(response);
@@ -62,4 +68,4 @@ export const addBathingspotToUser: postResponse = async (request, response) => {
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }
-}
+};

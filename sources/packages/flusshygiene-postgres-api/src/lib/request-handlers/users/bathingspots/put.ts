@@ -1,51 +1,57 @@
+import { getCustomRepository } from 'typeorm';
+import { isObject } from 'util';
+import { Bathingspot } from '../../../../orm/entity/Bathingspot';
+import { HttpCodes, IObject, putResponse } from '../../../types-interfaces';
+import { getEntityFields } from '../../../utils/get-entity-fields';
+import { getMatchingValues } from '../../../utils/get-matching-values-from-request';
 import { BathingspotRepository } from './../../../repositories/BathingspotRepository';
 import { getBathingspotById, getSpotByUserAndId } from './../../../repositories/custom-repo-helpers';
-import { responderMissingBodyValue, responder, errorResponse, responderWrongId, successResponse } from './../../responders';
-import { putResponse, HttpCodes, IObject } from '../../../types-interfaces';
-import { getEntityFields } from '../../../utils/get-entity-fields';
-import { getCustomRepository } from 'typeorm';
-import { Bathingspot } from '../../../../orm/entity/Bathingspot';
-import { getMatchingValues } from '../../../utils/get-matching-values-from-request';
-import { isObject } from 'util';
+import { errorResponse, responder,
+  responderMissingBodyValue,
+  responderWrongId,
+  successResponse } from './../../responders';
 
 const updateFields = (spot: Bathingspot, providedValues: IObject) => {
   // curently silently fails needs some smarter way to set values on entities
-  if (isObject(providedValues['apiEndpoints'])) {
-    spot.apiEndpoints = providedValues['apiEndpoints'];// 'json' ]
+  if (isObject(providedValues.apiEndpoints)) {
+    spot.apiEndpoints = providedValues.apiEndpoints; // 'json' ]
   }// 'json' ]
-  if (isObject(providedValues['state'])) {
-    spot.state = providedValues['state'];// 'json' ]
-
-  }// 'json' ]
-  if (isObject(providedValues['location'])) {
-    spot.location = providedValues['location'];// 'json' ]
+  if (isObject(providedValues.state)) {
+    spot.state = providedValues.state; // 'json' ]
 
   }// 'json' ]
-  if (typeof providedValues['latitde'] === 'number') {
-    spot.latitde = providedValues['latitde'];// 'float8' ]
+  if (isObject(providedValues.location)) {
+    spot.location = providedValues.location; // 'json' ]
+
+  }// 'json' ]
+  if (typeof providedValues.latitde === 'number') {
+    spot.latitde = providedValues.latitde; // 'float8' ]
 
   }// 'float8' ]
-  if (typeof providedValues['longitude'] === 'number') {
-    spot.longitude = providedValues['longitude'];// 'float8' ]
+  if (typeof providedValues.longitude === 'number') {
+    spot.longitude = providedValues.longitude; // 'float8' ]
 
   }// 'float8' ]
-  if (typeof providedValues['elevation'] === 'number') {
-    spot.elevation = providedValues['elevation'];// 'float8' ]
+  if (typeof providedValues.elevation === 'number') {
+    spot.elevation = providedValues.elevation; // 'float8' ]
   }// 'float8' ]
-  if (typeof providedValues['isPublic'] === 'boolean') {
-    spot.isPublic = providedValues['isPublic'];
+  if (typeof providedValues.isPublic === 'boolean') {
+    spot.isPublic = providedValues.isPublic;
   }
-  if (typeof providedValues['name'] === 'string') {
-    spot.name = providedValues['name'];
+  if (typeof providedValues.name === 'string') {
+    spot.name = providedValues.name;
   }
   return spot;
-}
+};
 
 export const updateBathingspotOfUser: putResponse = async (request, response) => {
   const spotRepo = getCustomRepository(BathingspotRepository);
   try {
     const example = await getEntityFields('Bathingspot');
+
+    // console.log('params user:spot', request.params.userId, ':', request.params.spotId);
     let spotFromUser = await getSpotByUserAndId(request.params.userId, request.params.spotId);
+    console.log('spot from user', spotFromUser);
 
     if (spotFromUser === undefined) {
       responderWrongId(response);
@@ -59,7 +65,7 @@ export const updateBathingspotOfUser: putResponse = async (request, response) =>
       spotFromUser = updateFields(spotFromUser, providedValues);
       await spotRepo.save(spotFromUser);
       const spotAgain = await getBathingspotById(spotFromUser.id);
-      if(spotAgain === undefined){
+      if (spotAgain === undefined) {
         throw new Error('spot disappeared');
       }
       // const res = spotAgain === undefined ? [] : [spotAgain];
@@ -70,4 +76,3 @@ export const updateBathingspotOfUser: putResponse = async (request, response) =>
   }
   // throw new Error(`not yet implemented req ${request}, ${response}`);
 };
-

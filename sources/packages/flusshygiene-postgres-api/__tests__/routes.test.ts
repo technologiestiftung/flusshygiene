@@ -1,25 +1,31 @@
 import { SUCCESS } from './../src/lib/messages/success';
 jest.useFakeTimers();
+import express, { Application } from 'express';
 import 'reflect-metadata';
+import request from 'supertest';
+import { createConnection, getConnection, getRepository } from 'typeorm';
+import { ERRORS } from '../src/lib/messages';
+import {
+  getBathingspotById,
+  getSpotByUserAndId,
+  getUserWithRelations,
+} from '../src/lib/repositories/custom-repo-helpers';
+import routes from '../src/lib/routes';
+import {
+  Regions,
+  UserRole,
+} from '../src/lib/types-interfaces';
 import { Bathingspot } from '../src/orm/entity/Bathingspot';
 import { BathingspotModel } from '../src/orm/entity/BathingspotModel';
 import { BathingspotPrediction } from '../src/orm/entity/BathingspotPrediction';
 import { BathingspotRawModelData } from '../src/orm/entity/BathingspotRawModelData';
-import { createConnection, getRepository, getConnection } from 'typeorm';
-import { createProtectedUser } from '../src/orm/fixtures/create-protected-user';
 import { Questionaire } from '../src/orm/entity/Questionaire';
 import { Region } from '../src/orm/entity/Region';
+import { createProtectedUser } from '../src/orm/fixtures/create-protected-user';
 import { SUGGESTIONS } from './../src/lib/messages/suggestions';
 import { User } from './../src/orm/entity/User';
-import { UserRole, Regions } from '../src/lib/types-interfaces';
-import express, { Application } from 'express';
-import request from 'supertest';
-import routes from '../src/lib/routes';
-import { ERRORS } from '../src/lib/messages';
-import { getUserWithRelations, getBathingspotById, getSpotByUserAndId } from '../src/lib/repositories/custom-repo-helpers';
 // let connection: Connection;
 let app: Application;
-
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -27,8 +33,6 @@ let app: Application;
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
-
-
 
 beforeAll((done) => {
   if (process.env.NODE_ENV !== 'test') {
@@ -40,14 +44,7 @@ beforeAll((done) => {
   app.use('/api/v1/', routes);
 
   const p = createConnection({
-    type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: 'postgres_password',
     database: 'postgres',
-    synchronize: true,
-    logging: false,
     dropSchema: true,
     entities: [
       User,
@@ -56,15 +53,22 @@ beforeAll((done) => {
       Bathingspot,
       BathingspotModel,
       BathingspotPrediction,
-      BathingspotRawModelData
+      BathingspotRawModelData,
     ],
+    host: 'localhost',
+    logging: false,
+    password: 'postgres_password',
+    port: 5432,
+    synchronize: true,
+    type: 'postgres',
+    username: 'postgres',
   });
 
   p.then(con => {
     // const db = await con.connect();
     // process.stdout.write(db.name);
     con.manager.save(createProtectedUser()).then(() => {
-      let user = new User();
+      const user = new User();
       user.firstName = 'James';
       user.lastName = 'Bond';
       user.role = UserRole.creator;
@@ -82,11 +86,11 @@ beforeAll((done) => {
             // connection = con;
             done();
             console.log('done with beforeAll setup');
-          }).catch(err => { throw err });
-        }).catch(err => { throw err });
-      }).catch(err => { throw err });
-    }).catch(err => { throw err });
-  }).catch(err => { throw err });
+          }).catch(err => { throw err; });
+        }).catch(err => { throw err; });
+      }).catch(err => { throw err; });
+    }).catch(err => { throw err; });
+  }).catch(err => { throw err; });
 });
 
 afterAll((done) => {
@@ -95,12 +99,9 @@ afterAll((done) => {
     con.close().then(() => {
       console.log('Done with cleanup after all');
       done();
-    }).catch(err => { throw err });
-  }).catch(err => { throw err });
+    }).catch(err => { throw err; });
+  }).catch(err => { throw err; });
 });
-
-
-
 
 // ██████╗  ██████╗ ███╗   ██╗███████╗
 // ██╔══██╗██╔═══██╗████╗  ██║██╔════╝
@@ -116,7 +117,6 @@ afterAll((done) => {
 // ###
 // ###############################################
 
-
 // ██╗   ██╗███████╗███████╗██████╗
 // ██║   ██║██╔════╝██╔════╝██╔══██╗
 // ██║   ██║███████╗█████╗  ██████╔╝
@@ -130,10 +130,6 @@ afterAll((done) => {
 // ██║   ██║██╔══╝     ██║
 // ╚██████╔╝███████╗   ██║
 //  ╚═════╝ ╚══════╝   ╚═╝
-
-
-
-
 
 describe('testing get users', () => {
   test.skip('route should fail due to wrong route', async (done) => {
@@ -173,9 +169,6 @@ describe('testing get users', () => {
   });
 });
 
-
-
-
 //  █████╗ ██████╗ ██████╗
 // ██╔══██╗██╔══██╗██╔══██╗
 // ███████║██║  ██║██║  ██║
@@ -183,22 +176,15 @@ describe('testing get users', () => {
 // ██║  ██║██████╔╝██████╔╝
 // ╚═╝  ╚═╝╚═════╝ ╚═════╝
 
-
-
-
-
-
-
-
 describe('testing add users', () => {
   test('add user', async () => {
     // process.env.NODE_ENV = 'development';
     expect.assertions(2);
     const res = await request(app).post('/api/v1/users').send({
+      email: 'lilu@fifth-element.com',
       firstName: 'Lilu',
       lastName: 'Mulitpass',
-      email: 'lilu@fifth-element.com',
-      role: 'reporter'
+      role: 'reporter',
     })
       .set('Accept', 'application/json');
     expect(res.status).toBe(201);
@@ -215,9 +201,9 @@ describe('testing add users', () => {
   test('add user shoud fail due to missing firstName', async () => {
     expect.assertions(1);
     const res = await request(app).post('/api/v1/users').send({
-      lastName: 'Mulitpass',
       email: 'lilu@fifth-element.com',
-      role: 'reporter'
+      lastName: 'Mulitpass',
+      role: 'reporter',
     })
       .set('Accept', 'application/json');
     expect(res.status).toBe(404);
@@ -226,9 +212,9 @@ describe('testing add users', () => {
   test('add user shoud fail due to missing lastName', async () => {
     expect.assertions(1);
     const res = await request(app).post('/api/v1/users').send({
-      firstName: 'Lilu',
       email: 'lilu@fifth-element.com',
-      role: 'reporter'
+      firstName: 'Lilu',
+      role: 'reporter',
     })
       .set('Accept', 'application/json');
     expect(res.status).toBe(404);
@@ -238,7 +224,7 @@ describe('testing add users', () => {
     const res = await request(app).post('/api/v1/users').send({
       firstName: 'Lilu',
       lastName: 'Mulitpass',
-      role: 'reporter'
+      role: 'reporter',
     })
       .set('Accept', 'application/json');
     expect(res.status).toBe(404);
@@ -247,19 +233,14 @@ describe('testing add users', () => {
   test('add user shoud fail due to missing role', async () => {
     expect.assertions(1);
     const res = await request(app).post('/api/v1/users').send({
+      email: 'lilu@fifth-element.com',
       firstName: 'Lilu',
       lastName: 'Mulitpass',
-      email: 'lilu@fifth-element.com'
     })
       .set('Accept', 'application/json');
     expect(res.status).toBe(404);
   });
 });
-
-
-
-
-
 
 // ██╗   ██╗██████╗ ██████╗  █████╗ ████████╗███████╗
 // ██║   ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔════╝
@@ -267,12 +248,6 @@ describe('testing add users', () => {
 // ██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██╔══╝
 // ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ███████╗
 //  ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝
-
-
-
-
-
-
 
 describe('testing update users', () => {
 
@@ -290,10 +265,6 @@ describe('testing update users', () => {
     done();
   });
 });
-
-
-
-
 
 // ██╗   ██╗███████╗███████╗██████╗
 // ██║   ██║██╔════╝██╔════╝██╔══██╗
@@ -315,10 +286,6 @@ describe('testing update users', () => {
 // ██║   ██║██╔══╝     ██║
 // ╚██████╔╝███████╗   ██║
 //  ╚═════╝ ╚══════╝   ╚═╝
-
-
-
-
 
 describe('testing bathingspots get for a specific user', () => {
 
@@ -366,8 +333,8 @@ describe('testing bathingspots post for a specific user', () => {
     const id = user.id;
     const spots = user.bathingspots;
     const res = await request(app).post(`/api/v1/users/${id}/bathingspots`).send({
-      name: 'Sweetwater',
       isPublic: true,
+      name: 'Sweetwater',
     }).set('Accept', 'application/json');
     const againUser: User | undefined = await userRepo.findOne(id, { relations: ['bathingspots'] });
 
@@ -382,7 +349,6 @@ describe('testing bathingspots post for a specific user', () => {
 
 });
 
-
 // ██████╗ ██╗   ██╗████████╗
 // ██╔══██╗██║   ██║╚══██╔══╝
 // ██████╔╝██║   ██║   ██║
@@ -390,9 +356,7 @@ describe('testing bathingspots post for a specific user', () => {
 // ██║     ╚██████╔╝   ██║
 // ╚═╝      ╚═════╝    ╚═╝
 
-
 describe('testing bathingspots update (put) for a specific user', () => {
-
 
   test('should change the name of a bathingspot', async (done) => {
     const userRepo = getRepository(User);
@@ -401,13 +365,13 @@ describe('testing bathingspots update (put) for a specific user', () => {
     // const usersAndSpots = await userRepo.createQueryBuilder('user')
     // .leftJoinAndSelect('user.bathingspots', 'bathingspots')
     //   .getMany();
-    const usersWithSpots = usersAndSpots.filter(user => user.bathingspots.length > 0);
+    const usersWithSpots = usersAndSpots.filter(_user => _user.bathingspots.length > 0);
 
     // console.log(usersWithSpots);
     const user = usersWithSpots[0];
     const spot = user.bathingspots[0];
     const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
-      name: 'watering hole'
+      name: 'watering hole',
     }).set('Accept', 'application/json');
     const spotAgain: Bathingspot | undefined = await spotRepo.findOne(spot.id);
     expect(res.status).toBe(201);
@@ -421,11 +385,11 @@ describe('testing bathingspots update (put) for a specific user', () => {
   test('should reject the change due to wrong fields but present an example', async (done) => {
     const userRepo = getRepository(User);
     // const spotRepo = getRepository(Bathingspot);
-    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] })
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
     // const usersAndSpots = await userRepo.createQueryBuilder('user')
     // .leftJoinAndSelect('user.bathingspots', 'bathingspots')
     //   .getMany();
-    const usersWithSpots = usersAndSpots.filter(user => user.bathingspots.length > 0);
+    const usersWithSpots = usersAndSpots.filter(_user => _user.bathingspots.length > 0);
 
     // console.log(usersWithSpots);
     const user = usersWithSpots[0];
@@ -438,7 +402,6 @@ describe('testing bathingspots update (put) for a specific user', () => {
     done();
   });
 });
-
 
 // ██████╗ ███████╗██╗     ███████╗████████╗███████╗
 // ██╔══██╗██╔════╝██║     ██╔════╝╚══██╔══╝██╔════╝
@@ -454,12 +417,11 @@ describe('testing bathingspots update (put) for a specific user', () => {
 // ███████║██║     ╚██████╔╝   ██║
 // ╚══════╝╚═╝      ╚═════╝    ╚═╝
 
-
 describe('testing spot deletion', () => {
-  test('should fail due wrong spot id', async(done)=>{
+  test('should fail due wrong spot id', async (done) => {
     const userRepo = getRepository(User);
 
-    const usersWithSpots = await userRepo.find({relations:['bathingspots']});
+    const usersWithSpots = await userRepo.find({ relations: ['bathingspots'] });
     const user = usersWithSpots[0];
     // const publicSpots = user.bathingspots.filter(spot => spot.isPublic === true);
     // const spot = publicSpots[0];
@@ -471,17 +433,18 @@ describe('testing spot deletion', () => {
     expect(res.body.data).toBe(undefined);
     done();
 
-
   });
 
-  test('should fail due to missing force', async(done)=>{
+  test('should fail due to missing force', async (done) => {
     const userRepo = getRepository(User);
 
-    const usersWithSpots = await userRepo.find({relations:['bathingspots']});
+    const usersWithSpots = await userRepo.find({ relations: ['bathingspots'] });
     const user = usersWithSpots[0];
-    const publicSpots = user.bathingspots.filter(spot => spot.isPublic === true);
+    const publicSpots = user.bathingspots.filter(_spot => _spot.isPublic === true);
     const spot = publicSpots[0];
-    const res = await request(app).delete(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({}).set('Accept', 'application/json');
+    const res = await request(app).delete(
+      `/api/v1/users/${user.id}/bathingspots/${spot.id}`,
+      ).send({}).set('Accept', 'application/json');
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
     expect(res.body.message).toEqual(SUGGESTIONS.missingFields);
@@ -489,34 +452,33 @@ describe('testing spot deletion', () => {
     expect(res.body.data.force).toBe(true);
     done();
 
-
   });
   test('should delete public bathingspot by using force', async (done) => {
     const userRepo = getRepository(User);
     const spotRepo = getRepository(Bathingspot);
 
     const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
-    const id = usersAndSpots[usersAndSpots.length -1].id;
+    const id = usersAndSpots[usersAndSpots.length - 1].id;
     // create one for deletion
     const resCreation = await request(app).post(`/api/v1/users/${id}/bathingspots`).send({
-      name: 'Sweetwater',
       isPublic: true,
+      name: 'Sweetwater',
     }).set('Accept', 'application/json');
 
     const spotsBefore = await spotRepo.find();
     const spotNumBefore = spotsBefore.length;
 
-    const res = await request(app).delete(`/api/v1/users/${id}/bathingspots/${resCreation.body.data[0].id}`).send({force:true});
+    const res = await request(app).delete(
+      `/api/v1/users/${id}/bathingspots/${resCreation.body.data[0].id}`,
+      ).send({ force: true });
     const spotsAfter = await spotRepo.find();
     const spotNumAfter = spotsAfter.length;
     expect(res.status).toBe(200);
     expect(res.body.message).toEqual(SUCCESS.successDeleteSpot200);
-    expect(spotNumAfter).toBe(spotNumBefore -1);
+    expect(spotNumAfter).toBe(spotNumBefore - 1);
     done();
   });
 });
-
-
 
 // ███████╗██████╗  ██████╗ ████████╗███████╗
 // ██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝
@@ -524,10 +486,6 @@ describe('testing spot deletion', () => {
 // ╚════██║██╔═══╝ ██║   ██║   ██║   ╚════██║
 // ███████║██║     ╚██████╔╝   ██║   ███████║
 // ╚══════╝╚═╝      ╚═════╝    ╚═╝   ╚══════╝
-
-
-
-
 
 describe('testing get bathingspots', () => {
 
@@ -565,28 +523,12 @@ describe('testing get bathingspots', () => {
   });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
 // ██████╗ ███████╗██╗     ███████╗████████╗███████╗
 // ██╔══██╗██╔════╝██║     ██╔════╝╚══██╔══╝██╔════╝
 // ██║  ██║█████╗  ██║     █████╗     ██║   █████╗
 // ██║  ██║██╔══╝  ██║     ██╔══╝     ██║   ██╔══╝
 // ██████╔╝███████╗███████╗███████╗   ██║   ███████╗
 // ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚══════╝
-
-
-
-
 
 describe('testing delete users', () => {
   test('delete users', async (done) => {
@@ -617,36 +559,32 @@ describe('testing delete users', () => {
   });
 });
 
-
-
-
-
-describe('testing errors on repo helpers', ()=>{
-  it('should be catch error due to missing db', (done)=>{
-    getUserWithRelations(10000,[]).then(res =>{
+describe('testing errors on repo helpers', () => {
+  it('should be catch error due to missing db', (done) => {
+    getUserWithRelations(10000, []).then(res => {
       expect(res).toBe(undefined);
       done();
-    }).catch(err =>{
+    }).catch(err => {
       expect(err.message).toEqual('Connection "default" was not found.');
       done();
     });
   });
 
-  it('should be catch error due to missing db', (done)=>{
-    getBathingspotById(10000).then(res =>{
+  it('should be catch error due to missing db', (done) => {
+    getBathingspotById(10000).then(res => {
       expect(res).toBe(undefined);
       done();
-    }).catch(err =>{
+    }).catch(err => {
       expect(err.message).toEqual('Connection "default" was not found.');
       done();
     });
   });
 
-  it('should be catch error due to missing db', (done)=>{
-    getSpotByUserAndId(10000,10000).then(res =>{
+  it('should be catch error due to missing db', (done) => {
+    getSpotByUserAndId(10000, 10000).then(res => {
       expect(res).toBe(undefined);
       done();
-    }).catch(err =>{
+    }).catch(err => {
       expect(err.message).toEqual('Connection "default" was not found.');
       done();
     });

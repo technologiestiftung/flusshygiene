@@ -5,12 +5,12 @@
     ],
     "jsRules": {},
     "rules": {
-      "no-console":true,
+      "no-console":false,
         "semicolon":true,
         "quotemark":false,
         "await-promise": true,
         "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
-        "arrow-parens":false,
+        "arrow-parens":false
     },
     "rulesDirectory": []
 }

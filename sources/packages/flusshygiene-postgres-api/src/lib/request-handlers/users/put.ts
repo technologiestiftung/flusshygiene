@@ -1,9 +1,7 @@
-import { putResponse, HttpCodes } from '../../types-interfaces';
-import { responderMissingId, responderWrongId, responderSuccessCreated, errorResponse } from '../responders';
-import { User } from '../../../orm/entity/User';
 import { getRepository } from 'typeorm';
-
-
+import { User } from '../../../orm/entity/User';
+import { HttpCodes, putResponse } from '../../types-interfaces';
+import { errorResponse, responderMissingId, responderSuccessCreated, responderWrongId } from '../responders';
 
 // ██████╗ ██╗   ██╗████████╗
 // ██╔══██╗██║   ██║╚══██╔══╝
@@ -11,9 +9,6 @@ import { getRepository } from 'typeorm';
 // ██╔═══╝ ██║   ██║   ██║
 // ██║     ╚██████╔╝   ██║
 // ╚═╝      ╚═════╝    ╚═╝
-
-
-
 
 export const updateUser: putResponse = async (request, response) => {
   try {

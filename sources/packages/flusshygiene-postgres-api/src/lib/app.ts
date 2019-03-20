@@ -1,15 +1,15 @@
-import { Bathingspot } from './../orm/entity/Bathingspot';
 import cors from 'cors';
 import errorHandler from 'errorhandler';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import routes from './routes';
 import {createConnection, getRepository} from 'typeorm';
-import { User } from '../orm/entity/User';
-import { UserRole, Regions } from './types-interfaces';
 import { Region } from '../orm/entity/Region';
+import { User } from '../orm/entity/User';
 import { createProtectedUser } from '../orm/fixtures/create-protected-user';
+import { Bathingspot } from './../orm/entity/Bathingspot';
+import routes from './routes';
+import { Regions, UserRole } from './types-interfaces';
 
 const app = express();
 // let connection: Connection;
@@ -23,15 +23,15 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-(async ()=>{
-  try{
+(async () => {
+  try {
     const connection = await createConnection();
     // const db = await connection.connect();
     // process.stdout.write(db.name);
-    let databaseEmpty:boolean = true;
+    let databaseEmpty: boolean = true;
     const users = await getRepository(User).find();
     process.stdout.write(`${users.length}\n`);
-    if(users.length !== 0){
+    if (users.length !== 0) {
       databaseEmpty = false;
     }
 
@@ -44,7 +44,7 @@ app.use(express.urlencoded({extended: true}));
       await connection.manager.save(createProtectedUser());
 
       // generate some default data here
-      let user = new User();
+      const user = new User();
       user.firstName = 'James';
       user.lastName = 'Bond';
       user.role = UserRole.creator;
@@ -61,19 +61,19 @@ app.use(express.urlencoded({extended: true}));
       await connection.manager.save(user);
 
     }
-    if(databaseEmpty === true && process.env.NODE_ENV === 'production'){
+    if (databaseEmpty === true && process.env.NODE_ENV === 'production') {
       // uh oh we are in production
-      let protectedUser = await getRepository(User).find({where:{
-        protected: true
+      const protectedUser = await getRepository(User).find({where: {
+        protected: true,
       }});
-      if(protectedUser === undefined){
+      if (protectedUser === undefined) {
         // uh oh no protected user,
       await connection.manager.save(createProtectedUser());
 
       }
 
     }
-  }catch(error){
+  } catch (error) {
     throw error;
   }
 })();

@@ -1,23 +1,24 @@
-import { Bathingspot } from './../../orm/entity/Bathingspot';
-import { User } from '../../orm/entity/User';
-
 import { getCustomRepository } from 'typeorm';
-
-import { UserRepository } from './UserRepository';
+import { User } from '../../orm/entity/User';
+import { Bathingspot } from './../../orm/entity/Bathingspot';
 import { BathingspotRepository } from './BathingspotRepository';
+import { UserRepository } from './UserRepository';
 
-export const getUserWithRelations: (userId: number, relations: string[]) => Promise<User | undefined> = async (userId, relations) => {
+type GetByIds = (userId: number, spotId: number) => Promise<Bathingspot | undefined>;
+type GetById = (spotId: number) => Promise<Bathingspot | undefined>;
+type GetByIdWithRelations = (userId: number, relations: string[]) => Promise<User | undefined>;
+
+export const getUserWithRelations: GetByIdWithRelations = async (userId, relations) => {
   const userRepo = getCustomRepository(UserRepository);
   try {
-    const user = await userRepo.findByIdWithRelations(userId, relations);// await getRepository(User)
+    const user = await userRepo.findByIdWithRelations(userId, relations); // await getRepository(User)
     return user;
   } catch (e) {
     throw e;
   }
-}
+};
 
-
-export const getBathingspotById: (spotId: number) => Promise<Bathingspot | undefined> = async (spotId: number) => {
+export const getBathingspotById: GetById = async (spotId: number) => {
   const spotRepo = getCustomRepository(BathingspotRepository);
   try {
     const spot = await spotRepo.findById(spotId);
@@ -25,9 +26,7 @@ export const getBathingspotById: (spotId: number) => Promise<Bathingspot | undef
   } catch (e) {
     throw e;
   }
-}
-
-type GetByIds = (userId: number, spotId: number) => Promise<Bathingspot | undefined>;
+};
 
 export const getSpotByUserAndId: GetByIds = async (userId, spotId) => {
   const spotRepo = getCustomRepository(BathingspotRepository);
@@ -37,4 +36,4 @@ export const getSpotByUserAndId: GetByIds = async (userId, spotId) => {
   } catch (e) {
     throw e;
   }
-}
+};

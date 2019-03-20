@@ -1,12 +1,12 @@
 export {
   getUser,
-  getUsers
+  getUsers,
 } from './get';
 
 export {
   addUser,
-} from './post'
+} from './post';
 
-export { updateUser } from './put'
+export { updateUser } from './put';
 
-export { deleteUser } from './delete'
+export { deleteUser } from './delete';
