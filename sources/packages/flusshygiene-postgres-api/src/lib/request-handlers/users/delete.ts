@@ -49,6 +49,4 @@ export const deleteUser: deleteResponse = async (request, response) => {
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }
-
 };
-

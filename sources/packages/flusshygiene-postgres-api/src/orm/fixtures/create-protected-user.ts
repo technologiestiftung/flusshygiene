@@ -1,8 +1,8 @@
-import { User } from '../entity/User';
 import { UserRole } from '../../lib/types-interfaces';
+import { User } from '../entity/User';
 
 export const createProtectedUser = (): User => {
-let protectedUser = new User();
+const protectedUser = new User();
 protectedUser.firstName = 'Conan';
 protectedUser.lastName = 'the Barbarian';
 protectedUser.role = UserRole.admin;

@@ -1,8 +1,9 @@
 import { IsEmail, IsEnum } from 'class-validator';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRole } from './../../lib/types-interfaces';
 import { Bathingspot } from './Bathingspot';
 import { Questionaire } from './Questionaire';
+import { Region } from './Region';
 @Entity()
 export class User {
 
@@ -34,6 +35,19 @@ export class User {
   })
   public bathingspots!: Bathingspot[];
 
-  // @ManyToMany
-  // Regions
+  @ManyToMany(_type => Region, region => region.users, {
+    eager: true,
+  })
+  public regions!: Region[];
+
+  // listenres
+  // @BeforeInsert()
+  // public addRegionsToAdmin() {
+  //   if (this.role === UserRole.admin) {
+  //     getConnection().getRepository(Region).find().then(regions => {
+  //       console.log(regions);
+  //       this.regions = regions;
+  //     }).catch(err => {throw err; });
+  //   }
+  // }
 }

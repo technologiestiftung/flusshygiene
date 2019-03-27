@@ -1,25 +1,25 @@
 {
-  "type": "postgres",
-  "host": "localhost",
-  "port": 5432,
-  "username": "postgres",
-  "password": "postgres_password",
-  "database": "postgres",
-  "synchronize": true,
-  "dropSchema": true,
-  "logging": false,
-  "entities": [
-     "dist/orm/entity/**/*.js"
-  ],
-  "migrations": [
-     "dist/orm/migration/**/*.js"
-  ],
-  "subscribers": [
-     "dist/orm/subscriber/**/*.js"
-  ],
-  "cli": {
-     "entitiesDir": "src/orm/entity",
-     "migrationsDir": "src/orm/migration",
-     "subscribersDir": "src/orm/subscriber"
-  }
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "postgres_password",
+    "database": "postgres",
+    "synchronize": true,
+    "dropSchema": true,
+    "logging": false,
+    "entities": [
+        "dist/orm/entity/**/*.js"
+    ],
+    "migrations": [
+        "dist/orm/migration/**/*.js"
+    ],
+    "subscribers": [
+        "dist/orm/subscriber/**/*.js"
+    ],
+    "cli": {
+        "entitiesDir": "src/orm/entity",
+        "migrationsDir": "src/orm/migration",
+        "subscribersDir": "src/orm/subscriber"
+    }
 }

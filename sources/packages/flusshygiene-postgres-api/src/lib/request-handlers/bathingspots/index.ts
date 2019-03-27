@@ -1,1 +1,1 @@
-export { getBathingspots, getBathingspot } from './get';
+export { getBathingspots, getSingleBathingspot } from './get';

@@ -1,17 +1,23 @@
 import { getCustomRepository } from 'typeorm';
 import { isObject } from 'util';
 import { Bathingspot } from '../../../../orm/entity/Bathingspot';
+import { Region } from '../../../../orm/entity/Region';
+import { SUCCESS } from '../../../messages';
+import { RegionRepository } from '../../../repositories/RegionRepository';
 import { HttpCodes, IObject, putResponse } from '../../../types-interfaces';
 import { getEntityFields } from '../../../utils/get-entity-fields';
 import { getMatchingValues } from '../../../utils/get-matching-values-from-request';
 import { BathingspotRepository } from './../../../repositories/BathingspotRepository';
-import { getBathingspotById, getSpotByUserAndId } from './../../../repositories/custom-repo-helpers';
-import { errorResponse, responder,
+import { getSpotByUserAndId } from './../../../repositories/custom-repo-helpers';
+import {
+  errorResponse, responder,
   responderMissingBodyValue,
   responderWrongId,
-  successResponse } from './../../responders';
+  successResponse,
+} from './../../responders';
 
 const updateFields = (spot: Bathingspot, providedValues: IObject) => {
+  // const table = [[]];
   // curently silently fails needs some smarter way to set values on entities
   if (isObject(providedValues.apiEndpoints)) {
     spot.apiEndpoints = providedValues.apiEndpoints; // 'json' ]
@@ -46,33 +52,32 @@ const updateFields = (spot: Bathingspot, providedValues: IObject) => {
 
 export const updateBathingspotOfUser: putResponse = async (request, response) => {
   const spotRepo = getCustomRepository(BathingspotRepository);
+  const regionRepo = getCustomRepository(RegionRepository);
   try {
-    const example = await getEntityFields('Bathingspot');
-
-    // console.log('params user:spot', request.params.userId, ':', request.params.spotId);
+    const filteredPropNames = await getEntityFields('Bathingspot');
     let spotFromUser = await getSpotByUserAndId(request.params.userId, request.params.spotId);
-    // console.log('spot from user', spotFromUser);
-
-    if (spotFromUser === undefined) {
-      responderWrongId(response);
-    } else {
-      const filteredPropNames = await getEntityFields('Bathingspot');
+    if (spotFromUser instanceof Bathingspot) {
       const providedValues = getMatchingValues(request.body, filteredPropNames.props);
+      if (Object.keys(providedValues).length > 0) {
+        if (providedValues.hasOwnProperty('region') === true) {
+          const region = await regionRepo.findByName(providedValues.region);
+          if (region instanceof Region) {
+            spotFromUser.region = region;
+          } else {
+            throw new Error('region is undefined');
+          }
+        }
+        spotFromUser = updateFields(spotFromUser, providedValues);
+        const res = await spotRepo.save(spotFromUser);
+        responder(response, HttpCodes.successCreated, successResponse(SUCCESS.success201, [res]));
+      } else {
+        responderMissingBodyValue(response, filteredPropNames);
+      }
+    } else {
+      responderWrongId(response);
 
-      if (Object.keys(providedValues).length === 0) {
-        responderMissingBodyValue(response, example);
-      }
-      spotFromUser = updateFields(spotFromUser, providedValues);
-      await spotRepo.save(spotFromUser);
-      const spotAgain = await getBathingspotById(spotFromUser.id);
-      if (spotAgain === undefined) {
-        throw new Error('spot disappeared');
-      }
-      // const res = spotAgain === undefined ? [] : [spotAgain];
-      responder(response, HttpCodes.successCreated, successResponse('Bathingspot updated', [spotAgain]));
     }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }
-  // throw new Error(`not yet implemented req ${request}, ${response}`);
 };

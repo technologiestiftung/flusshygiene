@@ -45,7 +45,6 @@ export class Bathingspot {
 
   @OneToMany(_type => BathingspotRawModelData, (rawModelData) => rawModelData.bathingspot)
   public rawModelData!: BathingspotRawModelData[];
-  @ManyToOne(_type => Region, region => region.bathingspots)
+  @ManyToOne(_type => Region, region => region.bathingspots, {eager: true, onDelete: 'SET NULL'})
   public region!: Region;
 }
-

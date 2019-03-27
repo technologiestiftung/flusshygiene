@@ -1,4 +1,5 @@
 import { Request, Response} from 'express';
+import { Region } from '../orm/entity/Region';
 import { User } from '../orm/entity/User';
 import { Bathingspot } from './../orm/entity/Bathingspot';
 
@@ -21,6 +22,13 @@ export interface IObject {
 }
 
 /**
+ * listz entry interface for Regions getRegionsList
+ * e.g. { name: 'berlin'}
+ */
+export interface IRegionListEntry {
+  name: string;
+}
+/**
  *
  */
 export type entityFields = (type: string) => Promise<IFilteredEntityPropsResoponse>;
@@ -34,20 +42,60 @@ export type deleteResponse = (request: Request, response: Response) => void;
 export type Responder = (
   response: Response,
   statusCode: number,
-  payload: IDefaultResponsePayload | User[] | Bathingspot[]) => void;
+  payload: IDefaultResponsePayload | User[] | Bathingspot[] | Region []) => void;
 
-export type SuccessResponder = (message?: string, data?: User | User[] | Bathingspot[]) => IDefaultResponsePayload;
+export type SuccessResponder = (
+  message?: string,
+  data?: User | User[] | Bathingspot[] | Region[],
+  ) => IDefaultResponsePayload;
+
+export type SuggestionResponder = (
+    message?: string,
+    data?: object,
+    ) => IDefaultResponsePayload;
+
+export type ResponderSuccessCreated = (
+  response: Response,
+  message: string,
+  data?: [User],
+  ) => void;
+
+export type ResponderSuccess = (
+  response: Response,
+  message: string,
+  ) => void;
 
 export type ErrorResponder = (error: Error) => IDefaultResponsePayload;
-export type SuggestionResponder = (message?: string, data?: object) => IDefaultResponsePayload;
 
 export type PayloadBuilder = (success: boolean, message?: string, data?: any) => IDefaultResponsePayload;
 
-// custom-repo-helpers.ts
+export type ResponderMissingBodyValue = (
+  response: Response,
+  example: object,
+  ) => void;
 
+// User put.ts
+
+export type RegionExsists = (regions: string[], region: string| undefined) => boolean;
+
+// custom-repo-helpers.ts
+// export type ResponderMissingOrWrongId = (response: Response) => void;
+export type ResponderMissingOrWrongIdOrAuth = (response: Response) => void;
 export type GetByIds = (userId: number, spotId: number) => Promise<Bathingspot | undefined>;
 export type GetById = (spotId: number) => Promise<Bathingspot | undefined>;
 export type GetByIdWithRelations = (userId: number, relations: string[]) => Promise<User | undefined>;
+
+// utils/get-properties-values.ts
+
+/**
+ * Get values in a generic vay usage
+ *
+ * `const hasForce = getPropsValueGeneric<boolean>(request.body, 'force');`
+ *
+ * @param obj theobjrct to inspect
+ * @param key the key to lookfor
+ */
+export type GetPropsValueGeneric = <T>(obj: any, key: string) => T;
 
 export enum UserRole {
   admin = 'admin',
@@ -68,7 +116,9 @@ export enum HttpCodes {
   'internalError' = 500,
 }
 
-export enum Regions {
+export enum DefaultRegions {
   berlinbrandenburg = 'berlinbrandenburg',
+  berlin = 'berlin',
+  schleswigholstein = 'schleswigholstein',
+  niedersachsen = 'niedersachsen',
 }
-

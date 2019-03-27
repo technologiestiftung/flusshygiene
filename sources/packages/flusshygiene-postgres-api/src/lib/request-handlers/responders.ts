@@ -1,11 +1,13 @@
-import { Response } from 'express';
-import { User } from '../../orm/entity/User';
 import { ERRORS, SUGGESTIONS } from '../messages';
 import {
   ErrorResponder,
   HttpCodes,
   PayloadBuilder,
   Responder,
+  ResponderMissingBodyValue,
+  ResponderMissingOrWrongIdOrAuth,
+  ResponderSuccess,
+  ResponderSuccessCreated,
   SuccessResponder,
   SuggestionResponder,
 } from '../types-interfaces';
@@ -23,8 +25,20 @@ const buildPayload: PayloadBuilder = (success, message, data) => {
     success,
   };
 };
-
-export const userIDErrorResponse = () => buildPayload(false, ERRORS.badRequestMissingOrWrongID404, undefined);
+/**
+ * a error Response with a wrong user ID 404
+ */
+export const userIDErrorResponse = () => buildPayload(
+  false,
+  ERRORS.badRequestMissingOrWrongID404,
+  undefined);
+/**
+ * a error Response with a wrong user ID 404
+ */
+export const userNotAuthorizedErrorResponse = () => buildPayload(
+  false,
+  ERRORS.badRequestUserNotAuthorized,
+  undefined);
 /**
  * Builds an error response to send out
  *
@@ -43,14 +57,20 @@ export const errorResponse: ErrorResponder = (error) => {
  * @param message the message to send to the response
  * @param data the example suggestion data
  */
-export const suggestionResponse: SuggestionResponder = (message, data) => buildPayload(false, message, data);
+export const suggestionResponse: SuggestionResponder = (
+  message,
+  data) => buildPayload(false, message, data);
 
 /**
  * Builds a success message normaly 200 or 201
  * @param message
  * @param data
  */
-export const successResponse: SuccessResponder = (message, data) => buildPayload(true, message, data);
+export const successResponse: SuccessResponder = (
+  message,
+  data,
+) => buildPayload(true, message, data);
+
 /**
  * The default responder for json
  * @param response
@@ -66,18 +86,29 @@ export const responder: Responder = (response, statusCode, payload) => {
  * @param response
  * @param example
  */
-export const responderMissingBodyValue = (response: Response, example: object) => {
-  return responder(response, HttpCodes.badRequestNotFound, suggestionResponse(SUGGESTIONS.missingFields, example));
-};
+export const responderMissingBodyValue: ResponderMissingBodyValue = (
+  response,
+  example,
+) => responder(response,
+  HttpCodes.badRequestNotFound,
+  suggestionResponse(
+    SUGGESTIONS.missingFields,
+    example,
+  ));
 
 /**
  * respoinder for success messages 200
  * @param response
  * @param message
  */
-export const responderSuccess = (response: Response, message: string) => {
-  return responder(response, HttpCodes.success, successResponse(message));
-};
+export const responderSuccess: ResponderSuccess = (
+  response,
+  message,
+) => responder(
+  response,
+  HttpCodes.success,
+  successResponse(message),
+);
 
 /**
  * Responder for created success 201
@@ -85,22 +116,43 @@ export const responderSuccess = (response: Response, message: string) => {
  * @param message
  * @param data
  */
-export const responderSuccessCreated = (response: Response, message: string, data?: User) => {
-  return responder(response, HttpCodes.successCreated, successResponse(message, data));
-};
+export const responderSuccessCreated: ResponderSuccessCreated = (
+  response,
+  message,
+  data,
+) => responder(
+  response,
+  HttpCodes.successCreated,
+  successResponse(
+    message,
+    data));
 
-/**
- * responder for missing ids. This actually should never happen 400
- * @param response
- */
-export const responderMissingId = (response: Response) => {
-  return responder(response, HttpCodes.badRequest, userIDErrorResponse());
-};
+// /**
+//  * responder for missing ids. This actually should never happen 400
+//  * @param response
+//  */
+// export const responderMissingId: ResponderMissingOrWrongIdOrAuth = (
+//   response,
+// ) => responder(
+//   response,
+//   HttpCodes.badRequest,
+//   userIDErrorResponse(),
+// );
 
 /**
  * responses for wrong ids 404
  * @param response
  */
-export const responderWrongId = (response: Response) => {
-  return responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());
-};
+export const responderWrongId: ResponderMissingOrWrongIdOrAuth = (
+  response,
+) => responder(
+  response,
+  HttpCodes.badRequestNotFound,
+  userIDErrorResponse(),
+);
+
+export const responderNotAuthorized: ResponderMissingOrWrongIdOrAuth = (response) => responder(
+  response,
+  HttpCodes.badRequestUnAuthorized,
+  userNotAuthorizedErrorResponse(),
+  );

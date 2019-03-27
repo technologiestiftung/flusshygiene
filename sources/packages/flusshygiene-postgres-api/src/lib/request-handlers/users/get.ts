@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { User } from '../../../orm/entity/User';
 import { SUCCESS } from '../../messages';
 import { getResponse, HttpCodes } from '../../types-interfaces';
-import { errorResponse, responder, responderMissingId, responderWrongId, successResponse } from '../responders';
+import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
 
 //  ██████╗ ███████╗████████╗
 // ██╔════╝ ██╔════╝╚══██╔══╝
@@ -33,10 +33,7 @@ export const getUsers: getResponse = async (_request, response) => {
 export const getUser: getResponse = async (request, response) => {
   let user: User | undefined;
   try {
-    if (request.params.userId === undefined) {
-      responderMissingId(response);
-      // throw new Error('mssing id paramter');
-    }
+
     user = await getRepository(User).findOne(request.params.userId);
     if (user === undefined) {
       responderWrongId(response);
