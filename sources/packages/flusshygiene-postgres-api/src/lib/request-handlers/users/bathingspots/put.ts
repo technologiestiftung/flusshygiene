@@ -1,10 +1,9 @@
 import { getCustomRepository } from 'typeorm';
-import { isObject } from 'util';
 import { Bathingspot } from '../../../../orm/entity/Bathingspot';
 import { Region } from '../../../../orm/entity/Region';
 import { SUCCESS } from '../../../messages';
 import { RegionRepository } from '../../../repositories/RegionRepository';
-import { HttpCodes, IObject, putResponse } from '../../../types-interfaces';
+import { HttpCodes, putResponse } from '../../../types-interfaces';
 import {createSpotWithValues} from '../../../utils/bathingspot-helpers';
 import { getEntityFields } from '../../../utils/get-entity-fields';
 import { getMatchingValues } from '../../../utils/get-matching-values-from-request';
@@ -16,40 +15,6 @@ import {
   responderWrongId,
   successResponse,
 } from './../../responders';
-
-const updateFields = (spot: Bathingspot, providedValues: IObject) => {
-  // const table = [[]];
-  // curently silently fails needs some smarter way to set values on entities
-  if (isObject(providedValues.apiEndpoints)) {
-    spot.apiEndpoints = providedValues.apiEndpoints; // 'json' ]
-  }// 'json' ]
-  if (isObject(providedValues.state)) {
-    spot.state = providedValues.state; // 'json' ]
-
-  }// 'json' ]
-  if (isObject(providedValues.location)) {
-    spot.location = providedValues.location; // 'json' ]
-
-  }// 'json' ]
-  if (typeof providedValues.latitude === 'number') {
-    spot.latitude = providedValues.latitude; // 'float8' ]
-
-  }// 'float8' ]
-  if (typeof providedValues.longitude === 'number') {
-    spot.longitude = providedValues.longitude; // 'float8' ]
-
-  }// 'float8' ]
-  if (typeof providedValues.elevation === 'number') {
-    spot.elevation = providedValues.elevation; // 'float8' ]
-  }// 'float8' ]
-  if (typeof providedValues.isPublic === 'boolean') {
-    spot.isPublic = providedValues.isPublic;
-  }
-  if (typeof providedValues.name === 'string') {
-    spot.name = providedValues.name;
-  }
-  return spot;
-};
 
 export const updateBathingspotOfUser: putResponse = async (request, response) => {
   const spotRepo = getCustomRepository(BathingspotRepository);

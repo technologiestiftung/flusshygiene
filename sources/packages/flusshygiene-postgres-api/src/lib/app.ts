@@ -88,7 +88,7 @@ app.use(express.urlencoded({ extended: true }));
       });
       if (protectedUser === undefined) {
         // uh oh no protected user,
-        const newProtectedUser = createProtectedUser();
+        const newProtectedUser = createUser();
         if (newProtectedUser !== undefined) {
 
           await connection.manager.save(newProtectedUser);

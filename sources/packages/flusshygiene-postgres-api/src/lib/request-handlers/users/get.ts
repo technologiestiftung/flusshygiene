@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { User } from '../../../orm/entity/User';
 import { SUCCESS } from '../../messages';
 import { getResponse, HttpCodes } from '../../types-interfaces';
-import { errorResponse, responder, responderWrongId, responderWrongIdOrSuccess, successResponse } from '../responders';
+import { errorResponse, responder, responderWrongIdOrSuccess, successResponse } from '../responders';
 
 //  ██████╗ ███████╗████████╗
 // ██╔════╝ ██╔════╝╚══██╔══╝

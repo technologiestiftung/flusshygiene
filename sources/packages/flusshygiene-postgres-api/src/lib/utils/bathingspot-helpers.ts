@@ -1,17 +1,10 @@
-import { IObject } from '../types-interfaces';
-
-import { Bathingspot } from '../../orm/entity/Bathingspot';
-
 import { getCustomRepository } from 'typeorm';
-
-import { BathingspotRepository } from '../repositories/BathingspotRepository';
-
-import { isObject } from './is-object';
-
+import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { Region } from '../../orm/entity/Region';
-
-import { resolve } from 'url';
+import { BathingspotRepository } from '../repositories/BathingspotRepository';
 import { RegionRepository } from '../repositories/RegionRepository';
+import { IObject } from '../types-interfaces';
+import { isObject } from './is-object';
 
 const criteria = [
   { type: 'object', key: 'apiEndpoints' },
