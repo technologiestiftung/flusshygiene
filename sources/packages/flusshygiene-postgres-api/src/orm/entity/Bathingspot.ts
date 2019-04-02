@@ -1,3 +1,4 @@
+// import {Point, Polygon} from 'geojson';
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import { BathingspotModel } from './BathingspotModel';
 import { BathingspotPrediction } from './BathingspotPrediction';
@@ -23,9 +24,21 @@ export class Bathingspot {
   @Column({type: 'json', nullable: true})
   public state!: string;
 
-  // should be geojson
-  @Column({type: 'json', nullable: true})
-  public location!: string;
+  // // should be geojson
+  @Column({
+    nullable: true,
+    spatialFeatureType: 'Point',
+    srid: 4326,
+    type: 'geometry',
+  })
+  public location!: object;
+  @Column({
+    nullable: true,
+    spatialFeatureType: 'Polygon',
+    srid: 4326,
+    type: 'geometry',
+  })
+  public area!: object;
 
   @Column({type: 'float8', nullable: true})
   public latitude!: number;

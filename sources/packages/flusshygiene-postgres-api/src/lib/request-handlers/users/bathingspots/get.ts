@@ -5,6 +5,7 @@ import { RegionRepository } from '../../../repositories/RegionRepository';
 import { getResponse, HttpCodes } from '../../../types-interfaces';
 import { errorResponse, responder, responderWrongId, successResponse } from '../../responders';
 import { BathingspotRepository } from './../../../repositories/BathingspotRepository';
+import { responderWrongIdOrSuccess } from './../../responders';
 /**
  * Gets all the bathingspots of the user
  * @param request
@@ -33,11 +34,12 @@ export const getUserBathingspots: getResponse = async (request, response) => {
 export const getOneUserBathingspotById: getResponse = async (request, response) => {
   try {
     const spotFromUser = await getSpotByUserAndId(request.params.userId, request.params.spotId);
-    if (spotFromUser === undefined) {
-      responderWrongId(response);
-    } else {
-      responder(response, HttpCodes.success, successResponse(SUCCESS.success200, [spotFromUser]));
-    }
+    responderWrongIdOrSuccess(spotFromUser, response);
+    // if (spotFromUser === undefined) {
+    //   responderWrongId(response);
+    // } else {
+    //   responder(response, HttpCodes.success, successResponse(SUCCESS.success200, [spotFromUser]));
+    // }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }

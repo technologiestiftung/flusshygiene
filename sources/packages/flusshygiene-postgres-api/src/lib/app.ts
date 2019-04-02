@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import { createConnection, getRepository } from 'typeorm';
 import { Region } from '../orm/entity/Region';
 import { User } from '../orm/entity/User';
-import { createProtectedUser } from '../orm/fixtures/create-protected-user';
+import { createUser } from '../orm/fixtures/create-test-user';
 import { Bathingspot } from './../orm/entity/Bathingspot';
 import routes from './routes';
 import { DefaultRegions, UserRole } from './types-interfaces';
@@ -41,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
       // it is protected and cannot be deletet through the API easily
       // it is for stashing data of deleted users
       // because what should we do when we have to delete a user but maintain the bathingspots?
-      await connection.manager.save(createProtectedUser());
+      await connection.manager.save(createUser());
 
       // generate some default data here
       const userCreator = new User();

@@ -1,3 +1,4 @@
+// import { Polygon } from 'geojson';
 import { BeforeRemove, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Bathingspot } from './Bathingspot';
 import { User } from './User';
@@ -7,19 +8,27 @@ export class Region {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @Column({nullable: false})
+  @Column({ nullable: false })
   public displayName!: string;
 
   // if he can create badegewässer/bathing spot
-  @Column({type: 'text', nullable: false})
+  @Column({ type: 'text', nullable: false })
   public name!: string;
+
+  @Column({
+    nullable: true,
+    spatialFeatureType: 'Polygon',
+    srid: 4326,
+    type: 'geometry',
+  })
+  public area!: object;
 
   @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user, {
     cascade: true, onDelete: 'SET NULL',
   })
   public bathingspots!: Bathingspot[];
 
-  @ManyToMany(_type => User, user => user.regions, {cascade: true})
+  @ManyToMany(_type => User, user => user.regions, { cascade: true })
   @JoinTable()
   public users!: User[];
 
@@ -27,7 +36,7 @@ export class Region {
   public makeSpotsPrivate() {
     this.bathingspots.forEach((spot) => {
       spot.isPublic = false;
-      console.log(spot);
+      // console.log(spot);
     });
   }
 }

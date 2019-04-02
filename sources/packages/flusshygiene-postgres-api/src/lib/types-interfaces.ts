@@ -2,7 +2,6 @@ import { Request, Response} from 'express';
 import { Region } from '../orm/entity/Region';
 import { User } from '../orm/entity/User';
 import { Bathingspot } from './../orm/entity/Bathingspot';
-
 export interface IFilteredEntityPropsResoponse {
   props: string[];
 }
@@ -46,7 +45,7 @@ export type Responder = (
 
 export type SuccessResponder = (
   message?: string,
-  data?: User | User[] | Bathingspot[] | Region[],
+  data?: any[],
   ) => IDefaultResponsePayload;
 
 export type SuggestionResponder = (
@@ -73,6 +72,8 @@ export type ResponderMissingBodyValue = (
   response: Response,
   example: object,
   ) => void;
+
+export type ResponderWrongIdOrSuccess = (element: Region | Bathingspot | User | undefined, response: Response) => void;
 
 // User put.ts
 

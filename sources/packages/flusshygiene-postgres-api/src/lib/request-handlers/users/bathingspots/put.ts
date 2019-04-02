@@ -5,6 +5,7 @@ import { Region } from '../../../../orm/entity/Region';
 import { SUCCESS } from '../../../messages';
 import { RegionRepository } from '../../../repositories/RegionRepository';
 import { HttpCodes, IObject, putResponse } from '../../../types-interfaces';
+import {createSpotWithValues} from '../../../utils/bathingspot-helpers';
 import { getEntityFields } from '../../../utils/get-entity-fields';
 import { getMatchingValues } from '../../../utils/get-matching-values-from-request';
 import { BathingspotRepository } from './../../../repositories/BathingspotRepository';
@@ -55,7 +56,7 @@ export const updateBathingspotOfUser: putResponse = async (request, response) =>
   const regionRepo = getCustomRepository(RegionRepository);
   try {
     const filteredPropNames = await getEntityFields('Bathingspot');
-    let spotFromUser = await getSpotByUserAndId(request.params.userId, request.params.spotId);
+    const spotFromUser = await getSpotByUserAndId(request.params.userId, request.params.spotId);
     if (spotFromUser instanceof Bathingspot) {
       const providedValues = getMatchingValues(request.body, filteredPropNames.props);
       if (Object.keys(providedValues).length > 0) {
@@ -67,7 +68,8 @@ export const updateBathingspotOfUser: putResponse = async (request, response) =>
             throw new Error('region is undefined');
           }
         }
-        spotFromUser = updateFields(spotFromUser, providedValues);
+        const tmpSpot = await createSpotWithValues(providedValues);
+        spotRepo.merge(spotFromUser, tmpSpot);
         const res = await spotRepo.save(spotFromUser);
         responder(response, HttpCodes.successCreated, successResponse(SUCCESS.success201, [res]));
       } else {

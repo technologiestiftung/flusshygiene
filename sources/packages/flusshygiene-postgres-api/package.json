@@ -4,13 +4,15 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
+    "snyk": "synk test",
     "testWithCoverage": "jest --coverage --setupFiles ../dotenv/config",
     "dev": "npm run clean && nodemon",
     "clean": "rimraf ./dist && mkdirp ./dist",
     "dev:docker": "nodemon --config nodemon.docker.json",
     "build": "tsc -p .",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "majestic": "majestic"
   },
   "repository": {
     "type": "git",
@@ -28,39 +30,49 @@
     "@types/errorhandler": "0.0.32",
     "@types/express": "^4.16.1",
     "@types/helmet": "0.0.43",
+    "@types/geojson": "^7946.0.7",
     "@types/jest": "^24.0.11",
     "@types/morgan": "^1.7.35",
-    "@types/node": "^11.11.4",
+    "@types/node": "^11.12.2",
     "@types/pg": "^7.4.14",
     "@types/supertest": "^2.0.7",
     "cz-conventional-changelog": "^2.1.0",
     "dotenv": "^7.0.0",
     "jest": "^24.5.0",
+    "majestic": "^1.2.24",
     "mkdirp": "^0.5.1",
     "nodemon": "^1.18.10",
     "rimraf": "^2.6.3",
+    "snyk": "^1.144.0",
     "supertest": "^4.0.2",
-    "ts-jest": "^24.0.0",
+    "ts-jest": "^24.0.1",
     "ts-node": "^8.0.3",
     "tslint": "^5.14.0",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.4.1"
   },
   "dependencies": {
+    "@mapbox/geojsonhint": "^3.0.0",
     "@tsb/flusshygiene-utils": "^0.5.2",
     "class-validator": "^0.9.1",
     "cors": "^2.8.5",
     "errorhandler": "^1.5.0",
     "express": "^4.16.4",
     "express-promise-router": "^3.0.3",
+    "geojson": "^0.5.0",
     "helmet": "^3.16.0",
     "morgan": "^1.9.1",
     "pg": "^7.9.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.15"
+    "typeorm": "^0.2.16"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "majestic": {
+    "args": [
+      "--runInBand"
+    ]
   }
 }

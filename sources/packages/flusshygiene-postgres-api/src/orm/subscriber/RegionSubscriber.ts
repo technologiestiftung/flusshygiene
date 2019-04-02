@@ -13,13 +13,16 @@ export class PostSubscriber implements EntitySubscriberInterface<Region> {
     /**
      * Called before Region insertion.
      */
-    public beforeInsert(event: InsertEvent<Region>) {
-        console.log(`BEFORE REGION INSERTED: `, event.entity);
+    public beforeInsert(_event: InsertEvent<Region>) {
+        // console.log(`BEFORE REGION INSERTED: `, event.entity);
+    }
+    public afterInsert(_event: InsertEvent<Region>) {
+      // console.log(`AFTER REGION INSERTED: `, event.entity);
     }
 
-    public beforeRemove(event: RemoveEvent<Region>) {
+    public beforeRemove(_event: RemoveEvent<Region>) {
 
-      console.log(`BEFORE REGION DELETE: `, event.entity);
+      // console.log(`BEFORE REGION DELETE: `, event.entity);
       // if (event.entity !== undefined) {
       //   const regionRepo = event.connection.getCustomRepository(RegionRepository);
       //   regionRepo.findByIdWithRelations(event.entity.id, ['bathingspots']).then(region => {

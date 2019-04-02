@@ -3,7 +3,7 @@ import { Bathingspot } from '../../../../orm/entity/Bathingspot';
 import { SUCCESS } from '../../../messages';
 import { getSpotByUserAndId } from '../../../repositories/custom-repo-helpers';
 import { deleteResponse, HttpCodes } from '../../../types-interfaces';
-import { getPropsValueGeneric } from '../../../utils/get-properties-values';
+import { getPropsValueGeneric } from '../../../utils/get-properties-values-generic';
 import {
   errorResponse,
   responder,

@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { User } from '../../../orm/entity/User';
 import { SUCCESS } from '../../messages';
 import { getResponse, HttpCodes } from '../../types-interfaces';
-import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
+import { errorResponse, responder, responderWrongId, responderWrongIdOrSuccess, successResponse } from '../responders';
 
 //  ██████╗ ███████╗████████╗
 // ██╔════╝ ██╔════╝╚══██╔══╝
@@ -35,15 +35,16 @@ export const getUser: getResponse = async (request, response) => {
   try {
 
     user = await getRepository(User).findOne(request.params.userId);
-    if (user === undefined) {
-      responderWrongId(response);
+    responderWrongIdOrSuccess(user, response);
+    // if (user === undefined) {
+    //   responderWrongId(response);
 
-    } else {
-      responder(
-        response,
-        HttpCodes.success,
-        successResponse(SUCCESS.success200, [user]));
-    }
+    // } else {
+    //   responder(
+    //     response,
+    //     HttpCodes.success,
+    //     successResponse(SUCCESS.success200, [user]));
+    // }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }

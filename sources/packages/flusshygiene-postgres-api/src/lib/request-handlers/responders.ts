@@ -1,4 +1,5 @@
-import { ERRORS, SUGGESTIONS } from '../messages';
+
+import { ERRORS, SUCCESS, SUGGESTIONS } from '../messages';
 import {
   ErrorResponder,
   HttpCodes,
@@ -11,6 +12,7 @@ import {
   SuccessResponder,
   SuggestionResponder,
 } from '../types-interfaces';
+import { ResponderWrongIdOrSuccess } from './../types-interfaces';
 
 /**
  * build a payload. This is to reduce repetition
@@ -47,6 +49,11 @@ export const userNotAuthorizedErrorResponse = () => buildPayload(
 export const errorResponse: ErrorResponder = (error) => {
   if (process.env.NODE_ENV === 'development') {
     throw error;
+  } else if (process.env.NODE_ENV === 'test' && process.env.TRAVIS === undefined) {
+    console.error(error.name);
+    console.error(error.message);
+    console.error(error.stack);
+    console.trace();
   }
   const msg = process.env.NODE_ENV === 'development' ? error.message : 'internal server error';
   return buildPayload(false, msg, undefined);
@@ -156,3 +163,16 @@ export const responderNotAuthorized: ResponderMissingOrWrongIdOrAuth = (response
   HttpCodes.badRequestUnAuthorized,
   userNotAuthorizedErrorResponse(),
   );
+
+export const responderWrongIdOrSuccess: ResponderWrongIdOrSuccess = (element, response) => {
+  if (element === undefined) {
+    responderWrongId(response);
+  } else {
+    const res = [element];
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(SUCCESS.success200, res),
+      );
+  }
+};

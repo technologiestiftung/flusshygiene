@@ -1,4 +1,4 @@
-import { getPropsValueGeneric } from '../src/lib/utils/get-properties-values';
+import { getPropsValueGeneric } from '../src/lib/utils/get-properties-values-generic';
 import { isObject } from './../src/lib/utils/is-object';
 
 describe('utiltites tests', () => {
