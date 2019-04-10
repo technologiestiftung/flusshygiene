@@ -1,4 +1,5 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
+import { PredictionValue } from './../../lib/types-interfaces';
 import { Bathingspot } from './Bathingspot';
 
 @Entity()
@@ -7,15 +8,25 @@ export class BathingspotPrediction {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @Column({type: 'timestamp'})
-  public timestamp!: string;
+  @Column()
+  @CreateDateColumn()
+  public createdAt!: Date;
 
-  @Column({type: 'json'})
+  @Column()
+  @UpdateDateColumn()
+  public updatedAt!: Date;
+
+  @Column()
+  public oldId!: number;
+
+  @Column()
+  public date!: Date;
+
+  @Column({type: 'enum', enum: PredictionValue})
   public prediction!: string;
 
   @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.predictions, {
     cascade: true,
-    eager: true,
   })
   public bathingspot!: Bathingspot;
 

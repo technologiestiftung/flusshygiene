@@ -1,5 +1,14 @@
 import { IsEmail, IsEnum } from 'class-validator';
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn,
+} from 'typeorm';
 import { UserRole } from './../../lib/types-interfaces';
 import { Bathingspot } from './Bathingspot';
 import { Questionaire } from './Questionaire';
@@ -9,7 +18,14 @@ export class User {
 
   @PrimaryGeneratedColumn()
   public id!: number;
-
+  @Column()
+  @CreateDateColumn()
+  public createdAt!: Date;
+  @VersionColumn()
+  public version!: number;
+  @Column()
+  @UpdateDateColumn()
+  public updatedAt!: Date;
   @Column({ nullable: false })
   public protected: boolean = false;
 

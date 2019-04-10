@@ -1,5 +1,11 @@
 
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import { Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn } from 'typeorm';
 import { Bathingspot } from './Bathingspot';
 import { User } from './User';
 
@@ -8,9 +14,15 @@ export class BathingspotRawModelData {
 
   @PrimaryGeneratedColumn()
   public id!: number;
+  @VersionColumn()
+  public version!: number;
+  @Column()
+  @CreateDateColumn()
+  public createdAt!: Date;
 
-  @Column({type: 'timestamp'})
-  public lastEdit!: string;
+  @Column()
+  @UpdateDateColumn()
+  public updatedAt!: Date;
 
   @Column({type: 'json'})
   public rawData!: string;

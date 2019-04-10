@@ -27,6 +27,7 @@ checks:
 
 exclude_patterns:
   - "__tests__/**/*"
+  - "data/**/*"
 
 plugins:
   fixme:

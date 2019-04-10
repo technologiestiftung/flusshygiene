@@ -11,6 +11,8 @@ import { Questionaire } from '../../src/orm/entity/Questionaire';
 import { Region } from '../../src/orm/entity/Region';
 import { User } from '../../src/orm/entity/User';
 import {createUser } from '../../src/orm/fixtures/create-test-user';
+import { BathingspotMeasurement } from './../../src/orm/entity/BathingspotMeasurement';
+import { Event } from './../../src/orm/entity/Event';
 
 export async function closeTestingConnections(connections: Connection[]) {
   return Promise.all(connections.map(
@@ -29,6 +31,8 @@ export async function createTestingConnections() {
       BathingspotModel,
       BathingspotPrediction,
       BathingspotRawModelData,
+      BathingspotMeasurement,
+      Event,
     ],
     host: 'localhost',
     logging: false,

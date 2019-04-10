@@ -1,5 +1,14 @@
 // import { Polygon } from 'geojson';
-import { BeforeRemove, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeRemove,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn } from 'typeorm';
 import { Bathingspot } from './Bathingspot';
 import { User } from './User';
 @Entity()
@@ -10,11 +19,19 @@ export class Region {
 
   @Column({ nullable: false })
   public displayName!: string;
-
+  @VersionColumn()
+  public version!: number;
   // if he can create badegewässer/bathing spot
   @Column({ type: 'text', nullable: false })
   public name!: string;
 
+  @Column()
+  @CreateDateColumn()
+  public createdAt!: Date;
+
+  @Column()
+  @UpdateDateColumn()
+  public updatedAt!: Date;
   @Column({
     nullable: true,
     spatialFeatureType: 'Polygon',
