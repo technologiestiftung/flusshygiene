@@ -49,8 +49,8 @@ const nameMappingMeasurements: IObject = {
   state: { type: 'string', parseTo: null, mapsTo: 'state' },
   temp: { type: 'number', parseTo: null, mapsTo: 'temp' },
   temp_txt: { type: 'string', parseTo: null, mapsTo: 'tempTxt' },
-  wasserqualitaet: { type: 'boolean', parseTo: null, mapsTo: 'wasserqualitaet' },
-  wasserqualitaet_txt: { type: 'boolean', parseTo: null, mapsTo: 'wasserqualitaetTxt' },
+  wasserqualitaet: { type: 'number', parseTo: null, mapsTo: 'wasserqualitaet' },
+  wasserqualitaet_txt: { type: 'number', parseTo: null, mapsTo: 'wasserqualitaetTxt' },
 };
 
 const nameMappingSpots: IObject = {
@@ -62,7 +62,7 @@ const nameMappingSpots: IObject = {
   detail_id: { type: 'number', parseTo: null, mapsTo: 'detailId' },
   gesundheitsamt_mail: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentMail' },
   gesundheitsamt_name: { type: 'string', parseTo: null, mapsTo: 'healthDepartment' },
-  gesundheitsamt_plz: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentPostalCode' },
+  gesundheitsamt_plz: { type: 'string', parseTo: 'number', mapsTo: 'healthDepartmentPostalCode' },
   gesundheitsamt_stadt: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentCity' },
   gesundheitsamt_strasse: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentStreet' },
   gesundheitsamt_telefon: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentPhone' },
@@ -80,13 +80,13 @@ const nameMappingSpots: IObject = {
   name_lang: { type: 'string', parseTo: null, mapsTo: 'nameLong' },
   name_lang2: { type: 'string', parseTo: null, mapsTo: 'nameLong2' },
   parken: { type: 'boolean', parseTo: null, mapsTo: 'parkingSpots' },
-  plz: { type: 'string', parseTo: null, mapsTo: 'postalCode' },
+  plz: { type: 'string', parseTo: 'number', mapsTo: 'postalCode' },
   prediction: { type: 'boolean', parseTo: null, mapsTo: 'hasPrediction' },
   restaurant: { type: 'boolean', parseTo: null, mapsTo: 'restaurant' },
   rettungsschwimmer: { type: 'boolean', parseTo: null, mapsTo: 'lifeguard' },
   stadt: { type: 'string', parseTo: null, mapsTo: 'city' },
   strasse: { type: 'string', parseTo: null, mapsTo: 'street' },
-// tslint:disable-next-line: max-line-length
+  // tslint:disable-next-line: max-line-length
   wasserrettung_durch_hilfsorganisationen_dlrg_oder_asb: { type: 'boolean', parseTo: null, mapsTo: 'waterRescueThroughDLRGorASB' },
   wc: { type: 'boolean', parseTo: null, mapsTo: 'bathrooms' },
   wc_mobil: { type: 'boolean', parseTo: null, mapsTo: 'bathroomsMobile' },
@@ -132,40 +132,51 @@ const mapObjects: (mappingObj: IObject, obj: IObject) => IObject = (mappingObj, 
       if (obj[key] !== null && obj[key] !== undefined) {
 
         if (mappingObj.hasOwnProperty(key)) {
-          if (mappingObj[key].type === 'number' && typeof obj[key] !== 'number') {
+          // if (mappingObj[key].type === 'number' && typeof obj[key] !== 'number') {
 
-            console.log(key);
-            console.log(obj.name);
-            console.log('gotcha');
-          }
+          //   // console.log(key);
+          //   // console.log(obj.name);
+          //   // console.log('gotcha');
+          // }
           switch (mappingObj[key].type) {
             case 'string':
-            // this is for edge cases where we need to parse a value
+              // this is for edge cases where we need to parse a value
               if (mappingObj[key].parseTo !== null) {
                 switch (mappingObj[key].parseTo) {
                   case 'float':
-                resItem[mappingObj[key].mapsTo] = parseFloat(obj[key]);
-                break;
+                    resItem[mappingObj[key].mapsTo] = parseFloat(obj[key]);
+                    break;
+                  case 'number':
+                    resItem[mappingObj[key].mapsTo] = parseInt(obj[key], 10);
+
+                    break;
                 }
               } else {
                 resItem[mappingObj[key].mapsTo] = obj[key];
-
               }
               break;
             case 'boolean':
+              // if (key === 'barrierefrei_zugang') {
+              //   console.log(obj[key]);
+              //   console.log(typeof obj[key]);
+              // }
               if (typeof obj[key] === 'boolean') {
                 resItem[mappingObj[key].mapsTo] = obj[key];
-              } else if (typeof obj[key] === 'number' || typeof obj[key] === 'string') {
+              } else if (typeof obj[key] === 'number') {
                 switch (obj[key]) {
                   case 1:
-                    resItem[mappingObj[key].mapsTo] = true;
-                    break;
-                  case '1':
                     resItem[mappingObj[key].mapsTo] = true;
                     break;
                   case 0:
                     resItem[mappingObj[key].mapsTo] = false;
                     break;
+                }
+              } else if (typeof obj[key] === 'string') {
+                switch (obj[key]) {
+                  case '1':
+                    resItem[mappingObj[key].mapsTo] = true;
+                    break;
+
                   case '0':
                     resItem[mappingObj[key].mapsTo] = false;
                     break;

@@ -15,7 +15,6 @@ export const getBathingspots: getResponse = async (_request, response) => {
   try {
     spots = await getRepository(Bathingspot).find(
       {
-        select: ['name'],
         where: { isPublic: true },
       },
     );

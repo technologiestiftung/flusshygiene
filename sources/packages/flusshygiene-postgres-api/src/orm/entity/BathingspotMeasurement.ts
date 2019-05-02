@@ -65,10 +65,10 @@ export class BathingspotMeasurement {
   public state!: string;
 
   @Column({ nullable: true})
-  public wasserqualitaet!: boolean;
+  public wasserqualitaet!: number;
 
   @Column({ nullable: true})
-  public wasserqualitaetTxt!: boolean;
+  public wasserqualitaetTxt!: number;
 
   @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.measurements , {
     cascade: true,

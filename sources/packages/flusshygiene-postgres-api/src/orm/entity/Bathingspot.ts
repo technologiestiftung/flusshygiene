@@ -8,6 +8,12 @@ import { BathingspotRawModelData } from './BathingspotRawModelData';
 import { Region } from './Region';
 import { User } from './User';
 
+/**
+ * When adding a new column you will have to look into
+ * bathingspot-helpers.ts criteria
+ * and import-existing- data.ts mapping object
+ * This needs to be fixed
+ */
 @Entity()
 export class Bathingspot {
 
@@ -84,6 +90,7 @@ export class Bathingspot {
 
   @Column({ nullable: true})
   public waterRescue!: string;
+
   @Column({ nullable: true})
   public lifeguard!: boolean;
 

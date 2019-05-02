@@ -12,7 +12,8 @@
     "dev:docker": "nodemon --config nodemon.docker.json",
     "build": "tsc -p .",
     "start": "node dist/index.js",
-    "majestic": "majestic"
+    "majestic": "majestic",
+    "docs": "typedoc --mode modules --out docs ./src"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
     "ts-jest": "^24.0.1",
     "ts-node": "^8.0.3",
     "tslint": "^5.15.0",
+    "typedoc": "^0.14.2",
     "typescript": "^3.4.1"
   },
   "dependencies": {

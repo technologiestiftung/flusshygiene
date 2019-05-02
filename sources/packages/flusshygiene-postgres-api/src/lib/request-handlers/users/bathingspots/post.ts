@@ -33,6 +33,7 @@ export const addBathingspotToUser: postResponse = async (request, response) => {
     if (user instanceof User && user.role !== UserRole.reporter) {
         const providedValues = getMatchingValues(request.body, filteredPropNames.props);
         const spot = await createSpotWithValues(providedValues);
+
         if ((spot.isPublic === true &&
         (providedValues.hasOwnProperty('region') === false ||
           list.includes(request.body.region) === false) || request.body.hasOwnProperty('isPublic') === false)
