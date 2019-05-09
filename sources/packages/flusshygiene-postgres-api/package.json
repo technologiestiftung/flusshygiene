@@ -34,7 +34,7 @@
     "@types/helmet": "0.0.43",
     "@types/jest": "^24.0.11",
     "@types/morgan": "^1.7.35",
-    "@types/node": "^11.13.0",
+    "@types/node": "^12.0.0",
     "@types/pg": "^7.4.14",
     "@types/proj4": "^2.5.0",
     "@types/supertest": "^2.0.7",
