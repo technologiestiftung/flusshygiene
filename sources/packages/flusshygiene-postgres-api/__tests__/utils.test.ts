@@ -1,7 +1,11 @@
+import fs from 'fs';
+import path from 'path';
+import { IObject } from '../src/lib/types-interfaces';
+import { getGEOJsonGeometry } from '../src/lib/utils/geojson/get-geojson-geometry';
 import { getPropsValueGeneric } from '../src/lib/utils/get-properties-values-generic';
 import { isObject } from './../src/lib/utils/is-object';
 
-describe('utiltites tests', () => {
+describe('utiltites  isObject tests', () => {
   test('should be an objcet', () => {
     expect(isObject({})).toBe(true);
     expect(isObject([])).toBe(true);
@@ -14,6 +18,14 @@ describe('utiltites tests', () => {
   });
 });
 
+describe('utilities getGEOJsonGeometry test', () => {
+  test('shuold return a geojson geometry', () => {
+    const geojson = JSON.parse(fs.readFileSync(path.resolve(__dirname, './data/polygon.json'), 'utf8'));
+    const geom: IObject = getGEOJsonGeometry({ geo: geojson }, 'geo');
+    // console.log(geom);
+    expect(geom).toMatchObject(geojson.geometry);
+  });
+});
 describe('generic property getter', () => {
   test('should get the right types or undefined', () => {
     const o = {

@@ -6,12 +6,12 @@ import { getEntityFields, getMatchingValues } from '../../../utils';
 import {
   errorResponse,
   responder,
-  responderMissingBodyValue,
+  // responderMissingBodyValue,
   responderNotAuthorized,
   responderWrongId,
   successResponse,
 } from '../../responders';
-import { getRegionsList } from './../../../repositories/custom-repo-helpers';
+// import { getRegionsList } from './../../../repositories/custom-repo-helpers';
 import { createSpotWithValues } from './../../../utils/bathingspot-helpers';
 
 // const verifyPublic: (obj: any) => boolean = (obj) => {
