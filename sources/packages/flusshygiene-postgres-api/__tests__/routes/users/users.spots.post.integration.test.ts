@@ -74,7 +74,7 @@ describe('testing bathingspots post for a specific user', () => {
   // ██████╔╝╚██████╔╝██║ ╚████║███████╗
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
-  test('should fail due to missing isPublic values', async (done) => {
+  test.skip('should fail due to missing isPublic values', async (done) => {
 
     const userRepo = getRepository(User);
     const users: User[] = await userRepo.find({ relations: ['bathingspots'], where: { role: UserRole.creator } });
@@ -98,7 +98,7 @@ describe('testing bathingspots post for a specific user', () => {
     done();
   });
 
-  test('should fail due to wrong isPublic type', async () => {
+  test.skip('should fail due to wrong isPublic type', async () => {
     const userRepo = getRepository(User);
     const user: User = await userRepo.findOne({ where: { role: UserRole.creator } });
     const id = user.id;

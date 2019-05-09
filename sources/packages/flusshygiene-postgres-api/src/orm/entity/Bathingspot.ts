@@ -7,13 +7,59 @@ import { BathingspotPrediction } from './BathingspotPrediction';
 import { BathingspotRawModelData } from './BathingspotRawModelData';
 import { Region } from './Region';
 import { User } from './User';
+export const criteriaBathingspot = [
+  { type: 'object', key: 'apiEndpoints' },
+  { type: 'object', key: 'state' },
+  { type: 'number', key: 'latitude' },
+  { type: 'number', key: 'oldId' },
+  { type: 'number', key: 'longitude' },
+  { type: 'number', key: 'elevation' },
+  { type: 'string', key: 'name' },
+  { type: 'boolean', key: 'isPublic' },
+  { type: 'geometry', key: 'area' },
+  { type: 'geometry', key: 'location' },
+  { type: 'number', key: 'detailId' },
+  { type: 'string', key: 'measuringPoint' },
+  { type: 'string', key: 'name' },
+  { type: 'string', key: 'nameLong' },
+  { type: 'string', key: 'nameLong2' },
+  { type: 'string', key: 'water' },
+  { type: 'string', key: 'district' },
+  { type: 'string', key: 'street' },
+  { type: 'number', key: 'postalCode' },
+  { type: 'string', key: 'city' },
+  { type: 'string', key: 'healthDepartment' },
+  { type: 'string', key: 'healthDepartmentAddition' },
+  { type: 'string', key: 'healthDepartmentStreet' },
+  { type: 'number', key: 'healthDepartmentPostalCode' },
+  { type: 'string', key: 'healthDepartmentCity' },
+  { type: 'string', key: 'healthDepartmentMail' },
+  { type: 'string', key: 'healthDepartmentPhone' },
+  { type: 'string', key: 'waterRescue' },
+  { type: 'boolean', key: 'waterRescueThroughDLRGorASB' },
+  { type: 'boolean', key: 'lifeguard' },
+  { type: 'boolean', key: 'disabilityAccess' },
+  { type: 'boolean', key: 'hasDisabilityAccesableEntrence' },
+  { type: 'boolean', key: 'disabilityAccessBathrooms' },
+  { type: 'boolean', key: 'restaurant' },
+  { type: 'boolean', key: 'snack' },
+  { type: 'boolean', key: 'parkingSpots' },
+  { type: 'boolean', key: 'cyanoPossible' },
+  { type: 'boolean', key: 'bathrooms' },
+  { type: 'boolean', key: 'bathroomsMobile' },
+  { type: 'boolean', key: 'hasPrediction' },
+  { type: 'boolean', key: 'isPublic' },
+  { type: 'boolean', key: 'dogban' },
+  { type: 'string', key: 'website' },
+  { type: 'string', key: 'lastClassification' },
+  { type: 'string', key: 'image' },
+];
 
-/**
- * When adding a new column you will have to look into
- * bathingspot-helpers.ts criteria
- * and import-existing- data.ts mapping object
- * This needs to be fixed
- */
+export const geomCriteria = [
+  { type: 'string', key: 'type' },
+  { type: 'array', key: 'coordinates' },
+];
+
 @Entity()
 export class Bathingspot {
 

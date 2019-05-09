@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import { Bathingspot } from '../../orm/entity/Bathingspot';
+import { Bathingspot, criteriaBathingspot, geomCriteria } from '../../orm/entity/Bathingspot';
 import { Region } from '../../orm/entity/Region';
 import { BathingspotRepository } from '../repositories/BathingspotRepository';
 import { RegionRepository } from '../repositories/RegionRepository';
@@ -9,60 +9,6 @@ import { BathingspotMeasurement } from './../../orm/entity/BathingspotMeasuremen
 import { BathingspotPrediction } from './../../orm/entity/BathingspotPrediction';
 import { AddEntitiesToSpot } from './../types-interfaces';
 import { isObject } from './is-object';
-
-export const criteria = [
-  { type: 'object', key: 'apiEndpoints' },
-  { type: 'object', key: 'state' },
-  { type: 'number', key: 'latitude' },
-  { type: 'number', key: 'oldId' },
-  { type: 'number', key: 'longitude' },
-  { type: 'number', key: 'elevation' },
-  { type: 'string', key: 'name' },
-  { type: 'boolean', key: 'isPublic' },
-  { type: 'boolean', key: 'isPublic' },
-  { type: 'geometry', key: 'area' },
-  { type: 'geometry', key: 'location' },
-  { type: 'number', key: 'detailId' },
-  { type: 'string', key: 'measuringPoint' },
-  { type: 'string', key: 'name' },
-  { type: 'string', key: 'nameLong' },
-  { type: 'string', key: 'nameLong2' },
-  { type: 'string', key: 'water' },
-  { type: 'string', key: 'district' },
-  { type: 'string', key: 'street' },
-  { type: 'number', key: 'postalCode' },
-  { type: 'string', key: 'city' },
-  { type: 'string', key: 'healthDepartment' },
-  { type: 'string', key: 'healthDepartmentAddition' },
-  { type: 'string', key: 'healthDepartmentStreet' },
-  { type: 'number', key: 'healthDepartmentPostalCode' },
-  { type: 'string', key: 'healthDepartmentCity' },
-  { type: 'string', key: 'healthDepartmentMail' },
-  { type: 'string', key: 'healthDepartmentPhone' },
-  { type: 'string', key: 'waterRescue' },
-  { type: 'boolean', key: 'waterRescueThroughDLRGorASB' },
-  { type: 'boolean', key: 'lifeguard' },
-  { type: 'boolean', key: 'disabilityAccess' },
-  { type: 'boolean', key: 'hasDisabilityAccesableEntrence' },
-  { type: 'boolean', key: 'disabilityAccessBathrooms' },
-  { type: 'boolean', key: 'restaurant' },
-  { type: 'boolean', key: 'snack' },
-  { type: 'boolean', key: 'parkingSpots' },
-  { type: 'boolean', key: 'cyanoPossible' },
-  { type: 'boolean', key: 'bathrooms' },
-  { type: 'boolean', key: 'bathroomsMobile' },
-  { type: 'boolean', key: 'hasPrediction' },
-  { type: 'boolean', key: 'isPublic' },
-  { type: 'boolean', key: 'dogban' },
-  { type: 'string', key: 'website' },
-  { type: 'string', key: 'lastClassification' },
-  { type: 'string', key: 'image' },
-];
-
-const geomCriteria = [
-  { type: 'string', key: 'type' },
-  { type: 'array', key: 'coordinates' },
-];
 
 const allowedFeatureTypes = ['Point', 'Polygon'];
 
@@ -99,7 +45,7 @@ const setupGeom: (obj: { value: any, criterion: any }) => any = (obj) => {
 export const createSpotWithValues = async (providedValues: IObject): Promise<Bathingspot> => {
   const spotRepo = getCustomRepository(BathingspotRepository);
   const spot = new Bathingspot();
-  criteria.forEach(criterion => {
+  criteriaBathingspot.forEach(criterion => {
     const value = providedValues[criterion.key];
     const obj = { [criterion.key]: value };
     switch (criterion.type) {
