@@ -39,7 +39,7 @@
     "@types/proj4": "^2.5.0",
     "@types/supertest": "^2.0.7",
     "cz-conventional-changelog": "^2.1.0",
-    "dotenv": "^7.0.0",
+    "dotenv": "^8.0.0",
     "jest": "^24.6.0",
     "majestic": "^1.2.24",
     "mkdirp": "^0.5.1",
