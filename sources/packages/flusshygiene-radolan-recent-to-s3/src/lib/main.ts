@@ -13,6 +13,7 @@ import { allBucketKeys } from './all-bucket-keys';
 import { IObject } from './interfaces';
 import { logger } from './logger';
 import { radolanFilenameParser } from './radolan-file-name-parser';
+import { shutDownEC2 } from './shutdown-ec2';
 
 const mkdirpAsync = util.promisify(mkdirp);
 // const readDirAsync = util.promisify(fs.readdir);
@@ -141,4 +142,5 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
   }
   await rimrafAsync(path.resolve(process.cwd(), './tmp'));
   await ftpClient.destroy();
+  shutDownEC2(process.env.AWS_EC2_INSTANCE_ID);
 };
