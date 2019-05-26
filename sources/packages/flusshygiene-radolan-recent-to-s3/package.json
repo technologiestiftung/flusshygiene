@@ -1,18 +1,18 @@
 {
-  "bin": "u2s3",
-  "name": "flusshygiene-radolan-to-s3",
+  "bin": "ru2s3",
+  "name": "flusshygiene-radolan-recent-to-s3",
   "version": "1.0.0",
   "description": "",
-  "main": "cli.js",
+  "main": "dist/lib/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc -p . -w",
     "build": "tsc -p .",
-    "start": "node cli.js"
+    "start": "node dist/cli.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/meow": "^5.0.0",
