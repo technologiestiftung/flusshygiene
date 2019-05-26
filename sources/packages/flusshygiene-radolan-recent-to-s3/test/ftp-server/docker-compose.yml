@@ -1,0 +1,12 @@
+version: '3'
+services:
+  ftp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/home/files/data
+    ports:
+      - '3021:21'
+      - '3022:22'
+      - '10090-10100:10090-10100'
