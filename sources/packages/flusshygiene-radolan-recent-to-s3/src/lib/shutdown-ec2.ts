@@ -1,3 +1,4 @@
+// taken from https://hackernoon.com/basics-of-running-anything-on-aws-part-1-setup-running-logging-d3be42ab2094
 import AWS from 'aws-sdk';
 import { logger } from './logger';
 
