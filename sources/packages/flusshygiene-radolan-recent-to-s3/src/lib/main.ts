@@ -62,7 +62,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
     const s3List = await allBucketKeys(awsS3Client, process.env.AWS_BUCKET_NAME!);
     const s3DiffList4Diff = s3List.map(ele => ele.split('/')[ele.split('/').length - 1]);
     const ftpResponse = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
-    logger.info('FTP connection response', ftpResponse);
+    logger.info(`FTP connection response ${ftpResponse}`);
     const rawFtpList = await ftpClient.list(radolanHourlyPath);
     // await ftpClient.end();
     const ftpList4Diff = rawFtpList
@@ -71,8 +71,8 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
       // diffing is from here https://stackoverflow.com/a/33034768
     const ftpDiffList = ftpList4Diff.filter(ele => !s3DiffList4Diff.includes(ele));
     const ftpList = ftpDiffList.map(ele => `${ele}.gz`);
-    logger.info('Preparing transfer for the following files:',
-    ftpList, 'on', process.env.FTP_HOST, 'to', process.env.AWS_BUCKET_NAME);
+    logger.info(`Preparing transfer for the following files:,
+    ${ftpList} on ${process.env.FTP_HOST} to ${process.env.AWS_BUCKET_NAME}`);
 
     const truncateftplist = ftpList.slice(0, 50);
     const transferTasks = truncateftplist.map((file: string) => new Promise(async (resolve, reject) => {
@@ -111,7 +111,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
                 // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
               },
             };
-            logger.info('Preparing upload for', params.localFile, 'to', key);
+            logger.info(`Preparing upload for: ${params.localFile} to ${key}`);
 
             const uploader = s3Client.uploadFile(params);
 
