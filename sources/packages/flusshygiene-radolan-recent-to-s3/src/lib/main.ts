@@ -74,8 +74,8 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
     logger.info(`Preparing transfer for the following files:,
     ${ftpList} on ${process.env.FTP_HOST} to ${process.env.AWS_BUCKET_NAME}`);
 
-    const truncateftplist = ftpList.slice(0, 50);
-    const transferTasks = truncateftplist.map((file: string) => new Promise(async (resolve, reject) => {
+    // const truncateftplist = ftpList.slice(0, 50);
+    const transferTasks = ftpList.map((file: string) => new Promise(async (resolve, reject) => {
       // const ftprestask = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
       // logger.info(ftprestask);
       const fileInfo = radolanFilenameParser(file);
