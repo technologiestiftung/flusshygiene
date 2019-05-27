@@ -54,9 +54,9 @@ const errorLogger = (error: Error, obj?: any) => {
 
 export const main: (options: IObject) => Promise<void> = async (_options) => {
   try {
-    logger.info('FTP Host', process.env.FTP_HOST);
-    logger.info('FTP Port', process.env.FTP_PORT);
-    logger.info('Bucket name', process.env.AWS_BUCKET_NAME);
+    logger.info(`FTP Host ${process.env.FTP_HOST}`);
+    logger.info(`FTP Port ${process.env.FTP_PORT}` );
+    logger.info(`Bucket name ${process.env.AWS_BUCKET_NAME}`);
 
     // logger.info('Options', options);
     const s3List = await allBucketKeys(awsS3Client, process.env.AWS_BUCKET_NAME!);

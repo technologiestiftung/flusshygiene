@@ -8,7 +8,7 @@ const cli = meow(`Usage`, {flags: {}});
 config({ path: path.resolve(__dirname, '../.env') });
 
 const options = {inputs: cli.input, flags: cli.flags};
-logger.info('Options', options);
+logger.info(`Options ${JSON.stringify(options)}`);
 main(options).catch( err => {
   logger.error(err);
   // process.stderr.write(`${JSON.stringify(err)}\n`);
