@@ -59,7 +59,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
     logger.info(`Bucket name ${process.env.AWS_BUCKET_NAME}`);
 
     // logger.info('Options', options);
-    const s3List = await allBucketKeys(awsS3Client, process.env.AWS_BUCKET_NAME!);
+    const s3List = await allBucketKeys(awsS3Client, process.env.AWS_BUCKET_NAME!, '19');
     const s3DiffList4Diff = s3List.map(ele => ele.split('/')[ele.split('/').length - 1]);
     const ftpResponse = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
     logger.info(`FTP connection response ${ftpResponse}`);
