@@ -14,6 +14,7 @@ import { IObject } from './interfaces';
 import { logger } from './logger';
 import { radolanFilenameParser } from './radolan-file-name-parser';
 import { shutDownEC2 } from './shutdown-ec2';
+import { stringArrayDiff } from './string-array-diff';
 
 const mkdirpAsync = util.promisify(mkdirp);
 // const readDirAsync = util.promisify(fs.readdir);
@@ -69,7 +70,14 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
       .filter(ele => ele.name.indexOf('.gz') !== -1)
       .map((ele => ele.name.replace('.gz', '')));
       // diffing is from here https://stackoverflow.com/a/33034768
-    const ftpDiffList = ftpList4Diff.filter(ele => !s3DiffList4Diff.includes(ele));
+    // const ftpDiffList = ftpList4Diff.filter(ele => !s3DiffList4Diff.includes(ele));
+    const ftpDiffList = stringArrayDiff(ftpList4Diff, s3DiffList4Diff);
+    logger.info(`Missing elements: ${JSON.stringify(ftpDiffList)}`);
+
+    // fs.writeFileSync(path.resolve(process.cwd(), './ftpList4Diff.txt'), ftpList4Diff, 'utf8');
+    // fs.writeFileSync(path.resolve(process.cwd(), './ftpList4Diff.txt'), ftpList4Diff, 'utf8');
+    // fs.writeFileSync(path.resolve(process.cwd(), './missing.log'), ftpDiffList, 'utf8');
+    // process.exit();
     const ftpList = ftpDiffList.map(ele => `${ele}.gz`);
     logger.info(`Preparing transfer for the following files:,
     ${ftpList} on ${process.env.FTP_HOST} to ${process.env.AWS_BUCKET_NAME}`);
