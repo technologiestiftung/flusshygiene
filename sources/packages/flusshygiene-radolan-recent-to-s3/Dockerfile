@@ -13,4 +13,4 @@ RUN npm i
 COPY --from=builder /usr/app/dist /usr/app/dist
 COPY ./ ./
 ENTRYPOINT ["node", "./dist/cli.js"]
-CMD ["./data/historical-hourly-urls.json"]
+CMD [""]

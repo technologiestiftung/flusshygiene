@@ -1,4 +1,6 @@
 // https://menno.io/posts/listing-s3-objects-with-nodejs/
+// and
+// https://stackoverflow.com/a/18324270/1770432
 import AWS from 'aws-sdk';
 export const allBucketKeys = async (s3: AWS.S3, bucket: string, prefix: string) => {
   const params: AWS.S3.ListObjectsV2Request = {
