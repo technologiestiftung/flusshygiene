@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk';
 import { config } from 'dotenv';
 import fs from 'fs';
+import mailgun from 'mailgun-js';
 import mkdirp from 'mkdirp';
 import path from 'path';
 import pipe from 'pipe-io';
@@ -43,6 +44,8 @@ const options = {
 };
 const s3Client = s3.createClient(options);
 const radolanHourlyPath = 'pub/CDC/grids_germany/hourly/radolan/recent/bin';
+
+const mg = mailgun({apiKey: process.env.MAILGUN_APIKEY!, domain: process.env.MAILGUN_DOMAIN!});
 
 const errorLogger = (error: Error, obj?: any) => {
   if (obj !== undefined) {
@@ -143,12 +146,27 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
       errorLogger(err, 'Error in promise all transfertask');
     });
     await ftpClient.end();
+    await rimrafAsync(path.resolve(process.cwd(), './tmp'));
+    const clog = fs.readFileSync(path.resolve(process.cwd(), './combined.log'), 'utf8');
+    const elog = fs.readFileSync(path.resolve(process.cwd(), './error.log'), 'utf8');
+
+    const mailData = {
+      from: `Mailgun Sandbox <${process.env.MAILGUN_FROM}>`,
+      subject: `Radoloan recent `,
+      text: `${clog}\n${elog}`,
+      to: `${process.env.MAILGUN_TO}`,
+    };
+    mg.messages().send(mailData,  (merror, body) => {
+      if (merror) {
+        logger.error(merror);
+      }
+      logger.info(`Mailgun ${JSON.stringify(body)}`);
+    });
     logger.info('Done. Shutting down?');
+    shutDownEC2(process.env.AWS_EC2_INSTANCE_ID);
   } catch (error) {
     await ftpClient.end();
     errorLogger(error, 'Default error');
+    await ftpClient.destroy();
   }
-  await rimrafAsync(path.resolve(process.cwd(), './tmp'));
-  await ftpClient.destroy();
-  shutDownEC2(process.env.AWS_EC2_INSTANCE_ID);
 };

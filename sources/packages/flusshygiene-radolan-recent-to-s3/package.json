@@ -15,6 +15,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
+    "@types/mailgun-js": "^0.16.3",
     "@types/meow": "^5.0.0",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^12.0.2",
@@ -33,6 +34,7 @@
     "basic-ftp": "^3.5.0",
     "dotenv": "^8.0.0",
     "is-gzip": "^2.0.0",
+    "mailgun-js": "^0.22.0",
     "meow": "^5.0.0",
     "mkdirp": "^0.5.1",
     "pipe-io": "^3.0.11",
