@@ -2,7 +2,9 @@
 
 Node.js task for pulling radolan data from the DWD FTP servers and storing them on AWS S3. Part of the Flusshygiene project. Can run on a EC2 and shuts itself down when done. Needs IAM permissions for S3 and EC2.
 
-In production it should run as a timed AWS Fargate task.
+In production it runs as a scheduled AWS Fargate task.
+
+Sends the logs to a specific address when it is done using Mailgun.
 
 ---
 
@@ -49,7 +51,6 @@ npm install
 npm run build
 ```
 
-
 Run
 
 ```bash
@@ -65,13 +66,15 @@ docker build -t technologiestiftung/flusshygiene-radolan-recent .
 
 Docker run: 
 
-/Users/icke/Documents/flusshygiene/radolan/flusshygiene-radolan-recent-to-s3/.env
+```bash
+run --env-file $(pwd)/.env --name radolan-recent technologiestiftung/flusshygiene-radolan-recent
+```
 
 ## License 
 
 MIT License
 
-Copyright (c) 2019 Technologie Stiftung Berlin & Fabian Morón Zirfas
+Copyright (c) 2019 Technologiestiftung Berlin & Fabian Morón Zirfas
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
