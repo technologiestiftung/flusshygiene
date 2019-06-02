@@ -10,12 +10,16 @@ In production it should run as a timed AWS Fargate task.
 
 Setup:
 
-Rename `example.env` to `.env` (`mv example.env .env`)  or create a new one (`touch .env`) and fill in your credentials for:
+Rename `example.env` to `.env` (`mv example.env .env`)  or create a new one (`touch .env`) and fill in your credentials for AWS and Mailgun.
 
 ```env
 AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxx
 AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 AWS_BUCKET_NAME=xxxxxx-bucket
+MAILGUN_DOMAIN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org
+MAILGUN_APIKEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MAILGUN_FROM=postmaster@xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org
+MAILGUN_TO=you@foo.dev
 FTP_HOST=ftp-cdc.dwd.de
 FTP_PORT=21
 ```
