@@ -10,16 +10,16 @@ The dates provided need to be in the following pattern: `YYYYMMDD`. This transla
 - A Bucket with Radolan data with the following structure where the keys are `YY/MM/DD/radolan-file-name`.
 
 ```plain
-05/01/01/raa01-rw\_10000-0501010050-dwd---bin
-05/01/01/raa01-rw\_10000-0501010150-dwd---bin
-05/01/01/raa01-rw\_10000-0501010250-dwd---bin
-05/01/01/raa01-rw\_10000-0501010350-dwd---bin
-05/01/01/raa01-rw\_10000-0501010450-dwd---bin
-05/01/01/raa01-rw\_10000-0501010550-dwd---bin
-05/01/01/raa01-rw\_10000-0501010650-dwd---bin
-05/01/01/raa01-rw\_10000-0501010750-dwd---bin
+05/01/01/raa01-rw_10000-0501010050-dwd---bin
+05/01/01/raa01-rw_10000-0501010150-dwd---bin
+05/01/01/raa01-rw_10000-0501010250-dwd---bin
+05/01/01/raa01-rw_10000-0501010350-dwd---bin
+05/01/01/raa01-rw_10000-0501010450-dwd---bin
+05/01/01/raa01-rw_10000-0501010550-dwd---bin
+05/01/01/raa01-rw_10000-0501010650-dwd---bin
+05/01/01/raa01-rw_10000-0501010750-dwd---bin
 (…)
-19/01/01/raa01-rw\_10000-1901010050-dwd---bin
+19/01/01/raa01-rw_10000-1901010050-dwd---bin
 ```
 
 These files ([historical](ftp://ftp-cdc.dwd.de/pub/CDC/grids_germany/hourly/radolan/historical/bin/) and [recent](ftp://ftp-cdc.dwd.de/pub/CDC/grids_germany/hourly/radolan/recent/bin/)) can be found on the FTP of the Deutsche Wetterdienst (DWD) and are scraped to a S3 bucket using these tools [technologiestiftung/flusshygiene-radolan-recent-to-s3](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3), [technologiestiftung/flusshygiene-radolan-historical-to-s3](https://github.com/technologiestiftung/flusshygiene-radolan-historical-to-s3) and [technologiestiftung/flusshygiene-radolan-scraper](https://github.com/technologiestiftung/flusshygiene-radolan-scrap). 
