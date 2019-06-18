@@ -48,7 +48,7 @@ On the Radolan bucket you need the following policy to access it publicly.
         "s3:GetObject"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::flusshygiene-radolan-data/*",
+      "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*",
       "Principal": {
         "AWS": [
           "*"
