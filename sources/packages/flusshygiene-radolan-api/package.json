@@ -1,6 +1,6 @@
 {
-  "name": "@fsb/flusshygiene-radolan-api",
-  "version": "1.0.0",
+  "name": "@tsb/flusshygiene-radolan-api",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
