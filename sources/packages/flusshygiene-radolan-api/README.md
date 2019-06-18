@@ -1,6 +1,7 @@
 # Radolan API Lambda
 
-This is a Lambda function to access all the radolan data stored in an S3 Bucket.
+This is a Lambda function to access all the radolan data stored in an S3 Bucket. It allows to query the bucket for download urls. You can define a date range as [URL query parameters](https://en.wikipedia.org/wiki/Query_string) with the keys `from` and `to`
+The dates provided need to be in the following pattern: `YYYYMMDD`. This translates to 20190131 to set a parameter for the 31st of January in 2019.
 
 ## Prerequisites
 
@@ -94,6 +95,33 @@ sls invoke -f radolan --path __tests__/event_mock.json
 ## Production deploy
 
 Run `sls deploy --stage prod`.
+
+## Call Your Function
+
+```
+$ curl "https://xxxxxx.some-name.some-region.amazonaws.com/stage?from=20190101&to=20190103"
+> {
+  "dates": [
+    {
+      "year": 19,
+      "month": 1,
+      "day": 1
+    },
+  (… all dates queried)
+  ],
+  "files": [
+    {
+      "key": "19/01/02/raa01-rw_10000-1901020050-dwd---bin",
+      "url": "https://your-bucket.s3.your-region.amazonaws.com/19/01/02/raa01-rw_10000-1901020050-dwd---bin"
+    },
+    (… all files found)
+     "input": {
+       (… full event input data)
+     }
+}
+```
+
+
 
 ## MIT License
 
