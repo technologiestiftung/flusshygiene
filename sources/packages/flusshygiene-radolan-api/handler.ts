@@ -2,7 +2,7 @@ import { APIGatewayEvent, Context, Handler } from 'aws-lambda';
 import AWS, { S3 } from 'aws-sdk';
 import moment, { Moment } from 'moment';
 import { allBucketKeys } from './all-bucket-keys';
-import { IDaysObject } from './common';
+import { IDaysObject, IResponseObject } from './common';
 // tslint:disable-next-line: no-var-requires
 const momentRange = require('moment-range');
 const mom = momentRange.extendMoment(moment);
@@ -118,12 +118,22 @@ E.g from=20190101&to=20190131`);
     });
     const flatS3List = flatten(Array.from(s3Lists));
     const cleanedFlatS3List = flatS3List.map((ele) => {
-      return {
+      const item: IResponseObject = {
         key: ele.Key,
         url: `${process.env.RADOLAN_DATA_BUCKET_PUBLIC_URL}/${ele.Key}`,
       };
+      return item;
     });
     console.log(cleanedFlatS3List);
+    cleanedFlatS3List.sort((a: IResponseObject, b: IResponseObject) => {
+      if (a.url < b.url) {
+        return -1;
+      }
+      if (a.url > b.url) {
+        return 1;
+      }
+      return 0;
+    });
     const response = {
       body: JSON.stringify({
         dates: daysDate,

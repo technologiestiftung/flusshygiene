@@ -6,12 +6,15 @@ export interface IDaysObject {
   month: number;
   day: number;
 }
-
-export interface IS3Item {
-  Key: string;
-  LastModified: string;
-  ETag: string;
-  Size: string;
-  StorageClass: string;
-  publicUrl?: string;
+export interface IResponseObject {
+  key: string;
+  url: string;
 }
+// export interface IS3Item {
+//   Key: string;
+//   LastModified: string;
+//   ETag: string;
+//   Size: string;
+//   StorageClass: string;
+//   publicUrl?: string;
+// }
