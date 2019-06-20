@@ -1,13 +1,14 @@
 {
   "bin": "ru2s3",
-  "name": "flusshygiene-radolan-recent-to-s3",
+  "name": "@tsb/flusshygiene-radolan-recent-to-s3",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pulls Radolan data from DWD and uploads to S3 bucket",
   "main": "dist/lib/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc -p . -w",
     "build": "tsc -p .",
+    "prestart": "npm run build",
     "start": "node dist/cli.js"
   },
   "keywords": [],

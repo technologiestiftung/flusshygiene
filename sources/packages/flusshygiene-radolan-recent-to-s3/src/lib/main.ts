@@ -35,7 +35,7 @@ const credentials = new AWS.Credentials({
 });
 const awsS3Client = new AWS.S3({
   credentials,
-  region: 'eu-central-1',
+  region: process.env.AWS_REGION || 'eu-central-1',
 });
 
 const options = {
@@ -43,7 +43,8 @@ const options = {
   // more options available. See API docs below.
 };
 const s3Client = s3.createClient(options);
-const radolanHourlyPath = 'pub/CDC/grids_germany/hourly/radolan/recent/bin';
+// the hard coded path is currently need to not kill the existing task
+const radolanRootPath = process.env.FTP_RADOLAN_PATH || 'pub/CDC/grids_germany/hourly/radolan/recent/bin';
 
 const mg = mailgun({apiKey: process.env.MAILGUN_APIKEY!, domain: process.env.MAILGUN_DOMAIN!});
 
@@ -62,12 +63,14 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
     logger.info(`FTP Port ${process.env.FTP_PORT}` );
     logger.info(`Bucket name ${process.env.AWS_BUCKET_NAME}`);
 
-    // logger.info('Options', options);
-    const s3List = await allBucketKeys(awsS3Client, process.env.AWS_BUCKET_NAME!, '19');
+    // extract the last two digits from the year.
+    // This is Y3K save :D
+    const year = (new Date()).getFullYear().toString().substr(2);
+    const s3List = await allBucketKeys(awsS3Client, process.env.AWS_BUCKET_NAME!, year);
     const s3DiffList4Diff = s3List.map(ele => ele.split('/')[ele.split('/').length - 1]);
     const ftpResponse = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
     logger.info(`FTP connection response ${ftpResponse}`);
-    const rawFtpList = await ftpClient.list(radolanHourlyPath);
+    const rawFtpList = await ftpClient.list(radolanRootPath);
     // await ftpClient.end();
     const ftpList4Diff = rawFtpList
       .filter(ele => ele.name.indexOf('.gz') !== -1)
@@ -95,7 +98,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
       const tmpFolderPath = path.resolve(process.cwd(), `./tmp/${year}${month}${day}${hour}${minute}`);
       await mkdirpAsync(tmpFolderPath);
       const outfile = file.replace('.gz', '');
-      const ftprstream = await ftpClient.get(`${radolanHourlyPath}/${file}`);
+      const ftprstream = await ftpClient.get(`${radolanRootPath}/${file}`);
       const fswstream = fs.createWriteStream(`${tmpFolderPath}/${outfile}`);
       logger.info(`Gunzip to fs ${JSON.stringify(file)}`);
       pipe(
@@ -143,7 +146,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
         });
     }));
     await Promise.all(transferTasks).catch(err => {
-      errorLogger(err, 'Error in promise all transfertask');
+      errorLogger(err, 'Error in promise all transferTask');
     });
     await ftpClient.end();
     await rimrafAsync(path.resolve(process.cwd(), './tmp'));
