@@ -35,7 +35,7 @@ const credentials = new AWS.Credentials({
 });
 const awsS3Client = new AWS.S3({
   credentials,
-  region: process.env.AWS_REGION || 'eu-central-1',
+  region: process.env.AWS_REGION,
 });
 
 const options = {
@@ -44,7 +44,7 @@ const options = {
 };
 const s3Client = s3.createClient(options);
 // the hard coded path is currently need to not kill the existing task
-const radolanRootPath = process.env.FTP_RADOLAN_PATH || 'pub/CDC/grids_germany/hourly/radolan/recent/bin';
+const radolanRootPath = process.env.FTP_RADOLAN_PATH;
 
 const mg = mailgun({apiKey: process.env.MAILGUN_APIKEY!, domain: process.env.MAILGUN_DOMAIN!});
 
