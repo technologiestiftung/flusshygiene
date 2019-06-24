@@ -98,8 +98,8 @@ Run `sls deploy --stage prod`.
 
 ## Call Your Function
 
-```
-$ curl "https://xxxxxx.some-name.some-region.amazonaws.com/stage?from=20190101&to=20190103"
+```bash
+$ curl "https://xxxxxx.some-name.some-region.amazonaws.com/stage?from=20190101&to=20190103" -H 'x-api-key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 > {
   "dates": [
     {
@@ -119,6 +119,14 @@ $ curl "https://xxxxxx.some-name.some-region.amazonaws.com/stage?from=20190101&t
        (… full event input data)
      }
 }
+```
+
+### (Optional) Time Filtering
+
+You can add a time URL parameter to filter the files be the time value coded onto the filename. If there is no match no result will be returned.  
+
+```bash
+curl "https://xxxxxx.some-name.some-region.amazonaws.com/stage?from=20190101&to=20190103&time=2250" -H 'x-api-key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 ```
 
 
