@@ -8,7 +8,7 @@ import { flattenArray } from './lib/util';
 // tslint:disable-next-line: no-var-requires
 const momentRange = require('moment-range');
 const mom = momentRange.extendMoment(moment);
-
+const fileNameSuffix = '-dwd---bin'; // used for filtering by time
 const s3 = new AWS.S3();
 
 // const pubUrl = process.env.RADOLAN_DATA_BUCKET_PUBLIC_URL;
@@ -28,6 +28,7 @@ E.g. http://example.com?from=20190101&to=20190131`;
     }
     let from: string | undefined;
     let to: string | undefined;
+    let time: string | undefined;
     // let token: string | undefined;
     // token = queryParams.token;
     // if (token === undefined) {
@@ -43,11 +44,13 @@ E.g. http://example.com?from=20190101&to=20190131`;
 
     from = queryParams.from;
     to = queryParams.to;
+    time = queryParams.time;
+// tslint:disable-next-line: no-console
+    console.log(time);
 
     if (from === undefined || to === undefined) {
       console.error('Params not defined');
       throw new Error(noQueryParamsErrorMessage);
-
     }
 
     // const reg = /^(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})/;
@@ -140,10 +143,16 @@ E.g from=20190101&to=20190131`);
       }
       return 0;
     });
+    let filteredCleanedFlatS3List = cleanedFlatS3List;
+    if (time !== undefined) {
+      console.info('filtering by time');
+// tslint:disable-next-line: max-line-length
+      filteredCleanedFlatS3List = cleanedFlatS3List.filter((ele: IResponseObject) => ele.key.endsWith(`${time}${fileNameSuffix}`) === true);
+    }
     const response = {
       body: JSON.stringify({
         dates: daysDate,
-        files: cleanedFlatS3List,
+        files: filteredCleanedFlatS3List,
         input: event,
       }),
       statusCode: 200,

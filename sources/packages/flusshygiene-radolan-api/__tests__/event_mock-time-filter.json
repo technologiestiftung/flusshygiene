@@ -1,0 +1,7 @@
+{
+  "queryStringParameters":{
+    "from":"20190101",
+    "to":"20190131",
+    "time":"2250"
+  }
+}
