@@ -11,7 +11,6 @@ const mom = momentRange.extendMoment(moment);
 const fileNameSuffix = '-dwd---bin'; // used for filtering by time
 const s3 = new AWS.S3();
 
-// const pubUrl = process.env.RADOLAN_DATA_BUCKET_PUBLIC_URL;
 export const radolan: Handler = async (event: APIGatewayEvent, _context: Context) => {
   try {
     if (event === undefined) {
@@ -29,13 +28,6 @@ E.g. http://example.com?from=20190101&to=20190131`;
     let from: string | undefined;
     let to: string | undefined;
     let time: string | undefined;
-    // let token: string | undefined;
-    // token = queryParams.token;
-    // if (token === undefined) {
-    //   return {statusCode: 403};
-    // } else if (token !== process.env.KWB_FHPREDICT_TOKEN) {
-    //   return {statusCode: 403};
-    // }
 
     if (['from', 'to'].every((p) => p in queryParams) === false) {
       console.error('Params not defined');
@@ -45,23 +37,17 @@ E.g. http://example.com?from=20190101&to=20190131`;
     from = queryParams.from;
     to = queryParams.to;
     time = queryParams.time;
-// tslint:disable-next-line: no-console
-    console.log(time);
 
     if (from === undefined || to === undefined) {
       console.error('Params not defined');
       throw new Error(noQueryParamsErrorMessage);
     }
 
-    // const reg = /^(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})/;
-    const matchFrom: RegExpMatchArray | null = matchDates(from); // from.match(reg);
+    const matchFrom: RegExpMatchArray | null = matchDates(from);
     const matchTo: RegExpMatchArray | null = matchDates(to);
-    // const props: string[] = ['year', 'month', 'day'];
 
     if (matchFrom === null ||
       matchTo === null ||
-      // matchFrom.groups === undefined ||
-      // matchTo.groups === undefined ||
       matchGroups(matchFrom.groups) === false ||
       matchGroups(matchTo.groups) === false
     ) {
@@ -73,19 +59,8 @@ Should be YYYYMMDD for both.
 E.g from=20190101&to=20190131`);
     }
 
-    // console.log('match from', matchFrom);
-    // console.log('match to', matchTo);
     const start = buildDate(matchFrom.groups as IMatchGroupObject);
-    // const start = new Date(
-    //   parseInt(matchFrom.groups.year, 10),
-    //   parseInt(matchFrom.groups.month, 10) - 1,
-    //   parseInt(matchFrom.groups.day, 10),
-    // );
-    // const end = new Date(
-    //   parseInt(matchTo.groups.year, 10),
-    //   parseInt(matchTo.groups.month, 10) - 1,
-    //   parseInt(matchTo.groups.day, 10),
-    // );
+
     const end = buildDate(matchTo.groups as IMatchGroupObject);
 
     const range = mom.range(start, end);
