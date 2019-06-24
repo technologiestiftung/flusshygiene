@@ -1,5 +1,7 @@
 {
-  "bin": "ru2s3",
+  "bin": {
+    "ru2s3": "dist/cli.js"
+  },
   "name": "@tsb/flusshygiene-radolan-recent-to-s3",
   "version": "1.0.0",
   "description": "Pulls Radolan data from DWD and uploads to S3 bucket",
@@ -47,5 +49,16 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3.git"
+  },
+  "bugs": {
+    "url": "https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/issues"
+  },
+  "homepage": "https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3#readme"
 }
