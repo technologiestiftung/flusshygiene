@@ -1,8 +1,8 @@
 # serverless.yml
 tenant: YOUR NAME
-custom:
-  radolanBucket: YOUR BUCKET NAME
-  publicUrl: YOUR BUCKETS PUBLIC URL
+# custom:
+  # radolanBucket: YOUR BUCKET NAME
+  # publicUrl: YOUR BUCKETS PUBLIC URL
 app: YOUR SERVICE NAME
 service: YOUR SERVICE NAME
 plugins:
@@ -40,9 +40,9 @@ provider:
 functions:
   radolan:
     handler: handler.radolan
-    environment:
-      RADOLAN_DATA_BUCKET:  ${self:custom.radolanBucket}
-      RADOLAN_DATA_BUCKET_PUBLIC_URL: ${self:custom.publicUrl}
+    # environment:
+      # RADOLAN_DATA_BUCKET:  ${self:custom.radolanBucket}
+      # RADOLAN_DATA_BUCKET_PUBLIC_URL: ${self:custom.publicUrl}
     events:
       - http:
           path: /

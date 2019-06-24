@@ -3,8 +3,11 @@
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
+  "engines" : { "node" : ">=10" },
+  "engineStrict" : true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretest": "npm run build",
+    "test": "tap",
     "sls": "sls",
     "dev": "tsc -p . -w",
     "build": "tsc -p ."
@@ -14,7 +17,8 @@
   "license": "MIT",
   "dependencies": {
     "moment": "^2.24.0",
-    "moment-range": "^4.0.2"
+    "moment-range": "^4.0.2",
+    "serverless-dotenv-plugin": "^2.1.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.27",
@@ -25,6 +29,8 @@
     "serverless-export-env": "github:arabold/serverless-export-env",
     "serverless-offline": "^5.3.3",
     "serverless-plugin-typescript": "^1.1.7",
+    "tap": "^14.2.5",
+    "ts-node": "^8.3.0",
     "tslint": "^5.17.0",
     "typescript": "^3.5.1"
   },

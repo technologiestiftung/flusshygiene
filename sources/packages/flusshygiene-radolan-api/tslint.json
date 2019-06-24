@@ -5,10 +5,10 @@
     ],
     "jsRules": {
       "semicolon":true,
-      "quotemark":[true,"single"]
+      "quotemark":[true, "single"]
     },
     "rules": {
-      "no-console":false,
+      "no-console": [true, "log"],
         "semicolon":true,
         "quotemark":[true,"single"],
         "await-promise": false,

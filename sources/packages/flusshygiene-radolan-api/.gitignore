@@ -1,6 +1,7 @@
 __tests__/r-script/*
 __tests__/Flusshygiene-Radolan-Data-API.sh
 __tests__/radolan-data-api.paw
+
 .vscode/*
 serverless.yml
 .build

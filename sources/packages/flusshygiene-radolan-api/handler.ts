@@ -1,17 +1,15 @@
 import { APIGatewayEvent, Context, Handler } from 'aws-lambda';
 import AWS, { S3 } from 'aws-sdk';
 import moment, { Moment } from 'moment';
-import { allBucketKeys } from './all-bucket-keys';
-import { IDaysObject, IResponseObject } from './common';
+import { allBucketKeys } from './lib/all-bucket-keys';
+import { IDaysObject, IMatchGroupObject, IResponseObject } from './lib/common';
+import { buildDate, matchDates, matchGroups } from './lib/date-string-handlers';
+import { flattenArray } from './lib/util';
 // tslint:disable-next-line: no-var-requires
 const momentRange = require('moment-range');
 const mom = momentRange.extendMoment(moment);
 
 const s3 = new AWS.S3();
-// const BUCKET_NAME = 'flusshygiene-radolan-data';
-const flatten = (arr: any[][]) => {
-  return Array.prototype.concat(...arr);
-};
 
 // const pubUrl = process.env.RADOLAN_DATA_BUCKET_PUBLIC_URL;
 export const radolan: Handler = async (event: APIGatewayEvent, _context: Context) => {
@@ -30,6 +28,14 @@ E.g. http://example.com?from=20190101&to=20190131`;
     }
     let from: string | undefined;
     let to: string | undefined;
+    // let token: string | undefined;
+    // token = queryParams.token;
+    // if (token === undefined) {
+    //   return {statusCode: 403};
+    // } else if (token !== process.env.KWB_FHPREDICT_TOKEN) {
+    //   return {statusCode: 403};
+    // }
+
     if (['from', 'to'].every((p) => p in queryParams) === false) {
       console.error('Params not defined');
       throw new Error(noQueryParamsErrorMessage);
@@ -44,17 +50,17 @@ E.g. http://example.com?from=20190101&to=20190131`;
 
     }
 
-    const reg = /^(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})/;
-    const matchFrom: RegExpMatchArray | null = from.match(reg);
-    const matchTo: RegExpMatchArray | null = to.match(reg);
-    const props: string[] = ['year', 'month', 'day'];
+    // const reg = /^(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})/;
+    const matchFrom: RegExpMatchArray | null = matchDates(from); // from.match(reg);
+    const matchTo: RegExpMatchArray | null = matchDates(to);
+    // const props: string[] = ['year', 'month', 'day'];
 
     if (matchFrom === null ||
       matchTo === null ||
-      matchFrom.groups === undefined ||
-      matchTo.groups === undefined ||
-      props.every((p: string) => p in matchFrom.groups!) === false ||
-      props.every((p: string) => p in matchTo.groups!) === false
+      // matchFrom.groups === undefined ||
+      // matchTo.groups === undefined ||
+      matchGroups(matchFrom.groups) === false ||
+      matchGroups(matchTo.groups) === false
     ) {
       console.error('Could not match');
 
@@ -66,19 +72,19 @@ E.g from=20190101&to=20190131`);
 
     // console.log('match from', matchFrom);
     // console.log('match to', matchTo);
-    /**
-     * @description We need to shift the date from 01 based to 00 based
-     */
-    const start = new Date(
-      parseInt(matchFrom.groups.year, 10),
-      parseInt(matchFrom.groups.month, 10) - 1,
-      parseInt(matchFrom.groups.day, 10),
-    );
-    const end = new Date(
-      parseInt(matchTo.groups.year, 10),
-      parseInt(matchTo.groups.month, 10) - 1,
-      parseInt(matchTo.groups.day, 10),
-    );
+    const start = buildDate(matchFrom.groups as IMatchGroupObject);
+    // const start = new Date(
+    //   parseInt(matchFrom.groups.year, 10),
+    //   parseInt(matchFrom.groups.month, 10) - 1,
+    //   parseInt(matchFrom.groups.day, 10),
+    // );
+    // const end = new Date(
+    //   parseInt(matchTo.groups.year, 10),
+    //   parseInt(matchTo.groups.month, 10) - 1,
+    //   parseInt(matchTo.groups.day, 10),
+    // );
+    const end = buildDate(matchTo.groups as IMatchGroupObject);
+
     const range = mom.range(start, end);
     // console.log(range);
     const days: Moment[] = Array.from(range.by('days'));
@@ -104,7 +110,7 @@ E.g from=20190101&to=20190131`);
         const month = ((dto.month).toString()).padStart(2, '0');
         const day = (dto.day.toString()).padStart(2, '0');
         const prefix = `${year}/${month}/${day}`;
-        console.log(prefix);
+        // console.log(prefix);
         const data: S3.ObjectList = await allBucketKeys(s3, process.env.RADOLAN_DATA_BUCKET!, prefix);
         // console.log(data);
         s3Lists.push(data);
@@ -116,7 +122,7 @@ E.g from=20190101&to=20190131`);
     await Promise.all(s3ListingTasks).catch((err) => {
       throw err;
     });
-    const flatS3List = flatten(Array.from(s3Lists));
+    const flatS3List = flattenArray(Array.from(s3Lists));
     const cleanedFlatS3List = flatS3List.map((ele) => {
       const item: IResponseObject = {
         key: ele.Key,
@@ -124,7 +130,7 @@ E.g from=20190101&to=20190131`);
       };
       return item;
     });
-    console.log(cleanedFlatS3List);
+    // console.log(cleanedFlatS3List);
     cleanedFlatS3List.sort((a: IResponseObject, b: IResponseObject) => {
       if (a.url < b.url) {
         return -1;

@@ -6,6 +6,12 @@ export interface IDaysObject {
   month: number;
   day: number;
 }
+export interface IMatchGroupObject extends IObject {
+  year: string;
+  month: string;
+  day: string;
+}
+
 export interface IResponseObject {
   key: string;
   url: string;
