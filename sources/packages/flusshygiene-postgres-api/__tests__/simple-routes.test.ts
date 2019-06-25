@@ -2,6 +2,11 @@ import express = require('express');
 import request from 'supertest';
 import routes from '../src/lib/routes';
 import { defaultGetResponse, defaultPostResponse, wrongRoute } from './../src/lib/request-handlers/defaults';
+import path from 'path';
+import { readTokenFromDisc } from './test-utils';
+
+const token = readTokenFromDisc(path.resolve(__dirname, './.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
 
 const app = express();
 app.use(express.json());
@@ -23,7 +28,7 @@ describe('default route requests', () => {
   test('route default post', async (done) => {
     const response = await request(app).post('/default/post')
       .send({})
-      .set('Accept', 'application/json');
+      .set(headers);
     expect(response.status).toBe(201);
     expect(response.body).toEqual({ success: true });
     done();

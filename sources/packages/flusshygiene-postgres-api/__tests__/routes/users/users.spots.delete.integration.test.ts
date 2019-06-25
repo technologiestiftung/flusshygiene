@@ -11,7 +11,10 @@ import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../../test-utils';
+
+import path from 'path';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -19,6 +22,9 @@ import {
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
 
 describe('testing users/[:userId]/bathingspots/[:spotId] delete', () => {
   let app: Application;
@@ -78,7 +84,7 @@ describe('testing users/[:userId]/bathingspots/[:spotId] delete', () => {
   const usersWithSpots = usersWithSpotsRelation.filter(u => u.bathingspots.length > 0);
   const user = usersWithSpots[0];
   const res = await request(app).delete(
-    `/api/v1/users/${user.id}/bathingspots/${100000}`).send({}).set('Accept', 'application/json');
+    `/api/v1/users/${user.id}/bathingspots/${100000}`).send({}).set(headers);
 
   expect(res.status).toBe(404);
   expect(res.body.success).toBe(false);
@@ -97,7 +103,7 @@ describe('testing users/[:userId]/bathingspots/[:spotId] delete', () => {
   const spot = publicSpots[0];
   const res = await request(app).delete(
     `/api/v1/users/${user.id}/bathingspots/${spot.id}`,
-  ).send({}).set('Accept', 'application/json');
+  ).send({}).set(headers);
   expect(res.status).toBe(404);
   expect(res.body.success).toBe(false);
   expect(res.body.message).toEqual(SUGGESTIONS.missingFields);
@@ -115,13 +121,13 @@ describe('testing users/[:userId]/bathingspots/[:spotId] delete', () => {
     isPublic: true,
     name: 'Sweetwater',
     region: 'berlin',
-  }).set('Accept', 'application/json');
+  }).set(headers);
   // console.log('creation', resCreation.body);
-  const spots = await request(app).get(`/api/v1/users/${id}/bathingspots`);
+  const spots = await request(app).get(`/api/v1/users/${id}/bathingspots`).set(headers);
   const pubSpots = spots.body.data.filter(spot => spot.isPublic === true);
   const res = await request(app).delete(
     `/api/v1/users/${id}/bathingspots/${pubSpots[0].id}`,
-  ).send({ force: true });
+  ).send({ force: true }).set(headers);
   expect(res.status).toBe(200);
   expect(res.body.message).toEqual(SUCCESS.successDeleteSpot200);
   done();

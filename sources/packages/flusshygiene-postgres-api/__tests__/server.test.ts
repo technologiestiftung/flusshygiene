@@ -1,5 +1,6 @@
 
 import express from 'express';
+import path from 'path';
 jest.useFakeTimers();
 
 const app = express();

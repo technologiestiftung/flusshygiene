@@ -8,7 +8,11 @@ import express = require('express');
 import request from 'supertest';
 import { getBathingspots, getSingleBathingspot } from '../src/lib/request-handlers/bathingspots';
 import routes from '../src/lib/routes';
+import path from 'path';
+import { readTokenFromDisc } from './test-utils';
 let app: Application;
+const token = readTokenFromDisc(path.resolve(__dirname, './.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
 
 beforeAll(() => {
   app = express();
@@ -21,7 +25,7 @@ beforeAll(() => {
 describe('testing missing db connection', () => {
 
   it('should be 500 on test route ', async (done) => {
-    const res = await request(app).get('/test/spots');
+    const res = await request(app).get('/test/spots').set(headers);
     expect(res.status).toBe(500);
     done();
   });
@@ -30,47 +34,47 @@ describe('testing missing db connection', () => {
     return request(app).get('/test/spots/noid').catch(e => expect(e).toMatch('error'));
   });
   it('should return 500 on route getUsers', async (done) => {
-    const res = await request(app).get('/api/v1/users');
+    const res = await request(app).get('/api/v1/users').set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 on route getUser id', async (done) => {
-    const res = await request(app).get('/api/v1/users/1');
+    const res = await request(app).get('/api/v1/users/1').set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 on route getUsers id bathingspots', async (done) => {
-    const res = await request(app).get('/api/v1/users/1/bathingspots');
+    const res = await request(app).get('/api/v1/users/1/bathingspots').set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 route getUsers id bathingspot id', async (done) => {
-    const res = await request(app).get('/api/v1/users/1/bathingspots/1');
+    const res = await request(app).get('/api/v1/users/1/bathingspots/1').set(headers);
     expect(res.status).toBe(500);
     done();
   });
 
   it('should return 500 route post user id bathingspot', async (done) => {
     const res = await request(app)
-    .post('/api/v1/users/1/bathingspots').send({name: 'foo', isPublic: true}).set('Accept', 'application/json');
+    .post('/api/v1/users/1/bathingspots').send({name: 'foo', isPublic: true}).set(headers);
     expect(res.status).toBe(500);
     done();
   });
 
   it('should return 500 route put user id bathingspot', async (done) => {
     const res = await request(app)
-    .put('/api/v1/users/1/bathingspots/1').send({name: 'foo', isPublic: true}).set('Accept', 'application/json');
+    .put('/api/v1/users/1/bathingspots/1').send({name: 'foo', isPublic: true}).set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 route delete user id bathingspot', async (done) => {
     const res = await request(app)
-    .delete('/api/v1/users/1/bathingspots/1').send({force: true}).set('Accept', 'application/json');
+    .delete('/api/v1/users/1/bathingspots/1').send({force: true}).set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 on route post new user due to missing connection', async (done) => {
-    const res = await request(app).post('/api/v1/users');
+    const res = await request(app).post('/api/v1/users').set(headers);
     expect(res.status).toBe(500);
     expect(res.body.success).toBe(false);
     // update user
@@ -83,7 +87,7 @@ describe('testing missing db connection', () => {
       lastName: 'Mulitpass',
       role: 'reporter',
     })
-      .set('Accept', 'application/json');
+      .set(headers);
     expect(res.status).toBe(500);
     expect(res.body.success).toBe(false);
     // update user
@@ -96,20 +100,20 @@ describe('testing missing db connection', () => {
       lastName: 'Mulitpass',
       role: 'reporter',
     })
-      .set('Accept', 'application/json');
+      .set(headers);
     expect(res.status).toBe(500);
     expect(res.body.success).toBe(false);
     // update user
     done();
   });
   it('should return 500 on put user by id', async (done) => {
-    const res = await request(app).put('/api/v1/users/1');
+    const res = await request(app).put('/api/v1/users/1').set(headers);
     expect(res.status).toBe(500);
     // delete user
     done();
   });
   it('should return 500 on delete user by id', async (done) => {
-    const res = await request(app).delete('/api/v1/users/1');
+    const res = await request(app).delete('/api/v1/users/1').set(headers);
     expect(res.status).toBe(500);
     // get all bathingspots
     done();
@@ -117,13 +121,13 @@ describe('testing missing db connection', () => {
 
   it('should return 500 on route get all bathingspots', async (done) => {
     // getBathingspots);
-    const res = await request(app).get('/api/v1/bathingspots');
+    const res = await request(app).get('/api/v1/bathingspots').set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 get bathingspot by id', async (done) => {
     // getBathingspot);
-    const res = await request(app).get('/api/v1/bathingspots/1');
+    const res = await request(app).get('/api/v1/bathingspots/1').set(headers);
     expect(res.status).toBe(500);
     done();
   });
@@ -131,7 +135,7 @@ describe('testing missing db connection', () => {
   it('should return 404 post bathingspot by id', async (done) => {
     // getBathingspot);
     const res = await request(app)
-    .post('/api/v1/bathingspots').send({name: 'foo', isPublic: true}).set('Accept', 'application/json');
+    .post('/api/v1/bathingspots').send({name: 'foo', isPublic: true}).set(headers);
     expect(res.status).toBe(404);
     done();
   });
@@ -139,28 +143,28 @@ describe('testing missing db connection', () => {
   it('should return 500 get regions', async (done) => {
     // getBathingspot);
     const res = await request(app)
-    .get('/api/v1/regions');
+    .get('/api/v1/regions').set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 get regions by id', async (done) => {
     // getBathingspot);
     const res = await request(app)
-    .get('/api/v1/regions/1');
+    .get('/api/v1/regions/1').set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 put regions by id', async (done) => {
     // getBathingspot);
     const res = await request(app)
-    .put('/api/v1/regions/1').send({displayName: 'pony and rainbows'});
+    .put('/api/v1/regions/1').send({displayName: 'pony and rainbows'}).set(headers);
     expect(res.status).toBe(500);
     done();
   });
   it('should return 500 post regions', async (done) => {
     // getBathingspot);
     const res = await request(app)
-    .post('/api/v1/regions').send({displayName: 'pony and rainbows', name: 'rainbow'});
+    .post('/api/v1/regions').send({displayName: 'pony and rainbows', name: 'rainbow'}).set(headers);
     // console.log(res);
     expect(res.status).toBe(500);
     done();
@@ -168,7 +172,7 @@ describe('testing missing db connection', () => {
   it('should return 500 delete region by id', async (done) => {
     // getBathingspot);
     const res = await request(app)
-    .delete('/api/v1/regions/1');
+    .delete('/api/v1/regions/1').set(headers);
     // console.log(res);
     expect(res.status).toBe(500);
     done();

@@ -10,7 +10,9 @@ import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../../test-utils';
+import path from 'path';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -18,6 +20,9 @@ import {
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
 
 describe('testing regions api', () => {
   let app: Application;
@@ -71,7 +76,7 @@ describe('testing regions api', () => {
 // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
   test('should get all regions', async (done) => {
-  const res = await request(app).get(`/api/v1/regions`);
+  const res = await request(app).get(`/api/v1/regions`).set(headers);
   expect(res.status).toBe(HttpCodes.success);
   expect(res.body.success).toBe(true);
   expect(Array.isArray(res.body.data)).toBe(true);
@@ -84,7 +89,7 @@ describe('testing regions api', () => {
   const res = await request(app).post(`/api/v1/regions`).send({
     displayName: 'Bayern',
     name: 'bayern',
-  });
+  }).set(headers);
   expect(res.status).toBe(HttpCodes.successCreated);
   expect(res.body.success).toBe(true);
   expect(Array.isArray(res.body.data)).toBe(true);
@@ -93,6 +98,7 @@ describe('testing regions api', () => {
   expect(res.body.data[0].displayName !== undefined).toBe(true);
   done();
 });
+
   test('should update a region', async (done) => {
   const regionRepo = getCustomRepository(RegionRepository);
   const region = await regionRepo.findByName(DefaultRegions.niedersachsen);
@@ -100,7 +106,7 @@ describe('testing regions api', () => {
     `/api/v1/regions/${region.id}`,
     ).send({
       displayName: 'Niedersachsen',
-    }).set('Accept', 'application/json');
+    }).set(headers);
   const doubeCheckRegion = await request(app).get(`/api/v1/regions/${region.id}`);
   expect(res.status).toBe(HttpCodes.successCreated);
   // console.log(res.body);
@@ -110,12 +116,13 @@ describe('testing regions api', () => {
   expect(doubeCheckRegion.body.data[0].displayName).toEqual('Niedersachsen');
   done();
 });
+
   test('should fail to update due to wrong id', async (done) => {
   const res = await request(app).put(
     `/api/v1/regions/${1000}`,
     ).send({
       displayName: 'Niedersachsen',
-    }).set('Accept', 'application/json');
+    }).set(headers);
   expect(res.status).toBe(HttpCodes.badRequestNotFound);
     // console.log(res.body);
   expect(res.body.success).toBe(false);
@@ -123,22 +130,24 @@ describe('testing regions api', () => {
   done();
 });
   test('should fail to delete due to wrong id', async (done) => {
-  const res = await request(app).put(
+  const res = await request(app).delete(
     `/api/v1/regions/${1000}`,
-    );
+    ).set(headers);
   expect(res.status).toBe(HttpCodes.badRequestNotFound);
     // console.log(res.body);
   expect(res.body.success).toBe(false);
     // console.log(doubeCheckRegion.body);
   done();
 });
+
   test('should delete a region', async (done) => {
-  const resCreate = await request(app).post(`/api/v1/regions`).send({
+  const resCreate = await request(app)
+  .post(`/api/v1/regions`).send({
     displayName: 'Fantasia',
     name: 'fantasia',
-  });
+  }).set(headers);
 
-  const res = await request(app).delete(`/api/v1/regions/${resCreate.body.data[0].id}`);
+  const res = await request(app).delete(`/api/v1/regions/${resCreate.body.data[0].id}`).set(headers);
   // console.log(res.body);
   expect(res.status).toBe(HttpCodes.success);
   expect(res.body.success).toBe(true);

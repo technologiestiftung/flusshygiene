@@ -4,6 +4,7 @@ import 'reflect-metadata';
 import request from 'supertest';
 import { Connection } from 'typeorm';
 import routes from '../../../src/lib/routes';
+import path from 'path';
 import {
   DefaultRegions, UserRole,
 } from '../../../src/lib/types-interfaces';
@@ -11,6 +12,7 @@ import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../../test-utils';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
@@ -20,6 +22,9 @@ import {
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
 
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
+
 describe('testing post users', () => {
   let app: Application;
   let connections: Connection[];
@@ -28,6 +33,8 @@ describe('testing post users', () => {
     if (process.env.NODE_ENV !== 'test') {
       throw new Error('We are not in the test env this is harmful tables will be dropped');
     }
+
+
     connections = await createTestingConnections();
     done();
   });
@@ -80,7 +87,7 @@ describe('testing post users', () => {
     lastName: 'Mulitpass',
     role: UserRole.reporter,
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   expect(res.status).toBe(201);
   expect(res.body.success).toBe(true);
   done();
@@ -95,7 +102,7 @@ describe('testing post users', () => {
     region: DefaultRegions.berlin,
     role: UserRole.creator,
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   expect(res.status).toBe(201);
   expect(res.body.success).toBe(true);
   expect(Array.isArray(res.body.data)).toBe(true);
@@ -105,7 +112,7 @@ describe('testing post users', () => {
   expect.assertions(1);
   const res = await request(app).post('/api/v1/users').send({
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   expect(res.status).toBe(404);
 });
 
@@ -116,7 +123,7 @@ describe('testing post users', () => {
     lastName: 'Mulitpass',
     role: 'reporter',
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   expect(res.status).toBe(404);
 });
 
@@ -127,7 +134,7 @@ describe('testing post users', () => {
     firstName: 'Lilu',
     role: 'reporter',
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   expect(res.status).toBe(404);
 });
   test('add user shoud fail due to missing email', async () => {
@@ -137,7 +144,7 @@ describe('testing post users', () => {
     lastName: 'Mulitpass',
     role: 'reporter',
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   expect(res.status).toBe(404);
 });
 
@@ -148,7 +155,7 @@ describe('testing post users', () => {
     firstName: 'Lilu',
     lastName: 'Mulitpass',
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   expect(res.status).toBe(404);
 });
 });

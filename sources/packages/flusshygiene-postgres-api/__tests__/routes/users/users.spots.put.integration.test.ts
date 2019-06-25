@@ -13,14 +13,18 @@ import {
   createTestingConnections,
   readFileAsync,
   reloadTestingDatabases,
-} from '../../test-utils';
+  readTokenFromDisc,
 
+} from '../../test-utils';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
 
 describe('testing users/bathingspot PUT', () => {
   let app: Application;
@@ -81,7 +85,7 @@ describe('testing users/bathingspot PUT', () => {
 
   const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${10000}`).send({
     name: 'watering hole',
-  }).set('Accept', 'application/json');
+  }).set(headers);
 
   expect(res.status).toBe(404);
   expect(res.body.success).toBe(false);
@@ -98,7 +102,7 @@ describe('testing users/bathingspot PUT', () => {
   const spot = user.bathingspots[0];
   const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
     name: 'watering hole',
-  }).set('Accept', 'application/json');
+  }).set(headers);
   const spotAgain: Bathingspot | undefined = await spotRepo.findOne(spot.id);
   expect(res.status).toBe(201);
   expect(res.body.success).toBe(true);
@@ -129,7 +133,7 @@ describe('testing users/bathingspot PUT', () => {
     longitude: 52,
     name: 'Sweetwater',
     state: {},
-  }).set('Accept', 'application/json');
+  }).set(headers);
 
   // console.log(res.body);
 
@@ -152,7 +156,7 @@ describe('testing users/bathingspot PUT', () => {
   const user = usersWithSpots[0];
   const spot = user.bathingspots[0];
   const res = await request(app).put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`).send({
-  }).set('Accept', 'application/json');
+  }).set(headers);
   expect(res.status).toBe(404);
   expect(res.body.success).toBe(false);
   expect(res.body.message).toBe(SUGGESTIONS.missingFields);

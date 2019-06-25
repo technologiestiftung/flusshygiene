@@ -10,14 +10,19 @@ import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../../test-utils';
-
+import path from 'path';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
+
 
 describe('testing put users', () => {
   let app: Application;
@@ -73,12 +78,13 @@ describe('testing put users', () => {
   test('update user', async (done) => {
   // process.env.NODE_ENV = 'development';
   // expect.assertions(2);
-  const usersres = await request(app).get('/api/v1/users');
+  const usersres = await request(app).get('/api/v1/users').set(headers);
+  // console.log(usersres);
   const id = usersres.body.data[usersres.body.data.length - 1].id;
   const res = await request(app).put(`/api/v1/users/${id}`).send({
     email: 'foo@test.com',
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   expect(res.status).toBe(201);
   expect(res.body.success).toBe(true);
   expect(Array.isArray(res.body.data)).toBe(true);
@@ -93,21 +99,21 @@ describe('testing put users', () => {
     region: DefaultRegions.niedersachsen,
     role: UserRole.creator,
   })
-    .set('Accept', 'application/json');
+    .set(headers);
   console.log(newUserRes.body);
   // const usersres = await request(app).get('/api/v1/users');
   // const id = usersres.body.data[usersres.body.data.length - 1].id;
   const spotRes = await request(app).post(`/api/v1/users/${newUserRes.body.data[0].id}/bathingspots`).send({
     isPublic: false,
     name: 'intermidiante spot',
-  }).set('Accept', 'application/json');
+  }).set(headers);
 
   const res = await request(app).put(
     `/api/v1/users/${newUserRes.body.data[0].id}`).send({
             email: 'foo@test.com',
             region: DefaultRegions.niedersachsen,
           })
-            .set('Accept', 'application/json');
+            .set(headers);
 
   expect(res.status).toBe(201);
   expect(res.body.success).toBe(true);
@@ -122,7 +128,7 @@ describe('testing put users', () => {
 
   // console.log(usersWithRelations);
   const res = await request(app).put(
-    `/api/v1/users/${1000}`);
+    `/api/v1/users/${1000}`).set(headers);
   expect(res.status).toBe(404);
   // console.log(res.body);
   expect(res.body.success).toBe(false);
@@ -135,7 +141,7 @@ describe('testing put users', () => {
 
   // console.log(usersWithRelations);
   const res = await request(app).put(
-    `/api/v1/users/`);
+    `/api/v1/users/`).set(headers);
   expect(res.status).toBe(404);
   // console.log(res.body);
   // expect(res.body.success).toBe(false);

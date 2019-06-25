@@ -1,3 +1,4 @@
+import  rq  from 'request-promise-native';
 import fs from 'fs';
 import { Connection, createConnection, getCustomRepository } from 'typeorm';
 import util from 'util';
@@ -13,6 +14,10 @@ import { User } from '../../src/orm/entity/User';
 import {createUser } from '../../src/orm/fixtures/create-test-user';
 import { BathingspotMeasurement } from './../../src/orm/entity/BathingspotMeasurement';
 import { Event } from './../../src/orm/entity/Event';
+import path from 'path';
+import { config } from 'dotenv';
+
+config({ path: path.resolve(__dirname, '../.env.test') });
 
 export async function closeTestingConnections(connections: Connection[]) {
   return Promise.all(connections.map(
@@ -119,3 +124,75 @@ export async function reloadTestingDatabases(connections: Connection[]) {
 }
 
 export const readFileAsync = util.promisify(fs.readFile);
+export const optionsTokenRequest: rq.OptionsWithUrl = {
+  // tslint:disable-next-line: max-line-length
+  body: `{"client_id":"${process.env.AUTH0_CLIENT_ID}","client_secret":"${process.env.AUTH0_CLIENT_SECRET}","audience":"${process.env.AUTH0_AUDIENCE}","grant_type":"client_credentials"}`,
+  headers: { 'content-type': 'application/json' },
+  method: 'POST',
+  url: process.env.AUTH0_REQ_URL,
+  resolveWithFullResponse: true,
+};
+
+
+export interface IDiskToken {
+  access_token: string;
+  token_type: string;
+  issance: number;
+}
+
+const isTokenOutdated: (issuance_ms: number, issuance_duration_ms: number) => boolean = (issuance_ms, issuance_duration_ms) => {
+  const now = new Date();
+
+  if ((now.getTime() - issuance_ms) < issuance_duration_ms) {
+    return true;
+  }
+  return false;
+}
+
+
+export const readTokenFromDisc: (filePath: string) => IDiskToken | undefined = (filePath) => {
+  if (fs.existsSync(filePath) === true) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    try {
+      const json = JSON.parse(content);
+      // the file does not have what we want
+      if (json.hasOwnProperty('access_token') === false || json.hasOwnProperty('token_type') === false) {
+        return undefined;
+      }
+      if(isTokenOutdated(json.issance, json.expires_in * 1000) === true){
+        getNewToken(filePath, optionsTokenRequest);
+      }
+      return json;
+    } catch (error) {
+
+      // console.error('this is the error ', error.message);
+      console.error(error);
+    }
+  } else {
+    return undefined;
+  }
+};
+
+const writeTokenToDisk: (filePath: string, dataStr: string) => void = (filePath, dataStr) => {
+  console.info('writing token to disk');
+  fs.writeFileSync(filePath, dataStr);
+}
+
+
+export const getNewToken: (filePath: string, opts: rq.OptionsWithUrl) => Promise<void> = async (filePath, opts) => {
+  try {
+    const response = await rq(opts);
+    if (response.statusCode !== 200) {
+      console.log(response);
+      throw new Error('Status on new token request is not 200');
+    } else {
+      // console.log(response.body);
+      const parsedBody = JSON.parse(response.body);
+      parsedBody.issuance = new Date().getTime();
+      writeTokenToDisk(filePath, JSON.stringify(parsedBody));
+    }
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+}

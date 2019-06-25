@@ -1,0 +1,2558 @@
+[
+  {
+    "id": 1,
+    "badestellen_id": 36,
+    "date": "2018-04-13",
+    "prediction": "gut"
+  },
+  {
+    "id": 2,
+    "badestellen_id": 28,
+    "date": "2018-04-13",
+    "prediction": "gut"
+  },
+  {
+    "id": 3,
+    "badestellen_id": 36,
+    "date": "2018-05-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 4,
+    "badestellen_id": 28,
+    "date": "2018-05-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 5,
+    "badestellen_id": 36,
+    "date": "2018-04-04",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 6,
+    "badestellen_id": 28,
+    "date": "2018-04-04",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 7,
+    "badestellen_id": 36,
+    "date": "2018-04-07",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 8,
+    "badestellen_id": 28,
+    "date": "2018-04-07",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 9,
+    "badestellen_id": 36,
+    "date": "2018-05-16",
+    "prediction": "gut"
+  },
+  {
+    "id": 10,
+    "badestellen_id": 28,
+    "date": "2018-05-16",
+    "prediction": "gut"
+  },
+  {
+    "id": 11,
+    "badestellen_id": 36,
+    "date": "2018-04-03",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 12,
+    "badestellen_id": 28,
+    "date": "2018-04-03",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 13,
+    "badestellen_id": 36,
+    "date": "2018-05-13",
+    "prediction": "gut"
+  },
+  {
+    "id": 14,
+    "badestellen_id": 28,
+    "date": "2018-05-13",
+    "prediction": "gut"
+  },
+  {
+    "id": 15,
+    "badestellen_id": 36,
+    "date": "2018-04-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 16,
+    "badestellen_id": 28,
+    "date": "2018-04-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 17,
+    "badestellen_id": 36,
+    "date": "2018-04-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 18,
+    "badestellen_id": 28,
+    "date": "2018-04-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 19,
+    "badestellen_id": 36,
+    "date": "2018-04-06",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 20,
+    "badestellen_id": 28,
+    "date": "2018-04-06",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 21,
+    "badestellen_id": 36,
+    "date": "2018-03-28",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 22,
+    "badestellen_id": 28,
+    "date": "2018-03-28",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 23,
+    "badestellen_id": 36,
+    "date": "2018-04-14",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 24,
+    "badestellen_id": 28,
+    "date": "2018-04-14",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 25,
+    "badestellen_id": 36,
+    "date": "2018-04-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 26,
+    "badestellen_id": 28,
+    "date": "2018-04-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 27,
+    "badestellen_id": 36,
+    "date": "2018-04-21",
+    "prediction": "gut"
+  },
+  {
+    "id": 28,
+    "badestellen_id": 28,
+    "date": "2018-04-21",
+    "prediction": "gut"
+  },
+  {
+    "id": 29,
+    "badestellen_id": 36,
+    "date": "2018-05-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 30,
+    "badestellen_id": 28,
+    "date": "2018-05-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 31,
+    "badestellen_id": 36,
+    "date": "2018-05-18",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 32,
+    "badestellen_id": 28,
+    "date": "2018-05-18",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 33,
+    "badestellen_id": 36,
+    "date": "2018-05-12",
+    "prediction": "gut"
+  },
+  {
+    "id": 34,
+    "badestellen_id": 28,
+    "date": "2018-05-12",
+    "prediction": "gut"
+  },
+  {
+    "id": 35,
+    "badestellen_id": 36,
+    "date": "2018-04-05",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 36,
+    "badestellen_id": 28,
+    "date": "2018-04-05",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 37,
+    "badestellen_id": 36,
+    "date": "2018-05-11",
+    "prediction": "gut"
+  },
+  {
+    "id": 38,
+    "badestellen_id": 28,
+    "date": "2018-05-11",
+    "prediction": "gut"
+  },
+  {
+    "id": 39,
+    "badestellen_id": 36,
+    "date": "2018-04-19",
+    "prediction": "gut"
+  },
+  {
+    "id": 40,
+    "badestellen_id": 28,
+    "date": "2018-04-19",
+    "prediction": "gut"
+  },
+  {
+    "id": 41,
+    "badestellen_id": 36,
+    "date": "2018-03-27",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 42,
+    "badestellen_id": 28,
+    "date": "2018-03-27",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 43,
+    "badestellen_id": 36,
+    "date": "2018-04-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 44,
+    "badestellen_id": 28,
+    "date": "2018-04-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 45,
+    "badestellen_id": 36,
+    "date": "2018-04-17",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 46,
+    "badestellen_id": 28,
+    "date": "2018-04-17",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 47,
+    "badestellen_id": 36,
+    "date": "2018-04-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 48,
+    "badestellen_id": 28,
+    "date": "2018-04-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 49,
+    "badestellen_id": 36,
+    "date": "2018-04-16",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 50,
+    "badestellen_id": 28,
+    "date": "2018-04-16",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 51,
+    "badestellen_id": 36,
+    "date": "2018-05-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 52,
+    "badestellen_id": 28,
+    "date": "2018-05-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 53,
+    "badestellen_id": 36,
+    "date": "2018-04-18",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 54,
+    "badestellen_id": 28,
+    "date": "2018-04-18",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 55,
+    "badestellen_id": 36,
+    "date": "2018-04-15",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 56,
+    "badestellen_id": 28,
+    "date": "2018-04-15",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 57,
+    "badestellen_id": 36,
+    "date": "2018-05-19",
+    "prediction": "gut"
+  },
+  {
+    "id": 58,
+    "badestellen_id": 28,
+    "date": "2018-05-19",
+    "prediction": "gut"
+  },
+  {
+    "id": 59,
+    "badestellen_id": 36,
+    "date": "2018-05-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 60,
+    "badestellen_id": 28,
+    "date": "2018-05-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 61,
+    "badestellen_id": 36,
+    "date": "2018-05-17",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 62,
+    "badestellen_id": 28,
+    "date": "2018-05-17",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 63,
+    "badestellen_id": 36,
+    "date": "2018-04-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 64,
+    "badestellen_id": 28,
+    "date": "2018-04-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 65,
+    "badestellen_id": 36,
+    "date": "2018-05-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 66,
+    "badestellen_id": 28,
+    "date": "2018-05-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 67,
+    "badestellen_id": 36,
+    "date": "2018-03-29",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 68,
+    "badestellen_id": 28,
+    "date": "2018-03-29",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 69,
+    "badestellen_id": 36,
+    "date": "2018-05-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 70,
+    "badestellen_id": 28,
+    "date": "2018-05-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 71,
+    "badestellen_id": 36,
+    "date": "2018-05-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 72,
+    "badestellen_id": 28,
+    "date": "2018-05-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 73,
+    "badestellen_id": 36,
+    "date": "2018-05-25",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 74,
+    "badestellen_id": 28,
+    "date": "2018-05-25",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 75,
+    "badestellen_id": 36,
+    "date": "2018-05-26",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 76,
+    "badestellen_id": 28,
+    "date": "2018-05-26",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 77,
+    "badestellen_id": 36,
+    "date": "2018-05-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 78,
+    "badestellen_id": 28,
+    "date": "2018-05-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 79,
+    "badestellen_id": 36,
+    "date": "2018-05-31",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 80,
+    "badestellen_id": 28,
+    "date": "2018-05-31",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 81,
+    "badestellen_id": 36,
+    "date": "2018-06-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 82,
+    "badestellen_id": 28,
+    "date": "2018-06-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 83,
+    "badestellen_id": 36,
+    "date": "2018-06-02",
+    "prediction": "gut"
+  },
+  {
+    "id": 84,
+    "badestellen_id": 28,
+    "date": "2018-06-02",
+    "prediction": "gut"
+  },
+  {
+    "id": 85,
+    "badestellen_id": 36,
+    "date": "2018-06-03",
+    "prediction": "gut"
+  },
+  {
+    "id": 86,
+    "badestellen_id": 28,
+    "date": "2018-06-03",
+    "prediction": "gut"
+  },
+  {
+    "id": 87,
+    "badestellen_id": 36,
+    "date": "2018-06-04",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 88,
+    "badestellen_id": 28,
+    "date": "2018-06-04",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 89,
+    "badestellen_id": 36,
+    "date": "2018-06-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 90,
+    "badestellen_id": 28,
+    "date": "2018-06-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 91,
+    "badestellen_id": 36,
+    "date": "2018-06-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 92,
+    "badestellen_id": 28,
+    "date": "2018-06-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 93,
+    "badestellen_id": 36,
+    "date": "2018-06-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 94,
+    "badestellen_id": 28,
+    "date": "2018-06-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 95,
+    "badestellen_id": 36,
+    "date": "2018-06-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 96,
+    "badestellen_id": 28,
+    "date": "2018-06-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 97,
+    "badestellen_id": 36,
+    "date": "2018-06-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 98,
+    "badestellen_id": 28,
+    "date": "2018-06-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 99,
+    "badestellen_id": 36,
+    "date": "2018-06-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 100,
+    "badestellen_id": 28,
+    "date": "2018-06-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 101,
+    "badestellen_id": 36,
+    "date": "2018-06-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 102,
+    "badestellen_id": 28,
+    "date": "2018-06-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 103,
+    "badestellen_id": 36,
+    "date": "2018-06-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 104,
+    "badestellen_id": 28,
+    "date": "2018-06-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 105,
+    "badestellen_id": 36,
+    "date": "2018-06-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 106,
+    "badestellen_id": 28,
+    "date": "2018-06-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 107,
+    "badestellen_id": 36,
+    "date": "2018-06-14",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 108,
+    "badestellen_id": 28,
+    "date": "2018-06-14",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 109,
+    "badestellen_id": 36,
+    "date": "2018-06-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 110,
+    "badestellen_id": 28,
+    "date": "2018-06-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 111,
+    "badestellen_id": 36,
+    "date": "2018-06-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 112,
+    "badestellen_id": 28,
+    "date": "2018-06-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 113,
+    "badestellen_id": 36,
+    "date": "2018-06-18",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 114,
+    "badestellen_id": 28,
+    "date": "2018-06-18",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 115,
+    "badestellen_id": 36,
+    "date": "2018-06-19",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 116,
+    "badestellen_id": 28,
+    "date": "2018-06-19",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 117,
+    "badestellen_id": 36,
+    "date": "2018-06-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 118,
+    "badestellen_id": 28,
+    "date": "2018-06-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 119,
+    "badestellen_id": 36,
+    "date": "2018-06-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 120,
+    "badestellen_id": 28,
+    "date": "2018-06-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 121,
+    "badestellen_id": 36,
+    "date": "2018-06-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 122,
+    "badestellen_id": 28,
+    "date": "2018-06-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 123,
+    "badestellen_id": 36,
+    "date": "2018-06-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 124,
+    "badestellen_id": 28,
+    "date": "2018-06-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 125,
+    "badestellen_id": 36,
+    "date": "2018-06-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 126,
+    "badestellen_id": 28,
+    "date": "2018-06-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 127,
+    "badestellen_id": 36,
+    "date": "2018-06-25",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 128,
+    "badestellen_id": 28,
+    "date": "2018-06-25",
+    "prediction": "gut"
+  },
+  {
+    "id": 129,
+    "badestellen_id": 36,
+    "date": "2018-06-26",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 130,
+    "badestellen_id": 28,
+    "date": "2018-06-26",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 131,
+    "badestellen_id": 36,
+    "date": "2018-06-27",
+    "prediction": "gut"
+  },
+  {
+    "id": 132,
+    "badestellen_id": 28,
+    "date": "2018-06-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 133,
+    "badestellen_id": 36,
+    "date": "2018-06-28",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 134,
+    "badestellen_id": 28,
+    "date": "2018-06-28",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 135,
+    "badestellen_id": 36,
+    "date": "2018-06-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 136,
+    "badestellen_id": 28,
+    "date": "2018-06-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 137,
+    "badestellen_id": 36,
+    "date": "2018-06-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 138,
+    "badestellen_id": 28,
+    "date": "2018-06-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 139,
+    "badestellen_id": 36,
+    "date": "2018-07-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 140,
+    "badestellen_id": 28,
+    "date": "2018-07-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 141,
+    "badestellen_id": 36,
+    "date": "2018-07-02",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 142,
+    "badestellen_id": 28,
+    "date": "2018-07-02",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 143,
+    "badestellen_id": 36,
+    "date": "2018-07-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 144,
+    "badestellen_id": 28,
+    "date": "2018-07-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 145,
+    "badestellen_id": 36,
+    "date": "2018-07-04",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 146,
+    "badestellen_id": 28,
+    "date": "2018-07-04",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 147,
+    "badestellen_id": 36,
+    "date": "2018-07-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 148,
+    "badestellen_id": 28,
+    "date": "2018-07-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 149,
+    "badestellen_id": 36,
+    "date": "2018-07-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 150,
+    "badestellen_id": 28,
+    "date": "2018-07-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 151,
+    "badestellen_id": 36,
+    "date": "2018-07-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 152,
+    "badestellen_id": 28,
+    "date": "2018-07-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 153,
+    "badestellen_id": 36,
+    "date": "2018-07-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 154,
+    "badestellen_id": 28,
+    "date": "2018-07-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 155,
+    "badestellen_id": 36,
+    "date": "2018-07-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 156,
+    "badestellen_id": 28,
+    "date": "2018-07-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 157,
+    "badestellen_id": 36,
+    "date": "2018-07-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 158,
+    "badestellen_id": 28,
+    "date": "2018-07-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 159,
+    "badestellen_id": 36,
+    "date": "2018-07-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 160,
+    "badestellen_id": 28,
+    "date": "2018-07-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 161,
+    "badestellen_id": 36,
+    "date": "2018-07-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 162,
+    "badestellen_id": 28,
+    "date": "2018-07-12",
+    "prediction": "gut"
+  },
+  {
+    "id": 163,
+    "badestellen_id": 36,
+    "date": "2018-07-13",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 164,
+    "badestellen_id": 28,
+    "date": "2018-07-13",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 165,
+    "badestellen_id": 36,
+    "date": "2018-07-14",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 166,
+    "badestellen_id": 28,
+    "date": "2018-07-14",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 167,
+    "badestellen_id": 36,
+    "date": "2018-07-15",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 168,
+    "badestellen_id": 28,
+    "date": "2018-07-15",
+    "prediction": "gut"
+  },
+  {
+    "id": 169,
+    "badestellen_id": 36,
+    "date": "2018-07-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 170,
+    "badestellen_id": 28,
+    "date": "2018-07-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 171,
+    "badestellen_id": 36,
+    "date": "2018-07-17",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 172,
+    "badestellen_id": 28,
+    "date": "2018-07-17",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 173,
+    "badestellen_id": 36,
+    "date": "2018-07-18",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 174,
+    "badestellen_id": 28,
+    "date": "2018-07-18",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 175,
+    "badestellen_id": 36,
+    "date": "2018-07-19",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 176,
+    "badestellen_id": 28,
+    "date": "2018-07-19",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 177,
+    "badestellen_id": 36,
+    "date": "2018-07-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 178,
+    "badestellen_id": 28,
+    "date": "2018-07-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 179,
+    "badestellen_id": 36,
+    "date": "2018-07-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 180,
+    "badestellen_id": 28,
+    "date": "2018-07-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 181,
+    "badestellen_id": 36,
+    "date": "2018-07-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 182,
+    "badestellen_id": 28,
+    "date": "2018-07-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 183,
+    "badestellen_id": 36,
+    "date": "2018-07-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 184,
+    "badestellen_id": 28,
+    "date": "2018-07-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 185,
+    "badestellen_id": 36,
+    "date": "2018-07-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 186,
+    "badestellen_id": 28,
+    "date": "2018-07-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 187,
+    "badestellen_id": 36,
+    "date": "2018-07-25",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 188,
+    "badestellen_id": 28,
+    "date": "2018-07-25",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 189,
+    "badestellen_id": 36,
+    "date": "2018-07-26",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 190,
+    "badestellen_id": 28,
+    "date": "2018-07-26",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 191,
+    "badestellen_id": 36,
+    "date": "2018-07-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 192,
+    "badestellen_id": 28,
+    "date": "2018-07-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 193,
+    "badestellen_id": 36,
+    "date": "2018-07-28",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 194,
+    "badestellen_id": 28,
+    "date": "2018-07-28",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 195,
+    "badestellen_id": 36,
+    "date": "2018-07-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 196,
+    "badestellen_id": 28,
+    "date": "2018-07-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 197,
+    "badestellen_id": 36,
+    "date": "2018-07-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 198,
+    "badestellen_id": 28,
+    "date": "2018-07-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 199,
+    "badestellen_id": 36,
+    "date": "2018-07-31",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 200,
+    "badestellen_id": 28,
+    "date": "2018-07-31",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 201,
+    "badestellen_id": 36,
+    "date": "2018-08-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 202,
+    "badestellen_id": 28,
+    "date": "2018-08-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 203,
+    "badestellen_id": 36,
+    "date": "2018-08-02",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 204,
+    "badestellen_id": 28,
+    "date": "2018-08-02",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 205,
+    "badestellen_id": 36,
+    "date": "2018-08-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 206,
+    "badestellen_id": 28,
+    "date": "2018-08-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 207,
+    "badestellen_id": 36,
+    "date": "2018-08-04",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 208,
+    "badestellen_id": 28,
+    "date": "2018-08-04",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 209,
+    "badestellen_id": 36,
+    "date": "2018-08-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 210,
+    "badestellen_id": 28,
+    "date": "2018-08-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 211,
+    "badestellen_id": 36,
+    "date": "2018-08-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 212,
+    "badestellen_id": 28,
+    "date": "2018-08-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 213,
+    "badestellen_id": 36,
+    "date": "2018-08-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 214,
+    "badestellen_id": 28,
+    "date": "2018-08-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 215,
+    "badestellen_id": 36,
+    "date": "2018-08-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 216,
+    "badestellen_id": 28,
+    "date": "2018-08-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 217,
+    "badestellen_id": 36,
+    "date": "2018-08-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 218,
+    "badestellen_id": 28,
+    "date": "2018-08-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 219,
+    "badestellen_id": 36,
+    "date": "2018-08-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 220,
+    "badestellen_id": 28,
+    "date": "2018-08-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 221,
+    "badestellen_id": 36,
+    "date": "2018-08-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 222,
+    "badestellen_id": 28,
+    "date": "2018-08-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 223,
+    "badestellen_id": 36,
+    "date": "2018-08-14",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 224,
+    "badestellen_id": 28,
+    "date": "2018-08-14",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 225,
+    "badestellen_id": 36,
+    "date": "2018-08-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 226,
+    "badestellen_id": 28,
+    "date": "2018-08-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 227,
+    "badestellen_id": 36,
+    "date": "2018-08-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 228,
+    "badestellen_id": 28,
+    "date": "2018-08-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 229,
+    "badestellen_id": 36,
+    "date": "2018-08-17",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 230,
+    "badestellen_id": 28,
+    "date": "2018-08-17",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 231,
+    "badestellen_id": 36,
+    "date": "2018-08-18",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 232,
+    "badestellen_id": 28,
+    "date": "2018-08-18",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 233,
+    "badestellen_id": 36,
+    "date": "2018-08-19",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 234,
+    "badestellen_id": 28,
+    "date": "2018-08-19",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 235,
+    "badestellen_id": 36,
+    "date": "2018-08-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 236,
+    "badestellen_id": 28,
+    "date": "2018-08-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 237,
+    "badestellen_id": 36,
+    "date": "2018-08-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 238,
+    "badestellen_id": 28,
+    "date": "2018-08-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 239,
+    "badestellen_id": 36,
+    "date": "2018-08-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 240,
+    "badestellen_id": 28,
+    "date": "2018-08-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 241,
+    "badestellen_id": 36,
+    "date": "2018-08-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 242,
+    "badestellen_id": 28,
+    "date": "2018-08-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 243,
+    "badestellen_id": 36,
+    "date": "2018-08-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 244,
+    "badestellen_id": 28,
+    "date": "2018-08-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 245,
+    "badestellen_id": 36,
+    "date": "2018-09-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 246,
+    "badestellen_id": 28,
+    "date": "2018-09-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 247,
+    "badestellen_id": 36,
+    "date": "2018-09-02",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 248,
+    "badestellen_id": 28,
+    "date": "2018-09-02",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 249,
+    "badestellen_id": 36,
+    "date": "2018-09-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 250,
+    "badestellen_id": 28,
+    "date": "2018-09-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 251,
+    "badestellen_id": 36,
+    "date": "2018-09-04",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 252,
+    "badestellen_id": 28,
+    "date": "2018-09-04",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 253,
+    "badestellen_id": 36,
+    "date": "2018-09-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 254,
+    "badestellen_id": 28,
+    "date": "2018-09-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 255,
+    "badestellen_id": 36,
+    "date": "2018-09-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 256,
+    "badestellen_id": 28,
+    "date": "2018-09-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 257,
+    "badestellen_id": 36,
+    "date": "2018-09-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 258,
+    "badestellen_id": 28,
+    "date": "2018-09-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 259,
+    "badestellen_id": 36,
+    "date": "2018-09-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 260,
+    "badestellen_id": 28,
+    "date": "2018-09-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 261,
+    "badestellen_id": 36,
+    "date": "2018-09-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 262,
+    "badestellen_id": 28,
+    "date": "2018-09-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 263,
+    "badestellen_id": 36,
+    "date": "2018-09-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 264,
+    "badestellen_id": 28,
+    "date": "2018-09-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 265,
+    "badestellen_id": 36,
+    "date": "2018-09-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 266,
+    "badestellen_id": 28,
+    "date": "2018-09-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 267,
+    "badestellen_id": 36,
+    "date": "2018-09-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 268,
+    "badestellen_id": 28,
+    "date": "2018-09-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 269,
+    "badestellen_id": 36,
+    "date": "2018-09-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 270,
+    "badestellen_id": 28,
+    "date": "2018-09-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 271,
+    "badestellen_id": 36,
+    "date": "2018-09-14",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 272,
+    "badestellen_id": 28,
+    "date": "2018-09-14",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 273,
+    "badestellen_id": 36,
+    "date": "2018-09-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 274,
+    "badestellen_id": 28,
+    "date": "2018-09-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 275,
+    "badestellen_id": 36,
+    "date": "2018-09-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 276,
+    "badestellen_id": 28,
+    "date": "2018-09-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 277,
+    "badestellen_id": 36,
+    "date": "2018-09-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 278,
+    "badestellen_id": 28,
+    "date": "2018-09-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 279,
+    "badestellen_id": 36,
+    "date": "2018-09-24",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 280,
+    "badestellen_id": 28,
+    "date": "2018-09-24",
+    "prediction": "gut"
+  },
+  {
+    "id": 281,
+    "badestellen_id": 36,
+    "date": "2018-09-25",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 282,
+    "badestellen_id": 28,
+    "date": "2018-09-25",
+    "prediction": "gut"
+  },
+  {
+    "id": 283,
+    "badestellen_id": 36,
+    "date": "2018-09-26",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 284,
+    "badestellen_id": 28,
+    "date": "2018-09-26",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 285,
+    "badestellen_id": 36,
+    "date": "2018-09-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 286,
+    "badestellen_id": 28,
+    "date": "2018-09-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 287,
+    "badestellen_id": 36,
+    "date": "2019-04-02",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 288,
+    "badestellen_id": 36,
+    "date": "2019-04-03",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 289,
+    "badestellen_id": 28,
+    "date": "2019-04-03",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 290,
+    "badestellen_id": 36,
+    "date": "2019-04-04",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 291,
+    "badestellen_id": 28,
+    "date": "2019-04-04",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 292,
+    "badestellen_id": 36,
+    "date": "2019-04-05",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 293,
+    "badestellen_id": 28,
+    "date": "2019-04-05",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 294,
+    "badestellen_id": 36,
+    "date": "2019-04-06",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 295,
+    "badestellen_id": 28,
+    "date": "2019-04-06",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 296,
+    "badestellen_id": 36,
+    "date": "2019-04-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 297,
+    "badestellen_id": 28,
+    "date": "2019-04-08",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 298,
+    "badestellen_id": 36,
+    "date": "2019-04-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 299,
+    "badestellen_id": 28,
+    "date": "2019-04-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 300,
+    "badestellen_id": 36,
+    "date": "2019-04-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 301,
+    "badestellen_id": 28,
+    "date": "2019-04-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 302,
+    "badestellen_id": 36,
+    "date": "2019-04-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 303,
+    "badestellen_id": 28,
+    "date": "2019-04-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 304,
+    "badestellen_id": 36,
+    "date": "2019-04-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 305,
+    "badestellen_id": 28,
+    "date": "2019-04-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 306,
+    "badestellen_id": 36,
+    "date": "2019-04-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 307,
+    "badestellen_id": 28,
+    "date": "2019-04-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 308,
+    "badestellen_id": 36,
+    "date": "2019-04-14",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 309,
+    "badestellen_id": 28,
+    "date": "2019-04-14",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 310,
+    "badestellen_id": 36,
+    "date": "2019-04-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 311,
+    "badestellen_id": 28,
+    "date": "2019-04-15",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 312,
+    "badestellen_id": 36,
+    "date": "2019-04-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 313,
+    "badestellen_id": 28,
+    "date": "2019-04-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 314,
+    "badestellen_id": 36,
+    "date": "2019-04-17",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 315,
+    "badestellen_id": 28,
+    "date": "2019-04-17",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 316,
+    "badestellen_id": 36,
+    "date": "2019-04-18",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 317,
+    "badestellen_id": 28,
+    "date": "2019-04-18",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 318,
+    "badestellen_id": 36,
+    "date": "2019-04-19",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 319,
+    "badestellen_id": 28,
+    "date": "2019-04-19",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 320,
+    "badestellen_id": 36,
+    "date": "2019-04-20",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 321,
+    "badestellen_id": 28,
+    "date": "2019-04-20",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 322,
+    "badestellen_id": 36,
+    "date": "2019-04-21",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 323,
+    "badestellen_id": 28,
+    "date": "2019-04-21",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 324,
+    "badestellen_id": 36,
+    "date": "2019-04-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 325,
+    "badestellen_id": 28,
+    "date": "2019-04-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 326,
+    "badestellen_id": 36,
+    "date": "2019-04-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 327,
+    "badestellen_id": 28,
+    "date": "2019-04-23",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 328,
+    "badestellen_id": 36,
+    "date": "2019-04-24",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 329,
+    "badestellen_id": 28,
+    "date": "2019-04-24",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 330,
+    "badestellen_id": 36,
+    "date": "2019-04-25",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 331,
+    "badestellen_id": 28,
+    "date": "2019-04-25",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 332,
+    "badestellen_id": 36,
+    "date": "2019-04-26",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 333,
+    "badestellen_id": 28,
+    "date": "2019-04-26",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 334,
+    "badestellen_id": 36,
+    "date": "2019-04-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 335,
+    "badestellen_id": 28,
+    "date": "2019-04-27",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 336,
+    "badestellen_id": 36,
+    "date": "2019-04-28",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 337,
+    "badestellen_id": 28,
+    "date": "2019-04-28",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 338,
+    "badestellen_id": 36,
+    "date": "2019-04-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 339,
+    "badestellen_id": 28,
+    "date": "2019-04-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 340,
+    "badestellen_id": 36,
+    "date": "2019-04-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 341,
+    "badestellen_id": 28,
+    "date": "2019-04-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 342,
+    "badestellen_id": 36,
+    "date": "2019-05-01",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 343,
+    "badestellen_id": 28,
+    "date": "2019-05-01",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 344,
+    "badestellen_id": 36,
+    "date": "2019-05-02",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 345,
+    "badestellen_id": 28,
+    "date": "2019-05-02",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 346,
+    "badestellen_id": 36,
+    "date": "2019-05-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 347,
+    "badestellen_id": 28,
+    "date": "2019-05-03",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 348,
+    "badestellen_id": 36,
+    "date": "2019-05-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 349,
+    "badestellen_id": 28,
+    "date": "2019-05-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 350,
+    "badestellen_id": 36,
+    "date": "2019-05-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 351,
+    "badestellen_id": 28,
+    "date": "2019-05-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 352,
+    "badestellen_id": 36,
+    "date": "2019-05-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 353,
+    "badestellen_id": 28,
+    "date": "2019-05-08",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 354,
+    "badestellen_id": 36,
+    "date": "2019-05-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 355,
+    "badestellen_id": 28,
+    "date": "2019-05-09",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 356,
+    "badestellen_id": 36,
+    "date": "2019-05-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 357,
+    "badestellen_id": 28,
+    "date": "2019-05-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 358,
+    "badestellen_id": 36,
+    "date": "2019-05-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 359,
+    "badestellen_id": 28,
+    "date": "2019-05-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 360,
+    "badestellen_id": 36,
+    "date": "2019-05-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 361,
+    "badestellen_id": 28,
+    "date": "2019-05-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 362,
+    "badestellen_id": 36,
+    "date": "2019-05-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 363,
+    "badestellen_id": 28,
+    "date": "2019-05-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 364,
+    "badestellen_id": 36,
+    "date": "2018-05-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 365,
+    "badestellen_id": 36,
+    "date": "2018-06-17",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 366,
+    "badestellen_id": 36,
+    "date": "2018-08-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 367,
+    "badestellen_id": 36,
+    "date": "2018-08-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 368,
+    "badestellen_id": 36,
+    "date": "2018-08-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 369,
+    "badestellen_id": 36,
+    "date": "2018-08-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 370,
+    "badestellen_id": 36,
+    "date": "2018-08-31",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 371,
+    "badestellen_id": 28,
+    "date": "2018-05-22",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 372,
+    "badestellen_id": 28,
+    "date": "2018-06-17",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 373,
+    "badestellen_id": 28,
+    "date": "2018-08-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 374,
+    "badestellen_id": 28,
+    "date": "2018-08-13",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 375,
+    "badestellen_id": 36,
+    "date": "2019-05-21",
+    "prediction": "gut"
+  },
+  {
+    "id": 376,
+    "badestellen_id": 28,
+    "date": "2019-05-21",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 377,
+    "badestellen_id": 36,
+    "date": "2019-05-22",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 378,
+    "badestellen_id": 28,
+    "date": "2019-05-22",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 379,
+    "badestellen_id": 36,
+    "date": "2019-05-23",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 380,
+    "badestellen_id": 28,
+    "date": "2019-05-23",
+    "prediction": "ausreichend"
+  },
+  {
+    "id": 381,
+    "badestellen_id": 36,
+    "date": "2019-05-25",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 382,
+    "badestellen_id": 28,
+    "date": "2019-05-25",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 383,
+    "badestellen_id": 36,
+    "date": "2019-05-26",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 384,
+    "badestellen_id": 28,
+    "date": "2019-05-26",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 385,
+    "badestellen_id": 36,
+    "date": "2019-05-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 386,
+    "badestellen_id": 28,
+    "date": "2019-05-27",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 387,
+    "badestellen_id": 36,
+    "date": "2019-05-28",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 388,
+    "badestellen_id": 28,
+    "date": "2019-05-28",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 389,
+    "badestellen_id": 36,
+    "date": "2019-05-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 390,
+    "badestellen_id": 28,
+    "date": "2019-05-29",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 391,
+    "badestellen_id": 36,
+    "date": "2019-05-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 392,
+    "badestellen_id": 28,
+    "date": "2019-05-30",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 393,
+    "badestellen_id": 36,
+    "date": "2019-05-31",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 394,
+    "badestellen_id": 28,
+    "date": "2019-05-31",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 395,
+    "badestellen_id": 36,
+    "date": "2019-06-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 396,
+    "badestellen_id": 28,
+    "date": "2019-06-01",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 397,
+    "badestellen_id": 36,
+    "date": "2019-06-02",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 398,
+    "badestellen_id": 28,
+    "date": "2019-06-02",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 399,
+    "badestellen_id": 36,
+    "date": "2019-06-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 400,
+    "badestellen_id": 28,
+    "date": "2019-06-03",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 401,
+    "badestellen_id": 36,
+    "date": "2019-06-04",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 402,
+    "badestellen_id": 28,
+    "date": "2019-06-04",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 403,
+    "badestellen_id": 36,
+    "date": "2019-06-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 404,
+    "badestellen_id": 28,
+    "date": "2019-06-05",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 405,
+    "badestellen_id": 36,
+    "date": "2019-06-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 406,
+    "badestellen_id": 28,
+    "date": "2019-06-06",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 407,
+    "badestellen_id": 36,
+    "date": "2019-06-07",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 408,
+    "badestellen_id": 28,
+    "date": "2019-06-07",
+    "prediction": "gut"
+  },
+  {
+    "id": 409,
+    "badestellen_id": 36,
+    "date": "2019-06-08",
+    "prediction": "gut"
+  },
+  {
+    "id": 410,
+    "badestellen_id": 28,
+    "date": "2019-06-08",
+    "prediction": "gut"
+  },
+  {
+    "id": 411,
+    "badestellen_id": 36,
+    "date": "2019-06-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 412,
+    "badestellen_id": 28,
+    "date": "2019-06-10",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 413,
+    "badestellen_id": 36,
+    "date": "2019-06-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 414,
+    "badestellen_id": 28,
+    "date": "2019-06-11",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 415,
+    "badestellen_id": 36,
+    "date": "2019-06-12",
+    "prediction": "gut"
+  },
+  {
+    "id": 416,
+    "badestellen_id": 28,
+    "date": "2019-06-12",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 417,
+    "badestellen_id": 36,
+    "date": "2019-06-13",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 418,
+    "badestellen_id": 28,
+    "date": "2019-06-13",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 419,
+    "badestellen_id": 36,
+    "date": "2019-06-14",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 420,
+    "badestellen_id": 28,
+    "date": "2019-06-14",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 421,
+    "badestellen_id": 36,
+    "date": "2019-06-15",
+    "prediction": "mangelhaft"
+  },
+  {
+    "id": 422,
+    "badestellen_id": 28,
+    "date": "2019-06-15",
+    "prediction": "gut"
+  },
+  {
+    "id": 423,
+    "badestellen_id": 36,
+    "date": "2019-06-16",
+    "prediction": "gut"
+  },
+  {
+    "id": 424,
+    "badestellen_id": 28,
+    "date": "2019-06-16",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 425,
+    "badestellen_id": 36,
+    "date": "2019-06-17",
+    "prediction": "ausgezeichnet"
+  },
+  {
+    "id": 426,
+    "badestellen_id": 28,
+    "date": "2019-06-17",
+    "prediction": "ausgezeichnet"
+  }
+]

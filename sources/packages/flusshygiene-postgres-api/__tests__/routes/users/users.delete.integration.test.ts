@@ -11,14 +11,19 @@ import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../../test-utils';
-
+import path from 'path';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
+
 
 describe('testing delete users', () => {
   let app: Application;
@@ -86,19 +91,19 @@ describe('testing delete users', () => {
   // console.log(users);
   const id = user.id;
 
-  const res = await request(app).delete(`/api/v1/users/${id}`);
+  const res = await request(app).delete(`/api/v1/users/${id}`).set(headers);
   expect(res.status).toBe(200);
   expect(res.body.success).toBe(true);
   done();
 });
   test('delete user should fail due to missing id', async (done) => {
-  const res = await request(app).delete(`/api/v1/users`);
+  const res = await request(app).delete(`/api/v1/users`).set(headers);
 
   expect(res.status).toBe(404);
   done();
 });
   test('delete user should fail due to wrong id', async (done) => {
-  const res = await request(app).delete(`/api/v1/users/${10000000}`);
+  const res = await request(app).delete(`/api/v1/users/${10000000}`).set(headers);
   expect(res.status).toBe(404);
   done();
 });
@@ -110,8 +115,10 @@ describe('testing delete users', () => {
     relations: ['bathingspots'],
     where: {protected: false},
   });
-  const res = await request(app).delete(
-    `/api/v1/users/${usersWithRelations[0].id}`);
+  const res = await request(app)
+  .delete(
+    `/api/v1/users/${usersWithRelations[0].id}`)
+    .set(headers);
 
   // console.log(res.body);
   expect(res.status).toBe(200);
@@ -124,8 +131,10 @@ describe('testing delete users', () => {
   const usersWithRelations = await userRepo.find({relations: ['bathingspots'], where: {protected: true}});
 
   // console.log(usersWithRelations);
-  const res = await request(app).delete(
-    `/api/v1/users/${usersWithRelations[0].id}`);
+  const res = await request(app)
+  .delete(
+    `/api/v1/users/${usersWithRelations[0].id}`)
+    .set(headers);
   expect(res.status).toBe(403);
   // console.log(res.body);
   expect(res.body.success).toBe(false);

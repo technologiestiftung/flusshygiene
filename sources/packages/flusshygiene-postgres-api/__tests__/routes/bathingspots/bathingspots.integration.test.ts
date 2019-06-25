@@ -5,10 +5,12 @@ import request from 'supertest';
 import { Connection } from 'typeorm';
 import routes from '../../../src/lib/routes';
 import { DefaultRegions, HttpCodes } from '../../../src/lib/types-interfaces';
+import path from 'path';
 import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../../test-utils';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
@@ -17,6 +19,10 @@ import {
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
+
 
 describe('testing get bathingspots', () => {
   let app: Application;

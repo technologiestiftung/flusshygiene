@@ -10,10 +10,12 @@ import routes from '../../../src/lib/routes';
 import { DefaultRegions, UserRole } from '../../../src/lib/types-interfaces';
 import { Bathingspot } from '../../../src/orm/entity/Bathingspot';
 import { User } from '../../../src/orm/entity/User';
+import path from 'path';
 import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../../test-utils';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
@@ -22,6 +24,9 @@ import {
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
 
 describe('testing bathingspots post for a specific user', () => {
   let app: Application;
@@ -91,7 +96,7 @@ describe('testing bathingspots post for a specific user', () => {
       longitude: 52,
       name: 'Sweetwater',
       state: {},
-    }).set('Accept', 'application/json');
+    }).set(headers);
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
     expect(res.body.message).toEqual(SUGGESTIONS.missingFields);
@@ -120,7 +125,7 @@ describe('testing bathingspots post for a specific user', () => {
       longitude: 52,
       name: 'Sweetwater',
       state: {},
-    }).set('Accept', 'application/json');
+    }).set(headers);
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
     expect(res.body.message).toEqual(ERRORS.badRequestMissingOrWrongID404);
@@ -139,7 +144,7 @@ describe('testing bathingspots post for a specific user', () => {
       longitude: 52,
       name: 'Sweetwater',
       state: {},
-    }).set('Accept', 'application/json');
+    }).set(headers);
     expect(res.status).toBe(401);
     expect(res.body.success).toBe(false);
     expect(res.body.message).toEqual(ERRORS.badRequestUserNotAuthorized);
@@ -164,7 +169,7 @@ describe('testing bathingspots post for a specific user', () => {
       name: 'Sweetwater',
       region: DefaultRegions.berlin,
       state: {},
-    }).set('Accept', 'application/json');
+    }).set(headers);
     const againUser: User | undefined = await userRepo.findOne(id, { relations: ['bathingspots'] });
     if (againUser !== undefined) {
       const againSpots: Bathingspot[] | undefined = againUser.bathingspots;

@@ -6,7 +6,7 @@
         "node_modules/**/node_modules"
     ],
     "watch": ["./src"],
-    "exec": "./node_modules/.bin/tsc -p . && node -r ../dotenv/config --inspect dist/index.js",
+    "exec": "./node_modules/.bin/tsc -p . && node -r dotenv/config --inspect dist/index.js",
     "ext": "ts,json",
     "restartable": "rs",
     "verbose": true,

@@ -2,6 +2,6 @@ version: '3'
 services:
   postgres:
     container_name: 'postgres-db'
-    image: 'mdillon/postgis:11'
+    image: 'mdillon/postgis:10'
     ports:
       - '5432:5432'

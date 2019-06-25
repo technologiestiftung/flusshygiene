@@ -16,14 +16,19 @@ import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../../test-utils';
-
+import path from 'path';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
+const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
+
 
 describe('testing get users', () => {
   let app: Application;
@@ -64,7 +69,7 @@ describe('testing get users', () => {
 
   test.skip('route should fail due to wrong route', async (done) => {
     expect.assertions(2);
-    const res = await request(app).get('/api/v1/');
+    const res = await request(app).get('/api/v1/').set(headers);
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
     done();
@@ -72,7 +77,7 @@ describe('testing get users', () => {
 
   test('route get users', async (done) => {
     // expect.assertions(2);
-    const res = await request(app).get('/api/v1/users');
+    const res = await request(app).get('/api/v1/users').set(headers);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body.data)).toBe(true);
     // expect(res.body[0]).toHaveProperty('email');
@@ -84,7 +89,7 @@ describe('testing get users', () => {
 
   test('route get user by id', async (done) => {
     expect.assertions(2);
-    const res = await request(app).get('/api/v1/users/1');
+    const res = await request(app).get('/api/v1/users/1').set(headers);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body.data)).toBe(true);
     done();
@@ -92,7 +97,7 @@ describe('testing get users', () => {
 
   test('route get user should fail due to worng id', async (done) => {
     expect.assertions(2);
-    const res = await request(app).get(`/api/v1/users/${100000}`);
+    const res = await request(app).get(`/api/v1/users/${100000}`).set(headers);
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
     done();
