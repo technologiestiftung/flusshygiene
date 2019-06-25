@@ -47,7 +47,6 @@
     "cz-conventional-changelog": "^2.1.0",
     "jest": "^24.8.0",
     "jsonwebtoken": "^8.5.1",
-    "jwks-rsa": "^1.5.1",
     "majestic": "^1.6.0",
     "mkdirp": "^0.5.1",
     "nodemon": "^1.19.1",
@@ -64,6 +63,7 @@
   },
   "dependencies": {
     "@mapbox/geojsonhint": "^3.0.0",
+    "jwks-rsa": "^1.5.1",
     "@tsb/flusshygiene-utils": "^0.5.2",
     "class-validator": "^0.9.1",
     "cors": "^2.8.5",

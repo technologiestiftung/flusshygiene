@@ -12,3 +12,4 @@ LICENSE
 .travis.yml
 .editorconfig
 .coverage
+__tests__
