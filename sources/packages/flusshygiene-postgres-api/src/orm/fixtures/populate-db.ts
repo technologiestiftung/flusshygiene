@@ -1,5 +1,5 @@
 import ora = require('ora');
-import { createConnection, getRepository } from 'typeorm';
+import { createConnection, getRepository, getConnectionOptions } from 'typeorm';
 import { DefaultRegions, IAddEntitiesToSpotOptions, UserRole } from '../../lib/types-interfaces';
 import { addEntitiesToSpot } from '../../lib/utils/bathingspot-helpers';
 import { Region } from '../entity/Region';
@@ -19,7 +19,10 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
 
 (async () => {
   try {
-    const connection = await createConnection();
+    // for populating the DB we need to override the values in the config
+    const connectionOptions = await getConnectionOptions();
+    Object.assign(connectionOptions, { synchronize:true, dropSchema: true });
+    const connection = await createConnection(connectionOptions);
     // const db = await connection.connect();
     // process.stdout.write(db.name);
     let databaseEmpty: boolean = false;

@@ -36,7 +36,7 @@ module.exports = {
     subscribersDir: 'src/orm/subscriber',
   },
   database: process.env[`PG_DATABASE_${ENV_SUFFIX}`],
-  dropSchema: NODE_ENV === 'production' ? false : true,
+  dropSchema: NODE_ENV === 'production' ? false : false,
   entities: [
     'dist/orm/entity/**/*.js',
   ],
@@ -50,7 +50,7 @@ module.exports = {
   subscribers: [
     'dist/orm/subscriber/**/*.js',
   ],
-  synchronize: NODE_ENV === 'production' ? true : true,
+  synchronize: NODE_ENV === 'production' ? false : false,
   type: 'postgres',
   username: process.env[`PG_USER_${ENV_SUFFIX}`],
 };
