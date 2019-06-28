@@ -14,7 +14,8 @@ const readFileAsync = promisify(readFile);
 
 const readDirAsync = promisify(readdir);
 
-const dataDirPath = resolve(__dirname, '../../../data');
+console.info('You need to run this from a npm script in the root of the repo.');
+const dataDirPath = resolve(process.cwd(), './data');
 proj4.defs([
   [
     'EPSG:4326',

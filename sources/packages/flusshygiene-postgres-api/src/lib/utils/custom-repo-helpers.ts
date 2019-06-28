@@ -65,4 +65,5 @@ export const getRegionByName: (region: string) => Promise<Region|undefined> = as
   } catch (e) {
     throw e;
   }
+
 };

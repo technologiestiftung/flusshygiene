@@ -7,7 +7,7 @@
     "test": "jest --runInBand",
     "snyk": "synk test",
     "testWithCoverage": "jest --coverage --setupFiles ./__tests__/setupFiles/config",
-    "populatedb":"node dist/orm/fixtures/populate-db.js",
+    "populatedb":"node dist/setup/populate-db.js",
     "dev": "npm run clean && nodemon",
     "clean": "rimraf ./dist && mkdirp ./dist",
     "dev:docker": "nodemon --config nodemon.docker.json",
