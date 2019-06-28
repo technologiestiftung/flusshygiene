@@ -1,16 +1,16 @@
 import { getRepository } from 'typeorm';
-import { Bathingspot } from '../../../../orm/entity/Bathingspot';
-import { SUCCESS } from '../../../messages';
-import { getSpotByUserAndId } from '../../../repositories/custom-repo-helpers';
-import { deleteResponse, HttpCodes } from '../../../types-interfaces';
-import { getPropsValueGeneric } from '../../../utils/get-properties-values-generic';
+import { Bathingspot } from '../../../orm/entity/Bathingspot';
+import { SUCCESS } from '../../messages';
+import { getSpotByUserAndId } from '../../utils/custom-repo-helpers';
+import { deleteResponse, HttpCodes } from '../../common';
+import { getPropsValueGeneric } from '../../utils/get-properties-values-generic';
 import {
   errorResponse,
   responder,
   responderMissingBodyValue,
   responderSuccess,
   responderWrongId,
-} from '../../responders';
+} from '../responders';
 
 export const deleteBathingspotOfUser: deleteResponse = async (request, response) => {
   const hasForce = getPropsValueGeneric<boolean>(request.body, 'force');

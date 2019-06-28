@@ -1,5 +1,5 @@
 import { getConnection } from 'typeorm';
-import { entityFields } from '../types-interfaces';
+import { entityFields } from '../common';
 
 const getPropertyNames = async (enititySchema: string) => {
   return getConnection().getMetadata(enititySchema).ownColumns.map(column => column.propertyName);

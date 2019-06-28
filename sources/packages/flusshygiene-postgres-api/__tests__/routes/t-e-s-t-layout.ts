@@ -28,15 +28,7 @@ describe('misc functions that need a DB', () => {
     connections = await createTestingConnections();
     done();
   });
-  // beforeEach(async (done) => {
-  //   try {
-  //     await reloadTestingDatabases(connections);
-  //     done();
-  //   } catch (err) {
-  //     console.warn(err.message);
-  //     console.warn(err.stack);
-  //   }
-  // });
+
   afterAll(async (done) => {
     try {
       await reloadTestingDatabases(connections);
@@ -44,7 +36,6 @@ describe('misc functions that need a DB', () => {
       done();
     } catch (err) {
       console.warn(err.message);
-      console.warn(err.stack);
       throw err;
     }
   });

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { IObject } from '../src/lib/types-interfaces';
-import { getGEOJsonGeometry } from '../src/lib/utils/geojson/get-geojson-geometry';
+import { IObject } from '../src/lib/common';
+import { getGEOJsonGeometry } from '../src/lib/utils/get-geojson-geometry';
 import { getPropsValueGeneric } from '../src/lib/utils/get-properties-values-generic';
 import { isObject } from './../src/lib/utils/is-object';
 

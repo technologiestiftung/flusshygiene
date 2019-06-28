@@ -1,7 +1,7 @@
 import { getManager, getRepository } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { User } from '../../../orm/entity/User';
-import { deleteResponse, HttpCodes } from '../../types-interfaces';
+import { deleteResponse, HttpCodes } from '../../common';
 import { errorResponse, responder, responderSuccess, responderWrongId } from '../responders';
 
 // ██████╗ ███████╗██╗     ███████╗████████╗███████╗

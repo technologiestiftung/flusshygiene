@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 import { User } from '../../../orm/entity/User';
 import { SUCCESS } from '../../messages';
-import { getResponse, HttpCodes } from '../../types-interfaces';
+import { getResponse, HttpCodes } from '../../common';
 import { errorResponse, responder, responderWrongIdOrSuccess, successResponse } from '../responders';
 
 //  ██████╗ ███████╗████████╗

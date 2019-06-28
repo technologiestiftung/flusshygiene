@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
-import { UserRole } from './../../lib/types-interfaces';
+import { UserRole } from '../../lib/common';
 import { Bathingspot } from './Bathingspot';
 import { Questionaire } from './Questionaire';
 import { Region } from './Region';

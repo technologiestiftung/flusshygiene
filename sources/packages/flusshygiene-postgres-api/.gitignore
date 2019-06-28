@@ -5,6 +5,7 @@ dist/
 flussgygiene-utils/
 .env
 .env.*
+tmp-store
 # .env.test
 .test.token.json
 *test.token.json*

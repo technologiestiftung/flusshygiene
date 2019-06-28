@@ -2,13 +2,13 @@ import { readdir, readFile, statSync } from 'fs';
 import { extname, resolve } from 'path';
 import proj4 from 'proj4';
 import { promisify } from 'util';
-import { IObject } from '../../lib/types-interfaces';
-import { createSpotWithValues } from '../../lib/utils/bathingspot-helpers';
-import { createMeasurementWithValues } from '../../lib/utils/measurement-helpers';
-import { Bathingspot } from '../entity/Bathingspot';
-import { createPredictionWithValues } from './../../lib/utils/predictions-helpers';
-import { BathingspotMeasurement } from './../entity/BathingspotMeasurement';
-import { BathingspotPrediction } from './../entity/BathingspotPrediction';
+import { IObject } from '../lib/common';
+import { createSpotWithValues } from '../lib/utils/bathingspot-helpers';
+import { createMeasurementWithValues } from '../lib/utils/measurement-helpers';
+import { Bathingspot } from '../orm/entity/Bathingspot';
+import { createPredictionWithValues } from '../lib/utils/predictions-helpers';
+import { BathingspotMeasurement } from '../orm/entity/BathingspotMeasurement';
+import { BathingspotPrediction } from '../orm/entity/BathingspotPrediction';
 // import {criteria} from '../../lib/utils/bathingspot-helpers';
 const readFileAsync = promisify(readFile);
 
@@ -39,10 +39,10 @@ const nameMappingMeasurements: IObject = {
   cb: { type: 'number', parseTo: null, mapsTo: 'cb' },
   cb_txt: { type: 'string', parseTo: null, mapsTo: 'cbTxt' },
   date: { type: 'date', parseTo: null, mapsTo: 'date' },
-  eco: { type: 'number', parseTo: null, mapsTo: 'eco' },
-  eco_txt: { type: 'string', parseTo: null, mapsTo: 'ecoTxt' },
-  ente: { type: 'number', parseTo: null, mapsTo: 'ente' },
-  ente_txt: { type: 'string', parseTo: null, mapsTo: 'enteTxt' },
+  eco: { type: 'number', parseTo: null, mapsTo: 'conc_ec' },
+  eco_txt: { type: 'string', parseTo: null, mapsTo: 'conc_ec_txt' },
+  ente: { type: 'number', parseTo: null, mapsTo: 'conc_ie' },
+  ente_txt: { type: 'string', parseTo: null, mapsTo: 'conc_ie_txt' },
   id: { type: 'number', parseTo: null, mapsTo: 'oldId' },
   sicht: { type: 'number', parseTo: null, mapsTo: 'sicht' },
   sicht_txt: { type: 'string', parseTo: null, mapsTo: 'sichtTxt' },

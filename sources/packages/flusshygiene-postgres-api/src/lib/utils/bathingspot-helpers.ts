@@ -3,11 +3,11 @@ import { Bathingspot, criteriaBathingspot, geomCriteria } from '../../orm/entity
 import { Region } from '../../orm/entity/Region';
 import { BathingspotRepository } from '../repositories/BathingspotRepository';
 import { RegionRepository } from '../repositories/RegionRepository';
-import { IObject } from '../types-interfaces';
+import { IObject } from '../common';
 import { BathingspotMeasurement } from './../../orm/entity/BathingspotMeasurement';
 
 import { BathingspotPrediction } from './../../orm/entity/BathingspotPrediction';
-import { AddEntitiesToSpot } from './../types-interfaces';
+import { AddEntitiesToSpot } from '../common';
 import { isObject } from './is-object';
 
 const allowedFeatureTypes = ['Point', 'Polygon'];
@@ -115,7 +115,6 @@ export const addEntitiesToSpot: AddEntitiesToSpot = async (options) => {
   try {
     const spotRepo = getCustomRepository(BathingspotRepository);
     for (const entity of options.entities) {
-      await options.connection.manager.save(entity);
       const fOpts = { where: {} };
 
       switch (true) {
@@ -143,6 +142,7 @@ export const addEntitiesToSpot: AddEntitiesToSpot = async (options) => {
           } else {
             bspot.predictions.push(entity);
           }
+
         } else if (entity instanceof BathingspotMeasurement) {
           if (bspot.measurements === undefined) {
             bspot.measurements = [entity];
@@ -150,6 +150,11 @@ export const addEntitiesToSpot: AddEntitiesToSpot = async (options) => {
             bspot.measurements.push(entity);
           }
         }
+        // const spot =  await spotRepo.findById(bspot.id);
+        // if(spot !== undefined){
+        //   entity.bathingspot = spot;
+        // }
+        await options.connection.manager.save(entity);
         await options.connection.manager.save(bspot);
       }
     }

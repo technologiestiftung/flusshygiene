@@ -1,10 +1,10 @@
 import { Request, Response} from 'express';
 import { Connection } from 'typeorm';
-import { BathingspotMeasurement } from '../orm/entity/BathingspotMeasurement';
-import { BathingspotPrediction } from '../orm/entity/BathingspotPrediction';
-import { Region } from '../orm/entity/Region';
-import { User } from '../orm/entity/User';
-import { Bathingspot } from './../orm/entity/Bathingspot';
+import { BathingspotMeasurement } from '../../orm/entity/BathingspotMeasurement';
+import { BathingspotPrediction } from '../../orm/entity/BathingspotPrediction';
+import { Region } from '../../orm/entity/Region';
+import { User } from '../../orm/entity/User';
+import { Bathingspot } from '../../orm/entity/Bathingspot';
 export interface IFilteredEntityPropsResoponse {
   props: string[];
 }
@@ -37,6 +37,7 @@ export type entityFields = (type: string) => Promise<IFilteredEntityPropsResopon
 
 export type postResponse = (request: Request, response: Response) => void;
 export type getResponse = (request: Request, response: Response) => void;
+// export type getCollectionResponse = (request: Request, response: Response) => void;
 export type putResponse = (request: Request, response: Response) => void;
 export type deleteResponse = (request: Request, response: Response) => void;
 
@@ -87,7 +88,7 @@ export type RegionExsists = (regions: string[], region: string| undefined) => bo
 export type ResponderMissingOrWrongIdOrAuth = (response: Response) => void;
 export type GetByIds = (userId: number, spotId: number) => Promise<Bathingspot | undefined>;
 export type GetById = (spotId: number) => Promise<Bathingspot | undefined>;
-export type GetByIdWithRelations = (userId: number, relations: string[]) => Promise<User | undefined>;
+export type GetByIdWithRelations = (id: number, relations: string[]) => Promise<User| Bathingspot | undefined>;
 
 // utils/get-properties-values.ts
 

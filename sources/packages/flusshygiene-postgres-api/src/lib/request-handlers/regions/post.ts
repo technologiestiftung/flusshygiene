@@ -4,7 +4,7 @@
 import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { SUCCESS } from '../../messages';
-import { HttpCodes, postResponse } from '../../types-interfaces';
+import { HttpCodes, postResponse } from '../../common';
 import { getEntityFields } from '../../utils';
 import { createMergeObj } from '../../utils/regions-helper';
 // import { getGEOJsonGeometry } from '../../utils/geojson/get-geojson-geometry';

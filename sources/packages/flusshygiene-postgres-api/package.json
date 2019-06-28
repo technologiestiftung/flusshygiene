@@ -7,14 +7,15 @@
     "test": "jest --runInBand",
     "snyk": "synk test",
     "testWithCoverage": "jest --coverage --setupFiles ./__tests__/setupFiles/config",
-    "predev": "NODE_ENV=development npm run build && node dist/orm/fixtures/populate-db.js",
+    "populatedb":"node dist/orm/fixtures/populate-db.js",
     "dev": "npm run clean && nodemon",
     "clean": "rimraf ./dist && mkdirp ./dist",
     "dev:docker": "nodemon --config nodemon.docker.json",
     "build": "tsc -p .",
     "start": "node dist/index.js",
     "majestic": "majestic",
-    "docs": "typedoc --mode modules --out docs ./src"
+    "docs": "typedoc --mode modules --out docs ./src",
+    "typeorm": "typeorm"
   },
   "repository": {
     "type": "git",
@@ -57,6 +58,7 @@
     "supertest": "^4.0.2",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
+    "tsconfig-paths": "^3.8.0",
     "tslint": "^5.18.0",
     "typedoc": "^0.14.2",
     "typescript": "^3.5.2"

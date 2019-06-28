@@ -11,8 +11,8 @@ import {
   ResponderSuccessCreated,
   SuccessResponder,
   SuggestionResponder,
-} from '../types-interfaces';
-import { ResponderWrongIdOrSuccess } from './../types-interfaces';
+} from '../common';
+import { ResponderWrongIdOrSuccess } from '../common';
 
 /**
  * build a payload. This is to reduce repetition

@@ -10,7 +10,7 @@ import { RegionRepository } from '../../../src/lib/repositories/RegionRepository
 import routes from '../../../src/lib/routes';
 import {
   DefaultRegions,
-} from '../../../src/lib/types-interfaces';
+} from '../../../src/lib/common';
 import { Region } from '../../../src/orm/entity/Region';
 import {
   closeTestingConnections,
@@ -47,7 +47,6 @@ describe('testing get users', () => {
   //     done();
   //   } catch (err) {
   //     console.warn(err.message);
-  //     console.warn(err.stack);
   //   }
   // });
   afterAll(async (done) => {
@@ -57,7 +56,6 @@ describe('testing get users', () => {
       done();
     } catch (err) {
       console.warn(err.message);
-      console.warn(err.stack);
       throw err;
     }
   });

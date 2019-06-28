@@ -1,4 +1,4 @@
-import { UserRole } from './../../../src/lib/types-interfaces';
+import { UserRole } from './../../../src/lib/common';
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
@@ -42,7 +42,6 @@ describe('testing delete users', () => {
   //     done();
   //   } catch (err) {
   //     console.warn(err.message);
-  //     console.warn(err.stack);
   //   }
   // });
   afterAll(async (done) => {
@@ -52,7 +51,6 @@ describe('testing delete users', () => {
       done();
     } catch (err) {
       console.warn(err.message);
-      console.warn(err.stack);
       throw err;
     }
   });

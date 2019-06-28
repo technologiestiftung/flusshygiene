@@ -5,7 +5,7 @@ import request from 'supertest';
 import { Connection, getCustomRepository } from 'typeorm';
 import { RegionRepository } from '../../../src/lib/repositories/RegionRepository';
 import routes from '../../../src/lib/routes';
-import { DefaultRegions, HttpCodes } from '../../../src/lib/types-interfaces';
+import { DefaultRegions, HttpCodes } from '../../../src/lib/common';
 import {
   closeTestingConnections,
   createTestingConnections,
@@ -41,7 +41,6 @@ describe('testing regions api', () => {
   //     done();
   //   } catch (err) {
   //     console.warn(err.message);
-  //     console.warn(err.stack);
   //   }
   // });
   afterAll(async (done) => {
@@ -51,7 +50,6 @@ describe('testing regions api', () => {
       done();
     } catch (err) {
       console.warn(err.message);
-      console.warn(err.stack);
       throw err;
     }
   });

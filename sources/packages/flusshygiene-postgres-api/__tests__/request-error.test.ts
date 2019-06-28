@@ -1,6 +1,6 @@
 /**
  * lets assume the the DB connection does not esist
- * all reqesut should throw internal server errors
+ * all request should throw internal server errors
  *
  */
 import { Application } from 'express';

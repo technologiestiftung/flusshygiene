@@ -1,20 +1,20 @@
 import { getCustomRepository } from 'typeorm';
-import { Bathingspot } from '../../../../orm/entity/Bathingspot';
-import { Region } from '../../../../orm/entity/Region';
-import { SUCCESS } from '../../../messages';
-import { RegionRepository } from '../../../repositories/RegionRepository';
-import { HttpCodes, putResponse } from '../../../types-interfaces';
-import {createSpotWithValues} from '../../../utils/bathingspot-helpers';
-import { getEntityFields } from '../../../utils/get-entity-fields';
-import { getMatchingValues } from '../../../utils/get-matching-values-from-request';
-import { BathingspotRepository } from './../../../repositories/BathingspotRepository';
-import { getSpotByUserAndId } from './../../../repositories/custom-repo-helpers';
+import { Bathingspot } from '../../../orm/entity/Bathingspot';
+import { Region } from '../../../orm/entity/Region';
+import { SUCCESS } from '../../messages';
+import { RegionRepository } from '../../repositories/RegionRepository';
+import { HttpCodes, putResponse } from '../../common';
+import {createSpotWithValues} from '../../utils/bathingspot-helpers';
+import { getEntityFields } from '../../utils/get-entity-fields';
+import { getMatchingValues } from '../../utils/get-matching-values-from-request';
+import { BathingspotRepository } from '../../repositories/BathingspotRepository';
+import { getSpotByUserAndId } from '../../utils/custom-repo-helpers';
 import {
   errorResponse, responder,
   responderMissingBodyValue,
   responderWrongId,
   successResponse,
-} from './../../responders';
+} from '../responders';
 
 export const updateBathingspotOfUser: putResponse = async (request, response) => {
   const spotRepo = getCustomRepository(BathingspotRepository);

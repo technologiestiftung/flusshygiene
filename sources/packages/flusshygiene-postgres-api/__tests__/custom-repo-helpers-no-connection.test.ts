@@ -4,7 +4,7 @@ import {
   getRegionsList,
   getSpotByUserAndId,
   getUserWithRelations,
-} from '../src/lib/repositories/custom-repo-helpers';
+} from '../src/lib/utils/custom-repo-helpers';
 import path from 'path';
 describe('testing errors on repo helpers', () => {
   it('should be catch error due to missing db', (done) => {

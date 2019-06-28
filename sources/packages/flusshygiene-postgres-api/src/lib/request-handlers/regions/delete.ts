@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import { RegionRepository } from '../../repositories/RegionRepository';
-import { deleteResponse, HttpCodes } from '../../types-interfaces';
+import { deleteResponse, HttpCodes } from '../../common';
 import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
 
 import { SUCCESS } from '../../messages';

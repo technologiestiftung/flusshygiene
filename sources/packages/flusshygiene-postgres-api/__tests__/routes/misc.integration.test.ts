@@ -3,9 +3,9 @@ import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection } from 'typeorm';
-import { getBathingspotById, getRegionsList, getSpotByUserAndId, getUserWithRelations } from '../../src/lib/repositories/custom-repo-helpers';
+import { getBathingspotById, getRegionsList, getSpotByUserAndId, getUserWithRelations } from '../../src/lib/utils/custom-repo-helpers';
 import routes from '../../src/lib/routes';
-import { DefaultRegions } from '../../src/lib/types-interfaces';
+import { DefaultRegions } from '../../src/lib/common';
 import {
   closeTestingConnections,
   createTestingConnections,
@@ -36,7 +36,6 @@ describe('misc functions that need a DB', () => {
   //     done();
   //   } catch (err) {
   //     console.warn(err.message);
-  //     console.warn(err.stack);
   //   }
   // });
   afterAll(async (done) => {
@@ -46,7 +45,6 @@ describe('misc functions that need a DB', () => {
       done();
     } catch (err) {
       console.warn(err.message);
-      console.warn(err.stack);
       throw err;
     }
   });

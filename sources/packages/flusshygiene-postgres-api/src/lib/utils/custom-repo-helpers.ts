@@ -1,10 +1,10 @@
 import { getCustomRepository } from 'typeorm';
 import { Region } from '../../orm/entity/Region';
-import { GetById, GetByIds, GetByIdWithRelations } from '../types-interfaces';
-import { IRegionListEntry } from './../types-interfaces';
-import { BathingspotRepository } from './BathingspotRepository';
-import { RegionRepository } from './RegionRepository';
-import { UserRepository } from './UserRepository';
+import { GetById, GetByIds, GetByIdWithRelations } from '../common';
+import { IRegionListEntry } from '../common';
+import { BathingspotRepository } from '../repositories/BathingspotRepository';
+import { RegionRepository } from '../repositories/RegionRepository';
+import { UserRepository } from '../repositories/UserRepository';
 
 export const getUserWithRelations: GetByIdWithRelations = async (userId, relations) => {
   const userRepo = getCustomRepository(UserRepository);
@@ -26,6 +26,15 @@ export const getBathingspotById: GetById = async (spotId: number) => {
   }
 };
 
+export const getBathingspotByIdWithRelations: GetByIdWithRelations = async (spotId, relations) => {
+  const spotRepo = getCustomRepository(BathingspotRepository);
+  try {
+    const spot = await spotRepo.findByIdWithRelations(spotId, relations);
+    return spot;
+  } catch (e) {
+    throw e;
+  }
+};
 export const getSpotByUserAndId: GetByIds = async (userId, spotId) => {
   const spotRepo = getCustomRepository(BathingspotRepository);
   try {

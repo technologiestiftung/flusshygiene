@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { Response } from 'express-serve-static-core';
-import { getResponse, IDefaultResponsePayload, postResponse } from '../types-interfaces';
+import { getResponse, IDefaultResponsePayload, postResponse } from '../common';
 
 const defaultResponsePayload: IDefaultResponsePayload = {success: true};
 

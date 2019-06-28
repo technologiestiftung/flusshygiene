@@ -2,12 +2,12 @@
 import { Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  // ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn } from 'typeorm';
-import { Bathingspot } from './Bathingspot';
-import { User } from './User';
+// import { Bathingspot } from './Bathingspot';
+// import { User } from './User';
 
 @Entity()
 export class BathingspotRawModelData {
@@ -27,12 +27,12 @@ export class BathingspotRawModelData {
   @Column({type: 'json'})
   public rawData!: string;
 
-  @ManyToOne( _type => User, user => user.questionaires, {
-    cascade: true,
-  })
+  // @ManyToOne( _type => User, user => user.questionaires, {
+  //   cascade: true,
+  // })
 
-  @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.rawModelData, {
-    cascade: true,
-  })
-  public bathingspot!: Bathingspot;
+  // @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.rawModelData, {
+  //   cascade: true,
+  // })
+  // public bathingspot!: Bathingspot;
 }

@@ -1,18 +1,18 @@
 import { getManager } from 'typeorm';
-import { User } from '../../../../orm/entity/User';
-import { getUserWithRelations } from '../../../repositories/custom-repo-helpers';
-import { HttpCodes, postResponse, UserRole } from '../../../types-interfaces';
-import { getEntityFields, getMatchingValues } from '../../../utils';
+import { User } from '../../../orm/entity/User';
+import { getUserWithRelations } from '../../utils/custom-repo-helpers';
+import { HttpCodes, postResponse, UserRole } from '../../common';
+import { getEntityFields, getMatchingValues } from '../../utils';
 import {
   errorResponse,
   responder,
-  // responderMissingBodyValue,
   responderNotAuthorized,
   responderWrongId,
   successResponse,
-} from '../../responders';
-// import { getRegionsList } from './../../../repositories/custom-repo-helpers';
-import { createSpotWithValues } from './../../../utils/bathingspot-helpers';
+} from '../responders';
+
+import { createSpotWithValues } from '../../utils/bathingspot-helpers';
+
 
 // const verifyPublic: (obj: any) => boolean = (obj) => {
 //   let res = false;

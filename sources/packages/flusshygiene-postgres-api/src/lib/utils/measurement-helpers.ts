@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { IObject } from '../types-interfaces';
+import { IObject } from '../common';
 import { BathingspotMeasurement } from './../../orm/entity/BathingspotMeasurement';
 
 export const createMeasurementWithValues: (obj: IObject) => Promise<BathingspotMeasurement> = async (obj) => {

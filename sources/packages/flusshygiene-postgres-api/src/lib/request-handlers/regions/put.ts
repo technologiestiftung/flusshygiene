@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { SUCCESS } from '../../messages';
-import { HttpCodes,  putResponse } from '../../types-interfaces';
+import { HttpCodes,  putResponse } from '../../common';
 import { createMergeObj } from '../../utils/regions-helper';
 import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
 

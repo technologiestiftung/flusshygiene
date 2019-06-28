@@ -7,7 +7,7 @@ import routes from '../../../src/lib/routes';
 import path from 'path';
 import {
   DefaultRegions, UserRole,
-} from '../../../src/lib/types-interfaces';
+} from '../../../src/lib/common';
 import {
   closeTestingConnections,
   createTestingConnections,
@@ -44,7 +44,6 @@ describe('testing post users', () => {
   //     done();
   //   } catch (err) {
   //     console.warn(err.message);
-  //     console.warn(err.stack);
   //   }
   // });
   afterAll(async (done) => {
@@ -54,7 +53,6 @@ describe('testing post users', () => {
       done();
     } catch (err) {
       console.warn(err.message);
-      console.warn(err.stack);
       throw err;
     }
   });

@@ -1,4 +1,4 @@
-import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, JoinColumn} from 'typeorm';
 import { Bathingspot } from './Bathingspot';
 
 @Entity()
@@ -22,7 +22,10 @@ export class BathingspotMeasurement {
   public date!: Date;
 
   @Column({ nullable: true})
-  public eco!: number;
+  public conc_ec!: number;
+
+  @Column({ nullable: true})
+  public conc_ec_txt!: string;
 
   @Column({ nullable: true})
   public oldId!: number;
@@ -31,7 +34,10 @@ export class BathingspotMeasurement {
   public detailId!: number;
 
   @Column({ nullable: true})
-  public ente!: number;
+  public conc_ie!: number;
+
+  @Column({ nullable: true})
+  public conc_ie_txt!: string;
 
   @Column({type: 'float', nullable: true})
   public temp!: number;
@@ -45,11 +51,7 @@ export class BathingspotMeasurement {
   @Column({ nullable: true})
   public sichtTxt!: string;
 
-  @Column({ nullable: true})
-  public ecoTxt!: string;
 
-  @Column({ nullable: true})
-  public enteTxt!: string;
 
   @Column({ nullable: true})
   public tempTxt!: string;
@@ -72,7 +74,9 @@ export class BathingspotMeasurement {
 
   @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.measurements , {
     cascade: true,
+    // eager: true,
   })
+  @JoinColumn()
   public bathingspot!: Bathingspot;
 
 }

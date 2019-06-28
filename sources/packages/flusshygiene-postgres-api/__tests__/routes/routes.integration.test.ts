@@ -4,7 +4,7 @@ it('shall pass', () => {
 // import path from 'path';
 // import { RegionRepository } from '../../src/lib/repositories/RegionRepository';
 // import { UserRepository } from '../../src/lib/repositories/UserRepository';
-// import { HttpCodes } from '../../src/lib/types-interfaces';
+// import { HttpCodes } from '../../src/lib/common';
 // // tslint:disable: ordered-imports
 // jest.useFakeTimers();
 // import { SUCCESS } from '../../src/lib/messages/success';
@@ -23,7 +23,7 @@ it('shall pass', () => {
 // import {
 //   DefaultRegions,
 //   UserRole,
-// } from '../../src/lib/types-interfaces';
+// } from '../../src/lib/common';
 // import { Bathingspot } from '../../src/orm/entity/Bathingspot';
 // import { BathingspotModel } from '../../src/orm/entity/BathingspotModel';
 // import { BathingspotPrediction } from '../../src/orm/entity/BathingspotPrediction';

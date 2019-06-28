@@ -5,7 +5,7 @@ import request from 'supertest';
 import { Connection, getRepository } from 'typeorm';
 import { ERRORS, SUCCESS, SUGGESTIONS } from '../../../src/lib/messages';
 import routes from '../../../src/lib/routes';
-import { UserRole } from '../../../src/lib/types-interfaces';
+import { UserRole } from '../../../src/lib/common';
 import { User } from '../../../src/orm/entity/User';
 import {
   closeTestingConnections,
@@ -43,7 +43,6 @@ describe('testing users/[:userId]/bathingspots/[:spotId] delete', () => {
   //     done();
   //   } catch (err) {
   //     console.warn(err.message);
-  //     console.warn(err.stack);
   //   }
   // });
   afterAll(async (done) => {
@@ -53,7 +52,6 @@ describe('testing users/[:userId]/bathingspots/[:spotId] delete', () => {
       done();
     } catch (err) {
       console.warn(err.message);
-      console.warn(err.stack);
       throw err;
     }
   });

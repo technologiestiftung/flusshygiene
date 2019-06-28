@@ -12,24 +12,28 @@ if(NODE_ENV !== 'development' && NODE_ENV !== 'production'){
 }
 
 if (process.env.NODE_DOCKER_ENV === '1') {
-  // nodeDevInDocker = true;
+  process.stdout.write('we are running in a container\n');
   if(NODE_ENV === 'development'){
     PG_HOST = process.env.PG_HOST_DEV_DOCKER;
   }else if(NODE_ENV === 'production'){
     PG_HOST = process.env.PG_HOST_PROD;
   }
-  process.stdout.write('we are running in a container\n');
+
 } else if (process.env.NODE_DOCKER_ENV === '0') {
   process.stdout.write('we are running on your machine\n');
-  PG_HOST = process.env.PG_HOST_DEV;
-  // nodeDevInDocker = false;
+  if(NODE_ENV === 'development'){
+    PG_HOST = process.env.PG_HOST_DEV;
+  }else if(NODE_ENV ==='production'){
+    PG_HOST = process.env.PG_HOST_PROD;
+  }
+
 } else {
   process.stderr.write('"process.env.NODE_DOCKER_ENV" is not defined What is your env? Aborting spinup\n');
   process.exit(1);
 }
 
-// console.log(PG_HOST);
-module.exports = {
+const opts = {
+  name: 'default',
   cli: {
     entitiesDir: 'src/orm/entity',
     migrationsDir: 'src/orm/migration',
@@ -54,3 +58,8 @@ module.exports = {
   type: 'postgres',
   username: process.env[`PG_USER_${ENV_SUFFIX}`],
 };
+
+if(NODE_ENV === 'test' || NODE_ENV === 'development'){
+  console.log(opts);
+}
+module.exports = opts;

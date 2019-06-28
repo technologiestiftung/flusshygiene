@@ -1,12 +1,18 @@
+
 import { UpdateDateColumn, VersionColumn } from 'typeorm';
 // import {Point, Polygon} from 'geojson';
 import {Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import { BathingspotMeasurement } from './BathingspotMeasurement';
 import { BathingspotModel } from './BathingspotModel';
 import { BathingspotPrediction } from './BathingspotPrediction';
-import { BathingspotRawModelData } from './BathingspotRawModelData';
+// import { BathingspotRawModelData } from './BathingspotRawModelData';
 import { Region } from './Region';
 import { User } from './User';
+import { PurificationPlant } from './PurificationPlant';
+import { Discharge } from './Discharge';
+import { Rain } from './Rain';
+import { GlobalIrradiance } from './GlobalIrradiance';
+import { GenericInput } from './GenericInput';
 export const criteriaBathingspot = [
   { type: 'object', key: 'apiEndpoints' },
   { type: 'object', key: 'state' },
@@ -214,18 +220,43 @@ export class Bathingspot {
   @ManyToOne( _type => User, user => user.bathingspots)
   public user!: User;
 
-  @OneToMany(_type => BathingspotPrediction, (prediction) => prediction.bathingspot, {eager: true})
+  @OneToMany(_type => BathingspotPrediction, (prediction) => prediction.bathingspot, {
+    // cascade: true,
+    eager: true,
+  })
   public predictions!: BathingspotPrediction[];
 
-  @OneToMany(_type => BathingspotModel, (model) => model.bathingspot)
+
+  @OneToMany(_type => BathingspotModel, (model) => model.bathingspot,{
+    eager: true,
+  })
   public models!: BathingspotModel[];
 
-  @OneToMany(_type => BathingspotMeasurement, (measurement) => measurement.bathingspot, {eager:  true})
+  @OneToMany(_type => BathingspotMeasurement, (measurement) => measurement.bathingspot, {
+    eager: true,
+  })
   public measurements!: BathingspotMeasurement[];
 
-  @OneToMany(_type => BathingspotRawModelData, (rawModelData) => rawModelData.bathingspot)
-  public rawModelData!: BathingspotRawModelData[];
+  // @OneToMany(_type => BathingspotRawModelData, (rawModelData) => rawModelData.bathingspot)
+  // public rawModelData!: BathingspotRawModelData[];
 
   @ManyToOne(_type => Region, region => region.bathingspots, {eager: true, onDelete: 'SET NULL'})
   public region!: Region;
+
+  @OneToMany(_type => PurificationPlant, (plant) => plant.bathingspot, /*{eager: true}*/)
+  public purificationPlants!: PurificationPlant[];
+
+  @OneToMany(_type => GenericInput, (ginput) => ginput.bathingspot, /*{eager: true}*/)
+  public genericInputs!: GenericInput[];
+
+
+  @OneToMany(_type => Discharge, (discharge) => discharge.bathingspot, /*{eager: true}*/)
+  public discharges!: Discharge[];
+
+  @OneToMany(_type => GlobalIrradiance, (globalIrradiance) => globalIrradiance.bathingspot, /*{eager: true}*/)
+  public globalIrradiances!: GlobalIrradiance[];
+
+  @OneToMany(_type => Rain, (rain) => rain.bathingspot,/*{eager: true}*/)
+  public rains!: Rain[];
+
 }

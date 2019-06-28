@@ -1,3 +1,4 @@
+import { defaultGetResponse } from './request-handlers/defaults';
 import jwtAuthz from 'express-jwt-authz';
 import Router from 'express-promise-router';
 import { checkJwt } from './auth';
@@ -5,7 +6,7 @@ import {
   getBathingspots,
   getSingleBathingspot,
 } from './request-handlers/bathingspots';
-import { getBathingspotsByRegion } from './request-handlers/bathingspots/get';
+import { getBathingspotsByRegion } from './request-handlers/bathingspots/public-get';
 import { deleteRegion, getAllRegions, postRegion, putRegion } from './request-handlers/regions';
 import { getRegionById } from './request-handlers/regions/index';
 // import { defaultGetResponse, defaultPostResponse } from './request-handlers/default-requests';
@@ -22,19 +23,22 @@ import {
   getOneUserBathingspotById,
   getUserBathingspots,
   updateBathingspotOfUser,
-} from './request-handlers/users/bathingspots/';
-import { getOneUsersBathingspotsByRegion } from './request-handlers/users/bathingspots/get';
-import { getResponse } from './types-interfaces';
+} from './request-handlers/bathingspots/';
+import { getOneUsersBathingspotsByRegion } from './request-handlers/bathingspots/get';
+import { getCollection, postCollection } from './request-handlers/bathingspots/collections';
+// import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
+
 
 const checkScopes = jwtAuthz(['admin', 'read:bathingspots']);
 
 const router = Router();
 
 // endpoint for testing if API is live and tokens work
-const getPing : getResponse = async (request, response) =>{
-  response.status(200).json(request);
-}
-router.get('/ping',checkJwt, checkScopes, getPing);
+// const getPing : getResponse = async (request, response) =>{
+//   response.status(200).json(request.body);
+// }
+router.get('/',checkJwt, checkScopes, defaultGetResponse);
+
 
 router.get('/users', checkJwt, checkScopes, getUsers);
 // get user by id
@@ -52,11 +56,22 @@ router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)',  checkJwt, che
 // add new spot to user
 
 router.post('/users/:userId([0-9]+)/bathingspots',  checkJwt, checkScopes, addBathingspotToUser);
-// add new user
 
 router.put('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)',  checkJwt, checkScopes, updateBathingspotOfUser);
 
 router.delete('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)',  checkJwt, checkScopes, deleteBathingspotOfUser);
+
+// POST and GET predictions from/to spot
+
+// router.post('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/predictions', checkJwt, checkScopes, postPrediction);
+
+//GET measurements, predictions from
+// router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/predictions', checkJwt, checkScopes, getPredictions);
+router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)',checkJwt, checkScopes, getCollection);
+
+router.post('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)',checkJwt, checkScopes, postCollection);
+
+
 // add new user
 
 router.post('/users', checkJwt, checkScopes, addUser);

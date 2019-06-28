@@ -2,9 +2,9 @@ import { validate } from 'class-validator';
 import { getCustomRepository, getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { User } from '../../../orm/entity/User';
-import { getRegionsList } from '../../repositories/custom-repo-helpers';
+import { getRegionsList } from '../../utils/custom-repo-helpers';
 import { UserRepository } from '../../repositories/UserRepository';
-import { HttpCodes, IObject, postResponse, UserRole } from '../../types-interfaces';
+import { HttpCodes, IObject, postResponse, UserRole } from '../../common';
 import { getEntityFields } from '../../utils/get-entity-fields';
 import { errorResponse, responder, responderMissingBodyValue, responderSuccessCreated } from '../responders';
 
