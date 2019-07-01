@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 } else {
   app.use(helmet());
-  app.use(morgan('tiny'));
+  app.use(morgan('combined'));
 }
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
