@@ -3,6 +3,7 @@ import { User } from '../../../orm/entity/User';
 import { SUCCESS } from '../../messages';
 import { getResponse, HttpCodes } from '../../common';
 import { errorResponse, responder, responderWrongIdOrSuccess, successResponse } from '../responders';
+import { getUserByAuth0id } from '../../utils/user-repo-helpers';
 
 //  ██████╗ ███████╗████████╗
 // ██╔════╝ ██╔════╝╚══██╔══╝
@@ -11,11 +12,15 @@ import { errorResponse, responder, responderWrongIdOrSuccess, successResponse } 
 // ╚██████╔╝███████╗   ██║
 //  ╚═════╝ ╚══════╝   ╚═╝
 
-export const getUsers: getResponse = async (_request, response) => {
-  let users: User[];
-
+export const getUsers: getResponse = async (request, response) => {
   try {
-    users = await getRepository(User).find();
+  let users: User[];
+    if(request.query.auth0Id === undefined){
+      users = await getRepository(User).find();
+    }else{
+      const user = await getUserByAuth0id(request.query.auth0Id);
+      users = user === undefined ? [] : [user];
+    }
     responder(
       response,
       HttpCodes.success,
@@ -33,8 +38,12 @@ export const getUsers: getResponse = async (_request, response) => {
 export const getUser: getResponse = async (request, response) => {
   let user: User | undefined;
   try {
-
-    user = await getRepository(User).findOne(request.params.userId);
+    // if(request.query.auth0id === undefined){
+      user = await getRepository(User).findOne(request.params.userId);
+    // }else{
+      // console.log(request.query.auth0id);
+      // user = await getUserByAuth0id(request.query.auth0id);
+    // }
     responderWrongIdOrSuccess(user, response);
     // if (user === undefined) {
     //   responderWrongId(response);

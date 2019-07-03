@@ -5,7 +5,7 @@ import { BathingspotMeasurement } from '../../../orm/entity/BathingspotMeasureme
 import { BathingspotPrediction } from '../../../orm/entity/BathingspotPrediction';
 import { getResponse, HttpCodes, postResponse, IObject } from '../../common';
 import { responder, responderWrongId, successResponse, errorResponse } from '../responders';
-import { getSpot, getSpotWithRelation } from '../../utils/repo-helpers';
+import { getSpot, getSpotWithRelation } from '../../utils/spot-repo-helpers';
 import { getRepository } from 'typeorm';
 import { PurificationPlant, GlobalIrradiance, Discharge, Bathingspot } from '../../../orm/entity';
 

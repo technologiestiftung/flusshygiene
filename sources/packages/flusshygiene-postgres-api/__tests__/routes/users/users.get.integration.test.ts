@@ -1,17 +1,12 @@
+import { createProtectedUser } from './../../../src/setup/create-test-user';
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
-import { Connection, getCustomRepository } from 'typeorm';
-import {
-  getRegionsList,
-} from '../../../src/lib/repositories/custom-repo-helpers';
-import { RegionRepository } from '../../../src/lib/repositories/RegionRepository';
+import { Connection, getRepository } from 'typeorm';
+
 import routes from '../../../src/lib/routes';
-import {
-  DefaultRegions,
-} from '../../../src/lib/common';
-import { Region } from '../../../src/orm/entity/Region';
+
 import {
   closeTestingConnections,
   createTestingConnections,
@@ -19,6 +14,8 @@ import {
   readTokenFromDisc,
 } from '../../test-utils';
 import path from 'path';
+import { User } from '../../../src/orm/entity/User';
+import { UserRole } from '../../../src/lib/common';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -84,7 +81,23 @@ describe('testing get users', () => {
     // expect(res.body[0]).toHaveProperty('role');
     done();
   });
-
+  test('route get users by auth0id', async (done) => {
+    let user = new User();
+    const repo = getRepository('user');
+    const auth0Id = 'auth0|123456';
+    repo.merge(user, {firstName:'bah', lastName:'foo', email:'foo@bah.org', protected:false, auth0Id, role: UserRole.reporter});
+    await repo.save(user);
+    const res = await request(app).get(`/api/v1/users?auth0Id=${auth0Id}`).set(headers);
+    expect(res.status).toBe(200);
+    console.log(res.body);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0].auth0Id).toEqual(auth0Id);
+    // expect(res.body[0]).toHaveProperty('email');
+    // expect(res.body[0]).toHaveProperty('firstName');
+    // expect(res.body[0]).toHaveProperty('lastName');
+    // expect(res.body[0]).toHaveProperty('role');
+    done();
+  });
   test('route get user by id', async (done) => {
     expect.assertions(2);
     const res = await request(app).get('/api/v1/users/1').set(headers);
