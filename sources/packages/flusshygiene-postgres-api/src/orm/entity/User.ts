@@ -38,6 +38,9 @@ export class User {
   @Column({ nullable: false })
   @IsEmail()
   public email!: string;
+
+  @Column({nullable:true})
+  public auth0Id!: string;
   // if he can create badegewässer/bathing spot
   @Column({ type: 'enum', nullable: false, enum: UserRole })
   @IsEnum(UserRole)
