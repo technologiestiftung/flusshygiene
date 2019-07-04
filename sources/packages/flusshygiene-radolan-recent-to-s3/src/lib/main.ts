@@ -9,7 +9,7 @@ import ftp from 'promise-ftp';
 import rimraf from 'rimraf';
 import s3 from 's3-client';
 import util from 'util';
-import zlib from 'zlib';
+// import zlib from 'zlib'; // files on the FTP are not gz anymore
 import { allBucketKeys } from './all-bucket-keys';
 import { IObject } from './interfaces';
 import { logger } from './logger';
@@ -18,8 +18,7 @@ import { shutDownEC2 } from './shutdown-ec2';
 import { stringArrayDiff } from './string-array-diff';
 
 const mkdirpAsync = util.promisify(mkdirp);
-// const readDirAsync = util.promisify(fs.readdir);
-// const finishedAsync = util.promisify(stream.finished);
+
 const rimrafAsync = util.promisify(rimraf);
 
 config({ path: path.resolve(__dirname, '../../.env') });
@@ -43,10 +42,9 @@ const options = {
   // more options available. See API docs below.
 };
 const s3Client = s3.createClient(options);
-// the hard coded path is currently need to not kill the existing task
 const radolanRootPath = process.env.FTP_RADOLAN_PATH;
 
-const mg = mailgun({apiKey: process.env.MAILGUN_APIKEY!, domain: process.env.MAILGUN_DOMAIN!});
+const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY!, domain: process.env.MAILGUN_DOMAIN! });
 
 const errorLogger = (error: Error, obj?: any) => {
   if (obj !== undefined) {
@@ -60,7 +58,7 @@ const errorLogger = (error: Error, obj?: any) => {
 export const main: (options: IObject) => Promise<void> = async (_options) => {
   try {
     logger.info(`FTP Host ${process.env.FTP_HOST}`);
-    logger.info(`FTP Port ${process.env.FTP_PORT}` );
+    logger.info(`FTP Port ${process.env.FTP_PORT}`);
     logger.info(`Bucket name ${process.env.AWS_BUCKET_NAME}`);
 
     // extract the last two digits from the year.
@@ -71,24 +69,31 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
     const ftpResponse = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
     logger.info(`FTP connection response ${ftpResponse}`);
     const rawFtpList = await ftpClient.list(radolanRootPath);
-    // await ftpClient.end();
+    // console.log(rawFtpList);
+
+    // before we had to filter the names to make the diff list
+    // since the DWD does not gzip the files anymore on their FTP
+    // we don't need to. Lets keeps this here as a reference
+    // const ftpList4Diff = rawFtpList
+    //    .filter(ele => ele.name.indexOf('.gz') !== -1)
+    //   .map((ele => ele.name.replace('.gz', '')));
+
     const ftpList4Diff = rawFtpList
-      .filter(ele => ele.name.indexOf('.gz') !== -1)
-      .map((ele => ele.name.replace('.gz', '')));
-      // diffing is from here https://stackoverflow.com/a/33034768
+      .map((ele => ele.name));
+
+    // diffing is from here https://stackoverflow.com/a/33034768
     // const ftpDiffList = ftpList4Diff.filter(ele => !s3DiffList4Diff.includes(ele));
     const ftpDiffList = stringArrayDiff(ftpList4Diff, s3DiffList4Diff);
     logger.info(`Missing elements: ${JSON.stringify(ftpDiffList)}`);
 
-    // fs.writeFileSync(path.resolve(process.cwd(), './ftpList4Diff.txt'), ftpList4Diff, 'utf8');
-    // fs.writeFileSync(path.resolve(process.cwd(), './ftpList4Diff.txt'), ftpList4Diff, 'utf8');
-    // fs.writeFileSync(path.resolve(process.cwd(), './missing.log'), ftpDiffList, 'utf8');
-    // process.exit();
-    const ftpList = ftpDiffList.map(ele => `${ele}.gz`);
+    // same thing here we had to reattach the .gz to the diffed
+    // list to be able to pipe them into the read -> gunzip -> write process
+    // now we only read -> write
+    // const ftpList = ftpDiffList.map(ele => `${ele}.gz`);
+    const ftpList = ftpDiffList;
     logger.info(`Preparing transfer for the following files:,
     ${ftpList} on ${process.env.FTP_HOST} to ${process.env.AWS_BUCKET_NAME}`);
 
-    // const truncateftplist = ftpList.slice(0, 50);
     const transferTasks = ftpList.map((file: string) => new Promise(async (resolve, reject) => {
       // const ftprestask = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
       // logger.info(ftprestask);
@@ -104,7 +109,10 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
       pipe(
         [
           ftprstream,
-          zlib.createGunzip(),
+          /*
+          also here. Files are not zipped anymore
+          zlib.createGunzip()
+           */
           fswstream,
         ], (err: Error) => {
           if (err) {
@@ -159,7 +167,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
       text: `${clog}\n${elog}`,
       to: `${process.env.MAILGUN_TO}`,
     };
-    mg.messages().send(mailData,  (merror, body) => {
+    mg.messages().send(mailData, (merror, body) => {
       if (merror) {
         logger.error(merror);
       }
