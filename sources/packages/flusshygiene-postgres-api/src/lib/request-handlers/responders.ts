@@ -1,3 +1,4 @@
+import { ValidationError } from 'class-validator';
 
 import { ERRORS, SUCCESS, SUGGESTIONS } from '../messages';
 import {
@@ -50,14 +51,23 @@ export const errorResponse: ErrorResponder = (error) => {
   if (process.env.NODE_ENV === 'development') {
     throw error;
   } else if (process.env.NODE_ENV === 'test' && process.env.TRAVIS === undefined) {
-    console.error(error.name);
-    console.error(error.message);
-    console.error(error.stack);
-    console.trace();
+    if (error instanceof Error) {
+      console.error(error.name);
+      console.error(error.message);
+      // console.error(error.stack);
+      console.trace();
+
+      return buildPayload(false, error.message, undefined);
+    } else if (error instanceof ValidationError) {
+      return buildPayload(false, JSON.stringify(error.constraints), undefined);
+
+    }else{
+    return buildPayload(false, JSON.stringify(error), undefined);
+    }
+  }else{
+    return buildPayload(false, 'internal server error', undefined);
   }
-  const msg = process.env.NODE_ENV === 'development' ? error.message : 'internal server error';
-  return buildPayload(false, msg, undefined);
-};
+}
 
 /**
  * Builds an response that holds a suggestion how to query the API
@@ -162,7 +172,7 @@ export const responderNotAuthorized: ResponderMissingOrWrongIdOrAuth = (response
   response,
   HttpCodes.badRequestUnAuthorized,
   userNotAuthorizedErrorResponse(),
-  );
+);
 
 export const responderWrongIdOrSuccess: ResponderWrongIdOrSuccess = (element, response) => {
   if (element === undefined) {
@@ -173,6 +183,6 @@ export const responderWrongIdOrSuccess: ResponderWrongIdOrSuccess = (element, re
       response,
       HttpCodes.success,
       successResponse(SUCCESS.success200, res),
-      );
+    );
   }
 };

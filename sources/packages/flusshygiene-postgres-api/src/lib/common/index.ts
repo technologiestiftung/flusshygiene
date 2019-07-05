@@ -5,6 +5,7 @@ import { BathingspotPrediction } from '../../orm/entity/BathingspotPrediction';
 import { Region } from '../../orm/entity/Region';
 import { User } from '../../orm/entity/User';
 import { Bathingspot } from '../../orm/entity/Bathingspot';
+import { ValidationError } from 'class-validator';
 export interface IFilteredEntityPropsResoponse {
   props: string[];
 }
@@ -68,7 +69,7 @@ export type ResponderSuccess = (
   message: string,
   ) => void;
 
-export type ErrorResponder = (error: Error) => IDefaultResponsePayload;
+export type ErrorResponder = (error: Error|ValidationError|ValidationError[]) => IDefaultResponsePayload;
 
 export type PayloadBuilder = (success: boolean, message?: string, data?: any) => IDefaultResponsePayload;
 

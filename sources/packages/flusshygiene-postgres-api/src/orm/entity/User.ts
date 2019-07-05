@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum } from 'class-validator';
+import { IsEnum, IsEmail } from 'class-validator';
 import {
   Column,
   CreateDateColumn,

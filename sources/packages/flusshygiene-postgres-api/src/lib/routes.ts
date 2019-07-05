@@ -11,11 +11,12 @@ import { deleteRegion, getAllRegions, postRegion, putRegion } from './request-ha
 import { getRegionById } from './request-handlers/regions/index';
 // import { defaultGetResponse, defaultPostResponse } from './request-handlers/default-requests';
 import {
-  addUser,
+  // addUser,
   deleteUser,
   getUser,
   getUsers,
   updateUser,
+  postUser,
 } from './request-handlers/users/';
 import {
   addBathingspotToUser,
@@ -74,7 +75,7 @@ router.post('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-
 
 // add new user
 
-router.post('/users', checkJwt, checkScopes, addUser);
+router.post('/users', checkJwt, checkScopes, postUser);
 // update user
 router.put('/users/:userId([0-9]+)', checkJwt, checkScopes, updateUser);
 // delete user

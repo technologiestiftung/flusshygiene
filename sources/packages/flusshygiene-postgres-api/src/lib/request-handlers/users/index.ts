@@ -4,7 +4,8 @@ export {
 } from './get';
 
 export {
-  addUser,
+  // addUser,
+  postUser,
 } from './post';
 
 export { updateUser } from './put';
