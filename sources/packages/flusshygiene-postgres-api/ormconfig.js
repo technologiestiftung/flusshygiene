@@ -60,6 +60,7 @@ const opts = {
 };
 
 if(NODE_ENV === 'test' || NODE_ENV === 'development'){
+  console.log('in ormconfig.js');
   console.log(opts);
 }
 module.exports = opts;

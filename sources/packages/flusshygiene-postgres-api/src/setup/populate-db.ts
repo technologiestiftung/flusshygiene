@@ -6,6 +6,7 @@ import { Region } from '../orm/entity/Region';
 import { User } from '../orm/entity/User';
 import { createUser } from './create-test-user';
 import { createMeasurements, createPredictions, createSpots } from './import-existing-data';
+import readlineSync from 'readline-sync';
 
 const spinner = ora('populating database');
 const infoSpinner = (text: string, spin: ora.Ora) => {
@@ -17,11 +18,42 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
   spin.text = text;
 };
 
+// const meow = require('meow');
+// const path = require('path');
+// const readlineSync = require('readline-sync');
+// const cli = meow(`
+
+// ╦ ╦┌─┐┌─┐┌─┐┌─┐
+// ║ ║└─┐├─┤│ ┬├┤
+// ╚═╝└─┘┴ ┴└─┘└─┘
+
+// pass the path for the config you want to use.
+
+// `);
+// if(cli.input.length === 0){
+//   cli.showHelp();
+// }
+// const result = require('dotenv').config(path.resolve(process.cwd(), cli.input[0]));
+// if(result instanceof Error){
+//   throw result;
+// }
+// console.log(result.parsed);
+// var resp = readlineSync.question('Do you want to use these values? (only yes will continue): ');
+// if(resp !== 'yes'){
+//   process.exit();
+// }
+
 (async () => {
   try {
     // for populating the DB we need to override the values in the config
     const connectionOptions = await getConnectionOptions();
-    Object.assign(connectionOptions, { synchronize:true, dropSchema: true });
+    Object.assign(connectionOptions, { synchronize: true, dropSchema: true });
+    console.log('I will use these options:');
+    console.log(connectionOptions);
+    const resp = readlineSync.question('Do you want to use these values? (only yes will continue): ');
+    if (resp !== 'yes') {
+      process.exit();
+    }
     const connection = await createConnection(connectionOptions);
     // const db = await connection.connect();
     // process.stdout.write(db.name);
