@@ -34,25 +34,12 @@ export const addBathingspotToUser: postResponse = async (request, response) => {
       const providedValues = getMatchingValues(request.body, filteredPropNames.props);
       const spot = await createSpotWithValues(providedValues);
 
-      //   if ((spot.isPublic === true &&
-      //   (providedValues.hasOwnProperty('region') === false ||
-      //     list.includes(request.body.region) === false) || request.body.hasOwnProperty('isPublic') === false)
-      // ) {
-      //   responderMissingBodyValue(response, {
-      //     'possible-regions': list,
-      //     'problem': 'when isPublic is set to true you need to set a region',
-      //   });
-      // } else {
       user.bathingspots.push(spot);
-      try {
-        await getManager().save(user);
-      } catch (err) {
-        console.log('this is the error');
-        console.log(err);
-      }
+      await getManager().save(user);
+
       responder(response,
         HttpCodes.successCreated,
-        successResponse('Bathingspot created', []));
+        successResponse('Bathingspot created', [spot]));
       // }
     } else if (user instanceof User && user.role === UserRole.reporter) {
       responderNotAuthorized(response);
