@@ -26,7 +26,7 @@ import {
   updateBathingspotOfUser,
 } from './request-handlers/bathingspots/';
 import { getOneUsersBathingspotsByRegion } from './request-handlers/bathingspots/get';
-import { getCollection, postCollection } from './request-handlers/bathingspots/collections';
+import { getCollection, postCollection, getCollectionsSubItem, postCollectionsSubItem } from './request-handlers/bathingspots/collections';
 // import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
 
 
@@ -69,6 +69,11 @@ router.delete('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)',  checkJwt, 
 //GET measurements, predictions from
 // router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/predictions', checkJwt, checkScopes, getPredictions);
 router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)',checkJwt, checkScopes, getCollection);
+
+// get subitems of collection
+router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)/:collectionId([0-9]+)',checkJwt, checkScopes, getCollectionsSubItem);
+
+router.post('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)/:collectionId([0-9]+)/measurement',checkJwt, checkScopes, postCollectionsSubItem);
 
 router.post('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)',checkJwt, checkScopes, postCollection);
 

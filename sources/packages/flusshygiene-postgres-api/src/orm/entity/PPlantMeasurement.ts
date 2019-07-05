@@ -9,6 +9,7 @@ export class PPlantMeasurement extends Measurement {
 
   @ManyToOne( _type => PurificationPlant, plant => plant.measurements , {
     cascade: true,
+    // eager: true,
   })
   purificationPlant!: PurificationPlant;
 }

@@ -21,7 +21,7 @@ import { ResponderWrongIdOrSuccess } from '../common';
  * @param message
  * @param data
  */
-const buildPayload: PayloadBuilder = (success, message, data) => {
+export const buildPayload: PayloadBuilder = (success, message, data) => {
   return {
     data,
     message,

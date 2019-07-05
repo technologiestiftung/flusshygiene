@@ -17,6 +17,7 @@ export class PurificationPlant extends MeasurementType {
 
   @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.purificationPlants , {
     cascade: true,
+    // eager: true,
   })
   public bathingspot!: Bathingspot;
 }

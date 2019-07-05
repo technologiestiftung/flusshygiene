@@ -4,7 +4,7 @@ import { BathingspotModel } from '../../../orm/entity/BathingspotModel';
 import { BathingspotMeasurement } from '../../../orm/entity/BathingspotMeasurement';
 import { BathingspotPrediction } from '../../../orm/entity/BathingspotPrediction';
 import { getResponse, HttpCodes, postResponse, IObject } from '../../common';
-import { responder, responderWrongId, successResponse, errorResponse } from '../responders';
+import { responder, responderWrongId, successResponse, errorResponse, buildPayload } from '../responders';
 import { getSpot, getSpotWithRelation } from '../../utils/spot-repo-helpers';
 import { getRepository } from 'typeorm';
 import { PurificationPlant, GlobalIrradiance, Discharge, Bathingspot } from '../../../orm/entity';
@@ -30,10 +30,50 @@ const collectionRepoMapping: IObject = {
   'discharges': 'Discharge',
   'rains': 'Rain'
 };
+
+
+export const postCollectionsSubItem: postResponse = async (_request, response) =>{
+  try {
+    responder(response,
+      HttpCodes.success,
+    successResponse('Not yet implemented', []));
+
+  } catch (error) {
+    responder(response, HttpCodes.internalError, errorResponse(error));
+  }
+}
+
 /**
- * A generic function for getting alll kinds of collections like Rain, BathingspotMeasurement, Predictions,
- *
+ * @todo There is no saveguard that checks if we have the right spot and the right user. Needs to be addressed
  */
+export const getCollectionsSubItem: getResponse = async (request, response) => {
+  try {
+
+    // console.log(request.body);
+    // console.log(request.params);
+    const repoName = collectionRepoMapping[request.params.collection];
+    // console.log(repoName);
+    if(repoName !== undefined){
+    const repo: any = getRepository(repoName);
+
+      // const collectionRepo = getRepository(request.params.collection);
+      const res = await repo.findOne({ where: { id: request.params.collectionId } });
+      responder(response,
+        HttpCodes.success,
+        successResponse('subitem', [res]));
+      }else{
+        const possibleValues = Object.keys(collectionRepoMapping);
+        responder(response, HttpCodes.badRequestNotFound, buildPayload(false,`The resource "${request.params.collection}" you are requesting does not exist. See the data for possible values`,possibleValues));
+      }
+  } catch (error) {
+    responder(response, HttpCodes.internalError, errorResponse(error));
+
+  }
+}
+/**
+ * A generic function for getting alll kinds of collections like Rain, BathingspotMeasurement, Predictions, Also Used for PPlants and GenericInputs.  Not the values though
+ *
+*/
 export const getCollection: getResponse = async (request, response) => {
   try {
     const userId = request.params.userId;
