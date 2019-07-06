@@ -13,11 +13,16 @@ import { BathingspotRepository } from '../../repositories/BathingspotRepository'
 export const getBathingspots: getResponse = async (_request, response) => {
   let spots: Bathingspot[];
   try {
-    spots = await getRepository(Bathingspot).find(
-      {
-        where: { isPublic: true },
-      },
-    );
+    const repo = getRepository(Bathingspot);
+    const query = repo.createQueryBuilder('bathingspot')
+      .leftJoinAndSelect('bathingspot.region','region')
+      .where('bathingspot.isPublic = :isPublic', {isPublic: true});
+    spots = await query.getMany();
+    // spots = await getRepository(Bathingspot).find(
+    //   {
+    //     where: { isPublic: true },
+    //   },
+    // );
     responder(response, HttpCodes.success, spots);
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));
