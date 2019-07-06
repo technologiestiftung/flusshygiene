@@ -28,7 +28,7 @@ const app = express();
 createConnection();
 app.use(cors());
 if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
+  app.use(morgan('combined'));
 } else {
   app.use(helmet());
   app.use(morgan('combined'));
