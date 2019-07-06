@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import routes from './routes';
 import { createConnection } from 'typeorm';
+import { buildPayload } from './request-handlers/responders';
 // import ora from 'ora';
 // import { createConnection, getRepository } from 'typeorm';
 // import { Region } from '../orm/entity/Region';
@@ -37,7 +38,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (request, response) => {
-  response.send(`Server is running. You called ${request.url}`);
+  const data = ['',
+'    _________________________',
+'    < Flusshygiene yeah baby! >',
+'     -------------------------',
+'            \\   ^__^',
+'             \\  (oo)\_______',
+'                (__)\\       )\\/\\',
+'                    ||----w |',
+'                    ||     ||',
+''];
+  response.json(buildPayload(true, `Server is running. You called ${request.url}`,data));
 });
 
 // app.use('/api/v1', async (err: Error, _req: Request, res: Response, next: NextFunction)=>{

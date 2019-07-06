@@ -13,7 +13,7 @@ import {
   SuccessResponder,
   SuggestionResponder,
 } from '../common';
-import { ResponderWrongIdOrSuccess } from '../common';
+import { ResponderWrongIdOrSuccess, apiVersion } from '../common';
 
 /**
  * build a payload. This is to reduce repetition
@@ -26,6 +26,7 @@ export const buildPayload: PayloadBuilder = (success, message, data) => {
     data,
     message,
     success,
+    apiVersion
   };
 };
 /**

@@ -1,8 +1,8 @@
 import { Request } from 'express';
 import { Response } from 'express-serve-static-core';
 import { getResponse, IDefaultResponsePayload, postResponse } from '../common';
-
-const defaultResponsePayload: IDefaultResponsePayload = {success: true};
+const {version} = require('../../../package.json');
+const defaultResponsePayload: IDefaultResponsePayload = {success: true, apiVersion: version};
 
 export const defaultPostResponse: postResponse = async (_request, response) => {
   response.status(201).json(defaultResponsePayload);

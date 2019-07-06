@@ -6,6 +6,9 @@ import { Region } from '../../orm/entity/Region';
 import { User } from '../../orm/entity/User';
 import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { ValidationError } from 'class-validator';
+
+const {version} = require('../../../package.json');
+export const apiVersion = version;
 export interface IFilteredEntityPropsResoponse {
   props: string[];
 }
@@ -16,6 +19,7 @@ export interface IDefaultResponsePayload {
   success: boolean;
   message?: string;
   data?: User|User[]|Bathingspot[]|object|undefined;
+  apiVersion?: string;
 }
 /**
  * Super generic object interface
