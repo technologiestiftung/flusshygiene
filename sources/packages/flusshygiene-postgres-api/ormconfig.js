@@ -1,8 +1,10 @@
 require('dotenv').config();
+const {version} = require('./package.json');
 // let nodeDevInDocker = false;
 // console.log('in ormconfig.js');
 const NODE_ENV = process.env.NODE_ENV;
-console.log(NODE_ENV);
+console.log(NODE_ENV, version);
+
 const ENV_SUFFIX = NODE_ENV === 'production' ? 'PROD' : 'DEV';
 let PG_HOST = '';
 
