@@ -3,8 +3,7 @@ jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
-import { Connection, getCustomRepository } from 'typeorm';
-import { UserRepository } from '../../../src/lib/repositories/UserRepository';
+import { Connection, getRepository } from 'typeorm';
 import routes from '../../../src/lib/routes';
 import { DefaultRegions } from '../../../src/lib/common';
 import {
@@ -74,7 +73,7 @@ describe('testing users/[:userId]/bathingspots/[:spotId]', () => {
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
   test('should return at least an empty array of bathingspots', async (done) => {
-    const userRepo = getCustomRepository(UserRepository);
+    const userRepo = getRepository(User);
     const users = await userRepo.find();
     const res = await request(app).get(`/api/v1/users/${users[0].id}/bathingspots`).set(headers);
     expect(res.status).toBe(200);
@@ -104,7 +103,7 @@ describe('testing users/[:userId]/bathingspots/[:spotId]', () => {
   });
 
   test.skip('user should have a bathingspot with id', async (done) => {
-    const userRepo = getCustomRepository(UserRepository);
+    const userRepo = getRepository(User);
     const usersWithRelations = await userRepo.find({ relations: ['bathingspots'] });
 
     // console.log(usersWithRelations);
@@ -116,7 +115,7 @@ describe('testing users/[:userId]/bathingspots/[:spotId]', () => {
     done();
   });
   test('region should not exist', async (done) => {
-    const userRepo = getCustomRepository(UserRepository);
+    const userRepo = getRepository(User);
     const usersWithRelations = await userRepo.find({ relations: ['bathingspots'] });
 
     // console.log(usersWithRelations);
@@ -128,7 +127,7 @@ describe('testing users/[:userId]/bathingspots/[:spotId]', () => {
     done();
   });
   test('user should have no bathingspot in region', async (done) => {
-    const userRepo = getCustomRepository(UserRepository);
+    const userRepo = getRepository(User);
     const usersWithRelations = await userRepo.find({ relations: ['bathingspots'] });
 
     // console.log(usersWithRelations);

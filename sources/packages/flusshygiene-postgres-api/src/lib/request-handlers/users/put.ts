@@ -1,12 +1,11 @@
-import { getCustomRepository, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { User } from '../../../orm/entity/User';
 import { SUCCESS } from '../../messages';
-import { RegionRepository } from '../../repositories/RegionRepository';
 import { HttpCodes, putResponse } from '../../common';
 import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
 import { RegionExsists } from '../../common';
-import { getRegionsList } from '../../utils/region-repo-helpers';
+import { getRegionsList, findByName } from '../../utils/region-repo-helpers';
 
 // ██████╗ ██╗   ██╗████████╗
 // ██╔══██╗██║   ██║╚══██╔══╝
@@ -30,7 +29,7 @@ export const updateUser: putResponse = async (request, response) => {
       const existingRegion = regionExists(list, region);
 
       if (hasRegion === true && existingRegion === true) {
-        const reg = await getCustomRepository(RegionRepository).findByName(request.body.region);
+        const reg = await findByName(request.body.region);
         if (reg instanceof Region) {
           user.regions.push(reg);
         }

@@ -1,10 +1,9 @@
-import { getCustomRepository, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { SUCCESS } from '../../messages';
 import { getResponse, HttpCodes } from '../../common';
 import { errorResponse, responder, responderWrongIdOrSuccess, successResponse } from '../responders';
 
-import { RegionRepository } from '../../repositories/RegionRepository';
 
 export const getAllRegions: getResponse = async (_request, response) => {
   try {
@@ -19,7 +18,7 @@ export const getAllRegions: getResponse = async (_request, response) => {
 
 export const getRegionById: getResponse = async (request, response) => {
   try {
-    const regionRepo = getCustomRepository(RegionRepository);
+    const regionRepo = getRepository(Region);
     const region = await regionRepo.findOne(request.params.regionId);
     responderWrongIdOrSuccess(region, response);
     // if (region === undefined) {

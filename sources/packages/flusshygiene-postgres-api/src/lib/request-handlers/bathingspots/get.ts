@@ -1,11 +1,9 @@
-import { getCustomRepository } from 'typeorm';
 import { SUCCESS } from '../../messages';
-import { RegionRepository } from '../../repositories/RegionRepository';
 import { getResponse, HttpCodes } from '../../common';
 import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
 import { responderWrongIdOrSuccess } from '../responders';
 import { getAllSpotsFromUser, findByUserAndRegion, getSpot } from '../../utils/spot-repo-helpers';
-import { getRegionsList } from '../../utils/region-repo-helpers';
+import { getRegionsList, findByName } from '../../utils/region-repo-helpers';
 import { getUserById } from '../../utils/user-repo-helpers';
 /**
  * Gets all the bathingspots of the user
@@ -60,8 +58,7 @@ export const getOneUsersBathingspotsByRegion: getResponse = async (request, resp
       responderWrongId(response);
     } else {
       // const spotRepo =  getRepository(Bathingspot);//getCustomRepository(BathingspotRepository);
-      const regionRepo = getCustomRepository(RegionRepository);
-      const region = await regionRepo.findByName(request.params.region);
+      const region = await findByName(request.params.region);
       const userId = request.params.userId;
       const spots = await findByUserAndRegion(userId, region!.id);
       if (spots !== undefined) {

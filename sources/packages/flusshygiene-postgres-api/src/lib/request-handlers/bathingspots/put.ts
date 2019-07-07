@@ -1,13 +1,12 @@
-import { getCustomRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { Region } from '../../../orm/entity/Region';
 import { SUCCESS } from '../../messages';
-import { RegionRepository } from '../../repositories/RegionRepository';
 import { HttpCodes, putResponse } from '../../common';
-import {createSpotWithValues} from '../../utils/bathingspot-helpers';
+import {createSpotWithValues} from '../../utils/spot-helpers';
 import { getEntityFields } from '../../utils/get-entity-fields';
 import { getMatchingValues } from '../../utils/get-matching-values-from-request';
-import { BathingspotRepository } from '../../repositories/BathingspotRepository';
+
 import {
   errorResponse, responder,
   responderMissingBodyValue,
@@ -15,10 +14,11 @@ import {
   successResponse,
 } from '../responders';
 import { getSpot } from '../../utils/spot-repo-helpers';
+import { findByName } from '../../utils/region-repo-helpers';
 
 export const updateBathingspotOfUser: putResponse = async (request, response) => {
-  const spotRepo = getCustomRepository(BathingspotRepository);
-  const regionRepo = getCustomRepository(RegionRepository);
+  const spotRepo = getRepository(Bathingspot);
+  // const regionRepo = getRepository(Region);
   try {
     const filteredPropNames = await getEntityFields('Bathingspot');
     const spotFromUser = await getSpot(request.params.userId, request.params.spotId);
@@ -26,7 +26,7 @@ export const updateBathingspotOfUser: putResponse = async (request, response) =>
       const providedValues = getMatchingValues(request.body, filteredPropNames.props);
       if (Object.keys(providedValues).length > 0) {
         if (providedValues.hasOwnProperty('region') === true) {
-          const region = await regionRepo.findByName(providedValues.region);
+          const region = await findByName(providedValues.region);
           if (region instanceof Region) {
             spotFromUser.region = region;
           } else {

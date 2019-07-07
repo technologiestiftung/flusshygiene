@@ -2,8 +2,7 @@ jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
-import { Connection, getCustomRepository } from 'typeorm';
-import { RegionRepository } from '../../../src/lib/repositories/RegionRepository';
+import { Connection } from 'typeorm';
 import routes from '../../../src/lib/routes';
 import { DefaultRegions, HttpCodes } from '../../../src/lib/common';
 import {
@@ -13,6 +12,7 @@ import {
   readTokenFromDisc,
 } from '../../test-utils';
 import path from 'path';
+import { findByName } from '../../../src/lib/utils/region-repo-helpers';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -98,8 +98,7 @@ describe('testing regions api', () => {
 });
 
   test('should update a region', async (done) => {
-  const regionRepo = getCustomRepository(RegionRepository);
-  const region = await regionRepo.findByName(DefaultRegions.niedersachsen);
+  const region = await findByName(DefaultRegions.niedersachsen);
   const res = await request(app).put(
     `/api/v1/regions/${region.id}`,
     ).send({

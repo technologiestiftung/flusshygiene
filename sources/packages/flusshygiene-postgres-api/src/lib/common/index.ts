@@ -1,7 +1,4 @@
 import { Request, Response} from 'express';
-import { Connection } from 'typeorm';
-import { BathingspotMeasurement } from '../../orm/entity/BathingspotMeasurement';
-import { BathingspotPrediction } from '../../orm/entity/BathingspotPrediction';
 import { Region } from '../../orm/entity/Region';
 import { User } from '../../orm/entity/User';
 import { Bathingspot } from '../../orm/entity/Bathingspot';
@@ -109,11 +106,7 @@ export type GetPropsValueGeneric = <T>(obj: any, key: string) => T;
 
 // utils/bathingspot-helpers.ts
 
-export interface IAddEntitiesToSpotOptions {
-  entities: BathingspotMeasurement[] | BathingspotPrediction[];
-  connection: Connection;
-}
-export type AddEntitiesToSpot = (options: IAddEntitiesToSpotOptions) => Promise<void>;
+
 
 // ███████╗███╗   ██╗██╗   ██╗███╗   ███╗███████╗
 // ██╔════╝████╗  ██║██║   ██║████╗ ████║██╔════╝

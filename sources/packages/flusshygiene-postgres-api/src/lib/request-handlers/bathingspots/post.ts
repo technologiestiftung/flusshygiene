@@ -10,7 +10,7 @@ import {
   successResponse,
 } from '../responders';
 
-import { createSpotWithValues } from '../../utils/bathingspot-helpers';
+import { createSpotWithValues } from '../../utils/spot-helpers';
 import { getUserByIdWithSpots } from '../../utils/user-repo-helpers';
 
 

@@ -3,9 +3,8 @@ jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
-import { Connection, getCustomRepository, getRepository } from 'typeorm';
+import { Connection, getRepository } from 'typeorm';
 import { ERRORS, SUGGESTIONS } from '../../../src/lib/messages';
-import { UserRepository } from '../../../src/lib/repositories/UserRepository';
 import routes from '../../../src/lib/routes';
 import { DefaultRegions, UserRole } from '../../../src/lib/common';
 import { Bathingspot } from '../../../src/orm/entity/Bathingspot';
@@ -138,9 +137,7 @@ describe('testing bathingspots post for a specific user', () => {
     reporter.email = 'kk@foo.org';
     reporter.role = UserRole.reporter;
     const repo = getRepository(User);
-    const user = await repo.save(reporter);
-    console.log(user);
-    // const userRepo = getCustomRepository(UserRepository);
+    await repo.save(reporter);
     const usersWithRole = await getUsersByRole(UserRole.reporter);
     const res = await request(app).post(`/api/v1/users/${usersWithRole[0].id}/bathingspots`).send({
       apiEndpoints: {},
@@ -162,7 +159,6 @@ describe('testing bathingspots post for a specific user', () => {
     const userRepo = getRepository(User);
     const users: User[] = await userRepo.find({ where: { role: UserRole.creator }, relations: ['bathingspots'] });
     const user: User = users[users.length - 1]; // last created user
-    // console.log(users);
     const id = user.id;
     const spots = user.bathingspots;
 

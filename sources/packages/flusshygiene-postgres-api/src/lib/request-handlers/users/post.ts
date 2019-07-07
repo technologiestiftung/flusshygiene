@@ -14,7 +14,7 @@ import { getRegionsList } from '../../utils/region-repo-helpers';
 // ██║  ██║██████╔╝██████╔╝
 // ╚═╝  ╚═╝╚═════╝ ╚═════╝
 
-const createUser = async (obj: any) => {
+const createNewUser = async (obj: any) => {
   const userRepo = getRepository('user');// getCustomRepository(UserRepository);
 
   const user: User = new User();
@@ -52,7 +52,7 @@ export const postUser: postResponse = async (request, response) => {
     const userRepo = getRepository('user');
     // console.log(request.body);
 
-    const result = await createUser(request.body);
+    const result = await createNewUser(request.body);
     if (Array.isArray(result) === true) {
       // console.log(result);
       responder(response, HttpCodes.badRequestNotFound, errorResponse(result as ValidationError[]));
@@ -83,41 +83,3 @@ export const postUser: postResponse = async (request, response) => {
     }
   }
 }
-
-/**
- * @deprecated
- * rewrite because overly complicated
- */
-// export const addUser: postResponse = async (request, response) => {
-//   try {
-//     const list = await getRegionsList();
-//     const example = await getEntityFields('User');
-//     const hasRequiredFields = checkRequiredFileds(request.body);
-//     if (hasRequiredFields === true) {
-//       if (request.body.role === UserRole.creator &&
-//         (request.body.hasOwnProperty('region') === true &&
-//           list.includes(request.body.region) === true)
-//       ) {
-//         const region = await getRepository(Region).findOne({ where: { name: request.body.region } });
-//         const user = await createUser(request.body);
-//         if (region instanceof Region) {
-//           user.regions = [region];
-//         }
-//         const res = await getRepository(User).save(user); // .save(user);
-//         responderSuccessCreated(response, 'User was created', [res]);
-
-//       } else if ((request.body.hasOwnProperty('role') === true && request.body.role === UserRole.reporter)) {
-//         const user = await createUser(request.body);
-//         const res = await getRepository(User).save(user); // .save(user);
-//         responderSuccessCreated(response, 'User was created', [res]);
-//       } else {
-//         responderMissingBodyValue(response, example);
-//       }
-//     } else {
-//       responderMissingBodyValue(response, example);
-
-//     }
-//   } catch (e) {
-//     responder(response, HttpCodes.internalError, errorResponse(e));
-//   }
-// };

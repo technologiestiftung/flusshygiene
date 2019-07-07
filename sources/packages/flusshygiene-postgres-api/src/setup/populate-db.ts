@@ -1,12 +1,12 @@
 import ora = require('ora');
 import { createConnection, getRepository, getConnectionOptions } from 'typeorm';
-import { DefaultRegions, IAddEntitiesToSpotOptions, UserRole } from '../lib/common';
-import { addEntitiesToSpot } from '../lib/utils/bathingspot-helpers';
+import { DefaultRegions,  UserRole } from '../lib/common';
 import { Region } from '../orm/entity/Region';
 import { User } from '../orm/entity/User';
 import { createUser } from './create-test-user';
 import { createMeasurements, createPredictions, createSpots } from './import-existing-data';
 import readlineSync from 'readline-sync';
+import { IAddEntitiesToSpotOptions, addEntitiesToSpot } from './add-entities-to-spot';
 
 const spinner = ora('populating database');
 const infoSpinner = (text: string, spin: ora.Ora) => {

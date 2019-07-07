@@ -3,9 +3,8 @@ import fs from 'fs';
 import util from 'util';
 import path from 'path';
 import { config } from 'dotenv';
-import { Connection, createConnection, getCustomRepository } from 'typeorm';
+import { Connection, createConnection, getRepository } from 'typeorm';
 
-import { RegionRepository } from '../../src/lib/repositories/RegionRepository';
 import { DefaultRegions, UserRole } from '../../src/lib/common';
 import { Rain,
   GlobalIrradiance,
@@ -93,7 +92,7 @@ export async function createTestingConnections() {
   const us = await connection.manager.save(createUser());
   // console.log(resuser);
 
-  await getCustomRepository(RegionRepository).find();
+  await getRepository(Region).find();
   // console.log(users);
   // await Promise.all([connection].map(con => {
   //   console.log('creating connection');
