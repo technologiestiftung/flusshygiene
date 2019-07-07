@@ -16,8 +16,8 @@ WORKDIR  /usr/app
 ENV NODE_ENV=development
 ENV NODE_DOCKER_ENV=1
 COPY ./package*.json ./
-COPY ./ormconfig.js ./
 RUN npm install
+COPY ./ormconfig.js ./
 COPY --from=builder /usr/app/dist /usr/app/dist
 USER node
 EXPOSE 5004

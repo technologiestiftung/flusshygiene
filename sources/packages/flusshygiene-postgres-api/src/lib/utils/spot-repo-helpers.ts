@@ -37,3 +37,22 @@ export const getSpotWithRelation: (spotId: number, relation: string) => Promise<
     return error;
   }
 }
+
+
+/**
+ * Get all Bathingspots by a specific user
+ */
+
+ export const getAllSpotsFromUser: (userId: number) => Promise<[Bathingspot]> = async (userId) =>{
+  try {
+    const spotRepo = getRepository(Bathingspot);
+    const query = spotRepo.createQueryBuilder('bathingspot')
+    .leftJoinAndSelect('bathingspot.user', 'user')
+    .where('user.id = :userId', {userId});
+    const spots = await query.getMany();
+    return spots;
+  } catch (error) {
+    return error;
+  }
+
+ }
