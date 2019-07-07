@@ -2,10 +2,10 @@ import { validate, ValidationError } from 'class-validator';
 import { getRepository, QueryFailedError } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { User } from '../../../orm/entity/User';
-import { getRegionsList } from '../../utils/custom-repo-helpers';
 import { HttpCodes, postResponse } from '../../common';
 // import { getEntityFields } from '../../utils/get-entity-fields';
 import { errorResponse, responder, responderSuccessCreated } from '../responders';
+import { getRegionsList } from '../../utils/region-repo-helpers';
 
 //  █████╗ ██████╗ ██████╗
 // ██╔══██╗██╔══██╗██╔══██╗

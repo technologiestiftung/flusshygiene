@@ -2,8 +2,8 @@ import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { SUCCESS } from '../../messages';
 import { HttpCodes,  putResponse } from '../../common';
-import { createMergeObj } from '../../utils/regions-helper';
 import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
+import { createMergeObj } from '../../utils/region-repo-helpers';
 
 export const putRegion: putResponse = async (request, response) => {
   try {

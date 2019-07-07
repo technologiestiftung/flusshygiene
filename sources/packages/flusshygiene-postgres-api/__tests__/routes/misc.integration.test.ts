@@ -1,9 +1,9 @@
+
 jest.useFakeTimers();
+import { getUserByIdWithSpots } from './../../src/lib/utils/user-repo-helpers';
 import express, { Application } from 'express';
 import 'reflect-metadata';
-import request from 'supertest';
 import { Connection } from 'typeorm';
-import { getBathingspotById, getRegionsList, getSpotByUserAndId, getUserWithRelations } from '../../src/lib/utils/custom-repo-helpers';
 import routes from '../../src/lib/routes';
 import { DefaultRegions } from '../../src/lib/common';
 import {
@@ -11,7 +11,7 @@ import {
   createTestingConnections,
   reloadTestingDatabases,
 } from '../test-utils';
-import path from 'path';
+import { getRegionsList } from '../../src/lib/utils/region-repo-helpers';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -82,7 +82,8 @@ describe('misc functions that need a DB', () => {
 
   describe('testing errors on repo helpers', () => {
   it('should be catch error due to missing db', (done) => {
-    getUserWithRelations(10000, []).then(res => {
+
+    getUserByIdWithSpots(10000).then(res => {
       expect(res).toBe(undefined);
       done();
     }).catch(err => {
@@ -91,25 +92,25 @@ describe('misc functions that need a DB', () => {
     });
   });
 
-  it('should be catch error due to missing db', (done) => {
-    getBathingspotById(10000).then(res => {
-      expect(res).toBe(undefined);
-      done();
-    }).catch(err => {
-      expect(err.message).toEqual('Connection "default" was not found.');
-      done();
-    });
-  });
+  // it.skip('should be catch error due to missing db', (done) => {
+  //   getBathingspotById(10000).then(res => {
+  //     expect(res).toBe(undefined);
+  //     done();
+  //   }).catch(err => {
+  //     expect(err.message).toEqual('Connection "default" was not found.');
+  //     done();
+  //   });
+  // });
 
-  it('should be catch error due to missing db', (done) => {
-    getSpotByUserAndId(10000, 10000).then(res => {
-      expect(res).toBe(undefined);
-      done();
-    }).catch(err => {
-      expect(err.message).toEqual('Connection "default" was not found.');
-      done();
-    });
-  });
+  // it('should be catch error due to missing db', (done) => {
+  //   getSpotByUserAndId(10000, 10000).then(res => {
+  //     expect(res).toBe(undefined);
+  //     done();
+  //   }).catch(err => {
+  //     expect(err.message).toEqual('Connection "default" was not found.');
+  //     done();
+  //   });
+  // });
 });
 
 });

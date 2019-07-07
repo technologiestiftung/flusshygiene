@@ -3,9 +3,10 @@ import { User } from '../../orm/entity/User';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  public findByIdWithRelations(userId: number, relations: string[]) {
-    return this.findOne(userId, { relations });
-  }
+  // public findByIdWithRelations(userId: number, relations: string[]) {
+
+  //   return this.findOne(userId, { relations });
+  // }
 
   // public findUserBySpotId(spotId: number) {
   //   // const query = this.createQueryBuilder('user')
@@ -20,9 +21,9 @@ export class UserRepository extends Repository<User> {
 
   // }
 
-  public findAllByRole(role: string) {
-    return this.find({where: {role}});
-  }
+  // public findAllByRole(role: string) {
+  //   return this.find({where: {role}});
+  // }
   // findbyIdAndBathingspotById(userId: number, relationId: number) {
   //   const sqlQuery = this.createQueryBuilder('user').leftJoinAndSelect('user.bathingspots', 'bathingspot')
   //   .where('user.id = :id', {id: userId})

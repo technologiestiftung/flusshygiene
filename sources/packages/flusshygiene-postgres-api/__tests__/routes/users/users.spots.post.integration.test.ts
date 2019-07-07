@@ -17,6 +17,7 @@ import {
   reloadTestingDatabases,
   readTokenFromDisc,
 } from '../../test-utils';
+import { getUsersByRole } from '../../../src/lib/utils/user-repo-helpers';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -131,8 +132,16 @@ describe('testing bathingspots post for a specific user', () => {
   });
 
   test('should fail due to wrong user role', async (done) => {
-    const userRepo = getCustomRepository(UserRepository);
-    const usersWithRole = await userRepo.findAllByRole(UserRole.reporter);
+    const reporter = new User();
+    reporter.firstName= 'Karla';
+    reporter.lastName = 'Kolumna';
+    reporter.email = 'kk@foo.org';
+    reporter.role = UserRole.reporter;
+    const repo = getRepository(User);
+    const user = await repo.save(reporter);
+    console.log(user);
+    // const userRepo = getCustomRepository(UserRepository);
+    const usersWithRole = await getUsersByRole(UserRole.reporter);
     const res = await request(app).post(`/api/v1/users/${usersWithRole[0].id}/bathingspots`).send({
       apiEndpoints: {},
       elevation: 1,

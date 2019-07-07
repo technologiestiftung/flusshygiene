@@ -8,20 +8,20 @@ import {createSpotWithValues} from '../../utils/bathingspot-helpers';
 import { getEntityFields } from '../../utils/get-entity-fields';
 import { getMatchingValues } from '../../utils/get-matching-values-from-request';
 import { BathingspotRepository } from '../../repositories/BathingspotRepository';
-import { getSpotByUserAndId } from '../../utils/custom-repo-helpers';
 import {
   errorResponse, responder,
   responderMissingBodyValue,
   responderWrongId,
   successResponse,
 } from '../responders';
+import { getSpot } from '../../utils/spot-repo-helpers';
 
 export const updateBathingspotOfUser: putResponse = async (request, response) => {
   const spotRepo = getCustomRepository(BathingspotRepository);
   const regionRepo = getCustomRepository(RegionRepository);
   try {
     const filteredPropNames = await getEntityFields('Bathingspot');
-    const spotFromUser = await getSpotByUserAndId(request.params.userId, request.params.spotId);
+    const spotFromUser = await getSpot(request.params.userId, request.params.spotId);
     if (spotFromUser instanceof Bathingspot) {
       const providedValues = getMatchingValues(request.body, filteredPropNames.props);
       if (Object.keys(providedValues).length > 0) {

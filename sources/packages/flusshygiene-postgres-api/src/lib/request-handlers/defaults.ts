@@ -13,5 +13,7 @@ export const defaultGetResponse: getResponse = async (_request, response) => {
 };
 
 export const wrongRoute = async (_request: Request, response: Response) => {
-  response.status(404).json({success: false});
+  const res:  IDefaultResponsePayload = {success: false, apiVersion: version};
+  defaultResponsePayload.success = false;
+  response.status(404).json(res);
 };

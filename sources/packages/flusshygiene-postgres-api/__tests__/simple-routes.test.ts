@@ -1,9 +1,12 @@
+import { apiVersion } from './../src/lib/common/index';
 import express = require('express');
 import request from 'supertest';
 import routes from '../src/lib/routes';
 import { defaultGetResponse, defaultPostResponse, wrongRoute } from './../src/lib/request-handlers/defaults';
 import path from 'path';
 import { readTokenFromDisc } from './test-utils';
+
+const {version} = require('../package.json');
 
 const token = readTokenFromDisc(path.resolve(__dirname, './.test.token.json'));
 const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
@@ -22,7 +25,7 @@ describe('default route requests', () => {
   test('route default get', async (done) => {
     const response = await request(app).get('/default/get');
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ success: true });
+    expect(response.body).toEqual({ success: true, apiVersion: version});
     done();
   });
   test('route default post', async (done) => {
@@ -30,13 +33,13 @@ describe('default route requests', () => {
       .send({})
       .set(headers);
     expect(response.status).toBe(201);
-    expect(response.body).toEqual({ success: true });
+    expect(response.body).toEqual({ success: true , apiVersion: version });
     done();
   });
   test('route default wrong route', async (done) => {
     const response = await request(app).get('/default/wrong');
     expect(response.status).toBe(404);
-    expect(response.body).toEqual({ success: false });
+    expect(response.body).toEqual({ success: false , apiVersion: version});
     done();
   });
 });

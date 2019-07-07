@@ -1,11 +1,11 @@
 import { getCustomRepository, getRepository } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { SUCCESS } from '../../messages';
-import { getRegionsList } from '../../utils/custom-repo-helpers';
 import { RegionRepository } from '../../repositories/RegionRepository';
 import { getResponse, HttpCodes } from '../../common';
 import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
-import { BathingspotRepository } from '../../repositories/BathingspotRepository';
+import { findByRegionId } from '../../utils/spot-repo-helpers';
+import { getRegionsList } from '../../utils/region-repo-helpers';
 
 /**
  * Todo: Which properties should be returned
@@ -47,17 +47,18 @@ export const getBathingspotsByRegion: getResponse = async (request, response) =>
     // const regionsRepo = getCustomRepository(RegionRepository);
     // let list = await regionsRepo.getNamesList();
     // list = list.map(obj => obj.name);
+    //     const res: string[]  = list.map(obj => obj.name);
     const list = await getRegionsList();
 
     if (!(list.includes(request.params.region))) {
       responderWrongId(response);
     } else {
       const regionRepo = getCustomRepository(RegionRepository);
-      const spotRepo = getCustomRepository(BathingspotRepository);
+      // const spotRepo = getCustomRepository(BathingspotRepository);
       const region = await regionRepo.findByName(request.params.region);
       let spots: []|any = [];
       if (region !== undefined) {
-        spots = await spotRepo.findByRegionId(region.id);
+        spots = await findByRegionId(region.id);
         if (spots === undefined) {
           spots = [];
         } else {

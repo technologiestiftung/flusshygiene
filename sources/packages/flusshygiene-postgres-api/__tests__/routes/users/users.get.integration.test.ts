@@ -1,4 +1,3 @@
-import { createProtectedUser } from './../../../src/setup/create-test-user';
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
@@ -89,7 +88,7 @@ describe('testing get users', () => {
     await repo.save(user);
     const res = await request(app).get(`/api/v1/users?auth0Id=${auth0Id}`).set(headers);
     expect(res.status).toBe(200);
-    console.log(res.body);
+    // console.log(res.body);
     expect(Array.isArray(res.body.data)).toBe(true);
     expect(res.body.data[0].auth0Id).toEqual(auth0Id);
     // expect(res.body[0]).toHaveProperty('email');

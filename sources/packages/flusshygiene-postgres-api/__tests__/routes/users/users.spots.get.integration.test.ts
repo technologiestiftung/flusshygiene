@@ -142,6 +142,7 @@ describe('testing users/[:userId]/bathingspots/[:spotId]', () => {
   });
   test('should fail due to wrong user id', async (done) => {
     const res = await request(app).get(`/api/v1/users/${10000}/bathingspots`).set(headers);
+
     expect(res.status).toBe(404);
     expect(res.body.data).toBeUndefined();
     expect(res.body.success).toBe(false);
