@@ -19,7 +19,7 @@ export abstract class Measurement {
   @Column({type: 'date', nullable: false})
   public date!: string;
 
-  @Column({type: "float8", nullable: false})
+  @Column({type: 'float8', nullable: false})
   public value!: number;
 
 }

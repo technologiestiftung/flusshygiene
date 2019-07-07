@@ -16,25 +16,25 @@ export class BathingspotPrediction {
   @UpdateDateColumn()
   public updatedAt!: Date;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'float8'})
   public percentile2_5!: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'float8'})
   public percentile50!: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'float8'})
   public percentile90!: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'float8'})
   public percentile95!: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'float8'})
   public percentile97_5!: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'float8'})
   public credibleInterval2_5!: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'float8'})
   public credibleInterval97_5!: number;
 
   @Column({nullable: true})

@@ -1,5 +1,35 @@
 # Lab Notes during dev
 
+## Postgresql Queries
+
+For normal values this is working.
+
+```sql
+select column_name,data_type
+from information_schema.columns
+where table_name = 'bathingspot';
+```
+
+For geometry we need this:
+
+```sql
+SELECT
+        a.attname as "Column",
+        pg_catalog.format_type(a.atttypid, a.atttypmod) as "Datatype"
+    FROM
+        pg_catalog.pg_attribute a
+    WHERE
+        a.attnum > 0
+        AND NOT a.attisdropped
+        AND a.attrelid = (
+            SELECT c.oid
+            FROM pg_catalog.pg_class c
+                LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relname ~ '^(bathingspot)$'
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        );
+```
+
 ## Migration
 
 1. Do the changes on your entities

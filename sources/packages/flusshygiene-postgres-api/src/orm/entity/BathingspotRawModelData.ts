@@ -24,7 +24,7 @@ export class BathingspotRawModelData {
   @UpdateDateColumn()
   public updatedAt!: Date;
 
-  @Column({type: 'json'})
+  @Column({type: 'text'})
   public rawData!: string;
 
   // @ManyToOne( _type => User, user => user.questionaires, {

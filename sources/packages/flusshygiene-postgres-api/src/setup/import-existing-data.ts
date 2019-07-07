@@ -51,7 +51,7 @@ const nameMappingMeasurements: IObject = {
   temp: { type: 'number', parseTo: null, mapsTo: 'temp' },
   temp_txt: { type: 'string', parseTo: null, mapsTo: 'tempTxt' },
   wasserqualitaet: { type: 'number', parseTo: null, mapsTo: 'wasserqualitaet' },
-  wasserqualitaet_txt: { type: 'number', parseTo: null, mapsTo: 'wasserqualitaetTxt' },
+  wasserqualitaet_txt: { type: 'string', parseTo: null, mapsTo: 'wasserqualitaetTxt' },
 };
 
 const nameMappingSpots: IObject = {

@@ -88,7 +88,7 @@ export class Bathingspot {
   @Column({ type: 'boolean', nullable: true })
   public hasPrediction!: boolean;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true})
   public detailId!: number;
 
   @Column({ nullable: true })
