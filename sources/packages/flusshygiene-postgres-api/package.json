@@ -1,6 +1,6 @@
 {
   "name": "flusshygiene-postgres-api",
-  "version": "1.3.7-dev",
+  "version": "1.3.6-dev",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -92,7 +92,7 @@
     "proj4": "^2.5.0",
     "readline-sync": "^1.4.9",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.18"
+    "typeorm": "~0.2.18"
   },
   "config": {
     "commitizen": {
