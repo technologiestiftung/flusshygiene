@@ -3,7 +3,7 @@
     "ru2s3": "dist/cli.js"
   },
   "name": "@tsb/flusshygiene-radolan-recent-to-s3",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Pulls Radolan data from DWD and uploads to S3 bucket",
   "main": "dist/lib/main.js",
   "scripts": {
