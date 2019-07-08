@@ -1,14 +1,14 @@
-import { config } from 'dotenv';
+// import { config } from 'dotenv';
 import meow from 'meow';
-import path from 'path';
+// import path from 'path';
 import {logger} from './lib/logger';
 import { main } from './lib/main';
 
 const cli = meow(`Usage`, {flags: {}});
-config({ path: path.resolve(__dirname, '../.env') });
+// config({ path: path.resolve(__dirname, '../.env') });
 
 const options = {inputs: cli.input, flags: cli.flags};
-logger.info(`Options ${JSON.stringify(options)}`);
+logger.info('CLI Options', options);
 main(options).catch( err => {
   logger.error(err);
   // process.stderr.write(`${JSON.stringify(err)}\n`);

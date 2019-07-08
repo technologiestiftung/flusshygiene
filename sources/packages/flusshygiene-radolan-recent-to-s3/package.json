@@ -11,7 +11,7 @@
     "dev": "tsc -p . -w",
     "build": "tsc -p .",
     "prestart": "npm run build",
-    "start": "node dist/cli.js"
+    "start": "node -r dotenv/config dist/cli.js"
   },
   "keywords": [],
   "author": "",

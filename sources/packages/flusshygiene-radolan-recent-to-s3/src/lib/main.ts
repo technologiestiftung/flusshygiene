@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { config } from 'dotenv';
+// import { config } from 'dotenv';
 import fs from 'fs';
 import mailgun from 'mailgun-js';
 import mkdirp from 'mkdirp';
@@ -21,7 +21,7 @@ const mkdirpAsync = util.promisify(mkdirp);
 
 const rimrafAsync = util.promisify(rimraf);
 
-config({ path: path.resolve(__dirname, '../../.env') });
+// config({ path: path.resolve(__dirname, '../../.env') });
 const ftpOpts: ftp.Options = {
   host: process.env.FTP_HOST,
   port: parseInt(process.env.FTP_PORT!, 10),
@@ -50,8 +50,8 @@ const errorLogger = (error: Error, obj?: any) => {
   if (obj !== undefined) {
     logger.error(`${JSON.stringify(obj)}\n`);
   }
-  logger.error(`${error.message}\n`);
-  logger.error(`${error.stack}\n`);
+  // logger.error(`${error.message}\n`);
+  // logger.error(`${error.stack}\n`);
   logger.error(`${error}\n`);
 };
 
@@ -79,7 +79,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
     //   .map((ele => ele.name.replace('.gz', '')));
 
     const ftpList4Diff = rawFtpList
-      .map((ele => ele.name));
+      .map((ele => ele.name)).filter(ele => ele.indexOf('-latest-dwd---bin') === -1);
 
     // diffing is from here https://stackoverflow.com/a/33034768
     // const ftpDiffList = ftpList4Diff.filter(ele => !s3DiffList4Diff.includes(ele));
@@ -105,7 +105,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
       const outfile = file.replace('.gz', '');
       const ftprstream = await ftpClient.get(`${radolanRootPath}/${file}`);
       const fswstream = fs.createWriteStream(`${tmpFolderPath}/${outfile}`);
-      logger.info(`Gunzip to fs ${JSON.stringify(file)}`);
+      // logger.info(`Gunzip to fs ${JSON.stringify(file)}`);
       pipe(
         [
           ftprstream,
@@ -117,9 +117,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
         ], (err: Error) => {
           if (err) {
             errorLogger(err, 'Error piping from ftp > gunzip > fs');
-
             reject();
-
           } else {
             const key = `${fileInfo.groups.year}/${fileInfo.groups.month}/${fileInfo.groups.day}/${outfile}`;
             const params = {
@@ -146,7 +144,7 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
             });
             uploader.on('end', () => {
               logger.info(`\ndone uploading: ${params.localFile}`);
-              fs.unlinkSync(params.localFile);
+              // fs.unlinkSync(params.localFile);
               rimraf.sync(tmpFolderPath);
               resolve();
             });
