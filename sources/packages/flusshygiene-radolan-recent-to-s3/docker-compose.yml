@@ -1,22 +1,7 @@
 version: '3'
 services:
-  ftpserver:
-    container_name: ftpserver
-    build:
-      context: ./test/ftp-server
-      dockerfile: Dockerfile
-    ports:
-      - '3021:21'
-      - '3022:22'
-      - '10090-10100:10090-10100'
-  radloan2s3:
-    container_name: radloan2s3
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: technologiestiftung/flusshygiene-radolan-upload2s3
+  radloanrecent:
+    container_name: radloan-recent-scraper
+    image: technologiestiftung/flusshygiene-radolan-recent:v2.0.1
     env_file:
       - .env
-    environment:
-      - FTP_HOST=ftpserver
-    command: ./test/ftp-server/urls.json
