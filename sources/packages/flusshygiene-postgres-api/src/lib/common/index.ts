@@ -150,3 +150,13 @@ export enum PredictionValue {
   mangelhaft = 'mangelhaft',
   ausreichend = 'ausreichend',
 }
+
+export enum BathingspotCategories {
+  lake = 'Lake',
+  river = 'River',
+  transboundary = 'Transboundary',
+  coastal = 'Coastal',
+  default = 'undefiend',
+
+}
+

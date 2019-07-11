@@ -162,4 +162,16 @@ rmodel -> string
 
 
 
+BWID: 			Offizielle ID des Badegewässers bei der EU: Kann, muss aber nicht ergänzt werden.
+BW_NAME: 		Name des Badegewässers, würde wahrscheinlich "nameLong" bei Euch entsprechen
+LONGITUDE_BW: 	longitude
+LATITUDE_BW:		latitude
+COORDSYS_BW:	Welches Koordinatensystem wird benutzt. Sollte auf jeden Fall ergänzt werden.
+BW_TYPE:		keine Ahnung, eher unwichtig schätze ich
+BW_CAT:		Kategorien: Lake, River, Transboundary, Coastal. Sinnvolle Ergänzung
+SAMPLE_DATE:		Datum der Probennahme. Sehr wichtig. Fehlt in der Tabelle die du geschickt hast
+CONC_EC:		"conc_ec": Fehlt in der Tabelle die du geschickt hast
+CONC_IE:		"conc_ie": Fehlt in der Tabelle die du geschickt hast
+
+
 

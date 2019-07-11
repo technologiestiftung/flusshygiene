@@ -18,7 +18,7 @@ export class BathingspotMeasurement {
   @Column({ nullable: true, type: 'float8'})
   public sicht!: number;
 
-  @Column({type: 'timestamp', nullable: true})
+  @Column({type: 'timestamp',/* nullable: true*/})
   public date!: Date;
 
   @Column({ nullable: true, type: 'float8'})

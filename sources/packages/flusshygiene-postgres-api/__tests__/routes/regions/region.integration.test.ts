@@ -88,7 +88,9 @@ describe('testing regions api', () => {
     displayName: 'Bayern',
     name: 'bayern',
   }).set(headers);
+
   expect(res.status).toBe(HttpCodes.successCreated);
+
   expect(res.body.success).toBe(true);
   expect(Array.isArray(res.body.data)).toBe(true);
   expect(res.body.data[0].id !== undefined).toBe(true);

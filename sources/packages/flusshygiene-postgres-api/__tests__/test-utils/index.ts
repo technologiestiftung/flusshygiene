@@ -21,7 +21,8 @@ import { Rain,
   BathingspotModel,
   BathingspotPrediction,
   BathingspotRawModelData,
-  BathingspotMeasurement} from '../../src/orm/entity';
+  BathingspotMeasurement,
+} from '../../src/orm/entity';
 
 import {createUser } from '../../src/setup/create-test-user';
 

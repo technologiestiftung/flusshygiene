@@ -35,6 +35,7 @@ export class User {
   @Column({ nullable: false })
   public lastName!: string;
 
+
   @Column({ nullable: false })
   @IsEmail()
   public email!: string;

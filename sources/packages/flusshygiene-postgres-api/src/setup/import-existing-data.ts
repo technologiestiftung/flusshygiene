@@ -1,3 +1,5 @@
+import  lineByLine from 'n-readlines';
+import { Bathingspot } from './../orm/entity/Bathingspot';
 import { readdir, readFile, statSync } from 'fs';
 import { extname, resolve } from 'path';
 import proj4 from 'proj4';
@@ -5,13 +7,13 @@ import { promisify } from 'util';
 import { IObject } from '../lib/common';
 import { createSpotWithValues } from '../lib/utils/spot-helpers';
 import { createMeasurementWithValues } from '../lib/utils/measurement-helpers';
-import { Bathingspot } from '../orm/entity/Bathingspot';
 import { createPredictionWithValues } from '../lib/utils/predictions-helpers';
 import { BathingspotMeasurement } from '../orm/entity/BathingspotMeasurement';
 import { BathingspotPrediction } from '../orm/entity/BathingspotPrediction';
-// import {criteria} from '../../lib/utils/bathingspot-helpers';
-const readFileAsync = promisify(readFile);
+import { getRepository } from 'typeorm';
 
+
+const readFileAsync = promisify(readFile);
 const readDirAsync = promisify(readdir);
 
 console.info('You need to run this from a npm script in the root of the repo.');
@@ -24,6 +26,10 @@ proj4.defs([
     'EPSG:25833',
     '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
   ],
+  [
+    'ETRS89',
+    "+proj=utm +zone=30 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+  ]
 ]);
 
 const nameMappingPredictions: IObject = {
@@ -54,6 +60,25 @@ const nameMappingMeasurements: IObject = {
   wasserqualitaet_txt: { type: 'string', parseTo: null, mapsTo: 'wasserqualitaetTxt' },
 };
 
+export const nameMappingDEMeasurements: IObject = {
+  SAMPLE_DATE: { type: 'date', parseTo: null, mapsTo: 'date' },
+  CONC_EC: { type: 'string', parseTo: null, mapsTo: 'conc_ec' },
+  CONC_IE: { type: 'string', parseTo: null, mapsTo: 'conc_ie' },
+}
+
+// special case category needs to be parsed to BSpotCat
+export const nameMappingsDESpots: IObject = {
+  BWID: { type: 'string', parseTo: null, mapsTo: 'bwId' },
+  BW_NAME: { type: 'string', parseTo: null, mapsTo: 'nameLong' },
+  SHORT_BW_NAME: { type: 'string', parseTo: null, mapsTo: 'name' },
+  // LONGITUDE_BW: { type: 'number', parseTo: null, mapsTo: 'longitude' },
+  // LATITUDE_BW: { type: 'number', parseTo: null, mapsTo: 'latitude' },
+  COORDSYS_BW: { type: 'string', parseTo: null, mapsTo: 'coordinateSystem' },
+  BW_TYPE: { type: 'number', parseTo: null, mapsTo: 'type' },
+  // BWATER_CAT: { type: 'string', parseTo: null, mapsTo: 'coordinateSystem' },
+
+
+}
 const nameMappingSpots: IObject = {
   barrierefrei: { type: 'boolean', parseTo: null, mapsTo: 'disabilityAccess' },
   barrierefrei_wc: { type: 'boolean', parseTo: null, mapsTo: 'disabilityAccessBathrooms' },
@@ -73,8 +98,8 @@ const nameMappingSpots: IObject = {
   id: { type: 'number', parseTo: null, mapsTo: 'oldId' },
   image: { type: 'string', parseTo: null, mapsTo: 'image' },
   imbiss: { type: 'boolean', parseTo: null, mapsTo: 'snack' },
-  lat: { type: 'string', parseTo: 'float', mapsTo: 'latitude' },
   letzte_eu_einstufung: { type: 'string', parseTo: null, mapsTo: 'lastClassification' },
+  lat: { type: 'string', parseTo: 'float', mapsTo: 'latitude' },
   lng: { type: 'string', parseTo: 'float', mapsTo: 'longitude' },
   messstelle: { type: 'string', parseTo: null, mapsTo: 'measuringPoint' },
   name: { type: 'string', parseTo: null, mapsTo: 'name' },
@@ -94,12 +119,12 @@ const nameMappingSpots: IObject = {
   webseite: { type: 'string', parseTo: null, mapsTo: 'website' },
 };
 
-interface ILatestfileOptions {
+export interface ILatestfileOptions {
   extension: string;
   prefix: string;
   dataDirPath: string;
 }
-const getLatestFile: (opts: ILatestfileOptions) => Promise<string | undefined> = async (opts) => {
+export const getLatestFile: (opts: ILatestfileOptions) => Promise<string | undefined> = async (opts) => {
   try {
     // const filePath: string = '';
     const files = await readDirAsync(opts.dataDirPath, 'utf8');
@@ -124,7 +149,7 @@ const getLatestFile: (opts: ILatestfileOptions) => Promise<string | undefined> =
   }
 };
 
-const mapObjects: (mappingObj: IObject, obj: IObject) => IObject = (mappingObj, obj) => {
+export const mapObjects: (mappingObj: IObject, obj: IObject) => IObject = (mappingObj, obj) => {
   const keys: string[] = Object.keys(obj);
   const resItem: IObject = {};
   keys.forEach((key: string) => {
@@ -239,7 +264,7 @@ export const createMeasurements: () => Promise<BathingspotMeasurement[]> = async
     const measurementsJsonPath = await getLatestFile(opts);
     if (measurementsJsonPath === undefined) {
       throw new Error(
-        `Can not find measurement-[TIMESTAMP].json
+        `Can not find measurements-[TIMESTAMP].json
           generated from manual export of sqlite3.db
           of badestellen/data-server app`,
       );
@@ -266,6 +291,8 @@ export const createMeasurements: () => Promise<BathingspotMeasurement[]> = async
     throw error;
   }
 };
+
+
 export const createSpots: () => Promise<Bathingspot[]> = async () => {
   try {
 
@@ -294,9 +321,10 @@ export const createSpots: () => Promise<Bathingspot[]> = async () => {
       // if (datum.hasOwnProperty('id')) {
       //   delete arr[i].id;
       // }
+      let coord: any[];
       if (datum.hasOwnProperty('ost') && datum.hasOwnProperty('nord')) {
         try {
-          const coord = proj4('EPSG:25833', 'EPSG:4326', [datum.ost, datum.nord]);
+          coord = proj4('EPSG:25833', 'EPSG:4326', [datum.ost, datum.nord]);
           arr[i].latitude = parseFloat(coord[1].toFixed(5));
           arr[i].longitude = parseFloat(coord[0].toFixed(5));
         } catch (err) {
@@ -328,6 +356,7 @@ export const createSpots: () => Promise<Bathingspot[]> = async () => {
           { type: 'Point', coordinates: [datum.longitude, datum.latitude] }, properties: { name: datum.name },
         type: 'Feature',
       };
+
       spot.location = geojson;
       res.push(spot);
     });
@@ -344,7 +373,80 @@ export const createSpots: () => Promise<Bathingspot[]> = async () => {
   }
 };
 
-// const main = async () => {
-//   createSpots();
-// };
-// main();
+export const createSpotsDE: ()=> Promise<Bathingspot[]> = async ()=>{
+  try {
+    const optsJsonl: ILatestfileOptions = {
+      dataDirPath,
+      extension: '.jsonl',
+      prefix: 'badegewaesser'
+    }
+    const spotsJsonLPath = await getLatestFile(optsJsonl);
+    // console.log(spotsJsonLPath);
+    const deSpots: Bathingspot[] = [];
+    if (spotsJsonLPath === undefined) {
+      throw new Error(`Can not find badegewaesser-[TIMESTAMP].jsonl
+      generated from manual export of @tsb/flusshygiene-badestellen-de/parsing
+      of badegewaesser.csv`,);
+    } else {
+      const liner = new lineByLine(spotsJsonLPath);
+      let line;
+      let lineNumber = 0;
+      const spotRepo = getRepository(Bathingspot);
+      const measRepo = getRepository(BathingspotMeasurement);
+      while (line = liner.next()) {
+        console.log(`Line ${lineNumber} of jsonl`);
+        const json = JSON.parse(line);
+        const spot = new Bathingspot();
+        let newSpot: Bathingspot;
+        for (let i = 0; i < json.length; i++) {
+          // needs to be sync
+          if (json[i].BWID === null) {
+            continue;
+          }
+          if (i === 0) {
+            console.log(`creating spot ${json[i].BWID}`);
+            const spotDataMapped = mapObjects(nameMappingsDESpots, json[i]);
+            spotRepo.merge(spot, spotDataMapped);
+            const latUnparsed = json[i].LATITUDE_BW;
+            const lonUnparsed = json[i].LONGITUDE_BW;
+            const coords = proj4('ETRS89', 'EPSG:4326', [lonUnparsed, latUnparsed]);
+            const geojson: IObject = {
+              geometry:
+                { type: 'Point', coordinates: [parseFloat(coords[1]), parseFloat(coords[0])] }, properties: { name: json[0].BWID },
+              type: 'Feature',
+            };
+            spot.longitude = parseFloat(coords[1]);
+            spot.latitude = parseFloat(coords[0]);
+            spot.location = geojson.geometry;
+            spot.isPublic = true;
+            newSpot = await spotRepo.save(spot);
+            deSpots.push(newSpot);
+
+          } // end of first element
+          const meas = new BathingspotMeasurement();
+          // console.log(`creating measurement ${i} for spot ${json[i].BWID}`);
+          process.stdout.write(' . ');
+          const measurementDataMapped = mapObjects(nameMappingDEMeasurements, json[i]);
+          measRepo.merge(meas, measurementDataMapped);
+          if (newSpot!.measurements === undefined) {
+            newSpot!.measurements = [meas];
+          } else {
+            newSpot!.measurements.push(meas);
+          }
+
+
+          measRepo.save(meas);
+          await spotRepo.save(newSpot!);
+          // await measRepo.save(meas);
+          if(i === json.length -1){
+            deSpots.push(newSpot!);
+          }
+        }
+        lineNumber++;
+      }
+    }
+    return deSpots;
+  } catch (error) {
+    throw error;
+  }
+}
