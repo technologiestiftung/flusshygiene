@@ -28,7 +28,7 @@ proj4.defs([
   ],
   [
     'ETRS89',
-    "+proj=utm +zone=30 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+    "+proj=longlat +ellps=GRS80 +no_defs",
   ]
 ]);
 
@@ -380,6 +380,7 @@ export const createSpotsDE: ()=> Promise<Bathingspot[]> = async ()=>{
       extension: '.jsonl',
       prefix: 'badegewaesser'
     }
+    // unhandled promise rejection
     const spotsJsonLPath = await getLatestFile(optsJsonl);
     // console.log(spotsJsonLPath);
     const deSpots: Bathingspot[] = [];
