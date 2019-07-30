@@ -87,6 +87,7 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     userCreator.lastName = '';
     userCreator.role = UserRole.creator;
     userCreator.email = 'flusshygiene@protonmail.com';
+    userCreator.auth0Id = process.env.DEFAULT_AUTH0ID || '';
     // spinner.succeed();
     // spinner.start();
     infoSpinner('Creating default reporter user', spinner);
