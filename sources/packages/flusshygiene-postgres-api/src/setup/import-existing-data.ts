@@ -378,7 +378,7 @@ export const createSpotsDE: ()=> Promise<Bathingspot[]> = async ()=>{
     const optsJsonl: ILatestfileOptions = {
       dataDirPath,
       extension: '.jsonl',
-      prefix: 'badegewaesser-small'
+      prefix: 'badegewaesser'
     }
     const spotsJsonLPath = await getLatestFile(optsJsonl);
     // console.log(spotsJsonLPath);
