@@ -5,12 +5,19 @@ import { DefaultRegions, UserRole } from '../lib/common';
 import { Region } from '../orm/entity/Region';
 import { User } from '../orm/entity/User';
 import { createUser } from './create-test-user';
-import { createMeasurements, createPredictions, createSpots, createSpotsDE } from './import-existing-data';
+import {
+  createMeasurements,
+  createPredictions,
+  createSpots,
+  // createSpotsDE,
+} from './import-existing-data';
 import readlineSync from 'readline-sync';
-import { IAddEntitiesToSpotOptions, addEntitiesToSpot } from './add-entities-to-spot';
+import {
+  IAddEntitiesToSpotOptions,
+  addEntitiesToSpot,
+} from './add-entities-to-spot';
 const spinner = ora('populating database');
 const infoSpinner = (text: string, spin: ora.Ora) => {
-
   if (spin.isSpinning) {
     spin.succeed();
   }
@@ -50,7 +57,9 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     Object.assign(connectionOptions, { synchronize: true, dropSchema: true });
     console.log('I will use these options:');
     console.log(connectionOptions);
-    const resp = readlineSync.question('Do you want to use these values? (only yes will continue): ');
+    const resp = readlineSync.question(
+      'Do you want to use these values? (only yes will continue): ',
+    );
     if (resp !== 'yes') {
       process.exit();
     }
@@ -102,7 +111,7 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     infoSpinner('Importing existing Bathingspots', spinner);
     // const spotsMeasDETuple = await createDESpots();
     const spots = await createSpots();
-    const spotsDE = await createSpotsDE();
+    // const spotsDE = await createSpotsDE();
     // const spot = new Bathingspot();
     const regions: Region[] = [];
 
@@ -137,7 +146,7 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     userCreator.regions = [regions[0], regions[1]];
     userReporter.regions = [regions[0]];
     const arr: Bathingspot[] = [];
-    userCreator.bathingspots = arr.concat(spots, spotsDE);
+    userCreator.bathingspots = arr.concat(spots /*spotsDE*/);
 
     // spinner.succeed();
     // spinner.start();
