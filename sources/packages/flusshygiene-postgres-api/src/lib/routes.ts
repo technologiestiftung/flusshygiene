@@ -37,6 +37,7 @@ import {
   getCollectionsSubItem,
   postCollectionsSubItem,
   deleteCollectionSubItem,
+  getGenericInputMeasurements,
 } from './request-handlers/bathingspots/collections';
 // import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
 
@@ -113,14 +114,21 @@ router.get(
 
 // get subitems of collection
 router.get(
-  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)/:collectionId([0-9]+)',
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)',
   checkJwt,
   checkScopes,
   getCollectionsSubItem,
 );
 
+// get subitems of collection
+router.get(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
+  checkJwt,
+  checkScopes,
+  getGenericInputMeasurements,
+);
 router.post(
-  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)/:collectionId([0-9]+)/measurement',
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
   checkJwt,
   checkScopes,
   postCollectionsSubItem,

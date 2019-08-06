@@ -1,15 +1,9 @@
-import { Rain } from '../../../orm/entity/Rain';
-import { GenericInput } from '../../../orm/entity/GenericInput';
-import { BathingspotModel } from '../../../orm/entity/BathingspotModel';
-import { BathingspotMeasurement } from '../../../orm/entity/BathingspotMeasurement';
-import { BathingspotPrediction } from '../../../orm/entity/BathingspotPrediction';
-import { getResponse, HttpCodes, postResponse, IObject } from '../../common';
+import { getResponse, HttpCodes, postResponse } from '../../common';
 import {
   responder,
   responderWrongId,
   successResponse,
   errorResponse,
-  buildPayload,
 } from '../responders';
 import { getSpot, getSpotWithRelation } from '../../utils/spot-repo-helpers';
 import { getRepository } from 'typeorm';
@@ -18,9 +12,20 @@ import {
   GlobalIrradiance,
   Discharge,
   Bathingspot,
+  GInputMeasurement,
+  GenericInput,
+  BathingspotPrediction,
+  BathingspotMeasurement,
+  BathingspotModel,
+  Rain,
 } from '../../../orm/entity';
 import { SUCCESS } from '../../messages';
-import { getColletionItemById } from '../../utils/collection-repo-helpers';
+import {
+  getColletionItemById,
+  collectionRepoMapping,
+  getGIWithRelations,
+  getPPlantWithRelations,
+} from '../../utils/collection-repo-helpers';
 
 const collectionNames = [
   'predictions',
@@ -33,27 +38,123 @@ const collectionNames = [
   'rains',
 ];
 
-const collectionRepoMapping: IObject = {
-  predictions: 'BathingspotPrediction',
-  measurements: 'BathingspotMeasurement',
-  purificationPlants: 'PurificationPlant',
-  models: 'BathingspotModel',
-  genericInputs: 'GenericInput',
-  globalIrradiances: 'GlobalIrradiance',
-  discharges: 'Discharge',
-  rains: 'Rain',
-};
+// export const collectionRepoMapping: IObject = {
+//   predictions: 'BathingspotPrediction',
+//   measurements: 'BathingspotMeasurement',
+//   purificationPlants: 'PurificationPlant',
+//   models: 'BathingspotModel',
+//   genericInputs: 'GenericInput',
+//   globalIrradiances: 'GlobalIrradiance',
+//   discharges: 'Discharge',
+//   rains: 'Rain',
+// };
 
 export const postCollectionsSubItem: postResponse = async (
-  _request,
+  request,
   response,
 ) => {
   try {
-    responder(
-      response,
-      HttpCodes.success,
-      successResponse('Not yet implemented', []),
-    );
+    // const repoName = collectionRepoMapping[request.params.collection];
+    const userId = request.params.userId;
+    const spotId = request.params.spotId;
+    const collectionName = request.params.collectionName;
+    const itemId = request.params.itemId;
+    if (collectionNames.includes(collectionName) === false) {
+      responder(response, HttpCodes.badRequest, {
+        success: false,
+        message: `"${collectionName}" not included in "${JSON.stringify(
+          collectionNames,
+        )}"`,
+      });
+    } else {
+      const spot = await getSpot(userId, spotId);
+
+      const repoName = collectionRepoMapping[collectionName];
+      const repoGenericInput = getRepository(GenericInput);
+      const repoGInputMeasurement = getRepository(GInputMeasurement);
+      let mergedEntity: GInputMeasurement | undefined = undefined;
+      const gi = await getGIWithRelations(itemId);
+      if (spot === undefined || gi === undefined) {
+        responderWrongId(response);
+      } else {
+        // const repo: any = getRepository(repoName);
+        let res;
+        switch (repoName) {
+          case 'GenericInput':
+            const measurement = await repoGInputMeasurement.create();
+            mergedEntity = await repoGInputMeasurement.merge(
+              measurement,
+              request.body,
+            );
+            if (gi.measurements === undefined) {
+              gi.measurements = [];
+            }
+            // } else {
+            gi.measurements.push(mergedEntity);
+            // }
+            res = await repoGInputMeasurement.save(mergedEntity);
+            await repoGenericInput.save(gi);
+            break;
+        }
+        responder(
+          response,
+          HttpCodes.successCreated,
+          successResponse(`${repoName} measurement posted.`, [res]),
+        );
+      }
+    }
+  } catch (error) {
+    responder(response, HttpCodes.internalError, errorResponse(error));
+  }
+};
+
+export const getGenericInputMeasurements: getResponse = async (
+  request,
+  response,
+) => {
+  try {
+    const userId = request.params.userId;
+    const spotId = request.params.spotId;
+    const itemId = request.params.itemId;
+    const collectionName = request.params.collectionName;
+    const allowedRepos = ['genericInputs', 'purificationPlants'];
+    const repoName = collectionRepoMapping[collectionName];
+
+    if (allowedRepos.includes(collectionName) === false) {
+      responder(response, HttpCodes.badRequest, {
+        success: false,
+        message: `"${collectionName}" not included in "${JSON.stringify(
+          allowedRepos,
+        )}"`,
+      });
+    } else {
+      const spot = await getSpot(userId, spotId);
+      if (spot === undefined) {
+        responderWrongId(response);
+      } else {
+        let collection: GenericInput | PurificationPlant | undefined;
+        switch (repoName) {
+          case 'GenericInput':
+            collection = await getGIWithRelations(itemId);
+            break;
+          case 'PurificationPlant':
+            collection = await getPPlantWithRelations(itemId);
+            break;
+        }
+        if (collection === undefined) {
+          responderWrongId(response);
+        } else {
+          responder(
+            response,
+            HttpCodes.success,
+            successResponse(
+              `${repoName} measurements.`,
+              collection.measurements,
+            ),
+          );
+        }
+      }
+    }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }
@@ -64,36 +165,40 @@ export const postCollectionsSubItem: postResponse = async (
  */
 export const getCollectionsSubItem: getResponse = async (request, response) => {
   try {
-    // console.log(request.body);
-    // console.log(request.params);
-    const repoName = collectionRepoMapping[request.params.collection];
-    // console.log(repoName);
-    if (repoName !== undefined) {
-      const repo: any = getRepository(repoName);
-
-      // const collectionRepo = getRepository(request.params.collection);
-      const res = await repo.findOne({
-        where: { id: request.params.collectionId },
+    const userId = request.params.userId;
+    const spotId = request.params.spotId;
+    const itemId = request.params.itemId;
+    const collectionName = request.params.collectionName;
+    if (collectionNames.includes(collectionName) === false) {
+      responder(response, HttpCodes.badRequest, {
+        success: false,
+        message: `"${collectionName}" not included in "${JSON.stringify(
+          collectionNames,
+        )}"`,
       });
-      responder(response, HttpCodes.success, successResponse('subitem', [res]));
     } else {
-      const possibleValues = Object.keys(collectionRepoMapping);
-      responder(
-        response,
-        HttpCodes.badRequestNotFound,
-        buildPayload(
-          false,
-          `The resource "${
-            request.params.collection
-          }" you are requesting does not exist. See the data for possible values`,
-          possibleValues,
-        ),
-      );
+      const spot = await getSpot(userId, spotId);
+      if (spot === undefined) {
+        responderWrongId(response);
+      } else {
+        const repoName = collectionRepoMapping[request.params.collectionName];
+        const collection = await getColletionItemById(itemId, repoName);
+        if (collection === undefined) {
+          responderWrongId(response);
+        } else {
+          responder(
+            response,
+            HttpCodes.success,
+            successResponse(`${itemId} from ${collectionName}`, [collection]),
+          );
+        }
+      }
     }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }
 };
+
 /**
  * A generic function for getting alll kinds of collections like Rain, BathingspotMeasurement, Predictions, Also Used for PPlants and GenericInputs.  Not the values though
  *
@@ -260,12 +365,12 @@ export const postCollection: postResponse = async (request, response) => {
               }
               break;
           }
-          await repo.save(mergedEntity);
+          const res = await repo.save(mergedEntity);
           await getRepository(Bathingspot).save(spotWithRelation);
           responder(
             response,
             HttpCodes.successCreated,
-            successResponse(`${repoName} Posted`, [mergedEntity]),
+            successResponse(`${repoName} Posted`, [res]),
           );
         }
       }
@@ -303,14 +408,13 @@ export const deleteCollectionSubItem: postResponse = async (
         const entity = await getColletionItemById(itemId, repoName);
         if (entity !== undefined) {
           const res = await repo.remove(entity);
-          console.log(res);
-
           responder(
             response,
             HttpCodes.success,
             successResponse(SUCCESS.successDelete200, [res]),
           );
         } else {
+          console.log(entity);
           responderWrongId(response);
         }
       }

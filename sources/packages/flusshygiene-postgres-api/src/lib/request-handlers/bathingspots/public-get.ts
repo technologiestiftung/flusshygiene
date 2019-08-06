@@ -2,7 +2,12 @@ import { getRepository } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { SUCCESS } from '../../messages';
 import { getResponse, HttpCodes } from '../../common';
-import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
+import {
+  errorResponse,
+  responder,
+  responderWrongId,
+  successResponse,
+} from '../responders';
 import { findByRegionId } from '../../utils/spot-repo-helpers';
 import { getRegionsList, findByName } from '../../utils/region-repo-helpers';
 
@@ -13,16 +18,21 @@ export const getBathingspots: getResponse = async (_request, response) => {
   let spots: Bathingspot[];
   try {
     const repo = getRepository(Bathingspot);
-    const query = repo.createQueryBuilder('bathingspot')
-      .leftJoinAndSelect('bathingspot.region','region')
-      .where('bathingspot.isPublic = :isPublic', {isPublic: true});
+    const query = repo
+      .createQueryBuilder('bathingspot')
+      .leftJoinAndSelect('bathingspot.region', 'region')
+      .where('bathingspot.isPublic = :isPublic', { isPublic: true });
     spots = await query.getMany();
     // spots = await getRepository(Bathingspot).find(
     //   {
     //     where: { isPublic: true },
     //   },
     // );
-    responder(response, HttpCodes.success, spots);
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(`Public Bathingspots`, spots),
+    );
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));
   }
@@ -34,14 +44,21 @@ export const getSingleBathingspot: getResponse = async (request, response) => {
     if (spot === undefined) {
       responderWrongId(response);
     } else {
-      responder(response, HttpCodes.success, [spot]);
+      responder(
+        response,
+        HttpCodes.success,
+        successResponse(`Bathingspots with id: ${spot.id}`, [spot]),
+      );
     }
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));
   }
 };
 
-export const getBathingspotsByRegion: getResponse = async (request, response) => {
+export const getBathingspotsByRegion: getResponse = async (
+  request,
+  response,
+) => {
   try {
     // const regionsRepo = getCustomRepository(RegionRepository);
     // let list = await regionsRepo.getNamesList();
@@ -49,20 +66,24 @@ export const getBathingspotsByRegion: getResponse = async (request, response) =>
     //     const res: string[]  = list.map(obj => obj.name);
     const list = await getRegionsList();
 
-    if (!(list.includes(request.params.region))) {
+    if (!list.includes(request.params.region)) {
       responderWrongId(response);
     } else {
       // const spotRepo = getCustomRepository(BathingspotRepository);
       const region = await findByName(request.params.region);
-      let spots: []|any = [];
+      let spots: [] | any = [];
       if (region !== undefined) {
         spots = await findByRegionId(region.id);
         if (spots === undefined) {
           spots = [];
         } else {
-          spots = spots.filter((spot: Bathingspot) => spot.isPublic === true );
+          spots = spots.filter((spot: Bathingspot) => spot.isPublic === true);
         }
-        responder(response, HttpCodes.success, successResponse(SUCCESS.success200, spots));
+        responder(
+          response,
+          HttpCodes.success,
+          successResponse(SUCCESS.success200, spots),
+        );
       } else {
         responderWrongId(response);
       }
