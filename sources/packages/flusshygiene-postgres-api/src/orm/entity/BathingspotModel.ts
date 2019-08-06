@@ -1,15 +1,16 @@
-import { Column,
+import {
+  Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  VersionColumn } from 'typeorm';
+  VersionColumn,
+} from 'typeorm';
 import { Bathingspot } from './Bathingspot';
 
 @Entity()
 export class BathingspotModel {
-
   @PrimaryGeneratedColumn()
   public id!: number;
   @Column()
@@ -22,13 +23,16 @@ export class BathingspotModel {
   @UpdateDateColumn()
   public updatedAt!: Date;
 
-  @Column({type: 'text'})
+  @Column({ type: 'text', nullable: true })
   public rmodel!: string;
 
-  @Column({type: 'text', nullable: true})
+  @Column({ type: 'bytea', nullable: true })
+  public rmodelBinary!: Buffer;
+
+  @Column({ type: 'text', nullable: true })
   public comment!: string;
 
-  @ManyToOne( _type => Bathingspot, bathingspot => bathingspot.models, {
+  @ManyToOne((_type) => Bathingspot, (bathingspot) => bathingspot.models, {
     cascade: true,
   })
   public bathingspot!: Bathingspot;
