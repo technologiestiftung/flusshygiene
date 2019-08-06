@@ -21,28 +21,34 @@ import { ResponderWrongIdOrSuccess, apiVersion } from '../common';
  * @param message
  * @param data
  */
-export const buildPayload: PayloadBuilder = (success, message, data) => {
+export const buildPayload: PayloadBuilder = (
+  success,
+  message,
+  data,
+  truncated = false,
+  skip = undefined,
+  limit = undefined,
+) => {
   return {
     data,
     message,
     success,
-    apiVersion
+    apiVersion,
+    truncated,
+    skip,
+    limit,
   };
 };
 /**
  * a error Response with a wrong user ID 404
  */
-export const userIDErrorResponse = () => buildPayload(
-  false,
-  ERRORS.badRequestMissingOrWrongID404,
-  undefined);
+export const userIDErrorResponse = () =>
+  buildPayload(false, ERRORS.badRequestMissingOrWrongID404, undefined);
 /**
  * a error Response with a wrong user ID 404
  */
-export const userNotAuthorizedErrorResponse = () => buildPayload(
-  false,
-  ERRORS.badRequestUserNotAuthorized,
-  undefined);
+export const userNotAuthorizedErrorResponse = () =>
+  buildPayload(false, ERRORS.badRequestUserNotAuthorized, undefined);
 /**
  * Builds an error response to send out
  *
@@ -51,7 +57,10 @@ export const userNotAuthorizedErrorResponse = () => buildPayload(
 export const errorResponse: ErrorResponder = (error) => {
   if (process.env.NODE_ENV === 'development') {
     throw error;
-  } else if (process.env.NODE_ENV === 'test' && process.env.TRAVIS === undefined) {
+  } else if (
+    process.env.NODE_ENV === 'test' &&
+    process.env.TRAVIS === undefined
+  ) {
     if (error instanceof Error) {
       console.error(error.name);
       console.error(error.message);
@@ -61,23 +70,21 @@ export const errorResponse: ErrorResponder = (error) => {
       return buildPayload(false, error.message, undefined);
     } else if (error instanceof ValidationError) {
       return buildPayload(false, JSON.stringify(error.constraints), undefined);
-
-    }else{
-    return buildPayload(false, JSON.stringify(error), undefined);
+    } else {
+      return buildPayload(false, JSON.stringify(error), undefined);
     }
-  }else{
+  } else {
     return buildPayload(false, 'internal server error', undefined);
   }
-}
+};
 
 /**
  * Builds an response that holds a suggestion how to query the API
  * @param message the message to send to the response
  * @param data the example suggestion data
  */
-export const suggestionResponse: SuggestionResponder = (
-  message,
-  data) => buildPayload(false, message, data);
+export const suggestionResponse: SuggestionResponder = (message, data) =>
+  buildPayload(false, message, data);
 
 /**
  * Builds a success message normaly 200 or 201
@@ -87,7 +94,10 @@ export const suggestionResponse: SuggestionResponder = (
 export const successResponse: SuccessResponder = (
   message,
   data,
-) => buildPayload(true, message, data);
+  truncated = false,
+  skip = undefined,
+  limit = undefined,
+) => buildPayload(true, message, data, truncated, skip, limit);
 
 /**
  * The default responder for json
@@ -107,26 +117,20 @@ export const responder: Responder = (response, statusCode, payload) => {
 export const responderMissingBodyValue: ResponderMissingBodyValue = (
   response,
   example,
-) => responder(response,
-  HttpCodes.badRequestNotFound,
-  suggestionResponse(
-    SUGGESTIONS.missingFields,
-    example,
-  ));
+) =>
+  responder(
+    response,
+    HttpCodes.badRequestNotFound,
+    suggestionResponse(SUGGESTIONS.missingFields, example),
+  );
 
 /**
  * respoinder for success messages 200
  * @param response
  * @param message
  */
-export const responderSuccess: ResponderSuccess = (
-  response,
-  message,
-) => responder(
-  response,
-  HttpCodes.success,
-  successResponse(message),
-);
+export const responderSuccess: ResponderSuccess = (response, message) =>
+  responder(response, HttpCodes.success, successResponse(message));
 
 /**
  * Responder for created success 201
@@ -138,12 +142,8 @@ export const responderSuccessCreated: ResponderSuccessCreated = (
   response,
   message,
   data,
-) => responder(
-  response,
-  HttpCodes.successCreated,
-  successResponse(
-    message,
-    data));
+) =>
+  responder(response, HttpCodes.successCreated, successResponse(message, data));
 
 // /**
 //  * responder for missing ids. This actually should never happen 400
@@ -161,21 +161,22 @@ export const responderSuccessCreated: ResponderSuccessCreated = (
  * responses for wrong ids 404
  * @param response
  */
-export const responderWrongId: ResponderMissingOrWrongIdOrAuth = (
-  response,
-) => responder(
-  response,
-  HttpCodes.badRequestNotFound,
-  userIDErrorResponse(),
-);
+export const responderWrongId: ResponderMissingOrWrongIdOrAuth = (response) =>
+  responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());
 
-export const responderNotAuthorized: ResponderMissingOrWrongIdOrAuth = (response) => responder(
+export const responderNotAuthorized: ResponderMissingOrWrongIdOrAuth = (
   response,
-  HttpCodes.badRequestUnAuthorized,
-  userNotAuthorizedErrorResponse(),
-);
+) =>
+  responder(
+    response,
+    HttpCodes.badRequestUnAuthorized,
+    userNotAuthorizedErrorResponse(),
+  );
 
-export const responderWrongIdOrSuccess: ResponderWrongIdOrSuccess = (element, response) => {
+export const responderWrongIdOrSuccess: ResponderWrongIdOrSuccess = (
+  element,
+  response,
+) => {
   if (element === undefined) {
     responderWrongId(response);
   } else {

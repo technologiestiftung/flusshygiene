@@ -1,10 +1,10 @@
-import { Request, Response} from 'express';
+import { Request, Response } from 'express';
 import { Region } from '../../orm/entity/Region';
 import { User } from '../../orm/entity/User';
 import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { ValidationError } from 'class-validator';
 
-const {version} = require('../../../package.json');
+const { version } = require('../../../package.json');
 export const apiVersion = version;
 export interface IFilteredEntityPropsResoponse {
   props: string[];
@@ -15,7 +15,7 @@ export interface IFilteredEntityPropsResoponse {
 export interface IDefaultResponsePayload {
   success: boolean;
   message?: string;
-  data?: User|User[]|Bathingspot[]|object|undefined;
+  data?: User | User[] | Bathingspot[] | object | undefined;
   apiVersion?: string;
 }
 /**
@@ -35,7 +35,9 @@ export interface IRegionListEntry {
 /**
  *
  */
-export type entityFields = (type: string) => Promise<IFilteredEntityPropsResoponse>;
+export type entityFields = (
+  type: string,
+) => Promise<IFilteredEntityPropsResoponse>;
 
 export type postResponse = (request: Request, response: Response) => void;
 export type getResponse = (request: Request, response: Response) => void;
@@ -47,50 +49,72 @@ export type deleteResponse = (request: Request, response: Response) => void;
 export type Responder = (
   response: Response,
   statusCode: number,
-  payload: IDefaultResponsePayload | User[] | Bathingspot[] | Region []) => void;
+  payload: IDefaultResponsePayload | User[] | Bathingspot[] | Region[],
+) => void;
 
 export type SuccessResponder = (
   message?: string,
   data?: any[],
-  ) => IDefaultResponsePayload;
+  truncated?: boolean,
+  skip?: number,
+  limit?: number,
+) => IDefaultResponsePayload;
 
 export type SuggestionResponder = (
-    message?: string,
-    data?: object,
-    ) => IDefaultResponsePayload;
+  message?: string,
+  data?: object,
+) => IDefaultResponsePayload;
 
 export type ResponderSuccessCreated = (
   response: Response,
   message: string,
   data?: [User],
-  ) => void;
+) => void;
 
-export type ResponderSuccess = (
-  response: Response,
-  message: string,
-  ) => void;
+export type ResponderSuccess = (response: Response, message: string) => void;
 
-export type ErrorResponder = (error: Error|ValidationError|ValidationError[]) => IDefaultResponsePayload;
+export type ErrorResponder = (
+  error: Error | ValidationError | ValidationError[],
+) => IDefaultResponsePayload;
 
-export type PayloadBuilder = (success: boolean, message?: string, data?: any) => IDefaultResponsePayload;
+export type PayloadBuilder = (
+  success: boolean,
+  message?: string,
+  data?: any,
+  truncated?: boolean,
+  skip?: number,
+  limit?: number,
+) => IDefaultResponsePayload;
 
 export type ResponderMissingBodyValue = (
   response: Response,
   example: object,
-  ) => void;
+) => void;
 
-export type ResponderWrongIdOrSuccess = (element: Region | Bathingspot | User | undefined, response: Response) => void;
+export type ResponderWrongIdOrSuccess = (
+  element: Region | Bathingspot | User | undefined,
+  response: Response,
+) => void;
 
 // User put.ts
 
-export type RegionExsists = (regions: string[], region: string| undefined) => boolean;
+export type RegionExsists = (
+  regions: string[],
+  region: string | undefined,
+) => boolean;
 
 // custom-repo-helpers.ts
 // export type ResponderMissingOrWrongId = (response: Response) => void;
 export type ResponderMissingOrWrongIdOrAuth = (response: Response) => void;
-export type GetByIds = (userId: number, spotId: number) => Promise<Bathingspot | undefined>;
+export type GetByIds = (
+  userId: number,
+  spotId: number,
+) => Promise<Bathingspot | undefined>;
 export type GetById = (spotId: number) => Promise<Bathingspot | undefined>;
-export type GetByIdWithRelations = (id: number, relations: string[]) => Promise<User| Bathingspot | undefined>;
+export type GetByIdWithRelations = (
+  id: number,
+  relations: string[],
+) => Promise<User | Bathingspot | undefined>;
 
 // utils/get-properties-values.ts
 
@@ -106,8 +130,6 @@ export type GetPropsValueGeneric = <T>(obj: any, key: string) => T;
 
 // utils/bathingspot-helpers.ts
 
-
-
 // ███████╗███╗   ██╗██╗   ██╗███╗   ███╗███████╗
 // ██╔════╝████╗  ██║██║   ██║████╗ ████║██╔════╝
 // █████╗  ██╔██╗ ██║██║   ██║██╔████╔██║███████╗
@@ -121,6 +143,10 @@ export enum UserRole {
   reporter = 'reporter',
 }
 
+export enum Pagination {
+  'limit' = 50,
+  'skip' = 0,
+}
 export enum HttpCodes {
   'success' = 200,
   'successCreated' = 201,
@@ -157,6 +183,4 @@ export enum BathingspotCategories {
   transboundary = 'Transboundary',
   coastal = 'Coastal',
   default = 'undefiend',
-
 }
-
