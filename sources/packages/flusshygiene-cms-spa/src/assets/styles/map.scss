@@ -1,0 +1,18 @@
+$mapHeight: 400px;
+#map--container {
+  position: relative;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   bottom: 0;
+  width: 100%;
+  height: $mapHeight;
+}
+@import 'mapbox-gl/dist/mapbox-gl.css';
+#map--container > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $mapHeight;
+}

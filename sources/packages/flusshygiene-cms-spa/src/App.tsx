@@ -1,25 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+import NavBar from './components/Navbar';
+import Home from './components/Home';
+import { useAuth0 } from './react-auth0-wrapper';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Profile from './components/Profile';
+import PrivateRoute from './components/PrivateRoute';
+import ExternalApi from './components/ExternalApi';
+function App() {
+  const { loading } = useAuth0();
 
-const App: React.FC = () => {
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className='section'>
+      <BrowserRouter>
+        <header>
+          <NavBar />
+        </header>
+        <Switch>
+          <Route path='/' exact component={Home} />
+          <PrivateRoute path='/profile' component={Profile} />
+          <PrivateRoute path='/external-api' component={ExternalApi} />
+        </Switch>
+      </BrowserRouter>
+    </main>
   );
 }
 

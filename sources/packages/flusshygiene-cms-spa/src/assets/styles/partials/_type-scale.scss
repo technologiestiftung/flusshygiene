@@ -1,0 +1,52 @@
+// https://type-scale.com/?size=16&scale=1.125&text=A%20Visual%20Type%20Scale&font=Open%20Sans&fontweight=700&bodyfont=Poppins&bodyfontweight=400&lineheight=1.45&backgroundcolor=white&fontcolor=%23333&preview=false
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background-color: white;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #333;
+}
+
+// p {
+//   margin-bottom: 1.25em;
+// }
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 2.75rem 0 1rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 1.802em;
+}
+
+h2 {
+  font-size: 1.602em;
+}
+
+h3 {
+  font-size: 1.424em;
+}
+
+h4 {
+  font-size: 1.266em;
+}
+
+h5 {
+  font-size: 1.125em;
+}
+
+small,
+.text_small {
+  font-size: 0.889em;
+}
