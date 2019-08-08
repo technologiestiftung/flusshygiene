@@ -1,29 +1,39 @@
 import { getRepository } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { Region } from '../../../orm/entity/Region';
-import { SUCCESS } from '../../messages';
 import { HttpCodes, putResponse } from '../../common';
-import {createSpotWithValues} from '../../utils/spot-helpers';
+import { SUCCESS } from '../../messages';
 import { getEntityFields } from '../../utils/get-entity-fields';
 import { getMatchingValues } from '../../utils/get-matching-values-from-request';
+import { createSpotWithValues } from '../../utils/spot-helpers';
 
+import { findByName } from '../../utils/region-repo-helpers';
+import { getSpot } from '../../utils/spot-repo-helpers';
 import {
-  errorResponse, responder,
+  errorResponse,
+  responder,
   responderMissingBodyValue,
   responderWrongId,
   successResponse,
 } from '../responders';
-import { getSpot } from '../../utils/spot-repo-helpers';
-import { findByName } from '../../utils/region-repo-helpers';
 
-export const updateBathingspotOfUser: putResponse = async (request, response) => {
+export const updateBathingspotOfUser: putResponse = async (
+  request,
+  response,
+) => {
   const spotRepo = getRepository(Bathingspot);
   // const regionRepo = getRepository(Region);
   try {
     const filteredPropNames = await getEntityFields('Bathingspot');
-    const spotFromUser = await getSpot(request.params.userId, request.params.spotId);
+    const spotFromUser = await getSpot(
+      request.params.userId,
+      request.params.spotId,
+    );
     if (spotFromUser instanceof Bathingspot) {
-      const providedValues = getMatchingValues(request.body, filteredPropNames.props);
+      const providedValues = getMatchingValues(
+        request.body,
+        filteredPropNames.props,
+      );
       if (Object.keys(providedValues).length > 0) {
         if (providedValues.hasOwnProperty('region') === true) {
           const region = await findByName(providedValues.region);
@@ -36,13 +46,16 @@ export const updateBathingspotOfUser: putResponse = async (request, response) =>
         const tmpSpot = await createSpotWithValues(providedValues);
         spotRepo.merge(spotFromUser, tmpSpot);
         const res = await spotRepo.save(spotFromUser);
-        responder(response, HttpCodes.successCreated, successResponse(SUCCESS.success201, [res]));
+        responder(
+          response,
+          HttpCodes.successCreated,
+          successResponse(SUCCESS.success201, [res]),
+        );
       } else {
         responderMissingBodyValue(response, filteredPropNames);
       }
     } else {
       responderWrongId(response);
-
     }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));

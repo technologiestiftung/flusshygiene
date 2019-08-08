@@ -1,5 +1,6 @@
 // import { Polygon } from 'geojson';
-import { BeforeRemove,
+import {
+  BeforeRemove,
   Column,
   CreateDateColumn,
   Entity,
@@ -8,12 +9,12 @@ import { BeforeRemove,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  VersionColumn } from 'typeorm';
+  VersionColumn,
+} from 'typeorm';
 import { Bathingspot } from './Bathingspot';
 import { User } from './User';
 @Entity()
 export class Region {
-
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -40,12 +41,13 @@ export class Region {
   })
   public area!: object;
 
-  @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user, {
-    cascade: true, onDelete: 'SET NULL',
+  @OneToMany((_type) => Bathingspot, (bathingspot) => bathingspot.user, {
+    cascade: true,
+    onDelete: 'SET NULL',
   })
   public bathingspots!: Bathingspot[];
 
-  @ManyToMany(_type => User, user => user.regions, { cascade: true })
+  @ManyToMany((_type) => User, (user) => user.regions, { cascade: true })
   @JoinTable()
   public users!: User[];
 

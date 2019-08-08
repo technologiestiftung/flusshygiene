@@ -6,4 +6,4 @@ module.exports = async () => {
   //   throw error;
   // }
   // console.log('teardown jest for all tests');
-}
+};

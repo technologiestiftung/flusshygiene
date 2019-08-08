@@ -1,5 +1,12 @@
-import { SUCCESS } from '../../messages';
 import { getResponse, HttpCodes, Pagination } from '../../common';
+import { SUCCESS } from '../../messages';
+import { findByName, getRegionsList } from '../../utils/region-repo-helpers';
+import {
+  findByUserAndRegion,
+  getAllSpotsFromUser,
+  getSpot,
+} from '../../utils/spot-repo-helpers';
+import { getUserById } from '../../utils/user-repo-helpers';
 import {
   errorResponse,
   responder,
@@ -7,13 +14,6 @@ import {
   successResponse,
 } from '../responders';
 import { responderWrongIdOrSuccess } from '../responders';
-import {
-  getAllSpotsFromUser,
-  findByUserAndRegion,
-  getSpot,
-} from '../../utils/spot-repo-helpers';
-import { getRegionsList, findByName } from '../../utils/region-repo-helpers';
-import { getUserById } from '../../utils/user-repo-helpers';
 /**
  * Gets all the bathingspots of the user
  * @param request
@@ -27,7 +27,7 @@ export const getUserBathingspots: getResponse = async (request, response) => {
     if (user === undefined) {
       responderWrongId(response);
     } else {
-      let limit: number =
+      const limit: number =
         request.query.limit === undefined
           ? Pagination.limit
           : parseInt(request.query.limit, 10);

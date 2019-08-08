@@ -20,7 +20,9 @@ describe('utiltites  isObject tests', () => {
 
 describe('utilities getGEOJsonGeometry test', () => {
   test('shuold return a geojson geometry', () => {
-    const geojson = JSON.parse(fs.readFileSync(path.resolve(__dirname, './data/polygon.json'), 'utf8'));
+    const geojson = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, './data/polygon.json'), 'utf8'),
+    );
     const geom: IObject = getGEOJsonGeometry({ geo: geojson }, 'geo');
     // console.log(geom);
     expect(geom).toMatchObject(geojson.geometry);

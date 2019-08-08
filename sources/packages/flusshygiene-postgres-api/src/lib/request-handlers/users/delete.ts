@@ -2,7 +2,12 @@ import { getManager, getRepository } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { User } from '../../../orm/entity/User';
 import { deleteResponse, HttpCodes } from '../../common';
-import { errorResponse, responder, responderSuccess, responderWrongId } from '../responders';
+import {
+  errorResponse,
+  responder,
+  responderSuccess,
+  responderWrongId,
+} from '../responders';
 
 // ██████╗ ███████╗██╗     ███████╗████████╗███████╗
 // ██╔══██╗██╔════╝██║     ██╔════╝╚══██╔══╝██╔════╝
@@ -13,18 +18,24 @@ import { errorResponse, responder, responderSuccess, responderWrongId } from '..
 
 export const deleteUser: deleteResponse = async (request, response) => {
   try {
-    const user = await getRepository(User).findOne(request.params.userId, { relations: ['bathingspots'] });
+    const user = await getRepository(User).findOne(request.params.userId, {
+      relations: ['bathingspots'],
+    });
     if (user === undefined) {
       responderWrongId(response);
     } else {
       if (user.protected === true) {
-        responder(response,
+        responder(
+          response,
           HttpCodes.badRequestForbidden,
-          errorResponse(new Error('You cannot delete a protected User')));
+          errorResponse(new Error('You cannot delete a protected User')),
+        );
       } else {
         if (user.bathingspots.length !== 0) {
-          const protectedUser = await getRepository(User).findOne(
-            { where: { protected: true }, relations: ['bathingspots'] });
+          const protectedUser = await getRepository(User).findOne({
+            relations: ['bathingspots'],
+            where: { protected: true },
+          });
           if (protectedUser === undefined) {
             throw new Error('No protected user found!');
           } else {
@@ -37,7 +48,9 @@ export const deleteUser: deleteResponse = async (request, response) => {
                 spots.push(spot);
               }
             });
-            protectedUser.bathingspots = protectedUser.bathingspots.concat(spots);
+            protectedUser.bathingspots = protectedUser.bathingspots.concat(
+              spots,
+            );
             const manager = getManager();
             await manager.save(protectedUser);
           }

@@ -1,4 +1,3 @@
-import { defaultGetResponse } from './request-handlers/defaults';
 import jwtAuthz from 'express-jwt-authz';
 import Router from 'express-promise-router';
 import { checkJwt } from './auth';
@@ -6,7 +5,24 @@ import {
   getBathingspots,
   getSingleBathingspot,
 } from './request-handlers/bathingspots';
+import {
+  addBathingspotToUser,
+  deleteBathingspotOfUser,
+  getOneUserBathingspotById,
+  getUserBathingspots,
+  updateBathingspotOfUser,
+} from './request-handlers/bathingspots/';
+import {
+  deleteCollectionSubItem,
+  getCollection,
+  getCollectionsSubItem,
+  getGenericInputMeasurements,
+  postCollection,
+  postCollectionsSubItem,
+} from './request-handlers/bathingspots/collections';
+import { getOneUsersBathingspotsByRegion } from './request-handlers/bathingspots/get';
 import { getBathingspotsByRegion } from './request-handlers/bathingspots/public-get';
+import { defaultGetResponse } from './request-handlers/defaults';
 import {
   deleteRegion,
   getAllRegions,
@@ -20,25 +36,9 @@ import {
   deleteUser,
   getUser,
   getUsers,
-  updateUser,
   postUser,
+  updateUser,
 } from './request-handlers/users/';
-import {
-  addBathingspotToUser,
-  deleteBathingspotOfUser,
-  getOneUserBathingspotById,
-  getUserBathingspots,
-  updateBathingspotOfUser,
-} from './request-handlers/bathingspots/';
-import { getOneUsersBathingspotsByRegion } from './request-handlers/bathingspots/get';
-import {
-  getCollection,
-  postCollection,
-  getCollectionsSubItem,
-  postCollectionsSubItem,
-  deleteCollectionSubItem,
-  getGenericInputMeasurements,
-} from './request-handlers/bathingspots/collections';
 // import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
 
 const checkScopes = jwtAuthz(['admin', 'read:bathingspots']);
@@ -101,9 +101,7 @@ router.delete(
 
 // POST and GET predictions from/to spot
 
-// router.post('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/predictions', checkJwt, checkScopes, postPrediction);
-
-//GET measurements, predictions from
+// GET measurements, predictions from
 // router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/predictions', checkJwt, checkScopes, getPredictions);
 router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)',

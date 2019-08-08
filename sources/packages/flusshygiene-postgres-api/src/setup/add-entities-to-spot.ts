@@ -1,5 +1,9 @@
-import { BathingspotMeasurement, BathingspotPrediction, Bathingspot } from '../orm/entity';
 import { Connection, getRepository } from 'typeorm';
+import {
+  Bathingspot,
+  BathingspotMeasurement,
+  BathingspotPrediction,
+} from '../orm/entity';
 
 // const isPrediction = (entity: BathingspotMeasurement|BathingspotPrediction): entity is BathingspotPrediction {
 //   return (<BathingspotPrediction>entity).prediction !== undefined;
@@ -16,7 +20,9 @@ export interface IAddEntitiesToSpotOptions {
   entities: BathingspotMeasurement[] | BathingspotPrediction[];
   connection: Connection;
 }
-export type AddEntitiesToSpot = (options: IAddEntitiesToSpotOptions) => Promise<void>;
+export type AddEntitiesToSpot = (
+  options: IAddEntitiesToSpotOptions,
+) => Promise<void>;
 
 // used in app.ts for setup
 export const addEntitiesToSpot: AddEntitiesToSpot = async (options) => {
@@ -32,7 +38,6 @@ export const addEntitiesToSpot: AddEntitiesToSpot = async (options) => {
           };
           break;
         case entity instanceof BathingspotPrediction:
-
           fOpts.where = {
             oldId: (entity as BathingspotPrediction).oldId,
           };
@@ -42,7 +47,6 @@ export const addEntitiesToSpot: AddEntitiesToSpot = async (options) => {
       const bspot = await spotRepo.findOne(fOpts);
 
       if (bspot !== undefined) {
-
         if (entity instanceof BathingspotPrediction) {
           // console.log('got prediction');
           if (bspot.predictions === undefined) {
@@ -50,7 +54,6 @@ export const addEntitiesToSpot: AddEntitiesToSpot = async (options) => {
           } else {
             bspot.predictions.push(entity);
           }
-
         } else if (entity instanceof BathingspotMeasurement) {
           if (bspot.measurements === undefined) {
             bspot.measurements = [entity];
@@ -66,12 +69,3 @@ export const addEntitiesToSpot: AddEntitiesToSpot = async (options) => {
     throw error;
   }
 };
-
-// const addEntitiy = <E>(entity: E, spot: Bathingspot) =>{
-//   let arr = entity instanceof BathingspotPrediction ?
-//   spot.predictions : entity instanceof BathingspotMeasurement ? spot.measurements : new Error('Neither BathingspotMeasurement nor BathingspotPrediction');
-
-//   if(arr === undefined){
-//     arr = [entity] as (enitity instanceof );
-//   }
-// }

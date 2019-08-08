@@ -1,20 +1,26 @@
-
-import { UpdateDateColumn, VersionColumn, BeforeInsert } from 'typeorm';
+import buffer from '@turf/buffer';
+import { GeometryObject, Polygon } from '@turf/turf';
+import { BeforeInsert, UpdateDateColumn, VersionColumn } from 'typeorm';
 // import {Point, Polygon} from 'geojson';
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BathingspotMeasurement } from './BathingspotMeasurement';
 import { BathingspotModel } from './BathingspotModel';
 import { BathingspotPrediction } from './BathingspotPrediction';
+import { Discharge } from './Discharge';
+import { GenericInput } from './GenericInput';
+import { GlobalIrradiance } from './GlobalIrradiance';
+import { PurificationPlant } from './PurificationPlant';
+import { Rain } from './Rain';
 // import { BathingspotRawModelData } from './BathingspotRawModelData';
 import { Region } from './Region';
 import { User } from './User';
-import { PurificationPlant } from './PurificationPlant';
-import { Discharge } from './Discharge';
-import { Rain } from './Rain';
-import { GlobalIrradiance } from './GlobalIrradiance';
-import { GenericInput } from './GenericInput';
-import { GeometryObject, Polygon } from '@turf/turf';
-import buffer from '@turf/buffer'
 
 export const criteriaBathingspot = [
   { type: 'object', key: 'apiEndpoints' },
@@ -62,9 +68,9 @@ export const criteriaBathingspot = [
   { type: 'string', key: 'website' },
   { type: 'string', key: 'lastClassification' },
   { type: 'string', key: 'image' },
-  {type: 'string', key: 'bwId'},
-  {type: 'string', key: 'type'},
-  {type: 'string', key: 'coordinateSystem'},
+  { type: 'string', key: 'bwId' },
+  { type: 'string', key: 'type' },
+  { type: 'string', key: 'coordinateSystem' },
 ];
 
 export const geomCriteria = [
@@ -74,7 +80,6 @@ export const geomCriteria = [
 
 @Entity()
 export class Bathingspot {
-
   @PrimaryGeneratedColumn()
   public id!: number;
   @Column()
@@ -92,12 +97,12 @@ export class Bathingspot {
   public hasPrediction!: boolean;
 
   // this id comes from BWB or Lageso
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   public detailId!: number;
 
   // official id from the EU
-  @Column({nullable: true})
-  public bwId!: string
+  @Column({ nullable: true })
+  public bwId!: string;
 
   // Ids used on badestellen-berlin.de
   @Column({ nullable: true })
@@ -106,19 +111,17 @@ export class Bathingspot {
   /**
    * @todo Which ones are we using create enum?
    */
-  @Column({nullable: true})
+  @Column({ nullable: true })
   public coordinateSystem!: string;
 
   /**
    * @todo Which ones are we using create enum?
    */
-  @Column({nullable: true})
+  @Column({ nullable: true })
   public category!: string;
 
-
-  @Column({nullable: true})
+  @Column({ nullable: true })
   public type!: string;
-
 
   @Column({ nullable: true })
   public measuringPoint!: string;
@@ -246,13 +249,17 @@ export class Bathingspot {
   @Column({ type: 'float8', nullable: true })
   public elevation!: number;
 
-  @ManyToOne(_type => User, user => user.bathingspots)
+  @ManyToOne((_type) => User, (user) => user.bathingspots)
   public user!: User;
 
-  @OneToMany(_type => BathingspotPrediction, (prediction) => prediction.bathingspot, {
-    // cascade: true,
-    eager: true,
-  })
+  @OneToMany(
+    (_type) => BathingspotPrediction,
+    (prediction) => prediction.bathingspot,
+    {
+      // cascade: true,
+      eager: true,
+    },
+  )
   public predictions!: BathingspotPrediction[];
 
   // @OneToMany(_type => BathingspotCategory, (category) => category.bathingspot, {
@@ -261,69 +268,79 @@ export class Bathingspot {
   // })
   // public categories!: BathingspotPrediction[];
 
-  @OneToMany(_type => BathingspotModel, (model) => model.bathingspot, {
+  @OneToMany((_type) => BathingspotModel, (model) => model.bathingspot, {
     eager: true,
   })
   public models!: BathingspotModel[];
 
-  @OneToMany(_type => BathingspotMeasurement, (measurement) => measurement.bathingspot, {
-    eager: true,
-  })
+  @OneToMany(
+    (_type) => BathingspotMeasurement,
+    (measurement) => measurement.bathingspot,
+    {
+      eager: true,
+    },
+  )
   public measurements!: BathingspotMeasurement[];
 
   // @OneToMany(_type => BathingspotRawModelData, (rawModelData) => rawModelData.bathingspot)
   // public rawModelData!: BathingspotRawModelData[];
 
-  @ManyToOne(_type => Region, region => region.bathingspots, { eager: true, onDelete: 'SET NULL' })
+  @ManyToOne((_type) => Region, (region) => region.bathingspots, {
+    eager: true,
+    onDelete: 'SET NULL',
+  })
   public region!: Region;
 
-  @OneToMany(_type => PurificationPlant, (plant) => plant.bathingspot)
+  @OneToMany((_type) => PurificationPlant, (plant) => plant.bathingspot)
   public purificationPlants!: PurificationPlant[];
 
-  @OneToMany(_type => GenericInput, (ginput) => ginput.bathingspot)
+  @OneToMany((_type) => GenericInput, (ginput) => ginput.bathingspot)
   public genericInputs!: GenericInput[];
 
-
-  @OneToMany(_type => Discharge, (discharge) => discharge.bathingspot)
+  @OneToMany((_type) => Discharge, (discharge) => discharge.bathingspot)
   public discharges!: Discharge[];
 
-  @OneToMany(_type => GlobalIrradiance, (globalIrradiance) => globalIrradiance.bathingspot)
+  @OneToMany(
+    (_type) => GlobalIrradiance,
+    (globalIrradiance) => globalIrradiance.bathingspot,
+  )
   public globalIrradiances!: GlobalIrradiance[];
 
-  @OneToMany(_type => Rain, (rain) => rain.bathingspot)
+  @OneToMany((_type) => Rain, (rain) => rain.bathingspot)
   public rains!: Rain[];
 
   // Listeners
 
   @BeforeInsert()
-  calcGeoJSONPoint() {
+  public calcGeoJSONPoint() {
     if (this.location === undefined) {
       if (this.latitude !== undefined && this.longitude !== undefined) {
         const geojson = {
-          properties: {},
-          type: "Feature",
           geometry: {
-            type: "Point",
-            coordinates: [this.longitude, this.latitude]
-          }
-        }
+            coordinates: [this.longitude, this.latitude],
+            type: 'Point',
+          },
+          properties: {},
+          type: 'Feature',
+        };
         this.location = geojson.geometry;
       }
     }
     if (this.area === undefined) {
       if (this.latitude !== undefined && this.longitude !== undefined) {
-
         // const point = turf.point([this.longitude, this.latitude]);
         // console.log(point);
         const geojson = {
-          properties: {},
-          type: "Feature",
           geometry: {
-            type: "Point",
-            coordinates: [this.longitude, this.latitude]
-          }
-        }
-        const area = buffer(geojson as GeometryObject, 5, { units: 'kilometers' });
+            coordinates: [this.longitude, this.latitude],
+            type: 'Point',
+          },
+          properties: {},
+          type: 'Feature',
+        };
+        const area = buffer(geojson as GeometryObject, 5, {
+          units: 'kilometers',
+        });
         this.area = area.geometry as Polygon;
         // console.log(this.area);
       }

@@ -3,9 +3,12 @@ import { getRepository, QueryFailedError } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { User } from '../../../orm/entity/User';
 import { HttpCodes, postResponse } from '../../common';
-// import { getEntityFields } from '../../utils/get-entity-fields';
-import { errorResponse, responder, responderSuccessCreated } from '../responders';
 import { getRegionsList } from '../../utils/region-repo-helpers';
+import {
+  errorResponse,
+  responder,
+  responderSuccessCreated,
+} from '../responders';
 
 //  █████╗ ██████╗ ██████╗
 // ██╔══██╗██╔══██╗██╔══██╗
@@ -15,7 +18,7 @@ import { getRegionsList } from '../../utils/region-repo-helpers';
 // ╚═╝  ╚═╝╚═════╝ ╚═════╝
 
 const createNewUser = async (obj: any) => {
-  const userRepo = getRepository('user');// getCustomRepository(UserRepository);
+  const userRepo = getRepository('user'); // getCustomRepository(UserRepository);
 
   const user: User = new User();
   userRepo.merge(user, obj);
@@ -55,7 +58,11 @@ export const postUser: postResponse = async (request, response) => {
     const result = await createNewUser(request.body);
     if (Array.isArray(result) === true) {
       // console.log(result);
-      responder(response, HttpCodes.badRequestNotFound, errorResponse(result as ValidationError[]));
+      responder(
+        response,
+        HttpCodes.badRequestNotFound,
+        errorResponse(result as ValidationError[]),
+      );
     } else {
       const user = result as User;
       let region: Region | undefined;
@@ -65,21 +72,23 @@ export const postUser: postResponse = async (request, response) => {
         // console.log('has region');
         if (regionsList.includes(request.body.region) === true) {
           // console.log('found region');
-          region = await getRepository(Region).findOne({ where: { name: request.body.region } });
+          region = await getRepository(Region).findOne({
+            where: { name: request.body.region },
+          });
           user.regions = [region!];
         }
       }
       // console.log(user.regions);
-        const res = await userRepo.save(user);
+      const res = await userRepo.save(user);
       responderSuccessCreated(response, 'User was created', [res]);
     }
   } catch (error) {
     if (error instanceof ValidationError) {
       responder(response, HttpCodes.badRequestNotFound, errorResponse(error));
-    } else if(error instanceof QueryFailedError){
+    } else if (error instanceof QueryFailedError) {
       responder(response, HttpCodes.badRequestNotFound, errorResponse(error));
-    }else {
+    } else {
       responder(response, HttpCodes.internalError, errorResponse(error));
     }
   }
-}
+};

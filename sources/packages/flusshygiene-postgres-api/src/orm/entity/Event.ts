@@ -9,7 +9,6 @@ import {
 
 @Entity()
 export class Event {
-
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -19,5 +18,4 @@ export class Event {
   @Column()
   @CreateDateColumn()
   public createdAt!: Date;
-
 }

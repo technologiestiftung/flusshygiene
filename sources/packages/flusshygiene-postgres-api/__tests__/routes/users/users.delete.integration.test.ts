@@ -20,9 +20,13 @@ import path from 'path';
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
 
-const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
-const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
-
+const token = readTokenFromDisc(
+  path.resolve(__dirname, '../../.test.token.json'),
+);
+const headers = {
+  authorization: `${token.token_type} ${token.access_token}`,
+  Accept: 'application/json',
+};
 
 describe('testing delete users', () => {
   let app: Application;
@@ -30,7 +34,9 @@ describe('testing delete users', () => {
 
   beforeAll(async (done) => {
     if (process.env.NODE_ENV !== 'test') {
-      throw new Error('We are not in the test env this is harmful tables will be dropped');
+      throw new Error(
+        'We are not in the test env this is harmful tables will be dropped',
+      );
     }
     connections = await createTestingConnections();
     done();
@@ -52,73 +58,80 @@ describe('testing delete users', () => {
   app.use(express.urlencoded({ extended: true }));
   app.use('/api/v1/', routes);
 
-// ███████╗███████╗████████╗██╗   ██╗██████╗
-// ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
-// ███████╗█████╗     ██║   ██║   ██║██████╔╝
-// ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
-// ███████║███████╗   ██║   ╚██████╔╝██║
-// ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+  // ███████╗███████╗████████╗██╗   ██╗██████╗
+  // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
+  // ███████╗█████╗     ██║   ██║   ██║██████╔╝
+  // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
+  // ███████║███████╗   ██║   ╚██████╔╝██║
+  // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
 
-// ██████╗  ██████╗ ███╗   ██╗███████╗
-// ██╔══██╗██╔═══██╗████╗  ██║██╔════╝
-// ██║  ██║██║   ██║██╔██╗ ██║█████╗
-// ██║  ██║██║   ██║██║╚██╗██║██╔══╝
-// ██████╔╝╚██████╔╝██║ ╚████║███████╗
-// ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+  // ██████╗  ██████╗ ███╗   ██╗███████╗
+  // ██╔══██╗██╔═══██╗████╗  ██║██╔════╝
+  // ██║  ██║██║   ██║██╔██╗ ██║█████╗
+  // ██║  ██║██║   ██║██║╚██╗██║██╔══╝
+  // ██████╔╝╚██████╔╝██║ ╚████║███████╗
+  // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
   test('should delete a users', async (done) => {
-  const userRepo = getRepository(User);
-  await userRepo.insert({
-    email: 'foo@bah.com',
-    firstName: 'Jimmy',
-    lastName: 'Stash',
-    protected: false,
-    role: UserRole.creator,
- });
-  const user = await userRepo.findOne({where: {firstName: 'Jimmy'}});
-  const id = user.id;
+    const userRepo = getRepository(User);
+    await userRepo.insert({
+      email: 'foo@bah.com',
+      firstName: 'Jimmy',
+      lastName: 'Stash',
+      protected: false,
+      role: UserRole.creator,
+    });
+    const user = await userRepo.findOne({ where: { firstName: 'Jimmy' } });
+    const id = user.id;
 
-  const res = await request(app).delete(`/api/v1/users/${id}`).set(headers);
-  expect(res.status).toBe(200);
-  expect(res.body.success).toBe(true);
-  done();
-});
+    const res = await request(app)
+      .delete(`/api/v1/users/${id}`)
+      .set(headers);
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    done();
+  });
   test('delete user should fail due to missing id', async (done) => {
-  const res = await request(app).delete(`/api/v1/users`).set(headers);
+    const res = await request(app)
+      .delete(`/api/v1/users`)
+      .set(headers);
 
-  expect(res.status).toBe(404);
-  done();
-});
+    expect(res.status).toBe(404);
+    done();
+  });
   test('delete user should fail due to wrong id', async (done) => {
-  const res = await request(app).delete(`/api/v1/users/${10000000}`).set(headers);
-  expect(res.status).toBe(404);
-  done();
-});
+    const res = await request(app)
+      .delete(`/api/v1/users/${10000000}`)
+      .set(headers);
+    expect(res.status).toBe(404);
+    done();
+  });
 
   test('should delete user even if he has spots', async (done) => {
-  const userRepo = getRepository(User);
-  const usersWithRelations = await userRepo.find({
-    relations: ['bathingspots'],
-    where: {protected: false},
+    const userRepo = getRepository(User);
+    const usersWithRelations = await userRepo.find({
+      relations: ['bathingspots'],
+      where: { protected: false },
+    });
+    const res = await request(app)
+      .delete(`/api/v1/users/${usersWithRelations[0].id}`)
+      .set(headers);
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    done();
   });
-  const res = await request(app)
-  .delete(
-    `/api/v1/users/${usersWithRelations[0].id}`)
-    .set(headers);
-  expect(res.status).toBe(200);
-  expect(res.body.success).toBe(true);
-  done();
-});
-  test('should fail. Can\'t delete protected user', async (done) => {
-  const userRepo = getRepository(User);
-  const usersWithRelations = await userRepo.find({relations: ['bathingspots'], where: {protected: true}});
+  test("should fail. Can't delete protected user", async (done) => {
+    const userRepo = getRepository(User);
+    const usersWithRelations = await userRepo.find({
+      relations: ['bathingspots'],
+      where: { protected: true },
+    });
 
-  const res = await request(app)
-  .delete(
-    `/api/v1/users/${usersWithRelations[0].id}`)
-    .set(headers);
-  expect(res.status).toBe(403);
-  expect(res.body.success).toBe(false);
-  done();
-});
+    const res = await request(app)
+      .delete(`/api/v1/users/${usersWithRelations[0].id}`)
+      .set(headers);
+    expect(res.status).toBe(403);
+    expect(res.body.success).toBe(false);
+    done();
+  });
 });

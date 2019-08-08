@@ -1,16 +1,19 @@
 import { getRepository } from 'typeorm';
-import { Bathingspot, criteriaBathingspot, geomCriteria } from '../../orm/entity/Bathingspot';
+import { Region } from '../../orm/entity';
+import {
+  Bathingspot,
+  criteriaBathingspot,
+  geomCriteria,
+} from '../../orm/entity/Bathingspot';
 import { IObject } from '../common';
-
 import { isObject } from './is-object';
 import { findByName } from './region-repo-helpers';
-import { Region } from '../../orm/entity';
 
 const allowedFeatureTypes = ['Point', 'Polygon'];
 
 const checkGeom: (obj: any) => boolean = (obj) => {
   const res: boolean[] = [];
-  geomCriteria.forEach(criterion => {
+  geomCriteria.forEach((criterion) => {
     if (obj.hasOwnProperty(criterion.key) === true) {
       switch (criterion.type) {
         case 'array':
@@ -25,7 +28,7 @@ const checkGeom: (obj: any) => boolean = (obj) => {
   return res.includes(false) || res.length > 2 ? false : true;
 };
 
-const setupGeom: (obj: { value: any, criterion: any }) => any = (obj) => {
+const setupGeom: (obj: { value: any; criterion: any }) => any = (obj) => {
   let res: object | undefined;
 
   if (isObject(obj.value) === true) {
@@ -38,10 +41,12 @@ const setupGeom: (obj: { value: any, criterion: any }) => any = (obj) => {
   }
   return res;
 };
-export const createSpotWithValues = async (providedValues: IObject): Promise<Bathingspot> => {
+export const createSpotWithValues = async (
+  providedValues: IObject,
+): Promise<Bathingspot> => {
   const spotRepo = getRepository(Bathingspot);
   const spot = new Bathingspot();
-  criteriaBathingspot.forEach(criterion => {
+  criteriaBathingspot.forEach((criterion) => {
     const value = providedValues[criterion.key];
     const obj = { [criterion.key]: value };
     switch (criterion.type) {

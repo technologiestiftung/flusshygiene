@@ -1,9 +1,14 @@
 import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
+import { HttpCodes, putResponse } from '../../common';
 import { SUCCESS } from '../../messages';
-import { HttpCodes,  putResponse } from '../../common';
-import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
 import { createMergeObj } from '../../utils/region-repo-helpers';
+import {
+  errorResponse,
+  responder,
+  responderWrongId,
+  successResponse,
+} from '../responders';
 
 export const putRegion: putResponse = async (request, response) => {
   try {
@@ -17,7 +22,11 @@ export const putRegion: putResponse = async (request, response) => {
 
       regionRepo.merge(region, obj);
       await regionRepo.save(region);
-      responder(response, HttpCodes.successCreated, successResponse(SUCCESS.success201, [region]));
+      responder(
+        response,
+        HttpCodes.successCreated,
+        successResponse(SUCCESS.success201, [region]),
+      );
     }
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));

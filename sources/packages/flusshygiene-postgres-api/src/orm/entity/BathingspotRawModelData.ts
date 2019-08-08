@@ -1,17 +1,17 @@
-
-import { Column,
+import {
+  Column,
   CreateDateColumn,
   Entity,
   // ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  VersionColumn } from 'typeorm';
+  VersionColumn,
+} from 'typeorm';
 // import { Bathingspot } from './Bathingspot';
 // import { User } from './User';
 
 @Entity()
 export class BathingspotRawModelData {
-
   @PrimaryGeneratedColumn()
   public id!: number;
   @VersionColumn()
@@ -24,7 +24,7 @@ export class BathingspotRawModelData {
   @UpdateDateColumn()
   public updatedAt!: Date;
 
-  @Column({type: 'text'})
+  @Column({ type: 'text' })
   public rawData!: string;
 
   // @ManyToOne( _type => User, user => user.questionaires, {

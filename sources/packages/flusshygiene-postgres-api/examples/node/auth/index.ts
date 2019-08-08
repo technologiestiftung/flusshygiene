@@ -3,7 +3,6 @@ import * as rq from 'request-promise-native';
 import * as path from 'path';
 import * as fs from 'fs';
 
-
 export const optionsTokenRequest: rq.OptionsWithUrl = {
   // tslint:disable-next-line: max-line-length
   body: `{"client_id":"${process.env.AUTH0_CLIENT_ID}","client_secret":"${process.env.AUTH0_CLIENT_SECRET}","audience":"${process.env.AUTH0_AUDIENCE}","grant_type":"client_credentials"}`,
@@ -19,23 +18,30 @@ export interface IDiskToken {
   issance: number;
 }
 
-const isTokenOutdated: (issuance_ms: number, issuance_duration_ms: number) => boolean = (issuance_ms, issuance_duration_ms) => {
+const isTokenOutdated: (
+  issuance_ms: number,
+  issuance_duration_ms: number,
+) => boolean = (issuance_ms, issuance_duration_ms) => {
   const now = new Date();
 
-  if ((now.getTime() - issuance_ms) < issuance_duration_ms) {
+  if (now.getTime() - issuance_ms < issuance_duration_ms) {
     return true;
   }
   return false;
-}
+};
 
-
-export const readTokenFromDisc: (filePath: string) => Promise<IDiskToken> = async (filePath) => {
+export const readTokenFromDisc: (
+  filePath: string,
+) => Promise<IDiskToken> = async (filePath) => {
   try {
     if (fs.existsSync(filePath) === true) {
       const content = fs.readFileSync(filePath, 'utf8');
       const json = JSON.parse(content);
       // the file does not have what we want
-      if (json.hasOwnProperty('access_token') === false || json.hasOwnProperty('token_type') === false) {
+      if (
+        json.hasOwnProperty('access_token') === false ||
+        json.hasOwnProperty('token_type') === false
+      ) {
         // return undefined;
         await getNewToken(filePath, optionsTokenRequest);
       }
@@ -46,10 +52,13 @@ export const readTokenFromDisc: (filePath: string) => Promise<IDiskToken> = asyn
       const options: rq.OptionsWithUrl = {
         url: process.env.API_URL!,
         method: 'GET',
-        headers: { authorization: `${json.token_type} ${json.access_token}`, Accept: 'application/json' },
+        headers: {
+          authorization: `${json.token_type} ${json.access_token}`,
+          Accept: 'application/json',
+        },
         resolveWithFullResponse: true,
-        json: true
-      }
+        json: true,
+      };
       const response = await rq(options);
       if (response.statusCode !== 200) {
         await getNewToken(filePath, optionsTokenRequest);
@@ -63,13 +72,18 @@ export const readTokenFromDisc: (filePath: string) => Promise<IDiskToken> = asyn
   }
 };
 
-const writeTokenToDisk: (filePath: string, dataStr: string) => void = (filePath, dataStr) => {
+const writeTokenToDisk: (filePath: string, dataStr: string) => void = (
+  filePath,
+  dataStr,
+) => {
   console.info('writing token to disk');
   fs.writeFileSync(filePath, dataStr);
-}
+};
 
-
-export const getNewToken: (filePath: string, opts: rq.OptionsWithUrl) => Promise<void> = async (filePath, opts) => {
+export const getNewToken: (
+  filePath: string,
+  opts: rq.OptionsWithUrl,
+) => Promise<void> = async (filePath, opts) => {
   try {
     const response = await rq(opts);
     if (response.statusCode !== 200) {
@@ -85,24 +99,25 @@ export const getNewToken: (filePath: string, opts: rq.OptionsWithUrl) => Promise
     console.error(error.message);
     throw error;
   }
-}
-
-
-
+};
 
 (async () => {
   try {
-
-    const token = await readTokenFromDisc(path.resolve(process.cwd(), './token.json'));
+    const token = await readTokenFromDisc(
+      path.resolve(process.cwd(), './token.json'),
+    );
     if (token === undefined) {
       throw new Error('Token does not exists');
     }
-    const headers = { authorization: `${token.token_type} ${token.access_token}`, Accept: 'application/json' };
-      const options: rq.OptionsWithUrl = {
-        url: process.env.API_URL!,
-        method: 'GET',
-        headers
-      }
+    const headers = {
+      authorization: `${token.token_type} ${token.access_token}`,
+      Accept: 'application/json',
+    };
+    const options: rq.OptionsWithUrl = {
+      url: process.env.API_URL!,
+      method: 'GET',
+      headers,
+    };
 
     const response = await rq(options);
     // const response = await request(app).post('/default/post')

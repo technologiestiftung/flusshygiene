@@ -1,14 +1,15 @@
-// import {geojsonhint} from '@mapbox/geojsonhint';
-// tslint:disable-next-line: no-var-requires
-// const GeoJSON = require('geojson');
 import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
-import { SUCCESS } from '../../messages';
 import { HttpCodes, postResponse } from '../../common';
+import { SUCCESS } from '../../messages';
 import { getEntityFields } from '../../utils';
-// import { getGEOJsonGeometry } from '../../utils/geojson/get-geojson-geometry';
-import { errorResponse, responder, responderMissingBodyValue, successResponse } from '../responders';
 import { createMergeObj } from '../../utils/region-repo-helpers';
+import {
+  errorResponse,
+  responder,
+  responderMissingBodyValue,
+  successResponse,
+} from '../responders';
 
 export const postRegion: postResponse = async (request, response) => {
   try {
@@ -19,7 +20,6 @@ export const postRegion: postResponse = async (request, response) => {
     } else if (request.body.hasOwnProperty('displayName') !== true) {
       responderMissingBodyValue(response, example);
     } else {
-
       const region = new Region();
       // if (request.body.hasOwnProperty('area') === true) {
       //     console.log('we have some area');
@@ -38,7 +38,11 @@ export const postRegion: postResponse = async (request, response) => {
       const obj = createMergeObj(request.body);
       regionRepo.merge(region, obj);
       const res = await regionRepo.save(region);
-      responder(response, HttpCodes.successCreated, successResponse(SUCCESS.success201, [res]));
+      responder(
+        response,
+        HttpCodes.successCreated,
+        successResponse(SUCCESS.success201, [res]),
+      );
     }
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));

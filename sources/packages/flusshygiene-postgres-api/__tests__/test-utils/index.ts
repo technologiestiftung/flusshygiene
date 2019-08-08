@@ -1,4 +1,4 @@
-import  rq  from 'request-promise-native';
+import rq from 'request-promise-native';
 import fs from 'fs';
 import util from 'util';
 import path from 'path';
@@ -6,7 +6,8 @@ import { config } from 'dotenv';
 import { Connection, createConnection, getRepository } from 'typeorm';
 
 import { DefaultRegions, UserRole } from '../../src/lib/common';
-import { Rain,
+import {
+  Rain,
   GlobalIrradiance,
   Discharge,
   PurificationPlant,
@@ -24,16 +25,16 @@ import { Rain,
   BathingspotMeasurement,
 } from '../../src/orm/entity';
 
-import {createUser } from '../../src/setup/create-test-user';
-
-
+import { createUser } from '../../src/setup/create-test-user';
 
 config({ path: path.resolve(__dirname, '../.env.test') });
 
 export async function closeTestingConnections(connections: Connection[]) {
-  return Promise.all(connections.map(
-    connection => connection && connection.isConnected ? connection.close() : undefined));
-
+  return Promise.all(
+    connections.map((connection) =>
+      connection && connection.isConnected ? connection.close() : undefined,
+    ),
+  );
 }
 export async function createTestingConnections() {
   const connection = await createConnection({
@@ -137,8 +138,9 @@ export async function createTestingConnections() {
   return [connection];
 }
 export async function reloadTestingDatabases(connections: Connection[]) {
-  return Promise.all(connections.map(connection => connection.synchronize(true)));
-
+  return Promise.all(
+    connections.map((connection) => connection.synchronize(true)),
+  );
 }
 
 export const readFileAsync = util.promisify(fs.readFile);
@@ -151,38 +153,43 @@ export const optionsTokenRequest: rq.OptionsWithUrl = {
   resolveWithFullResponse: true,
 };
 
-
 export interface IDiskToken {
   access_token: string;
   token_type: string;
   issance: number;
 }
 
-const isTokenOutdated: (issuance_ms: number, issuance_duration_ms: number) => boolean = (issuance_ms, issuance_duration_ms) => {
+const isTokenOutdated: (
+  issuance_ms: number,
+  issuance_duration_ms: number,
+) => boolean = (issuance_ms, issuance_duration_ms) => {
   const now = new Date();
 
-  if ((now.getTime() - issuance_ms) < issuance_duration_ms) {
+  if (now.getTime() - issuance_ms < issuance_duration_ms) {
     return true;
   }
   return false;
-}
+};
 
-
-export const readTokenFromDisc: (filePath: string) => IDiskToken | undefined = (filePath) => {
+export const readTokenFromDisc: (filePath: string) => IDiskToken | undefined = (
+  filePath,
+) => {
   if (fs.existsSync(filePath) === true) {
     const content = fs.readFileSync(filePath, 'utf8');
     try {
       const json = JSON.parse(content);
       // the file does not have what we want
-      if (json.hasOwnProperty('access_token') === false || json.hasOwnProperty('token_type') === false) {
+      if (
+        json.hasOwnProperty('access_token') === false ||
+        json.hasOwnProperty('token_type') === false
+      ) {
         return undefined;
       }
-      if(isTokenOutdated(json.issance, json.expires_in * 1000) === true){
+      if (isTokenOutdated(json.issance, json.expires_in * 1000) === true) {
         getNewToken(filePath, optionsTokenRequest);
       }
       return json;
     } catch (error) {
-
       // console.error('this is the error ', error.message);
       console.error(error);
     }
@@ -191,13 +198,18 @@ export const readTokenFromDisc: (filePath: string) => IDiskToken | undefined = (
   }
 };
 
-const writeTokenToDisk: (filePath: string, dataStr: string) => void = (filePath, dataStr) => {
+const writeTokenToDisk: (filePath: string, dataStr: string) => void = (
+  filePath,
+  dataStr,
+) => {
   console.info('writing token to disk');
   fs.writeFileSync(filePath, dataStr);
-}
+};
 
-
-export const getNewToken: (filePath: string, opts: rq.OptionsWithUrl) => Promise<void> = async (filePath, opts) => {
+export const getNewToken: (
+  filePath: string,
+  opts: rq.OptionsWithUrl,
+) => Promise<void> = async (filePath, opts) => {
   try {
     const response = await rq(opts);
     if (response.statusCode !== 200) {
@@ -213,4 +225,4 @@ export const getNewToken: (filePath: string, opts: rq.OptionsWithUrl) => Promise
     console.error(error.message);
     throw error;
   }
-}
+};

@@ -13,7 +13,11 @@
     "build": "tsc -p .",
     "start": "node dist/index.js",
     "majestic": "majestic",
-    "typeorm": "typeorm"
+    "typeorm": "typeorm",
+    "prettier": "prettier \"**/*.+(js|json|yml|yaml|ts)\"",
+    "validate": "npm run prettier -- --list-different",
+    "lint-staged": "lint-staged",
+    "lint": "tslint './src/**/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -46,13 +50,16 @@
     "@types/request-promise-native": "^1.0.16",
     "@types/supertest": "^2.0.7",
     "cz-conventional-changelog": "^3.0.0",
+    "husky": "^3.0.2",
     "inquirer": "^6.4.1",
     "jest": "^24.8.0",
     "jsonwebtoken": "^8.5.1",
+    "lint-staged": "^9.2.1",
     "majestic": "^1.6.0",
     "meow": "^5.0.0",
     "mkdirp": "^0.5.1",
     "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "rimraf": "^2.6.3",
@@ -100,5 +107,10 @@
     "args": [
       "--runInBand"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run validate && npm run lint-staged"
+    }
   }
 }

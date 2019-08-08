@@ -2,7 +2,9 @@ import { getRepository } from 'typeorm';
 import { IObject } from '../common';
 import { BathingspotPrediction } from './../../orm/entity/BathingspotPrediction';
 
-export const createPredictionWithValues: (obj: IObject) => Promise<BathingspotPrediction> = async (obj) => {
+export const createPredictionWithValues: (
+  obj: IObject,
+) => Promise<BathingspotPrediction> = async (obj) => {
   try {
     const mesRepo = getRepository(BathingspotPrediction);
     const measurement = new BathingspotPrediction();

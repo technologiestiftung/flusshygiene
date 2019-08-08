@@ -13,7 +13,6 @@ import { User } from './User';
 
 @Entity()
 export class Questionaire {
-
   @PrimaryGeneratedColumn()
   public id!: number;
   @VersionColumn()
@@ -30,7 +29,7 @@ export class Questionaire {
   public updatedAt!: Date;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((_type) => User, user => user.questionaires, {
+  @ManyToOne((_type) => User, (user) => user.questionaires, {
     cascade: true,
   })
   public user!: User;

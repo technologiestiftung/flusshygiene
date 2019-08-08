@@ -1,4 +1,4 @@
-version: "2"         # required to adjust maintainability checks
+version: '2' # required to adjust maintainability checks
 checks:
   argument-count:
     config:
@@ -26,8 +26,8 @@ checks:
       threshold: 4
 
 exclude_patterns:
-  - "__tests__/**/*"
-  - "data/**/*"
+  - '__tests__/**/*'
+  - 'data/**/*'
 
 plugins:
   fixme:

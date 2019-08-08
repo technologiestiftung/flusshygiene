@@ -18,5 +18,5 @@ export const checkJwt = jwt({
   // Validate the audience and the issuer.
   algorithms: ['RS256'],
   audience: process.env.AUTH0_AUDIENCE!,
-  issuer: process.env.AUTH0_ISSUER!
+  issuer: process.env.AUTH0_ISSUER!,
 });

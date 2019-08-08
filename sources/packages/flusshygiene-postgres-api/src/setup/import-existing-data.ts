@@ -1,17 +1,16 @@
-import  lineByLine from 'n-readlines';
-import { Bathingspot } from './../orm/entity/Bathingspot';
 import { readdir, readFile, statSync } from 'fs';
+import lineByLine from 'n-readlines';
 import { extname, resolve } from 'path';
 import proj4 from 'proj4';
+import { getRepository } from 'typeorm';
 import { promisify } from 'util';
 import { IObject } from '../lib/common';
-import { createSpotWithValues } from '../lib/utils/spot-helpers';
 import { createMeasurementWithValues } from '../lib/utils/measurement-helpers';
 import { createPredictionWithValues } from '../lib/utils/predictions-helpers';
+import { createSpotWithValues } from '../lib/utils/spot-helpers';
 import { BathingspotMeasurement } from '../orm/entity/BathingspotMeasurement';
 import { BathingspotPrediction } from '../orm/entity/BathingspotPrediction';
-import { getRepository } from 'typeorm';
-
+import { Bathingspot } from './../orm/entity/Bathingspot';
 
 const readFileAsync = promisify(readFile);
 const readDirAsync = promisify(readdir);
@@ -21,15 +20,13 @@ const dataDirPath = resolve(process.cwd(), './data');
 proj4.defs([
   [
     'EPSG:4326',
-    '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees'],
+    '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees',
+  ],
   [
     'EPSG:25833',
     '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
   ],
-  [
-    'ETRS89',
-    "+proj=longlat +ellps=GRS80 +no_defs",
-  ]
+  ['ETRS89', '+proj=longlat +ellps=GRS80 +no_defs'],
 ]);
 
 const nameMappingPredictions: IObject = {
@@ -39,7 +36,11 @@ const nameMappingPredictions: IObject = {
 };
 
 const nameMappingMeasurements: IObject = {
-  algen: { type: 'boolean', parseTo: null, mapsTo: 'algen' }, /* might also be a number */
+  algen: {
+    mapsTo: 'algen',
+    parseTo: null,
+    type: 'boolean',
+  } /* might also be a number */,
   algen_txt: { type: 'string', parseTo: null, mapsTo: 'algenTxt' },
   badestellen_id: { type: 'number', parseTo: null, mapsTo: 'detailId' },
   bsl: { type: 'string', parseTo: null, mapsTo: 'bsl' },
@@ -57,49 +58,91 @@ const nameMappingMeasurements: IObject = {
   temp: { type: 'number', parseTo: null, mapsTo: 'temp' },
   temp_txt: { type: 'string', parseTo: null, mapsTo: 'tempTxt' },
   wasserqualitaet: { type: 'number', parseTo: null, mapsTo: 'wasserqualitaet' },
-  wasserqualitaet_txt: { type: 'string', parseTo: null, mapsTo: 'wasserqualitaetTxt' },
+  wasserqualitaet_txt: {
+    mapsTo: 'wasserqualitaetTxt',
+    parseTo: null,
+    type: 'string',
+  },
 };
 
 export const nameMappingDEMeasurements: IObject = {
-  SAMPLE_DATE: { type: 'date', parseTo: null, mapsTo: 'date' },
   CONC_EC: { type: 'string', parseTo: null, mapsTo: 'conc_ec' },
   CONC_IE: { type: 'string', parseTo: null, mapsTo: 'conc_ie' },
-}
+  SAMPLE_DATE: { type: 'date', parseTo: null, mapsTo: 'date' },
+};
 
 // special case category needs to be parsed to BSpotCat
 export const nameMappingsDESpots: IObject = {
+  // BWATER_CAT: { type: 'string', parseTo: null, mapsTo: 'coordinateSystem' },
+  // LATITUDE_BW: { type: 'number', parseTo: null, mapsTo: 'latitude' },
+  // LONGITUDE_BW: { type: 'number', parseTo: null, mapsTo: 'longitude' },
   BWID: { type: 'string', parseTo: null, mapsTo: 'bwId' },
   BW_NAME: { type: 'string', parseTo: null, mapsTo: 'nameLong' },
-  SHORT_BW_NAME: { type: 'string', parseTo: null, mapsTo: 'name' },
-  // LONGITUDE_BW: { type: 'number', parseTo: null, mapsTo: 'longitude' },
-  // LATITUDE_BW: { type: 'number', parseTo: null, mapsTo: 'latitude' },
-  COORDSYS_BW: { type: 'string', parseTo: null, mapsTo: 'coordinateSystem' },
   BW_TYPE: { type: 'number', parseTo: null, mapsTo: 'type' },
-  // BWATER_CAT: { type: 'string', parseTo: null, mapsTo: 'coordinateSystem' },
-
-
-}
+  COORDSYS_BW: { type: 'string', parseTo: null, mapsTo: 'coordinateSystem' },
+  SHORT_BW_NAME: { type: 'string', parseTo: null, mapsTo: 'name' },
+};
 const nameMappingSpots: IObject = {
   barrierefrei: { type: 'boolean', parseTo: null, mapsTo: 'disabilityAccess' },
-  barrierefrei_wc: { type: 'boolean', parseTo: null, mapsTo: 'disabilityAccessBathrooms' },
-  barrierefrei_zugang: { type: 'boolean', parseTo: null, mapsTo: 'hasDisabilityAccesableEntrence' },
+  barrierefrei_wc: {
+    mapsTo: 'disabilityAccessBathrooms',
+    parseTo: null,
+    type: 'boolean',
+  },
+  barrierefrei_zugang: {
+    mapsTo: 'hasDisabilityAccesableEntrence',
+    parseTo: null,
+    type: 'boolean',
+  },
   bezirk: { type: 'string', parseTo: null, mapsTo: 'district' },
   cyano_moeglich: { type: 'boolean', parseTo: null, mapsTo: 'cyanoPossible' },
   detail_id: { type: 'number', parseTo: null, mapsTo: 'detailId' },
-  gesundheitsamt_mail: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentMail' },
-  gesundheitsamt_name: { type: 'string', parseTo: null, mapsTo: 'healthDepartment' },
-  gesundheitsamt_plz: { type: 'string', parseTo: 'number', mapsTo: 'healthDepartmentPostalCode' },
-  gesundheitsamt_stadt: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentCity' },
-  gesundheitsamt_strasse: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentStreet' },
-  gesundheitsamt_telefon: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentPhone' },
-  gesundheitsamt_zusatz: { type: 'string', parseTo: null, mapsTo: 'healthDepartmentAddition' },
+  gesundheitsamt_mail: {
+    mapsTo: 'healthDepartmentMail',
+    parseTo: null,
+    type: 'string',
+  },
+  gesundheitsamt_name: {
+    mapsTo: 'healthDepartment',
+    parseTo: null,
+    type: 'string',
+  },
+  gesundheitsamt_plz: {
+    mapsTo: 'healthDepartmentPostalCode',
+    parseTo: 'number',
+    type: 'string',
+  },
+  gesundheitsamt_stadt: {
+    mapsTo: 'healthDepartmentCity',
+    parseTo: null,
+    type: 'string',
+  },
+  gesundheitsamt_strasse: {
+    mapsTo: 'healthDepartmentStreet',
+    parseTo: null,
+    type: 'string',
+  },
+  gesundheitsamt_telefon: {
+    mapsTo: 'healthDepartmentPhone',
+    parseTo: null,
+    type: 'string',
+  },
+  gesundheitsamt_zusatz: {
+    mapsTo: 'healthDepartmentAddition',
+    parseTo: null,
+    type: 'string',
+  },
   gewaesser: { type: 'string', parseTo: null, mapsTo: 'water' },
   hundeverbot: { type: 'boolean', parseTo: null, mapsTo: 'dogban' },
   id: { type: 'number', parseTo: null, mapsTo: 'oldId' },
   image: { type: 'string', parseTo: null, mapsTo: 'image' },
   imbiss: { type: 'boolean', parseTo: null, mapsTo: 'snack' },
-  letzte_eu_einstufung: { type: 'string', parseTo: null, mapsTo: 'lastClassification' },
   lat: { type: 'string', parseTo: 'float', mapsTo: 'latitude' },
+  letzte_eu_einstufung: {
+    mapsTo: 'lastClassification',
+    parseTo: null,
+    type: 'string',
+  },
   lng: { type: 'string', parseTo: 'float', mapsTo: 'longitude' },
   messstelle: { type: 'string', parseTo: null, mapsTo: 'measuringPoint' },
   name: { type: 'string', parseTo: null, mapsTo: 'name' },
@@ -113,7 +156,11 @@ const nameMappingSpots: IObject = {
   stadt: { type: 'string', parseTo: null, mapsTo: 'city' },
   strasse: { type: 'string', parseTo: null, mapsTo: 'street' },
   // tslint:disable-next-line: max-line-length
-  wasserrettung_durch_hilfsorganisationen_dlrg_oder_asb: { type: 'boolean', parseTo: null, mapsTo: 'waterRescueThroughDLRGorASB' },
+  wasserrettung_durch_hilfsorganisationen_dlrg_oder_asb: {
+    mapsTo: 'waterRescueThroughDLRGorASB',
+    parseTo: null,
+    type: 'boolean',
+  },
   wc: { type: 'boolean', parseTo: null, mapsTo: 'bathrooms' },
   wc_mobil: { type: 'boolean', parseTo: null, mapsTo: 'bathroomsMobile' },
   webseite: { type: 'string', parseTo: null, mapsTo: 'website' },
@@ -124,18 +171,22 @@ export interface ILatestfileOptions {
   prefix: string;
   dataDirPath: string;
 }
-export const getLatestFile: (opts: ILatestfileOptions) => Promise<string | undefined> = async (opts) => {
+export const getLatestFile: (
+  opts: ILatestfileOptions,
+) => Promise<string | undefined> = async (opts) => {
   try {
     // const filePath: string = '';
     const files = await readDirAsync(opts.dataDirPath, 'utf8');
-    const filteredFiles = files.filter(file => extname(file) === opts.extension)
-      .filter(file => file.indexOf(opts.prefix) !== -1)
+    const filteredFiles = files
+      .filter((file) => extname(file) === opts.extension)
+      .filter((file) => file.indexOf(opts.prefix) !== -1)
       .map((fn) => {
         return {
           name: fn,
           time: statSync(`${opts.dataDirPath}/${fn}`).mtime.getTime(),
         };
-      }).sort((a, b) => {
+      })
+      .sort((a, b) => {
         return a.time - b.time;
       });
     if (filteredFiles.length === 0) {
@@ -149,14 +200,15 @@ export const getLatestFile: (opts: ILatestfileOptions) => Promise<string | undef
   }
 };
 
-export const mapObjects: (mappingObj: IObject, obj: IObject) => IObject = (mappingObj, obj) => {
+export const mapObjects: (mappingObj: IObject, obj: IObject) => IObject = (
+  mappingObj,
+  obj,
+) => {
   const keys: string[] = Object.keys(obj);
   const resItem: IObject = {};
   keys.forEach((key: string) => {
     if (obj.hasOwnProperty(key)) {
-
       if (obj[key] !== null && obj[key] !== undefined) {
-
         if (mappingObj.hasOwnProperty(key)) {
           // if (mappingObj[key].type === 'number' && typeof obj[key] !== 'number') {
 
@@ -223,7 +275,9 @@ export const mapObjects: (mappingObj: IObject, obj: IObject) => IObject = (mappi
   return resItem;
 };
 
-export const createPredictions: () => Promise<BathingspotPrediction[]> = async () => {
+export const createPredictions: () => Promise<
+  BathingspotPrediction[]
+> = async () => {
   try {
     const opts: ILatestfileOptions = {
       dataDirPath,
@@ -253,9 +307,10 @@ export const createPredictions: () => Promise<BathingspotPrediction[]> = async (
     throw error;
   }
 };
-export const createMeasurements: () => Promise<BathingspotMeasurement[]> = async () => {
+export const createMeasurements: () => Promise<
+  BathingspotMeasurement[]
+> = async () => {
   try {
-
     const opts: ILatestfileOptions = {
       dataDirPath,
       extension: '.json',
@@ -292,10 +347,8 @@ export const createMeasurements: () => Promise<BathingspotMeasurement[]> = async
   }
 };
 
-
 export const createSpots: () => Promise<Bathingspot[]> = async () => {
   try {
-
     const opts: ILatestfileOptions = {
       dataDirPath,
       extension: '.json',
@@ -352,8 +405,11 @@ export const createSpots: () => Promise<Bathingspot[]> = async () => {
       // });
       spot.isPublic = true;
       const geojson: IObject = {
-        geometry:
-          { type: 'Point', coordinates: [datum.longitude, datum.latitude] }, properties: { name: datum.name },
+        geometry: {
+          coordinates: [datum.longitude, datum.latitude],
+          type: 'Point',
+        },
+        properties: { name: datum.name },
         type: 'Feature',
       };
 
@@ -367,19 +423,18 @@ export const createSpots: () => Promise<Bathingspot[]> = async () => {
       spots.push(spot);
     }
     return spots;
-
   } catch (error) {
     throw error;
   }
 };
 
-export const createSpotsDE: ()=> Promise<Bathingspot[]> = async ()=>{
+export const createSpotsDE: () => Promise<Bathingspot[]> = async () => {
   try {
     const optsJsonl: ILatestfileOptions = {
       dataDirPath,
       extension: '.jsonl',
-      prefix: 'badegewaesser'
-    }
+      prefix: 'badegewaesser',
+    };
     // unhandled promise rejection
     const spotsJsonLPath = await getLatestFile(optsJsonl);
     // console.log(spotsJsonLPath);
@@ -387,14 +442,15 @@ export const createSpotsDE: ()=> Promise<Bathingspot[]> = async ()=>{
     if (spotsJsonLPath === undefined) {
       throw new Error(`Can not find badegewaesser-[TIMESTAMP].jsonl
       generated from manual export of @tsb/flusshygiene-badestellen-de/parsing
-      of badegewaesser.csv`,);
+      of badegewaesser.csv`);
     } else {
       const liner = new lineByLine(spotsJsonLPath);
       let line;
       let lineNumber = 0;
       const spotRepo = getRepository(Bathingspot);
       const measRepo = getRepository(BathingspotMeasurement);
-      while (line = liner.next()) {
+      line = liner.next();
+      while (line) {
         console.log(`Line ${lineNumber} of jsonl`);
         const json = JSON.parse(line);
         const spot = new Bathingspot();
@@ -413,8 +469,11 @@ export const createSpotsDE: ()=> Promise<Bathingspot[]> = async ()=>{
             // const coords = proj4('ETRS89', 'EPSG:4326', [lonUnparsed, latUnparsed]);
             const coords = [lonUnparsed, latUnparsed];
             const geojson: IObject = {
-              geometry:
-                { type: 'Point', coordinates: [parseFloat(coords[1]), parseFloat(coords[0])] }, properties: { name: json[0].BWID },
+              geometry: {
+                coordinates: [parseFloat(coords[1]), parseFloat(coords[0])],
+                type: 'Point',
+              },
+              properties: { name: json[0].BWID },
               type: 'Feature',
             };
             spot.longitude = parseFloat(coords[1]);
@@ -423,12 +482,14 @@ export const createSpotsDE: ()=> Promise<Bathingspot[]> = async ()=>{
             spot.isPublic = true;
             newSpot = await spotRepo.save(spot);
             deSpots.push(newSpot);
-
           } // end of first element
           const meas = new BathingspotMeasurement();
           // console.log(`creating measurement ${i} for spot ${json[i].BWID}`);
           process.stdout.write(' . ');
-          const measurementDataMapped = mapObjects(nameMappingDEMeasurements, json[i]);
+          const measurementDataMapped = mapObjects(
+            nameMappingDEMeasurements,
+            json[i],
+          );
           measRepo.merge(meas, measurementDataMapped);
           if (newSpot!.measurements === undefined) {
             newSpot!.measurements = [meas];
@@ -436,19 +497,19 @@ export const createSpotsDE: ()=> Promise<Bathingspot[]> = async ()=>{
             newSpot!.measurements.push(meas);
           }
 
-
           measRepo.save(meas);
           await spotRepo.save(newSpot!);
           // await measRepo.save(meas);
-          if(i === json.length -1){
+          if (i === json.length - 1) {
             deSpots.push(newSpot!);
           }
         }
         lineNumber++;
+        line = liner.next();
       }
     }
     return deSpots;
   } catch (error) {
     throw error;
   }
-}
+};

@@ -28,31 +28,32 @@ interface IUserData {
   email: string;
   protected: boolean;
 }
-const userData: IUserData[] = [{
-  email: 'moron-zirfas@technologiestiftung-berlin.de',
-  firstName: 'Shera',
-  lastName: 'the Princess of Power',
-  protected: false,
-  role: UserRole.reporter,
-},
-{
-  email: 'moron-zirfas@technologiestiftung-berlin.de',
-  firstName: 'Conan',
-  lastName: 'the Barbarian',
-  protected: true,
-  role: UserRole.admin,
-},
-// , {
-//   email: 'faker@fake.com',
-//   firstName: 'James',
-//   lastName: 'Bond',
-//   protected: false,
-//   role: UserRole.creator,
-// },
+const userData: IUserData[] = [
+  {
+    email: 'moron-zirfas@technologiestiftung-berlin.de',
+    firstName: 'Shera',
+    lastName: 'the Princess of Power',
+    protected: false,
+    role: UserRole.reporter,
+  },
+  {
+    email: 'moron-zirfas@technologiestiftung-berlin.de',
+    firstName: 'Conan',
+    lastName: 'the Barbarian',
+    protected: true,
+    role: UserRole.admin,
+  },
+  // , {
+  //   email: 'faker@fake.com',
+  //   firstName: 'James',
+  //   lastName: 'Bond',
+  //   protected: false,
+  //   role: UserRole.creator,
+  // },
 ];
 export const createUser = (): User[] => {
   const users: User[] = [];
-  userData.forEach(ele => {
+  userData.forEach((ele) => {
     const user = new User();
     user.firstName = ele.firstName;
     user.lastName = ele.lastName;

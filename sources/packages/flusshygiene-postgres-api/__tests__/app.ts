@@ -1,13 +1,10 @@
-
 jest.useFakeTimers();
 import request from 'supertest';
 import app from '../src/lib/app';
 // let rclient: redis.RedisClient;
 
-beforeAll(() => {
-});
-afterAll(() => {
-});
+beforeAll(() => {});
+afterAll(() => {});
 describe.skip('default testing get requests', () => {
   test('should response with 200 on /', async () => {
     expect.assertions(2);

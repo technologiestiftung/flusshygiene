@@ -17,4 +17,4 @@ export { Questionaire } from './Questionaire';
 export { Rain } from './Rain';
 export { Region } from './Region';
 export { User } from './User';
-export {GlobalIrradiance} from './GlobalIrradiance';
+export { GlobalIrradiance } from './GlobalIrradiance';

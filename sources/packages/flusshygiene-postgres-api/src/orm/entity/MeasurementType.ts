@@ -3,12 +3,9 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-
 } from 'typeorm';
 
-
 export abstract class MeasurementType {
-
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -22,6 +19,4 @@ export abstract class MeasurementType {
   @Column()
   @UpdateDateColumn()
   public updatedAt!: Date;
-
 }
-

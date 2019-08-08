@@ -1,9 +1,14 @@
-import { Bathingspot } from './../orm/entity/Bathingspot';
 import ora = require('ora');
-import { createConnection, getRepository, getConnectionOptions } from 'typeorm';
+import readlineSync from 'readline-sync';
+import { createConnection, getConnectionOptions, getRepository } from 'typeorm';
 import { DefaultRegions, UserRole } from '../lib/common';
 import { Region } from '../orm/entity/Region';
 import { User } from '../orm/entity/User';
+import { Bathingspot } from './../orm/entity/Bathingspot';
+import {
+  addEntitiesToSpot,
+  IAddEntitiesToSpotOptions,
+} from './add-entities-to-spot';
 import { createUser } from './create-test-user';
 import {
   createMeasurements,
@@ -11,11 +16,6 @@ import {
   createSpots,
   // createSpotsDE,
 } from './import-existing-data';
-import readlineSync from 'readline-sync';
-import {
-  IAddEntitiesToSpotOptions,
-  addEntitiesToSpot,
-} from './add-entities-to-spot';
 const spinner = ora('populating database');
 const infoSpinner = (text: string, spin: ora.Ora) => {
   if (spin.isSpinning) {
@@ -133,7 +133,7 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     // spinner.start();
     infoSpinner('assigning spots to region', spinner);
 
-    spots.forEach(s => {
+    spots.forEach((s) => {
       s.region = regions[1];
     });
     // spot.region = regions[0];

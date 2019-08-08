@@ -1,10 +1,10 @@
+import { ValidationError } from 'class-validator';
 import { Request, Response } from 'express';
+import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { Region } from '../../orm/entity/Region';
 import { User } from '../../orm/entity/User';
-import { Bathingspot } from '../../orm/entity/Bathingspot';
-import { ValidationError } from 'class-validator';
+import { version } from './../version';
 
-const { version } = require('../../../package.json');
 export const apiVersion = version;
 export interface IFilteredEntityPropsResoponse {
   props: string[];

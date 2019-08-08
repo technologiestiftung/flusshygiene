@@ -1,7 +1,4 @@
-export {
-  getUser,
-  getUsers,
-} from './get';
+export { getUser, getUsers } from './get';
 
 export {
   // addUser,

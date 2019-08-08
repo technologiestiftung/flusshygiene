@@ -3,12 +3,9 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-
 } from 'typeorm';
 
-
 export abstract class AbstractItem {
-
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -19,6 +16,4 @@ export abstract class AbstractItem {
   @Column()
   @UpdateDateColumn()
   public updatedAt!: Date;
-
 }
-

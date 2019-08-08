@@ -1,16 +1,16 @@
-import { Pagination } from './../../common/index';
 import { getRepository } from 'typeorm';
 import { Bathingspot } from '../../../orm/entity/Bathingspot';
-import { SUCCESS } from '../../messages';
 import { getResponse, HttpCodes } from '../../common';
+import { SUCCESS } from '../../messages';
+import { findByName, getRegionsList } from '../../utils/region-repo-helpers';
+import { findSpotByRegionId } from '../../utils/spot-repo-helpers';
 import {
   errorResponse,
   responder,
   responderWrongId,
   successResponse,
 } from '../responders';
-import { findSpotByRegionId } from '../../utils/spot-repo-helpers';
-import { getRegionsList, findByName } from '../../utils/region-repo-helpers';
+import { Pagination } from './../../common/index';
 
 /**
  * Todo: Which properties should be returned

@@ -3,9 +3,9 @@ import errorHandler from 'errorhandler';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import routes from './routes';
 import { createConnection } from 'typeorm';
 import { buildPayload } from './request-handlers/responders';
+import routes from './routes';
 
 const app = express();
 

@@ -1,10 +1,12 @@
 import { config } from 'dotenv';
 import path from 'path';
 
-import { readTokenFromDisc, getNewToken, optionsTokenRequest } from './test-utils';
+import {
+  readTokenFromDisc,
+  getNewToken,
+  optionsTokenRequest,
+} from './test-utils';
 config({ path: path.resolve(__dirname, './.env.test') });
-
-
 
 // const buildRequestOptions = (token: IDiskToken) => {
 //   const optionsTokenTest: rq.OptionsWithUrl = {
@@ -15,11 +17,8 @@ config({ path: path.resolve(__dirname, './.env.test') });
 //   return optionsTokenTest;
 // }
 
-
-
 module.exports = async () => {
-
-  const tokenFilePath = path.resolve(__dirname, './.test.token.json')
+  const tokenFilePath = path.resolve(__dirname, './.test.token.json');
   console.log('Setup jest for all tests');
   let token = readTokenFromDisc(tokenFilePath);
   // console.log(token);

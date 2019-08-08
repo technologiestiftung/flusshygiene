@@ -1,13 +1,13 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
-import { Measurement } from './Measurement';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { GenericInput } from './GenericInput';
+import { Measurement } from './Measurement';
 @Entity()
 export class GInputMeasurement extends Measurement {
-  @Column({nullable: true})
-  comment!: string;
+  @Column({ nullable: true })
+  public comment!: string;
 
-  @ManyToOne( _type => GenericInput, generic => generic.measurements , {
+  @ManyToOne((_type) => GenericInput, (generic) => generic.measurements, {
     cascade: true,
   })
-  genericInput!: GenericInput;
+  public genericInput!: GenericInput;
 }

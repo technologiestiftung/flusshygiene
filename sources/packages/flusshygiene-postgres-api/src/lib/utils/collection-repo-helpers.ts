@@ -1,24 +1,24 @@
 import { getRepository } from 'typeorm';
 import {
-  GenericInput,
-  Rain,
-  GlobalIrradiance,
-  Discharge,
   BathingspotMeasurement,
-  BathingspotPrediction,
   BathingspotModel,
+  BathingspotPrediction,
+  Discharge,
+  GenericInput,
+  GlobalIrradiance,
   PurificationPlant,
+  Rain,
 } from '../../orm/entity';
 import { IObject } from '../common';
 
 export const collectionRepoMapping: IObject = {
-  predictions: 'BathingspotPrediction',
-  measurements: 'BathingspotMeasurement',
-  purificationPlants: 'PurificationPlant',
-  models: 'BathingspotModel',
+  discharges: 'Discharge',
   genericInputs: 'GenericInput',
   globalIrradiances: 'GlobalIrradiance',
-  discharges: 'Discharge',
+  measurements: 'BathingspotMeasurement',
+  models: 'BathingspotModel',
+  predictions: 'BathingspotPrediction',
+  purificationPlants: 'PurificationPlant',
   rains: 'Rain',
 };
 

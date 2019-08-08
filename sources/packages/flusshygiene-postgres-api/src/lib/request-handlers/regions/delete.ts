@@ -1,10 +1,14 @@
-import { deleteResponse, HttpCodes } from '../../common';
-import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
-
-import { SUCCESS } from '../../messages';
-import { findByIdWithRelations } from '../../utils/region-repo-helpers';
 import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
+import { deleteResponse, HttpCodes } from '../../common';
+import { SUCCESS } from '../../messages';
+import { findByIdWithRelations } from '../../utils/region-repo-helpers';
+import {
+  errorResponse,
+  responder,
+  responderWrongId,
+  successResponse,
+} from '../responders';
 
 export const deleteRegion: deleteResponse = async (request, response) => {
   try {
@@ -15,7 +19,11 @@ export const deleteRegion: deleteResponse = async (request, response) => {
       responderWrongId(response);
     } else {
       const res = await regionRepo.remove(region);
-      responder(response, HttpCodes.success, successResponse(SUCCESS.successDelete200, [res]));
+      responder(
+        response,
+        HttpCodes.success,
+        successResponse(SUCCESS.successDelete200, [res]),
+      );
     }
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));

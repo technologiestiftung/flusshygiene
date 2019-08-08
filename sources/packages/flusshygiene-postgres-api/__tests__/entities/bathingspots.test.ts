@@ -28,7 +28,9 @@ describe('testing get bathingspots', () => {
 
   beforeAll(async (done) => {
     if (process.env.NODE_ENV !== 'test') {
-      throw new Error('We are not in the test env this is harmful tables will be dropped');
+      throw new Error(
+        'We are not in the test env this is harmful tables will be dropped',
+      );
     }
     connections = await createTestingConnections();
     done();

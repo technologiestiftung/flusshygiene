@@ -1,3 +1,3 @@
-export {ERRORS} from './errors';
-export {SUGGESTIONS} from './suggestions';
-export {SUCCESS} from './success';
+export { ERRORS } from './errors';
+export { SUGGESTIONS } from './suggestions';
+export { SUCCESS } from './success';

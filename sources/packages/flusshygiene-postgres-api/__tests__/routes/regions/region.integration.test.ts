@@ -21,8 +21,13 @@ import { findByName } from '../../../src/lib/utils/region-repo-helpers';
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
 
-const token = readTokenFromDisc(path.resolve(__dirname, '../../.test.token.json'));
-const headers = { authorization: `${token.token_type} ${token.access_token}`,Accept: 'application/json' };
+const token = readTokenFromDisc(
+  path.resolve(__dirname, '../../.test.token.json'),
+);
+const headers = {
+  authorization: `${token.token_type} ${token.access_token}`,
+  Accept: 'application/json',
+};
 
 describe('testing regions api', () => {
   let app: Application;
@@ -30,7 +35,9 @@ describe('testing regions api', () => {
 
   beforeAll(async (done) => {
     if (process.env.NODE_ENV !== 'test') {
-      throw new Error('We are not in the test env this is harmful tables will be dropped');
+      throw new Error(
+        'We are not in the test env this is harmful tables will be dropped',
+      );
     }
     connections = await createTestingConnections();
     done();
@@ -59,101 +66,114 @@ describe('testing regions api', () => {
   app.use(express.urlencoded({ extended: true }));
   app.use('/api/v1/', routes);
 
-// ███████╗███████╗████████╗██╗   ██╗██████╗
-// ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
-// ███████╗█████╗     ██║   ██║   ██║██████╔╝
-// ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
-// ███████║███████╗   ██║   ╚██████╔╝██║
-// ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+  // ███████╗███████╗████████╗██╗   ██╗██████╗
+  // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
+  // ███████╗█████╗     ██║   ██║   ██║██████╔╝
+  // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
+  // ███████║███████╗   ██║   ╚██████╔╝██║
+  // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
 
-// ██████╗  ██████╗ ███╗   ██╗███████╗
-// ██╔══██╗██╔═══██╗████╗  ██║██╔════╝
-// ██║  ██║██║   ██║██╔██╗ ██║█████╗
-// ██║  ██║██║   ██║██║╚██╗██║██╔══╝
-// ██████╔╝╚██████╔╝██║ ╚████║███████╗
-// ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+  // ██████╗  ██████╗ ███╗   ██╗███████╗
+  // ██╔══██╗██╔═══██╗████╗  ██║██╔════╝
+  // ██║  ██║██║   ██║██╔██╗ ██║█████╗
+  // ██║  ██║██║   ██║██║╚██╗██║██╔══╝
+  // ██████╔╝╚██████╔╝██║ ╚████║███████╗
+  // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
   test('should get all regions', async (done) => {
-  const res = await request(app).get(`/api/v1/regions`).set(headers);
-  expect(res.status).toBe(HttpCodes.success);
-  expect(res.body.success).toBe(true);
-  expect(Array.isArray(res.body.data)).toBe(true);
-  expect(res.body.data[0].id !== undefined).toBe(true);
-  expect(res.body.data[0].name !== undefined).toBe(true);
-  expect(res.body.data[0].displayName !== undefined).toBe(true);
-  done();
-});
+    const res = await request(app)
+      .get(`/api/v1/regions`)
+      .set(headers);
+    expect(res.status).toBe(HttpCodes.success);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0].id !== undefined).toBe(true);
+    expect(res.body.data[0].name !== undefined).toBe(true);
+    expect(res.body.data[0].displayName !== undefined).toBe(true);
+    done();
+  });
   test('should post a new region', async (done) => {
-  const res = await request(app).post(`/api/v1/regions`).send({
-    displayName: 'Bayern',
-    name: 'bayern',
-  }).set(headers);
+    const res = await request(app)
+      .post(`/api/v1/regions`)
+      .send({
+        displayName: 'Bayern',
+        name: 'bayern',
+      })
+      .set(headers);
 
-  expect(res.status).toBe(HttpCodes.successCreated);
+    expect(res.status).toBe(HttpCodes.successCreated);
 
-  expect(res.body.success).toBe(true);
-  expect(Array.isArray(res.body.data)).toBe(true);
-  expect(res.body.data[0].id !== undefined).toBe(true);
-  expect(res.body.data[0].name !== undefined).toBe(true);
-  expect(res.body.data[0].displayName !== undefined).toBe(true);
-  done();
-});
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0].id !== undefined).toBe(true);
+    expect(res.body.data[0].name !== undefined).toBe(true);
+    expect(res.body.data[0].displayName !== undefined).toBe(true);
+    done();
+  });
 
   test('should update a region', async (done) => {
-  const region = await findByName(DefaultRegions.niedersachsen);
-  const res = await request(app).put(
-    `/api/v1/regions/${region.id}`,
-    ).send({
-      displayName: 'Niedersachsen',
-    }).set(headers);
-  const doubeCheckRegion = await request(app).get(`/api/v1/regions/${region.id}`);
-  expect(res.status).toBe(HttpCodes.successCreated);
-  // console.log(res.body);
-  expect(Array.isArray(res.body.data)).toBe(true);
-  expect(res.body.data[0].displayName).toEqual('Niedersachsen');
-  // console.log(doubeCheckRegion.body);
-  expect(doubeCheckRegion.body.data[0].displayName).toEqual('Niedersachsen');
-  done();
-});
+    const region = await findByName(DefaultRegions.niedersachsen);
+    const res = await request(app)
+      .put(`/api/v1/regions/${region.id}`)
+      .send({
+        displayName: 'Niedersachsen',
+      })
+      .set(headers);
+    const doubeCheckRegion = await request(app).get(
+      `/api/v1/regions/${region.id}`,
+    );
+    expect(res.status).toBe(HttpCodes.successCreated);
+    // console.log(res.body);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0].displayName).toEqual('Niedersachsen');
+    // console.log(doubeCheckRegion.body);
+    expect(doubeCheckRegion.body.data[0].displayName).toEqual('Niedersachsen');
+    done();
+  });
 
   test('should fail to update due to wrong id', async (done) => {
-  const res = await request(app).put(
-    `/api/v1/regions/${1000}`,
-    ).send({
-      displayName: 'Niedersachsen',
-    }).set(headers);
-  expect(res.status).toBe(HttpCodes.badRequestNotFound);
+    const res = await request(app)
+      .put(`/api/v1/regions/${1000}`)
+      .send({
+        displayName: 'Niedersachsen',
+      })
+      .set(headers);
+    expect(res.status).toBe(HttpCodes.badRequestNotFound);
     // console.log(res.body);
-  expect(res.body.success).toBe(false);
+    expect(res.body.success).toBe(false);
     // console.log(doubeCheckRegion.body);
-  done();
-});
+    done();
+  });
   test('should fail to delete due to wrong id', async (done) => {
-  const res = await request(app).delete(
-    `/api/v1/regions/${1000}`,
-    ).set(headers);
-  expect(res.status).toBe(HttpCodes.badRequestNotFound);
+    const res = await request(app)
+      .delete(`/api/v1/regions/${1000}`)
+      .set(headers);
+    expect(res.status).toBe(HttpCodes.badRequestNotFound);
     // console.log(res.body);
-  expect(res.body.success).toBe(false);
+    expect(res.body.success).toBe(false);
     // console.log(doubeCheckRegion.body);
-  done();
-});
+    done();
+  });
 
   test('should delete a region', async (done) => {
-  const resCreate = await request(app)
-  .post(`/api/v1/regions`).send({
-    displayName: 'Fantasia',
-    name: 'fantasia',
-  }).set(headers);
+    const resCreate = await request(app)
+      .post(`/api/v1/regions`)
+      .send({
+        displayName: 'Fantasia',
+        name: 'fantasia',
+      })
+      .set(headers);
 
-  const res = await request(app).delete(`/api/v1/regions/${resCreate.body.data[0].id}`).set(headers);
-  // console.log(res.body);
-  expect(res.status).toBe(HttpCodes.success);
-  expect(res.body.success).toBe(true);
-  expect(Array.isArray(res.body.data)).toBe(true);
-  // expect(res.body.data[0].id !== undefined).toBe(true);
-  // expect(res.body.data[0].name !== undefined).toBe(true);
-  // expect(res.body.data[0].displayName !== undefined).toBe(true);
-  done();
-});
+    const res = await request(app)
+      .delete(`/api/v1/regions/${resCreate.body.data[0].id}`)
+      .set(headers);
+    // console.log(res.body);
+    expect(res.status).toBe(HttpCodes.success);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    // expect(res.body.data[0].id !== undefined).toBe(true);
+    // expect(res.body.data[0].name !== undefined).toBe(true);
+    // expect(res.body.data[0].displayName !== undefined).toBe(true);
+    done();
+  });
 });

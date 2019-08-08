@@ -13,7 +13,6 @@ import {
 import { createSpotWithValues } from '../../utils/spot-helpers';
 import { getUserByIdWithSpots } from '../../utils/user-repo-helpers';
 
-
 // const verifyPublic: (obj: any) => boolean = (obj) => {
 //   let res = false;
 //   const hasName = getPropsValueGeneric<string>(obj, 'name');
@@ -32,15 +31,20 @@ export const addBathingspotToUser: postResponse = async (request, response) => {
     const user = await getUserByIdWithSpots(request.params.userId);
     // const spots = await getAllSpotsFromUser(request.params.userId);
     if (user instanceof User && user.role !== UserRole.reporter) {
-      const providedValues = getMatchingValues(request.body, filteredPropNames.props);
+      const providedValues = getMatchingValues(
+        request.body,
+        filteredPropNames.props,
+      );
       const spot = await createSpotWithValues(providedValues);
 
       user.bathingspots.push(spot);
       await getManager().save(user);
 
-      responder(response,
+      responder(
+        response,
         HttpCodes.successCreated,
-        successResponse('Bathingspot created', [spot]));
+        successResponse('Bathingspot created', [spot]),
+      );
       // }
     } else if (user instanceof User && user.role === UserRole.reporter) {
       responderNotAuthorized(response);

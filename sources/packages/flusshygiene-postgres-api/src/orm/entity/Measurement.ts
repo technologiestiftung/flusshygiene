@@ -1,7 +1,11 @@
-import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export abstract class Measurement {
-
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -13,13 +17,12 @@ export abstract class Measurement {
   @UpdateDateColumn()
   public updatedAt!: Date;
 
-  @Column({type: 'time', nullable: false})
+  @Column({ type: 'time', nullable: false })
   public dateTime!: string;
 
-  @Column({type: 'date', nullable: false})
+  @Column({ type: 'date', nullable: false })
   public date!: string;
 
-  @Column({type: 'float8', nullable: false})
+  @Column({ type: 'float8', nullable: false })
   public value!: number;
-
 }

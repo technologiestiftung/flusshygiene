@@ -1,6 +1,4 @@
 import { ValidationError } from 'class-validator';
-
-import { ERRORS, SUCCESS, SUGGESTIONS } from '../messages';
 import {
   ErrorResponder,
   HttpCodes,
@@ -13,7 +11,8 @@ import {
   SuccessResponder,
   SuggestionResponder,
 } from '../common';
-import { ResponderWrongIdOrSuccess, apiVersion } from '../common';
+import { apiVersion, ResponderWrongIdOrSuccess } from '../common';
+import { ERRORS, SUCCESS, SUGGESTIONS } from '../messages';
 
 /**
  * build a payload. This is to reduce repetition
@@ -30,13 +29,13 @@ export const buildPayload: PayloadBuilder = (
   limit = undefined,
 ) => {
   return {
-    data,
-    message,
-    success,
     apiVersion,
-    truncated,
-    skip,
+    data,
     limit,
+    message,
+    skip,
+    success,
+    truncated,
   };
 };
 /**

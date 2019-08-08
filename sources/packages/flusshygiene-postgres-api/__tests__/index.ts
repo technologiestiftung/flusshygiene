@@ -1,4 +1,3 @@
-
 // import request from 'supertest';
 jest.useFakeTimers();
 import http from 'http';
@@ -17,6 +16,8 @@ describe.skip('testing if the server is running', () => {
     // tslint:disable-next-line:no-console
     // console.log(mockListen.mock.calls[0][1]);
     expect(mockListen.mock.calls.length).toBe(1);
-    expect(mockListen.mock.calls[0][0]).toBe(process.env.REDIS_EXPRESS_PORT || 6004);
+    expect(mockListen.mock.calls[0][0]).toBe(
+      process.env.REDIS_EXPRESS_PORT || 6004,
+    );
   });
 });

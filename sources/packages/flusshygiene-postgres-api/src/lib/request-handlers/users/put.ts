@@ -1,11 +1,16 @@
 import { getRepository } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { User } from '../../../orm/entity/User';
-import { SUCCESS } from '../../messages';
 import { HttpCodes, putResponse } from '../../common';
-import { errorResponse, responder, responderWrongId, successResponse } from '../responders';
 import { RegionExsists } from '../../common';
-import { getRegionsList, findByName } from '../../utils/region-repo-helpers';
+import { SUCCESS } from '../../messages';
+import { findByName, getRegionsList } from '../../utils/region-repo-helpers';
+import {
+  errorResponse,
+  responder,
+  responderWrongId,
+  successResponse,
+} from '../responders';
 
 // ██████╗ ██╗   ██╗████████╗
 // ██╔══██╗██║   ██║╚══██╔══╝
@@ -14,14 +19,17 @@ import { getRegionsList, findByName } from '../../utils/region-repo-helpers';
 // ██║     ╚██████╔╝   ██║
 // ╚═╝      ╚═════╝    ╚═╝
 
-const regionExists: RegionExsists = (regions, region) => region === undefined ? false : regions.includes(region);
+const regionExists: RegionExsists = (regions, region) =>
+  region === undefined ? false : regions.includes(region);
 
 export const updateUser: putResponse = async (request, response) => {
   try {
     const list = await getRegionsList();
-    const user: User | undefined = await getRepository(User).findOne(request.params.userId);
-    const region: string|undefined = request.body.region;
-    if (user instanceof User)  {
+    const user: User | undefined = await getRepository(User).findOne(
+      request.params.userId,
+    );
+    const region: string | undefined = request.body.region;
+    if (user instanceof User) {
       const userRepository = getRepository(User);
       userRepository.merge(user, request.body);
 
@@ -35,7 +43,11 @@ export const updateUser: putResponse = async (request, response) => {
         }
       }
       const res = await userRepository.save(user);
-      responder(response, HttpCodes.successCreated, successResponse(SUCCESS.success201, [res]));
+      responder(
+        response,
+        HttpCodes.successCreated,
+        successResponse(SUCCESS.success201, [res]),
+      );
     } else {
       responderWrongId(response);
     }

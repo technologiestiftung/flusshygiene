@@ -1,5 +1,5 @@
-import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { getRepository } from 'typeorm';
+import { Bathingspot } from '../../orm/entity/Bathingspot';
 
 /**
  * Get a bathingspot by userid and spotid
@@ -86,22 +86,6 @@ export const getSpotWithPredictions: (
     return error;
   }
 };
-
-// export const findByUserAndSpotId:(userId: number, spotId: number) => Promise<Bathingspot> = async (userId, spotId) => {
-//   try {
-
-//     const repo = getRepository(Bathingspot);
-//     const query = repo.createQueryBuilder('bathingspot')
-//       .innerJoin('bathingspot.user', 'user')
-//       .where('user.id = :uid', { uid: userId })
-//       .andWhere('bathingspot.id = :sid', { sid: spotId });
-//     //  console.log(query);
-//     const spot = await query.getOne();
-//     return spot;
-//   } catch (error) {
-//     return error;
-//   }
-// }
 
 export const findByUserAndRegion: (
   userId: number,

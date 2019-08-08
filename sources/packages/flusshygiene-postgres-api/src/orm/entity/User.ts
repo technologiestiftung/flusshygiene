@@ -1,4 +1,4 @@
-import { IsEnum, IsEmail } from 'class-validator';
+import { IsEmail, IsEnum } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -15,7 +15,6 @@ import { Questionaire } from './Questionaire';
 import { Region } from './Region';
 @Entity()
 export class User {
-
   @PrimaryGeneratedColumn()
   public id!: number;
   @Column()
@@ -35,12 +34,11 @@ export class User {
   @Column({ nullable: false })
   public lastName!: string;
 
-
   @Column({ nullable: false })
   @IsEmail()
   public email!: string;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   public auth0Id!: string;
   // if he can create badegewässer/bathing spot
   @Column({ type: 'enum', nullable: false, enum: UserRole })
@@ -50,12 +48,12 @@ export class User {
   @OneToMany((_type) => Questionaire, (questionaire) => questionaire.user)
   public questionaires!: Questionaire[];
 
-  @OneToMany(_type => Bathingspot, bathingspot => bathingspot.user, {
+  @OneToMany((_type) => Bathingspot, (bathingspot) => bathingspot.user, {
     cascade: true,
   })
   public bathingspots!: Bathingspot[];
 
-  @ManyToMany(_type => Region, region => region.users, {
+  @ManyToMany((_type) => Region, (region) => region.users, {
     eager: true,
   })
   public regions!: Region[];
