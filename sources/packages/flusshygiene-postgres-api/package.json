@@ -13,7 +13,6 @@
     "build": "tsc -p .",
     "start": "node dist/index.js",
     "majestic": "majestic",
-    "docs": "typedoc --mode modules --out docs ./src",
     "typeorm": "typeorm"
   },
   "repository": {
@@ -35,11 +34,11 @@
     "@types/express-jwt": "0.0.42",
     "@types/geojson": "^7946.0.7",
     "@types/helmet": "0.0.43",
-    "@types/inquirer": "^6.0.3",
-    "@types/jest": "^24.0.16",
-    "@types/jsonwebtoken": "^8.3.2",
+    "@types/inquirer": "^6.5.0",
+    "@types/jest": "^24.0.17",
+    "@types/jsonwebtoken": "^8.3.3",
     "@types/morgan": "^1.7.35",
-    "@types/node": "^12.0.10",
+    "@types/node": "^12.7.1",
     "@types/pg": "^7.4.14",
     "@types/proj4": "^2.5.0",
     "@types/readline-sync": "^1.4.3",
@@ -62,7 +61,6 @@
     "ts-node": "^8.3.0",
     "tsconfig-paths": "^3.8.0",
     "tslint": "^5.18.0",
-    "typedoc": "^0.14.2",
     "typescript": "^3.5.2"
   },
   "dependencies": {
