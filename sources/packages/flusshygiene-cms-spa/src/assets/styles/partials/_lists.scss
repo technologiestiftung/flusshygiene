@@ -34,47 +34,6 @@ ul {
       }
     }
   }
-
-  &.index__bathingspot-list {
-    padding: 0;
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-    list-style-type: disc;
-
-    li.index__bathingspot-list-item {
-      list-style: none;
-      line-height: 2em;
-
-      & a {
-        text-decoration: none;
-        width: auto;
-        display: block;
-        color: $foreground-color;
-
-        &:hover {
-          background-color: rgba(37, 15, 118, 0.5);
-        }
-
-        & span.spot-title {
-          padding-left: 1em;
-          font-weight: 700;
-        }
-
-        & span.spot-water {
-          padding-left: 1em;
-        }
-      }
-
-      &:nth-child(odd) {
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-
-      a.index__bathingspot-list-item-button {
-        display: inline;
-      }
-    }
-  }
 }
 
 .bathingspot__body-addon {
