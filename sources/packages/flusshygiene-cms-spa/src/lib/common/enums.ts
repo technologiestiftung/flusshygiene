@@ -1,7 +1,3 @@
-export enum ApiURLS {
-  getBathingspots = 'bathingspots',
-}
-
 export const WaterqualityStateText = {
   1: 'Zum Baden geeignet',
   2: 'Zum Baden geeignet',
@@ -66,7 +62,9 @@ export enum EnvSuffixes {
   dev = 'DEV',
   prod = 'PROD',
 }
-
+export enum ApiResources {
+  getBathingspots = 'bathingspots',
+}
 export enum APIMountPoints {
   v1 = 'api/v1',
 }

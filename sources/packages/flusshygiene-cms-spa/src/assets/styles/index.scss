@@ -1,8 +1,12 @@
+//  how to do scss with create-react-app
+// see https://facebook.github.io/create-react-app/docs/adding-a-sass-stylesheet
+// docs for bulma
+// https://bulma.io/
 @import './partials/variables.scss';
-@import './partials/_fonts.scss';
+@import './partials/fonts.scss';
 @import '~bulma/bulma';
-@import './partials/_bulma-css-burger.scss';
-@import './partials/_type-scale.scss';
+@import './partials/bulma-css-burger.scss';
+@import './partials/type-scale.scss';
 
 html,
 body {
@@ -78,7 +82,7 @@ span.asteriks {
     font-weight: 600;
   }
 
-  @import './partials/_questionnaire.scss';
+  @import './partials/questionnaire.scss';
 }
 
 @import './partials/_report.scss';

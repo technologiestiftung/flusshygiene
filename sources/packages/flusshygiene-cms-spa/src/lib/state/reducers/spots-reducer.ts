@@ -1,3 +1,5 @@
+import differenceBy from 'lodash.differenceby';
+
 export const FETCH_SPOTS_BEGIN = 'FETCH_SPOTS_BEGIN';
 export const FETCH_SPOTS_SUCCESS = 'FETCH_SPOTS_SUCCESS';
 export const FETCH_SPOTS_FAIL = 'FETCH_SPOTS_FAIL';
@@ -32,6 +34,7 @@ interface IState {
   error: any;
   truncated?: boolean;
 }
+
 const initialState: IState = {
   spots: [],
   loading: false,
@@ -47,19 +50,32 @@ export default function spotsReducer(state = initialState, action) {
         ...state,
         loading: true,
         error: null,
+        truncated: true,
       };
     case FETCH_SPOTS_SUCCESS:
+      // const combined = [...state.spots, ...action.payload.spots];
+      // const reduced = combined.reduce((acc, current) => {
+      //   const x = acc.find((item) => item.id === current.id);
+      //   if (!x) {
+      //     return acc.concat([current]);
+      //   } else {
+      //     return acc;
+      //   }
+      // }, []);
+      const reduced = differenceBy(action.payload.spots, state.spots, 'id');
+      // console.log(reduced);
       return {
         ...state,
         truncated: action.payload.truncated,
         loading: false,
-        spots: [...state.spots, ...action.payload.spots],
+        spots: [...state.spots, ...reduced],
       };
     case FETCH_SPOTS_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload.error,
+        truncated: false,
       };
     case FETCH_SPOTS_RESET:
       return { ...state, truncated: undefined };

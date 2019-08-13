@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { Link } from 'react-router-dom';
-import { RouteNames } from '../lib/enums';
+import { RouteNames } from '../lib/common/enums';
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -9,9 +9,9 @@ const NavBar = () => {
   return (
     <nav className='navbar' role='navigation' aria-label='main navigation'>
       <div className='navbar-brand'>
-        <a className='navbar-item' href={`/${RouteNames.index}`}>
+        <Link className='navbar-item' to={`/${RouteNames.index}`}>
           <div>Flusshygiene/Badegewässer Logo</div>
-        </a>
+        </Link>
       </div>
       <input
         type='checkbox'

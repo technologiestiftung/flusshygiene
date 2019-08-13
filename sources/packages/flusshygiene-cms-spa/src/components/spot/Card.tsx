@@ -1,7 +1,8 @@
 import React from 'react';
-import { RouteNames } from '../../lib/enums';
+import { RouteNames } from '../../lib/common/enums';
 
 import '../../assets/styles/card.scss';
+import { Link } from 'react-router-dom';
 
 export interface ISpotCard {
   title: string;
@@ -38,24 +39,24 @@ export const Card = (props: ISpotCard) => (
         }
         return null;
       })()}
-      <a
+      <Link
         className='is-small button index__bathingspot-list-item-button is-pulled-right'
-        href={`/${RouteNames.bathingspot}/${props.id}`}
+        to={`/${RouteNames.bathingspot}/${props.id}`}
       >
         Detail
-      </a>
+      </Link>
       {(() => {
         if (
           props.isUserLoggedIn !== undefined &&
           props.isUserLoggedIn === true
         ) {
           return (
-            <a
+            <Link
               className='is-small button index__bathingspot-list-item-button'
-              href={`/${RouteNames.bathingspot}/${props.id}/${RouteNames.editor}`}
+              to={`/${RouteNames.bathingspot}/${props.id}/${RouteNames.editor}`}
             >
               Edit
-            </a>
+            </Link>
           );
         }
       })()}

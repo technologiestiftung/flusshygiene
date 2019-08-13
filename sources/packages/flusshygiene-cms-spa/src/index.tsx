@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { Auth0Provider } from './react-auth0-wrapper';
 import config from './auth_config.json';
 import { Provider } from 'react-redux';
-import Store from './lib/state/store';
+import store from './lib/state/store';
 import Toggle from './components/Toggle';
 // A function that routes the user to the right place
 // after login
@@ -21,7 +21,7 @@ const onRedirectCallback = (appState) => {
 };
 
 ReactDOM.render(
-  <Provider store={Store}>
+  <Provider store={store}>
     <Auth0Provider
       domain={config.domain}
       client_id={config.clientId}
