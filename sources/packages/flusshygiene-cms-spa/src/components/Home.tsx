@@ -66,14 +66,14 @@ const Home: React.FC<{
   }, [spots, truncated, dispatch]);
 
   return (
-    <div className='index section'>
-      <div className='columns'>
-        <div className='column is-full'>
+    <div className='index'>
+      <div className='columns is-centered'>
+        <div className='column is-10'>
           <h1 className='title is-1'>Badegewässer</h1>
         </div>
       </div>
-      <div className='columns'>
-        <div className='column is-full'>
+      <div className='columns is-centered'>
+        <div className='column is-10'>
           <div ref={mapRef} id='map__container'>
             <SpotsMap
               width={mapDims.width}
@@ -83,8 +83,8 @@ const Home: React.FC<{
           </div>
         </div>
       </div>
-      <div className='columns'>
-        <div className='column is-full'>
+      <div className='columns is-centered'>
+        <div className='column is-10'>
           <ul className='index__bathingspot-list'>
             {spots.map((obj, i) => {
               // return <li key={i}s>{obj.name}</li>;

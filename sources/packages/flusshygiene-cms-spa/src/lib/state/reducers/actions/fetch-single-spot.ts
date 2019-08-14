@@ -20,9 +20,8 @@ export const fetchSingleSpot: (opts: IFetchSpotsOptions) => void = ({
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {
-        console.log(json.data);
-        dispatch(fetchSingleSpotSuccess(json.data, json.truncated));
-        // return json.data;
+        dispatch(fetchSingleSpotSuccess(json.data[0], json.truncated));
+        return json.data;
       })
       .catch((error) => dispatch(fetchSingleSpotFail(error)));
   };

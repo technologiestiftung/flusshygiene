@@ -1,4 +1,5 @@
-import { IObject } from './../../common/interfaces';
+import { IBathingspot } from '../../common/interfaces';
+import { DEFAULT_SPOT_ID } from '../../common/constants';
 
 export const FETCH_SINGLESPOT_BEGIN = 'FETCH_SINGLESPOT_BEGIN';
 export const FETCH_SINGLESPOT_SUCCESS = 'FETCH_SINGLESPOT_SUCCESS';
@@ -9,14 +10,19 @@ interface IAction {
   payload?: any;
 }
 interface IState {
-  spot: any[];
+  spot: IBathingspot;
   loading: boolean;
   error: any;
   truncated?: boolean;
 }
 
 const initialState: IState = {
-  spot: [],
+  spot: {
+    id: DEFAULT_SPOT_ID,
+    createdAt: new Date(2525),
+    updatedAt: new Date(2525),
+    name: 'Lade Badestellendaten',
+  },
   loading: false,
   error: null,
   truncated: true,
@@ -26,8 +32,9 @@ const initialState: IState = {
 export const fetchSingleSpotBegin = (): IAction => ({
   type: FETCH_SINGLESPOT_BEGIN,
 });
+
 export const fetchSingleSpotSuccess: (
-  spot: any[],
+  spot: IBathingspot[],
   truncated: boolean,
 ) => IAction = (spot, truncated) => ({
   type: FETCH_SINGLESPOT_SUCCESS,
