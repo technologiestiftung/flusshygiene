@@ -1,14 +1,20 @@
 # Flusshygiene CMS SPA
 
-A Single Page Application (SPA) for interacting with the flusshygiene-postgres-api. Part of the FLusshygiene project.
+A Single Page Application (SPA) for interacting with the [technologiestiftung/flusshygiene-postgres-api](https://github.com/technologiestiftung/flusshygiene-postgres-api). Part of the FLusshygiene project.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## prerequisites
+## Prerequisites
+
+- Node.js
+- Auth0 Account
+- A running instance of flusshygiene-postgres-api with postgres/postgis DB
+
+## Setup
 
 - tbd
 
-## Setup
+### Setup Auth0
 
 - tbd
 
