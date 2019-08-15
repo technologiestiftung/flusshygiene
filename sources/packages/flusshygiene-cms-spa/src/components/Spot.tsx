@@ -7,7 +7,7 @@ import { useMapResizeEffect } from '../hooks/map-hooks';
 
 import { API_DOMAIN, DEFAULT_SPOT_ID } from '../lib/common/constants';
 import { APIMountPoints, ApiResources, RouteNames } from '../lib/common/enums';
-import { IFetchSpotsOptions, IBathingspot } from '../lib/common/interfaces';
+import { IFetchSpotsOptions } from '../lib/common/interfaces';
 import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-single-spot';
 import { SpotHeader } from './spot/SpotHeader';
 import { SpotLocation } from './spot/SpotLocation';
@@ -15,13 +15,20 @@ import { Measurement } from './spot/SpotMeasurement';
 import { SpotImage } from './spot/SpotImage';
 import { Link } from 'react-router-dom';
 import { SpotBodyAddonList } from './spot/SpotAddonList';
-import { parse } from '@babel/parser';
+import SpotEditor from './spot/SpotEditor';
 
+import '../assets/styles/spot-editor.scss';
+import { useAuth0 } from '../react-auth0-wrapper';
 type RouteProps = RouteComponentProps<{ id: string }>;
 
 const Spot: React.FC<RouteProps> = ({ match }) => {
+  const { isAuthenticated } = useAuth0();
+  const handleEditModeClick = () => {
+    setEditMode(!editMode);
+  };
   const dispatch = useDispatch();
-
+  const [formReadyToRender, setFormReadyToRender] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const spot = useSelector((state: RootState) => state.detailSpot.spot);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
@@ -37,6 +44,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       return;
     }
     dispatch(fetchSingleSpot(fetchOpts));
+    // setFormReadyToRender(true);
   }, [spot, dispatch, match.params.id]);
   useEffect(() => {
     if (
@@ -47,9 +55,21 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }
     dispatch(fetchSingleSpot(fetchOpts));
   }, [spot, dispatch, match.params.id]);
+  useEffect(() => {
+    if (spot.id === parseInt(match.params.id!, 10)) {
+      setFormReadyToRender(true);
+    }
+  });
 
   return (
     <div className='container'>
+      <div className='columns'>
+        <div className='column'>
+          {formReadyToRender === true && editMode === true && (
+            <SpotEditor spot={spot} handleEditModeClick={handleEditModeClick} />
+          )}
+        </div>
+      </div>
       <div className='columns is-centered'>
         <div className='column is-10'>
           <SpotHeader
@@ -59,6 +79,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           />
         </div>
       </div>
+      {isAuthenticated === true && (
+        <div className='columns is-centered'>
+          <div className='column is-10'>
+            <button className='button' onClick={handleEditModeClick}>
+              Bearbeiten
+            </button>
+          </div>
+        </div>
+      )}
       <div className='columns is-centered'>
         <div className='column is-5'>
           {spot !== undefined && (

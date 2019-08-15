@@ -91,13 +91,13 @@ export const MeasurementTable = (props: IMeasurementable) => {
         {
           <MeasurementTableRow
             rowKey='Escherichia coli'
-            rowValue={`${sortedMeasurement[0].ecoTxt} pro 100 ml`}
+            rowValue={`${sortedMeasurement[0].conc_ec} pro 100 ml`}
           />
         }
         {
           <MeasurementTableRow
             rowKey='Intestinale Enterokokken'
-            rowValue={`${sortedMeasurement[0].enteTxt} pro 100 ml`}
+            rowValue={`${sortedMeasurement[0].conc_ie} pro 100 ml`}
           />
         }
         {

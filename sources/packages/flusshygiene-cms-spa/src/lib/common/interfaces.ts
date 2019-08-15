@@ -25,6 +25,8 @@ export interface IBathingspot {
   street?: string;
   postalCode?: number;
   city?: string;
+  website?: string;
+  cyanoPossible?: boolean;
   healthDepartment?: string;
   healthDepartmentAddition?: string;
   healthDepartmentStreet?: string;
@@ -41,11 +43,9 @@ export interface IBathingspot {
   restaurant?: boolean;
   snack?: boolean;
   parkingSpots?: boolean;
-  cyanoPossible?: boolean;
   bathrooms?: boolean;
   bathroomsMobile?: boolean;
   dogban?: boolean;
-  website?: string;
   lastClassification?: string;
   image?: string;
   apiEndpoints?: string;
