@@ -36,7 +36,7 @@ const SpotsMap: React.FC<{
       initialViewState.longitude = data[0].longitude;
     }
   }
-  console.log('in spotsmap', data);
+  // console.log('in spotsmap', data);
 
   return (
     <DeckGL

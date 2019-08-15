@@ -7,7 +7,7 @@ import { Auth0Provider } from './react-auth0-wrapper';
 import config from './auth_config.json';
 import { Provider } from 'react-redux';
 import store from './lib/state/store';
-import Toggle from './components/Toggle';
+// import Toggle from './components/Toggle';
 // A function that routes the user to the right place
 // after login
 const onRedirectCallback = (appState) => {

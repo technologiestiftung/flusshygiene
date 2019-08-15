@@ -31,7 +31,7 @@ export const Card = (props: ISpotCard) => (
       })()}
       {(() => {
         if (props.hasOwnProperty('water') === true) {
-          if (props.water !== null) {
+          if (props.water) {
             if (props.water.length >= 0 && props.water !== props.title) {
               return <span className='spot-water'>{props.water}</span>;
             }
