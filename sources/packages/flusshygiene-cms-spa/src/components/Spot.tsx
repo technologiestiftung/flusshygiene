@@ -15,57 +15,37 @@ import { Measurement } from './spot/SpotMeasurement';
 import { SpotImage } from './spot/SpotImage';
 import { Link } from 'react-router-dom';
 import { SpotBodyAddonList } from './spot/SpotAddonList';
+import { parse } from '@babel/parser';
 
-type RouteProps = RouteComponentProps<{ id?: string }>;
+type RouteProps = RouteComponentProps<{ id: string }>;
 
 const Spot: React.FC<RouteProps> = ({ match }) => {
-  // const [dataLoaded, setDataLoaded] = useState(false);
-  // const [spot, setCurrentSpot] = useState<IBathingspot | undefined>(undefined);
   const dispatch = useDispatch();
-  // const isLoading = useSelector((state: RootState) => state.detailstoredSpot[0].loading);
-  // const truncated = useSelector(
-  //   (state: RootState) => state.detailstoredSpot[0].truncated,
-  // );
+
   const spot = useSelector((state: RootState) => state.detailSpot.spot);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
-  // useEffect(() => {
-  //   console.log('setting local spot');
-  //   if (storedSpot !== undefined && storedSpot[0].spot !== undefined) {
-  //     // setCurrentSpot(storedSpot[0].spot);
-  //   }
-  // }, [storedSpot]);
-  // useEffect(() => {
-  //   console.log('executing effect ');
-  //   // console.log(storedSpot[0].id);
-  //   // console.log(match.params.id);
-  //   if (!truncated) {
-  //     return;
-  //   }
-  //   const opts: IFetchSpotsOptions = {
-  //     method: 'GET',
-  //     url: `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.getBathingspots}/${match.params.id}`,
-  //     headers: {},
-  //   };
-  //   dispatch(fetchSingleSpot(opts));
-  // }, [spot, dispatch, match.params.id, truncated]);
+  const fetchOpts: IFetchSpotsOptions = {
+    method: 'GET',
+    url: `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.getBathingspots}/${match.params.id}`,
+    headers: {},
+  };
+
   useEffect(() => {
-    console.log('executing effect for initial loading');
-    console.log(spot);
-    if (spot.id !== DEFAULT_SPOT_ID) {
-      // setCurrentSpot(storedSpot[0] as IBathingspot);
-      // setDataLoaded(true);
+    if (spot.id === parseInt(match.params.id!, 10)) {
       return;
     }
-
-    const opts: IFetchSpotsOptions = {
-      method: 'GET',
-      url: `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.getBathingspots}/${match.params.id}`,
-      headers: {},
-    };
-    console.log('dispatching loading action');
-    dispatch(fetchSingleSpot(opts));
+    dispatch(fetchSingleSpot(fetchOpts));
+  }, [spot, dispatch, match.params.id]);
+  useEffect(() => {
+    if (
+      spot.id === parseInt(match.params.id!, 10) ||
+      spot.id !== DEFAULT_SPOT_ID
+    ) {
+      return;
+    }
+    dispatch(fetchSingleSpot(fetchOpts));
   }, [spot, dispatch, match.params.id]);
 
   return (
