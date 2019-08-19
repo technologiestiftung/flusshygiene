@@ -15,7 +15,9 @@
     "majestic": "majestic",
     "typeorm": "typeorm",
     "prettier": "prettier \"**/*.+(js|json|yml|yaml|ts)\"",
-    "validate": "npm run prettier -- --list-different",
+    "prettier:list": "npm run prettier -- --list-different",
+    "prettier:write": "npm run prettier -- --write",
+    "validate": "npm run build",
     "lint-staged": "lint-staged",
     "lint": "tslint './src/**/*.ts'"
   },

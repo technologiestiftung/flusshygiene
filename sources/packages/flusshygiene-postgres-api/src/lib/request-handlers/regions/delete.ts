@@ -13,7 +13,7 @@ import {
 export const deleteRegion: deleteResponse = async (request, response) => {
   try {
     const regionRepo = getRepository(Region);
-    const regionId = request.params.regionId;
+    const regionId = parseInt(request.params.regionId, 10);
     const region = await findByIdWithRelations(regionId, ['bathingspots']);
     if (region === undefined) {
       responderWrongId(response);

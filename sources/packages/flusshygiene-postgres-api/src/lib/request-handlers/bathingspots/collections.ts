@@ -55,8 +55,8 @@ export const postCollectionsSubItem: postResponse = async (
 ) => {
   try {
     // const repoName = collectionRepoMapping[request.params.collection];
-    const userId = request.params.userId;
-    const spotId = request.params.spotId;
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
     const collectionName = request.params.collectionName;
     const itemId = request.params.itemId;
     if (collectionNames.includes(collectionName) === false) {
@@ -81,8 +81,8 @@ export const postCollectionsSubItem: postResponse = async (
         let res;
         switch (repoName) {
           case 'GenericInput':
-            const measurement = await repoGInputMeasurement.create();
-            mergedEntity = await repoGInputMeasurement.merge(
+            const measurement = repoGInputMeasurement.create();
+            mergedEntity = repoGInputMeasurement.merge(
               measurement,
               request.body,
             );
@@ -113,8 +113,8 @@ export const getGenericInputMeasurements: getResponse = async (
   response,
 ) => {
   try {
-    const userId = request.params.userId;
-    const spotId = request.params.spotId;
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
     const itemId = request.params.itemId;
     const collectionName = request.params.collectionName;
     const allowedRepos = ['genericInputs', 'purificationPlants'];
@@ -165,8 +165,8 @@ export const getGenericInputMeasurements: getResponse = async (
  */
 export const getCollectionsSubItem: getResponse = async (request, response) => {
   try {
-    const userId = request.params.userId;
-    const spotId = request.params.spotId;
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
     const itemId = request.params.itemId;
     const collectionName = request.params.collectionName;
     if (collectionNames.includes(collectionName) === false) {
@@ -208,8 +208,8 @@ export const getCollectionsSubItem: getResponse = async (request, response) => {
  */
 export const getCollection: getResponse = async (request, response) => {
   try {
-    const userId = request.params.userId;
-    const spotId = request.params.spotId;
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
     const collectionId = request.params.collection;
     if (collectionNames.includes(collectionId) === false) {
       responder(response, HttpCodes.badRequest, {
@@ -251,8 +251,8 @@ export const getCollection: getResponse = async (request, response) => {
 
 export const postCollection: postResponse = async (request, response) => {
   try {
-    const userId = request.params.userId;
-    const spotId = request.params.spotId;
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
     const collectionId: string = request.params.collection;
     if (collectionNames.includes(collectionId) === false) {
       responder(response, HttpCodes.badRequest, {
@@ -390,8 +390,8 @@ export const deleteCollectionSubItem: postResponse = async (
   response,
 ) => {
   try {
-    const userId = request.params.userId;
-    const spotId = request.params.spotId;
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
     const itemId = request.params.itemId;
     const collectionId = request.params.collection;
     if (collectionNames.includes(collectionId) === false) {

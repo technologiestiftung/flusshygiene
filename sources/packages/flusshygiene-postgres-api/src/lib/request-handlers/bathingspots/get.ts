@@ -35,11 +35,8 @@ export const getUserBathingspots: getResponse = async (request, response) => {
         request.query.skip === undefined
           ? Pagination.skip
           : parseInt(request.query.skip, 10);
-      const spots = await getAllSpotsFromUser(
-        request.params.userId,
-        skip,
-        limit,
-      );
+      const userId = parseInt(request.params.userId, 10);
+      const spots = await getAllSpotsFromUser(userId, skip, limit);
       let truncated = true;
       if (spots.length === 0) {
         truncated = false;
@@ -65,10 +62,9 @@ export const getOneUserBathingspotById: getResponse = async (
   response,
 ) => {
   try {
-    const spotFromUser = await getSpot(
-      request.params.userId,
-      request.params.spotId,
-    );
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
+    const spotFromUser = await getSpot(userId, spotId);
     responderWrongIdOrSuccess(spotFromUser, response);
     // if (spotFromUser === undefined) {
     //   responderWrongId(response);
@@ -106,7 +102,7 @@ export const getOneUsersBathingspotsByRegion: getResponse = async (
     } else {
       // const spotRepo =  getRepository(Bathingspot);//getCustomRepository(BathingspotRepository);
       const region = await findByName(request.params.region);
-      const userId = request.params.userId;
+      const userId = parseInt(request.params.userId, 10);
       const spots = await findByUserAndRegion(userId, region!.id, skip, limit);
       if (spots !== undefined) {
         let truncated = true;

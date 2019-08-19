@@ -27,8 +27,8 @@ export const addBathingspotToUser: postResponse = async (request, response) => {
   try {
     // const list = await getRegionsList();
     const filteredPropNames = await getEntityFields('Bathingspot');
-
-    const user = await getUserByIdWithSpots(request.params.userId);
+    const userId = parseInt(request.params.userId, 10);
+    const user = await getUserByIdWithSpots(userId);
     // const spots = await getAllSpotsFromUser(request.params.userId);
     if (user instanceof User && user.role !== UserRole.reporter) {
       const providedValues = getMatchingValues(

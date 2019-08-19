@@ -25,10 +25,9 @@ export const updateBathingspotOfUser: putResponse = async (
   // const regionRepo = getRepository(Region);
   try {
     const filteredPropNames = await getEntityFields('Bathingspot');
-    const spotFromUser = await getSpot(
-      request.params.userId,
-      request.params.spotId,
-    );
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
+    const spotFromUser = await getSpot(userId, spotId);
     if (spotFromUser instanceof Bathingspot) {
       const providedValues = getMatchingValues(
         request.body,

@@ -18,10 +18,9 @@ export const deleteBathingspotOfUser: deleteResponse = async (
 ) => {
   const hasForce = getPropsValueGeneric<boolean>(request.body, 'force');
   try {
-    const spot: Bathingspot | undefined = await getSpot(
-      request.params.userId,
-      request.params.spotId,
-    );
+    const userId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
+    const spot: Bathingspot | undefined = await getSpot(userId, spotId);
     if (spot instanceof Bathingspot) {
       if (spot.isPublic === true && hasForce === false) {
         responderMissingBodyValue(response, { force: true });
