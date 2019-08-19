@@ -1,22 +1,22 @@
 import { HttpCodes } from './../../../src/lib/common';
 jest.useFakeTimers();
 import express, { Application } from 'express';
+import path from 'path';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection, getRepository } from 'typeorm';
+import { DefaultRegions, UserRole } from '../../../src/lib/common';
 import { ERRORS, SUGGESTIONS } from '../../../src/lib/messages';
 import routes from '../../../src/lib/routes';
-import { DefaultRegions, UserRole } from '../../../src/lib/common';
+import { getUsersByRole } from '../../../src/lib/utils/user-repo-helpers';
 import { Bathingspot } from '../../../src/orm/entity/Bathingspot';
 import { User } from '../../../src/orm/entity/User';
-import path from 'path';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
-import { getUsersByRole } from '../../../src/lib/utils/user-repo-helpers';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗

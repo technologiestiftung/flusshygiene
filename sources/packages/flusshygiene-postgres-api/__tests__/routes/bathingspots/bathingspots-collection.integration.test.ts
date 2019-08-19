@@ -1,33 +1,32 @@
 import { PredictionValue } from './../../../src/lib/common/index';
 import { BathingspotPrediction } from './../../../src/orm/entity/BathingspotPrediction';
-import { Discharge } from './../../../src/orm/entity/Discharge';
 import { GenericInput } from './../../../src/orm/entity/GenericInput';
 jest.useFakeTimers();
 import express, { Application } from 'express';
+import path from 'path';
 import 'reflect-metadata';
+import { async } from 'rxjs/internal/scheduler/async';
 import request from 'supertest';
 import { Connection } from 'typeorm';
 import routes from '../../../src/lib/routes';
-import path from 'path';
+import {
+  getColletionItemById,
+  getGIWithRelations,
+  getPPlantWithRelations,
+} from '../../../src/lib/utils/collection-repo-helpers';
+import {
+  BathingspotMeasurement,
+  BathingspotModel,
+  Discharge,
+  GlobalIrradiance,
+  PurificationPlant,
+} from '../../../src/orm/entity';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
-import { async } from 'rxjs/internal/scheduler/async';
-import {
-  getColletionItemById,
-  getPPlantWithRelations,
-  getGIWithRelations,
-} from '../../../src/lib/utils/collection-repo-helpers';
-import {
-  Discharge,
-  GlobalIrradiance,
-  BathingspotModel,
-  BathingspotMeasurement,
-  PurificationPlant,
-} from '../../../src/orm/entity';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -40,8 +39,8 @@ const token = readTokenFromDisc(
   path.resolve(__dirname, '../../.test.token.json'),
 );
 const headers = {
-  authorization: `${token.token_type} ${token.access_token}`,
   Accept: 'application/json',
+  authorization: `${token.token_type} ${token.access_token}`,
 };
 
 describe('testing bathingspots collection', () => {
@@ -107,10 +106,10 @@ describe('testing bathingspots collection', () => {
 
   test('route POST users bathingspots collection rains', async (done) => {
     const obj = {
-      value: Math.random() * 10,
-      dateTime: '12:00:01',
-      date: '2019-12-31',
       comment: 'This is a test',
+      date: '2019-12-31',
+      dateTime: '12:00:01',
+      value: Math.random() * 10,
     };
     const res = await request(app)
       .post('/api/v1/users/1/bathingspots/1/rains')
@@ -124,10 +123,10 @@ describe('testing bathingspots collection', () => {
   });
   test('route DELETE users bathingspots collection rains', async (done) => {
     const obj = {
-      value: Math.random() * 10,
-      dateTime: '12:00:01',
-      date: '2019-12-31',
       comment: 'This is a test',
+      date: '2019-12-31',
+      dateTime: '12:00:01',
+      value: Math.random() * 10,
     };
     const resPost = await request(app)
       .post('/api/v1/users/1/bathingspots/1/rains')
@@ -144,10 +143,10 @@ describe('testing bathingspots collection', () => {
   });
   test('route POST users bathingspots collection genericInputs measurements', async (done) => {
     const obj = {
-      value: Math.random() * 10,
-      dateTime: '12:00:01',
-      date: '2019-12-31',
       comment: 'This is a test',
+      date: '2019-12-31',
+      dateTime: '12:00:01',
+      value: Math.random() * 10,
     };
     await request(app)
       .post('/api/v1/users/1/bathingspots/1/genericInputs/')
@@ -239,8 +238,8 @@ describe('testing bathingspots collection', () => {
     const res = await request(app)
       .post('/api/v1/users/1/bathingspots/1/predictions/')
       .send({
-        dateTime: '12:00:00',
         date: '2019-12-31',
+        dateTime: '12:00:00',
         prediction: PredictionValue.ausgezeichnet,
       })
       .set(headers);

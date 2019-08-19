@@ -1,18 +1,18 @@
 import { User } from './../../../src/orm/entity/User';
 jest.useFakeTimers();
 import express, { Application } from 'express';
+import path from 'path';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection, getRepository } from 'typeorm';
-import routes from '../../../src/lib/routes';
 import { DefaultRegions } from '../../../src/lib/common';
+import routes from '../../../src/lib/routes';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
-import path from 'path';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -24,8 +24,8 @@ const token = readTokenFromDisc(
   path.resolve(__dirname, '../../.test.token.json'),
 );
 const headers = {
-  authorization: `${token.token_type} ${token.access_token}`,
   Accept: 'application/json',
+  authorization: `${token.token_type} ${token.access_token}`,
 };
 
 describe('testing users/[:userId]/bathingspots/[:spotId]', () => {

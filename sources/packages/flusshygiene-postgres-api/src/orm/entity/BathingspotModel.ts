@@ -23,10 +23,10 @@ export class BathingspotModel {
   @UpdateDateColumn()
   public updatedAt!: Date;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text', nullable: true, select: false })
   public rmodel!: string;
 
-  @Column({ type: 'bytea', nullable: true })
+  @Column({ type: 'bytea', nullable: true, select: false })
   public rmodelBinary!: Buffer;
 
   @Column({ type: 'text', nullable: true })

@@ -1,6 +1,7 @@
 import { UserRole } from './../../../src/lib/common';
 jest.useFakeTimers();
 import express, { Application } from 'express';
+import path from 'path';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection, getRepository } from 'typeorm';
@@ -9,10 +10,9 @@ import { User } from '../../../src/orm/entity/User';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
-import path from 'path';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -24,8 +24,8 @@ const token = readTokenFromDisc(
   path.resolve(__dirname, '../../.test.token.json'),
 );
 const headers = {
-  authorization: `${token.token_type} ${token.access_token}`,
   Accept: 'application/json',
+  authorization: `${token.token_type} ${token.access_token}`,
 };
 
 describe('testing delete users', () => {

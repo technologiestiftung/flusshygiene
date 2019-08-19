@@ -71,9 +71,18 @@ export const getColletionItemById: (
     const repo = getRepository(repoName);
     // console.log(repo);
 
-    const query = repo
-      .createQueryBuilder(repoName)
-      .where(`${repoName}.id = :itemId`, { itemId });
+    let query;
+    if (repoName === 'BathingspotModel') {
+      query = repo
+        .createQueryBuilder(repoName)
+        .where(`${repoName}.id = :itemId`, { itemId })
+        .addSelect(`${repoName}.rmodel`)
+        .addSelect(`${repoName}.rmodelBinary`);
+    } else {
+      query = repo
+        .createQueryBuilder(repoName)
+        .where(`${repoName}.id = :itemId`, { itemId });
+    }
 
     const entity = await query.getOne();
     switch (repoName) {

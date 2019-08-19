@@ -1,16 +1,16 @@
 jest.useFakeTimers();
 import express, { Application } from 'express';
+import path from 'path';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection } from 'typeorm';
-import routes from '../../../src/lib/routes';
-import path from 'path';
 import { DefaultRegions, UserRole } from '../../../src/lib/common';
+import routes from '../../../src/lib/routes';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗

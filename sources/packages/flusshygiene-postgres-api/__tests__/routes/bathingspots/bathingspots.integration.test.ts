@@ -1,16 +1,16 @@
 jest.useFakeTimers();
 import express, { Application } from 'express';
+import path from 'path';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection } from 'typeorm';
-import routes from '../../../src/lib/routes';
 import { DefaultRegions, HttpCodes } from '../../../src/lib/common';
-import path from 'path';
+import routes from '../../../src/lib/routes';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
@@ -24,8 +24,8 @@ const token = readTokenFromDisc(
   path.resolve(__dirname, '../../.test.token.json'),
 );
 const headers = {
-  authorization: `${token.token_type} ${token.access_token}`,
   Accept: 'application/json',
+  authorization: `${token.token_type} ${token.access_token}`,
 };
 
 describe('testing public bathingspots', () => {

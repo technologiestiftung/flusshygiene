@@ -1,18 +1,18 @@
 jest.useFakeTimers();
 import express, { Application } from 'express';
+import path from 'path';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection } from 'typeorm';
-import routes from '../../../src/lib/routes';
 import { DefaultRegions, HttpCodes } from '../../../src/lib/common';
+import routes from '../../../src/lib/routes';
+import { findByName } from '../../../src/lib/utils/region-repo-helpers';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
-import path from 'path';
-import { findByName } from '../../../src/lib/utils/region-repo-helpers';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗

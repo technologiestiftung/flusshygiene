@@ -3,15 +3,15 @@ import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection, getRepository } from 'typeorm';
+import { UserRole } from '../../../src/lib/common';
 import { ERRORS, SUCCESS, SUGGESTIONS } from '../../../src/lib/messages';
 import routes from '../../../src/lib/routes';
-import { UserRole } from '../../../src/lib/common';
 import { User } from '../../../src/orm/entity/User';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
 
 import path from 'path';
@@ -27,8 +27,8 @@ const token = readTokenFromDisc(
   path.resolve(__dirname, '../../.test.token.json'),
 );
 const headers = {
-  authorization: `${token.token_type} ${token.access_token}`,
   Accept: 'application/json',
+  authorization: `${token.token_type} ${token.access_token}`,
 };
 
 describe('testing users/[:userId]/bathingspots/[:spotId] delete', () => {

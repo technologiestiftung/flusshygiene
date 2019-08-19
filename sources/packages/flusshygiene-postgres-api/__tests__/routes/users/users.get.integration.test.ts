@@ -6,15 +6,15 @@ import { Connection, getRepository } from 'typeorm';
 
 import routes from '../../../src/lib/routes';
 
+import path from 'path';
+import { UserRole } from '../../../src/lib/common';
+import { User } from '../../../src/orm/entity/User';
 import {
   closeTestingConnections,
   createTestingConnections,
-  reloadTestingDatabases,
   readTokenFromDisc,
+  reloadTestingDatabases,
 } from '../../test-utils';
-import path from 'path';
-import { User } from '../../../src/orm/entity/User';
-import { UserRole } from '../../../src/lib/common';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -91,7 +91,7 @@ describe('testing get users', () => {
     done();
   });
   test('route get users by auth0id', async (done) => {
-    let user = new User();
+    const user = new User();
     const repo = getRepository('user');
     const auth0Id = 'auth0|123456';
     repo.merge(user, {
