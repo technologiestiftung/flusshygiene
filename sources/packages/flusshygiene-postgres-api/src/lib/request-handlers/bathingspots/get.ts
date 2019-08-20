@@ -1,3 +1,4 @@
+import { getRepository } from 'typeorm';
 import { getResponse, HttpCodes, Pagination } from '../../common';
 import { SUCCESS } from '../../messages';
 import { findByName, getRegionsList } from '../../utils/region-repo-helpers';
@@ -13,7 +14,8 @@ import {
   responderWrongId,
   successResponse,
 } from '../responders';
-import { responderWrongIdOrSuccess } from '../responders';
+// import { responderWrongIdOrSuccess } from '../responders';
+import { Bathingspot } from './../../../orm/entity/Bathingspot';
 /**
  * Gets all the bathingspots of the user
  * @param request
@@ -65,12 +67,18 @@ export const getOneUserBathingspotById: getResponse = async (
     const userId = parseInt(request.params.userId, 10);
     const spotId = parseInt(request.params.spotId, 10);
     const spotFromUser = await getSpot(userId, spotId);
-    responderWrongIdOrSuccess(spotFromUser, response);
-    // if (spotFromUser === undefined) {
-    //   responderWrongId(response);
-    // } else {
-    //   responder(response, HttpCodes.success, successResponse(SUCCESS.success200, [spotFromUser]));
-    // }
+    // responderWrongIdOrSuccess(spotFromUser, response);
+    if (spotFromUser === undefined) {
+      responderWrongId(response);
+    } else {
+      const spot = await getRepository(Bathingspot).findOne(spotFromUser.id);
+
+      responder(
+        response,
+        HttpCodes.success,
+        successResponse(SUCCESS.success200, [spot]),
+      );
+    }
   } catch (e) {
     responder(response, HttpCodes.internalError, errorResponse(e));
   }
