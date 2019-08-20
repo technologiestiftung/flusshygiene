@@ -11,7 +11,7 @@ import Spot from './components/Spot';
 import Info from './components/Info';
 
 const App: React.FC<{}> = ({}) => {
-  const { loading } = useAuth0();
+  const { loading, user } = useAuth0();
 
   if (loading) {
     return (

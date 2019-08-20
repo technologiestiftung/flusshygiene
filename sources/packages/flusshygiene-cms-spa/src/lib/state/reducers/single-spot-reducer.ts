@@ -1,14 +1,11 @@
-import { IBathingspot } from '../../common/interfaces';
+import { IBathingspot, IAction } from '../../common/interfaces';
 import { DEFAULT_SPOT_ID } from '../../common/constants';
 
 export const FETCH_SINGLESPOT_BEGIN = 'FETCH_SINGLESPOT_BEGIN';
 export const FETCH_SINGLESPOT_SUCCESS = 'FETCH_SINGLESPOT_SUCCESS';
 export const FETCH_SINGLESPOT_FAIL = 'FETCH_SINGLESPOT_FAIL';
 export const FETCH_SINGLESPOT_RESET = 'FETCH_SINGLESPOT_RESET';
-interface IAction {
-  type: string;
-  payload?: any;
-}
+
 interface IState {
   spot: IBathingspot;
   loading: boolean;

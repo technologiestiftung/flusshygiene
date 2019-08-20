@@ -7,6 +7,7 @@ import { Auth0Provider } from './react-auth0-wrapper';
 import config from './auth_config.json';
 import { Provider } from 'react-redux';
 import store from './lib/state/store';
+import ErrorBoundary from './components/ErrorBoundary';
 // import Toggle from './components/Toggle';
 // A function that routes the user to the right place
 // after login
@@ -21,17 +22,19 @@ const onRedirectCallback = (appState) => {
 };
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Auth0Provider
-      domain={config.domain}
-      client_id={config.clientId}
-      redirect_uri={window.location.origin}
-      audience={config.audience}
-      onRedirectCallback={onRedirectCallback}
-    >
-      <App />
-    </Auth0Provider>
-  </Provider>,
+  <ErrorBoundary>
+    <Provider store={store}>
+      <Auth0Provider
+        domain={config.domain}
+        client_id={config.clientId}
+        redirect_uri={window.location.origin}
+        audience={config.audience}
+        onRedirectCallback={onRedirectCallback}
+      >
+        <App />
+      </Auth0Provider>
+    </Provider>
+  </ErrorBoundary>,
   document.getElementById('root'),
 );
 // If you want your app to work offline and load faster, you can change

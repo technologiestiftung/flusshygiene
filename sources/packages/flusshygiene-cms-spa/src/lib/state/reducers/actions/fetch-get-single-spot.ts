@@ -3,10 +3,10 @@ import {
   fetchSingleSpotSuccess,
   fetchSingleSpotFail,
 } from '../single-spot-reducer';
-import { IFetchSpotsOptions } from '../../../common/interfaces';
+import { IFetchSpotOptions } from '../../../common/interfaces';
 import { handleErrors } from './fetch-common';
 
-export const fetchSingleSpot: (opts: IFetchSpotsOptions) => void = ({
+export const fetchSingleSpot: (opts: IFetchSpotOptions) => void = ({
   url,
   headers,
   method,

@@ -7,7 +7,7 @@ const SpotEditorInput: React.SFC<{
   type: string;
   label: string;
 }> = ({ name, label, type }) => {
-  console.log(name);
+  // console.log(name);
   return (
     <div className='field is-horizontal'>
       <div className='field-label is-normal'>

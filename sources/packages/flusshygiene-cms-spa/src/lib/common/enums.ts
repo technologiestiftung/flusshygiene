@@ -63,7 +63,8 @@ export enum EnvSuffixes {
   prod = 'PROD',
 }
 export enum ApiResources {
-  getBathingspots = 'bathingspots',
+  bathingspots = 'bathingspots',
+  users = 'users',
 }
 export enum APIMountPoints {
   v1 = 'api/v1',

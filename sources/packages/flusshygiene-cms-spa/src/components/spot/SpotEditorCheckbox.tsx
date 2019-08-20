@@ -7,7 +7,7 @@ const SpotEditorCheckbox: React.SFC<{
   type: string;
   label: string;
 }> = ({ name, label }) => {
-  console.log(name);
+  // console.log(name);
   return (
     <div className='field is-horizontal'>
       <div className='field-label is-normal'>

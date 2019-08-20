@@ -2,110 +2,85 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import SpotEditorInput from './SpotEditorInput';
 import SpotEditorCheckbox from './SpotEditorCheckbox';
-import * as Yup from 'yup';
-import { IBathingspot } from '../../lib/common/interfaces';
+import { IBathingspot, IFetchSpotOptions } from '../../lib/common/interfaces';
+import { editorSchema } from '../../lib/utils/spot-validation-schema';
+import { nullValueTransform } from '../../lib/utils/spot-nullvalue-transformer';
+import { SpotEditorButons } from './SpotEditor-Buttons';
+import { API_DOMAIN } from '../../lib/common/constants';
+import { APIMountPoints, ApiResources } from '../../lib/common/enums';
+import { useAuth0 } from '../../react-auth0-wrapper';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../lib/state/reducers/root-reducer';
+import { putSpot } from '../../lib/state/reducers/actions/fetch-post-spot';
 
-function postalCodeValidator(value: number) {
-  return /^([0]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{3}$/.test(value.toString());
-}
+// function postalCodeValidator(this: any, value: any) {
+//   const { path, createError } = this;
+//   const res = /^([0]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{3}$/.test(
+//     value.toString(),
+//   );
+//   console.log('in yup validation', res);
+//   if (res === true || res === false) {
+//     return res;
+//   } else {
+//     return createError({ path, message: 'Keine valide Postleitzahl' });
+//   }
+// }
 
-const editorSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben')
-    .required('Nicht optional'),
-  nameLong: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  water: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  district: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  street: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  postalCode: Yup.number()
-    .positive()
-    .integer()
-    .test('number-regex', 'Keine valide Postleitzahl', postalCodeValidator),
-  city: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  healthDepartment: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  healthDepartmentAddition: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  healthDepartmentStreet: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  healthDepartmentPostalCode: Yup.number()
-    .positive()
-    .integer()
-    .test('number-regex', 'Keine valide Postleitzahl', postalCodeValidator),
-  healthDepartmentCity: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  healthDepartmentMail: Yup.string().email(
-    'Bitte geben Sie eine valide E-Mail an',
-  ),
-  healthDepartmentPhone: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  waterRescueThroughDLRGorASB: Yup.boolean(),
-  waterRescue: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-  lifeguard: Yup.boolean(),
-  hasDisabilityAccesableEntrence: Yup.boolean(),
-  disabilityAccess: Yup.boolean(),
-  disabilityAccessBathrooms: Yup.boolean(),
-  restaurant: Yup.boolean(),
-  snack: Yup.boolean(),
-  parkingSpots: Yup.boolean(),
-  cyanoPossible: Yup.boolean(),
-  bathrooms: Yup.boolean(),
-  bathroomsMobile: Yup.boolean(),
-  dogban: Yup.boolean(),
-  website: Yup.string().url('Bitte geben Sie eine valide url ein'),
-  lastClassification: Yup.string(),
-  image: Yup.string().url('Bitte geben Sie eine valide url ein'),
-  apiEndpoints: Yup.string(),
-  latitude: Yup.number()
-    .min(-90, 'Kleiner als -90')
-    .max(90, 'Größer als 90'),
-  longitude: Yup.number()
-    .min(-180, 'Kleiner als -180')
-    .max(180, 'Größer als 180'),
-  elevation: Yup.number(),
-  region: Yup.string()
-    .min(3, 'Mehr als drei Buchstaben')
-    .max(255, 'Nicht mehr als 255 Buchstaben'),
-});
+const SpotEditor: React.FC<{
+  initialSpot: IBathingspot;
+  handleEditModeClick: () => void;
+}> = ({ initialSpot, handleEditModeClick }) => {
+  const { loading, user } = useAuth0();
+  const transformedSpot = nullValueTransform(initialSpot);
+  const { getTokenSilently } = useAuth0();
 
-const SpotEditor: React.SFC<{
-  spot: IBathingspot;
-  handleEditModeClick: any;
-}> = ({ spot, handleEditModeClick }) => {
-  for (const key in spot) {
-    if (spot[key] === null) {
-      spot[key] = undefined;
+  const postDone = useSelector((state: RootState) => state.postSpot.loading);
+  const dispatch = useDispatch();
+
+  const callPutSpot = async (spot: IBathingspot) => {
+    const token = await getTokenSilently();
+    const { id, createdAt, version, updatedAt, ...body } = spot;
+    for (const key in body) {
+      // if (typeof body[key] === 'string') {
+      //   if (body[key].length === 0) {
+      //     delete body[key];
+      //   }
+      // }
+      if (body[key] === null) {
+        delete body[key];
+      }
+      if (body[key] === transformedSpot[key]) {
+        delete body[key];
+      }
     }
-  }
-
+    const postOpts: IFetchSpotOptions = {
+      method: 'PUT',
+      url: `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}`,
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    };
+    console.log(postOpts);
+    dispatch(putSpot(postOpts));
+  };
   return (
     <div>
       <Formik
-        initialValues={spot}
+        initialValues={transformedSpot}
         validationSchema={editorSchema}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            console.log(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 500);
+          callPutSpot(values).catch((err) => {
+            console.error(err);
+          });
+          console.log(postDone);
+          setSubmitting(postDone);
+          handleEditModeClick();
+          // setTimeout(() => {
+          //   console.log(JSON.stringify(values, null, 2));
+          //   setSubmitting(false);
+          // }, 500);
         }}
       >
         {({
@@ -122,6 +97,10 @@ const SpotEditor: React.SFC<{
               <div className='modal-background'></div>
               <div className='modal-content'>
                 <Form style={{ paddingTop: '10px' }}>
+                  <SpotEditorButons
+                    isSubmitting={isSubmitting}
+                    handleEditModeClick={handleEditModeClick}
+                  />
                   <div className='box'>
                     <fieldset>
                       <legend className='title is-5'>Basis Daten</legend>
@@ -228,7 +207,7 @@ const SpotEditor: React.SFC<{
                         label={'Postleitzahl'}
                       />
                       <SpotEditorInput
-                        name={'healthDepartmentPostalCode'}
+                        name={'healthDepartmentCity'}
                         type={'text'}
                         label={'Stadt'}
                       />
@@ -310,7 +289,11 @@ const SpotEditor: React.SFC<{
                       />
                     </fieldset>
                   </div>
-                  <div className='field is-grouped is-grouped-right'>
+                  <SpotEditorButons
+                    isSubmitting={isSubmitting}
+                    handleEditModeClick={handleEditModeClick}
+                  />
+                  {/* <div className='field is-grouped is-grouped-right'>
                     <p className='control'>
                       <button
                         className='button is-primary'
@@ -330,7 +313,7 @@ const SpotEditor: React.SFC<{
                         Abbrechen
                       </button>
                     </p>
-                  </div>
+                  </div> */}
                 </Form>
               </div>
               <button

@@ -1,6 +1,7 @@
 import React from 'react';
 import { IObject } from '../../lib/common/interfaces';
 
+const kA = 'k. A.';
 export interface IMeasurement {
   measurements: IObject[];
   hasPrediction: boolean;
@@ -85,19 +86,31 @@ export const MeasurementTable = (props: IMeasurementable) => {
         {
           <MeasurementTableRow
             rowKey='Sichttiefe'
-            rowValue={`${sortedMeasurement[0].sichtTxt} cm`}
+            rowValue={
+              sortedMeasurement[0].sichtTxt !== null
+                ? `${sortedMeasurement[0].sichtTxt} cm`
+                : kA
+            }
           />
         }
         {
           <MeasurementTableRow
             rowKey='Escherichia coli'
-            rowValue={`${sortedMeasurement[0].conc_ec} pro 100 ml`}
+            rowValue={
+              sortedMeasurement[0].conc_ec !== null
+                ? `${sortedMeasurement[0].conc_ec} pro 100 ml`
+                : kA
+            }
           />
         }
         {
           <MeasurementTableRow
             rowKey='Intestinale Enterokokken'
-            rowValue={`${sortedMeasurement[0].conc_ie} pro 100 ml`}
+            rowValue={
+              sortedMeasurement[0].conc_ie !== null
+                ? `${sortedMeasurement[0].conc_ie} pro 100 ml`
+                : kA
+            }
           />
         }
         {
@@ -107,7 +120,7 @@ export const MeasurementTable = (props: IMeasurementable) => {
               if (sortedMeasurement[0].tempTxt !== null) {
                 return `${sortedMeasurement[0].tempTxt.replace('.', ',')} °C`;
               } else {
-                return '';
+                return kA;
               }
             })()}
           />
@@ -115,7 +128,11 @@ export const MeasurementTable = (props: IMeasurementable) => {
         {
           <MeasurementTableRow
             rowKey='Coliforme Bakterien'
-            rowValue={`${sortedMeasurement[0].cb} pro 100 ml`}
+            rowValue={
+              sortedMeasurement[0].cb !== null
+                ? `${sortedMeasurement[0].cb} pro 100 ml`
+                : kA
+            }
           />
         }
       </tbody>

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export interface ISpotCard {
   title: string;
-  water: string;
+  water: string | undefined;
   id: number;
   image: string;
   hasPrediction: boolean;
