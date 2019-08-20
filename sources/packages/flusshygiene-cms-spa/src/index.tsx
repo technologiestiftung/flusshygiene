@@ -29,7 +29,6 @@ ReactDOM.render(
       audience={config.audience}
       onRedirectCallback={onRedirectCallback}
     >
-      {/* <Toggle /> */}
       <App />
     </Auth0Provider>
   </Provider>,

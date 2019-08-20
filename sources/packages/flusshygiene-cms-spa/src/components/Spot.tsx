@@ -45,7 +45,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }
     dispatch(fetchSingleSpot(fetchOpts));
     // setFormReadyToRender(true);
-  }, [spot, dispatch, match.params.id]);
+  }, [spot, dispatch, match.params.id, fetchOpts]);
   useEffect(() => {
     if (
       spot.id === parseInt(match.params.id!, 10) ||
@@ -54,12 +54,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       return;
     }
     dispatch(fetchSingleSpot(fetchOpts));
-  }, [spot, dispatch, match.params.id]);
+  }, [spot, dispatch, match.params.id, fetchOpts]);
+
   useEffect(() => {
     if (spot.id === parseInt(match.params.id!, 10)) {
       setFormReadyToRender(true);
     }
-  });
+  }, [setFormReadyToRender, spot.id, match.params.id]);
 
   return (
     <div className='container'>

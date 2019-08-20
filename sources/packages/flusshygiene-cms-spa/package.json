@@ -45,7 +45,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "validate": "npm run prettier -- --list-different",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "test:coverage": "CI=true npm t -- --coverage --watchAll=false --color"
   },
   "eslintConfig": {
     "extends": "react-app"
