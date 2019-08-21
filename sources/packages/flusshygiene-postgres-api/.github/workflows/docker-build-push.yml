@@ -18,11 +18,10 @@ jobs:
         with:
           node-version: 10.x
       - run: npm ci
-      # - run: docker-compose up -d postgres
-      # - run: npm test
+
       - run: npm run build
       - name: Docker login build and push
-        # uses: actions/docker/login@master
+        uses: actions/docker/login@master
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
