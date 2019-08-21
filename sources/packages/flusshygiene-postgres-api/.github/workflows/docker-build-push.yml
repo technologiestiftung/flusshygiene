@@ -29,8 +29,4 @@ jobs:
       - name: Build the Docker image
         uses: actions/docker/cli-multi@master
         with:
-          args:
-            [
-              'docker build --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev .',
-              'docker push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev',
-            ]
+          args: 'docker build --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev . && docker push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev'
