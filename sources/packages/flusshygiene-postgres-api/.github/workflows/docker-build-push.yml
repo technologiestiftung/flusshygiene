@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on: [release]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+      - name: build source
+        uses: actions/setup-node@master
+        with:
+          node-version: 10.x
+      - run: npm ci
+      - run: docker-compose up -d postgres
+      - run: npm test
+      - run: npm run build
+      - name: Docker login
+        uses: actions/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      # - name: Build the Docker image
+      # trim refs/tags/ from refs/tags/v0.1.2 with shell string operators
+      - run: docker build . --file Dockerfile --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev
+      #   - name: Push the Docker image
+      - run: docker push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev

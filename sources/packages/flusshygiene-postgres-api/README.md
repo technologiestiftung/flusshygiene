@@ -50,7 +50,6 @@ AUTH0_ISSUER=https://you.eu.auth0.com/
 
 ```
 
-
 build with docker:
 
 ```bash
@@ -64,5 +63,20 @@ docker run --name shortname --env-file ./path/to/.env -p=5004:5004 username/cont
 
 ```
 
-more infos coming soon(-ish).
+## Github Actions
 
+Currently only one action is available:
+
+### Release to docker Hub
+
+When a new release is created this action will build the image and push it to docker hub.
+
+Creating tags+release from the command line and trigger action (use [hub](https://hub.github.com/) `brew install hub`)
+
+```bash
+git tag -a "v0.1.4" -m "from commandline"
+git push --tags
+hub release create -m "from command line" v0.1.4
+```
+
+more infos coming soon(-ish).
