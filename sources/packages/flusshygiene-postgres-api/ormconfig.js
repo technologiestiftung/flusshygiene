@@ -48,7 +48,7 @@ const opts = {
   entities: ['dist/orm/entity/**/*.js'],
   host: PG_HOST,
   logging: false,
-  migrations: ['src/orm/migration/**/*.js'],
+  migrations: ['dist/orm/migration/**/*.js'],
   password: process.env[`PG_PASSWORD_${ENV_SUFFIX}`],
   port: process.env[`PG_PORT_${ENV_SUFFIX}`],
   subscribers: ['dist/orm/subscriber/**/*.js'],

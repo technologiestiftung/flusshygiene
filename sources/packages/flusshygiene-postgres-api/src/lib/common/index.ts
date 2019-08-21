@@ -160,6 +160,11 @@ export enum HttpCodes {
   'internalError' = 500,
 }
 
+export enum Influences {
+  no = 'no',
+  unknown = 'unknown',
+  yes = 'yes',
+}
 export enum DefaultRegions {
   berlinbrandenburg = 'berlinbrandenburg',
   berlin = 'berlin',

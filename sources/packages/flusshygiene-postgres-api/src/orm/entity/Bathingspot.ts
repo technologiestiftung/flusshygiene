@@ -1,6 +1,6 @@
 import buffer from '@turf/buffer';
 import { GeometryObject, Polygon } from '@turf/turf';
-import { BeforeInsert, UpdateDateColumn, VersionColumn } from 'typeorm';
+import { IsEnum } from 'class-validator';
 // import {Point, Polygon} from 'geojson';
 import {
   Column,
@@ -10,6 +10,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BeforeInsert, UpdateDateColumn, VersionColumn } from 'typeorm';
+import { Influences } from '../../lib/common';
 import { BathingspotMeasurement } from './BathingspotMeasurement';
 import { BathingspotModel } from './BathingspotModel';
 import { BathingspotPrediction } from './BathingspotPrediction';
@@ -71,6 +73,10 @@ export const criteriaBathingspot = [
   { type: 'string', key: 'bwId' },
   { type: 'string', key: 'type' },
   { type: 'string', key: 'coordinateSystem' },
+  { type: 'string', key: 'influencePurificationPlant' },
+  { type: 'string', key: 'influenceCombinedSewerSystem' },
+  { type: 'string', key: 'influenceAgriculture' },
+  { type: 'string', key: 'influenceRainwater' },
 ];
 
 export const geomCriteria = [
@@ -226,6 +232,41 @@ export class Bathingspot {
   @Column({ type: 'json', nullable: true })
   public state!: string;
 
+  @Column({
+    default: Influences.unknown,
+    enum: Influences,
+    nullable: true,
+    type: 'enum',
+  })
+  @IsEnum(Influences)
+  public influencePurificationPlant!: string;
+
+  @Column({
+    default: Influences.unknown,
+    enum: Influences,
+    nullable: true,
+    type: 'enum',
+  })
+  @IsEnum(Influences)
+  public influenceCombinedSewerSystem!: string;
+
+  @Column({
+    default: Influences.unknown,
+    enum: Influences,
+    nullable: true,
+    type: 'enum',
+  })
+  @IsEnum(Influences)
+  public influenceRainwater!: string;
+
+  @Column({
+    default: Influences.unknown,
+    enum: Influences,
+    nullable: true,
+    type: 'enum',
+  })
+  @IsEnum(Influences)
+  public influenceAgriculture!: string;
   // // should be geojson
   @Column({
     nullable: true,
