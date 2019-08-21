@@ -10,8 +10,8 @@ import ExternalApi from './components/ExternalApi';
 import Spot from './components/Spot';
 import Info from './components/Info';
 
-const App: React.FC<{}> = ({}) => {
-  const { loading, user } = useAuth0();
+const App: React.FC = () => {
+  const { loading } = useAuth0();
 
   if (loading) {
     return (

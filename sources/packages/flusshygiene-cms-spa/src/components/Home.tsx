@@ -16,13 +16,7 @@ import { IFetchSpotOptions } from '../lib/common/interfaces';
 //   [key: string]: any;
 // }
 // const initialState: IObject[] = [];
-const Home: React.FC<{
-  /*isLoggedin: boolean*/
-}> = (
-  {
-    /*isLoggedin*/
-  },
-) => {
+const Home: React.FC = () => {
   const spots = useSelector((state: RootState) => state.data.spots);
   const truncated = useSelector((state: RootState) => state.data.truncated);
   const dispatch = useDispatch();

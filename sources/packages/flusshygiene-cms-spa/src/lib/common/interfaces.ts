@@ -64,6 +64,7 @@ export interface IBathingspot {
   longitude?: number;
   elevation?: number;
   user?: IObject;
+  userId?: number;
   predictions?: IObject[];
   models?: IObject[];
   measurements?: IObject[];

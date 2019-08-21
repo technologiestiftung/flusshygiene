@@ -3,13 +3,13 @@ import { IBathingspot } from '../common/interfaces';
 export const nullValueTransform: (spot: IBathingspot) => IBathingspot = (
   spot,
 ) => {
-  const explicitRemove = ['models', 'user', 'measurements'];
+  // const explicitRemove = ['models', 'user', 'measurements'];
 
-  for (const key in spot) {
-    if (explicitRemove.includes(key)) {
-      delete spot[key];
-    }
-  }
+  // for (const key in spot) {
+  //   if (explicitRemove.includes(key)) {
+  //     delete spot[key];
+  //   }
+  // }
   const matchPatterns = {
     hasPrediction: { type: 'boolean' },
     detailId: { type: 'number' },

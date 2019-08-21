@@ -6,7 +6,8 @@ const SpotEditorCheckbox: React.SFC<{
   name: string;
   type: string;
   label: string;
-}> = ({ name, label }) => {
+  value: boolean;
+}> = ({ name, label, value }) => {
   // console.log(name);
   return (
     <div className='field is-horizontal'>
@@ -17,7 +18,7 @@ const SpotEditorCheckbox: React.SFC<{
         <div className='field'>
           <div className='control'>
             <label className='checkbox'>
-              <Field type='checkbox' name={name} />
+              <Field type='checkbox' name={name} checked={value} />
               <span className='form__checkbox--distance'>{label}</span>
             </label>
             <ErrorMessage

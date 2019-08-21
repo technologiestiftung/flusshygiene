@@ -14,7 +14,7 @@ import { SpotLocation } from './spot/SpotLocation';
 import { Measurement } from './spot/SpotMeasurement';
 import { SpotImage } from './spot/SpotImage';
 import { Link } from 'react-router-dom';
-import { SpotBodyAddonList } from './spot/SpotAddonList';
+import { SpotBodyAddonTagGroup } from './spot/SpotAddonList';
 import SpotEditor from './spot/SpotEditor';
 
 import '../assets/styles/spot-editor.scss';
@@ -77,7 +77,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       <div className='columns is-centered'>
         <div className='column is-10'>
           <SpotHeader
-            nameLong={spot !== undefined ? spot.nameLong : ''}
+            nameLong={(() => {
+              if (spot !== undefined) {
+                return spot.nameLong !== undefined ? spot.nameLong : spot.name;
+              } else {
+                return null;
+              }
+            })()}
             water={spot !== undefined ? spot.water : ''}
             district={spot !== undefined ? spot.district : ''}
           />
@@ -127,31 +133,33 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           )}
         </div>
         <div className='column is-5'>
-          {spot !== undefined && spot.measurements !== undefined && (
-            <Measurement
-              measurements={spot.measurements}
-              hasPrediction={spot.hasPrediction}
-            >
-              {(() => {
-                if (spot.hasPrediction === true) {
-                  return (
-                    <div className='bathingspot__body-prediction'>
-                      <p>
-                        {/*tslint:disable-next-line: max-line-length*/}
-                        <span className='asteriks'>*</span> Die hier angezeigte
-                        Bewertung wird unterstützt durch eine neuartige
-                        tagesaktuelle Vorhersagemethode.{' '}
-                        <Link to={`/${RouteNames.info}`}>
-                          Erfahren Sie mehr&nbsp;&raquo;
-                        </Link>
-                      </p>
-                    </div>
-                  );
-                }
-                return null;
-              })()}
-            </Measurement>
-          )}
+          {spot !== undefined &&
+            spot.measurements !== undefined &&
+            spot.measurements.length > 0 && (
+              <Measurement
+                measurements={spot.measurements}
+                hasPrediction={spot.hasPrediction}
+              >
+                {(() => {
+                  if (spot.hasPrediction === true) {
+                    return (
+                      <div className='bathingspot__body-prediction'>
+                        <p>
+                          {/*tslint:disable-next-line: max-line-length*/}
+                          <span className='asteriks'>*</span> Die hier
+                          angezeigte Bewertung wird unterstützt durch eine
+                          neuartige tagesaktuelle Vorhersagemethode.{' '}
+                          <Link to={`/${RouteNames.info}`}>
+                            Erfahren Sie mehr&nbsp;&raquo;
+                          </Link>
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
+              </Measurement>
+            )}
         </div>
       </div>
       <div className='columns is-centered'>
@@ -177,7 +185,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           {spot !== undefined && (
             <div className='bathingspot__body-addon'>
               <h3>Weitere Angaben zur Badesstelle</h3>
-              <SpotBodyAddonList
+              <SpotBodyAddonTagGroup
                 cyanoPossible={spot.cyanoPossible}
                 lifeguard={spot.lifeguard}
                 disabilityAccess={spot.disabilityAccess}

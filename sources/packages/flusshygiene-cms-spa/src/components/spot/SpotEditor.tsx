@@ -30,7 +30,7 @@ const SpotEditor: React.FC<{
   initialSpot: IBathingspot;
   handleEditModeClick: () => void;
 }> = ({ initialSpot, handleEditModeClick }) => {
-  const { loading, user } = useAuth0();
+  const { user } = useAuth0();
   const transformedSpot = nullValueTransform(initialSpot);
   const { getTokenSilently } = useAuth0();
 
@@ -65,6 +65,7 @@ const SpotEditor: React.FC<{
     console.log(postOpts);
     dispatch(putSpot(postOpts));
   };
+
   return (
     <div>
       <Formik
@@ -171,13 +172,18 @@ const SpotEditor: React.FC<{
                       />
                       <SpotEditorInput
                         name={'apiEndpoints'}
-                        type={'number'}
+                        type={'text'}
                         label={'API Endpoints'}
                       />
                       <SpotEditorCheckbox
                         name={'cyanoPossible'}
                         type={'checkbox'}
                         label={'Cyanobakterien möglich'}
+                        value={
+                          values.cyanoPossible === undefined
+                            ? true
+                            : values.cyanoPossible
+                        }
                       />
                     </fieldset>
                   </div>
@@ -235,58 +241,121 @@ const SpotEditor: React.FC<{
                         name={'waterRescueThroughDLRGorASB'}
                         type={'checkbox'}
                         label={'Wasserrettung durch DLRG oder ASB?'}
+                        value={
+                          values.waterRescueThroughDLRGorASB === undefined
+                            ? false
+                            : values.waterRescueThroughDLRGorASB
+                        }
                       />
                       <SpotEditorCheckbox
                         name={'lifeguard'}
                         type={'checkbox'}
                         label={'Rettungschwimmer vor Ort'}
+                        value={
+                          values.lifeguard === undefined
+                            ? false
+                            : values.lifeguard
+                        }
                       />
                       <SpotEditorCheckbox
                         name={'disabilityAccess'}
                         type={'checkbox'}
                         label={'Barrierefreie'}
+                        value={
+                          values.disabilityAccess === undefined
+                            ? false
+                            : values.disabilityAccess
+                        }
                       />
                       <SpotEditorCheckbox
                         name={'disabilityAccessBathrooms'}
                         type={'checkbox'}
                         label={'Barrierefreie Waschräume'}
+                        value={
+                          values.disabilityAccessBathrooms === undefined
+                            ? false
+                            : values.disabilityAccessBathrooms
+                        }
                       />
                       <SpotEditorCheckbox
                         name={'hasDisabilityAccesableEntrence'}
                         type={'checkbox'}
                         label={'Barrierefreier Eingang'}
+                        value={
+                          values.hasDisabilityAccesableEntrence === undefined
+                            ? false
+                            : values.hasDisabilityAccesableEntrence
+                        }
                       />
                       <SpotEditorCheckbox
                         name={'restaurant'}
                         type={'checkbox'}
                         label={'Restaurant'}
+                        value={
+                          values.restaurant === undefined
+                            ? false
+                            : values.restaurant
+                        }
                       />
                       <SpotEditorCheckbox
                         name={'snack'}
                         type={'checkbox'}
                         label={'Snack'}
+                        value={
+                          values.snack === undefined ? false : values.snack
+                        }
                       />
                       <SpotEditorCheckbox
                         name={'parkingSpots'}
                         type={'checkbox'}
                         label={'Parkplätze'}
+                        value={
+                          values.parkingSpots === undefined
+                            ? false
+                            : values.parkingSpots
+                        }
                       />
                       <SpotEditorCheckbox
                         name={'bathrooms'}
                         type={'checkbox'}
                         label={'Waschräume'}
+                        value={
+                          values.bathrooms === undefined
+                            ? false
+                            : values.bathrooms
+                        }
                       />
 
                       <SpotEditorCheckbox
                         name={'bathroomsMobile'}
                         type={'checkbox'}
                         label={'Mobile Toiletten'}
+                        value={
+                          values.bathroomsMobile === undefined
+                            ? false
+                            : values.bathroomsMobile
+                        }
                       />
                       <SpotEditorCheckbox
-                        name={'dogBan'}
+                        name={'dogban'}
                         type={'checkbox'}
                         label={'Hundeverbot'}
+                        value={
+                          values.dogban === undefined ? false : values.dogban
+                        }
                       />
+                    </fieldset>
+                  </div>
+                  <div className='box'>
+                    <fieldset>
+                      <legend className='title is-5'>
+                        Admin Bereich (noch nicht implementiert)
+                      </legend>
+                      {/* <SpotEditorInput
+                        name={user.pgapiData.id}
+                        type={'number'}
+                        label={'Übertragung an andere Benutzer'}
+                      /> */}
                     </fieldset>
                   </div>
                   <SpotEditorButons
