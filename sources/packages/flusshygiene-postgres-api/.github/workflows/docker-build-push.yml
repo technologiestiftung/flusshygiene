@@ -19,7 +19,7 @@ jobs:
           node-version: 10.x
       - run: npm ci
       - run: docker-compose up -d postgres
-      - run: npm test
+      # - run: npm test
       - run: npm run build
       - name: Docker login
         uses: actions/docker/login@master
