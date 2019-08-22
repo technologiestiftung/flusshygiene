@@ -2,7 +2,7 @@ import { Field, ErrorMessage } from 'formik';
 import '../../assets/styles/spot-editor-checkbox.scss';
 // SpotEditorCheckbox.tsx;
 import React from 'react';
-const SpotEditorCheckbox: React.SFC<{
+export const SpotEditorCheckbox: React.SFC<{
   name: string;
   type: string;
   label: string;
@@ -32,5 +32,3 @@ const SpotEditorCheckbox: React.SFC<{
     </div>
   );
 };
-
-export default SpotEditorCheckbox;

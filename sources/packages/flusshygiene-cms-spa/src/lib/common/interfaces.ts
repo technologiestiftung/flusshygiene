@@ -82,3 +82,18 @@ export interface IAction {
   type: string;
   payload?: any;
 }
+
+// Forms
+
+export interface IFormBuildData {
+  type: 'text' | 'number' | 'checkbox' | 'select' | 'email';
+  name: string;
+  label: string;
+  value?: boolean | string;
+  options?: IFormOptions[];
+}
+
+export interface IFormOptions {
+  text: string;
+  value: string;
+}

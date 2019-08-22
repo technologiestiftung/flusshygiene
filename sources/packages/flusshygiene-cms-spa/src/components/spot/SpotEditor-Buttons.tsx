@@ -1,5 +1,5 @@
 import React from 'react';
-export const SpotEditorButons: React.FC<{
+export const SpotEditorButtons: React.FC<{
   isSubmitting: boolean;
   handleEditModeClick: () => any;
 }> = ({ isSubmitting, handleEditModeClick }) => {
