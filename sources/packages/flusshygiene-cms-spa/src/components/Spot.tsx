@@ -1,21 +1,20 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../lib/state/reducers/root-reducer';
-import { RouteComponentProps } from 'react-router';
-import SpotsMap from './SpotsMap';
-import { useMapResizeEffect } from '../hooks/map-hooks';
-
 import { API_DOMAIN, DEFAULT_SPOT_ID } from '../lib/common/constants';
 import { APIMountPoints, ApiResources, RouteNames } from '../lib/common/enums';
-import { IFetchSpotOptions } from '../lib/common/interfaces';
 import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-get-single-spot';
-import { SpotHeader } from './spot/SpotHeader';
-import { SpotLocation } from './spot/SpotLocation';
-import { Measurement } from './spot/SpotMeasurement';
-import { SpotImage } from './spot/SpotImage';
+import { IFetchSpotOptions } from '../lib/common/interfaces';
 import { Link } from 'react-router-dom';
-import { SpotBodyAddonTagGroup } from './spot/SpotAddonList';
+import { Measurement } from './spot/SpotMeasurement';
+import { RootState } from '../lib/state/reducers/root-reducer';
+import { RouteComponentProps } from 'react-router';
+import { SpotBodyAddonTagGroup } from './spot/SpotAddonTagGroup';
+import { SpotHeader } from './spot/SpotHeader';
+import { SpotImage } from './spot/SpotImage';
+import { SpotLocation } from './spot/SpotLocation';
+import { useMapResizeEffect } from '../hooks/map-hooks';
+import { useSelector, useDispatch } from 'react-redux';
+import React, { useRef, useEffect, useState } from 'react';
 import SpotEditor from './spot/SpotEditor';
+import SpotsMap from './SpotsMap';
 
 import '../assets/styles/spot-editor.scss';
 import { useAuth0 } from '../react-auth0-wrapper';
