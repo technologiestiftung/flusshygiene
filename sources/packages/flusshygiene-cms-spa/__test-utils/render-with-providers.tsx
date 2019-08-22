@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import config from '../src/auth_config.json';
+// import config from '../src/auth_config.json';
 
 import { render as rtlRender } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
@@ -13,10 +13,10 @@ function render(ui: any, store: any, history?: any, ...rest: any[]) {
   }
   return rtlRender(
     <Auth0Provider
-      domain={config.domain}
-      client_id={config.clientId}
+      domain={process.env.REACT_APP_DOMAIN}
+      client_id={process.env.REACT_APP_CLIENTID}
       redirect_uri={window.location.origin}
-      audience={config.audience}
+      audience={process.env.REACT_APP_AUDIENCE}
       onRedirectCallback={onRedirectCallback}
     >
       <Provider store={store}>

@@ -12,12 +12,12 @@ const SpotEditorCheckbox: React.SFC<{
   return (
     <div className='field is-horizontal'>
       <div className='field-label is-normal'>
-        <label htmlFor={name} className='label'></label>
+        <div className='label'></div>
       </div>
       <div className='field-body'>
         <div className='field'>
           <div className='control'>
-            <label className='checkbox'>
+            <label htmlFor={name} className='checkbox'>
               <Field type='checkbox' name={name} checked={value} />
               <span className='form__checkbox--distance'>{label}</span>
             </label>

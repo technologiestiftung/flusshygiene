@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Card default 1`] = `
+<li
+  className="index__bathingspot-list-item"
+  data-spot-id={1}
+  id="1"
+>
+  <div>
+    <img
+      alt=""
+      className="spot-image"
+      src=""
+    />
+    <img
+      alt=""
+      className="state-image"
+      src=""
+    />
+    <span
+      className="spot-title"
+    >
+      Sweetwater
+    </span>
+    <span
+      className="asteriks"
+    >
+       * 
+    </span>
+    <span
+      className="spot-water"
+    >
+      Sweet
+    </span>
+    <a
+      className="is-small button index__bathingspot-list-item-button is-pulled-right"
+      href="/badestellen/1"
+      onClick={[Function]}
+    >
+      Detail
+    </a>
+  </div>
+</li>
+`;

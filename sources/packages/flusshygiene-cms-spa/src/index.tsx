@@ -4,7 +4,7 @@ import './assets/styles/index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Auth0Provider } from './react-auth0-wrapper';
-import config from './auth_config.json';
+// import config from './auth_config.json';
 import { Provider } from 'react-redux';
 import store from './lib/state/store';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -25,10 +25,10 @@ ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
       <Auth0Provider
-        domain={config.domain}
-        client_id={config.clientId}
+        domain={process.env.REACT_APP_DOMAIN}
+        client_id={process.env.REACT_APP_CLIENTID}
         redirect_uri={window.location.origin}
-        audience={config.audience}
+        audience={process.env.REACT_APP_AUDIENCE}
         onRedirectCallback={onRedirectCallback}
       >
         <App />
