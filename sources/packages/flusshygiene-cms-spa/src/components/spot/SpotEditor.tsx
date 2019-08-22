@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import SpotEditorInput from './SpotEditorInput';
-import SpotEditorCheckbox from './SpotEditorCheckbox';
+import SpotEditorInput from './SpotEditor-Input';
+import SpotEditorCheckbox from './SpotEditor-Checkbox';
 import { IBathingspot, IFetchSpotOptions } from '../../lib/common/interfaces';
 import { editorSchema } from '../../lib/utils/spot-validation-schema';
 import { nullValueTransform } from '../../lib/utils/spot-nullvalue-transformer';
@@ -12,6 +12,7 @@ import { useAuth0 } from '../../react-auth0-wrapper';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../lib/state/reducers/root-reducer';
 import { putSpot } from '../../lib/state/reducers/actions/fetch-post-spot';
+import { SpotEditorSelect } from './SpotEditor-Select';
 
 // function postalCodeValidator(this: any, value: any) {
 //   const { path, createError } = this;
@@ -72,6 +73,7 @@ const SpotEditor: React.FC<{
         initialValues={transformedSpot}
         validationSchema={editorSchema}
         onSubmit={(values, { setSubmitting }) => {
+          console.log(values);
           callPutSpot(values).catch((err) => {
             console.error(err);
           });
@@ -184,6 +186,69 @@ const SpotEditor: React.FC<{
                             ? true
                             : values.cyanoPossible
                         }
+                      />
+                    </fieldset>
+                  </div>
+                  <div className='box'>
+                    <fieldset>
+                      <legend className='title is-5'>
+                        Hygienische Beeinträchtigung durch:
+                      </legend>
+                      <SpotEditorSelect
+                        name={'influencePurificationPlant'}
+                        label={'kommunale Klärwerke'}
+                        value={
+                          values.influencePurificationPlant === undefined
+                            ? 'unknown'
+                            : values.influencePurificationPlant
+                        }
+                        options={[
+                          { text: 'Ja', value: 'yes' },
+                          { text: 'Unbekannt', value: 'unknown' },
+                          { text: 'Nein', value: 'no' },
+                        ]}
+                      />
+                      <SpotEditorSelect
+                        name={'influenceCombinedSewerSystem'}
+                        label={'Mischwassereinleitungen aus urbanen Gebieten'}
+                        value={
+                          values.influenceCombinedSewerSystem === undefined
+                            ? 'unknown'
+                            : values.influenceCombinedSewerSystem
+                        }
+                        options={[
+                          { text: 'Ja', value: 'yes' },
+                          { text: 'Unbekannt', value: 'unknown' },
+                          { text: 'Nein', value: 'no' },
+                        ]}
+                      />
+                      <SpotEditorSelect
+                        name={'influenceRainwater'}
+                        label={'Regenwassereileitung aus urbanen Gebieten'}
+                        value={
+                          values.influenceRainwater === undefined
+                            ? 'unknown'
+                            : values.influenceRainwater
+                        }
+                        options={[
+                          { text: 'Ja', value: 'yes' },
+                          { text: 'Unbekannt', value: 'unknown' },
+                          { text: 'Nein', value: 'no' },
+                        ]}
+                      />
+                      <SpotEditorSelect
+                        name={'influenceAgriculture'}
+                        label={'Einleitungen aus der Landwirtschaft'}
+                        value={
+                          values.influenceAgriculture === undefined
+                            ? 'unknown'
+                            : values.influenceAgriculture
+                        }
+                        options={[
+                          { text: 'Ja', value: 'yes' },
+                          { text: 'Unbekannt', value: 'unknown' },
+                          { text: 'Nein', value: 'no' },
+                        ]}
                       />
                     </fieldset>
                   </div>
@@ -344,18 +409,6 @@ const SpotEditor: React.FC<{
                           values.dogban === undefined ? false : values.dogban
                         }
                       />
-                    </fieldset>
-                  </div>
-                  <div className='box'>
-                    <fieldset>
-                      <legend className='title is-5'>
-                        Admin Bereich (noch nicht implementiert)
-                      </legend>
-                      {/* <SpotEditorInput
-                        name={user.pgapiData.id}
-                        type={'number'}
-                        label={'Übertragung an andere Benutzer'}
-                      /> */}
                     </fieldset>
                   </div>
                   <SpotEditorButons

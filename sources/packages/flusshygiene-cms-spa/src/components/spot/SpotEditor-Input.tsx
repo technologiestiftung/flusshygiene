@@ -2,7 +2,7 @@ import { Field, ErrorMessage } from 'formik';
 
 // SpotEditorInput.tsx;
 import React from 'react';
-const SpotEditorInput: React.SFC<{
+const SpotEditorInput: React.FC<{
   name: string;
   type: string;
   label: string;

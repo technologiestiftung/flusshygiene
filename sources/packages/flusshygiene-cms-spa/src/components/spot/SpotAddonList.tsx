@@ -134,13 +134,14 @@ export const SpotBodyAddonTagGroup: React.FC<ISpotBodyAddon> = (props) => {
   return (
     <div className='field is-grouped is-grouped-multiline'>
       {Object.keys(props).map((key: string, i: number) => {
-        console.log(key);
+        // console.log(key);
         if (props.hasOwnProperty(key) === true) {
           return (
             props[key] !== undefined && (
               <SpotBodyAddonTag
                 text={keyTextMapping[key]}
                 status={props[key]}
+                key={i}
               />
             )
           );

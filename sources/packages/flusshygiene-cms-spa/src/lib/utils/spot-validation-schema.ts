@@ -96,4 +96,8 @@ export const editorSchema = Yup.object().shape({
     .min(3, 'Mehr als drei Buchstaben')
     .max(255, 'Nicht mehr als 255 Buchstaben')
     .nullable(),
+  influencePurificationPlant: Yup.string().default('unknown'),
+  influenceCombinedSewerSystem: Yup.string().default('unknown'),
+  influenceRainwater: Yup.string().default('unknown'),
+  influenceAgriculture: Yup.string().default('unknown'),
 });

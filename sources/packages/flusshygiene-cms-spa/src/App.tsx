@@ -18,20 +18,6 @@ const App: React.FC = () => {
       <div className='pageloader is-active'>
         <h1 className='title'>Lade Daten vom Server</h1>
       </div>
-      // <main className='section'>
-      //   <BrowserRouter>
-      //     <header>
-      //       <NavBar />
-      //     </header>
-      //   </BrowserRouter>
-      //   <div className='columns is-centered'>
-      //     <div className='column is-10'>
-      //       <h1 className='is-title is-1'>
-      //         Verbinde mit dem Authetifizierungs-Server
-      //       </h1>
-      //     </div>
-      //   </div>
-      // </main>
     );
   }
 

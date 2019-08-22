@@ -70,6 +70,10 @@ export interface IBathingspot {
   measurements?: IObject[];
   rawModelData?: IObject[];
   region?: IObject;
+  influencePurificationPlant?: 'yes' | 'no' | 'unknown';
+  influenceCombinedSewerSystem?: 'yes' | 'no' | 'unknown';
+  influenceRainwater?: 'yes' | 'no' | 'unknown';
+  influenceAgriculture?: 'yes' | 'no' | 'unknown';
 }
 
 // redux state
