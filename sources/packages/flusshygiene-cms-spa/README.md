@@ -1,5 +1,7 @@
 # Flusshygiene CMS SPA
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/technologiestiftung/flusshygiene-cms-spa.svg)](https://greenkeeper.io/)
+
 A Single Page Application (SPA) for interacting with the [technologiestiftung/flusshygiene-postgres-api](https://github.com/technologiestiftung/flusshygiene-postgres-api). Part of the FLusshygiene project.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
