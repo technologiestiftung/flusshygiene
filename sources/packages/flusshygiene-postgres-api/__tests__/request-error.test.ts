@@ -1,4 +1,3 @@
-import { resolve } from 'path';
 /**
  * lets assume the the DB connection does not esist
  * all request should throw internal server errors
@@ -6,27 +5,33 @@ import { resolve } from 'path';
  */
 import { Application } from 'express';
 import express = require('express');
+import { resolve } from 'path';
+import path from 'path';
 import request from 'supertest';
+import { Connection } from 'typeorm';
 import {
   getBathingspots,
   getSingleBathingspot,
 } from '../src/lib/request-handlers/bathingspots';
 import routes from '../src/lib/routes';
-import path from 'path';
 import {
-  readTokenFromDisc,
-  createTestingConnections,
   closeTestingConnections,
+  createTestingConnections,
+  readTokenFromDisc,
 } from './test-utils';
-import { Connection } from 'typeorm';
-let app: Application;
+// let app: Application;
 const token = readTokenFromDisc(path.resolve(__dirname, './.test.token.json'));
 const headers = {
-  authorization: `${token.token_type} ${token.access_token}`,
   Accept: 'application/json',
+  authorization: `${token.token_type} ${token.access_token}`,
 };
-
-beforeAll(() => {});
+const originalError = console.error;
+beforeAll(() => {
+  console.error = jest.fn();
+});
+afterAll(() => {
+  console.error = originalError;
+});
 describe('testing missing db connection', () => {
   let app: Application;
   let connections: Connection[];

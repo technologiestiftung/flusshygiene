@@ -24,6 +24,7 @@ import {
 import {
   closeTestingConnections,
   createTestingConnections,
+  randomString,
   readTokenFromDisc,
   reloadTestingDatabases,
 } from '../../test-utils';
@@ -42,7 +43,13 @@ const headers = {
   Accept: 'application/json',
   authorization: `${token.token_type} ${token.access_token}`,
 };
-
+const originalError = console.error;
+beforeAll(() => {
+  console.error = jest.fn();
+});
+afterAll(() => {
+  console.error = originalError;
+});
 describe('testing bathingspots collection', () => {
   let app: Application;
   let connections: Connection[];
@@ -94,13 +101,30 @@ describe('testing bathingspots collection', () => {
   // ██████╔╝╚██████╔╝██║ ╚████║███████╗
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
-  test('route get users bathingspots collection rains', async (done) => {
+  // ╔═╗╔═╗╔═╗╔╦╗
+  // ╠═╝║ ║╚═╗ ║
+  // ╩  ╚═╝╚═╝ ╩
+
+  test('post collection item should expect array or object', async (done) => {
+    const arr = [
+      {
+        comment: 'This is a bulk post 1',
+        date: '2019-12-31',
+        dateTime: '12:00:01',
+        value: Math.random() * 10,
+      },
+      {
+        comment: 'This is a bulk post 2',
+        date: '2019-12-31',
+        dateTime: '12:00:02',
+        value: Math.random() * 10,
+      },
+    ];
     const res = await request(app)
-      .get('/api/v1/users/1/bathingspots/1/rains')
+      .post('/api/v1/users/1/bathingspots/1/rains')
+      .send(arr)
       .set(headers);
-    expect(res.status).toBe(200);
-    expect(Array.isArray(res.body.data)).toBe(true);
-    expect(res.body.success).toBe(true);
+    expect(res.status).toBe(201);
     done();
   });
 
@@ -164,6 +188,40 @@ describe('testing bathingspots collection', () => {
     done();
   });
 
+  test('route BULK POST users bathingspot collection genericInputs measurement', async (done) => {
+    const arr = [
+      {
+        comment: 'This is a bulk test 1',
+        date: '2019-12-31',
+        dateTime: '12:00:01',
+        value: Math.random() * 10,
+      },
+      {
+        comment: 'This is a bulk test 2',
+        date: '2019-12-31',
+        dateTime: '12:00:02',
+        value: Math.random() * 10,
+      },
+    ];
+    const resCreate = await request(app)
+      .post('/api/v1/users/1/bathingspots/1/genericInputs/')
+      .send({ name: 'bulk' })
+      .set(headers);
+    // console.log(resCreate.body);
+    const res = await request(app)
+      .post(
+        `/api/v1/users/1/bathingspots/1/genericInputs/${resCreate.body.data[0].id}/measurements`,
+      )
+      .send(arr)
+      .set(headers);
+    expect(res.status).toBe(201);
+    expect(res.body.data.length).toBe(2);
+    expect(res.body.success).toBe(true);
+
+    // console.log(res);
+    done();
+  });
+
   test('getColletionItemById should return specific entitiy GenericInput', async (done) => {
     const res = await request(app)
       .post('/api/v1/users/1/bathingspots/1/genericInputs/')
@@ -188,6 +246,7 @@ describe('testing bathingspots collection', () => {
     expect(entity instanceof PurificationPlant).toBe(true);
     done();
   });
+
   test('getColletionItemById should return specific entitiy Discharge', async (done) => {
     const res = await request(app)
       .post('/api/v1/users/1/bathingspots/1/discharges/')
@@ -197,6 +256,7 @@ describe('testing bathingspots collection', () => {
     expect(entity instanceof Discharge).toBe(true);
     done();
   });
+
   test('getColletionItemById should return specific entitiy GlobalIrradiance', async (done) => {
     const res = await request(app)
       .post('/api/v1/users/1/bathingspots/1/globalIrradiances/')
@@ -209,6 +269,17 @@ describe('testing bathingspots collection', () => {
     expect(entity instanceof GlobalIrradiance).toBe(true);
     done();
   });
+
+  test('route get users bathingspots collection rains', async (done) => {
+    const res = await request(app)
+      .get('/api/v1/users/1/bathingspots/1/rains')
+      .set(headers);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.success).toBe(true);
+    done();
+  });
+
   test('getColletionItemById should return specific entitiy BathingspotMeasurement', async (done) => {
     const res = await request(app)
       .post('/api/v1/users/1/bathingspots/1/measurements/')
@@ -256,25 +327,29 @@ describe('testing bathingspots collection', () => {
     //   .send({ name: 'foo' })
     //   .set(headers);
     // const entity = await
-    expect(getColletionItemById('1', 'foo')).rejects.toThrow(Error);
+    expect(getColletionItemById('1', randomString())).rejects.toBeInstanceOf(
+      Error,
+    );
+    done();
+  });
+  test('getColletionItemById should return undefiend', async (done) => {
+    expect(getPPlantWithRelations('100')).resolves.toBe(undefined);
     done();
   });
   test('getColletionItemById should throw an error', async (done) => {
-    // const res = await request(app)
-    //   .post('/api/v1/users/1/bathingspots/1/genericInputs/')
-    //   .send({ name: 'foo' })
-    //   .set(headers);
-    // const entity = await
-    expect(getPPlantWithRelations('1')).rejects.toThrow(Error);
+    expect(getGIWithRelations('100')).resolves.toBe(undefined);
     done();
   });
-  test('getColletionItemById should throw an error', async (done) => {
-    // const res = await request(app)
-    //   .post('/api/v1/users/1/bathingspots/1/genericInputs/')
-    //   .send({ name: 'foo' })
-    //   .set(headers);
-    // const entity = await
-    expect(getGIWithRelations('1')).rejects.toThrow(Error);
+
+  // ┌┬┐┌─┐┬  ┌─┐┌┬┐┌─┐
+  //  ││├┤ │  ├┤  │ ├┤
+  // ─┴┘└─┘┴─┘└─┘ ┴ └─┘
+
+  test('testing delete fail for not existing element', async (done) => {
+    const res = await request(app)
+      .delete('/api/v1/users/1/bathingspots/1/predictions/100')
+      .set(headers);
+    expect(res.status).toBe(404);
     done();
   });
 });

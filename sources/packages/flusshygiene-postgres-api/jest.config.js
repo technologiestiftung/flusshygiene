@@ -14,7 +14,7 @@ module.exports = {
   globalTeardown: '<rootDir>/__tests__/jest.teardown.ts',
   moduleFileExtensions: ['js', 'json', 'jsx', 'node', 'ts', 'tsx'],
   collectCoverage: true,
-  coverageReporters: ['lcov', 'text', 'text'],
+  coverageReporters: ['lcov', 'text'],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/index.ts',

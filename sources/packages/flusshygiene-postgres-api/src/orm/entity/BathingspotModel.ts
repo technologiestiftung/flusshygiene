@@ -31,6 +31,8 @@ export class BathingspotModel {
 
   @Column({ type: 'text', nullable: true })
   public comment!: string;
+  @Column({ type: 'text', nullable: true })
+  public evaluation!: string;
 
   @ManyToOne((_type) => Bathingspot, (bathingspot) => bathingspot.models, {
     cascade: true,

@@ -64,7 +64,7 @@ export const errorResponse: ErrorResponder = (error) => {
       console.error(error.name);
       console.error(error.message);
       // console.error(error.stack);
-      console.trace();
+      // console.trace();
 
       return buildPayload(false, error.message, undefined);
     } else if (error instanceof ValidationError) {

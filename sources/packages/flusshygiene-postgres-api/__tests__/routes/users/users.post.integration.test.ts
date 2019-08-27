@@ -123,8 +123,8 @@ describe('testing post users', () => {
     expect(res.status).toBe(404);
   });
 
-  test('add user shoud fail due to missing firstName', async () => {
-    expect.assertions(1);
+  test('add user shoud fail due to missing firstName', async (done) => {
+    // expect.assertions(1);
     const res = await request(app)
       .post('/api/v1/users')
       .send({
@@ -134,6 +134,7 @@ describe('testing post users', () => {
       })
       .set(headers);
     expect(res.status).toBe(404);
+    done();
   });
 
   test('add user shoud fail due to missing lastName', async () => {

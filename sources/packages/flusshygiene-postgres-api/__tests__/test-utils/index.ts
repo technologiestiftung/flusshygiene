@@ -1,28 +1,27 @@
-import rq from 'request-promise-native';
-import fs from 'fs';
-import util from 'util';
-import path from 'path';
 import { config } from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import rq from 'request-promise-native';
 import { Connection, createConnection, getRepository } from 'typeorm';
-
+import util from 'util';
 import { DefaultRegions, UserRole } from '../../src/lib/common';
 import {
-  Rain,
-  GlobalIrradiance,
-  Discharge,
-  PurificationPlant,
-  PPlantMeasurement,
-  GenericInput,
-  GInputMeasurement,
-  Event,
-  User,
-  Region,
-  Questionaire,
   Bathingspot,
+  BathingspotMeasurement,
   BathingspotModel,
   BathingspotPrediction,
   BathingspotRawModelData,
-  BathingspotMeasurement,
+  Discharge,
+  Event,
+  GenericInput,
+  GInputMeasurement,
+  GlobalIrradiance,
+  PPlantMeasurement,
+  PurificationPlant,
+  Questionaire,
+  Rain,
+  Region,
+  User,
 } from '../../src/orm/entity';
 
 import { createUser } from '../../src/setup/create-test-user';
@@ -225,4 +224,15 @@ export const getNewToken: (
     console.error(error.message);
     throw error;
   }
+};
+
+export const randomString: () => string = () => {
+  return (
+    Math.random()
+      .toString(36)
+      .substring(2, 15) +
+    Math.random()
+      .toString(36)
+      .substring(2, 15)
+  );
 };
