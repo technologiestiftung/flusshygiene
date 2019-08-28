@@ -3,31 +3,29 @@ name: Node CI
 on: [push, pull_request]
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [8.x, 10.x, 12.x]
-
     steps:
-    - uses: actions/checkout@v1
-      name: Checkout source
-      run: docker-compose up -d postgres
-    - uses: actions/setup-node@v1
-      name: Use Node.js ${{ matrix.node-version }}
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
-      run: |
-        npm ci
-        npm test
-        npm run build --if-present
-      env:
-        CI: true
-        AWS_BUCKET_DEV: test
-        AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
-        AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
-        AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
-        AUTH0_REQ_URL: ${{ secrets.AUTH0_REQ_URL }}
-        JWKS_URI: ${{ secrets.JWKS_URI }}
+      - name: Checkout source
+        uses: actions/checkout@v1
+        run: docker-compose up -d postgres
+      - uses: actions/setup-node@v1
+        name: Use Node.js ${{ matrix.node-version }}
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and test
+        run: |
+          npm ci
+          npm test
+          npm run build --if-present
+        env:
+          CI: true
+          AWS_BUCKET_DEV: test
+          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+          AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+          AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
+          AUTH0_REQ_URL: ${{ secrets.AUTH0_REQ_URL }}
+          JWKS_URI: ${{ secrets.JWKS_URI }}
