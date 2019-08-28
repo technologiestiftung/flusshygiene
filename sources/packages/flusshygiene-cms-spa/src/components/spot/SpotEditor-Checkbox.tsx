@@ -2,7 +2,7 @@ import { Field, ErrorMessage } from 'formik';
 import '../../assets/styles/spot-editor-checkbox.scss';
 // SpotEditorCheckbox.tsx;
 import React from 'react';
-export const SpotEditorCheckbox: React.SFC<{
+export const SpotEditorCheckbox: React.FC<{
   name: string;
   type: string;
   label: string;
@@ -18,7 +18,7 @@ export const SpotEditorCheckbox: React.SFC<{
         <div className='field'>
           <div className='control'>
             <label htmlFor={name} className='checkbox'>
-              <Field type='checkbox' name={name} checked={value} />
+              <Field type='checkbox' name={name} checked={value} id={name} />
               <span className='form__checkbox--distance'>{label}</span>
             </label>
             <ErrorMessage

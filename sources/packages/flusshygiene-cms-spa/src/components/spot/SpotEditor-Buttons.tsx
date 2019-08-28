@@ -20,6 +20,7 @@ export const SpotEditorButtons: React.FC<{
           type='button'
           disabled={isSubmitting}
           onClick={handleEditModeClick}
+          data-testid={'handle-edit-mode-button'}
         >
           Abbrechen
         </button>

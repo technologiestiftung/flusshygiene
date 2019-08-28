@@ -13,7 +13,7 @@ import { SpotLocation } from './spot/SpotLocation';
 import { useMapResizeEffect } from '../hooks/map-hooks';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useRef, useEffect, useState } from 'react';
-import SpotEditor from './spot/SpotEditor';
+import { SpotEditor } from './spot/SpotEditor';
 import SpotsMap from './SpotsMap';
 
 import '../assets/styles/spot-editor.scss';

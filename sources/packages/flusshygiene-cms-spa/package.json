@@ -7,6 +7,9 @@
     "@deck.gl/core": "^7.2.2",
     "@deck.gl/layers": "^7.2.2",
     "@deck.gl/react": "^7.2.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.21",
+    "@fortawesome/free-solid-svg-icons": "^5.10.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "@storybook/addon-info": "^5.1.11",
     "@testing-library/react": "^9.1.3",
     "@types/auth0": "^2.9.20",
@@ -83,13 +86,32 @@
     "lint-staged": "^9.2.3",
     "prettier": "^1.18.2",
     "react-test-renderer": "^16.9.0",
-    "require-context.macro": "^1.1.1"
+    "require-context.macro": "^1.1.1",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.3.0"
   },
   "jest": {
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": -10
+      }
+    },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
-      "!<rootDir>/__test-utils"
+      "!<rootDir>/__test-utils",
+      "!**/coverage/**",
+      "!src/setup/**",
+      "!src/react-auth0-wrapper.tsx",
+      "!src/serviceWorker.ts",
+      "!src/stories/**"
     ]
   },
   "husky": {

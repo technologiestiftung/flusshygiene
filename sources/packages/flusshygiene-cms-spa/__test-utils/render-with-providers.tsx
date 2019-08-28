@@ -7,7 +7,15 @@ import { render as rtlRender } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Auth0Provider } from '../src/react-auth0-wrapper';
 import { onRedirectCallback } from '../src/lib/auth/on-redirect-callback';
-function render(ui: any, store: any, history?: any, ...rest: any[]) {
+import { createStore } from 'redux';
+import { reducer } from './empty-reducer';
+import { initialState } from './initial-state';
+
+jest.mock('../src/react-auth0-wrapper');
+function render(ui: any, store?: any, history?: any, ...rest: any[]) {
+  if (!store) {
+    store = createStore(reducer, initialState);
+  }
   if (!history) {
     history = createMemoryHistory();
   }

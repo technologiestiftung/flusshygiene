@@ -1,0 +1,72 @@
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung"
+  ],
+  [
+    3,
+    "Wassereinstieg",
+    "Ortsbegehung",
+    null,
+    "Wie sind Wasserein- und Ausstieg beschaffen?",
+    "Für weitere Informationen siehe:  Objektplanung Naturbäder  in: Koordinierungskreis Bäder (2013):  KOK-Richtlinien für den Bäderbau, 5. Auflage, Hrsg. Koordinierungskreis Bäder der Verbände Deutsche Gesellschaft für das Badewesen e. V., Deutscher Schwimm-Verband e. V., , Deutscher Olympischer Sportbund e. V.",
+    "Es existiert eine sichere Ein- und Ausstiegstelle (<0,5 m Wassertiefe) in flaches Badegewässer mit nur langsam abfallendem Gewässergrund (Gefälle weniger als 10 %).",
+    "Perfekt.",
+    "Keine weiteren Aktionen notwendig.",
+    "grün",
+    1,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Eine sichere Ein- und Ausstiegsstelle ins Badegewässer ist vorhanden, aber es existiert ein stark abfallender Gewässergrund bzw. starkes Gefälle >10% (schnell zunehmende Wassertiefe). ",
+    "Es ist ratsam, dass von dem stark abfallenden Gewässergrund ausgehende Gefahrenpotential und potentielle Maßnahmen zur Verringerung eben dieser Gefahr mit dem örtlichen Wasserrettungsdienst oder einem anderen Sachverständigen zu prüfen. ",
+    "Es ist ratsam, dass von\r\n dem stark abfallenden Gewässergrund ausgehende Gefahrenpotential und potentielle Maßnahmen zur Verringerung eben dieser Gefahr mit dem örtlichen Wasserrettungsdienst oder einem anderen Sachverständigen zu prüfen. ",
+    "Türkis",
+    0.8,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Es ist keine sichere Ein- und Ausstiegsstelle ins Badegewässer vorhanden (z.B. aufgrund einer steilen Uferböschung oder Ufermauer), jedoch ist genügend Fläche für eine Uferumgestaltung vorhanden.",
+    "Ein sicherer Ein- und Ausstieg aus dem Badegewässer ist sicherzustellen. Wenn dieser nicht vorhanden ist, müssen Maßnahmen geprüft werden um diesen herzustellen z.B. durch aufschütten eines Strandes, der Installation von Treppen oder Stegen.\r\nEs wird dringend empfohlen Sachverständige wie z.B. örtliche Wasserrettungsdienste oder die  Deutsche Gesellschaft für das Badewesen e. V. als Berater hinzuzuziehen ",
+    "Es müssen Maßnahmen geprüft werden um einen sicheren Ein- und Ausstieg herzustellen z.B. durch aufschütten eines Strandes, der Installation von Treppen oder Stegen.\r\nEs wird dringend empfohlen Sachverständige wie z.B. örtliche Wasserrettungsdienste oder die  Deutsche Gesellschaft für das Badewesen e. V. als Berater hinzuzuziehen ",
+    "orange",
+    0.3,
+    "Infrastruktur"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Es ist keine sichere Ein-und Ausstiegsstelle ins Badegewässer vorhanden und es ist keine Uferumgestaltung möglich.",
+    "K.O-Kriterium: Von einer weiteren Bearbeitung der Checkliste wird aufgrund des hohen Gefahrenpotentials vorbehaltlich abgeraten.",
+    "K.O-Kriterium: Aufgrund des hohen Gefahrenpotentials ist die Einrichtung einer Badestelle voraussichtich nicht möglich.",
+    "rot",
+    0,
+    null
+  ]
+]

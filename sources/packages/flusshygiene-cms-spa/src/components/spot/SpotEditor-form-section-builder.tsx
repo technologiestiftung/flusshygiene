@@ -6,7 +6,7 @@ import { IFormBuildData } from '../../lib/common/interfaces';
 
 export const formSectionBuilder: (
   data: IFormBuildData[],
-) => (JSX.Element | null)[] = (data) => {
+) => (JSX.Element | undefined)[] = (data) => {
   const res = data.map((datum, i) => {
     switch (datum.type) {
       case 'text':
@@ -40,8 +40,9 @@ export const formSectionBuilder: (
             options={datum.options!}
           />
         );
+      default:
+        return undefined;
     }
-    return null;
   });
   return res;
 };

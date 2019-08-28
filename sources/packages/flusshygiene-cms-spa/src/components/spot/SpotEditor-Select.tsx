@@ -18,7 +18,7 @@ export const SpotEditorSelect: React.FC<{
       </label>
       <div className='control'>
         <div className='select'>
-          <Field name={name} component='select' value={value}>
+          <Field name={name} component='select' value={value} id={name}>
             {options.map((opt, i) => {
               return (
                 <option value={opt.value} key={i}>

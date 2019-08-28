@@ -30,4 +30,5 @@ export const initialState = {
     error: null,
     truncated: false,
   },
+  questionaire: { data: [] },
 };

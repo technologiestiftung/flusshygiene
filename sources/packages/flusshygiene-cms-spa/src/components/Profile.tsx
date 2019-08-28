@@ -7,7 +7,7 @@ const Profile: React.FC = () => {
   const { loading, user } = useAuth0();
   const [you, setYou] = useState(user);
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     if (user.pgapiData !== undefined) {
       console.log('goz api data');
       setYou({ ...user });
@@ -26,7 +26,7 @@ const Profile: React.FC = () => {
             <h2>{value.user.name}</h2>
             <p>{value.user.email}</p>
             {(() => {
-              console.log('in consumer', value.user);
+              // console.log('in consumer', value.user);
               // setYou({ ...value.user });
               return null;
             })()}

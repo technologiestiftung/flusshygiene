@@ -1,17 +1,19 @@
 language: node_js
 node_js:
   - '10'
+env:
+  global:
+    - CI=true
 cache:
   directories:
     - node_modules
 before_script:
-  # running code climate
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 
 script:
-  - npm test
+  - npm t -- --coverage --watchAll=false --color
   - npm run build
 
 after_script:

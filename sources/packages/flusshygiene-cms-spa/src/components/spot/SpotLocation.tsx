@@ -38,6 +38,7 @@ export const SpotLocation: React.FC<ISpotBodyLocation> = (props) => {
       })()}
       <p>
         <a
+          data-testid='google-link'
           href={`https://maps.google.com/maps?daddr=${props.longitude},${props.latitude}`}
           target='_blank'
           rel='noopener noreferrer'

@@ -6,7 +6,7 @@ import { render } from '../../__test-utils/render-with-providers';
 import { createMemoryHistory } from 'history';
 import { Card } from '../components/spot/Card';
 
-it('renders Home without crashing', () => {
+it('renders The Card without crashing', () => {
   const store = createStore(reducer, initialState);
   const history = createMemoryHistory({ initialEntries: ['/'] });
   const card = render(

@@ -26,7 +26,7 @@ import { healthDepartmentData } from './form-data/healtdepartment-data';
 //   { text: 'Nein', value: 'no' },
 // ];
 
-const SpotEditor: React.FC<{
+export const SpotEditor: React.FC<{
   initialSpot: IBathingspot;
   handleEditModeClick: () => void;
 }> = ({ initialSpot, handleEditModeClick }) => {
@@ -76,13 +76,8 @@ const SpotEditor: React.FC<{
           callPutSpot(values).catch((err) => {
             console.error(err);
           });
-          // console.log(postDone);
           setSubmitting(postDone);
           handleEditModeClick();
-          // setTimeout(() => {
-          //   console.log(JSON.stringify(values, null, 2));
-          //   setSubmitting(false);
-          // }, 500);
         }}
       >
         {({
@@ -95,220 +90,15 @@ const SpotEditor: React.FC<{
           isSubmitting,
         }) => {
           const patchedAdditionalData = patchValues(values, additionalData);
-          // const oldadditionalData: IFormBuildData[] = [
-          //   { name: 'waterRescue', type: 'text', label: 'Wasserrettung' },
-          //   {
-          //     name: 'waterRescueThroughDLRGorASB',
-          //     type: 'checkbox',
-          //     label: 'Wasserrettung durch DLRG oder ASB?',
-          //     value:
-          //       values.waterRescueThroughDLRGorASB === undefined
-          //         ? false
-          //         : values.waterRescueThroughDLRGorASB,
-          //   },
-          //   {
-          //     name: 'lifeguard',
-          //     type: 'checkbox',
-          //     label: 'Rettungschwimmer vor Ort',
-          //     value: values.lifeguard === undefined ? false : values.lifeguard,
-          //   },
-          //   {
-          //     name: 'disabilityAccess',
-          //     type: 'checkbox',
-          //     label: 'Barrierefreie',
-          //     value:
-          //       values.disabilityAccess === undefined
-          //         ? false
-          //         : values.disabilityAccess,
-          //   },
-          //   {
-          //     name: 'disabilityAccessBathrooms',
-          //     type: 'checkbox',
-          //     label: 'Barrierefreie Waschräume',
-          //     value:
-          //       values.disabilityAccessBathrooms === undefined
-          //         ? false
-          //         : values.disabilityAccessBathrooms,
-          //   },
-          //   {
-          //     name: 'hasDisabilityAccesableEntrence',
-          //     type: 'checkbox',
-          //     label: 'Barrierefreier Eingang',
-          //     value:
-          //       values.hasDisabilityAccesableEntrence === undefined
-          //         ? false
-          //         : values.hasDisabilityAccesableEntrence,
-          //   },
-          //   {
-          //     name: 'restaurant',
-          //     type: 'checkbox',
-          //     label: 'Restaurant',
-          //     value:
-          //       values.restaurant === undefined ? false : values.restaurant,
-          //   },
-          //   {
-          //     name: 'snack',
-          //     type: 'checkbox',
-          //     label: 'Snack',
-          //     value: values.snack === undefined ? false : values.snack,
-          //   },
-          //   {
-          //     name: 'parkingSpots',
-          //     type: 'checkbox',
-          //     label: 'Parkplätze',
-          //     value:
-          //       values.parkingSpots === undefined ? false : values.parkingSpots,
-          //   },
-          //   {
-          //     name: 'bathrooms',
-          //     type: 'checkbox',
-          //     label: 'Waschräume',
-          //     value: values.bathrooms === undefined ? false : values.bathrooms,
-          //   },
 
-          //   {
-          //     name: 'bathroomsMobile',
-          //     type: 'checkbox',
-          //     label: 'Mobile Toiletten',
-          //     value:
-          //       values.bathroomsMobile === undefined
-          //         ? false
-          //         : values.bathroomsMobile,
-          //   },
-          //   {
-          //     name: 'dogban',
-          //     type: 'checkbox',
-          //     label: 'Hundeverbot',
-          //     value: values.dogban === undefined ? false : values.dogban,
-          //   },
-          // ];
           const patchedInfluenceData = patchValues(
             values,
             influenceData,
             'unknown',
           );
-          // const oldInfluenceData: IFormBuildData[] = [
-          //   {
-          //     type: 'select',
-          //     name: 'influencePurificationPlant',
-          //     label: 'kommunale Klärwerke',
-          //     value:
-          //       values.influencePurificationPlant === undefined
-          //         ? 'unknown'
-          //         : values.influencePurificationPlant,
-          //     options: optionsYNU,
-          //   },
-          //   {
-          //     type: 'select',
-          //     name: 'influenceCombinedSewerSystem',
-          //     label: 'Mischwassereinleitungen aus urbanen Gebieten',
-          //     value:
-          //       values.influenceCombinedSewerSystem === undefined
-          //         ? 'unknown'
-          //         : values.influenceCombinedSewerSystem,
-
-          //     options: optionsYNU,
-          //   },
-          //   {
-          //     type: 'select',
-
-          //     name: 'influenceRainwater',
-          //     label: 'Regenwassereileitung aus urbanen Gebieten',
-          //     value:
-          //       values.influenceRainwater === undefined
-          //         ? 'unknown'
-          //         : values.influenceRainwater,
-
-          //     options: optionsYNU,
-          //   },
-          //   {
-          //     type: 'select',
-          //     name: 'influenceAgriculture',
-          //     label: 'Einleitungen aus der Landwirtschaft',
-          //     value:
-          //       values.influenceAgriculture === undefined
-          //         ? 'unknown'
-          //         : values.influenceAgriculture,
-          //     options: optionsYNU,
-          //   },
-          // ];
-
-          // const healthDepartmentData: IFormBuildData[] = [
-          //   {
-          //     name: 'healthDepartment',
-          //     type: 'text',
-          //     label: 'Name',
-          //   },
-          //   {
-          //     name: 'healthDepartmentAddition',
-          //     type: 'text',
-          //     label: 'Zusatz',
-          //   },
-          //   {
-          //     name: 'healthDepartmentStreet',
-          //     type: 'text',
-          //     label: 'Straße',
-          //   },
-          //   {
-          //     name: 'healthDepartmentPostalCode',
-          //     type: 'number',
-          //     label: 'Postleitzahl',
-          //   },
-          //   {
-          //     name: 'healthDepartmentCity',
-          //     type: 'text',
-          //     label: 'Stadt',
-          //   },
-          //   {
-          //     name: 'healthDepartmentMail',
-          //     type: 'email',
-          //     label: 'E-Mail',
-          //   },
-          //   {
-          //     name: 'healthDepartmentPhone',
-          //     type: 'email',
-          //     label: 'Telefonnummer',
-          //   },
-          // ];
 
           const patchedBasisData = patchValues(values, basisData);
-          // const oldbasisData: IFormBuildData[] = [
-          //   { name: 'name', type: 'text', label: 'Name' },
-          //   { name: 'nameLong', type: 'text', label: 'Langer Name' },
-          //   {
-          //     name: 'water',
-          //     type: 'text',
-          //     label: 'Gewässer',
-          //   },
-          //   { name: 'district', type: 'text', label: 'Distrikt' },
-          //   { name: 'street', type: 'text', label: 'Straße' },
-          //   { name: 'postalCode', type: 'number', label: 'Postleitzahl' },
-          //   { name: 'city', type: 'text', label: 'Stadt' },
-          //   { name: 'website', type: 'text', label: 'Website URL' },
-          //   {
-          //     name: 'lastClassification',
-          //     type: 'text',
-          //     label: 'Letzte Klassifizierung',
-          //   },
-          //   { name: 'image', type: 'text', label: 'Bild URL' },
-          //   {
-          //     name: 'latitude',
-          //     type: 'number',
-          //     label: 'Latitude',
-          //   },
-          //   { name: 'longitude', type: 'number', label: 'Longitude' },
-          //   { name: 'elevation', type: 'number', label: 'Höhe über NN' },
-          //   { name: 'apiEndpoints', type: 'text', label: 'API Endpoints' },
-          //   {
-          //     name: 'cyanoPossible',
-          //     type: 'checkbox',
-          //     label: 'Cyanobakterien möglich',
-          //     value:
-          //       values.cyanoPossible === undefined
-          //         ? true
-          //         : values.cyanoPossible,
-          //   },
-          // ];
+
           return (
             <div className='modal is-active'>
               <div className='modal-background'></div>
@@ -352,5 +142,3 @@ const SpotEditor: React.FC<{
     </div>
   );
 };
-
-export default SpotEditor;
