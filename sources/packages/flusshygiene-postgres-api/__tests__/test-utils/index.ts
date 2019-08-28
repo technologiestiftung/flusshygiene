@@ -16,11 +16,13 @@ import {
   GenericInput,
   GInputMeasurement,
   GlobalIrradiance,
+  ImageFile,
   PPlantMeasurement,
   PurificationPlant,
   Questionaire,
   Rain,
   Region,
+  RModelFile,
   User,
 } from '../../src/orm/entity';
 
@@ -56,6 +58,8 @@ export async function createTestingConnections() {
       PPlantMeasurement,
       GenericInput,
       GInputMeasurement,
+      RModelFile,
+      ImageFile,
     ],
     host: 'localhost',
     logging: false,

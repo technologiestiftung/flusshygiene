@@ -18,6 +18,7 @@ import { BathingspotPrediction } from './BathingspotPrediction';
 import { Discharge } from './Discharge';
 import { GenericInput } from './GenericInput';
 import { GlobalIrradiance } from './GlobalIrradiance';
+import { ImageFile } from './ImageFile';
 import { PurificationPlant } from './PurificationPlant';
 import { Rain } from './Rain';
 // import { BathingspotRawModelData } from './BathingspotRawModelData';
@@ -132,7 +133,7 @@ export class Bathingspot {
   @Column({ nullable: true })
   public measuringPoint!: string;
 
-  @Column()
+  @Column({ nullable: false })
   public name!: string;
 
   @Column({ nullable: true })
@@ -349,6 +350,9 @@ export class Bathingspot {
 
   @OneToMany((_type) => Rain, (rain) => rain.bathingspot)
   public rains!: Rain[];
+
+  @OneToMany((_type) => ImageFile, (image) => image.bathingspot)
+  public images!: ImageFile[];
 
   // Listeners
 

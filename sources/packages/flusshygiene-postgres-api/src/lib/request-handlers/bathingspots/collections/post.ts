@@ -1,4 +1,23 @@
+import { HttpCodes, postResponse } from '../../../common';
+
+import { collectionNames } from './collections';
+
+import {
+  errorResponse,
+  responder,
+  responderWrongId,
+  successResponse,
+} from '../../responders';
+
+import { getSpot, getSpotWithRelation } from '../../../utils/spot-repo-helpers';
+
+import {
+  collectionRepoMapping,
+  getGIWithRelations,
+} from '../../../utils/collection-repo-helpers';
+
 import { getRepository } from 'typeorm';
+
 import {
   Bathingspot,
   BathingspotMeasurement,
@@ -10,33 +29,7 @@ import {
   GlobalIrradiance,
   PurificationPlant,
   Rain,
-} from '../../../orm/entity';
-import { getResponse, HttpCodes, postResponse } from '../../common';
-import { SUCCESS } from '../../messages';
-import {
-  collectionRepoMapping,
-  getColletionItemById,
-  getGIWithRelations,
-  getPPlantWithRelations,
-} from '../../utils/collection-repo-helpers';
-import { getSpot, getSpotWithRelation } from '../../utils/spot-repo-helpers';
-import {
-  errorResponse,
-  responder,
-  responderWrongId,
-  successResponse,
-} from '../responders';
-
-const collectionNames = [
-  'predictions',
-  'measurements',
-  'purificationPlants',
-  'models',
-  'genericInputs',
-  'globalIrradiances',
-  'discharges',
-  'rains',
-];
+} from '../../../../orm/entity';
 
 export const postCollectionsSubItem: postResponse = async (
   request,
@@ -105,152 +98,11 @@ export const postCollectionsSubItem: postResponse = async (
   }
 };
 
-export const getGenericInputMeasurements: getResponse = async (
-  request,
-  response,
-) => {
-  try {
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
-    const itemId = request.params.itemId;
-    const collectionName = request.params.collectionName;
-    const allowedRepos = ['genericInputs', 'purificationPlants'];
-    const repoName = collectionRepoMapping[collectionName];
-
-    if (allowedRepos.includes(collectionName) === false) {
-      responder(response, HttpCodes.badRequest, {
-        message: `"${collectionName}" not included in "${JSON.stringify(
-          allowedRepos,
-        )}"`,
-        success: false,
-      });
-    } else {
-      const spot = await getSpot(userId, spotId);
-      if (spot === undefined) {
-        responderWrongId(response);
-      } else {
-        let collection: GenericInput | PurificationPlant | undefined;
-        switch (repoName) {
-          case 'GenericInput':
-            collection = await getGIWithRelations(itemId);
-            break;
-          case 'PurificationPlant':
-            collection = await getPPlantWithRelations(itemId);
-            break;
-        }
-        if (collection === undefined) {
-          responderWrongId(response);
-        } else {
-          responder(
-            response,
-            HttpCodes.success,
-            successResponse(
-              `${repoName} measurements.`,
-              collection.measurements,
-            ),
-          );
-        }
-      }
-    }
-  } catch (error) {
-    responder(response, HttpCodes.internalError, errorResponse(error));
-  }
-};
-
-/**
- * @todo There is no saveguard that checks if we have the right spot and the right user. Needs to be addressed
- */
-export const getCollectionsSubItem: getResponse = async (request, response) => {
-  try {
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
-    const itemId = request.params.itemId;
-    const collectionName = request.params.collectionName;
-    if (collectionNames.includes(collectionName) === false) {
-      responder(response, HttpCodes.badRequest, {
-        message: `"${collectionName}" not included in "${JSON.stringify(
-          collectionNames,
-        )}"`,
-        success: false,
-      });
-    } else {
-      const spot = await getSpot(userId, spotId);
-      if (spot === undefined) {
-        responderWrongId(response);
-      } else {
-        const repoName = collectionRepoMapping[request.params.collectionName];
-        const collection = await getColletionItemById(itemId, repoName);
-        if (collection === undefined) {
-          responderWrongId(response);
-        } else {
-          responder(
-            response,
-            HttpCodes.success,
-            successResponse(`${itemId} from ${collectionName}`, [collection]),
-          );
-        }
-      }
-    }
-  } catch (error) {
-    responder(response, HttpCodes.internalError, errorResponse(error));
-  }
-};
-
-/**
- * A generic function for getting alll kinds
- * of collections like Rain, BathingspotMeasurement,
- * Predictions, Also Used for PPlants and GenericInputs.
- * Not the values though
- *
- */
-export const getCollection: getResponse = async (request, response) => {
-  try {
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
-    const collectionId = request.params.collection;
-    if (collectionNames.includes(collectionId) === false) {
-      responder(response, HttpCodes.badRequest, {
-        message: `"${collectionId}" not included in "${JSON.stringify(
-          collectionNames,
-        )}"`,
-        success: false,
-      });
-    } else {
-      const spot = await getSpot(userId, spotId); // await query.getOne();
-      if (spot === undefined) {
-        responderWrongId(response);
-      } else {
-        const spotWithRelation = await getSpotWithRelation(
-          spot.id,
-          collectionId,
-        ); // await query.getOne();
-        if (spotWithRelation === undefined) {
-          throw new Error(
-            `Spot with id ${spot.id} could not be loaded even though it exists`,
-          );
-        } else {
-          const entityObj = JSON.parse(JSON.stringify(spotWithRelation));
-          responder(
-            response,
-            HttpCodes.success,
-            successResponse(
-              `spot ${spotId} with ${collectionId}`,
-              entityObj[collectionId],
-            ),
-          );
-        }
-      }
-    }
-  } catch (error) {
-    responder(response, HttpCodes.internalError, errorResponse(error));
-  }
-};
-
 export const postCollection: postResponse = async (request, response) => {
   try {
     const userId = parseInt(request.params.userId, 10);
     const spotId = parseInt(request.params.spotId, 10);
-    const collectionId: string = request.params.collection;
+    const collectionId: string = request.params.collectionName;
     if (collectionNames.includes(collectionId) === false) {
       responder(response, HttpCodes.badRequest, {
         message: `"${collectionId}" not included in "${JSON.stringify(
@@ -412,48 +264,3 @@ export const postCollection: postResponse = async (request, response) => {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }
 };
-
-// delete
-
-export const deleteCollectionSubItem: postResponse = async (
-  request,
-  response,
-) => {
-  try {
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
-    const itemId = request.params.itemId;
-    const collectionId = request.params.collection;
-    if (collectionNames.includes(collectionId) === false) {
-      responder(response, HttpCodes.badRequest, {
-        message: `"${collectionId}" not included in "${JSON.stringify(
-          collectionNames,
-        )}"`,
-        success: false,
-      });
-    } else {
-      const spot = await getSpot(userId, spotId); // await query.getOne();
-      if (spot === undefined) {
-        responderWrongId(response);
-      } else {
-        const repoName = collectionRepoMapping[collectionId];
-        const repo: any = getRepository(repoName);
-        const entity = await getColletionItemById(itemId, repoName);
-        if (entity !== undefined) {
-          const res = await repo.remove(entity);
-          responder(
-            response,
-            HttpCodes.success,
-            successResponse(SUCCESS.successDelete200, [res]),
-          );
-        } else {
-          // console.log(entity);
-          responderWrongId(response);
-        }
-      }
-    }
-  } catch (error) {
-    responder(response, HttpCodes.internalError, errorResponse(error));
-  }
-};
-// put

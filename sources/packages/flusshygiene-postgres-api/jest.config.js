@@ -9,6 +9,7 @@ module.exports = {
     '^.+\\.ts?$': 'ts-jest',
   },
   testEnvironment: 'node',
+  setupFilesAfterEnv: ['<rootDir>/__tests__/jest.setup.after-env.ts'],
   testRegex: '/__tests__/.*\\.(test|spec)?\\.(ts|tsx)$',
   globalSetup: '<rootDir>/__tests__/jest.setup.ts',
   globalTeardown: '<rootDir>/__tests__/jest.teardown.ts',

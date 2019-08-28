@@ -2,6 +2,7 @@ jest.useFakeTimers();
 import express, { Application } from 'express';
 import path from 'path';
 import 'reflect-metadata';
+import { async } from 'rxjs/internal/scheduler/async';
 import request from 'supertest';
 import { Connection } from 'typeorm';
 import routes from '../../../src/lib/routes';
@@ -99,12 +100,166 @@ describe('GET all collection tyoe', () => {
     expect(Array.isArray(res.body.success)).toBe(false);
     done();
   });
+
   test(' should fail due to wrong spot id route GET user by id spot by id predictions', async (done) => {
     const res = await request(app)
       .get('/api/v1/users/1/bathingspots/1000/predictions')
       .set(headers);
     expect(res.status).toBe(404);
     expect(Array.isArray(res.body.success)).toBe(false);
+    done();
+  });
+
+  test(' should fail due to wrong collection id/name', async (done) => {
+    const spotRes = await request(app)
+      .post('/api/v1/users/1/bathingspots/')
+      .send({ name: 'water', isPublic: true })
+      .set(headers);
+    // console.log(spotRes.body);
+    const rainRes = await request(app)
+      .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rains`)
+      .send({
+        date: '08-Jan-1999',
+        dateTime: '05:23:42',
+        value: 1,
+      })
+      .set(headers);
+    // console.log(rainRes.body);
+    const resFail = await request(app)
+      .get(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rain`)
+      .set(headers);
+    // console.log(resFail.body);
+    expect(resFail.status).toBe(400);
+    expect(Array.isArray(resFail.body.success)).toBe(false);
+    done();
+  });
+
+  test(' should fail due to wrong collection id/name', async (done) => {
+    const spotRes = await request(app)
+      .post('/api/v1/users/1/bathingspots/')
+      .send({ name: 'water', isPublic: true })
+      .set(headers);
+    // console.log(spotRes.body);
+    const rainRes = await request(app)
+      .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rains`)
+      .send({
+        date: '08-Jan-1999',
+        dateTime: '05:23:42',
+        value: 1,
+      })
+      .set(headers);
+    // console.log(rainRes.body);
+    const resFail = await request(app)
+      .get(
+        `/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rain/${rainRes.body.data[0].id}`,
+      )
+      .set(headers);
+    // console.log(resFail.body);
+    expect(resFail.status).toBe(400);
+    expect(Array.isArray(resFail.body.success)).toBe(false);
+    done();
+  });
+
+  test(' should pass GET collection item', async (done) => {
+    const spotRes = await request(app)
+      .post('/api/v1/users/1/bathingspots/')
+      .send({ name: 'water', isPublic: true })
+      .set(headers);
+    // console.log(spotRes.body);
+    const rainRes = await request(app)
+      .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rains`)
+      .send({
+        date: '08-Jan-1999',
+        dateTime: '05:23:42',
+        value: 1,
+      })
+      .set(headers);
+    // console.log(rainRes.body);
+    const res = await request(app)
+      .get(
+        `/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rains/${rainRes.body.data[0].id}`,
+      )
+      .set(headers);
+    // console.log(res.body);
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    done();
+  });
+
+  test.todo(
+    'should pass GET genericInput Measurement ' /*, async (done) => {
+    const spotRes = await request(app)
+      .post('/api/v1/users/1/bathingspots/')
+      .send({ name: 'water', isPublic: true })
+      .set(headers);
+    // console.log(spotRes.body);
+    const giRes = await request(app)
+      .post(
+        `/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/genericInputs`,
+      )
+      .send({
+        name: 'generic input',
+      })
+      .set(headers);
+
+    const giMesRes = await request(app)
+      .post(
+        `/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/genericInputs/${giRes.body.data[0].id}/measurements`,
+      )
+      .send({
+        date: '08-Jan-1999',
+        dateTime: '05:23:42',
+        value: 1,
+      })
+      .set(headers);
+    console.log(giMesRes.body);
+    const res = await request(app)
+      .get(
+        // tslint:disable-next-line: max-line-length
+        `/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/genericInputs/${giRes.body.data[0].id}/measurements/${giMesRes.body.data[0].id}`,
+      )
+      .set(headers);
+    console.log(res.body);
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    done();
+  }*/,
+  );
+
+  test('should fail due to wrong spot ID', async (done) => {
+    const res = await request(app)
+      .get(`/api/v1/users/1/bathingspots/${1000}/rains/${1000}`)
+      .set(headers);
+    // console.log(res.body);
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
+    done();
+  });
+
+  test(' should fail GET collection item by wrong id', async (done) => {
+    const spotRes = await request(app)
+      .post('/api/v1/users/1/bathingspots/')
+      .send({ name: 'water', isPublic: true })
+      .set(headers);
+    // console.log(spotRes.body);
+    const rainRes = await request(app)
+      .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rains`)
+      .send({
+        date: '08-Jan-1999',
+        dateTime: '05:23:42',
+        value: 1,
+      })
+      .set(headers);
+    // console.log(rainRes.body);
+    const res = await request(app)
+      .get(
+        `/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rains/${rainRes
+          .body.data[0].id + 1}`,
+      )
+      .set(headers);
+    // console.log(res.body);
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
     done();
   });
   // ██████╗  █████╗ ███████╗███████╗

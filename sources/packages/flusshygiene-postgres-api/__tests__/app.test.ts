@@ -5,11 +5,13 @@ import app from '../src/lib/app';
 
 beforeAll(() => {});
 afterAll(() => {});
-describe.skip('default testing get requests', () => {
-  test('should response with 200 on /', async () => {
+describe('default testing get requests', () => {
+  test.todo(
+    'should response with 200 on / on ping route' /*, async () => {
     expect.assertions(2);
     const response = await request(app).get('/');
     expect(response.status).toBe(200);
     expect(response.text).toMatchSnapshot();
-  });
+  }*/,
+  );
 });

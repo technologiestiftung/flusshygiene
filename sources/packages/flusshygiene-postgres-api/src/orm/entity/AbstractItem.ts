@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  VersionColumn,
 } from 'typeorm';
 
 export abstract class AbstractItem {
@@ -16,4 +17,7 @@ export abstract class AbstractItem {
   @Column()
   @UpdateDateColumn()
   public updatedAt!: Date;
+
+  @VersionColumn()
+  public version!: number;
 }

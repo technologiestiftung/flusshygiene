@@ -15,6 +15,7 @@ export const collectionRepoMapping: IObject = {
   discharges: 'Discharge',
   genericInputs: 'GenericInput',
   globalIrradiances: 'GlobalIrradiance',
+  images: 'ImageFile',
   measurements: 'BathingspotMeasurement',
   models: 'BathingspotModel',
   predictions: 'BathingspotPrediction',

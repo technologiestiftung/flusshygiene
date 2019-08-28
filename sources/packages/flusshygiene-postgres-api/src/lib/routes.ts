@@ -12,14 +12,22 @@ import {
   getUserBathingspots,
   updateBathingspotOfUser,
 } from './request-handlers/bathingspots/';
+
+import { deleteCollectionSubItem } from './request-handlers/bathingspots/collections/delete';
 import {
-  deleteCollectionSubItem,
   getCollection,
   getCollectionsSubItem,
   getGenericInputMeasurements,
+} from './request-handlers/bathingspots/collections/get';
+import {
   postCollection,
   postCollectionsSubItem,
-} from './request-handlers/bathingspots/collections';
+} from './request-handlers/bathingspots/collections/post';
+import {
+  postFile,
+  postFileMiddleWare,
+  upload,
+} from './request-handlers/bathingspots/collections/post-file';
 import { getOneUsersBathingspotsByRegion } from './request-handlers/bathingspots/get';
 import { getBathingspotsByRegion } from './request-handlers/bathingspots/public-get';
 import { defaultGetResponse } from './request-handlers/defaults';
@@ -39,6 +47,7 @@ import {
   postUser,
   updateUser,
 } from './request-handlers/users/';
+import { s3 } from './s3';
 // import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
 
 const checkScopes = jwtAuthz(['admin', 'read:bathingspots']);
@@ -51,10 +60,17 @@ const router = Router();
 // }
 router.get('/', checkJwt, checkScopes, defaultGetResponse);
 
+// ┬ ┬┌─┐┌─┐┬─┐
+// │ │└─┐├┤ ├┬┘
+// └─┘└─┘└─┘┴└─
+
 router.get('/users', checkJwt, checkScopes, getUsers);
 // get user by id
 router.get('/users/:userId([0-9]+)', checkJwt, checkScopes, getUser);
 
+// ┬ ┬┌─┐┌─┐┬─┐  ┌─┐┌─┐┌─┐┌┬┐
+// │ │└─┐├┤ ├┬┘  └─┐├─┘│ │ │
+// └─┘└─┘└─┘┴└─  └─┘┴  └─┘ ┴
 router.get(
   '/users/:userId([0-9]+)/bathingspots',
   checkJwt,
@@ -75,8 +91,6 @@ router.get(
   checkScopes,
   getOneUserBathingspotById,
 );
-
-// add new spot to user
 
 router.post(
   '/users/:userId([0-9]+)/bathingspots',
@@ -99,12 +113,12 @@ router.delete(
   deleteBathingspotOfUser,
 );
 
-// POST and GET predictions from/to spot
+// ┌─┐┌─┐┬  ┬  ┌─┐┌─┐┌┬┐┬┌─┐┌┐┌
+// │  │ ││  │  ├┤ │   │ ││ ││││
+// └─┘└─┘┴─┘┴─┘└─┘└─┘ ┴ ┴└─┘┘└┘
 
-// GET measurements, predictions from
-// router.get('/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/predictions', checkJwt, checkScopes, getPredictions);
 router.get(
-  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)',
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
   checkJwt,
   checkScopes,
   getCollection,
@@ -133,19 +147,38 @@ router.post(
 );
 
 router.post(
-  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)',
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
   checkJwt,
   checkScopes,
   postCollection,
 );
+
 router.delete(
-  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collection([A-Za-z]+)/:itemId([0-9]+)',
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)',
   checkJwt,
   checkScopes,
   deleteCollectionSubItem,
 );
 
-// add new user
+// ╦ ╦╔═╗╦  ╔═╗╔═╗╔╦╗
+// ║ ║╠═╝║  ║ ║╠═╣ ║║
+// ╚═╝╩  ╩═╝╚═╝╩ ╩═╩╝
+// ┌─┐┌─┐┬  ┬  ┌─┐┌─┐┌┬┐┬┌─┐┌┐┌
+// │  │ ││  │  ├┤ │   │ ││ ││││
+// └─┘└─┘┴─┘┴─┘└─┘└─┘ ┴ ┴└─┘┘└┘
+const ul = upload(s3);
+router.post(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/upload/',
+  checkJwt,
+  checkScopes,
+  postFileMiddleWare,
+  ul.single('upload'),
+  postFile,
+);
+
+//  ╦ ╦╔═╗╔═╗╦═╗
+//  ║ ║╚═╗║╣ ╠╦╝
+//  ╚═╝╚═╝╚═╝╩╚═
 
 router.post('/users', checkJwt, checkScopes, postUser);
 // update user
@@ -153,6 +186,12 @@ router.put('/users/:userId([0-9]+)', checkJwt, checkScopes, updateUser);
 // delete user
 router.delete('/users/:userId([0-9]+)', checkJwt, checkScopes, deleteUser);
 
+// ┌─┐┌─┐┌─┐┌┬┐
+// └─┐├─┘│ │ │
+// └─┘┴  └─┘ ┴
+// ┌─┐┬ ┬┌┐ ┬  ┬┌─┐
+// ├─┘│ │├┴┐│  ││
+// ┴  └─┘└─┘┴─┘┴└─┘
 // get all bathingspots PUBLIC
 router.get('/bathingspots', getBathingspots);
 
@@ -163,6 +202,9 @@ router.get('/bathingspots/:region([a-z]+)', getBathingspotsByRegion);
 router.get('/regions', getAllRegions);
 router.get('/regions/:regionId([0-9]+)', getRegionById);
 
+// ┬─┐┌─┐┌─┐┬┌─┐┌┐┌┌─┐
+// ├┬┘├┤ │ ┬││ ││││└─┐
+// ┴└─└─┘└─┘┴└─┘┘└┘└─┘
 router.post('/regions', checkJwt, checkScopes, postRegion);
 router.put('/regions/:regionId([0-9]+)', checkJwt, checkScopes, putRegion);
 router.delete(

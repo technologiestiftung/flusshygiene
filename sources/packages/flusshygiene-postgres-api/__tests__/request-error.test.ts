@@ -249,6 +249,24 @@ describe('testing missing db connection', () => {
     done();
   });
 
+  it('should return 404 to get collection foo', async (done) => {
+    // getBathingspot);
+    const res = await request(app)
+      .get('/api/v1/users/1/bathingspot/1/foo')
+      .set(headers);
+    // console.log(res);
+    expect(res.status).toBe(404);
+    done();
+  });
+  it('should return 404 to get collection foo', async (done) => {
+    // getBathingspot);
+    const res = await request(app)
+      .get('/api/v1/users/1/bathingspot/1/predictions/1')
+      .set(headers);
+    // console.log(res);
+    expect(res.status).toBe(404);
+    done();
+  });
   // it('should throw an error return 500 delete region by id', async (done) => {
   //   // getBathingspot);
   //   // console.log(res);

@@ -4,7 +4,9 @@ sudo: required
 language: node_js
 node_js:
   - '10.15.3'
-
+env:
+  global:
+    - AWS_BUCKET_DEV=test
 before_script:
   # running code climate
   - sudo service postgresql stop

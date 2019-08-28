@@ -2,9 +2,9 @@ import { config } from 'dotenv';
 import path from 'path';
 
 import {
-  readTokenFromDisc,
   getNewToken,
   optionsTokenRequest,
+  readTokenFromDisc,
 } from './test-utils';
 config({ path: path.resolve(__dirname, './.env.test') });
 
@@ -20,7 +20,7 @@ config({ path: path.resolve(__dirname, './.env.test') });
 module.exports = async () => {
   const tokenFilePath = path.resolve(__dirname, './.test.token.json');
   console.log('Setup jest for all tests');
-  let token = readTokenFromDisc(tokenFilePath);
+  const token = readTokenFromDisc(tokenFilePath);
   // console.log(token);
   // process.exit(0);
   // try{
