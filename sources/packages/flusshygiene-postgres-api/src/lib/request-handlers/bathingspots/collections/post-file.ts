@@ -86,7 +86,7 @@ export const postFileMiddleWare = async (
 
 export const postFile: postResponse = async (request, response) => {
   try {
-    const spotId = parseInt(request.params.userId, 10);
+    const spotId = parseInt(request.params.spotId, 10);
     // const userId = parseInt(request.params.spotId, 10);
     const collectionName = request.params.collectionName;
     const spot = await getSpotWithRelation(spotId, collectionName);
@@ -94,7 +94,9 @@ export const postFile: postResponse = async (request, response) => {
 
     const repo: any = getRepository(repoName);
     const entity = repo.create();
+    console.log('url------->', request.file.location);
     const mergedEntity: ImageFile = repo.merge(entity, {
+      metaData: request.file,
       url: request.file.location,
     });
     let res: any;
@@ -117,7 +119,7 @@ export const postFile: postResponse = async (request, response) => {
     responder(
       response,
       HttpCodes.successCreated,
-      successResponse(`${collectionName} file posted.`, [request.file, res]),
+      successResponse(`${collectionName} file posted.`, [res]),
     );
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));

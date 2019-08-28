@@ -14,7 +14,7 @@ import {
   createMeasurements,
   createPredictions,
   createSpots,
-  // createSpotsDE,
+  createSpotsDE /*<--- include this*/,
 } from './import-existing-data';
 const spinner = ora('populating database');
 const infoSpinner = (text: string, spin: ora.Ora) => {
@@ -109,9 +109,9 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     // spinner.succeed();
     // spinner.start();
     infoSpinner('Importing existing Bathingspots', spinner);
-    // const spotsMeasDETuple = await createDESpots();
     const spots = await createSpots();
-    // const spotsDE = await createSpotsDE();
+
+    const spotsDE = await createSpotsDE(); // <--- include this
     // const spot = new Bathingspot();
     const regions: Region[] = [];
 
@@ -146,7 +146,7 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     userCreator.regions = [regions[0], regions[1]];
     userReporter.regions = [regions[0]];
     const arr: Bathingspot[] = [];
-    userCreator.bathingspots = arr.concat(spots /*spotsDE*/);
+    userCreator.bathingspots = arr.concat(spots /*, spotsDE */); // <--- include this
 
     // spinner.succeed();
     // spinner.start();
@@ -159,23 +159,17 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     infoSpinner('Saving spots', spinner);
 
     await connection.manager.save(spots);
+    await connection.manager.save(spotsDE);
 
     infoSpinner('Saving spots DE', spinner);
 
-    // await connection.manager.save(spotsMeasDETuple[0]);
-
     infoSpinner('Saving spots DE BathingspotMeasurement', spinner);
 
-    // await connection.manager.save(spotsMeasDETuple[1]);
-
-    // spinner.succeed();
-    // spinner.start();
     infoSpinner('Saving users', spinner);
 
     await connection.manager.save([userCreator, userReporter]);
     // now update all the spots with createMeasurements
-    // spinner.succeed();
-    // spinner.start();
+
     infoSpinner('Importing BathingspotMeasurement', spinner);
 
     const measurements = await createMeasurements();
@@ -185,8 +179,6 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
       entities: measurements,
     };
 
-    // spinner.succeed();
-    // spinner.start();
     infoSpinner('Adding BathingspotMeasurement to Bathingspots', spinner);
 
     await addEntitiesToSpot(opts);
@@ -203,24 +195,6 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     opts.entities = predictions;
     await addEntitiesToSpot(opts);
 
-    // for (const p of predictions) {
-    //   await connection.manager.save(p);
-
-    //   const bspot = await spotRepo.findOne({
-    //     where: {
-    //       oldId: p.oldId,
-    //     },
-    //   });
-    //   if (bspot !== undefined) {
-    //     if (bspot.predictions === undefined) {
-    //       bspot.predictions = [p];
-    //     } else {
-    //       bspot.predictions.push(p);
-    //     }
-    //     await connection.manager.save(bspot);
-    //   }
-    // }
-
     spinner.succeed();
     spinner.stop();
     spinner.succeed('Done');
@@ -228,21 +202,6 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     if (databaseEmpty === true && process.env.NODE_ENV === 'production') {
       // uh oh we are in production
       console.error('in production with empty DB?');
-      // const protectedUser = await getRepository(User).find({
-      //   where: {
-      //     protected: true,
-      //   },
-      // });
-      // if (protectedUser === undefined) {
-      //   // uh oh no protected user,
-      //   const newProtectedUser = createUser();
-      //   if (newProtectedUser !== undefined) {
-
-      //     await connection.manager.save(newProtectedUser);
-      //   } else {
-      //     throw new Error('could not create protected user');
-      //   }
-      // }
     }
   } catch (gobalError) {
     console.error(gobalError.message);

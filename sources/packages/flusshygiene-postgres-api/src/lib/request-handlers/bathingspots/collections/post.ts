@@ -27,6 +27,7 @@ import {
   GenericInput,
   GInputMeasurement,
   GlobalIrradiance,
+  ImageFile,
   PurificationPlant,
   Rain,
 } from '../../../../orm/entity';
@@ -137,6 +138,7 @@ export const postCollection: postResponse = async (request, response) => {
             | GenericInput
             | GlobalIrradiance
             | Rain
+            | ImageFile
           > = [];
           const mergedEntities: Array<
             | BathingspotPrediction
@@ -146,6 +148,7 @@ export const postCollection: postResponse = async (request, response) => {
             | GenericInput
             | GlobalIrradiance
             | Rain
+            | ImageFile
           > = [];
 
           if (Array.isArray(request.body) === false) {
@@ -163,7 +166,8 @@ export const postCollection: postResponse = async (request, response) => {
               | BathingspotModel
               | GenericInput
               | GlobalIrradiance
-              | Rain = repo.merge(entity, datum);
+              | Rain
+              | ImageFile = repo.merge(entity, datum);
 
             switch (collectionId) {
               case 'predictions':
@@ -243,6 +247,16 @@ export const postCollection: postResponse = async (request, response) => {
                     spotWithRelation.rains = [mEntity];
                   } else {
                     spotWithRelation.rains.push(mEntity);
+                  }
+                }
+                break;
+              case 'images':
+                {
+                  const mEntity = mergedEntity as ImageFile;
+                  if (spotWithRelation.images === undefined) {
+                    spotWithRelation.images = [mEntity];
+                  } else {
+                    spotWithRelation.images.push(mEntity);
                   }
                 }
                 break;
