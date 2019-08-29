@@ -384,6 +384,7 @@ export class Bathingspot {
           type: 'Feature',
         };
         const area = buffer(geojson as GeometryObject, 5, {
+          steps: 8,
           units: 'kilometers',
         });
         this.area = area.geometry as Polygon;

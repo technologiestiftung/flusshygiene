@@ -111,7 +111,8 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     infoSpinner('Importing existing Bathingspots', spinner);
     const spots = await createSpots();
 
-    const spotsDE = await createSpotsDE(); // <--- include this
+    const spotsDE =
+      process.env.FAST === undefined ? await createSpotsDE() : undefined; // <--- include this
     // const spot = new Bathingspot();
     const regions: Region[] = [];
 
@@ -146,7 +147,11 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     userCreator.regions = [regions[0], regions[1]];
     userReporter.regions = [regions[0]];
     const arr: Bathingspot[] = [];
-    userCreator.bathingspots = arr.concat(spots /*, spotsDE */); // <--- include this
+    if (process.env.FAST === undefined) {
+      userCreator.bathingspots = arr.concat(spots, spotsDE!); // <--- include this
+    } else {
+      userCreator.bathingspots = arr.concat(spots /*, spotsDE */); // <--- include this
+    }
 
     // spinner.succeed();
     // spinner.start();
@@ -159,7 +164,9 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     infoSpinner('Saving spots', spinner);
 
     await connection.manager.save(spots);
-    await connection.manager.save(spotsDE);
+    if (process.env.FAST === undefined) {
+      await connection.manager.save(spotsDE);
+    }
 
     infoSpinner('Saving spots DE', spinner);
 

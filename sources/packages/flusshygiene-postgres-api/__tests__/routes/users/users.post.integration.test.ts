@@ -24,8 +24,8 @@ const token = readTokenFromDisc(
   path.resolve(__dirname, '../../.test.token.json'),
 );
 const headers = {
-  authorization: `${token.token_type} ${token.access_token}`,
   Accept: 'application/json',
+  authorization: `${token.token_type} ${token.access_token}`,
 };
 
 describe('testing post users', () => {

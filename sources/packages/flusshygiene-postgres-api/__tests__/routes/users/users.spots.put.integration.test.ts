@@ -149,11 +149,11 @@ describe('testing users/bathingspot PUT', () => {
       .put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`)
       .send({
         apiEndpoints: {},
-        area: polygon,
+        area: polygon.geometry,
         elevation: 1,
         isPublic: true,
         latitude: 13,
-        location: point,
+        location: point.geometry,
         longitude: 52,
         name: 'Sweetwater',
         state: {},

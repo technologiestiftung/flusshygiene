@@ -5,7 +5,7 @@ import { HttpCodes, putResponse } from '../../common';
 import { SUCCESS } from '../../messages';
 import { getEntityFields } from '../../utils/get-entity-fields';
 import { getMatchingValues } from '../../utils/get-matching-values-from-request';
-import { createSpotWithValues } from '../../utils/spot-helpers';
+// import { createSpotWithValues } from '../../utils/spot-helpers';
 
 import { findByName } from '../../utils/region-repo-helpers';
 import { getSpot } from '../../utils/spot-repo-helpers';
@@ -38,12 +38,13 @@ export const updateBathingspotOfUser: putResponse = async (
           const region = await findByName(providedValues.region);
           if (region instanceof Region) {
             spotFromUser.region = region;
-          } else {
+          } /* else {
             throw new Error('region is undefined');
-          }
+          }*/
         }
-        const tmpSpot = await createSpotWithValues(providedValues);
-        spotRepo.merge(spotFromUser, tmpSpot);
+        // const tmpSpot = await createSpotWithValues(providedValues);
+        spotRepo.merge(spotFromUser, request.body);
+        // console.log(spotFromUser);
         const res = await spotRepo.save(spotFromUser);
         responder(
           response,

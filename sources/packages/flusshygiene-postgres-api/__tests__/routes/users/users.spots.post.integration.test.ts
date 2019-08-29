@@ -1,6 +1,7 @@
 import { HttpCodes } from './../../../src/lib/common';
 jest.useFakeTimers();
 import express, { Application } from 'express';
+import fs from 'fs';
 import path from 'path';
 import 'reflect-metadata';
 import request from 'supertest';
@@ -179,8 +180,8 @@ describe('testing bathingspots post for a specific user', () => {
   test('should add bathingspot to user', async (done) => {
     const userRepo = getRepository(User);
     const users: User[] = await userRepo.find({
-      where: { role: UserRole.creator },
       relations: ['bathingspots'],
+      where: { role: UserRole.creator },
     });
     const user: User = users[users.length - 1]; // last created user
     const id = user.id;
@@ -216,6 +217,31 @@ describe('testing bathingspots post for a specific user', () => {
     } else {
       throw new Error();
     }
+    done();
+  });
+
+  test('should post image reference to spot', async (done) => {
+    const res = await request(app)
+      .post(`/api/v1/users/${1}/bathingspots/1/images`)
+      .send({ url: 'http://placekitten.com/1080/540' })
+      .set(headers);
+    expect(res.status).toBe(201);
+    done();
+  });
+  test.skip('should post image  to spot', async (done) => {
+    const form = new FormData();
+    // const image = fs.createReadStream(
+    //   path.resolve(__dirname, '../../data/test.png'),
+    // );
+    form.append('name', 'Multer');
+    form.append('image', path.resolve(__dirname, '../../data/test.png'));
+    const formHeader = { ...headers };
+    formHeader.Accept = 'multipart/form-data';
+    const res = await request(app)
+      .post(`/api/v1/users/${1}/bathingspots/1/images`)
+      .send({ upload: form.get('image') })
+      .set(formHeader);
+    expect(res.status).toBe(201);
     done();
   });
 });

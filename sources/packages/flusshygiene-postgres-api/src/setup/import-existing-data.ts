@@ -193,7 +193,9 @@ export const getLatestFile: (
       return undefined;
     } else {
       const fileName = filteredFiles[filteredFiles.length - 1].name;
-      return `${opts.dataDirPath}/${fileName}`;
+      const filePath = `${opts.dataDirPath}/${fileName}`;
+      console.log(`using file ${filePath}`);
+      return filePath;
     }
   } catch (error) {
     throw error;
@@ -352,7 +354,7 @@ export const createSpots: () => Promise<Bathingspot[]> = async () => {
     const opts: ILatestfileOptions = {
       dataDirPath,
       extension: '.json',
-      prefix: 'bathingspots',
+      prefix: 'badestellen',
     };
     const spotsJsonPath = await getLatestFile(opts);
     if (spotsJsonPath === undefined) {
@@ -369,21 +371,21 @@ export const createSpots: () => Promise<Bathingspot[]> = async () => {
 
     // clean the BathingspotRawModelData
 
-    data.forEach((datum: any, i: number, arr: any[]) => {
+    data.forEach((datum: any, _i: number, _arr: any[]) => {
       // const spot: IObject = {};
       // if (datum.hasOwnProperty('id')) {
       //   delete arr[i].id;
       // }
-      let coord: any[];
-      if (datum.hasOwnProperty('ost') && datum.hasOwnProperty('nord')) {
-        try {
-          coord = proj4('EPSG:25833', 'EPSG:4326', [datum.ost, datum.nord]);
-          arr[i].latitude = parseFloat(coord[1].toFixed(5));
-          arr[i].longitude = parseFloat(coord[0].toFixed(5));
-        } catch (err) {
-          console.log('err', err);
-        }
-      }
+      // let coord: any[];
+      // if (datum.hasOwnProperty('ost') && datum.hasOwnProperty('nord')) {
+      //   try {
+      //     coord = proj4('EPSG:25833', 'EPSG:4326', [datum.ost, datum.nord]);
+      //     arr[i].latitude = parseFloat(coord[1].toFixed(5));
+      //     arr[i].longitude = parseFloat(coord[0].toFixed(5));
+      //   } catch (err) {
+      //     console.log('err', err);
+      //   }
+      // }
       const spot = mapObjects(nameMappingSpots, datum);
       // const keys: string[] = Object.keys(datum);
       // keys.forEach((key: string) => {
@@ -404,16 +406,16 @@ export const createSpots: () => Promise<Bathingspot[]> = async () => {
       //   }
       // });
       spot.isPublic = true;
-      const geojson: IObject = {
-        geometry: {
-          coordinates: [datum.longitude, datum.latitude],
-          type: 'Point',
-        },
-        properties: { name: datum.name },
-        type: 'Feature',
-      };
+      // const geojson: IObject = {
+      //   geometry: {
+      //     coordinates: [datum.longitude, datum.latitude],
+      //     type: 'Point',
+      //   },
+      //   properties: { name: datum.name },
+      //   type: 'Feature',
+      // };
 
-      spot.location = geojson;
+      // spot.location = geojson;
       res.push(spot);
     });
 
@@ -468,17 +470,17 @@ export const createSpotsDE: () => Promise<Bathingspot[]> = async () => {
             const lonUnparsed = json[i].LONGITUDE_BW;
             // const coords = proj4('ETRS89', 'EPSG:4326', [lonUnparsed, latUnparsed]);
             const coords = [lonUnparsed, latUnparsed];
-            const geojson: IObject = {
-              geometry: {
-                coordinates: [parseFloat(coords[1]), parseFloat(coords[0])],
-                type: 'Point',
-              },
-              properties: { name: json[0].BWID },
-              type: 'Feature',
-            };
-            spot.longitude = parseFloat(coords[1]);
-            spot.latitude = parseFloat(coords[0]);
-            spot.location = geojson.geometry;
+            // const geojson: IObject = {
+            //   geometry: {
+            //     coordinates: [parseFloat(coords[1]), parseFloat(coords[0])],
+            //     type: 'Point',
+            //   },
+            //   properties: { name: json[0].BWID },
+            //   type: 'Feature',
+            // };
+            spot.longitude = parseFloat(coords[0]);
+            spot.latitude = parseFloat(coords[1]);
+            // spot.location = geojson.geometry;
             spot.isPublic = true;
             newSpot = await spotRepo.save(spot);
             deSpots.push(newSpot);
