@@ -18,7 +18,13 @@ export const SpotEditorInput: React.FC<{
       <div className='field-body'>
         <div className='field'>
           <div className='control'>
-            <Field type={type} name={name} className=' input' id={name} />
+            <Field
+              type={type}
+              name={name}
+              className='input'
+              id={name}
+              data-testid={`test-input-${name}`}
+            />
             <ErrorMessage
               name={name}
               component='div'

@@ -32,4 +32,10 @@ export const basisData: IFormBuildData[] = [
     label: 'Cyanobakterien möglich',
     value: undefined,
   },
+  {
+    name: 'isPublic',
+    type: 'checkbox',
+    label: 'Öffentlich einsehbar',
+    value: undefined,
+  },
 ];

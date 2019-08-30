@@ -91,7 +91,7 @@ export const Auth0Provider = ({
         .then(handleErrors)
         .then((res) => res.json())
         .then((json) => {
-          console.log(json);
+          // console.log(json);
           if (user.sub === json.data[0].auth0Id) {
             user.pgapiData = json.data[0];
             setUser(user);

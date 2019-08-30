@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Container: React.FC<{
-  children: JSX.Element[] | JSX.Element | undefined;
+  children: JSX.Element[] | JSX.Element | undefined | boolean;
 }> = ({ children }) => {
   return (
     <div className='container info'>

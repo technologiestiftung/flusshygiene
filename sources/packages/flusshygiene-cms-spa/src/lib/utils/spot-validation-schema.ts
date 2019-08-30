@@ -86,11 +86,11 @@ export const editorSchema = Yup.object().shape({
   latitude: Yup.number()
     .min(-90, 'Kleiner als -90')
     .max(90, 'Größer als 90')
-    .nullable(),
+    .required('Bitte geben sie einen Wert für Latitide ein (z.B. 13.0123)'),
   longitude: Yup.number()
     .min(-180, 'Kleiner als -180')
     .max(180, 'Größer als 180')
-    .nullable(),
+    .required('Bitte geben sie einen Wert für Longitude ein (z.B. 52.0123)'),
   elevation: Yup.number().nullable(),
   region: Yup.string()
     .min(3, 'Mehr als drei Buchstaben')

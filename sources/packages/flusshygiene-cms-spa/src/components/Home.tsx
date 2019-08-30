@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSpots } from '../lib/state/reducers/actions/fetch-get-spots';
 import { Card } from './spot/Card';
@@ -6,9 +6,11 @@ import { RootState } from '../lib/state/reducers/root-reducer';
 import SpotsMap from './SpotsMap';
 import '../assets/styles/map.scss';
 import { useMapResizeEffect } from '../hooks/map-hooks';
-import { API_DOMAIN } from '../lib/common/constants';
+import { API_DOMAIN, DEFAULT_SPOT } from '../lib/common/constants';
 import { APIMountPoints, ApiResources } from '../lib/common/enums';
 import { IFetchSpotOptions } from '../lib/common/interfaces';
+import { Container } from './Container';
+import { SpotEditor } from './spot/SpotEditor';
 // react hooks based on
 // https://codesandbox.io/s/react-redux-hook-by-indrek-lasn-gyoq0
 // see also https://github.com/typescript-cheatsheets/react-typescript-cheatsheet
@@ -22,7 +24,13 @@ const Home: React.FC = () => {
   const dispatch = useDispatch();
   // const [dimensions, setDimensions] = useState({});
   const mapRef = useRef<HTMLDivElement>(null);
-
+  const [editMode, setEditMode] = useState(false);
+  const handleEditModeClick = () => {
+    setEditMode(!editMode);
+  };
+  const handleNewSpot = () => {
+    setEditMode(true);
+  };
   const mapDims = useMapResizeEffect(mapRef);
   // setMapDims(dims);
   // useEffect(() => {
@@ -61,9 +69,21 @@ const Home: React.FC = () => {
 
   return (
     <div className='index'>
+      {editMode === true && (
+        <Container>
+          <SpotEditor
+            initialSpot={DEFAULT_SPOT}
+            handleEditModeClick={handleEditModeClick}
+            newSpot={true}
+          />
+        </Container>
+      )}
       <div className='columns is-centered'>
         <div className='column is-10'>
           <h1 className='title is-1'>Badegewässer</h1>
+          <button className='button' onClick={handleNewSpot}>
+            Neue Badestelle
+          </button>
         </div>
       </div>
       <div className='columns is-centered'>

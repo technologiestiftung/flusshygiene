@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconInfo } from '../fa-icons';
+import { IconInfo } from '../fontawesome-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faInfo } from '@fortawesome/free-solid-svg-icons';
 export const QToolBar: React.FC<{ handleClick: () => void }> = ({

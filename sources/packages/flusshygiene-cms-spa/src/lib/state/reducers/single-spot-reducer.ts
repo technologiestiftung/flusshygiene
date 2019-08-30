@@ -19,6 +19,7 @@ const initialState: IState = {
     createdAt: new Date(2525),
     updatedAt: new Date(2525),
     name: 'Lade Badestellendaten',
+    isPublic: false,
   },
   loading: false,
   error: null,

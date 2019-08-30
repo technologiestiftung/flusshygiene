@@ -7,7 +7,7 @@ interface IState {
 const initialState: IState = { data: [] };
 
 export default (state = initialState, action) => {
-  console.log(action.payload);
+  // console.log(action.payload);
   switch (action.type) {
     case SET_ANSWER: {
       const res = {

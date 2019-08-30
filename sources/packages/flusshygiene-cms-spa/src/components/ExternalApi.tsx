@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth0 } from '../react-auth0-wrapper';
+import { API_DOMAIN } from '../lib/common/constants';
 
 const ExternalApi = () => {
   const [showResult, setShowResult] = useState(true);
@@ -10,16 +11,13 @@ const ExternalApi = () => {
     try {
       const token = await getTokenSilently();
       // console.log(token);
-      const response = await fetch(
-        'http://flsshygn-dev.eu-central-1.elasticbeanstalk.com/api/v1',
-        {
-          method: 'GET',
-          headers: {
-            'content-type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await fetch(`${API_DOMAIN}/api/v1`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       console.log(response);
       const responseData = await response.json();

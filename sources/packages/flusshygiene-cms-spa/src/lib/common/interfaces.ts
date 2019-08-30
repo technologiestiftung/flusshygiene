@@ -1,3 +1,6 @@
+import { IGeoJson } from './interfaces';
+import { FormikProps } from 'formik';
+
 export interface IObject {
   [key: string]: any;
 }
@@ -32,6 +35,7 @@ export interface IBathingspot {
   district?: string;
   street?: string;
   postalCode?: number;
+  isPublic: boolean;
   city?: string;
   website?: string;
   cyanoPossible?: boolean;
@@ -58,8 +62,8 @@ export interface IBathingspot {
   image?: string;
   apiEndpoints?: string;
   state?: string;
-  location?: object;
-  area?: object;
+  location?: IGeoJsonGeometry;
+  area?: IGeoJsonGeometry;
   latitude?: number;
   longitude?: number;
   elevation?: number;
@@ -97,3 +101,44 @@ export interface IFormOptions {
   text: string;
   value: string;
 }
+
+export interface IGeoJsonGeometry {
+  coordinates: any[];
+  type: 'Point' | 'Polygon';
+}
+export interface IGeoJsonFeature {
+  type: 'Feature';
+  geometry: IGeoJsonGeometry;
+  properties?: {
+    [key: string]: any;
+  };
+}
+export interface IGeoJson {
+  type: 'FeatureCollection';
+  features: IGeoJsonFeature[];
+}
+
+export interface IMapsProps {
+  width: number;
+  height: number;
+  data: IBathingspot | (IBathingspot | undefined)[] | undefined;
+  zoom?: number;
+  lat?: number;
+  lon?: number;
+}
+
+export interface IMapsEditorProps extends IMapsProps {
+  editMode: MapEditModes;
+  activeEditor?: MapEditors;
+  handleUpdates: (
+    e: React.ChangeEvent<any>,
+    location?: IGeoJsonGeometry,
+    area?: IGeoJsonGeometry,
+  ) => void;
+}
+// ╔╦╗┬ ┬┌─┐┌─┐┌─┐
+//  ║ └┬┘├─┘├┤ └─┐
+//  ╩  ┴ ┴  └─┘└─┘
+
+export type MapEditors = 'area' | 'location';
+export type MapEditModes = 'modify' | 'view' | 'drawPoint' | 'translate'; // "a"
