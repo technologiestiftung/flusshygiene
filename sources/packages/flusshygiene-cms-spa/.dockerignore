@@ -15,3 +15,16 @@ LICENSE
 .editorconfig
 .coverage
 __tests__
+__test-utils
+.github
+.netlify
+.storybook
+build-tools
+.gitignore
+.prettierignore
+jest.config.js
+lint-staged.config.js
+netlify.toml
+.netlify/
+prettier.config.js
+tsconfig.jest.json
