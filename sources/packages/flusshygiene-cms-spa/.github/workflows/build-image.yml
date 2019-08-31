@@ -31,4 +31,4 @@ jobs:
       - name: Build and push the image
         uses: actions/docker/cli-multi@master
         with:
-          args: '"build --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}}= --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}}= --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}}= --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}}  --label verion=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ." "push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"'
+          args: '"build --build-arg REACT_APP_API_HOST=${{secrets.REACT_APP_API_HOST}} --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}}= --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}}= --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}}= --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}}  --label verion=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ." "push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"'
