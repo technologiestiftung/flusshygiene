@@ -2,8 +2,7 @@
 FROM node:10.16.0-alpine as builder
 
 LABEL maintainer="Fabian Morón Zirfas"
-LABEL version="1.0.0"
-LABEL description="A API for a postgres db used in the project flusshygiene"
+LABEL description="An API for a postgres/postgis db used in the project flusshygiene"
 
 ENV NODE_ENV=development
 WORKDIR /usr/app

@@ -18,7 +18,7 @@ jobs:
           JWKS_URI: ${{ secrets.JWKS_URI }}
         with:
           node-version: 10.x
-      - run: npm ci
+      - run: npm ci --quit
       - run: npm run build
 
       - name: Docker login
@@ -31,4 +31,4 @@ jobs:
       - name: Build and push the image
         uses: actions/docker/cli-multi@master
         with:
-          args: '"build --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ." "push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"'
+          args: '"build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ." "push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"'

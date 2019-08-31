@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-app.get('/', (request, response) => {
+app.get('/api/v1/public', (request, response) => {
   const data = [
     '',
     '    _________________________',
