@@ -1,4 +1,4 @@
-import { API_DOMAIN, DEFAULT_SPOT_ID } from '../lib/common/constants';
+import { DEFAULT_SPOT_ID } from '../lib/common/constants';
 import { APIMountPoints, ApiResources, RouteNames } from '../lib/common/enums';
 import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-get-single-spot';
 import { IFetchSpotOptions } from '../lib/common/interfaces';
@@ -18,6 +18,7 @@ import SpotsMap from './SpotsMap';
 
 import '../assets/styles/spot-editor.scss';
 import { useAuth0 } from '../react-auth0-wrapper';
+import { REACT_APP_API_HOST } from '../lib/config';
 type RouteProps = RouteComponentProps<{ id: string }>;
 
 const Spot: React.FC<RouteProps> = ({ match }) => {
@@ -34,7 +35,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
   const fetchOpts: IFetchSpotOptions = {
     method: 'GET',
-    url: `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.bathingspots}/${match.params.id}`,
+    url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.bathingspots}/${match.params.id}`,
     headers: {},
   };
 

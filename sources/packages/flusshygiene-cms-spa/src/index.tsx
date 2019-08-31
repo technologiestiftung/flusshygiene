@@ -8,6 +8,11 @@ import { Auth0Provider } from './react-auth0-wrapper';
 import { Provider } from 'react-redux';
 import store from './lib/state/store';
 import ErrorBoundary from './components/ErrorBoundary';
+import {
+  REACT_APP_AUTH0_DOMAIN,
+  REACT_APP_AUTH0_CLIENTID,
+  REACT_APP_AUTH0_AUDIENCE,
+} from './lib/config';
 // import Toggle from './components/Toggle';
 // A function that routes the user to the right place
 // after login
@@ -25,10 +30,10 @@ ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
       <Auth0Provider
-        domain={process.env.REACT_APP_AUTH0_DOMAIN}
-        client_id={process.env.REACT_APP_AUTH0_CLIENTID}
+        domain={REACT_APP_AUTH0_DOMAIN}
+        client_id={REACT_APP_AUTH0_CLIENTID}
         redirect_uri={window.location.origin}
-        audience={process.env.REACT_APP_AUTH0_AUDIENCE}
+        audience={REACT_APP_AUTH0_AUDIENCE}
         onRedirectCallback={onRedirectCallback}
       >
         <App />

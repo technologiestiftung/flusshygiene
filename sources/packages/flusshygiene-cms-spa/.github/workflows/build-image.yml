@@ -1,0 +1,34 @@
+name: Docker Image CI
+
+on: [release]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+
+      # - name: test and build source
+      #   uses: actions/setup-node@master
+      #   env:
+      #     AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+      #     AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+      #     AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
+      #     AUTH0_REQ_URL: ${{ secrets.AUTH0_REQ_URL }}
+      #     JWKS_URI: ${{ secrets.JWKS_URI }}
+      #   with:
+      #     node-version: 10.x
+      # - run: npm ci
+      # - run: npm run build
+
+      - name: Docker login
+        uses: actions/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          CI: true
+
+      - name: Build and push the image
+        uses: actions/docker/cli-multi@master
+        with:
+          args: '"build --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}}= --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}}= --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}}= --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}}  --label verion=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ." "push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"'

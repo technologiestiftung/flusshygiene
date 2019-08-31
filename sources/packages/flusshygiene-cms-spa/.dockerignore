@@ -1,0 +1,17 @@
+node_modules
+build
+dist
+.vscode
+.env
+.test.token.json
+.env.test
+.env*
+*.env
+notes
+.snyk
+old.*
+LICENSE
+.travis.yml
+.editorconfig
+.coverage
+__tests__

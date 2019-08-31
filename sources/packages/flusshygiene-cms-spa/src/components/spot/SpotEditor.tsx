@@ -11,7 +11,6 @@ import {
 import { editorSchema } from '../../lib/utils/spot-validation-schema';
 import { nullValueTransform } from '../../lib/utils/spot-nullvalue-transformer';
 import { SpotEditorButtons } from './SpotEditor-Buttons';
-import { API_DOMAIN } from '../../lib/common/constants';
 import { APIMountPoints, ApiResources } from '../../lib/common/enums';
 import { useAuth0 } from '../../react-auth0-wrapper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +27,7 @@ import { healthDepartmentData } from './form-data/healtdepartment-data';
 import { useMapResizeEffect } from '../../hooks/map-hooks';
 import FormikSpotEditorMap from './SpotEditor-Map';
 import { SpotEditorMapToolbar } from './SpotEditorMapToolbar';
+import { REACT_APP_API_HOST } from '../../lib/config';
 // const optionsYNU: IFormOptions[] = [
 //   { text: 'Ja', value: 'yes' },
 //   { text: 'Unbekannt', value: 'unknown' },
@@ -128,9 +128,9 @@ export const SpotEditor: React.FC<{
 
     let url: string;
     if (newSpot === true) {
-      url = `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}`;
+      url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}`;
     } else {
-      url = `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}`;
+      url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}`;
     }
     const postOpts: IFetchSpotOptions = {
       method: newSpot === true ? 'POST' : 'PUT',

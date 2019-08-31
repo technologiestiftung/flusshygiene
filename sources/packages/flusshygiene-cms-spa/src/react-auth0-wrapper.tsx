@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import createAuth0Client from '@auth0/auth0-spa-js';
-import { API_DOMAIN } from './lib/common/constants';
 import { APIMountPoints, ApiResources } from './lib/common/enums';
 import { IFetchOptions, IFetchHeaders } from './lib/common/interfaces';
 import { handleErrors } from './lib/state/reducers/actions/fetch-common';
+import { REACT_APP_API_HOST } from './lib/config';
 
 const DEFAULT_REDIRECT_CALLBACK = (appState?: any) =>
   window.history.replaceState({}, document.title, window.location.pathname);
@@ -85,7 +85,7 @@ export const Auth0Provider = ({
         signal: signal,
       };
       fetch(
-        `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.users}?auth0Id=${user.sub}`,
+        `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}?auth0Id=${user.sub}`,
         opts,
       )
         .then(handleErrors)

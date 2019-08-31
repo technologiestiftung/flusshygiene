@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import DeckGL from '@deck.gl/react';
-import { StaticMap } from 'react-map-gl';
 import {
   IMapsEditorProps,
   IGeoJson,
@@ -8,6 +7,8 @@ import {
 } from '../../lib/common/interfaces';
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
 import { useFormikContext } from 'formik';
+import { StaticMap } from 'react-map-gl';
+import { REACT_APP_MAPBOX_API_TOKEN } from '../../lib/config';
 const initialViewState = {
   bearing: 0,
   latitude: 52,
@@ -214,9 +215,9 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
       })()}
     >
       <StaticMap
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_API_TOKEN}
         width={width}
         height={height}
+        mapboxApiAccessToken={REACT_APP_MAPBOX_API_TOKEN}
       />
     </DeckGL>
   );

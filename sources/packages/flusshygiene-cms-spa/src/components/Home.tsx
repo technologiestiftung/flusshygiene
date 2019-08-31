@@ -6,11 +6,12 @@ import { RootState } from '../lib/state/reducers/root-reducer';
 import SpotsMap from './SpotsMap';
 import '../assets/styles/map.scss';
 import { useMapResizeEffect } from '../hooks/map-hooks';
-import { API_DOMAIN, DEFAULT_SPOT } from '../lib/common/constants';
+import { DEFAULT_SPOT } from '../lib/common/constants';
 import { APIMountPoints, ApiResources } from '../lib/common/enums';
 import { IFetchSpotOptions } from '../lib/common/interfaces';
 import { Container } from './Container';
 import { SpotEditor } from './spot/SpotEditor';
+import { REACT_APP_API_HOST } from '../lib/config';
 // react hooks based on
 // https://codesandbox.io/s/react-redux-hook-by-indrek-lasn-gyoq0
 // see also https://github.com/typescript-cheatsheets/react-typescript-cheatsheet
@@ -57,7 +58,7 @@ const Home: React.FC = () => {
     if (!truncated) {
       return;
     }
-    const url = `${API_DOMAIN}/${APIMountPoints.v1}/${ApiResources.bathingspots}`;
+    const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.bathingspots}`;
     // console.log(url);
     const opts: IFetchSpotOptions = {
       url,

@@ -1,0 +1,6 @@
+export const REACT_APP_AUTH0_AUDIENCE = process.env.REACT_APP_AUTH0_AUDIENCE;
+export const REACT_APP_AUTH0_CLIENTID = process.env.REACT_APP_AUTH0_CLIENTID;
+export const REACT_APP_AUTH0_DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN;
+export const REACT_APP_MAPBOX_API_TOKEN =
+  process.env.REACT_APP_MAPBOX_API_TOKEN;
+export const REACT_APP_API_HOST = process.env.REACT_APP_API_HOST;

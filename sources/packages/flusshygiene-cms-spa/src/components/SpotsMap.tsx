@@ -1,12 +1,11 @@
 import React from 'react';
 import DeckGL from '@deck.gl/react';
-import { StaticMap } from 'react-map-gl';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { IMapsProps } from '../lib/common/interfaces';
 import { DEFAULT_SPOT_ID } from '../lib/common/constants';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../lib/state/reducers/root-reducer';
-// const MAPBOX_ACCESS_TOKEN = 'MAPBOX_ACCESS_TOKEN';
+import { StaticMap } from 'react-map-gl';
+import { REACT_APP_MAPBOX_API_TOKEN } from '../lib/config';
+
 const initialViewState = {
   bearing: 0,
   latitude: 52,
@@ -66,9 +65,9 @@ const SpotsMap: React.FC<IMapsProps> = ({
           />
         )}
       <StaticMap
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_API_TOKEN}
         width={width}
         height={height}
+        mapboxApiAccessToken={REACT_APP_MAPBOX_API_TOKEN}
       />
     </DeckGL>
   );
