@@ -65,6 +65,7 @@ export enum EnvSuffixes {
 export enum ApiResources {
   bathingspots = 'bathingspots',
   users = 'users',
+  measurements = 'measurements',
 }
 export enum APIMountPoints {
   v1 = 'api/v1',

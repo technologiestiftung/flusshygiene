@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import DeckGL from '@deck.gl/react';
-import {
-  IMapsEditorProps,
-  IGeoJson,
-  IBathingspot,
-} from '../../lib/common/interfaces';
+import { IMapsEditorProps, IGeoJson } from '../../lib/common/interfaces';
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
-import { useFormikContext } from 'formik';
+// import { useFormikContext } from 'formik';
 import { StaticMap } from 'react-map-gl';
 import { REACT_APP_MAPBOX_API_TOKEN } from '../../lib/config';
 const initialViewState = {
@@ -29,13 +25,13 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
   handleUpdates,
 }) => {
   // console.log(formik);
-  const { values /*, setValues*/ } = useFormikContext<IBathingspot>();
+  // const { values /*, setValues*/ } = useFormikContext<IBathingspot>();
   const [location, setLocation] = useState<IGeoJson>();
   const [area, setArea] = useState<IGeoJson>();
-  useEffect(() => {
-    console.log(values);
-    return () => {};
-  }, [values]);
+  // useEffect(() => {
+  //   console.log(values);
+  //   return () => {};
+  // }, [values]);
 
   useEffect(() => {
     if (data === undefined) return;

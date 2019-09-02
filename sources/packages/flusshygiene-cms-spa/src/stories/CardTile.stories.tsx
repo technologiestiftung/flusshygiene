@@ -1,15 +1,15 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
-import { Card } from '../components/spot/Card';
+import { CardTile } from '../components/spot/CardTile';
 import { MemoryRouter } from 'react-router';
 
-storiesOf('Card', module)
+storiesOf('CardTile', module)
   .addDecorator((story) => (
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
   .add('default', () => (
-    <Card
+    <CardTile
       title={'Sweetwater'}
       water={'Sweet'}
       id={1}

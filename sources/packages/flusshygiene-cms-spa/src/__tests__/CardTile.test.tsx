@@ -4,13 +4,13 @@ import { reducer } from '../../__test-utils/empty-reducer';
 import { initialState } from '../../__test-utils/initial-state';
 import { render } from '../../__test-utils/render-with-providers';
 import { createMemoryHistory } from 'history';
-import { Card } from '../components/spot/Card';
+import { CardTile } from '../components/spot/CardTile';
 
 it('renders The Card without crashing', () => {
   const store = createStore(reducer, initialState);
   const history = createMemoryHistory({ initialEntries: ['/'] });
   const card = render(
-    <Card
+    <CardTile
       title={'Foo'}
       id={1}
       water={undefined}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSpots } from '../lib/state/reducers/actions/fetch-get-spots';
-import { Card } from './spot/Card';
+import { CardTile } from './spot/CardTile';
 import { RootState } from '../lib/state/reducers/root-reducer';
 import SpotsMap from './SpotsMap';
 import '../assets/styles/map.scss';
@@ -12,6 +12,7 @@ import { IFetchSpotOptions } from '../lib/common/interfaces';
 import { Container } from './Container';
 import { SpotEditor } from './spot/SpotEditor';
 import { REACT_APP_API_HOST } from '../lib/config';
+import { useAuth0 } from '../react-auth0-wrapper';
 // react hooks based on
 // https://codesandbox.io/s/react-redux-hook-by-indrek-lasn-gyoq0
 // see also https://github.com/typescript-cheatsheets/react-typescript-cheatsheet
@@ -26,6 +27,7 @@ const Home: React.FC = () => {
   // const [dimensions, setDimensions] = useState({});
   const mapRef = useRef<HTMLDivElement>(null);
   const [editMode, setEditMode] = useState(false);
+  const { isAuthenticated } = useAuth0();
   const handleEditModeClick = () => {
     setEditMode(!editMode);
   };
@@ -82,9 +84,11 @@ const Home: React.FC = () => {
       <div className='columns is-centered'>
         <div className='column is-10'>
           <h1 className='title is-1'>Badegewässer</h1>
-          <button className='button' onClick={handleNewSpot}>
-            Neue Badestelle
-          </button>
+          {isAuthenticated !== undefined && isAuthenticated === true && (
+            <button className='button' onClick={handleNewSpot}>
+              Neue Badestelle
+            </button>
+          )}
         </div>
       </div>
       <div className='columns is-centered'>
@@ -100,22 +104,29 @@ const Home: React.FC = () => {
       </div>
       <div className='columns is-centered'>
         <div className='column is-10'>
-          <ul className='index__bathingspot-list'>
-            {spots.map((obj, i) => {
-              // return <li key={i}s>{obj.name}</li>;
-              return (
-                <Card
-                  title={obj.name}
-                  water={obj.water}
-                  id={obj.id}
-                  image={obj.image}
-                  hasPrediction={obj.hasPrediction}
-                  isUserLoggedIn={false}
-                  key={i}
-                />
-              );
-            })}
-          </ul>
+          {/* <ul className='index__bathingspot-list'> */}
+          <div className='tile is-ancestor'>
+            <div style={{ flexWrap: 'wrap' }} className='tile is-parent'>
+              {spots.map((obj, i) => {
+                // return <li key={i}s>{obj.name}</li>;
+
+                return (
+                  <div key={i} className='tile is-child is-3'>
+                    <CardTile
+                      title={obj.name}
+                      water={obj.water}
+                      id={obj.id}
+                      image={obj.image}
+                      hasPrediction={obj.hasPrediction}
+                      isUserLoggedIn={false}
+                      key={i}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {/* </ul> */}
         </div>
       </div>
     </div>

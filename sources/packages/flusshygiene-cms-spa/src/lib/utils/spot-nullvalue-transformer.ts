@@ -1,9 +1,9 @@
-import { IGeoJsonFeature } from './../common/interfaces';
+import { IGeoJsonFeature, IBathingspotExtend } from './../common/interfaces';
 import { IBathingspot } from '../common/interfaces';
 
-export const nullValueTransform: (spot: IBathingspot) => IBathingspot = (
-  spot,
-) => {
+export const nullValueTransform: (
+  spot: IBathingspot | IBathingspotExtend,
+) => IBathingspotExtend = (spot) => {
   // const explicitRemove = ['models', 'user', 'measurements'];
 
   // for (const key in spot) {
@@ -57,6 +57,7 @@ export const nullValueTransform: (spot: IBathingspot) => IBathingspot = (
     location: { type: 'point' },
     area: { type: 'polygon' },
     isPublic: { type: 'boolean' },
+    csvFile: { type: 'file' },
   };
 
   const emptyGeojson: IGeoJsonFeature = {
@@ -70,6 +71,9 @@ export const nullValueTransform: (spot: IBathingspot) => IBathingspot = (
     for (const patternKey in matchPatterns) {
       if (spotKey === patternKey && spot[spotKey] === null) {
         switch (matchPatterns[patternKey].type) {
+          case 'file':
+            spot[spotKey] = null;
+            break;
           case 'boolean':
             spot[spotKey] = undefined;
             break;

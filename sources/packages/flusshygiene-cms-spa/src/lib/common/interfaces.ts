@@ -1,4 +1,4 @@
-import { IGeoJson } from './interfaces';
+import { IGeoJson, IBathingspot } from './interfaces';
 import { FormikProps } from 'formik';
 
 export interface IObject {
@@ -17,6 +17,7 @@ export interface IFetchOptions {
 }
 export interface IFetchSpotOptions extends IFetchOptions {
   url: string;
+  update?: boolean;
 }
 
 export interface IBathingspot {
@@ -78,6 +79,35 @@ export interface IBathingspot {
   influenceCombinedSewerSystem?: 'yes' | 'no' | 'unknown';
   influenceRainwater?: 'yes' | 'no' | 'unknown';
   influenceAgriculture?: 'yes' | 'no' | 'unknown';
+}
+
+export interface IBathingspotExtend extends IBathingspot {
+  csvFile?: File;
+}
+
+export interface ICSVValidationErrorRes {
+  row: number;
+  message: string;
+}
+
+export interface IBathingspotMeasurement {
+  date: Date;
+  conc_ec: number;
+  conc_ec_txt?: string;
+  oldId?: number;
+  detailId?: number;
+  conc_ie: number;
+  conc_ie_txt?: string;
+  temp?: number;
+  algen?: boolean;
+  cb?: number;
+  sichtTxt?: string;
+  tempTxt?: string;
+  algenTxt?: string;
+  bsl?: string;
+  state?: string;
+  wasserqualitaet?: number;
+  wasserqualitaetTxt?: string;
 }
 
 // redux state

@@ -12,6 +12,7 @@ export const putSpot: (opts: IFetchSpotOptions) => void = ({
   headers,
   method,
   body,
+  update,
 }) => {
   return (dispatch) => {
     dispatch(postSpotBegin());
@@ -20,7 +21,9 @@ export const putSpot: (opts: IFetchSpotOptions) => void = ({
       .then((res) => res.json())
       .then((json) => {
         dispatch(postSpotSuccess(json.success, json.error));
-        dispatch(fetchSingleSpot({ url, method: 'GET', headers }));
+        if (update === true) {
+          dispatch(fetchSingleSpot({ url, method: 'GET', headers }));
+        }
       })
       .catch((error) => dispatch(postSpotFail(error)));
   };

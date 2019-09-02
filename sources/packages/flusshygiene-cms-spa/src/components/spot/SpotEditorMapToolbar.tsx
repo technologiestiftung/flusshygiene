@@ -7,6 +7,12 @@ import {
 } from '../fontawesome-icons';
 import { MapEditModes } from '../../lib/common/interfaces';
 
+const dropdownTexts = {
+  view: { text: ' Anzeige' },
+  modify: { text: 'Modifizieren' },
+  translate: { text: 'Bewegen' },
+};
+
 const Button = (props) => {
   return (
     <button
@@ -21,6 +27,7 @@ const Button = (props) => {
     </button>
   );
 };
+
 const DropDown: React.FC<{
   activeEditor: 'location' | 'area' | undefined;
   activeMode: MapEditModes;
@@ -49,7 +56,11 @@ const DropDown: React.FC<{
             setIsActive(!isActive);
           }}
         >
-          <span style={{ paddingRight: '0.5em' }}>{'Bearbeitungs Modus'}</span>
+          <span style={{ paddingRight: '0.5em' }}>{`Bearbeitungs Modus: ${
+            dropdownTexts[activeMode] !== undefined
+              ? dropdownTexts[activeMode].text
+              : ''
+          }`}</span>
           <span>
             <IconAngleDown />
           </span>
@@ -57,8 +68,8 @@ const DropDown: React.FC<{
             <i className='fas fa-angle-down' aria-hidden='true'></i>
           </span> */}
         </button>
-        <span> {activeEditor === undefined ? '' : activeEditor} </span>
-        <span> {activeMode === undefined ? '' : activeMode} </span>
+        {/* <span> {activeEditor === undefined ? '' : activeEditor} </span> */}
+        {/* <span> {activeMode === undefined ? '' : activeMode} </span> */}
       </div>
       <div className='dropdown-menu' id='dropdown-menu' role='menu'>
         <div className='dropdown-content'>

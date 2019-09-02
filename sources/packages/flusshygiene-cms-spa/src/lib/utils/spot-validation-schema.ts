@@ -101,3 +101,15 @@ export const editorSchema = Yup.object().shape({
   influenceRainwater: Yup.string().default('unknown'),
   influenceAgriculture: Yup.string().default('unknown'),
 });
+
+export const measurementsSchema = Yup.object().shape({
+  date: Yup.date().required(),
+  conc_ie: Yup.number()
+    .integer()
+    .positive()
+    .required(),
+  conc_ec: Yup.number()
+    .integer()
+    .positive()
+    .required(),
+});

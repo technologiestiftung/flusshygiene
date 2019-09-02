@@ -7,8 +7,18 @@ import {
   faMapMarker,
   faDrawPolygon,
   faAngleDown,
+  faFileCsv,
+  faFileUpload,
 } from '@fortawesome/free-solid-svg-icons';
-library.add(faInfo, faEdit, faMapMarker, faDrawPolygon, faAngleDown);
+library.add(
+  faInfo,
+  faEdit,
+  faMapMarker,
+  faDrawPolygon,
+  faAngleDown,
+  faFileCsv,
+  faFileUpload,
+);
 export const IconInfo: React.FC = () => <FontAwesomeIcon icon={'info'} />;
 export const IconAngleDown: React.FC = () => (
   <FontAwesomeIcon icon={'angle-down'} />
@@ -19,4 +29,9 @@ export const IconMapMarker: React.FC = () => (
 );
 export const IconPolygon: React.FC = () => (
   <FontAwesomeIcon icon={'draw-polygon'} />
+);
+
+export const IconCSV: React.FC = () => <FontAwesomeIcon icon={'file-csv'} />;
+export const IconFileUplad: React.FC = () => (
+  <FontAwesomeIcon icon={'file-upload'} />
 );
