@@ -1,6 +1,6 @@
 # Flusshygiene OpenCPU Base Image
 
-This is the base image containing all dependencies for the [flusshygiene-opencpu-api](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api) which uses the [kwb-r/fhpredict](https://github.com/kwb-r/fhpredict) R package for creating predictions used in the Flusshygiene project.
+This is the base image containing all dependencies for the [flusshygiene-opencpu-api](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api) which uses the [kwb-r/fhpredict](https://github.com/kwb-r/fhpredict) R package for creating predictions used in the Flusshygiene project. It can be found here on [hub.docker.com](https://hub.docker.com/r/technologiestiftung/flusshygiene-opencpu-base).  
 
 ## Notes
 
