@@ -18,7 +18,7 @@ RUN add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update \
   && apt-get -y install libudunits2-dev libgdal-dev libspatialite-dev g++-7 \
   && rm -rf /var/lib/apt/lists/*
 # RSTAN needs at least 4GB of memory!!! ARGGGHHHHHHHH!!!!!!!1!!!!
-RUN R -e "install.packages(c(\"remotes\", \"rstanarm\"));"
+RUN R -e "install.packages(c(\"remotes\", \"rstanarm\", \"sf\", \"fs\"));"
 
 EXPOSE 8004
 EXPOSE 80
