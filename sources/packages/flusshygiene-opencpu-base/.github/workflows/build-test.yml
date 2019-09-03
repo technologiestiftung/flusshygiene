@@ -1,6 +1,16 @@
 name: Docker Image Build Test CI
 
 on: [push, pull_request]
+push:
+  paths:
+    - "Dockerfile"
+    - ".dockerignore"
+    - ".github/workflows/*.yml"
+pull_request:
+  paths:
+    - "Dockerfile"
+    - ".dockerignore"
+    - ".github/workflows/*.yml"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,8 +23,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           CI: true
-
-      - name: Docker Build and push the image
+      - name: Docker build image
         uses: actions/docker/cli-multi@master
         with:
           args: '"build --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
