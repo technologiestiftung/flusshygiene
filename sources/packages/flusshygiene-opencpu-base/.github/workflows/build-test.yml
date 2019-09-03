@@ -1,16 +1,16 @@
 name: Docker Image Build Test CI
 
-on: [push, pull_request]
-push:
-  paths:
-    - "Dockerfile"
-    - ".dockerignore"
-    - ".github/workflows/*.yml"
-pull_request:
-  paths:
-    - "Dockerfile"
-    - ".dockerignore"
-    - ".github/workflows/*.yml"
+on:
+  push:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - ".github/workflows/*.yml"
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - ".github/workflows/*.yml"
 jobs:
   build:
     runs-on: ubuntu-latest
