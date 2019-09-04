@@ -17,4 +17,4 @@ jobs:
       - name: Build and push the image
         uses: actions/docker/cli-multi@master
         with:
-          args: '"build --label verion=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ." "push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"'
+          args: '"build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ." "push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"'
