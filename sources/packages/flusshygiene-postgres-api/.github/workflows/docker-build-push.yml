@@ -18,7 +18,7 @@ jobs:
           JWKS_URI: ${{ secrets.JWKS_URI }}
         with:
           node-version: 10.x
-      - run: npm ci --quit
+      - run: npm ci --quiet
       - run: npm run build
 
       - name: Docker login

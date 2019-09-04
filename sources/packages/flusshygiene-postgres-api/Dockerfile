@@ -7,7 +7,7 @@ LABEL description="An API for a postgres/postgis db used in the project flusshyg
 ENV NODE_ENV=development
 WORKDIR /usr/app
 COPY ./package*.json ./
-RUN npm ci
+RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
 FROM node:10.16.0-alpine as app
@@ -16,7 +16,7 @@ ENV NODE_ENV=production
 ENV NODE_DOCKER_ENV=1
 COPY ./package*.json ./
 COPY ./ormconfig.js ./
-RUN npm install
+RUN npm ci --quiet
 COPY --from=builder /usr/app/dist /usr/app/dist
 USER node
 EXPOSE 5004
