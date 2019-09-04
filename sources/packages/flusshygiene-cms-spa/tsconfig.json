@@ -23,5 +23,5 @@
   "include": [
     "src", "src/__tests__"
   ],
-  "exclude": ["src/stories"]
+  "exclude": ["src/stories", "src/setupProxy.js"]
 }
