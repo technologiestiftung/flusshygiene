@@ -1,3 +1,4 @@
+import meow from 'meow';
 import ora = require('ora');
 import readlineSync from 'readline-sync';
 import { createConnection, getConnectionOptions, getRepository } from 'typeorm';
@@ -25,18 +26,28 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
   spin.text = text;
 };
 
-// const meow = require('meow');
 // const path = require('path');
 // const readlineSync = require('readline-sync');
-// const cli = meow(`
+const cli = meow(
+  `
 
-// ╦ ╦┌─┐┌─┐┌─┐┌─┐
-// ║ ║└─┐├─┤│ ┬├┤
-// ╚═╝└─┘┴ ┴└─┘└─┘
+╦ ╦┌─┐┌─┐┌─┐┌─┐
+║ ║└─┐├─┤│ ┬├┤
+╚═╝└─┘┴ ┴└─┘└─┘
 
-// pass the path for the config you want to use.
+pass the path for the config you want to use.
 
-// `);
+`,
+  {
+    flags: {
+      yes: {
+        alias: 'y',
+        default: false,
+        type: 'boolean',
+      },
+    },
+  },
+);
 // if(cli.input.length === 0){
 //   cli.showHelp();
 // }
@@ -57,11 +68,13 @@ const infoSpinner = (text: string, spin: ora.Ora) => {
     Object.assign(connectionOptions, { synchronize: true, dropSchema: true });
     console.log('I will use these options:');
     console.log(connectionOptions);
-    const resp = readlineSync.question(
-      'Do you want to use these values? (only yes will continue): ',
-    );
-    if (resp !== 'yes') {
-      process.exit();
+    if (cli.flags.yes === false) {
+      const resp = readlineSync.question(
+        'Do you want to use these values? (only yes will continue): ',
+      );
+      if (resp !== 'yes') {
+        process.exit();
+      }
     }
     const connection = await createConnection(connectionOptions);
     // const db = await connection.connect();
