@@ -1,0 +1,7 @@
+name: Issues to Project Board
+on:
+  issue:
+    jobs:
+      steps:
+        - name: Foo
+          run: echo "foo"
