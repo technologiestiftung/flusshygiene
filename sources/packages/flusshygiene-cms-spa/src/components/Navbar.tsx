@@ -52,7 +52,11 @@ const NavBar = () => {
                 <button className='button is-hidden'>Registrieren</button>
                 <button
                   className='button is-primary'
-                  onClick={() => loginWithRedirect({})}
+                  onClick={() =>
+                    loginWithRedirect({
+                      redirect_uri: `${window.location.protocol}//${window.location.host}/profile`,
+                    })
+                  }
                 >
                   Log in
                 </button>
@@ -65,7 +69,14 @@ const NavBar = () => {
                 <Link to='/profile' className='button'>
                   Profile
                 </Link>
-                <button className='button' onClick={() => logout()}>
+                <button
+                  className='button'
+                  onClick={() =>
+                    logout({
+                      returnTo: `${window.location.protocol}//${window.location.host}`,
+                    })
+                  }
+                >
                   Log out
                 </button>
               </div>
