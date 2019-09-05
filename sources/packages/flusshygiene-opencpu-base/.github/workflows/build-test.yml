@@ -1,11 +1,11 @@
 name: Docker Image Build Test CI
 
 on:
-  push:
-    paths:
-      - "Dockerfile"
-      - ".dockerignore"
-      - ".github/workflows/*.yml"
+  # push:
+  #   paths:
+  #     - "Dockerfile"
+  #     - ".dockerignore"
+  #     - ".github/workflows/*.yml"
   pull_request:
     paths:
       - "Dockerfile"
