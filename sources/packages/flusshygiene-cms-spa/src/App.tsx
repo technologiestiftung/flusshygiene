@@ -24,26 +24,28 @@ const App: React.FC = () => {
   }
 
   return (
-    <main className='section'>
+    <React.Fragment>
       <BrowserRouter>
-        <header>
-          <NavBar />
-        </header>
-        <Switch>
-          {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
-          <Route path='/' exact component={Home} />
-          <Route path='/badestellen/:id' component={Spot} />
-          <Route path='/info' component={Info} />
-          <Route
-            path={`/${RouteNames.questionnaire}`}
-            component={Questionaire}
-          />
-          <PrivateRoute path='/profile' component={Profile} />
-          <PrivateRoute path='/external-api' component={ExternalApi} />
-        </Switch>
+        <main className='section'>
+          <header>
+            <NavBar />
+          </header>
+          <Switch>
+            {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
+            <Route path='/' exact component={Home} />
+            <PrivateRoute path='/badestellen/:id' component={Spot} />
+            <Route path='/info' component={Info} />
+            <Route
+              path={`/${RouteNames.questionnaire}`}
+              component={Questionaire}
+            />
+            <PrivateRoute path='/profile' component={Profile} />
+            <PrivateRoute path='/external-api' component={ExternalApi} />
+          </Switch>
+        </main>
       </BrowserRouter>
       <footer className='footer'>Footer</footer>
-    </main>
+    </React.Fragment>
   );
 };
 

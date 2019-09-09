@@ -13,6 +13,7 @@ const spot: IBathingspot = {
   id: 1,
   createdAt: new Date(),
   updatedAt: new Date(),
+  isPublic: true,
 };
 const store = createStore(reducer, initialState);
 

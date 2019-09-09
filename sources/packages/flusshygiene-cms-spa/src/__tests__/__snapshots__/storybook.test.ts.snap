@@ -873,11 +873,13 @@ exports[`Storyshots SpotEditor default 1`] = `
                       htmlFor="isPublic"
                     >
                       <input
+                        checked={true}
                         id="isPublic"
                         name="isPublic"
                         onBlur={[Function]}
                         onChange={[Function]}
                         type="checkbox"
+                        value={true}
                       />
                       <span
                         className="form__checkbox--distance"

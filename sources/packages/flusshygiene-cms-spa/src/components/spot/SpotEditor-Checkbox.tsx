@@ -1,5 +1,4 @@
 import { Field, ErrorMessage } from 'formik';
-import '../../assets/styles/spot-editor-checkbox.scss';
 // SpotEditorCheckbox.tsx;
 import React from 'react';
 export const SpotEditorCheckbox: React.FC<{

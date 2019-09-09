@@ -12,6 +12,7 @@ const spot: IBathingspot = {
   updatedAt: new Date(),
   influenceRainwater: undefined,
   hasPrediction: undefined,
+  isPublic: true,
 };
 const data: IFormBuildData[] = [
   {

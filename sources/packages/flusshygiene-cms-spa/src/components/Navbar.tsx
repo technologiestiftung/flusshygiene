@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth0 } from '../react-auth0-wrapper';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { RouteNames } from '../lib/common/enums';
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
+  useEffect(() => {
+    console.log(window.location);
+    return () => {};
+  }, []);
+
   return (
     <nav className='navbar' role='navigation' aria-label='main navigation'>
       <div className='navbar-brand'>
-        <Link className='navbar-item' to={`/${RouteNames.index}`}>
-          <div>Flusshygiene/Badegewässer Logo</div>
-        </Link>
+        <NavLink
+          activeClassName={'navbar-item--is-active'}
+          exact={true}
+          className='navbar-item'
+          to={`/${RouteNames.index}`}
+        >
+          <img src='/logo-icon-invers@2x.png' alt='' />{' '}
+          <strong className='' style={{ paddingLeft: '1em' }}>
+            Flusshygiene
+          </strong>
+          {/* <div>Flusshygiene/Badegewässer Logo</div> */}
+        </NavLink>
       </div>
       <input
         type='checkbox'
@@ -30,19 +44,32 @@ const NavBar = () => {
       </label>
       <div className='navbar-menu'>
         <div className='navbar-start'>
-          <Link to={`/${RouteNames.index}`} className='navbar-item'>
-            Home
-          </Link>
-          <Link to={`/${RouteNames.questionnaire}`} className='navbar-item'>
+          {/* <NavLink to={`/${RouteNames.index}`} className='navbar-item'>
+            <strong className=''>Flusshygiene</strong>
+          </NavLink> */}
+          <NavLink
+            activeClassName={'navbar-item--is-active'}
+            // activeStyle={{ fontWeight: 800 }}
+            to={`/${RouteNames.questionnaire}`}
+            className='navbar-item'
+          >
             Standortbewertung
-          </Link>
-          <Link to={`/${RouteNames.info}`} className='navbar-item'>
+          </NavLink>
+          <NavLink
+            to={`/${RouteNames.info}`}
+            activeClassName={'navbar-item--is-active'}
+            className='navbar-item'
+          >
             Vorhersage Modell
-          </Link>
+          </NavLink>
           {isAuthenticated && (
-            <Link to='/external-api' className='navbar-item'>
+            <NavLink
+              to='/external-api'
+              activeClassName={'navbar-item--is-active'}
+              className='navbar-item'
+            >
               External API
-            </Link>
+            </NavLink>
           )}
         </div>
         <div className='navbar-end'>
@@ -66,9 +93,9 @@ const NavBar = () => {
           {isAuthenticated && (
             <div className='navbar-item'>
               <div className='buttons'>
-                <Link to='/profile' className='button'>
+                <NavLink to='/profile' className='button'>
                   Profile
-                </Link>
+                </NavLink>
                 <button
                   className='button'
                   onClick={() =>

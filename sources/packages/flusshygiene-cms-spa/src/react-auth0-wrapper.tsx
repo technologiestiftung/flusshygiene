@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import { APIMountPoints, ApiResources } from './lib/common/enums';
 import { IFetchOptions, IFetchHeaders } from './lib/common/interfaces';
-import { handleErrors } from './lib/state/reducers/actions/fetch-common';
 import { REACT_APP_API_HOST } from './lib/config';
 
 const DEFAULT_REDIRECT_CALLBACK = (appState?: any) =>
@@ -52,6 +51,30 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
+        const token = await auth0FromHook.getTokenSilently();
+        const headers: IFetchHeaders = {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        };
+        const abortController = new AbortController();
+
+        const signal = abortController.signal;
+
+        const opts: IFetchOptions = {
+          method: 'GET',
+          headers: headers,
+          signal: signal,
+        };
+        const response = await fetch(
+          `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}?auth0Id=${user.sub}`,
+          opts,
+        );
+        let json = await response.json();
+        console.log(json);
+        // const getUserId
+        if (json.data.length > 0) {
+        }
+        user.pgapiData = json.data[0];
         setUser(user);
       }
 
@@ -60,53 +83,53 @@ export const Auth0Provider = ({
     initAuth0();
     // eslint-disable-next-line
   }, []);
-  useEffect(() => {
-    if (isAuthenticated === false) {
-      return;
-    }
-    if (!auth0Client) {
-      return;
-    }
-    if (!user) {
-      return;
-    }
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-    const getUserId = async () => {
-      const token = await auth0Client.getTokenSilently();
-      const headers: IFetchHeaders = {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      };
+  // useEffect(() => {
+  //   if (isAuthenticated === false) {
+  //     return;
+  //   }
+  //   if (!auth0Client) {
+  //     return;
+  //   }
+  //   if (!user) {
+  //     return;
+  //   }
+  //   const abortController = new AbortController();
+  //   const signal = abortController.signal;
+  //   const getUserId = async () => {
+  //     const token = await auth0Client.getTokenSilently();
+  //     const headers: IFetchHeaders = {
+  //       'content-type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     };
 
-      const opts: IFetchOptions = {
-        method: 'GET',
-        headers: headers,
-        signal: signal,
-      };
-      fetch(
-        `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}?auth0Id=${user.sub}`,
-        opts,
-      )
-        .then(handleErrors)
-        .then((res) => res.json())
-        .then((json) => {
-          // console.log(json);
-          if (user.sub === json.data[0].auth0Id) {
-            user.pgapiData = json.data[0];
-            setUser(user);
-            // console.log(user);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    getUserId();
-    return function cleanup() {
-      abortController.abort();
-    };
-  }, [auth0Client, isAuthenticated, user]);
+  //     const opts: IFetchOptions = {
+  //       method: 'GET',
+  //       headers: headers,
+  //       signal: signal,
+  //     };
+  //     fetch(
+  //       `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}?auth0Id=${user.sub}`,
+  //       opts,
+  //     )
+  //       .then(handleErrors)
+  //       .then((res) => res.json())
+  //       .then((json) => {
+  //         // console.log(json);
+  //         if (user.sub === json.data[0].auth0Id) {
+  //           user.pgapiData = json.data[0];
+  //           setUser(user);
+  //           // console.log(user);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   };
+  //   getUserId();
+  //   return function cleanup() {
+  //     abortController.abort();
+  //   };
+  // }, [auth0Client, isAuthenticated, user]);
 
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);

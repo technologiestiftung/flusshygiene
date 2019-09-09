@@ -16,7 +16,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { SpotEditor } from './spot/SpotEditor';
 import SpotsMap from './SpotsMap';
 
-import '../assets/styles/spot-editor.scss';
+// import '../assets/styles/spot-editor.scss';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../lib/config';
 type RouteProps = RouteComponentProps<{ id: string }>;

@@ -29,7 +29,7 @@ export const Auth0Provider = ({
     <Auth0Context.Provider
       value={{
         isAuthenticated: true,
-        user: {},
+        user: { pgapiData: { id: 3 } },
         loading: false,
         popupOpen: false,
         loginWithPopup: false,
