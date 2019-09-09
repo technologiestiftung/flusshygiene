@@ -122,6 +122,7 @@
       "!src/stories/**"
     ]
   },
+  "//proxy": "http://localhost:5004",
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint-staged"
