@@ -9,6 +9,9 @@ import {
   faAngleDown,
   faFileCsv,
   faFileUpload,
+  faForward,
+  faBackward,
+  faSave,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
   faInfo,
@@ -18,6 +21,9 @@ library.add(
   faAngleDown,
   faFileCsv,
   faFileUpload,
+  faBackward,
+  faForward,
+  faSave,
 );
 export const IconInfo: React.FC = () => <FontAwesomeIcon icon={'info'} />;
 export const IconAngleDown: React.FC = () => (
@@ -35,3 +41,7 @@ export const IconCSV: React.FC = () => <FontAwesomeIcon icon={'file-csv'} />;
 export const IconFileUplad: React.FC = () => (
   <FontAwesomeIcon icon={'file-upload'} />
 );
+
+export const IconPrev: React.FC = () => <FontAwesomeIcon icon={'backward'} />;
+export const IconNext: React.FC = () => <FontAwesomeIcon icon={'forward'} />;
+export const IconSave: React.FC = () => <FontAwesomeIcon icon={'save'} />;

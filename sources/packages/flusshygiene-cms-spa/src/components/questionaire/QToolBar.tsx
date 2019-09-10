@@ -1,24 +1,36 @@
 import React from 'react';
-import { IconInfo } from '../fontawesome-icons';
+import { IconInfo, IconSave } from '../fontawesome-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faInfo } from '@fortawesome/free-solid-svg-icons';
-export const QToolBar: React.FC<{ handleClick: () => void }> = ({
-  handleClick,
-}) => {
+import { ButtonIconTB as Button } from '../Buttons';
+export const QToolBar: React.FC<{
+  handleClick: (e: React.ChangeEvent<any>) => void;
+  children: any;
+  isSubmitting: boolean;
+}> = ({ handleClick, children, isSubmitting }) => {
   return (
-    // <Container>
-    <div className='buttons'>
-      <button
-        data-testid='qtoolbar-i-button'
-        className='button is-small is-badge-small'
-        onClick={handleClick}
-      >
-        <span className='icon is-small'>
+    <>
+      <div className='buttons'>
+        <Button
+          dataTestId={'qtoolbar-i-button'}
+          cssId={'info'}
+          handleClick={handleClick}
+        >
           <IconInfo />
-        </span>
-        {/* <span>Info</span> */}
-      </button>
-    </div>
-    // </Container>
+        </Button>
+        <Button
+          type='submit'
+          cssId={'save'}
+          // handleClick={handleClick}
+          isSubmitting={isSubmitting}
+        >
+          <IconSave />
+        </Button>
+        {/* <Button cssId={'fwd'} handleClick={handleClick}>
+          <IconNext />
+        </Button> */}
+        {children}
+      </div>
+    </>
   );
 };

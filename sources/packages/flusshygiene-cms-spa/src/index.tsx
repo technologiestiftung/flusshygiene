@@ -4,6 +4,8 @@ import './assets/styles/index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Auth0Provider } from './react-auth0-wrapper';
+// import { Auth0Provider } from './react-auth0-wrapper-offline';
+
 // import config from './auth_config.json';
 import { Provider } from 'react-redux';
 import store from './lib/state/store';

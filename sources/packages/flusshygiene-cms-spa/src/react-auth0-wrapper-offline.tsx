@@ -34,12 +34,24 @@ export const Auth0Provider = ({
         loading: false,
         popupOpen: false,
         loginWithPopup: false,
-        handleRedirectCallback: jest.fn(),
-        getIdTokenClaims: jest.fn(),
-        loginWithRedirect: jest.fn(),
-        getTokenSilently: jest.fn(),
-        getTokenWithPopup: jest.fn(),
-        logout: jest.fn(),
+        handleRedirectCallback: () => {
+          console.log('handleRedirectCallback');
+        },
+        getIdTokenClaims: () => {
+          console.log('getIdTokenClaims');
+        },
+        loginWithRedirect: () => {
+          console.log('loginWithRedirect');
+        },
+        getTokenSilently: () => {
+          console.log('getTokenSilently');
+        },
+        getTokenWithPopup: () => {
+          console.log('getTokenWithPopup');
+        },
+        logout: () => {
+          console.log('logout');
+        },
       }}
     >
       {children}

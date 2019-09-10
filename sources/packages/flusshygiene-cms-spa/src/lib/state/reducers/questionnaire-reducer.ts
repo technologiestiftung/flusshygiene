@@ -3,14 +3,16 @@ export const SETUP_ANSWERS = 'SETUP_ANSWERS';
 
 interface IState {
   data: any[];
+  ready: boolean;
 }
-const initialState: IState = { data: [] };
+const initialState: IState = { data: [], ready: false };
 
 export default (state = initialState, action) => {
   // console.log(action.payload);
   switch (action.type) {
     case SET_ANSWER: {
       const res = {
+        ready: true,
         data: [
           ...state.data.slice(0, action.payload.qindex),
           action.payload.value,
@@ -21,7 +23,7 @@ export default (state = initialState, action) => {
     }
     case SETUP_ANSWERS: {
       console.log(action.payload.num);
-      return { data: new Array(action.payload.num) };
+      return { data: new Array(action.payload.num), ready: true };
     }
     default: {
       return state;

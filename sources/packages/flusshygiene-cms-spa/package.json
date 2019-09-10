@@ -30,6 +30,7 @@
     "@types/storybook__react": "^4.0.2",
     "bulma": "^0.7.5",
     "bulma-extensions": "^6.2.7",
+    "bulma-pagination-react": "^0.1.1",
     "eslint": "^6.2.2",
     "formik": "^2.0.1-rc.13",
     "http-proxy-middleware": "^0.19.1",

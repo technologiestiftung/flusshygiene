@@ -126,10 +126,11 @@ exports[`Storyshots SpotEditor default 1`] = `
               className="buttons"
             >
               <button
-                className="button is-small is-badge-small "
-                data-testid="map-toolbar-i-button"
+                className="button is-small is-badge-small  "
+                disabled={false}
                 id="info"
                 onClick={[Function]}
+                type="button"
               >
                 <span
                   className="icon is-small"
@@ -154,10 +155,11 @@ exports[`Storyshots SpotEditor default 1`] = `
                 </span>
               </button>
               <button
-                className="button is-small is-badge-small "
-                data-testid="map-toolbar-i-button"
+                className="button is-small is-badge-small  "
+                disabled={false}
                 id="area"
                 onClick={[Function]}
+                type="button"
               >
                 <span
                   className="icon is-small"
@@ -182,10 +184,11 @@ exports[`Storyshots SpotEditor default 1`] = `
                 </span>
               </button>
               <button
-                className="button is-small is-badge-small "
-                data-testid="map-toolbar-i-button"
+                className="button is-small is-badge-small  "
+                disabled={false}
                 id="location"
                 onClick={[Function]}
+                type="button"
               >
                 <span
                   className="icon is-small"
