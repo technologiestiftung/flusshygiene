@@ -7,10 +7,10 @@ import { promisify } from 'util';
 import { IObject } from '../lib/common';
 import { createMeasurementWithValues } from '../lib/utils/measurement-helpers';
 import { createPredictionWithValues } from '../lib/utils/predictions-helpers';
-import { createSpotWithValues } from '../lib/utils/spot-helpers';
 import { BathingspotMeasurement } from '../orm/entity/BathingspotMeasurement';
 import { BathingspotPrediction } from '../orm/entity/BathingspotPrediction';
 import { Bathingspot } from './../orm/entity/Bathingspot';
+import { createSpotWithValues } from './spot-helpers';
 
 const readFileAsync = promisify(readFile);
 const readDirAsync = promisify(readdir);

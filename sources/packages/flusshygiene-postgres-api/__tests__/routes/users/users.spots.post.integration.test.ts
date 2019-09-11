@@ -194,7 +194,7 @@ describe('testing bathingspots post for a specific user', () => {
         elevation: 1,
         isPublic: true,
         latitude: 13,
-        location: {}, // <-- will produce an error
+        // location: {}, // <-- will produce an error
         longitude: 52,
         name: 'Sweetwater',
         region: DefaultRegions.berlin,

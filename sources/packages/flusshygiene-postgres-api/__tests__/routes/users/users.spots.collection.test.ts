@@ -110,7 +110,7 @@ describe('GET all collection tyoe', () => {
     done();
   });
 
-  test(' should fail due to wrong collection id/name', async (done) => {
+  test(' should fail due to wrong collection id/name rain intead of rains', async (done) => {
     const spotRes = await request(app)
       .post('/api/v1/users/1/bathingspots/')
       .send({ name: 'water', isPublic: true })

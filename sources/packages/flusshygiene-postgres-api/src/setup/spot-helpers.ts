@@ -1,42 +1,38 @@
 import { getRepository } from 'typeorm';
-import { Region } from '../../orm/entity';
-import {
-  Bathingspot,
-  criteriaBathingspot,
-  geomCriteria,
-} from '../../orm/entity/Bathingspot';
-import { IObject } from '../common';
-import { isObject } from './is-object';
-import { findByName } from './region-repo-helpers';
+import { IObject } from '../lib/common';
+import { isObject } from '../lib/utils/is-object';
+import { findByName } from '../lib/utils/region-repo-helpers';
+import { Region } from '../orm/entity';
+import { Bathingspot, criteriaBathingspot } from '../orm/entity/Bathingspot';
 
-const allowedFeatureTypes = ['Point', 'Polygon'];
+// const allowedFeatureTypes = ['Point', 'Polygon'];
 
-const checkGeom: (obj: any) => boolean = (obj) => {
-  const res: boolean[] = [];
-  geomCriteria.forEach((criterion) => {
-    if (obj.hasOwnProperty(criterion.key) === true) {
-      switch (criterion.type) {
-        case 'array':
-          res.push(Array.isArray(obj[criterion.key]));
-          break;
-        case 'string':
-          res.push(allowedFeatureTypes.includes(obj[criterion.key]));
-          break;
-      }
-    }
-  });
-  return res.includes(false) || res.length > 2 ? false : true;
-};
+// const checkGeom: (obj: any) => boolean = (obj) => {
+//   const res: boolean[] = [];
+//   geomCriteria.forEach((criterion) => {
+//     if (obj.hasOwnProperty(criterion.key) === true) {
+//       switch (criterion.type) {
+//         case 'array':
+//           res.push(Array.isArray(obj[criterion.key]));
+//           break;
+//         case 'string':
+//           res.push(allowedFeatureTypes.includes(obj[criterion.key]));
+//           break;
+//       }
+//     }
+//   });
+//   return res.includes(false) || res.length > 2 ? false : true;
+// };
 
 const setupGeom: (obj: { value: any; criterion: any }) => any = (obj) => {
   let res: object | undefined;
 
   if (isObject(obj.value) === true) {
-    if (obj.value.hasOwnProperty('geometry') === true) {
-      if (checkGeom(obj.value.geometry) === true) {
-        const geom = { [obj.criterion.key]: obj.value.geometry };
-        res = geom;
-      }
+    if (obj.value.hasOwnProperty('coordinates') === true) {
+      // if (checkGeom(obj.value.geometry) === true) {
+      const geom = { [obj.criterion.key]: obj.value.coordinates };
+      res = geom;
+      // }
     }
   }
   return res;
@@ -57,6 +53,7 @@ export const createSpotWithValues = async (
         break;
       case 'geometry':
         const geom = setupGeom({ value, criterion });
+        console.log('this is geom', geom);
         if (geom !== undefined) {
           spotRepo.merge(spot, geom);
         }

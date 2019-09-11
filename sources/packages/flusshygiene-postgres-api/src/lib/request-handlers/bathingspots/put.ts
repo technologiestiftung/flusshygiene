@@ -33,6 +33,8 @@ export const updateBathingspotOfUser: putResponse = async (
         request.body,
         filteredPropNames.props,
       );
+      // console.log('PUT: body', request.body);
+      // console.log('PUT: filtered values', providedValues);
       if (Object.keys(providedValues).length > 0) {
         if (providedValues.hasOwnProperty('region') === true) {
           const region = await findByName(providedValues.region);
