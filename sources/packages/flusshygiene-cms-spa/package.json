@@ -53,6 +53,9 @@
     "yup": "^0.27.0"
   },
   "scripts": {
+    "add:version": "node build-tools/version.js",
+    "prestart": "npm run add:version",
+    "prebuild": "npm run add:version",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "build:test": "node build-tools/index.js",

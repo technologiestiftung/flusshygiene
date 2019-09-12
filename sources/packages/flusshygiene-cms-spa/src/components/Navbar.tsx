@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { NavLink } from 'react-router-dom';
 import { RouteNames } from '../lib/common/enums';
+import { APP_VERSION } from '../version';
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -22,7 +23,7 @@ const NavBar = () => {
         >
           <img src='/logo-icon-invers@2x.png' alt='' />{' '}
           <strong className='' style={{ paddingLeft: '1em' }}>
-            Flusshygiene
+            {`Flusshygiene ${APP_VERSION}`}
           </strong>
           {/* <div>Flusshygiene/Badegewässer Logo</div> */}
         </NavLink>
