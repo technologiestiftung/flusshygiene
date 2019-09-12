@@ -39,6 +39,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
   lat,
   lon,
   activeEditor,
+  newSpot,
   defaultFormikSetFieldValues,
   handleUpdates,
 }) => {
@@ -258,7 +259,9 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
 
               <a
                 href='#/'
-                className={`dropdown-item ${setActiveMode('modify')}`}
+                className={`dropdown-item ${setActiveMode('modify')} ${
+                  newSpot === true ? 'is-hidden' : ''
+                }`}
                 onClick={handleClick}
                 id={'modify'}
               >
@@ -267,7 +270,9 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
               <a
                 // dirty hack to keep bulma working
                 href='#/'
-                className={`dropdown-item ${setActiveMode('translate')}`}
+                className={`dropdown-item ${setActiveMode('translate')} ${
+                  newSpot === true ? 'is-hidden' : ''
+                }`}
                 onClick={handleClick}
                 id={'translate'}
               >

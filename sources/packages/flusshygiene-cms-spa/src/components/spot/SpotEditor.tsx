@@ -39,6 +39,7 @@ import { SpotEditorFile } from './SpotEditor-File';
 import Papa, { ParseError } from 'papaparse';
 import { IconSave, IconCloseWin, IconInfo } from '../fontawesome-icons';
 import { SpotEditorInfoModal } from './SpotEditor-InfoModal';
+import { SpotEditorMeasurmentInfo } from './SpotEditor-Measurments-Info';
 
 export const SpotEditor: React.FC<{
   initialSpot: IBathingspotExtend;
@@ -244,7 +245,7 @@ export const SpotEditor: React.FC<{
       updateAll: true,
     };
 
-    console.log('post options', postSpotOpts);
+    // console.log('post options', postSpotOpts);
 
     dispatch(putSpot(postSpotOpts));
     if (
@@ -275,8 +276,8 @@ export const SpotEditor: React.FC<{
         initialValues={transformedSpot}
         // validationSchema={editorSchema}
         onSubmit={(values, { setSubmitting }) => {
-          console.log('onSubmit');
-          console.log(values);
+          // console.log('onSubmit');
+          // console.log(values);
           callPutPostSpot(values, measurments).catch((err) => {
             console.error(err);
           });
@@ -308,13 +309,26 @@ export const SpotEditor: React.FC<{
             props.handleChange(e);
           };
           // props.setFieldValue('latitude', location.coordinates[1])
+          const requiredData = patchValues(props.values, [
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Name',
+            },
+            {
+              name: 'cyanoPossible',
+              type: 'checkbox',
+              label: 'Cyanobakterien möglich',
+              value: undefined,
+            },
+          ]);
           const patchedBasisData = patchValues(
             props.values,
             setupBasisData(
-              props.handleChange,
-              props.setFieldValue,
               props.values,
-              editMode,
+              // props.setFieldValue,
+              // props.handleChange,
+              // editMode,
               // activeEditor,
             ),
           );
@@ -381,6 +395,9 @@ export const SpotEditor: React.FC<{
                     // handleSubmit={props.handleSubmit}
                     handleEditModeClick={handleEditModeClick}
                   /> */}
+                <SpotEditorBox title={'Basis Daten*'}>
+                  {formSectionBuilder(requiredData, props.handleChange)}
+                </SpotEditorBox>
                 {props.values !== undefined && (
                   <SpotEditorBox title={'Geo Daten *'}>
                     <FormikSpotEditorMap
@@ -388,6 +405,7 @@ export const SpotEditor: React.FC<{
                       height={600}
                       data={[props.values]}
                       editMode={editMode}
+                      newSpot={newSpot}
                       // selectedIndex={selectedIndex}
                       // activeEditor={activeEditor}
                       handleUpdates={handleGeoJsonUpdates}
@@ -396,23 +414,23 @@ export const SpotEditor: React.FC<{
                     {/* </div> */}
                   </SpotEditorBox>
                 )}
-                <SpotEditorBox title={'Basis Daten'}>
-                  {formSectionBuilder(patchedBasisData, props.handleChange)}
-                </SpotEditorBox>
                 <SpotEditorBox title={'Messwerte'}>
                   {newSpot === true && (
                     <div className='content'>
                       <p>
-                        Bitte speichern Sie die Badestelle bevor Sie Daten
-                        hochladen.
+                        <strong>
+                          Bitte speichern Sie die Badestelle bevor Sie Daten
+                          hochladen.
+                        </strong>
                       </p>
                     </div>
                   )}
+                  <SpotEditorMeasurmentInfo />
                   {
                     <SpotEditorFile
                       name={'csvFile'}
                       type={'file'}
-                      label={'Messwerte CSV'}
+                      label={'Datei auswählen…'}
                       disabled={newSpot === true ? true : false}
                       onChange={(
                         event: React.ChangeEvent<HTMLInputElement>,
@@ -514,20 +532,27 @@ export const SpotEditor: React.FC<{
                     </div>
                   )}
                 </SpotEditorBox>
-                <SpotEditorBox title={'Bilder'}></SpotEditorBox>
                 <SpotEditorBox title={'Hygienische Beeinträchtigung durch:'}>
                   {formSectionBuilder(patchedInfluenceData, props.handleChange)}
                 </SpotEditorBox>
+                <SpotEditorBox title={'Zusatz Daten'}>
+                  {formSectionBuilder(
+                    [...patchedBasisData, ...patchedAdditionalData],
+                    props.handleChange,
+                  )}
+                </SpotEditorBox>
+                {/* <SpotEditorBox title={'Bilder'}></SpotEditorBox> */}
+
                 <SpotEditorBox title={'Zuständiges Gesundheitsamt'}>
                   {formSectionBuilder(healthDepartmentData, props.handleChange)}
                 </SpotEditorBox>
 
-                <SpotEditorBox title={'Zusatz Daten'}>
+                {/* <SpotEditorBox title={'Zusatz Daten'}>
                   {formSectionBuilder(
                     patchedAdditionalData,
                     props.handleChange,
                   )}
-                </SpotEditorBox>
+                </SpotEditorBox> */}
                 {/* </fieldset>
                   </div> */}
                 <SpotEditorButtons

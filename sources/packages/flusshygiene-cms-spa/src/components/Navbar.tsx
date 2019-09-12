@@ -56,13 +56,13 @@ const NavBar = () => {
           >
             Standortbewertung
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to={`/${RouteNames.info}`}
             activeClassName={'navbar-item--is-active'}
             className='navbar-item'
           >
             Vorhersage Modell
-          </NavLink>
+          </NavLink> */}
           {/* {isAuthenticated && (
             <NavLink
               to='/external-api'

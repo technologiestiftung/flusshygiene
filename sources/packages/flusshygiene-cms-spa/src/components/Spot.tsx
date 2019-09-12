@@ -1,4 +1,4 @@
-import { DEFAULT_SPOT_ID } from '../lib/common/constants';
+// import { DEFAULT_SPOT_ID } from '../lib/common/constants';
 import { APIMountPoints, ApiResources, RouteNames } from '../lib/common/enums';
 import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-get-single-spot';
 import { IFetchSpotOptions } from '../lib/common/interfaces';
@@ -23,7 +23,8 @@ import { Container } from './Container';
 type RouteProps = RouteComponentProps<{ id: string }>;
 
 const Spot: React.FC<RouteProps> = ({ match }) => {
-  const { isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, getTokenSilently } = useAuth0();
+
   const handleEditModeClick = () => {
     setEditMode(!editMode);
   };
@@ -34,6 +35,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const dispatch = useDispatch();
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [token, setToken] = useState<string>();
+
   const [showNotification, setShowNotification] = useState(false);
   const spot = useSelector((state: RootState) => state.detailSpot.spot);
   const isSingleSpotLoading = useSelector(
@@ -42,12 +45,26 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
-  const fetchOpts: IFetchSpotOptions = {
-    method: 'GET',
-    url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.bathingspots}/${match.params.id}`,
-    headers: {},
-  };
-
+  // const fetchOpts: IFetchSpotOptions = {
+  //   method: 'GET',
+  //   url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.bathingspots}/${match.params.id}`,
+  //   headers: {
+  //     'content-type': 'application/json',
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // };
+  useEffect(() => {
+    async function getToken() {
+      try {
+        const t = await getTokenSilently();
+        setToken(t);
+        // console.log('got token', t);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getToken();
+  }, [getTokenSilently, setToken]);
   useEffect(() => {
     if (showNotification === false) return;
     setTimeout(() => {
@@ -56,21 +73,34 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   }, [showNotification]);
 
   useEffect(() => {
-    if (spot.id === parseInt(match.params.id!, 10)) {
-      return;
-    }
+    // if (spot.id === parseInt(match.params.id, 10)) {
+    //   return;
+    // }
+    if (token === undefined) return;
+    if (user.pgapiData === undefined) return;
+    const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+    const fetchOpts: IFetchSpotOptions = {
+      method: 'GET',
+      url,
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     dispatch(fetchSingleSpot(fetchOpts));
     // setFormReadyToRender(true);
-  }, [spot, dispatch, match.params.id, fetchOpts]);
-  useEffect(() => {
-    if (
-      spot.id === parseInt(match.params.id!, 10) ||
-      spot.id !== DEFAULT_SPOT_ID
-    ) {
-      return;
-    }
-    dispatch(fetchSingleSpot(fetchOpts));
-  }, [spot, dispatch, match.params.id, fetchOpts]);
+  }, [dispatch, match.params.id, token, user, user.pgapiData]);
+
+  // useEffect(() => {
+  //   if (
+  //     spot.id === parseInt(match.params.id!, 10) ||
+  //     spot.id !== DEFAULT_SPOT_ID
+  //   ) {
+  //     return;
+  //   }
+  //   dispatch(fetchSingleSpot(fetchOpts));
+  // }, [spot, dispatch, match.params.id, fetchOpts]);
 
   useEffect(() => {
     if (spot.id === parseInt(match.params.id!, 10)) {
@@ -116,12 +146,12 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               >
                 Regendaten Kalibrierung Starten
               </button>
-              <button
+              {/* <button
                 className='button is-small'
                 onClick={handleCalibrationClick}
               >
                 Regendaten Kalibrierung Starten
-              </button>
+              </button> */}
             </div>
           </Container>
         )}

@@ -8,24 +8,42 @@ export const SpotEditorFile: React.FC<{
   onChange: (event) => void;
 }> = ({ name, label, type, onChange, disabled }) => {
   return (
-    <div className='file has-name is-right'>
-      <label className='file-label' htmlFor={name}>
+    <div className='file'>
+      <label className='file-label'>
         <input
           className='file-input'
-          type={type}
+          type='file'
           name={name}
           onChange={onChange}
           disabled={disabled}
         />
-
         <span className='file-cta'>
           <span className='file-icon'>
             <IconCSV />
           </span>
-          <span className='file-label'>Datei auswählen…</span>
+          <span className='file-label'>{label}</span>
         </span>
-        <span className='file-name'>{label}</span>
       </label>
     </div>
   );
 };
+
+// <div className='file'>
+//   <label className='file-label' htmlFor={name}>
+//     <input
+//       className='file-input'
+//       type={type}
+//       name={name}
+//       onChange={onChange}
+//       disabled={disabled}
+//     />
+
+//     <span className='file-cta'>
+//       <span className='file-icon'>
+//         <IconCSV />
+//       </span>
+//       <span className='file-name'>{label} auswählen</span>
+//     </span>
+//     {/* <span className='file-name'>{label}</span> */}
+//   </label> */}
+// </div>

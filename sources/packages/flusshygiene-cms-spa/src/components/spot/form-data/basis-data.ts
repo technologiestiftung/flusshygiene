@@ -7,11 +7,11 @@ import {
 } from './../../../lib/common/interfaces';
 import { FormikHandlers, FormikHelpers } from 'formik';
 export const setupBasisData: (
-  defaultFormikHandleChange: FormikHandlers['handleChange'],
-  defaultFormikSetFieldValue: FormikHelpers<
+  values: IBathingspotExtend,
+  defaultFormikSetFieldValue?: FormikHelpers<
     IBathingspotExtend
   >['setFieldValue'],
-  values: IBathingspotExtend,
+  defaultFormikHandleChange?: FormikHandlers['handleChange'],
   editMode?: MapEditModes,
   activeEditor?: MapActiveEditor,
 ) => IFormBuildData[] = () =>
@@ -22,10 +22,16 @@ export const setupBasisData: (
   // activeEditor,
   {
     const basisData: IFormBuildData[] = [
+      // {
+      //   name: 'name',
+      //   type: 'text',
+      //   label: 'Name *',
+      // },
       {
-        name: 'name',
-        type: 'text',
-        label: 'Name *',
+        name: 'isPublic',
+        type: 'checkbox',
+        label: 'Öffentlich einsehbar',
+        value: undefined,
       },
       { name: 'nameLong', type: 'text', label: 'Langer Name' },
       {
@@ -77,18 +83,12 @@ export const setupBasisData: (
       // },
       { name: 'elevation', type: 'number', label: 'Höhe über NN' },
       { name: 'apiEndpoints', type: 'text', label: 'API Endpoints' },
-      {
-        name: 'cyanoPossible',
-        type: 'checkbox',
-        label: 'Cyanobakterien möglich',
-        value: undefined,
-      },
-      {
-        name: 'isPublic',
-        type: 'checkbox',
-        label: 'Öffentlich einsehbar',
-        value: undefined,
-      },
+      // {
+      //   name: 'cyanoPossible',
+      //   type: 'checkbox',
+      //   label: 'Cyanobakterien möglich',
+      //   value: undefined,
+      // },
     ];
 
     return basisData;

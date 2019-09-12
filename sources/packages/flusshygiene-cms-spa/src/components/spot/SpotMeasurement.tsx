@@ -29,6 +29,7 @@ const measurementSort = (a: IObject, b: IObject) => {
 
 export const Measurement: React.FC<IMeasurement> = (props) => {
   const sortedMeasurment = props.measurements.sort(measurementSort);
+  const lastMeasurment = sortedMeasurment[sortedMeasurment.length - 1];
   return (
     <div className='bathingspot__body-measurement'>
       <h3 className='title is-3'>
@@ -52,10 +53,10 @@ export const Measurement: React.FC<IMeasurement> = (props) => {
         };
         return (
           <div>
-            <p>{`wasserqualitaet: (NOT YET PARSED TO TEXT) ${sortedMeasurment[0].wasserqualitaetTxt}`}</p>
+            <p>{`wasserqualitaet: (NOT YET PARSED TO TEXT) ${lastMeasurment.wasserqualitaetTxt}`}</p>
             <p>
               (Letzte Messung{' '}
-              {new Date(sortedMeasurment[0].date).toLocaleDateString(
+              {new Date(lastMeasurment.date).toLocaleDateString(
                 'de-DE',
                 dateOpts,
               )}
@@ -80,6 +81,8 @@ export const MeasurementTableRow = (props: IMeasurementableRow) => (
 
 export const MeasurementTable = (props: IMeasurementable) => {
   const sortedMeasurement = props.measurements.sort(measurementSort);
+  const lastMeasurment = sortedMeasurement[sortedMeasurement.length - 1];
+
   return (
     <table className='table bathingspot__measurement-table'>
       <tbody>
@@ -87,8 +90,8 @@ export const MeasurementTable = (props: IMeasurementable) => {
           <MeasurementTableRow
             rowKey='Sichttiefe'
             rowValue={
-              sortedMeasurement[0].sichtTxt !== null
-                ? `${sortedMeasurement[0].sichtTxt} cm`
+              lastMeasurment.sichtTxt !== null
+                ? `${lastMeasurment.sichtTxt} cm`
                 : kA
             }
           />
@@ -97,8 +100,8 @@ export const MeasurementTable = (props: IMeasurementable) => {
           <MeasurementTableRow
             rowKey='Escherichia coli'
             rowValue={
-              sortedMeasurement[0].conc_ec !== null
-                ? `${sortedMeasurement[0].conc_ec} pro 100 ml`
+              lastMeasurment.conc_ec !== null
+                ? `${lastMeasurment.conc_ec} pro 100 ml`
                 : kA
             }
           />
@@ -107,8 +110,8 @@ export const MeasurementTable = (props: IMeasurementable) => {
           <MeasurementTableRow
             rowKey='Intestinale Enterokokken'
             rowValue={
-              sortedMeasurement[0].conc_ie !== null
-                ? `${sortedMeasurement[0].conc_ie} pro 100 ml`
+              lastMeasurment.conc_ie !== null
+                ? `${lastMeasurment.conc_ie} pro 100 ml`
                 : kA
             }
           />
@@ -117,8 +120,8 @@ export const MeasurementTable = (props: IMeasurementable) => {
           <MeasurementTableRow
             rowKey='Wassertemperatur'
             rowValue={(() => {
-              if (sortedMeasurement[0].tempTxt !== null) {
-                return `${sortedMeasurement[0].tempTxt.replace('.', ',')} °C`;
+              if (lastMeasurment.tempTxt !== null) {
+                return `${lastMeasurment.tempTxt.replace('.', ',')} °C`;
               } else {
                 return kA;
               }
@@ -129,8 +132,8 @@ export const MeasurementTable = (props: IMeasurementable) => {
           <MeasurementTableRow
             rowKey='Coliforme Bakterien'
             rowValue={
-              sortedMeasurement[0].cb !== null
-                ? `${sortedMeasurement[0].cb} pro 100 ml`
+              lastMeasurment.cb !== null
+                ? `${lastMeasurment.cb} pro 100 ml`
                 : kA
             }
           />

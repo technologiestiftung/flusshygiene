@@ -164,6 +164,7 @@ export interface IMapsProps {
 export interface IMapsEditorProps extends IMapsProps {
   editMode: MapEditModes;
   activeEditor?: MapEditors;
+  newSpot?: boolean;
   defaultFormikSetFieldValues: FormikHelpers<
     IBathingspotExtend
   >['setFieldValue'];

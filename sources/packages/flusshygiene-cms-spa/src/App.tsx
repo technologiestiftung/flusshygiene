@@ -3,7 +3,7 @@ import React from 'react';
 import NavBar from './components/Navbar';
 import Home from './components/Home';
 import { useAuth0 } from './react-auth0-wrapper';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import Profile from './components/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import ExternalApi from './components/ExternalApi';
@@ -11,6 +11,7 @@ import Spot from './components/Spot';
 import Info from './components/Info';
 import { Questionaire } from './components/Questionaire';
 import { RouteNames } from './lib/common/enums';
+import history from './lib/history';
 
 const App: React.FC = () => {
   const { loading } = useAuth0();
@@ -25,7 +26,7 @@ const App: React.FC = () => {
 
   return (
     <React.Fragment>
-      <BrowserRouter>
+      <Router history={history}>
         <main className='section'>
           <header>
             <NavBar />
@@ -43,7 +44,7 @@ const App: React.FC = () => {
             <PrivateRoute path='/external-api' component={ExternalApi} />
           </Switch>
         </main>
-      </BrowserRouter>
+      </Router>
       <footer className='footer'>Footer</footer>
     </React.Fragment>
   );
