@@ -85,11 +85,11 @@ export const nullValueTransform: (
             break;
           case 'point':
             emptyGeojson.geometry.type = 'Point';
-            spot[spotKey] = emptyGeojson;
+            spot[spotKey] = emptyGeojson.geometry;
             break;
           case 'polygon':
             emptyGeojson.geometry.type = 'Polygon';
-            spot[spotKey] = emptyGeojson;
+            spot[spotKey] = emptyGeojson.geometry;
             break;
           // default:
           //   spot[spotKey] = undefined;

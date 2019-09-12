@@ -22,7 +22,7 @@ export const CardTile: React.FC<ISpotCard> = ({
 }) => {
   // console.log(image);
   return (
-    <div className='card'>
+    <div className='card card__profile--pad'>
       <div className='card-image'>
         <figure className='image is-16by9'>
           <img
@@ -44,7 +44,7 @@ export const CardTile: React.FC<ISpotCard> = ({
                 return null;
               })()}
             </p>
-            {(() => {
+            {/* {(() => {
               if (water) {
                 if (water.length >= 0) {
                   return (
@@ -54,7 +54,7 @@ export const CardTile: React.FC<ISpotCard> = ({
                   );
                 }
               }
-            })()}
+            })()} */}
           </div>
         </div>
         <div className='content'>

@@ -6,6 +6,7 @@ import {
   postSpotFail,
 } from '../spot-post-reducer';
 import { fetchSingleSpot } from './fetch-get-single-spot';
+import { fetchSpots } from './fetch-get-spots';
 
 export const putSpot: (opts: IFetchSpotOptions) => void = ({
   url,
@@ -13,6 +14,8 @@ export const putSpot: (opts: IFetchSpotOptions) => void = ({
   method,
   body,
   update,
+  updateSingle,
+  updateAll,
 }) => {
   return (dispatch) => {
     dispatch(postSpotBegin());
@@ -20,9 +23,13 @@ export const putSpot: (opts: IFetchSpotOptions) => void = ({
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         dispatch(postSpotSuccess(json.success, json.error));
-        if (update === true) {
+        if (updateSingle === true) {
           dispatch(fetchSingleSpot({ url, method: 'GET', headers }));
+        }
+        if (updateAll === true) {
+          dispatch(fetchSpots({ url, method: 'GET', headers }));
         }
       })
       .catch((error) => dispatch(postSpotFail(error)));

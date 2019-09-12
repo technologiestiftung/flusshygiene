@@ -6,6 +6,7 @@ export const SpotEditorInput: React.FC<{
   name: string;
   type: string;
   label: string;
+  // handleChange: (event) => void;
 }> = ({ name, label, type }) => {
   // console.log(name);
   return (
@@ -24,6 +25,7 @@ export const SpotEditorInput: React.FC<{
               className='input'
               id={name}
               data-testid={`test-input-${name}`}
+              // onChange={handleChange}
             />
             <ErrorMessage
               name={name}

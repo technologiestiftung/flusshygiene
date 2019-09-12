@@ -12,6 +12,7 @@ import {
   faForward,
   faBackward,
   faSave,
+  faWindowClose,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
   faInfo,
@@ -24,8 +25,12 @@ library.add(
   faBackward,
   faForward,
   faSave,
+  faWindowClose,
 );
 export const IconInfo: React.FC = () => <FontAwesomeIcon icon={'info'} />;
+export const IconCloseWin: React.FC = () => (
+  <FontAwesomeIcon icon={'window-close'} />
+);
 export const IconAngleDown: React.FC = () => (
   <FontAwesomeIcon icon={'angle-down'} />
 );

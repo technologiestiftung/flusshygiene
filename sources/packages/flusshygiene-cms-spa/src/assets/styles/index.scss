@@ -62,8 +62,16 @@ span.asteriks {
 
 // profile
 
-.card {
-  margin: 0.5em;
+// card
+
+.card__profile--pad {
+  margin: 0.5rem;
+}
+
+.media-content > .title {
+  // white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis !important;
 }
 
 // spoteditor
@@ -112,3 +120,26 @@ $mapHeight: 400px;
 .pagination {
   margin-top: -0.75rem;
 }
+
+// banner
+.banner {
+  position: absolute;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fde073;
+  text-align: center;
+  line-height: 2.5;
+  overflow: hidden;
+}
+
+// .spot__calib-notification--on-top {
+//   position: absolute;
+//   top: 1rem;
+//   right: 1rem;
+//   height: 50px;
+//   text-align: center;
+//   z-index: 101;
+//   box-shadow: 1px 1px 1px 1px $foreground-color;
+// }

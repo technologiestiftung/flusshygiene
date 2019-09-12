@@ -1,19 +1,26 @@
 import React from 'react';
 
 export const Container: React.FC<{
-  className?: string;
-  children: JSX.Element[] | JSX.Element | undefined | boolean;
-}> = ({ children, className }) => {
+  containerClassName?: string;
+  columnClassName?: string;
+  children: any;
+}> = ({ children, containerClassName, columnClassName }) => {
   return (
     <div
       className={
-        className !== undefined
-          ? `container info ${className}`
-          : 'container info'
+        containerClassName !== undefined
+          ? `container ${containerClassName}`
+          : 'container'
       }
     >
-      <div className='columns  is-centered'>
-        <div className='column is-10'>{children}</div>
+      <div className='columns is-centered'>
+        <div
+          className={`column ${
+            columnClassName !== undefined ? columnClassName : 'is-10'
+          }`}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

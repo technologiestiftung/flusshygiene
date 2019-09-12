@@ -14,6 +14,7 @@ import { IFetchSpotOptions } from '../lib/common/interfaces';
 import { fetchSpots } from '../lib/state/reducers/actions/fetch-get-spots';
 import { CardTile } from './spot/CardTile';
 import SpotsMap from './SpotsMap';
+// import { useBanner, BannerContext } from '../contexts/banner';
 
 const Profile: React.FC = () => {
   // ╦  ╦╔═╗╦═╗╔═╗
@@ -36,15 +37,6 @@ const Profile: React.FC = () => {
   // ╔═╗╔═╗╔═╗╔═╗╔═╗╔╦╗╔═╗
   // ║╣ ╠╣ ╠╣ ║╣ ║   ║ ╚═╗
   // ╚═╝╚  ╚  ╚═╝╚═╝ ╩ ╚═╝
-  // useEffect(() => {
-  //   // console.log(user);
-  //   if (user.pgapiData === undefined) {
-  //     console.log('got api data');
-  //     setYou({ ...user });
-  //   }
-  //   // return () => {};
-  // }, [you, user]);
-
   useEffect(() => {
     async function getToken() {
       try {
@@ -69,10 +61,10 @@ const Profile: React.FC = () => {
     if (!truncated) {
       return;
     }
-    console.log(user);
+    // console.log(user);
     // const token = await getTokenSilently();
     const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}`;
-    console.log(url);
+    // console.log(url);
     // console.log(url);
     const opts: IFetchSpotOptions = {
       url,
@@ -84,6 +76,7 @@ const Profile: React.FC = () => {
     };
     dispatch(fetchSpots(opts));
   }, [spots, truncated, dispatch, token, user, user.pgapiData]);
+
   // ╔═╗╦ ╦╔╗╔╔═╗╔╦╗╦╔═╗╔╗╔  ╦ ╦╔═╗╔╗╔╔╦╗╦  ╔═╗╦═╗╔═╗
   // ╠╣ ║ ║║║║║   ║ ║║ ║║║║  ╠═╣╠═╣║║║ ║║║  ║╣ ╠╦╝╚═╗
   // ╚  ╚═╝╝╚╝╚═╝ ╩ ╩╚═╝╝╚╝  ╩ ╩╩ ╩╝╚╝═╩╝╩═╝╚═╝╩╚═╚═╝
@@ -96,7 +89,13 @@ const Profile: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Container className='user__info'>
+      {/* <BannerContext.Consumer>
+        {(value) => {
+          return <div>Hello Banner</div>;
+        }}
+      </BannerContext.Consumer> */}
+
+      <Container>
         {(() => {
           if (loading) {
             return <div>Loading...</div>;
@@ -149,45 +148,50 @@ const Profile: React.FC = () => {
       {editMode === false && (
         <Container>
           {isAuthenticated !== undefined && isAuthenticated === true && (
-            <button className='button' onClick={handleNewSpot}>
-              Neue Badestelle
-            </button>
+            <div className='buttons'>
+              <button className='button is-small' onClick={handleNewSpot}>
+                Neue Badestelle
+              </button>
+            </div>
           )}
         </Container>
       )}
+      {editMode === false && spots !== undefined && (
+        <>
+          <Container containerClassName={'user__spots-map'}>
+            <div ref={mapRef} id='map__container'>
+              <SpotsMap
+                width={mapDims.width}
+                height={mapDims.height}
+                data={spots}
+              />
+            </div>
+          </Container>
+          <Container containerClassName={'user__spots'}>
+            <div className='tile is-ancestor'>
+              <div style={{ flexWrap: 'wrap' }} className='tile is-parent'>
+                {spots.map((obj, i) => {
+                  // return <li key={i}s>{obj.name}</li>;
 
-      <Container className={'user__spots-map'}>
-        <div ref={mapRef} id='map__container'>
-          <SpotsMap
-            width={mapDims.width}
-            height={mapDims.height}
-            data={spots}
-          />
-        </div>
-      </Container>
-      <Container className={'user__spots'}>
-        <div className='tile is-ancestor'>
-          <div style={{ flexWrap: 'wrap' }} className='tile is-parent'>
-            {spots.map((obj, i) => {
-              // return <li key={i}s>{obj.name}</li>;
-
-              return (
-                <div key={i} className='tile is-child is-3'>
-                  <CardTile
-                    title={obj.name}
-                    water={obj.water}
-                    id={obj.id}
-                    image={obj.image}
-                    hasPrediction={obj.hasPrediction}
-                    isUserLoggedIn={false}
-                    key={i}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </Container>
+                  return (
+                    <div key={i} className='tile is-child is-3'>
+                      <CardTile
+                        title={obj.name}
+                        water={obj.water}
+                        id={obj.id}
+                        image={obj.image}
+                        hasPrediction={obj.hasPrediction}
+                        isUserLoggedIn={false}
+                        key={i}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </Container>
+        </>
+      )}
     </React.Fragment>
   );
   // if (loading) {

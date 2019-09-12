@@ -1,5 +1,6 @@
 // // config-overrides.js
-// const { override } = require('customize-cra');
+const { addWebpackAlias } = require('customize-cra');
+const path = require('path');
 
 // const supportMjs = () => (webpackConfig) => {
 //   webpackConfig.module.rules.push({
@@ -17,6 +18,10 @@ module.exports = function override(webpackConfig) {
     test: /\.mjs$/,
     include: /node_modules/,
     type: 'javascript/auto',
+  });
+  // see https://github.com/uber/deck.gl/blob/master/examples/get-started/react/mapbox/webpack.config.js
+  addWebpackAlias({
+    'mapbox-gl$': path.resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js'),
   });
 
   return webpackConfig;

@@ -19,6 +19,7 @@ import SpotsMap from './SpotsMap';
 // import '../assets/styles/spot-editor.scss';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../lib/config';
+import { Container } from './Container';
 type RouteProps = RouteComponentProps<{ id: string }>;
 
 const Spot: React.FC<RouteProps> = ({ match }) => {
@@ -26,10 +27,18 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const handleEditModeClick = () => {
     setEditMode(!editMode);
   };
+  const handleCalibrationClick = () => {
+    console.log('Start calibration');
+    setShowNotification((prevState) => !prevState);
+  };
   const dispatch = useDispatch();
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const spot = useSelector((state: RootState) => state.detailSpot.spot);
+  const isSingleSpotLoading = useSelector(
+    (state: RootState) => state.detailSpot.loading,
+  );
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
@@ -38,6 +47,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.bathingspots}/${match.params.id}`,
     headers: {},
   };
+
+  useEffect(() => {
+    if (showNotification === false) return;
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000);
+  }, [showNotification]);
 
   useEffect(() => {
     if (spot.id === parseInt(match.params.id!, 10)) {
@@ -79,140 +95,149 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     );
   } else {
     return (
-      <div className='container'>
+      <>
+        {showNotification === true && (
+          <Container>
+            <div className='notification spot__calib-notification--on-top'>
+              Kalibrierung ihrer Badestelle wird gestartet. Bitte kommen Sie in
+              einigen Minuten zurück.
+            </div>
+          </Container>
+        )}
         {isAuthenticated === true && (
-          <div className='columns is-centered'>
-            <div className='column is-10'>
-              <button className='button' onClick={handleEditModeClick}>
-                Bearbeiten
+          <Container>
+            <div className='buttons'>
+              <button className='button is-small' onClick={handleEditModeClick}>
+                Badestelle Bearbeiten
+              </button>
+              <button
+                className='button is-small'
+                onClick={handleCalibrationClick}
+              >
+                Regendaten Kalibrierung Starten
+              </button>
+              <button
+                className='button is-small'
+                onClick={handleCalibrationClick}
+              >
+                Regendaten Kalibrierung Starten
               </button>
             </div>
-          </div>
+          </Container>
         )}
-        <div className='columns is-centered'>
-          <div className='column is-10'>
-            <SpotHeader
-              nameLong={(() => {
-                if (spot !== undefined) {
-                  return spot.nameLong !== undefined
-                    ? spot.nameLong
-                    : spot.name;
-                } else {
-                  return null;
-                }
-              })()}
-              water={spot !== undefined ? spot.water : ''}
-              district={spot !== undefined ? spot.district : ''}
-            />
-          </div>
-        </div>
-        <div className='columns is-centered'>
-          <div className='column is-5'>
-            {spot !== undefined && (
-              <div>
-                {/* <div className='column'> */}
-                <SpotLocation
-                  nameLong={spot.nameLong}
-                  street={spot.street}
-                  postalCode={(() => {
-                    if (
-                      spot.postalCode !== undefined &&
-                      spot.postalCode !== null
-                    ) {
-                      return spot.postalCode;
-                    }
-                    return '';
-                  })()}
-                  city={spot.city}
-                  latitude={spot.latitude}
-                  longitude={spot.longitude}
-                  website={spot.website}
-                />
-                {/* </div> */}
-                {/* <div className='column'> */}
-                <SpotImage
-                  image={spot.image}
-                  nameLong={spot.nameLong}
-                  name={spot.name}
-                  imageAuthor={undefined}
-                />
-                {/* </div> */}
-              </div>
-            )}
-          </div>
-          <div className='column is-5'>
-            {spot !== undefined &&
-              spot.measurements !== undefined &&
-              spot.measurements.length > 0 && (
-                <Measurement
-                  measurements={spot.measurements}
-                  hasPrediction={spot.hasPrediction}
-                >
-                  {(() => {
-                    if (spot.hasPrediction === true) {
-                      return (
-                        <div className='bathingspot__body-prediction'>
-                          <p>
-                            {/*tslint:disable-next-line: max-line-length*/}
-                            <span className='asteriks'>*</span> Die hier
-                            angezeigte Bewertung wird unterstützt durch eine
-                            neuartige tagesaktuelle Vorhersagemethode.{' '}
-                            <Link to={`/${RouteNames.info}`}>
-                              Erfahren Sie mehr&nbsp;&raquo;
-                            </Link>
-                          </p>
-                        </div>
-                      );
-                    }
-                    return null;
-                  })()}
-                </Measurement>
-              )}
-          </div>
-        </div>
-        <div className='columns is-centered'>
-          <div className='column is-10'>
-            {(() => {
-              return (
-                <div ref={mapRef} id='map__container'>
-                  <SpotsMap
-                    width={mapDims.width}
-                    height={mapDims.height}
-                    data={(() => {
-                      return Array.isArray(spot) === true ? spot : [spot];
+        <Container>
+          <SpotHeader
+            name={spot.name}
+            nameLong={spot.nameLong}
+            water={spot.water}
+            district={spot.district}
+          />
+        </Container>
+
+        <div className='container'>
+          <div className='columns is-centered'>
+            <div className='column is-5'>
+              {spot !== undefined && (
+                <div>
+                  {/* <div className='column'> */}
+                  <SpotLocation
+                    name={spot.name}
+                    nameLong={spot.nameLong}
+                    street={spot.street}
+                    postalCode={(() => {
+                      if (
+                        spot.postalCode !== undefined &&
+                        spot.postalCode !== null
+                      ) {
+                        return spot.postalCode;
+                      }
+                      return '';
                     })()}
-                    zoom={4}
+                    city={spot.city}
+                    latitude={spot.latitude}
+                    longitude={spot.longitude}
+                    website={spot.website}
                   />
+                  {/* </div> */}
+                  {/* <div className='column'> */}
+                  <SpotImage
+                    image={spot.image}
+                    nameLong={spot.nameLong}
+                    name={spot.name}
+                    imageAuthor={undefined}
+                  />
+                  {/* </div> */}
                 </div>
-              );
-            })()}
+              )}
+            </div>
+            <div className='column is-5'>
+              {spot !== undefined &&
+                spot.measurements !== undefined &&
+                spot.measurements.length > 0 && (
+                  <Measurement
+                    measurements={spot.measurements}
+                    hasPrediction={spot.hasPrediction}
+                  >
+                    {(() => {
+                      if (spot.hasPrediction === true) {
+                        return (
+                          <div className='bathingspot__body-prediction'>
+                            <p>
+                              {/*tslint:disable-next-line: max-line-length*/}
+                              <span className='asteriks'>*</span> Die hier
+                              angezeigte Bewertung wird unterstützt durch eine
+                              neuartige tagesaktuelle Vorhersagemethode.{' '}
+                              <Link to={`/${RouteNames.info}`}>
+                                Erfahren Sie mehr&nbsp;&raquo;
+                              </Link>
+                            </p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })()}
+                  </Measurement>
+                )}
+            </div>
           </div>
         </div>
-        <div className='columns is-centered'>
-          <div className='column is-10'>
-            {spot !== undefined && (
-              <div className='bathingspot__body-addon'>
-                <h3>Weitere Angaben zur Badesstelle</h3>
-                <SpotBodyAddonTagGroup
-                  cyanoPossible={spot.cyanoPossible}
-                  lifeguard={spot.lifeguard}
-                  disabilityAccess={spot.disabilityAccess}
-                  hasDisabilityAccesableEntrence={
-                    spot.hasDisabilityAccesableEntrence
-                  }
-                  restaurant={spot.restaurant}
-                  snack={spot.snack}
-                  parkingSpots={spot.parkingSpots}
-                  bathrooms={spot.bathrooms}
-                  disabilityAccessBathrooms={spot.disabilityAccessBathrooms}
-                  bathroomsMobile={spot.bathroomsMobile}
-                  dogban={spot.dogban}
-                />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+        <Container>
+          {isSingleSpotLoading === false && (
+            <div ref={mapRef} id='map__container'>
+              <SpotsMap
+                width={mapDims.width}
+                height={mapDims.height}
+                data={(() => {
+                  return Array.isArray(spot) === true ? spot : [spot];
+                })()}
+                zoom={4}
+              />
+            </div>
+          )}
+        </Container>
+        <Container>
+          {spot !== undefined && (
+            <div className='bathingspot__body-addon'>
+              <h3>Weitere Angaben zur Badesstelle</h3>
+              <SpotBodyAddonTagGroup
+                cyanoPossible={spot.cyanoPossible}
+                lifeguard={spot.lifeguard}
+                disabilityAccess={spot.disabilityAccess}
+                hasDisabilityAccesableEntrence={
+                  spot.hasDisabilityAccesableEntrence
+                }
+                restaurant={spot.restaurant}
+                snack={spot.snack}
+                parkingSpots={spot.parkingSpots}
+                bathrooms={spot.bathrooms}
+                disabilityAccessBathrooms={spot.disabilityAccessBathrooms}
+                bathroomsMobile={spot.bathroomsMobile}
+                dogban={spot.dogban}
+              />
+            </div>
+          )}
+        </Container>
+      </>
     );
   }
 };

@@ -1,9 +1,12 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './assets/styles/index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Auth0Provider } from './react-auth0-wrapper';
+// import { BannerProvider } from './contexts/banner';
 // import { Auth0Provider } from './react-auth0-wrapper-offline';
 
 // import config from './auth_config.json';
@@ -30,6 +33,7 @@ const onRedirectCallback = (appState) => {
 
 ReactDOM.render(
   <ErrorBoundary>
+    {/* <BannerProvider> */}
     <Provider store={store}>
       <Auth0Provider
         domain={REACT_APP_AUTH0_DOMAIN}
@@ -41,6 +45,7 @@ ReactDOM.render(
         <App />
       </Auth0Provider>
     </Provider>
+    {/* </BannerProvider> */}
   </ErrorBoundary>,
   document.getElementById('root'),
 );

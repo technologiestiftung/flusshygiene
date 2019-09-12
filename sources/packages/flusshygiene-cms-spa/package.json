@@ -30,15 +30,16 @@
     "@types/storybook__react": "^4.0.2",
     "bulma": "^0.7.5",
     "bulma-extensions": "^6.2.7",
-    "bulma-pagination-react": "^0.1.1",
     "eslint": "^6.2.2",
     "formik": "^2.0.1-rc.13",
     "http-proxy-middleware": "^0.19.1",
     "lodash.differenceby": "^4.8.0",
     "lodash.throttle": "^4.1.1",
+    "nebula.gl": "^0.15.0-alpha.7",
     "node-sass": "^4.12.0",
     "papaparse": "^5.0.2",
     "react": "^16.9.0",
+    "react-app-polyfill": "^1.0.2",
     "react-dom": "^16.9.0",
     "react-map-gl": "^5.0.10",
     "react-redux": "^7.1.1",
@@ -90,6 +91,7 @@
     "customize-cra": "^0.6.0",
     "cz-conventional-changelog": "^3.0.2",
     "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "husky": "^3.0.5",
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
@@ -123,7 +125,7 @@
       "!src/stories/**"
     ]
   },
-  "//proxy": "http://localhost:5004",
+  "proxy": "http://localhost:5004",
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint-staged"

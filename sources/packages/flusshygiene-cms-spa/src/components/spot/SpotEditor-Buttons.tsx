@@ -1,9 +1,9 @@
 import React from 'react';
 export const SpotEditorButtons: React.FC<{
   isSubmitting: boolean;
-  handleSubmit: (e?: any | undefined) => void;
+  // handleSubmit: (e?: any | undefined) => void;
   handleEditModeClick: () => any;
-}> = ({ isSubmitting, handleEditModeClick, handleSubmit }) => {
+}> = ({ isSubmitting, handleEditModeClick }) => {
   return (
     <div className='field is-grouped is-grouped-left'>
       <p className='control'>
@@ -11,14 +11,17 @@ export const SpotEditorButtons: React.FC<{
           className='button is-primary'
           type='submit'
           disabled={isSubmitting}
-          onClick={handleSubmit}
+          // onClick={(event: React.ChangeEvent<any>) => {
+          //   console.log('Hit submit', event);
+          //   handleSubmit(event);
+          // }}
         >
           Speichern
         </button>
       </p>
       <p className='control'>
         <button
-          className='button is-is-light'
+          className='button is-light'
           type='button'
           disabled={isSubmitting}
           onClick={handleEditModeClick}

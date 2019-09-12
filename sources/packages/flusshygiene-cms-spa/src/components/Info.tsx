@@ -46,7 +46,7 @@ const Info: React.FC<{}> = () => {
             statistischen Modells ausgewertet. Am Ende steht jeden Morgen eine
             Prognose über die Wasserqualität, die an diesem Tag zu erwarten ist.
           </p>
-          <h2>Hinweise:</h2>
+          <h2 className='title is-2'>Hinweise:</h2>
           {/* tslint:disable-next-line: max-line-length */}
           <p>
             Das Baden in natürlichen Gewässern ist nie zu 100% risikofrei. Auch

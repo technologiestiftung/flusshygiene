@@ -8,13 +8,14 @@ export interface ISpotBodyLocation {
   website: string;
   longitude: number;
   latitude: number;
+  name: string;
 }
 
 export const SpotLocation: React.FC<ISpotBodyLocation> = (props) => {
   return (
     <div className='bathingspot__body-location'>
       <h3 className='title is-3'>Anschrift</h3>
-      <p>{props.nameLong}</p>
+      <p>{props.nameLong !== undefined ? props.nameLong : props.name}</p>
       <p>{props.street}</p>
       <p>
         {props.postalCode} {props.city}

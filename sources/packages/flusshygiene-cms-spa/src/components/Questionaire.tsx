@@ -29,7 +29,7 @@ interface IAnswer {
 
 export const Questionaire: React.FC<{}> = () => {
   const [formReadyToRender, setFormReadyToRender] = useState(false);
-  const [modalIsActive, setmodalIsActive] = useState(false);
+  const [modalIsActive, setmodalIsActive] = useState(true);
   const [questions, setQuestions] = useState();
   // const [questionSet, setQuestionSet] = useState(undefined);
   const [qInfo, setQInfo] = useState('');
@@ -292,7 +292,7 @@ export const Questionaire: React.FC<{}> = () => {
                       />
                     </div>
                   </Container>
-                  <Container className={'answer__additional'}>
+                  <Container containerClassName={'answer__additional'}>
                     {aAddInfo !== undefined && (
                       <div className='content notification'>
                         <p>{aAddInfo}</p>

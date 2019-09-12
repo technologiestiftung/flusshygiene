@@ -1,31 +1,53 @@
 import React, { useState } from 'react';
 import { ButtonIconTB as Button } from '../Buttons';
+
+import { MapEditModes } from '../../lib/common/interfaces';
 import {
+  IconAngleDown,
   IconInfo,
   IconPolygon,
   IconMapMarker,
-  IconAngleDown,
 } from '../fontawesome-icons';
-import { MapEditModes } from '../../lib/common/interfaces';
 
 const dropdownTexts = {
   view: { text: ' Anzeige' },
   modify: { text: 'Modifizieren' },
   translate: { text: 'Bewegen' },
+  drawPoint: { text: 'Position Zeichnen' },
+  drawPolygon: { text: 'Regeneinzugsgebiet Zeichnen' },
 };
 
 const DropDown: React.FC<{
-  activeEditor: 'location' | 'area' | undefined;
+  // activeEditor: 'location' | 'area' | undefined;
   activeMode: MapEditModes;
   handleModeSwitch: (...args: any) => void;
-}> = ({ handleModeSwitch, activeEditor, activeMode }) => {
+}> = ({ handleModeSwitch, activeMode }) => {
   const [isActive, setIsActive] = useState(false);
+  // const [isDisabled, setIsDisabled] = useState(true);
+  // useEffect(() => {
+  //   if (activeEditor === undefined) {
+  //     setIsDisabled(true);
+  //   } else {
+  //     setIsDisabled(false);
+  //   }
+  // }, [activeEditor]);
+  // useEffect(() => {
+  //   if (isDisabled === true) {
+  //     setIsActive(false);
+  //   } else {
+  //     setIsActive(true);
+  //   }
+  //   return () => {};
+  // }, [isDisabled]);
+
   const handleClick = (event) => {
     handleModeSwitch(event);
     setIsActive(false);
   };
+
   const setActiveMode = (mode: string) =>
     activeMode === mode ? 'is-active' : '';
+
   return (
     <div className={`dropdown ${isActive ? 'is-active' : ''} is-small`}>
       <div
@@ -37,6 +59,7 @@ const DropDown: React.FC<{
           className='button is-small'
           aria-haspopup='true'
           aria-controls='dropdown-menu'
+          // disabled={isDisabled}
           onClick={(event) => {
             event.preventDefault();
             setIsActive(!isActive);
@@ -80,6 +103,28 @@ const DropDown: React.FC<{
           >
             bewegen
           </a>
+          <a
+            // dirty hack to keep bulma working
+            href='#/'
+            className={`dropdown-item ${setActiveMode('drawPoint')}`}
+            onClick={handleClick}
+            id={'drawPoint'}
+          >
+            Punkt zeichnen
+          </a>
+          <a
+            // dirty hack to keep bulma working
+            href='#/'
+            className={`dropdown-item ${setActiveMode('drawPolygon')}`}
+            onClick={handleClick}
+            id={'drawPolygon'}
+          >
+            Polygon zeichnen
+          </a>
+          {/* <hr className='dropdown-divider' />
+          <a href='#' className='dropdown-item'>
+            With a divider
+          </a> */}
         </div>
       </div>
     </div>
@@ -87,31 +132,52 @@ const DropDown: React.FC<{
 };
 export const SpotEditorMapToolbar: React.FC<{
   handleClick: (event: any) => void;
-  activeEditor: 'location' | 'area' | undefined;
+  // activeEditor: 'location' | 'area' | undefined;
   handleModeSwitch: (...args: any) => void;
   activeMode: MapEditModes;
-}> = ({ handleClick, activeEditor, handleModeSwitch, activeMode }) => {
+}> = ({ handleClick, handleModeSwitch, activeMode }) => {
+  const [polyIsActive, setPolyIsActive] = useState(false);
+  const [pointIsActive, setPointIsActive] = useState(true);
+
   return (
     <div className='buttons'>
       <Button handleClick={handleClick} cssId={'info'} isActive={false}>
         <IconInfo />
       </Button>
       <Button
-        handleClick={handleClick}
+        handleClick={(event: React.ChangeEvent<any>) => {
+          setPolyIsActive((prevState) => {
+            if (!prevState === true) {
+              setPointIsActive(false);
+            }
+            return !prevState;
+          });
+          // setPointIsActive(polyIsActive === true ? false : true);
+          handleClick(event);
+        }}
         cssId={'area'}
-        isActive={activeEditor === 'area' ? true : false}
+        isActive={polyIsActive}
       >
         <IconPolygon />
       </Button>
       <Button
-        handleClick={handleClick}
+        handleClick={(event: React.ChangeEvent<any>) => {
+          setPointIsActive((prevState) => {
+            if (!prevState === true) {
+              setPolyIsActive(false);
+            }
+            return !prevState;
+          });
+          // setPolyIsActive(pointIsActive === true ? false : true);
+          handleClick(event);
+        }}
         cssId={'location'}
-        isActive={activeEditor === 'location' ? true : false}
+        isActive={pointIsActive}
       >
         <IconMapMarker />
       </Button>
       <DropDown
-        activeEditor={activeEditor}
+        // activeEditor={activeEditor}
         handleModeSwitch={handleModeSwitch}
         activeMode={activeMode}
       />
