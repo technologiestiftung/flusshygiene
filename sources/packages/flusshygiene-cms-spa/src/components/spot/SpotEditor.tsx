@@ -300,7 +300,7 @@ export const SpotEditor: React.FC<{
               props.setFieldValue('area', area);
             }
             if (location !== undefined) {
-              console.log('The location', location);
+              // console.log('The location', location);
               props.setFieldValue('location', location);
               // props.setFieldValue('latitude', location.coordinates[1]);
               // props.setFieldValue('longitude', location.coordinates[0]);

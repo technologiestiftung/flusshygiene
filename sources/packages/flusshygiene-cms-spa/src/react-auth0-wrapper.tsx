@@ -70,7 +70,7 @@ export const Auth0Provider = ({
           opts,
         );
         let json = await response.json();
-        console.log(json);
+        // console.log(json);
         // const getUserId
         if (json.data.length > 0) {
         }

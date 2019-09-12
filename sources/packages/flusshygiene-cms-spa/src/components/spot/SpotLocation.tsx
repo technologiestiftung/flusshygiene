@@ -6,8 +6,7 @@ export interface ISpotBodyLocation {
   postalCode: string;
   city: string;
   website: string;
-  longitude: number;
-  latitude: number;
+  location: any;
   name: string;
 }
 
@@ -37,16 +36,18 @@ export const SpotLocation: React.FC<ISpotBodyLocation> = (props) => {
         }
         return null;
       })()}
-      <p>
-        <a
-          data-testid='google-link'
-          href={`https://maps.google.com/maps?daddr=${props.longitude},${props.latitude}`}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Route Berechnen mit Google Maps ->
-        </a>
-      </p>
+      {props.location !== undefined && (
+        <p>
+          <a
+            data-testid='google-link'
+            href={`https://maps.google.com/maps?daddr=${props.location.coordinates[1]},${props.location.coordinates[0]}`}
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Route Berechnen mit Google Maps ->
+          </a>
+        </p>
+      )}
     </div>
   );
 };

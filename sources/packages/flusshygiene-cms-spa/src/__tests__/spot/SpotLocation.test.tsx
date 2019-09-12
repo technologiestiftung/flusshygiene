@@ -3,12 +3,12 @@ import { render } from '@testing-library/react';
 import { SpotLocation } from '../../components/spot/SpotLocation';
 describe('Testing spot location', () => {
   test('should render the spot location', () => {
-    const { container, getByText, getByTestId } = render(
+    const { getByText, getByTestId } = render(
       <SpotLocation
+        name={'fo'}
         city={'Berlin'}
         street={'Mockstreet'}
-        latitude={13}
-        longitude={52}
+        location={{ coordinates: [13, 52] }}
         postalCode={'12345'}
         nameLong={'fooo'}
         website={'http://example.com'}

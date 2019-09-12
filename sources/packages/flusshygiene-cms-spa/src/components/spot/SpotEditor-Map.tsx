@@ -50,7 +50,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     event,
   ) => {
     event.preventDefault();
-    console.log(event.currentTarget.id);
+    // console.log(event.currentTarget.id);
     switch (event.currentTarget.id) {
       case 'view':
       case 'modify':
@@ -89,7 +89,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
       return null;
     });
     const polies = geoData.features.filter((ele) => {
-      console.log('got a polygon', ele);
+      // console.log('got a polygon', ele);
       if (ele.geometry.type === 'Polygon') {
         return ele;
       }
@@ -114,7 +114,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     const features: IGeoJsonFeature[] = [];
 
     if (data[0].location !== undefined) {
-      console.log('location in second hook', data[0].location);
+      // console.log('location in second hook', data[0].location);
       const loc: IGeoJsonFeature = {
         type: 'Feature',
         geometry: data[0].location,
@@ -137,7 +137,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
       features.push(area);
     }
 
-    console.log('the features we have found', features);
+    // console.log('the features we have found', features);
     const geo: IGeoJson = {
       type: 'FeatureCollection',
       features: features,

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { NavLink } from 'react-router-dom';
 import { RouteNames } from '../lib/common/enums';
@@ -6,10 +6,10 @@ import { RouteNames } from '../lib/common/enums';
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-  useEffect(() => {
-    console.log(window.location);
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   // console.log(window.location);
+  //   return () => {};
+  // }, []);
 
   return (
     <nav className='navbar' role='navigation' aria-label='main navigation'>
@@ -62,7 +62,7 @@ const NavBar = () => {
           >
             Vorhersage Modell
           </NavLink>
-          {isAuthenticated && (
+          {/* {isAuthenticated && (
             <NavLink
               to='/external-api'
               activeClassName={'navbar-item--is-active'}
@@ -70,7 +70,7 @@ const NavBar = () => {
             >
               External API
             </NavLink>
-          )}
+          )} */}
         </div>
         <div className='navbar-end'>
           {!isAuthenticated && (

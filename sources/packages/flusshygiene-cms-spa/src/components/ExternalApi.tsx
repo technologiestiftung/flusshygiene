@@ -14,9 +14,9 @@ const ExternalApi = () => {
 
       const response = await fetch(url, opts);
 
-      console.log(response);
+      // console.log(response);
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
 
       setShowResult(true);
       setApiMessage(responseData);
@@ -55,8 +55,8 @@ const ExternalApi = () => {
             },
           };
 
-          console.log('making request to', url);
-          console.log('with the following options', opts);
+          // console.log('making request to', url);
+          // console.log('with the following options', opts);
           callApi(url, opts);
         }}
       >

@@ -23,7 +23,7 @@ export const putSpot: (opts: IFetchSpotOptions) => void = ({
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
+        // console.log(json);
         dispatch(postSpotSuccess(json.success, json.error));
         if (updateSingle === true) {
           dispatch(fetchSingleSpot({ url, method: 'GET', headers }));

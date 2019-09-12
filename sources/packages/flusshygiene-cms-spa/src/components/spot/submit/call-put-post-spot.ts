@@ -28,8 +28,8 @@ export const callPutPostSpot = async (
   const transformedSpot = nullValueTransform(initialSpot);
   const token = await getTokenSilently();
   const { id, createdAt, version, updatedAt, ...body } = spot;
-  console.log(measurmentData);
-  console.log('unpatched body', body);
+  // console.log(measurmentData);
+  // console.log('unpatched body', body);
   for (const key in body) {
     // if (typeof body[key] === 'string') {
     //   if (body[key].length === 0) {
@@ -53,7 +53,7 @@ export const callPutPostSpot = async (
     }
   }
 
-  console.log('patched body ', body);
+  // console.log('patched body ', body);
 
   let url: string;
 
@@ -73,7 +73,7 @@ export const callPutPostSpot = async (
     update: true,
   };
 
-  console.log('post options', postSpotOpts);
+  // console.log('post options', postSpotOpts);
 
   dispatch(putSpot(postSpotOpts));
   if (
