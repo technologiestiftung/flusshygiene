@@ -20,6 +20,7 @@ __test-utils
 .netlify
 .storybook
 build-tools
+!build-tools/version.js
 .gitignore
 .prettierignore
 jest.config.js
