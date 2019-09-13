@@ -1,6 +1,6 @@
 import redis, { ClientOpts } from 'redis';
 const opts: ClientOpts = {
-  host: process.env.REDIS_HOST || 'redis',
+  host: process.env.REDIS_HOST || '127.0.0.1',
   port:
     process.env.REDIS_PORT === undefined
       ? 6379
@@ -10,13 +10,16 @@ const opts: ClientOpts = {
 const redisClient = redis.createClient(opts);
 const sub = redisClient.duplicate();
 
-// export const pubsub = async () => {
-// try {
-sub.on('message', (channel, message) => {
-  console.log(`Redis Channel ${channel} => ${message}\n`);
-});
-sub.subscribe('hello');
-// } catch (err) {
-// throw err;
-// }
-// };
+export const pubsub = async () => {
+  try {
+    sub.on('message', (channel, message) => {
+      console.log(`Redis Channel ${channel} => ${message}\n`);
+    });
+    sub.on('connect', () => {
+      console.log('sub is connected');
+    });
+    sub.subscribe('hello');
+  } catch (err) {
+    throw err;
+  }
+};
