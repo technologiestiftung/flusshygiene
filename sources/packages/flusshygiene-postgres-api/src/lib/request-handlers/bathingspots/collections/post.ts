@@ -1,4 +1,9 @@
-import { HttpCodes, postResponse } from '../../../common';
+import {
+  // apiVersion,
+  HttpCodes,
+  // IDefaultResponsePayload,
+  postResponse,
+} from '../../../common';
 
 import { collectionNames } from './collections';
 
@@ -16,7 +21,7 @@ import {
   getGIWithRelations,
 } from '../../../utils/collection-repo-helpers';
 
-import { getRepository } from 'typeorm';
+import { getConnection, getRepository, ObjectLiteral } from 'typeorm';
 
 import {
   Bathingspot,
@@ -31,6 +36,25 @@ import {
   PurificationPlant,
   Rain,
 } from '../../../../orm/entity';
+
+// interface IIdentifier {
+//   id: number;
+//   [key: string]: any;
+// }
+
+const insertUniqueOnly: (
+  mEntity: any,
+  entity: any,
+) => Promise<ObjectLiteral[]> = async (mEntity, entity) => {
+  const ires = await getConnection()
+    .createQueryBuilder()
+    .insert()
+    .into(entity)
+    .values(mEntity)
+    .onConflict(`DO NOTHING`)
+    .execute();
+  return ires.identifiers;
+};
 
 export const postCollectionsSubItem: postResponse = async (
   request,
@@ -157,6 +181,7 @@ export const postCollection: postResponse = async (request, response) => {
           } else {
             inData = request.body;
           }
+          const identifiersArray: ObjectLiteral[] = [];
           for (const datum of inData) {
             const entity = repo.create();
             const mergedEntity:
@@ -178,6 +203,11 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.predictions.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(
+                    mEntity,
+                    BathingspotPrediction,
+                  );
+                  identifiersArray.push(...ires);
                 }
                 break;
               case 'measurements':
@@ -188,6 +218,19 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.measurements.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(
+                    mEntity,
+                    BathingspotMeasurement,
+                  );
+                  identifiersArray.push(...ires);
+                  // const ires = await getConnection()
+                  //   .createQueryBuilder()
+                  //   .insert()
+                  //   .into(BathingspotMeasurement)
+                  //   .values(mEntity)
+                  //   .onConflict(`DO NOTHING`)
+                  //   .execute();
+                  // console.log(ires);
                 }
                 break;
               case 'purificationPlants':
@@ -198,6 +241,11 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.purificationPlants.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(
+                    mEntity,
+                    PurificationPlant,
+                  );
+                  identifiersArray.push(...ires);
                 }
                 break;
               case 'models':
@@ -208,6 +256,11 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.models.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(
+                    mEntity,
+                    BathingspotModel,
+                  );
+                  identifiersArray.push(...ires);
                 }
                 break;
               case 'genericInputs':
@@ -218,6 +271,8 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.genericInputs.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(mEntity, GenericInput);
+                  identifiersArray.push(...ires);
                 }
                 break;
               case 'globalIrradiances':
@@ -228,6 +283,11 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.globalIrradiances.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(
+                    mEntity,
+                    GlobalIrradiance,
+                  );
+                  identifiersArray.push(...ires);
                 }
                 break;
               case 'discharges':
@@ -238,6 +298,8 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.discharges.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(mEntity, Discharge);
+                  identifiersArray.push(...ires);
                 }
                 break;
               case 'rains':
@@ -248,6 +310,8 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.rains.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(mEntity, Rain);
+                  identifiersArray.push(...ires);
                 }
                 break;
               case 'images':
@@ -258,19 +322,49 @@ export const postCollection: postResponse = async (request, response) => {
                   } else {
                     spotWithRelation.images.push(mEntity);
                   }
+                  const ires = await insertUniqueOnly(mEntity, ImageFile);
+                  identifiersArray.push(...ires);
                 }
                 break;
             }
             mergedEntities.push(mergedEntity);
           }
-          const res = await repo.save(mergedEntities);
-
+          const ids = identifiersArray
+            .filter((ele) => {
+              if (ele === undefined) {
+                return;
+              }
+              if (ele.id === undefined) {
+                return;
+              }
+              return ele;
+            })
+            .map((ele) => ele.id);
+          console.log(ids);
+          const res = await repo.findByIds(ids);
+          // try {
+          // res = await repo.save(mergedEntities);
           await getRepository(Bathingspot).save(spotWithRelation);
           responder(
             response,
             HttpCodes.successCreated,
             successResponse(`${repoName} Posted`, res),
           );
+          // } catch (e) {
+          //   // console.error(e);
+          //   if (e.code === '23505') {
+          //     const payload: IDefaultResponsePayload = {
+          //       apiVersion,
+          //       data: e.parameters,
+          //       message: e.detail,
+          //       success: false,
+          //     };
+          //     responder(response, HttpCodes.badRequestConflict, payload);
+          //   } else {
+          //     throw e;
+          //   }
+          // }
+          // const query = await repo.createQueryBuilder().insert().into(repo).c
         }
       }
     }

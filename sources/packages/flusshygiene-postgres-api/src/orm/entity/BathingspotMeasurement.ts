@@ -5,11 +5,13 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Bathingspot } from './Bathingspot';
 
 @Entity()
+@Unique(['date'])
 export class BathingspotMeasurement {
   @PrimaryGeneratedColumn()
   public id!: number;
@@ -25,7 +27,7 @@ export class BathingspotMeasurement {
   @Column({ nullable: true, type: 'float8' })
   public sicht!: number;
 
-  @Column({ type: 'timestamp' /* nullable: true*/ })
+  @Column({ type: 'timestamp' })
   public date!: Date;
 
   @Column({ nullable: true, type: 'float8' })

@@ -2,7 +2,6 @@ jest.useFakeTimers();
 import request from 'supertest';
 import app from '../src/lib/app';
 // let rclient: redis.RedisClient;
-
 beforeAll(() => {});
 afterAll(() => {});
 describe('default testing get requests', () => {

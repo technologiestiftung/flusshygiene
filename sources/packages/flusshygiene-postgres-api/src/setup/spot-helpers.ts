@@ -53,7 +53,7 @@ export const createSpotWithValues = async (
         break;
       case 'geometry':
         const geom = setupGeom({ value, criterion });
-        console.log('this is geom', geom);
+        // console.log('this is geom', geom);
         if (geom !== undefined) {
           spotRepo.merge(spot, geom);
         }
