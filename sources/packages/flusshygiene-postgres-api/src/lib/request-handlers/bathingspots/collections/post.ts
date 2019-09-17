@@ -340,7 +340,7 @@ export const postCollection: postResponse = async (request, response) => {
               return ele;
             })
             .map((ele) => ele.id);
-          console.log(ids);
+          // console.log(ids);
           const res = await repo.findByIds(ids);
           // try {
           // res = await repo.save(mergedEntities);

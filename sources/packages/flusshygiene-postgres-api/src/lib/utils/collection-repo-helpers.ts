@@ -78,8 +78,8 @@ export const getColletionItemById: (
       query = repo
         .createQueryBuilder(repoName)
         .where(`${repoName}.id = :itemId`, { itemId })
-        .addSelect(`${repoName}.rmodel`)
-        .addSelect(`${repoName}.rmodelBinary`);
+        .addSelect(`${repoName}.rmodel`);
+      // .addSelect(`${repoName}.rmodelBinary`);
     } else {
       query = repo
         .createQueryBuilder(repoName)

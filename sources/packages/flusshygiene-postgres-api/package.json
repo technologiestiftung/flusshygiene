@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --runInBand",
+    "test:watch": "jest --runInBand --watch",
     "testWithCoverage": "jest --coverage --setupFiles ./__tests__/setupFiles/config",
     "populatedb": "node dist/setup/populate-db.js",
     "dev": "npm run clean && nodemon",
@@ -27,7 +28,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/issues"
   },
