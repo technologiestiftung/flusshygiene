@@ -20,6 +20,12 @@ import SpotsMap from './SpotsMap';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../lib/config';
 import { Container } from './Container';
+const messageCalibratePredict = {
+  calibrate:
+    'Ihre Kalibrierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
+  predict:
+    'Ihre Vorhersagegenerierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
+};
 type RouteProps = RouteComponentProps<{ id: string }>;
 
 const Spot: React.FC<RouteProps> = ({ match }) => {
@@ -28,15 +34,19 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const handleEditModeClick = () => {
     setEditMode(!editMode);
   };
-  const handleCalibrationClick = () => {
+  const handleCalibratePredictClick = (event: React.ChangeEvent<any>) => {
     // console.log('Start calibration');
+    console.log(event.currentTarget.id);
+    setCalibratePredictSelector(event.currentTarget.id);
     setShowNotification((prevState) => !prevState);
   };
   const dispatch = useDispatch();
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [token, setToken] = useState<string>();
-
+  const [calibratePredictSelector, setCalibratePredictSelector] = useState<
+    'calibrate' | 'predict' | undefined
+  >(undefined);
   const [showNotification, setShowNotification] = useState(false);
   const spot = useSelector((state: RootState) => state.detailSpot.spot);
   const isSingleSpotLoading = useSelector(
@@ -65,11 +75,12 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }
     getToken();
   }, [getTokenSilently, setToken]);
+
   useEffect(() => {
     if (showNotification === false) return;
     setTimeout(() => {
       setShowNotification(false);
-    }, 3000);
+    }, 5000);
   }, [showNotification]);
 
   useEffect(() => {
@@ -129,8 +140,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         {showNotification === true && (
           <Container>
             <div className='notification spot__calib-notification--on-top'>
-              Kalibrierung ihrer Badestelle wird gestartet. Bitte kommen Sie in
-              einigen Minuten zurück.
+              {calibratePredictSelector !== undefined
+                ? messageCalibratePredict[calibratePredictSelector]
+                : ''}
             </div>
           </Container>
         )}
@@ -142,16 +154,18 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               </button>
               <button
                 className='button is-small'
-                onClick={handleCalibrationClick}
+                onClick={handleCalibratePredictClick}
+                id='calibrate'
               >
-                Regendaten Kalibrierung Starten
+                Kalibrierung Starten
               </button>
-              {/* <button
+              <button
                 className='button is-small'
-                onClick={handleCalibrationClick}
+                onClick={handleCalibratePredictClick}
+                id='predict'
               >
-                Regendaten Kalibrierung Starten
-              </button> */}
+                Vorhersage berechnen
+              </button>
             </div>
           </Container>
         )}

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import { Formik, Form } from 'formik';
-// import SpotEditorInput from './SpotEditor-Input';
-// import SpotEditorCheckbox from './SpotEditor-Checkbox';
 import {
   IBathingspot,
   IFetchSpotOptions,
@@ -40,64 +38,18 @@ import Papa, { ParseError } from 'papaparse';
 import { IconSave, IconCloseWin, IconInfo } from '../fontawesome-icons';
 import { SpotEditorInfoModal } from './SpotEditor-InfoModal';
 import { SpotEditorMeasurmentInfo } from './SpotEditor-Measurments-Info';
+import { SpotEditorToClipboard } from './SpotEditor-ToClipboard';
 
 export const SpotEditor: React.FC<{
   initialSpot: IBathingspotExtend;
   handleEditModeClick: () => void;
   newSpot?: boolean;
 }> = ({ initialSpot, handleEditModeClick, newSpot }) => {
-  // const mapToolbarClickHandler: React.MouseEventHandler<HTMLDivElement> = (
-  //   event,
-  // ) => {
-  //   event.preventDefault();
-  //   console.log(event.currentTarget.id);
-  //   switch (event.currentTarget.id) {
-  //     case 'info':
-  //       // console.log('info');
-  //       break;
-  //     case 'area':
-  //       // setSelectedIndex(1);
-  //       // if (activeEditor === 'area') {
-  //       //   // setAreaMode('view');
-  //       //   setActiveEditor(undefined);
-  //       // } else {
-  //       //   // setAreaMode('modify');
-  //       //   // setLocationMode('view');
-  //       //   setActiveEditor('area');
-  //       // }
-  //       break;
-  //     case 'location':
-  //       // setSelectedIndex(0);
-  //       // if (activeEditor === 'location') {
-  //       //   // setLocationMode('view');
-  //       //   setActiveEditor(undefined);
-  //       // } else {
-  //       //   // setLocationMode('modify');
-  //       //   // setAreaMode('view');
-  //       //   setActiveEditor('location');
-  //       // }
-  //       break;
-  //   }
-  //   // console.log(selectedIndex);
-  // };
-  // const mapToolbarEditModeHandler: React.MouseEventHandler<HTMLDivElement> = (
-  //   event,
-  // ) => {
-  //   event.preventDefault();
-  //   console.log(event.currentTarget.id);
-  //   switch (event.currentTarget.id) {
-  //     case 'view':
-  //     case 'modify':
-  //     case 'translate':
-  //     case 'drawPoint':
-  //     case 'drawPolygon':
-  //       setEditMode(event.currentTarget.id);
-  //       break;
-  //   }
-  // };
-
-  // const mapRef = useRef<HTMLDivElement>(null);
-  // const mapDims = useMapResizeEffect(mapRef);
+  // ╦═╗╔═╗╔═╗
+  // ╠╦╝║╣ ╠╣
+  // ╩╚═╚═╝╚
+  let csvValidationRef = createRef<HTMLTableElement>();
+  let papaParseValidationRef = createRef<HTMLTableElement>();
 
   // ┌─┐┌┬┐┌─┐┌┬┐┌─┐
   // └─┐ │ ├─┤ │ ├┤
@@ -138,58 +90,58 @@ export const SpotEditor: React.FC<{
   const postDone = useSelector((state: RootState) => state.postSpot.loading);
   const dispatch = useDispatch();
 
+  const papaPromise: (file: any, opts: any) => Promise<Papa.ParseResult> = (
+    file,
+    opts,
+  ) => {
+    return new Promise((complete, error) => {
+      Papa.parse(file, { ...opts, complete, error });
+    });
+  };
   // ╔═╗╔═╗╔═╗╔═╗╔═╗╔╦╗
   // ║╣ ╠╣ ╠╣ ║╣ ║   ║
   // ╚═╝╚  ╚  ╚═╝╚═╝ ╩
+
   useEffect(() => {
     if (csvFile === undefined) return;
-    const config: Papa.ParseConfig = {
-      dynamicTyping: true,
-      header: true,
-      error: (error, file?) => {
-        console.error('Error in papaparse');
-        console.error(file, error);
-      },
-      complete: (results, file?) => {
-        // console.log('papaparse results');
-        // console.log(file, results);
+    (async () => {
+      try {
+        const config: Papa.ParseConfig = {
+          delimiter: '',
+          dynamicTyping: true,
+          header: true,
+        };
+        const results = await papaPromise(csvFile, config);
+        console.log(results);
         setParsingErrors(results.errors);
         let allValid = true;
+        setAllMeasurmentsValid(results.errors.length === 0 ? true : false);
         for (let i = 0; i < results.data.length; i++) {
           const elem = results.data[i];
-          measurementsSchema
-            .isValid(elem)
-            // eslint-disable-next-line
-            .then((valid: boolean) => {
-              // console.log(elem, ' is valid', valid);
-              if (valid === false) {
-                allValid = false;
-                const obj: ICSVValidationErrorRes = {
-                  row: i,
-                  message:
-                    'Daten entsprechen nicht dem Schema Date (YYYY-MM-DD), conc_ie (integer > 0), conc_ec (integer > 0)',
-                };
-                setCSVValidationErrors((prevErrors) => {
-                  return [...prevErrors, obj];
-                });
-              }
-              if (i === results.data.length - 1 && allValid === true) {
-                setMeasurments(results.data as IBathingspotMeasurement[]);
-                setAllMeasurmentsValid(true);
-              } else {
-              }
-            })
-            .catch(function(err) {
-              console.error(err);
+          console.log('element', elem);
+          try {
+            const validateResult = await measurementsSchema.validate(elem);
+            console.log('validateResult:', validateResult);
+          } catch (err) {
+            allValid = false;
+            const obj: ICSVValidationErrorRes = {
+              row: i + 1,
+              message: err.message,
+            };
+            setCSVValidationErrors((prevErrors) => {
+              return [...prevErrors, obj];
             });
+            console.error(err);
+          }
+          if (i === results.data.length - 1 && allValid === true) {
+            setMeasurments(results.data as IBathingspotMeasurement[]);
+            setAllMeasurmentsValid(true);
+          }
         }
-      },
-    };
-    Papa.parse(csvFile, config);
-    // effect
-    return () => {
-      // cleanup
-    };
+      } catch (error) {
+        console.error(error);
+      }
+    })();
   }, [csvFile]);
 
   const callPutPostSpot = async (
@@ -473,19 +425,22 @@ export const SpotEditor: React.FC<{
                   {allMeasurmentsValid === true && (
                     <div>
                       <div className='content'>
-                        <p>Alle hochgeladenen Daten sind valide,</p>
+                        <p>Alle hochgeladenen Daten sind valide.</p>
                       </div>
                     </div>
                   )}
                   {csvValidationErrors.length > 0 && (
-                    <div className=''>
+                    <>
                       <h3>CSV Daten Report</h3>
-                      <table className='table'>
+                      <SpotEditorToClipboard
+                        csvValidationRef={csvValidationRef}
+                      />
+                      <table className='table' ref={csvValidationRef}>
                         <thead>
                           <tr>
-                            <th>{'Nummer'}</th>
-                            <th>{'Zeile'}</th>
-                            <th>{'Beschrebung'}</th>
+                            <th>{'Fehler Nummer'}</th>
+                            <th>{'In Zeile'}</th>
+                            <th>{'Beschreibung'}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -500,15 +455,18 @@ export const SpotEditor: React.FC<{
                           })}
                         </tbody>
                       </table>
-                    </div>
+                    </>
                   )}
                   {parsingErrors !== undefined && parsingErrors.length > 0 && (
                     <div className=''>
                       <h3>CSV Struktur Report</h3>
-                      <table className='table'>
+                      <SpotEditorToClipboard
+                        csvValidationRef={papaParseValidationRef}
+                      />
+                      <table className='table' ref={papaParseValidationRef}>
                         <thead>
                           <tr>
-                            <th>{'Nummer'}</th>
+                            <th>{'Fehler Nummer'}</th>
                             <th>{'Zeile'}</th>
                             <th>{'Beschreibung'}</th>
                             <th>{'Fehler Code'}</th>

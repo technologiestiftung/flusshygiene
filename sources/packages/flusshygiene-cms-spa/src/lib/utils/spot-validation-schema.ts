@@ -103,13 +103,13 @@ export const editorSchema = Yup.object().shape({
 });
 
 export const measurementsSchema = Yup.object().shape({
-  date: Yup.date().required(),
+  date: Yup.date().required('Kein valides datum'),
   conc_ie: Yup.number()
-    .integer()
-    .positive()
-    .required(),
+    // .integer()
+    // .positive()
+    .required('Kein integer >= 0'),
   conc_ec: Yup.number()
-    .integer()
-    .positive()
-    .required(),
+    // .integer()
+    // .positive()
+    .required('Kein integer >= 0'),
 });
