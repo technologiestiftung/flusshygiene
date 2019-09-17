@@ -108,14 +108,14 @@ describe('testing users/[:userId]/bathingspots/[:spotId] delete', () => {
     const userRepo = getRepository(User);
     const usersWithSpotsRelation = await userRepo.find({
       relations: ['bathingspots'],
-      where: { protected: false },
     });
     const usersWithSpots = usersWithSpotsRelation.filter(
       (u) => u.bathingspots.length > 0,
     );
+    // console.log(usersWithSpots);
     const user = usersWithSpots[0];
     const publicSpots = user.bathingspots.filter(
-      (_spot) => _spot.isPublic === true,
+      (spot) => spot.isPublic === true,
     );
     const spot = publicSpots[0];
     const res = await request(app)

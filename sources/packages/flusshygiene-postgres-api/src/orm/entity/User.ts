@@ -25,8 +25,8 @@ export class User {
   @Column()
   @UpdateDateColumn()
   public updatedAt!: Date;
-  @Column({ nullable: false })
-  public protected: boolean = false;
+  @Column({ nullable: false, default: true })
+  public protected!: boolean;
 
   @Column({ nullable: false })
   public firstName!: string;

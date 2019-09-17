@@ -6,7 +6,6 @@ import { Region } from '../orm/entity';
 import { Bathingspot, criteriaBathingspot } from '../orm/entity/Bathingspot';
 
 // const allowedFeatureTypes = ['Point', 'Polygon'];
-
 // const checkGeom: (obj: any) => boolean = (obj) => {
 //   const res: boolean[] = [];
 //   geomCriteria.forEach((criterion) => {
@@ -23,8 +22,26 @@ import { Bathingspot, criteriaBathingspot } from '../orm/entity/Bathingspot';
 //   });
 //   return res.includes(false) || res.length > 2 ? false : true;
 // };
+const getAndVerifyRegion = async (obj: any) => {
+  try {
+    let region: Region | undefined;
+    if (obj.hasOwnProperty('region') === true) {
+      region = await findByName(obj.region);
+      if (region instanceof Region) {
+        return region;
+      }
+      return region;
+    }
 
-const setupGeom: (obj: { value: any; criterion: any }) => any = (obj) => {
+    return region;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const setupGeom: (obj: { value: any; criterion: any }) => object | undefined = (
+  obj,
+) => {
   let res: object | undefined;
 
   if (isObject(obj.value) === true) {
@@ -79,19 +96,4 @@ export const createSpotWithValues = async (
     spot.region = region;
   }
   return spot;
-};
-
-const getAndVerifyRegion = async (obj: any) => {
-  try {
-    let region: Region | undefined;
-    if (obj.hasOwnProperty('region') === true) {
-      region = await findByName(obj.region);
-      if (region instanceof Region) {
-        return region;
-      }
-    }
-    return region;
-  } catch (error) {
-    throw error;
-  }
 };

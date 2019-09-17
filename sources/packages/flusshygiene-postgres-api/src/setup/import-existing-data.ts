@@ -19,14 +19,14 @@ console.info('You need to run this from a npm script in the root of the repo.');
 const dataDirPath = resolve(process.cwd(), './data');
 proj4.defs([
   [
-    'EPSG:4326',
-    '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees',
+    `EPSG:4326`,
+    `+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees`,
   ],
   [
-    'EPSG:25833',
-    '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+    `EPSG:25833`,
+    `+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs`,
   ],
-  ['ETRS89', '+proj=longlat +ellps=GRS80 +no_defs'],
+  [`ETRS89`, `+proj=longlat +ellps=GRS80 +no_defs`],
 ]);
 
 const nameMappingPredictions: IObject = {

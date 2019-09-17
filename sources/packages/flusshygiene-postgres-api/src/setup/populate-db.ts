@@ -79,7 +79,7 @@ pass the path for the config you want to use.
     const connection = await createConnection(connectionOptions);
     // const db = await connection.connect();
     // process.stdout.write(db.name);
-    let databaseEmpty: boolean = false;
+    let databaseEmpty = false;
     let users;
     try {
       users = await getRepository(User).find();
