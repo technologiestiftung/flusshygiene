@@ -138,6 +138,7 @@ export const SpotEditor: React.FC<{
             setAllMeasurmentsValid(true);
           }
         }
+        setAllMeasurmentsValid(allValid);
       } catch (error) {
         console.error(error);
       }
@@ -478,7 +479,7 @@ export const SpotEditor: React.FC<{
                             return (
                               <tr key={i}>
                                 <td>{i}</td>
-                                <td>{err.row}</td>
+                                <td>{err.row + 1}</td>
                                 <td>{err.message}</td>
                                 <td>{err.code}</td>
                                 <td>{err.type}</td>
