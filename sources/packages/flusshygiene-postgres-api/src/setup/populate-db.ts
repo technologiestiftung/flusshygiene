@@ -199,7 +199,7 @@ pass the path for the config you want to use.
       entities: measurements,
     };
 
-    if (process.env.FAST === undefined) {
+    if (process.env.NODATA === undefined) {
       infoSpinner('Adding BathingspotMeasurement to Bathingspots', spinner);
 
       await addEntitiesToSpot(opts);
