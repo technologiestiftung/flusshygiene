@@ -52,7 +52,7 @@ export const getGenericInputMeasurements: getResponse = async (
             collection = await getPPlantWithRelations(itemId);
             break;
         }
-        console.log('collection', collection);
+        // console.log('collection', collection);
         if (collection === undefined) {
           responderWrongId(response);
         } else {

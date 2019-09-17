@@ -28,11 +28,8 @@ export class BathingspotModel {
   @Column({ type: 'text', nullable: true, select: false })
   public rmodel!: string;
 
-  // @Column({ type: 'bytea', nullable: true, select: false })
-  // public rmodelBinary!: Buffer;
-
-  @OneToMany((_type) => RModelFile, (file) => file.model)
-  public rmodelFiles!: RModelFile[];
+  @OneToMany((_type) => RModelFile, (file) => file.model, { eager: true })
+  public rmodelfiles!: RModelFile[];
 
   @Column({ type: 'text', nullable: true })
   public comment!: string;

@@ -28,7 +28,7 @@ const headers = {
   authorization: `${token.token_type} ${token.access_token}`,
 };
 
-describe('GET all collection tyoe', () => {
+describe('Testing all collection tyoe', () => {
   let app: Application;
   let connections: Connection[];
 

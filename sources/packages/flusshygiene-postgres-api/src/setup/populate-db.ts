@@ -66,8 +66,8 @@ pass the path for the config you want to use.
     // for populating the DB we need to override the values in the config
     const connectionOptions = await getConnectionOptions();
     Object.assign(connectionOptions, { synchronize: true, dropSchema: true });
-    console.log('I will use these options:');
-    console.log(connectionOptions);
+    console.warn('I will use these options:');
+    console.warn(connectionOptions);
     if (cli.flags.yes === false) {
       const resp = readlineSync.question(
         'Do you want to use these values? (only yes will continue): ',
@@ -199,21 +199,23 @@ pass the path for the config you want to use.
       entities: measurements,
     };
 
-    infoSpinner('Adding BathingspotMeasurement to Bathingspots', spinner);
+    if (process.env.FAST === undefined) {
+      infoSpinner('Adding BathingspotMeasurement to Bathingspots', spinner);
 
-    await addEntitiesToSpot(opts);
+      await addEntitiesToSpot(opts);
 
-    // spinner.succeed();
-    // spinner.start();
-    infoSpinner('Importing BathingspotPredictions', spinner);
+      // spinner.succeed();
+      // spinner.start();
+      infoSpinner('Importing BathingspotPredictions', spinner);
 
-    const predictions = await createPredictions();
+      const predictions = await createPredictions();
 
-    // spinner.succeed();
-    // spinner.start();
-    infoSpinner('Adding BathingspotPredictions to Bathingspots', spinner);
-    opts.entities = predictions;
-    await addEntitiesToSpot(opts);
+      // spinner.succeed();
+      // spinner.start();
+      infoSpinner('Adding BathingspotPredictions to Bathingspots', spinner);
+      opts.entities = predictions;
+      await addEntitiesToSpot(opts);
+    }
 
     spinner.succeed();
     spinner.stop();

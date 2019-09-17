@@ -15,7 +15,7 @@ import { createSpotWithValues } from './spot-helpers';
 const readFileAsync = promisify(readFile);
 const readDirAsync = promisify(readdir);
 
-console.info('You need to run this from a npm script in the root of the repo.');
+console.warn('You need to run this from a npm script in the root of the repo.');
 const dataDirPath = resolve(process.cwd(), './data');
 proj4.defs([
   [
@@ -194,7 +194,7 @@ export const getLatestFile: (
     } else {
       const fileName = filteredFiles[filteredFiles.length - 1].name;
       const filePath = `${opts.dataDirPath}/${fileName}`;
-      console.log(`using file ${filePath}`);
+      console.warn(`using file ${filePath}`);
       return filePath;
     }
   } catch (error) {
@@ -453,7 +453,7 @@ export const createSpotsDE: () => Promise<Bathingspot[]> = async () => {
       const measRepo = getRepository(BathingspotMeasurement);
       line = liner.next();
       while (line) {
-        console.log(`Line ${lineNumber} of jsonl`);
+        console.warn(`Line ${lineNumber} of jsonl`);
         const json = JSON.parse(line);
         const spot = new Bathingspot();
         let newSpot: Bathingspot;
@@ -463,7 +463,7 @@ export const createSpotsDE: () => Promise<Bathingspot[]> = async () => {
             continue;
           }
           if (i === 0) {
-            console.log(`creating spot ${json[i].BWID}`);
+            console.warn(`creating spot ${json[i].BWID}`);
             const spotDataMapped = mapObjects(nameMappingsDESpots, json[i]);
             spotRepo.merge(spot, spotDataMapped);
             const latUnparsed = json[i].LATITUDE_BW;

@@ -87,51 +87,77 @@ export const postFile: postResponse = async (request, response) => {
     const modelId = parseInt(request.params.modelId, 10);
     // const userId = parseInt(request.params.spotId, 10);
     const collectionName = request.params.collectionName;
+    // console.log('modelId', modelId);
+    // console.log('spotId', spotId);
     const spot = await getSpotWithRelation(spotId, collectionName);
     const repoName = collectionRepoMapping[collectionName];
-    const rmodel = await getRModelWithRelation(modelId, 'RModelFiles');
-
-    const repo: any = getRepository(repoName);
-    const entity = repo.create();
-    // console.log('url------->', request.file.location);
-    const mergedEntity: ImageFile | RModelFile = repo.merge(entity, {
-      metaData: request.file,
-      url: request.file.location,
-    });
-    let res: any;
-    switch (collectionName) {
-      case 'images':
-        {
-          const mEntity = mergedEntity as ImageFile;
-          if (spot.images === undefined) {
-            spot.images = [mEntity];
-          } else {
-            spot.images.push(mEntity);
-          }
-          res = await repo.save(mEntity);
-          await getRepository(Bathingspot).save(spot);
-        }
-        break;
-      case 'models':
-        {
-          const mEntity = mergedEntity as RModelFile;
-          if (rmodel.rmodelFiles === undefined) {
-            rmodel.rmodelFiles = [mEntity];
-          } else {
-            rmodel.rmodelFiles.push(mEntity);
-          }
-          res = await repo.save(mEntity);
-          await getRepository(BathingspotModel).save(rmodel);
-        }
-        break;
-      default:
-        throw new Error('Other file upload not yet implemented');
+    let rmodel: any;
+    if (collectionName === 'models') {
+      rmodel = await getRModelWithRelation(modelId);
     }
-    responder(
-      response,
-      HttpCodes.successCreated,
-      successResponse(`${collectionName} file posted.`, [res]),
-    );
+    if (collectionName === 'models' && rmodel === undefined) {
+      responderWrongId(response);
+    } else {
+      // console.log('the r model', rmodel);
+      let repo: any;
+      if (collectionName === 'images') {
+        repo = getRepository(repoName);
+      } else {
+        repo = getRepository(RModelFile);
+      }
+      const entity = repo.create();
+      // console.log('url------->', request.file.location);
+      const mergedEntity: ImageFile | RModelFile = repo.merge(entity, {
+        metaData: request.file,
+        url: request.file.location,
+      });
+      // console.log('mergedEntity', mergedEntity);
+      let res: any;
+      switch (collectionName) {
+        case 'images':
+          {
+            const mEntity = mergedEntity as ImageFile;
+            if (spot.images === undefined) {
+              spot.images = [mEntity];
+            } else {
+              spot.images.push(mEntity);
+            }
+            res = await repo.save(mEntity);
+            await getRepository(Bathingspot).save(spot);
+          }
+          break;
+        case 'models':
+          {
+            const mEntity = mergedEntity as RModelFile;
+            mEntity.type = 'rmodel';
+            // console.log('mEntity', mEntity);
+            if (rmodel.rmodelfiles === undefined) {
+              rmodel.rmodelfiles = [mEntity];
+            } else {
+              rmodel.rmodelfiles.push(mEntity);
+            }
+            // if (spot.models === undefined) {
+            //   spot.models = [rmodel];
+            // } else {
+            //   spot.models.push(rmodel);
+            // }
+            res = await repo.save(mEntity);
+            // console.log(res);
+            await getRepository(RModelFile).save(mEntity);
+            // await getRepository(BathingspotModel).save(rmodel);
+            await getRepository(BathingspotModel).save(rmodel);
+            await getRepository(Bathingspot).save(spot);
+          }
+          break;
+        default:
+          throw new Error('Other file upload not yet implemented');
+      }
+      responder(
+        response,
+        HttpCodes.successCreated,
+        successResponse(`${collectionName} file posted.`, [res]),
+      );
+    }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }

@@ -77,8 +77,10 @@ export const getColletionItemById: (
     if (repoName === 'BathingspotModel') {
       query = repo
         .createQueryBuilder(repoName)
+        .leftJoinAndSelect(`${repoName}.rmodelfiles`, 'rmodelfile')
         .where(`${repoName}.id = :itemId`, { itemId })
         .addSelect(`${repoName}.rmodel`);
+      // .addSelect(`${repoName}.rmodelfiles`);
       // .addSelect(`${repoName}.rmodelBinary`);
     } else {
       query = repo

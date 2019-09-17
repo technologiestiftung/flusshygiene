@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm';
+import { getRepository, SelectQueryBuilder } from 'typeorm';
 import { Bathingspot } from '../../orm/entity/Bathingspot';
 
 /**
@@ -35,12 +35,31 @@ export const getSpotWithRelation: (
 ) => Promise<Bathingspot> = async (spotId, relation) => {
   try {
     const spotRepo = getRepository(Bathingspot);
+    let query: SelectQueryBuilder<Bathingspot>;
+    if (relation === 'models') {
+      // const subQuery = getRepository(BathingspotModel)
+      //   .createQueryBuilder('bathingspot_models')
+      //   .leftJoinAndSelect('bathingspot_models.rmodelfiles', 'rmodelfile');
+      // console.log(subQuery.getQuery());
+      query = spotRepo
+        .createQueryBuilder('bathingspot')
+        .leftJoinAndSelect(`bathingspot.${relation}`, relation)
+        .leftJoinAndSelect('models.rmodelfiles', 'rmodelfile')
+        .where('bathingspot.id = :spotId', { spotId });
+      // .addSelect((subQuery) => {
+      //   return subQuery
+      //     .leftJoinAndSelect('bathingspot_models.rmodelfiles', 'rmodelfile')
+      //     .from(BathingspotModel, 'bathingspot_models');
+      // });
+    } else {
+      query = spotRepo
+        .createQueryBuilder('bathingspot')
+        .leftJoinAndSelect(`bathingspot.${relation}`, relation)
+        .where('bathingspot.id = :spotId', { spotId });
+    }
 
-    const query = spotRepo
-      .createQueryBuilder('bathingspot')
-      .leftJoinAndSelect(`bathingspot.${relation}`, relation)
-      .where('bathingspot.id = :spotId', { spotId });
     const spotWithRelation = await query.getOne();
+
     return spotWithRelation;
   } catch (error) {
     return error;

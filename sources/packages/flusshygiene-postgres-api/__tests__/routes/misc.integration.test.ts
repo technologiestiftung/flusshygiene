@@ -1,7 +1,8 @@
+import { Bathingspot } from './../../src/orm/entity/Bathingspot';
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
-import { Connection } from 'typeorm';
+import { Connection, getRepository } from 'typeorm';
 import { DefaultRegions } from '../../src/lib/common';
 import routes from '../../src/lib/routes';
 import { getRegionsList } from '../../src/lib/utils/region-repo-helpers';
@@ -11,6 +12,8 @@ import {
   reloadTestingDatabases,
 } from '../test-utils';
 import { getUserByIdWithSpots } from './../../src/lib/utils/user-repo-helpers';
+import { getRModelWithRelation } from '../../src/lib/utils/rmodel-repo-helpers';
+import { BathingspotModel } from '../../src/orm/entity';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -77,6 +80,33 @@ describe('misc functions that need a DB', () => {
           expect(list.includes(element)).toBe(true);
         }
       }
+      done();
+    });
+  });
+
+  describe('testing rmodel repo helpers', () => {
+    test('should return model or undefiend', async (done) => {
+      const srepo = getRepository(Bathingspot);
+      const spot = srepo.create();
+      spot.name = 'foo';
+      spot.isPublic = false;
+      const mrepo = getRepository(BathingspotModel);
+      const model = getRepository(BathingspotModel).create();
+      spot.models = [model];
+      const mres = await mrepo.save(model);
+
+      await srepo.save(spot);
+      const res = await getRModelWithRelation(mres.id);
+      expect(res).toBeDefined();
+      done();
+    });
+    test('should throw an error', async (done) => {
+      const mockConsoleErr = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+      expect(getRModelWithRelation(NaN)).rejects.toThrow();
+      // const res = await getRModelWithRelation(NaN);
+      mockConsoleErr.mockRestore();
       done();
     });
   });
