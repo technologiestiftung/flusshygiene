@@ -1,4 +1,4 @@
-name: Node CI
+name: Run all tests
 
 on: [push, pull_request]
 jobs:
@@ -15,7 +15,7 @@ jobs:
         name: Use Node.js ${{ matrix.node-version }}
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install, build, and test
+      - name: npm install, test and test build
         run: |
           docker-compose up -d postgres
           npm ci --quit

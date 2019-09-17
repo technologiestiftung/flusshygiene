@@ -2,9 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
@@ -29,12 +28,11 @@ export class BathingspotModel {
   @Column({ type: 'text', nullable: true, select: false })
   public rmodel!: string;
 
-  @Column({ type: 'bytea', nullable: true, select: false })
-  public rmodelBinary!: Buffer;
+  // @Column({ type: 'bytea', nullable: true, select: false })
+  // public rmodelBinary!: Buffer;
 
-  @OneToOne((_type) => RModelFile, { eager: true, cascade: true })
-  @JoinColumn()
-  public rmodelFile!: RModelFile;
+  @OneToMany((_type) => RModelFile, (file) => file.model)
+  public rmodelFiles!: RModelFile[];
 
   @Column({ type: 'text', nullable: true })
   public comment!: string;

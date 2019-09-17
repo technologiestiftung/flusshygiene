@@ -176,6 +176,15 @@ router.post(
   postFile,
 );
 
+router.post(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:modelId([0-9]+)/upload/',
+  checkJwt,
+  checkScopes,
+  postFileMiddleWare,
+  ul.single('upload'),
+  postFile,
+);
+
 //  ╦ ╦╔═╗╔═╗╦═╗
 //  ║ ║╚═╗║╣ ╠╦╝
 //  ╚═╝╚═╝╚═╝╩╚═

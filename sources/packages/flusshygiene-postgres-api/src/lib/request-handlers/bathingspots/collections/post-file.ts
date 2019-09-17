@@ -5,6 +5,7 @@ import mime from 'mime';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { getRepository } from 'typeorm';
+import { RModelFile } from '../../../../orm/entity';
 import { Bathingspot } from '../../../../orm/entity/Bathingspot';
 import { ImageFile } from '../../../../orm/entity/ImageFile';
 import { HttpCodes, postResponse } from '../../../common';
@@ -16,6 +17,8 @@ import {
   responderWrongId,
   successResponse,
 } from '../../responders';
+import { BathingspotModel } from './../../../../orm/entity/BathingspotModel';
+import { getRModelWithRelation } from './../../../utils/rmodel-repo-helpers';
 
 const ENV_SUFFIX = process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV';
 const bucket: string = process.env[`AWS_BUCKET_${ENV_SUFFIX}`]!;
@@ -57,9 +60,9 @@ export const postFileMiddleWare = async (
     const spotId = parseInt(request.params.spotId, 10);
     const userId = parseInt(request.params.userId, 10);
     const collectionName = request.params.collectionName;
-    if (collectionName !== 'images') {
+    if (collectionName !== 'images' && collectionName !== 'models') {
       responder(response, HttpCodes.badRequest, {
-        message: `"${collectionName}" cant process uploads`,
+        message: `"${collectionName}" can't process uploads`,
         success: false,
       });
     } else {
@@ -72,12 +75,6 @@ export const postFileMiddleWare = async (
       } else {
         responderWrongId(response);
       }
-
-      // responder(
-      //   response,
-      //   HttpCodes.successCreated,
-      //   successResponse(`${collectionName} file posted.`, [request.file]),
-      // );
     }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
@@ -87,15 +84,17 @@ export const postFileMiddleWare = async (
 export const postFile: postResponse = async (request, response) => {
   try {
     const spotId = parseInt(request.params.spotId, 10);
+    const modelId = parseInt(request.params.modelId, 10);
     // const userId = parseInt(request.params.spotId, 10);
     const collectionName = request.params.collectionName;
     const spot = await getSpotWithRelation(spotId, collectionName);
     const repoName = collectionRepoMapping[collectionName];
+    const rmodel = await getRModelWithRelation(modelId, 'RModelFiles');
 
     const repo: any = getRepository(repoName);
     const entity = repo.create();
-    console.log('url------->', request.file.location);
-    const mergedEntity: ImageFile = repo.merge(entity, {
+    // console.log('url------->', request.file.location);
+    const mergedEntity: ImageFile | RModelFile = repo.merge(entity, {
       metaData: request.file,
       url: request.file.location,
     });
@@ -110,12 +109,24 @@ export const postFile: postResponse = async (request, response) => {
             spot.images.push(mEntity);
           }
           res = await repo.save(mEntity);
+          await getRepository(Bathingspot).save(spot);
+        }
+        break;
+      case 'models':
+        {
+          const mEntity = mergedEntity as RModelFile;
+          if (rmodel.rmodelFiles === undefined) {
+            rmodel.rmodelFiles = [mEntity];
+          } else {
+            rmodel.rmodelFiles.push(mEntity);
+          }
+          res = await repo.save(mEntity);
+          await getRepository(BathingspotModel).save(rmodel);
         }
         break;
       default:
         throw new Error('Other file upload not yet implemented');
     }
-    await getRepository(Bathingspot).save(spot);
     responder(
       response,
       HttpCodes.successCreated,
