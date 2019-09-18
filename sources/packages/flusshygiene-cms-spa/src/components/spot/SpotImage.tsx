@@ -12,6 +12,8 @@ export const SpotImage: React.FC<ISpotImage> = (props) => (
       src={(() => {
         if (props.image === null) {
           return 'http://placekitten.com/1080/540';
+        } else if (props.image === undefined || props.image.length === 0) {
+          return 'http://placekitten.com/1080/540';
         } else {
           return props.image;
         }

@@ -120,6 +120,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   }, [setFormReadyToRender, spot.id, match.params.id]);
 
   if (editMode === true) {
+    console.log(spot);
     return (
       <div className='container'>
         <div className='columns is-centered'>

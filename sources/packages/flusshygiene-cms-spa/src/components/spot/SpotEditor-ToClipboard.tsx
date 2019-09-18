@@ -8,7 +8,8 @@ turndownService.use(gfm);
 
 export const SpotEditorToClipboard: React.FC<{
   csvValidationRef: React.RefObject<HTMLTableElement>;
-}> = ({ csvValidationRef }) => {
+  buttonId: string;
+}> = ({ csvValidationRef, buttonId }) => {
   const [clipBoardText, setClipBoardText] = useState('');
   const [copiedToClipboard, setCopiedToClipboard] = useState(false);
   useEffect(() => {
@@ -22,6 +23,10 @@ export const SpotEditorToClipboard: React.FC<{
       text={clipBoardText}
       onCopy={() => {
         if (csvValidationRef !== null && csvValidationRef.current !== null) {
+          // dirty little hotfix for removing the double click error
+          // https://github.com/nkbt/react-copy-to-clipboard/issues/100
+          const button = document.getElementById(buttonId);
+          button!.click();
           setCopiedToClipboard(true);
           setClipBoardText((_prevState) => {
             return turndownService.turndown(
@@ -31,7 +36,11 @@ export const SpotEditorToClipboard: React.FC<{
         }
       }}
     >
-      <button className={'button is-small is-light'} type='button'>
+      <button
+        className={'button is-small is-light'}
+        type='button'
+        id={buttonId}
+      >
         In die Zwischenablage
         {copiedToClipboard === true ? '!' : ''}
       </button>

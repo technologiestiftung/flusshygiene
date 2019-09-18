@@ -112,16 +112,16 @@ export const SpotEditor: React.FC<{
           header: true,
         };
         const results = await papaPromise(csvFile, config);
-        console.log(results);
+        // console.log(results);
         setParsingErrors(results.errors);
         let allValid = true;
         setAllMeasurmentsValid(results.errors.length === 0 ? true : false);
         for (let i = 0; i < results.data.length; i++) {
           const elem = results.data[i];
-          console.log('element', elem);
+          // console.log('element', elem);
           try {
-            const validateResult = await measurementsSchema.validate(elem);
-            console.log('validateResult:', validateResult);
+            await measurementsSchema.validate(elem);
+            // console.log('validateResult:', validateResult);
           } catch (err) {
             allValid = false;
             const obj: ICSVValidationErrorRes = {
@@ -131,7 +131,7 @@ export const SpotEditor: React.FC<{
             setCSVValidationErrors((prevErrors) => {
               return [...prevErrors, obj];
             });
-            console.error(err);
+            // console.error(err);
           }
           if (i === results.data.length - 1 && allValid === true) {
             setMeasurments(results.data as IBathingspotMeasurement[]);
@@ -426,7 +426,12 @@ export const SpotEditor: React.FC<{
                   {allMeasurmentsValid === true && (
                     <div>
                       <div className='content'>
-                        <p>Alle hochgeladenen Daten sind valide.</p>
+                        <p>
+                          <strong>
+                            Alle hochgeladenen Daten sind valide und bereit zum
+                            speichern.
+                          </strong>
+                        </p>
                       </div>
                     </div>
                   )}
@@ -434,6 +439,7 @@ export const SpotEditor: React.FC<{
                     <>
                       <h3>CSV Daten Report</h3>
                       <SpotEditorToClipboard
+                        buttonId={'csv-data-clip'}
                         csvValidationRef={csvValidationRef}
                       />
                       <table className='table' ref={csvValidationRef}>
@@ -462,6 +468,7 @@ export const SpotEditor: React.FC<{
                     <div className=''>
                       <h3>CSV Struktur Report</h3>
                       <SpotEditorToClipboard
+                        buttonId={'csv-structure-clip'}
                         csvValidationRef={papaParseValidationRef}
                       />
                       <table className='table' ref={papaParseValidationRef}>

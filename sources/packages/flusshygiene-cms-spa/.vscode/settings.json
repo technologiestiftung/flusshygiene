@@ -15,7 +15,8 @@
   },
   "peacock.color": "#730cf2",
   "spellright.language": [
-    "en"
+    "en",
+    "de"
   ],
   "spellright.documentTypes": [
     "markdown",
