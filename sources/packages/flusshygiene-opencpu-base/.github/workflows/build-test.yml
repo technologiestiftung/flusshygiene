@@ -28,4 +28,4 @@ jobs:
       - name: Docker build image
         uses: actions/docker/cli-multi@master
         with:
-          args: '"build --build-arg BUILD_DATE=${{BUILD_DATE}} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
+          args: '"build  --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
