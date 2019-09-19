@@ -20,10 +20,12 @@ jobs:
       - name: Docker login
         uses: actions/docker/login@master
         env:
+          BUILD_DATE: 2019-09-19
+          # BUILD_DATE: ${{secrets.BUILD_DATE }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           CI: true
       - name: Docker build image
         uses: actions/docker/cli-multi@master
         with:
-          args: '"build --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
+          args: '"build --build-arg BUILD_DATE=${BUILD_DATE} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
