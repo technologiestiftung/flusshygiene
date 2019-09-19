@@ -90,7 +90,7 @@
     "@turf/point-to-line-distance": "^6.0.0",
     "@turf/turf": "^5.1.6",
     "@types/turf": "^3.5.32",
-    "aws-sdk": "^2.530.0",
+    "aws-sdk": "^2.531.0",
     "class-validator": "^0.10.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
