@@ -108,19 +108,29 @@ pass the path for the config you want to use.
     userCreator.firstName = 'Flusshygiene';
     userCreator.lastName = '';
     userCreator.role = UserRole.creator;
-    userCreator.email = 'flusshygiene@protonmail.com';
+    userCreator.email = 'moron-zirfas@technologiestiftung-berlin.de';
     userCreator.auth0Id = process.env.DEFAULT_AUTH0ID || '';
     // spinner.succeed();
     // spinner.start();
     infoSpinner('Creating default reporter user', spinner);
 
-    const userReporter = new User();
-    userReporter.firstName = 'Karla';
-    userReporter.lastName = 'Kolumna';
-    userReporter.role = UserRole.reporter;
-    userReporter.email = 'karla@bluemchen.dev';
+    // const userReporter = new User();
+    // userReporter.firstName = 'Karla';
+    // userReporter.lastName = 'Kolumna';
+    // userReporter.role = UserRole.reporter;
+    // userReporter.email = 'karla@bluemchen.dev';
     // spinner.succeed();
     // spinner.start();
+
+    const userKWB = new User();
+    userKWB.firstName = 'KWB';
+    userKWB.lastName = 'KWB';
+    userKWB.role = UserRole.creator;
+    userKWB.email = 'flusshygiene@protonmail.com';
+    userKWB.protected = true;
+    userKWB.auth0Id = process.env.KWB_AUTH0ID || '';
+    connection.manager.save(userKWB);
+
     infoSpinner('Importing existing Bathingspots', spinner);
     const spots = await createSpots();
 
@@ -158,7 +168,7 @@ pass the path for the config you want to use.
     infoSpinner('Adding spots to default creator user', spinner);
 
     userCreator.regions = [regions[0], regions[1]];
-    userReporter.regions = [regions[0]];
+    // userReporter.regions = [regions[0]];
     const arr: Bathingspot[] = [];
     if (process.env.FAST === undefined) {
       userCreator.bathingspots = arr.concat(spots, spotsDE!); // <--- include this
@@ -187,7 +197,7 @@ pass the path for the config you want to use.
 
     infoSpinner('Saving users', spinner);
 
-    await connection.manager.save([userCreator, userReporter]);
+    await connection.manager.save([userCreator]);
     // now update all the spots with createMeasurements
 
     infoSpinner('Importing BathingspotMeasurement', spinner);
