@@ -5,13 +5,13 @@ import { Router } from 'react-router-dom';
 
 import { render as rtlRender } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import { Auth0Provider } from '../src/react-auth0-wrapper';
+import { Auth0Provider } from '../src/lib/auth/react-auth0-wrapper';
 import { onRedirectCallback } from '../src/lib/auth/on-redirect-callback';
 import { createStore } from 'redux';
 import { reducer } from './empty-reducer';
 import { initialState } from './initial-state';
 
-jest.mock('../src/react-auth0-wrapper');
+jest.mock('../src/lib/auth/react-auth0-wrapper');
 function render(ui: any, store?: any, history?: any, ...rest: any[]) {
   if (!store) {
     store = createStore(reducer, initialState);
@@ -20,17 +20,17 @@ function render(ui: any, store?: any, history?: any, ...rest: any[]) {
     history = createMemoryHistory();
   }
   return rtlRender(
-    <Auth0Provider
-      domain={process.env.REACT_APP_AUTH0_DOMAIN}
-      client_id={process.env.REACT_APP_AUTH0_CLIENTID}
-      redirect_uri={window.location.origin}
-      audience={process.env.REACT_APP_AUTH0_AUDIENCE}
-      onRedirectCallback={onRedirectCallback}
-    >
-      <Provider store={store}>
-        <Router history={history}>{ui}</Router>
-      </Provider>
-    </Auth0Provider>,
+    // <Auth0Provider
+    //   domain={process.env.REACT_APP_AUTH0_DOMAIN}
+    //   client_id={process.env.REACT_APP_AUTH0_CLIENTID}
+    //   redirect_uri={window.location.origin}
+    //   audience={process.env.REACT_APP_AUTH0_AUDIENCE}
+    //   onRedirectCallback={onRedirectCallback}
+    // >
+    <Provider store={store}>
+      <Router history={history}>{ui}</Router>
+    </Provider>,
+    // </Auth0Provider>,
     ...rest,
   );
 }

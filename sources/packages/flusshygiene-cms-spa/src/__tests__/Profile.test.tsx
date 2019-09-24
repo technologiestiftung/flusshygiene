@@ -6,7 +6,7 @@ import { render, act } from '../../__test-utils/render-with-providers';
 import { createMemoryHistory } from 'history';
 import Profile from '../components/Profile';
 
-it('renders Profile without crashing', async (done) => {
+it.skip('renders Profile without crashing', async (done) => {
   const store = createStore(reducer, initialState);
   const history = createMemoryHistory({ initialEntries: ['/'] });
 

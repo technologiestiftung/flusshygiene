@@ -5,7 +5,6 @@ import { reducer } from '../../__test-utils/empty-reducer';
 import { initialState } from '../../__test-utils/initial-state';
 import { render, act } from '../../__test-utils/render-with-providers';
 import { createMemoryHistory } from 'history';
-import * as Auth0 from '../react-auth0-wrapper';
 
 it.skip('renders App without crashing', () => {
   const history = createMemoryHistory();

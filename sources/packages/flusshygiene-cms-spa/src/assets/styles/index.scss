@@ -11,6 +11,16 @@ $radius-small: 0px;
 $radius: 0px;
 $radius-large: 0px;
 $radius-rounded: 0px;
+
+// $primary: $turquoise
+// $link: $blue
+// $info: $cyan
+// $success: $green
+// $warning: $yellow
+// $danger: $red
+// $dark: $grey-darker
+// $text: $grey-dark
+// $family-primary: $family-sans-serif;
 @import '~bulma/bulma.sass';
 @import '~bulma-extensions/bulma-pageloader/src/sass/index.sass';
 @import './bulma-css-burger.scss';
@@ -133,6 +143,42 @@ $mapHeight: 400px;
   line-height: 2.5;
   overflow: hidden;
 }
+
+// report
+
+.report__answer {
+  padding-bottom: 2em;
+  border-top: 1px dashed gray;
+}
+
+// questionnaire colornames
+
+.questionnaire__color {
+  &--green {
+    color: green;
+  }
+  &--yellow {
+    color: yellow;
+  }
+  &--orange {
+    color: orange;
+  }
+  &--turquoise {
+    color: turquoise;
+  }
+  &--red {
+    color: red;
+  }
+}
+// icons
+
+.icon__color {
+  &--red {
+    color: red;
+  }
+}
+
+// co
 
 // .spot__calib-notification--on-top {
 //   position: absolute;

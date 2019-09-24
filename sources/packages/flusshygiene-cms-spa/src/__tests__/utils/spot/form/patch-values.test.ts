@@ -1,4 +1,4 @@
-import { patchValues } from './../../../../components/spot/form-data/patch-values';
+import { patchValues } from '../../../../lib/form-data/patch-values';
 import {
   IBathingspot,
   IFormOptions,

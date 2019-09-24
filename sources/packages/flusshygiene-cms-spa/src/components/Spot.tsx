@@ -3,21 +3,21 @@ import { APIMountPoints, ApiResources, RouteNames } from '../lib/common/enums';
 import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-get-single-spot';
 import { IFetchSpotOptions } from '../lib/common/interfaces';
 import { Link } from 'react-router-dom';
-import { Measurement } from './spot/SpotMeasurement';
+import { Measurement } from './spot/Spot-Measurement';
 import { RootState } from '../lib/state/reducers/root-reducer';
 import { RouteComponentProps } from 'react-router';
-import { SpotBodyAddonTagGroup } from './spot/SpotAddonTagGroup';
-import { SpotHeader } from './spot/SpotHeader';
-import { SpotImage } from './spot/SpotImage';
-import { SpotLocation } from './spot/SpotLocation';
+import { SpotBodyAddonTagGroup } from './spot/Spot-AddonTag-Group';
+import { SpotHeader } from './spot/Spot-Header';
+import { SpotImage } from './spot/Spot-Image';
+import { SpotLocation } from './spot/Spot-Location';
 import { useMapResizeEffect } from '../hooks/map-hooks';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useRef, useEffect, useState } from 'react';
 import { SpotEditor } from './spot/SpotEditor';
-import SpotsMap from './SpotsMap';
+import SpotsMap from './spot/Spot-Map';
 
 // import '../assets/styles/spot-editor.scss';
-import { useAuth0 } from '../react-auth0-wrapper';
+import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../lib/config';
 import { Container } from './Container';
 const messageCalibratePredict = {

@@ -1,4 +1,4 @@
-import { IFormBuildData } from '../../../lib/common/interfaces';
+import { IFormBuildData } from '../common/interfaces';
 
 export const healthDepartmentData: IFormBuildData[] = [
   {

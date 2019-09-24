@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '../../__test-utils/render-with-providers';
-import { SpotBodyAddonTagGroup } from '../components/spot/SpotAddonTagGroup';
+import { SpotBodyAddonTagGroup } from '../components/spot/Spot-AddonTag-Group';
 
 describe('SpotAddontags', () => {
   test('Should render with yes and no', () => {

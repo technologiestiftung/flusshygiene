@@ -15,7 +15,7 @@
   ],
   [
     4,
-    "Erreichbarkeit/Zugang zur Badestelle ",
+    "Erreichbarkeit/ Zugang zur Badestelle ",
     "Ortsbegehung",
     null,
     "Wie ist der Zugang zur Badestelle beschaffen?",
@@ -36,7 +36,7 @@
     null,
     "Der Zugang erfolgt über öffentliche Flächen, die jedoch eventuell durch den zunehmenden Besucherverkehr belastet werden. ",
     "Die zuständigen Eigentümer der öffentlichen Flächen sollten konsultiert werden und die Vereinbarkeit des zusätzlichen Besucherverkehr über die bestehenden Flächen geklärt werden.",
-    "Die zuständigen Eigentümer der öffentlichen Flächen sollten konsultiert werden und die Vereinbarkeit des zusätzlichen Besucherverkehr über die bestehenden Flächen geklärt werden.",
+    "Die zuständigen Eigentümer der öffentlichen Flächen sollten konsultiert und die Vereinbarkeit des zusätzlichen Besucherverkehr über die bestehenden Flächen geklärt werden.",
     "türkis",
     0.8,
     null
@@ -49,8 +49,8 @@
     null,
     null,
     "Erforderliche Flächen für den Zugang sind vorhanden, jedoch ohne notwendige Zuwegung.",
-    "Mit den Eigentümern der Flächen sollten Möglickeiten und Art einer adequaten Zuwegung besprochen werden um den Zugang zur Badestelle sichzustellen. ",
-    "Mit den Eigentümern der Flächen sollten Möglickeiten und Art einer adequaten Zuwegung besprochen werden um den Zugang zur Badestelle sichzustellen.",
+    "Mit den Eigentümern der Flächen sollten Möglickeiten und Art einer adäquaten Zuwegung besprochen werden, um den Zugang zur Badestelle sichzustellen. ",
+    "Mit den Eigentümern der Flächen sollten Möglickeiten und Art einer adäquaten Zuwegung besprochen werden um den Zugang zur Badestelle sichzustellen.",
     "orange",
     0.3,
     "Infrastruktur"
@@ -77,7 +77,7 @@
     null,
     null,
     "Der Zugang könnte nur über Flächen erfolgen, deren öffentliche Nutzung verboten ist. ",
-    "K.O.-Kriterium:  Von einer weiteren Bearbeitung der Checkliste wird aufgrund des nicht vorhanden Zugangs zur Badestelle vorbehaltlich abgeraten.",
+    "K.O.-Kriterium: Von einer weiteren Bearbeitung der Checkliste wird aufgrund des fehlenden Zugangs zur Badestelle vorbehaltlich abgeraten.",
     "K.O.-Kriterium: Aufgrund des fehlenden Zugangs zur Badestelle ist das Vorhaben voraussichlich nicht umsetzbar.",
     "rot",
     0,

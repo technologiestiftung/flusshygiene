@@ -174,6 +174,20 @@ export interface IMapsEditorProps extends IMapsProps {
     area?: IGeoJsonGeometry,
   ) => void;
 }
+
+export type QType = 'verhandlung' | 'infrastruktur';
+export interface IAnswer {
+  text: string;
+  colorText: 'grün' | 'gelb' | 'orange' | 'türkis' | 'rot';
+  additionalText: string;
+  id: string;
+  weight: number;
+  answer?: string;
+  checked?: boolean;
+  possibility?: number;
+  qType?: QType;
+}
+
 // ╔╦╗┬ ┬┌─┐┌─┐┌─┐
 //  ║ └┬┘├─┘├┤ └─┐
 //  ╩  ┴ ┴  └─┘└─┘
@@ -186,3 +200,5 @@ export type MapEditModes =
   | 'drawPolygon'
   | 'translate';
 export type MapActiveEditor = 'area' | 'location' | undefined;
+
+export type ColorNames = 'grün' | 'gelb' | 'orange' | 'türkis' | 'rot';

@@ -1,10 +1,10 @@
 import React from 'react';
 import DeckGL from '@deck.gl/react';
 import { ScatterplotLayer } from '@deck.gl/layers';
-import { IMapsProps, IBathingspot } from '../lib/common/interfaces';
-import { DEFAULT_SPOT_ID } from '../lib/common/constants';
+import { IMapsProps, IBathingspot } from '../../lib/common/interfaces';
+import { DEFAULT_SPOT_ID } from '../../lib/common/constants';
 import { StaticMap } from 'react-map-gl';
-import { REACT_APP_MAPBOX_API_TOKEN } from '../lib/config';
+import { REACT_APP_MAPBOX_API_TOKEN } from '../../lib/config';
 
 const initialViewState = {
   bearing: 0,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth0 } from '../react-auth0-wrapper';
+import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../lib/config';
 import { APIMountPoints } from '../lib/common/enums';
 

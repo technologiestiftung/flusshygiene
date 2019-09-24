@@ -4,25 +4,28 @@ import { IconInfo, IconSave } from '../fontawesome-icons';
 // import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { ButtonIconTB as Button } from '../Buttons';
 export const QToolBar: React.FC<{
-  handleClick: (e: React.ChangeEvent<any>) => void;
+  handleInfoClick: (e: React.ChangeEvent<any>) => void;
+  handleReportClick: (e: React.ChangeEvent<any>) => void;
   children: any;
   isSubmitting: boolean;
-}> = ({ handleClick, children, isSubmitting }) => {
+}> = ({ handleInfoClick, children, isSubmitting, handleReportClick }) => {
   return (
     <>
       <div className='buttons'>
         <Button
           dataTestId={'qtoolbar-i-button'}
           cssId={'info'}
-          handleClick={handleClick}
+          handleClick={handleInfoClick}
+          text={'Info'}
         >
           <IconInfo />
         </Button>
         <Button
-          type='submit'
+          type='button'
           cssId={'save'}
-          // handleClick={handleClick}
-          isSubmitting={isSubmitting}
+          handleClick={handleReportClick}
+          // isSubmitting={isSubmitting}
+          text={'Zum Report'}
         >
           <IconSave />
         </Button>

@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import './assets/styles/index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Auth0Provider } from './react-auth0-wrapper';
+import { Auth0Provider } from './lib/auth/react-auth0-wrapper';
 // import { BannerProvider } from './contexts/banner';
 // import { Auth0Provider } from './react-auth0-wrapper-offline';
 

@@ -9,6 +9,7 @@ export const ButtonIconTB: React.FC<{
   additionalClassNames?: string;
   isSubmitting?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  text?: string;
 }> = ({
   isActive,
   handleClick,
@@ -18,6 +19,7 @@ export const ButtonIconTB: React.FC<{
   additionalClassNames,
   isSubmitting = false,
   type = 'button',
+  text,
 }) => {
   return (
     <button
@@ -31,6 +33,7 @@ export const ButtonIconTB: React.FC<{
       disabled={isSubmitting}
     >
       <span className='icon is-small'>{children}</span>
+      {text !== undefined && <span>{text}</span>}
     </button>
   );
 };

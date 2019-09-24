@@ -2,15 +2,15 @@ import {
   IBathingspot,
   IBathingspotMeasurement,
   IFetchSpotOptions,
-} from '../../../lib/common/interfaces';
+} from '../common/interfaces';
 
-import { REACT_APP_API_HOST } from '../../../lib/config';
+import { REACT_APP_API_HOST } from '../config';
 
-import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
+import { APIMountPoints, ApiResources } from '../common/enums';
 
-import { putSpot } from '../../../lib/state/reducers/actions/fetch-post-spot';
-import { useAuth0 } from '../../../react-auth0-wrapper';
-import { nullValueTransform } from '../../../lib/utils/spot-nullvalue-transformer';
+import { putSpot } from '../state/reducers/actions/fetch-post-spot';
+import { useAuth0 } from '../auth/react-auth0-wrapper';
+import { nullValueTransform } from '../utils/spot-nullvalue-transformer';
 import { useDispatch } from 'react-redux';
 const { user, getTokenSilently } = useAuth0();
 

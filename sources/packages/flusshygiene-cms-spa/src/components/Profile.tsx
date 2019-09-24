@@ -1,7 +1,7 @@
 // src/components/Profile.js
 
 import React, { useEffect, useState, useRef } from 'react';
-import { useAuth0, Auth0Context } from '../react-auth0-wrapper';
+import { useAuth0, Auth0Context } from '../lib/auth/react-auth0-wrapper';
 import { Container } from './Container';
 import { SpotEditor } from './spot/SpotEditor';
 import { DEFAULT_SPOT } from '../lib/common/constants';
@@ -12,8 +12,8 @@ import { REACT_APP_API_HOST } from '../lib/config';
 import { APIMountPoints, ApiResources } from '../lib/common/enums';
 import { IFetchSpotOptions } from '../lib/common/interfaces';
 import { fetchSpots } from '../lib/state/reducers/actions/fetch-get-spots';
-import { CardTile } from './spot/CardTile';
-import SpotsMap from './SpotsMap';
+import { CardTile } from './spot/Spot-CardTile';
+import SpotsMap from './spot/Spot-Map';
 // import { useBanner, BannerContext } from '../contexts/banner';
 
 const Profile: React.FC = () => {

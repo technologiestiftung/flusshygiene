@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '../../__test-utils/render-with-providers';
-import { SpotAddonTag } from '../components/spot/SpotAddonTag';
+import { SpotAddonTag } from '../components/spot/Spot-AddonTag';
 
 describe('Spot Addontags', () => {
   test('Should render with yes and no', () => {

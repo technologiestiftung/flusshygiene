@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import createAuth0Client from '@auth0/auth0-spa-js';
-import { APIMountPoints, ApiResources } from './lib/common/enums';
-import { IFetchOptions, IFetchHeaders } from './lib/common/interfaces';
-import { REACT_APP_API_HOST } from './lib/config';
+import { APIMountPoints, ApiResources } from '../common/enums';
+import { IFetchOptions, IFetchHeaders } from '../common/interfaces';
+import { REACT_APP_API_HOST } from '../config';
 
 const DEFAULT_REDIRECT_CALLBACK = (appState?: any) =>
   window.history.replaceState({}, document.title, window.location.pathname);

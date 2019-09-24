@@ -20,7 +20,7 @@
     null,
     "Gibt es Möglichkeiten zur Abfallentsorgung in der Nähe?",
     "Für die Abfallentsorgung muss aufgrund der Verhinderung negativer Auswirkungen auf die Badegewässerqualität oder auf Badende nach EG-Badegewässerrichtlinie (2006) gesorgt werden.",
-    "In weniger als 50m Abstand zur Badestelle sind Abfallbehälter in ausstreichender Kapazität vorhanden (mindestens ein 50 l Müllbehälter je 1000 m² angefangener Landfläche). ",
+    "In weniger als 50 m Abstand zur Badestelle sind Abfallbehälter in ausstreichender Kapazität vorhanden (mindestens ein 50 l Müllbehälter je 1000 m² angefangener Landfläche). ",
     "Perfekt.",
     "Keine weiteren Aktionen notwendig.",
     "grün",
@@ -36,7 +36,7 @@
     null,
     "Abfallbehälter sind nicht in ausreichender Kapazität vorhanden.",
     "Abfallbehälter müssen in ausreichender Kapazität beschafft  und deren Leerung organisiert werden. Ggf. ist eine Kooperation mit Grünflächenamt und Stadtreinigungsbetrieben nötig.",
-    "Abfallbehälter müssen in ausreichender Kapazität beschafft und deren Leerung organisiert werden. Ggf. ist eine Kooperation mit Grünflächenamt und Stadtreinigungsbetrieben nötig.",
+    "Abfallbehälter müssen in ausreichender Kapazität beschafft und deren Leerung organisiert werden. Ggf. ist eine Kooperation mit dem Grünflächenamt und den Stadtreinigungsbetrieben nötig.",
     "orange",
     0.3,
     "Infrastruktur"

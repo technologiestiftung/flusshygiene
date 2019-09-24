@@ -1,4 +1,4 @@
-import { IFormBuildData } from '../../../lib/common/interfaces';
+import { IFormBuildData } from '../common/interfaces';
 
 export const additionalData: IFormBuildData[] = [
   { name: 'waterRescue', type: 'text', label: 'Wasserrettung' },

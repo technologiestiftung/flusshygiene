@@ -4,7 +4,7 @@ import {
   // IGeoJsonGeometry,
   MapEditModes,
   MapActiveEditor,
-} from './../../../lib/common/interfaces';
+} from '../common/interfaces';
 import { FormikHandlers, FormikHelpers } from 'formik';
 export const setupBasisData: (
   values: IBathingspotExtend,

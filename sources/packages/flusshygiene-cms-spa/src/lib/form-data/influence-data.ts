@@ -1,4 +1,4 @@
-import { IFormOptions, IFormBuildData } from '../../../lib/common/interfaces';
+import { IFormOptions, IFormBuildData } from '../common/interfaces';
 
 const optionsYNU: IFormOptions[] = [
   { text: 'Ja', value: 'yes' },

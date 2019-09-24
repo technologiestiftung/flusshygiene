@@ -59,7 +59,6 @@
   },
   "scripts": {
     "add:version": "node build-tools/version.js",
-    "prestart": "npm run add:version",
     "prebuild": "npm run add:version",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
@@ -136,7 +135,7 @@
   "proxy": "http://localhost:5004",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint-staged"
+      "pre-commit": "npm run add:version && npm run lint-staged"
     }
   },
   "config": {

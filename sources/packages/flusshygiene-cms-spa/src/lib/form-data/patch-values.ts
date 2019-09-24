@@ -1,4 +1,4 @@
-import { IFormBuildData, IBathingspot } from '../../../lib/common/interfaces';
+import { IFormBuildData, IBathingspot } from '../common/interfaces';
 
 export const patchValues: (
   values: IBathingspot,

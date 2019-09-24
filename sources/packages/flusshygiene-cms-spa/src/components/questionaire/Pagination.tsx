@@ -1,5 +1,7 @@
 import React from 'react';
 import { IconNext, IconPrev } from '../fontawesome-icons';
+import { Link } from 'react-router-dom';
+import { RouteNames } from '../../lib/common/enums';
 
 // Shamelessly plugged from
 // https://github.com/hipstersmoothie/bulma-pagination-react
@@ -20,8 +22,8 @@ export const Page: React.FC<{
   onChange: (event: React.ChangeEvent<any>, index: number) => void;
 }> = ({ currentPage, index, onChange, className = '', cssId }) => (
   <li>
-    <a
-      href={'#/'}
+    <Link
+      to={`/${RouteNames.questionnaire}/${index}`}
       className={`pagination-link ${className} ${(currentPage === index ||
         (index === 1 && !currentPage)) &&
         'is-current'}`}
@@ -31,7 +33,7 @@ export const Page: React.FC<{
       onClick={(event) => onChange(event, index)}
     >
       {index}
-    </a>
+    </Link>
   </li>
 );
 
@@ -170,8 +172,14 @@ export const Pagination: React.FC<{
       role='navigation'
       aria-label='pagination'
     >
-      <a
-        href={'#/'}
+      <Link
+        to={(() => {
+          if (currentPage - 1 === 0) {
+            return `/${RouteNames.questionnaire}/1`;
+          } else {
+            return `/${RouteNames.questionnaire}/${currentPage - 1}`;
+          }
+        })()}
         // disabled={currentPage === 1}
         id={'bwd'}
         className={`pagination-previous nav ${prevClassName}`}
@@ -179,9 +187,15 @@ export const Pagination: React.FC<{
       >
         <IconPrev></IconPrev>
         {/* Vorherige Frage */}
-      </a>
-      <a
-        href={'#/'}
+      </Link>
+      <Link
+        to={(() => {
+          if (currentPage + 1 > pages) {
+            return `/${RouteNames.questionnaire}/${pages}`;
+          } else {
+            return `/${RouteNames.questionnaire}/${currentPage + 1}`;
+          }
+        })()}
         id={'fwd'}
         // disabled={currentPage === pages}
         className={`pagination-next nav ${nextClassName}`}
@@ -189,7 +203,7 @@ export const Pagination: React.FC<{
       >
         <IconNext></IconNext>
         {/* Nächste Frage */}
-      </a>
+      </Link>
 
       <ul className={`pagination-list ${listClassName}`}>{pagesComponents}</ul>
     </div>

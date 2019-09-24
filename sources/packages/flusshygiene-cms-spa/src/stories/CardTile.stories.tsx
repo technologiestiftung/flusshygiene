@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
-import { CardTile } from '../components/spot/CardTile';
+import { CardTile } from '../components/spot/Spot-CardTile';
 import { MemoryRouter } from 'react-router';
 
 storiesOf('CardTile', module)

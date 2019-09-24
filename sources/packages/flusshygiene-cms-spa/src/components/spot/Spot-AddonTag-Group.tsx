@@ -1,5 +1,5 @@
 import React from 'react';
-import { SpotAddonTag } from './SpotAddonTag';
+import { SpotAddonTag } from './Spot-AddonTag';
 
 export interface ISpotBodyAddon {
   cyanoPossible?: boolean;
