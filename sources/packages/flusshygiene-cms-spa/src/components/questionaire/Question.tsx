@@ -21,8 +21,8 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   const [question, setQuestion] = useState('');
   const [qAddInfo, setQAddInfo] = useState('');
   const [curAnswers, setCurAnswers] = useState<IAnswer[]>([]);
-  // const [questionType, setQuestionType] = useState<string>();
-  const [aAddInfo, setAAddInfo] = useState('');
+  const [selectedAnswer, setSelectedAnswer] = useState<IAnswer>();
+  const [aAddInfo, setAAddInfo] = useState<string>();
 
   const [state, dispatch] = useQuestions();
   const [formReadyToRender, setFormReadyToRender] = useState(false);
@@ -80,6 +80,9 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     setCurAnswers(localAnswers);
     setAAddInfo('');
     setFormReadyToRender(true);
+    return () => {
+      resetStates();
+    };
   }, [state.questions, qid, state.answers]);
 
   useEffect(() => {
@@ -89,10 +92,20 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
       if (state.answers.includes(item.id) === true) {
         setAnswersIds([item.id]);
         setAAddInfo(item.additionalText);
+        setSelectedAnswer(item);
       }
     }
-    return () => {};
+    return () => {
+      resetStates();
+    };
   }, [state.answers, curAnswers]);
+
+  const resetStates = () => {
+    setSelectedAnswer(undefined);
+    setAAddInfo(undefined);
+    setAnswersIds([]);
+  };
+
   return (
     <>
       {formReadyToRender === true && (
@@ -114,6 +127,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                     : values.answersIds[0],
               },
             });
+            // setAAddInfo(undefined);
             setSubmitting(false);
             resetForm();
           }}
@@ -155,7 +169,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       }}
                       handleResetClick={(e: React.ChangeEvent<any>) => {
                         dispatch({ type: 'REMOVE_ANSWERS' });
-                        setAnswersIds([]);
+                        resetStates();
                         resetForm();
                       }}
                     >
@@ -197,6 +211,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                             return (
                               <>
                                 {curAnswers.map((ele, i) => {
+                                  // colorNameToIcon(ele.colorText)
                                   return (
                                     <div key={i} className='field'>
                                       <Field
@@ -210,6 +225,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                                           handleChange(e);
                                           arrayHelpers.replace(0, ele.id);
                                           setAAddInfo(ele.additionalText);
+                                          setSelectedAnswer(ele);
                                         }}
                                         required
                                         value={ele.id}
@@ -221,8 +237,8 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                                         htmlFor={`answer--${i}`}
                                         className={'radio label__answer'}
                                       >
-                                        {ele.text}{' '}
-                                        <span>
+                                        {ele.text}
+                                        {/* <span>
                                           {values.answersIds.includes(
                                             ele.id,
                                           ) === true &&
@@ -235,7 +251,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                                               ele.qType,
                                               ele.colorText,
                                             )}
-                                        </span>
+                                        </span> */}
                                       </label>
                                     </div>
                                   );
@@ -248,7 +264,27 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                     </div>
 
                     <div className='content'>
-                      <p dangerouslySetInnerHTML={{ __html: aAddInfo }} />
+                      <p>
+                        <span>
+                          {selectedAnswer !== undefined &&
+                            values.answersIds.includes(selectedAnswer.id) ===
+                              true &&
+                            colorNameToIcon(selectedAnswer.colorText)}{' '}
+                          {selectedAnswer !== undefined &&
+                            values.answersIds.includes(selectedAnswer.id) ===
+                              true &&
+                            selectedAnswer.qType !== undefined &&
+                            questionTypeToIcon(
+                              selectedAnswer.qType,
+                              selectedAnswer.colorText,
+                            )}
+                        </span>{' '}
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: aAddInfo !== undefined ? aAddInfo : '',
+                          }}
+                        ></span>
+                      </p>
                     </div>
                   </Container>
                 </Form>

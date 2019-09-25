@@ -10,9 +10,13 @@ import {
 } from '../fontawesome-icons';
 import { IAnswer } from '../../lib/common/interfaces';
 import { roundTo } from '../../lib/utils/round-to-float-digits';
+import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
 export const Report: React.FC = () => {
   const [state] = useQuestions();
   const [localQuestions, setLocalQuestions] = useState<string[]>([]);
+  const [localQuestionsAddInfo, setlocalQuestionsAddInfo] = useState<string[]>(
+    [],
+  );
   const [localAnswers, setLocalAnswers] = useState<IAnswer[][]>([]);
   const [probability, setProbability] = useState(0);
   const [allAnswersGiven, setAllAnswersGiven] = useState(false);
@@ -20,9 +24,11 @@ export const Report: React.FC = () => {
     if (state.questions === undefined) return;
     if (state.questions[0] === undefined) return;
     const tmpQuestions: string[] = [];
+    const tmpQuestionsAddInfo: string[] = [];
     const tmpAnswers: IAnswer[][] = [];
     for (let i = 1; i < state.questions.length; i++) {
       tmpQuestions.push(state.questions[i].default[1][4]);
+      tmpQuestionsAddInfo.push(createLinks(state.questions[i].default[1][5]));
       const answers: IAnswer[] = [];
       for (let j = 1; j < state.questions[i].default.length; j++) {
         const q = state.questions[i].default[j];
@@ -34,7 +40,7 @@ export const Report: React.FC = () => {
         }
         const answer: IAnswer = {
           text,
-          additionalText: q[7],
+          additionalText: createLinks(q[7]),
           colorText: q[9],
           id: `${i}-a${j - 1}-w${state.questions[i].default[1][0]}-p${q[10]}`,
           weight: state.questions[i].default[1][0],
@@ -46,6 +52,9 @@ export const Report: React.FC = () => {
       tmpAnswers.push(answers);
     }
     // console.log(tmpAnswers);
+    setlocalQuestionsAddInfo((_) => {
+      return tmpQuestionsAddInfo;
+    });
     setLocalQuestions((_) => {
       return tmpQuestions;
     });
@@ -132,6 +141,15 @@ export const Report: React.FC = () => {
                         </strong>
                       </p>
 
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            localQuestionsAddInfo[i] !== undefined
+                              ? localQuestionsAddInfo[i]
+                              : '',
+                        }}
+                      />
+
                       {(() => {
                         if (
                           state.answers[i + 1] === undefined ||
@@ -152,15 +170,29 @@ export const Report: React.FC = () => {
                         // }
                         // console.log(i, state.answers[i + 1]);
                         return (
-                          <p>
-                            {localAnswers[i][aId].text}{' '}
-                            {colorNameToIcon(localAnswers[i][aId].colorText)}{' '}
-                            {localAnswers[i][aId].qType !== undefined &&
-                              questionTypeToIcon(
-                                localAnswers[i][aId].qType!,
-                                localAnswers[i][aId].colorText,
-                              )}
-                          </p>
+                          <>
+                            <p>
+                              <strong>Ihre Antwort: </strong>{' '}
+                              {localAnswers[i][aId].text}{' '}
+                            </p>
+                            <p>
+                              <span>
+                                {colorNameToIcon(
+                                  localAnswers[i][aId].colorText,
+                                )}{' '}
+                                {localAnswers[i][aId].qType !== undefined &&
+                                  questionTypeToIcon(
+                                    localAnswers[i][aId].qType!,
+                                    localAnswers[i][aId].colorText,
+                                  )}
+                              </span>{' '}
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: localAnswers[i][aId].additionalText,
+                                }}
+                              />
+                            </p>
+                          </>
                         );
                       })()}
 

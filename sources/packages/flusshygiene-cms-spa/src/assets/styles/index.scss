@@ -155,19 +155,20 @@ $mapHeight: 400px;
 
 .questionnaire__color {
   &--green {
-    color: green;
+    color: rgb(1, 158, 1);
   }
   &--yellow {
-    color: yellow;
+    color: #fdd700;
+    // background-color: black;
   }
   &--orange {
-    color: orange;
+    color: rgb(228, 129, 0);
   }
   &--turquoise {
-    color: turquoise;
+    color: rgb(51, 204, 171);
   }
   &--red {
-    color: red;
+    color: rgb(199, 0, 0);
   }
 }
 // icons
