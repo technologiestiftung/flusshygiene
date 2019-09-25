@@ -9,6 +9,7 @@ import history from '../../lib/history';
 import { RouteNames } from '../../lib/common/enums';
 import { IAnswer } from '../../lib/common/interfaces';
 import { colorNameToIcon, questionTypeToIcon } from '../fontawesome-icons';
+import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
 
 /**
  * Component holds all the question logic
@@ -33,7 +34,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     setTitle(state.questions[qid].default[1][1]);
     setQInfo(state.questions[qid].default[1][3]);
     setQuestion(state.questions[qid].default[1][4]);
-    setQAddInfo(state.questions[qid].default[1][5]);
+    setQAddInfo(createLinks(state.questions[qid].default[1][5]));
 
     const q = state.questions[qid].default;
     // console.log(q);
@@ -48,7 +49,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
       //   console.log(q[i][11]);
       // }
       const answer: IAnswer = {
-        additionalText: q[i][7],
+        additionalText: createLinks(q[i][7]),
         colorText: q[i][9],
         text: q[i][6],
         id: `${qid}-a${i - 1}-w${q[1][0]}-p${q[i][10]}`,
@@ -56,15 +57,24 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
         possibility: q[i][10],
         qType: q[i][11] !== null ? q[i][11].toLowerCase() : undefined,
       };
-      if (answer.id === state.answers[qid]) {
-        setAnswersIds((_prevState) => {
-          return [state.answers[qid]];
-        });
-      } else {
-        setAnswersIds((_) => {
-          return [];
-        });
-      }
+      // console.log('ids of answers for this view', answer.id);
+      // console.log('all current answers in state', state.answers);
+      // console.log(answersIds);
+      // console.log('qid', qid);
+      // if (state.answers.includes(answer.id)) {
+      //   console.log('got a match from the state');
+      //   console.log(answer.id, state.answers[qid]);
+      //   // setAnswersIds([answer.id]);
+      //   setAnswersIds((prevState) => {
+      //     const nextState: string[] = [state.answers[qid]];
+      //     console.log('setting new answer id', [state.answers[qid]]);
+      //     return nextState;
+      //   });
+      // } else {
+      //   setAnswersIds((_) => {
+      //     return [];
+      //   });
+      // }
       localAnswers.push(answer);
     }
     setCurAnswers(localAnswers);
@@ -72,16 +82,27 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     setFormReadyToRender(true);
   }, [state.questions, qid, state.answers]);
 
+  useEffect(() => {
+    if (curAnswers.length === 0) return;
+    for (const item of curAnswers) {
+      // console.log(item);
+      if (state.answers.includes(item.id) === true) {
+        setAnswersIds([item.id]);
+        setAAddInfo(item.additionalText);
+      }
+    }
+    return () => {};
+  }, [state.answers, curAnswers]);
   return (
     <>
       {formReadyToRender === true && (
         <Formik
           initialValues={{
-            answersIds,
+            answersIds: answersIds,
             answer: undefined,
           }}
           enableReinitialize={true}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, { setSubmitting, resetForm }) => {
             console.log('submitted', values);
             dispatch({
               type: 'SET_ANSWER',
@@ -94,9 +115,12 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
               },
             });
             setSubmitting(false);
+            resetForm();
           }}
         >
-          {({ values, isSubmitting, handleChange }) => {
+          {({ values, isSubmitting, handleChange, resetForm }) => {
+            // const newState:Partial<FormikState<{ answersIds: string[]; answer: undefined; }>> = {answersIds:[...answersIds], answers: undefined}
+            // resetForm();
             const answerDispatch = () => {
               if (values.answersIds.length > 0) {
                 const answerQid = values.answersIds[0].split('-')[0];
@@ -111,6 +135,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                           : values.answersIds[0],
                     },
                   });
+                  resetForm();
                 }
               }
             };
@@ -127,6 +152,11 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       handleReportClick={(e: React.ChangeEvent<any>) => {
                         answerDispatch();
                         history.push(`/${RouteNames.questionnaire}/report`);
+                      }}
+                      handleResetClick={(e: React.ChangeEvent<any>) => {
+                        dispatch({ type: 'REMOVE_ANSWERS' });
+                        setAnswersIds([]);
+                        resetForm();
                       }}
                     >
                       <Pagination
@@ -153,10 +183,10 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                     <div className='content'>
                       <p className='title'>Frage:</p>
 
-                      <p>{question}</p>
                       <p>
-                        <em>{qAddInfo}</em>
+                        <strong>{question}</strong>
                       </p>
+                      <p dangerouslySetInnerHTML={{ __html: qAddInfo }} />
                     </div>
                     <div className='content'>
                       <p className='title'>Antworten:</p>
@@ -218,7 +248,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                     </div>
 
                     <div className='content'>
-                      <p>{aAddInfo}</p>
+                      <p dangerouslySetInnerHTML={{ __html: aAddInfo }} />
                     </div>
                   </Container>
                 </Form>

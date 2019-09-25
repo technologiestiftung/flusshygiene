@@ -1,14 +1,15 @@
 import React from 'react';
-import { IconInfo, IconSave } from '../fontawesome-icons';
+import { IconInfo, IconSave, IconTimes } from '../fontawesome-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { ButtonIconTB as Button } from '../Buttons';
 export const QToolBar: React.FC<{
   handleInfoClick: (e: React.ChangeEvent<any>) => void;
   handleReportClick: (e: React.ChangeEvent<any>) => void;
+  handleResetClick: (e: React.ChangeEvent<any>) => void;
   children: any;
-  isSubmitting: boolean;
-}> = ({ handleInfoClick, children, isSubmitting, handleReportClick }) => {
+  isSubmitting?: boolean;
+}> = ({ handleInfoClick, children, handleReportClick, handleResetClick }) => {
   return (
     <>
       <div className='buttons'>
@@ -29,11 +30,19 @@ export const QToolBar: React.FC<{
         >
           <IconSave />
         </Button>
-        {/* <Button cssId={'fwd'} handleClick={handleClick}>
+        <Button
+          type='button'
+          cssId='reset-answers'
+          handleClick={handleResetClick}
+          text={'Formular zurücksetzen'}
+        >
+          <IconTimes />
+        </Button>
+      </div>
+      {/* <Button cssId={'fwd'} handleClick={handleClick}>
           <IconNext />
         </Button> */}
-        {children}
-      </div>
+      <div className='buttons'>{children}</div>
     </>
   );
 };

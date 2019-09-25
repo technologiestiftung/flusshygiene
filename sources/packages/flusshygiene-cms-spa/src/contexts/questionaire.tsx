@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { getQuestions } from '../questionnaire-data';
+import {
+  loadState,
+  saveState,
+  clearState,
+} from '../lib/persist-state/local-storage';
 // see https://kentcdodds.com/blog/how-to-use-react-context-effectively
 //----
 interface IQuestionsState {
@@ -8,8 +13,8 @@ interface IQuestionsState {
   // updateAnswer: (i: number, answer: string) => void;
 }
 interface IAction {
-  type: 'SET_ANSWER';
-  payload: { [key: string]: any };
+  type: 'SET_ANSWER' | 'REMOVE_ANSWERS';
+  payload?: { [key: string]: any };
 }
 interface IActionSetAnswer extends IAction {
   payload: { index: number; answer: string };
@@ -17,6 +22,7 @@ interface IActionSetAnswer extends IAction {
 type Dispatch = (action: IAction) => void;
 type QuestionsProviderProps = { children: React.ReactNode };
 
+const localStateKey = 'standortbewertung';
 let questions: any[] = [];
 let answers: string[] = [];
 
@@ -24,7 +30,12 @@ let answers: string[] = [];
   const data = await getQuestions();
   // console.log(data);
   questions = [...data];
-  answers = new Array(questions.length);
+  const localAnswerState = loadState(localStateKey);
+  if (localAnswerState === undefined) {
+    answers = new Array(questions.length);
+  } else {
+    answers = localAnswerState.answers;
+  }
   // setQuestions((prevState) => {
   //   const newState = [...prevState, ...data];
   //   setAnswers(new Array(newState.length));
@@ -44,7 +55,12 @@ const answersReducer = (state: IQuestionsState, action: IAction) => {
       const answer = locAction.payload.answer;
       const tmp = [...state.answers];
       tmp[index] = answer;
+      saveState(localStateKey, { answers: tmp });
       return { ...state, answers: tmp };
+    }
+    case 'REMOVE_ANSWERS': {
+      clearState(localStateKey);
+      return { ...state, answers: [new Array(state.questions)] };
     }
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
