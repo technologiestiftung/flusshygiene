@@ -179,6 +179,31 @@ $mapHeight: 400px;
   }
 }
 
+// pdfviewer
+
+.pdfviewer__parent {
+  position: relative;
+  height: 100%;
+}
+.pdfviewer {
+  position: absolute;
+  height: 100% important;
+}
+.container__pdf--fullpage {
+  height: 80vh;
+  .columns {
+    height: 100%;
+    //   .column {
+    //     height: 100vh;
+    //     position: relative;
+    //     iframe {
+    //       position: absolute;
+    //       height: 100% important;
+    //     }
+    //   }
+  }
+}
+
 // co
 
 // .spot__calib-notification--on-top {

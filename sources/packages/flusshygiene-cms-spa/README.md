@@ -1,6 +1,6 @@
 # Flusshygiene CMS SPA
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/technologiestiftung/flusshygiene-cms-spa.svg)](https://greenkeeper.io/) ![Build Status](https://github.com/technologiestiftung/flusshygiene-cms-spa/workflows/Node%20CI%20Build/badge.svg) ![Build Status](https://github.com/technologiestiftung/flusshygiene-cms-spa/workflows/Docker%20Image%20CI/badge.svg) ![Build Status](https://github.com/technologiestiftung/flusshygiene-cms-spa/workflows/Node%20CI%20Test/badge.svg) [![Build Status](https://travis-ci.com/technologiestiftung/flusshygiene-cms-spa.svg?branch=master)](https://travis-ci.com/technologiestiftung/flusshygiene-cms-spa) ![Docker Build Status](https://img.shields.io/docker/cloud/build/technologiestiftung/flusshygiene-cms-spa)
+[![Greenkeeper badge](https://badges.greenkeeper.io/technologiestiftung/flusshygiene-cms-spa.svg)](https://greenkeeper.io/) ![Build Status](https://github.com/technologiestiftung/flusshygiene-cms-spa/workflows/Node%20CI%20Build/badge.svg) ![Build Status](https://github.com/technologiestiftung/flusshygiene-cms-spa/workflows/docker-image-build-and-push/badge.svg) ![Build Status](https://github.com/technologiestiftung/flusshygiene-cms-spa/workflows/Node%20CI%20Test/badge.svg) [![Build Status](https://travis-ci.com/technologiestiftung/flusshygiene-cms-spa.svg?branch=master)](https://travis-ci.com/technologiestiftung/flusshygiene-cms-spa) ![Docker Build Status](https://img.shields.io/docker/cloud/build/technologiestiftung/flusshygiene-cms-spa)
 
 ## Browsers support
 

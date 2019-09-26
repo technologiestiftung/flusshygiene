@@ -21,6 +21,8 @@ import {
   faTimes,
   faUsersCog,
   faTools,
+  faFilePdf,
+  faFileCode,
 } from '@fortawesome/free-solid-svg-icons';
 import { ColorNames, QType } from '../lib/common/interfaces';
 import { colorNamesToClassNames } from '../lib/utils/questionnaire-colornames-conversion';
@@ -44,6 +46,8 @@ library.add(
   faTimes,
   faUsersCog,
   faTools,
+  faFilePdf,
+  faFileCode,
 );
 
 export const colorNameToIcon: (cname: ColorNames) => JSX.Element = (cname) => {
@@ -104,6 +108,12 @@ export const IconArrowCircleRight: React.FC<{
   />
 );
 
+export const IconPDF: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'file-pdf'} className={className} />
+);
+export const IconCode: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'file-code'} className={className} />
+);
 export const IconTimes: React.FC<{ className?: string }> = ({ className }) => (
   <FontAwesomeIcon icon={'times'} className={className} />
 );

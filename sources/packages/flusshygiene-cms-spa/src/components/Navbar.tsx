@@ -48,14 +48,14 @@ const NavBar = () => {
           {/* <NavLink to={`/${RouteNames.index}`} className='navbar-item'>
             <strong className=''>Flusshygiene</strong>
           </NavLink> */}
-          <NavLink
+          {/* <NavLink
             activeClassName={'navbar-item--is-active'}
             // activeStyle={{ fontWeight: 800 }}
             to={`/${RouteNames.questionnaire}`}
             className='navbar-item'
           >
             Standortbewertung
-          </NavLink>
+          </NavLink> */}
           {/* <NavLink
             to={`/${RouteNames.info}`}
             activeClassName={'navbar-item--is-active'}

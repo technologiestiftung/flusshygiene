@@ -7,10 +7,15 @@ import {
   IconLink,
   colorNameToIcon,
   questionTypeToIcon,
+  IconPDF,
+  IconCode,
 } from '../fontawesome-icons';
 import { IAnswer } from '../../lib/common/interfaces';
 import { roundTo } from '../../lib/utils/round-to-float-digits';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
+import { ButtonIconTB as Button } from '../Buttons';
+
+import FileSaver from 'file-saver';
 export const Report: React.FC = () => {
   const [state] = useQuestions();
   const [localQuestions, setLocalQuestions] = useState<string[]>([]);
@@ -20,16 +25,19 @@ export const Report: React.FC = () => {
   const [localAnswers, setLocalAnswers] = useState<IAnswer[][]>([]);
   const [probability, setProbability] = useState(0);
   const [allAnswersGiven, setAllAnswersGiven] = useState(false);
+  const [pdfReportAnswers, setPdfReportAnswers] = useState<Array<IAnswer>>([]);
   useEffect(() => {
     if (state.questions === undefined) return;
     if (state.questions[0] === undefined) return;
     const tmpQuestions: string[] = [];
     const tmpQuestionsAddInfo: string[] = [];
     const tmpAnswers: IAnswer[][] = [];
+    const tmpPDFReportAnswers: IAnswer[] = [];
     for (let i = 1; i < state.questions.length; i++) {
       tmpQuestions.push(state.questions[i].default[1][4]);
       tmpQuestionsAddInfo.push(createLinks(state.questions[i].default[1][5]));
       const answers: IAnswer[] = [];
+      // const reportAnswer: Array<IAnswer> = [];
       for (let j = 1; j < state.questions[i].default.length; j++) {
         const q = state.questions[i].default[j];
 
@@ -46,22 +54,25 @@ export const Report: React.FC = () => {
           weight: state.questions[i].default[1][0],
           possibility: q[10],
           qType: q[11] !== null ? q[11].toLowerCase() : undefined,
+          reportAddInfo: createLinks(q[8]),
         };
         answers.push(answer);
+        if (state.answers.includes(answer.id) === true) {
+          tmpPDFReportAnswers.push(answer);
+        }
+        // } else {
+        // reportAnswer.push(null);
+        // }
       }
       tmpAnswers.push(answers);
+      // tmpPDFReportAnswers.push(reportAnswer);
     }
     // console.log(tmpAnswers);
-    setlocalQuestionsAddInfo((_) => {
-      return tmpQuestionsAddInfo;
-    });
-    setLocalQuestions((_) => {
-      return tmpQuestions;
-    });
-    setLocalAnswers((_) => {
-      return tmpAnswers;
-    });
-  }, [state.questions, setLocalQuestions]);
+    setlocalQuestionsAddInfo((_) => tmpQuestionsAddInfo);
+    setLocalQuestions((_) => tmpQuestions);
+    setLocalAnswers((_) => tmpAnswers);
+    setPdfReportAnswers((_) => tmpPDFReportAnswers);
+  }, [state.questions, setLocalQuestions, state.answers]);
 
   useEffect(() => {
     if (state.answers === undefined) return;
@@ -106,10 +117,80 @@ export const Report: React.FC = () => {
     return (
       <>
         <Container columnClassName={'is-8'}>
+          <div className='buttons'>
+            <Link
+              className='button is-small'
+              to={{
+                pathname: `/${RouteNames.questionnaire}-pdfviewer`,
+                state: {
+                  questions: localQuestions,
+                  answers: pdfReportAnswers,
+                  addInfoQuestion: localQuestionsAddInfo,
+                  title: `Standortbewertung-${state.title}`,
+                  probability: `Umsetzungswahrscheinlichkeit: ${isNaN(
+                    probability,
+                  ) === false && roundTo(probability, 0)}%`,
+                  allAnswersGiven: allAnswersGiven,
+                },
+              }}
+            >
+              <span className='icon is-small'>
+                {' '}
+                <IconPDF />
+              </span>{' '}
+              <span>PDF</span>
+            </Link>
+            <Button
+              text={'JSON'}
+              handleClick={(e: React.ChangeEvent<any>) => {
+                console.log('JSON');
+                const blob = new Blob(
+                  [
+                    JSON.stringify({
+                      contextState: state,
+                      answers: localAnswers,
+                      questions: localQuestions,
+                    }),
+                  ],
+                  {
+                    type: 'text/plain;charset=utf-8',
+                  },
+                );
+                FileSaver.saveAs(blob, `standortbewertung-${state.title}.json`);
+                console.log(state.answers);
+              }}
+            >
+              <IconCode />
+            </Button>
+          </div>
+        </Container>
+        <Container columnClassName={'is-8'}>
+          {/* <PDFRendererDLLink
+            questions={localQuestions}
+            answers={pdfReportAnswers}
+            addInfoQuestion={localQuestionsAddInfo}
+            title={'Standortbewertung'}
+            probability={`Umsetzungswahrscheinlichkeit: ${isNaN(probability) ===
+              false && roundTo(probability, 2)}%`}
+            allAnswersGiven={allAnswersGiven}
+          /> */}
+          {/* <PDFDownloadLink
+            document={<ReportPDF />}
+            fileName='Standortbewertung-Report.pdf'
+          >
+            {({ blob, url, loading, error }) =>
+              loading ? 'Loading document...' : 'Download now!'
+            }
+          </PDFDownloadLink> */}
+        </Container>
+        <Container columnClassName={'is-8'}>
           <h1 className='title is-1'>Report</h1>
           <h2 className='subtitle is-4'>der aktuellen Standortbewertung</h2>
+          {state.title !== undefined && state.title.length > 0 && (
+            <h3 className={'subtitle is 6'}>{state.title}</h3>
+          )}
           <div className='content'>
-            {allAnswersGiven === false && (
+            {allAnswersGiven === true && (
               <p>
                 <strong>
                   Achtung es wurden nicht alle Fragen beantwortet!
@@ -117,7 +198,9 @@ export const Report: React.FC = () => {
               </p>
             )}
             <p
-              className={allAnswersGiven === false ? 'has-text-grey-light' : ''}
+              className={`subtitle ${
+                allAnswersGiven === false ? 'has-text-grey-light' : ''
+              }`}
             >
               Umsetzungswahrscheinlichkeit:{' '}
               {isNaN(probability) === false && roundTo(probability, 2)}%
@@ -141,14 +224,14 @@ export const Report: React.FC = () => {
                         </strong>
                       </p>
 
-                      <p
+                      {/* <p
                         dangerouslySetInnerHTML={{
                           __html:
                             localQuestionsAddInfo[i] !== undefined
                               ? localQuestionsAddInfo[i]
                               : '',
                         }}
-                      />
+                      /> */}
 
                       {(() => {
                         if (
@@ -188,7 +271,7 @@ export const Report: React.FC = () => {
                               </span>{' '}
                               <span
                                 dangerouslySetInnerHTML={{
-                                  __html: localAnswers[i][aId].additionalText,
+                                  __html: localAnswers[i][aId].reportAddInfo,
                                 }}
                               />
                             </p>

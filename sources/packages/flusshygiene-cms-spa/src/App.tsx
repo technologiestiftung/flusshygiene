@@ -13,6 +13,7 @@ import history from './lib/history';
 import { QuestionsIntro } from './components/questionaire/QuestionsIntro';
 import { QA } from './components/questionaire/QA-entrypoint';
 import { Page404 } from './components/Page404';
+import { PDFPage } from './components/questionaire/ReportPDF';
 
 const App: React.FC = () => {
   const { loading } = useAuth0();
@@ -42,6 +43,10 @@ const App: React.FC = () => {
               component={QuestionaireIntro}
             /> */}
             <Route path={`/${RouteNames.questionnaire}/:id`} component={QA} />
+            <Route
+              path={`/${RouteNames.questionnaire}-pdfviewer`}
+              component={PDFPage}
+            />
             <Route
               path={`/${RouteNames.questionnaire}`}
               component={QuestionsIntro}

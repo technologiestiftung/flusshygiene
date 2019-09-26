@@ -27,7 +27,15 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   const [state, dispatch] = useQuestions();
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [answersIds, setAnswersIds] = useState<string[]>([]);
+  const [questionnaireTitle, setquestionnaireTitle] = useState<string>('');
 
+  useEffect(() => {
+    // if (state.title === undefined) return;
+    setquestionnaireTitle((_) => {
+      const res = state.title !== undefined ? state.title : '';
+      return res;
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (state.questions === undefined) return;
     if (state.questions.length - 1 < qid) return;
@@ -56,6 +64,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
         weight: q[1][0],
         possibility: q[i][10],
         qType: q[i][11] !== null ? q[i][11].toLowerCase() : undefined,
+        reportAddInfo: createLinks(q[i][8]),
       };
       // console.log('ids of answers for this view', answer.id);
       // console.log('all current answers in state', state.answers);
@@ -113,10 +122,15 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
           initialValues={{
             answersIds: answersIds,
             answer: undefined,
+            questionnaireTitle: questionnaireTitle,
           }}
           enableReinitialize={true}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             console.log('submitted', values);
+            dispatch({
+              type: 'SET_TITLE',
+              payload: { title: values.questionnaireTitle },
+            });
             dispatch({
               type: 'SET_ANSWER',
               payload: {
@@ -188,6 +202,32 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                         }}
                       ></Pagination>
                     </QToolBar>
+                  </Container>
+                  <Container>
+                    <div className='field'>
+                      <div className='control'>
+                        <input
+                          className='input is-small'
+                          type='text'
+                          placeholder='Geben Sie einen Title ein'
+                          name='title'
+                          value={questionnaireTitle}
+                          onChange={(e: React.ChangeEvent<any>) => {
+                            handleChange(e);
+                            setquestionnaireTitle(e.currentTarget.value);
+                            dispatch({
+                              type: 'SET_TITLE',
+                              payload: { title: questionnaireTitle },
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {/* <SpotEditorInput
+                      type='text'
+                      name='questionnaireTitle'
+                      label='Titel'
+                    ></SpotEditorInput> */}
                   </Container>
                   <Container>
                     <h1 className='title is-1'>{title}</h1>

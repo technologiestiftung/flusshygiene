@@ -186,6 +186,7 @@ export interface IAnswer {
   checked?: boolean;
   possibility?: number;
   qType?: QType;
+  reportAddInfo: string;
 }
 
 // ╔╦╗┬ ┬┌─┐┌─┐┌─┐
