@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic app tests should mount 1`] = `"{\\"success\\":true,\\"message\\":\\"Everything OK\\",\\"version\\":\\"0.1.0\\"}"`;
