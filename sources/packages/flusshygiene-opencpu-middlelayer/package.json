@@ -1,12 +1,13 @@
 {
-  "name": "@tsb/flusshygiene-redis-pubsub",
+  "name": "@tsb/flusshygiene-opencpu-middleware",
   "version": "0.1.0",
   "description": "redis pub sub system for realtime communication between opencpu-api postgres-api and the cms-spa client",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watch",
     "start": "node dist/index",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "build": "tsc -p ."
   },
   "keywords": [
     "redis",
@@ -22,6 +23,7 @@
     "@types/got": "^9.6.7",
     "@types/helmet": "0.0.44",
     "@types/jest": "^24.0.18",
+    "@types/mkdirp": "^0.5.2",
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.7.5",
     "@types/redis": "^2.8.13",
@@ -53,6 +55,7 @@
     "got": "^9.6.0",
     "helmet": "^3.21.1",
     "husky": "^3.0.5",
+    "mkdirp": "^0.5.1",
     "morgan": "^1.9.1",
     "redis": "^2.8.0",
     "ts-jest": "^24.1.0",

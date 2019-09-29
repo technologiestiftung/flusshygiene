@@ -1,5 +1,9 @@
 import * as winston from 'winston';
 
+import mkdirp from 'mkdirp';
+import path from 'path';
+
+mkdirp.sync(path.resolve(process.cwd(), './logs/'));
 const logger = winston.createLogger({
   exitOnError: false,
   level: 'info',
@@ -9,7 +13,10 @@ const logger = winston.createLogger({
       handleExceptions: true,
     }),
     new winston.transports.File({
-      filename: 'logs/pubsub-all.log',
+      filename: path.resolve(
+        process.cwd(),
+        './logs/opencpu-middlelayer-all.log',
+      ),
       handleExceptions: true,
       maxsize: 5242880, //5MB
       maxFiles: 5,
