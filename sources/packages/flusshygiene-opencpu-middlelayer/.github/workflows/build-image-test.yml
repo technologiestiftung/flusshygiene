@@ -1,4 +1,4 @@
-name: docker-image-build-test
+name: Docker Image Build Test
 
 on: [push, pull_request]
 jobs:
