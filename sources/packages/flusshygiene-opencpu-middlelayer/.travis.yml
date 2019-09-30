@@ -12,7 +12,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
-  - npm test
+  - npm test:ci
   - npm run build
 
 after_script:
