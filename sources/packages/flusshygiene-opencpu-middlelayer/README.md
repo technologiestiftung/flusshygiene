@@ -1,4 +1,4 @@
-# flusshygiene-opencpu-middleware
+# flusshygiene opencpu middleware
 
 Express layer between cms-spa and opencpu-api to get immediate feedback on POST requests. Due to the fact that there are long running processes on the fhpredict api and we dont want to run into timeouts on the frontend.
 Passes some specific requests through and waits for the response. Then sends a message out over websockets. Client should listen for his ID and react accordingly.
