@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watch",
+    "test:ci": "jest",
     "start": "node dist/index",
     "dev": "nodemon",
     "build": "tsc -p ."
