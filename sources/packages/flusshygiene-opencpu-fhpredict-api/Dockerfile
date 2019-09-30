@@ -21,7 +21,7 @@ ENV TEMP "/tmp"
 # ENV TOKEN_PROD $TOKEN_PROD
 
 # COPY "./files/.vimrc" "~/"
-RUN R -e "remotes::install_github(\"kwb-r/fhpredict@v0.1.1\", build_vignettes = FALSE, force= TRUE)"
+RUN R -e "remotes::install_github(\"kwb-r/fhpredict@v0.2.0\", build_vignettes = FALSE, force= TRUE)"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004
 EXPOSE 80
