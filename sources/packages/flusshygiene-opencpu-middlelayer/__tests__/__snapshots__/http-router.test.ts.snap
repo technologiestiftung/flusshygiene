@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic route tests should respond with 404 on non existing route 1`] = `
+"<!DOCTYPE html>
+<html lang=\\"en\\">
+<head>
+<meta charset=\\"utf-8\\">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /foo</pre>
+</body>
+</html>
+"
+`;
+
+exports[`basic route tests should responde with success on clibrate 1`] = `
+Object {
+  "message": "Your request to /calibrate is beeing processed",
+  "success": true,
+  "version": "0.1.0",
+}
+`;
+
+exports[`basic route tests should responde with success on model 1`] = `
+Object {
+  "message": "Your request to /model is beeing processed",
+  "success": true,
+  "version": "0.1.0",
+}
+`;
+
+exports[`basic route tests should responde with success on predict 1`] = `
+Object {
+  "message": "Your request to /predict is beeing processed",
+  "success": true,
+  "version": "0.1.0",
+}
+`;

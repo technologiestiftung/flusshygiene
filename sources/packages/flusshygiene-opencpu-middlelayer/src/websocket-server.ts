@@ -2,9 +2,10 @@ import WebSocket, { OPEN as WSOPEN } from 'ws';
 
 import http from 'http';
 
+const greeting = 'welcome from backend WebSocketServer';
 const connection = (socket: WebSocket) => {
   socket.on('message', listener);
-  socket.send('welcome from backend WebSocketServer');
+  socket.send(greeting);
 };
 
 const listener = (message: WebSocket.Data) => {
@@ -28,4 +29,4 @@ const wsSubmit: (wsserver: WebSocket.Server, data?: any) => void = (
   });
 };
 
-export { wsSubmit, websocketServer };
+export { wsSubmit, websocketServer, listener, connection, greeting };

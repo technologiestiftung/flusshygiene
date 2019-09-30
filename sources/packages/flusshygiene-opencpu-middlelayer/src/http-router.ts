@@ -14,9 +14,9 @@ enum FHpredictFunctions {
 const router = Router();
 const broadcaster = BroadCaster.getInstance();
 
-router.get('/health', async (req, res) => {
+router.get('/health', async (_req, res) => {
   // req.session!.name = 'foo';
-  console.log(req.session);
+  // console.log(req.session);
   res.json({
     success: true,
     message: 'Everything OK',
@@ -45,13 +45,6 @@ router.post(['/calibrate', '/predict', '/model'], async (req, res) => {
     case '/model':
       url = `${OCPU_API_HOST}/ocpu/library/fhpredict/R/${FHpredictFunctions.model}/json`;
       break;
-    default:
-      res.status(404).json({
-        success: false,
-        message: 'Possible endpoints are "calibrate", "/predict" or "/model"',
-        version: VERSION,
-      });
-      return;
   }
 
   res.status(201).json({
