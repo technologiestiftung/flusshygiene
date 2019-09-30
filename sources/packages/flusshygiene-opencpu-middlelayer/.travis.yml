@@ -12,7 +12,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
-  - npm run test:ci
+  - npm run test:ci -- --detectOpenHandles
   - npm run build
 
 after_script:
