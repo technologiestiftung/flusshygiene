@@ -1,0 +1,13 @@
+name: docker-image-build-test
+
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+      - name: Build image test
+        uses: actions/docker/cli-multi@master
+        with:
+          args: '"build --label verion=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
