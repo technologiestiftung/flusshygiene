@@ -1,1 +1,3 @@
-module.exports = function() {};
+module.exports = function() {
+  jest.useFakeTimers();
+};

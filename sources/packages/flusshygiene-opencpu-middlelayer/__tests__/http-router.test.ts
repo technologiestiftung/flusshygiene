@@ -4,7 +4,6 @@ import { BroadCaster } from '../src/events-broadcaster';
 import app from '../src/app';
 import nock from 'nock';
 import request from 'supertest';
-import { resolve } from 'url';
 
 jest.useFakeTimers();
 const scope = nock('http://localhost:4444')
