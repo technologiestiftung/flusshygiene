@@ -1,6 +1,6 @@
 {
   "name": "flusshygiene-nginx-gateway",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "nginx gateway for a multi docker AWS EB setup",
   "main": "index.js",
   "scripts": {
