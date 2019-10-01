@@ -1,19 +1,5 @@
-import { PredictionValue } from './../../../src/lib/common/index';
-import { BathingspotPrediction } from './../../../src/orm/entity/BathingspotPrediction';
-import { GenericInput } from './../../../src/orm/entity/GenericInput';
-jest.useFakeTimers();
-import express, { Application } from 'express';
-import path from 'path';
 import 'reflect-metadata';
-import { async } from 'rxjs/internal/scheduler/async';
-import request from 'supertest';
-import { Connection } from 'typeorm';
-import routes from '../../../src/lib/routes';
-import {
-  getColletionItemById,
-  getGIWithRelations,
-  getPPlantWithRelations,
-} from '../../../src/lib/utils/collection-repo-helpers';
+
 import {
   BathingspotMeasurement,
   BathingspotModel,
@@ -28,6 +14,23 @@ import {
   readTokenFromDisc,
   reloadTestingDatabases,
 } from '../../test-utils';
+import express, { Application } from 'express';
+import {
+  getColletionItemById,
+  getGIWithRelations,
+  getPPlantWithRelations,
+} from '../../../src/lib/utils/collection-repo-helpers';
+
+import { BathingspotPrediction } from './../../../src/orm/entity/BathingspotPrediction';
+import { Connection } from 'typeorm';
+import { GenericInput } from './../../../src/orm/entity/GenericInput';
+import { PredictionValue } from './../../../src/lib/common/index';
+import { async } from 'rxjs/internal/scheduler/async';
+import path from 'path';
+import request from 'supertest';
+import routes from '../../../src/lib/routes';
+
+jest.useFakeTimers();
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -131,8 +134,8 @@ describe('testing bathingspots collection', () => {
   test('route POST users bathingspots collection rains', async (done) => {
     const obj = {
       comment: 'This is a test',
-      date: '2019-12-31',
-      dateTime: '12:00:01',
+      date: '2019-12-31 15:00:00',
+      dateTime: '12:00:03',
       value: Math.random() * 10,
     };
     const res = await request(app)
@@ -148,7 +151,7 @@ describe('testing bathingspots collection', () => {
   test('route DELETE users bathingspots collection rains', async (done) => {
     const obj = {
       comment: 'This is a test',
-      date: '2019-12-31',
+      date: '2025-12-31',
       dateTime: '12:00:01',
       value: Math.random() * 10,
     };

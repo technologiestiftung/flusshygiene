@@ -1,7 +1,10 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, Unique } from 'typeorm';
+
 import { GenericInput } from './GenericInput';
 import { Measurement } from './Measurement';
+
 @Entity()
+@Unique(['date', 'genericInput', 'dateTime'])
 export class GInputMeasurement extends Measurement {
   @Column({ nullable: true })
   public comment!: string;

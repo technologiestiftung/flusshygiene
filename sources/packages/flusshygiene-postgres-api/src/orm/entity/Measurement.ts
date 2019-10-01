@@ -20,7 +20,7 @@ export abstract class Measurement {
   @Column({ type: 'time', nullable: false })
   public dateTime!: string;
 
-  @Column({ type: 'date', nullable: false })
+  @Column({ type: 'timestamp', nullable: false })
   public date!: string;
 
   @Column({ type: 'float8', nullable: false })

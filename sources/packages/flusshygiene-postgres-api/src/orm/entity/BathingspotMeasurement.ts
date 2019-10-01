@@ -8,10 +8,11 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { Bathingspot } from './Bathingspot';
 
 @Entity()
-@Unique(['date'])
+@Unique(['date', 'bathingspot'])
 export class BathingspotMeasurement {
   @PrimaryGeneratedColumn()
   public id!: number;

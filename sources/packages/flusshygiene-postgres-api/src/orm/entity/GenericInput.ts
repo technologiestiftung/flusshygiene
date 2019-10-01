@@ -1,4 +1,5 @@
 import { Entity, ManyToOne, OneToMany } from 'typeorm';
+
 import { Bathingspot } from './Bathingspot';
 import { GInputMeasurement } from './GInputMeasurement';
 import { MeasurementType } from './MeasurementType';

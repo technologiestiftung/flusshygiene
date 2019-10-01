@@ -1,8 +1,10 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, Unique } from 'typeorm';
+
 import { Bathingspot } from './Bathingspot';
 import { Measurement } from './Measurement';
 
 @Entity()
+@Unique(['date', 'bathingspot', 'dateTime'])
 export class GlobalIrradiance extends Measurement {
   @Column({ nullable: true })
   public comment!: string;

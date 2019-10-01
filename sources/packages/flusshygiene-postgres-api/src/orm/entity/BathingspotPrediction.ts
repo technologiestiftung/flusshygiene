@@ -6,8 +6,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { PredictionValue } from '../../lib/common';
+
 import { Bathingspot } from './Bathingspot';
+import { PredictionValue } from '../../lib/common';
 
 @Entity()
 export class BathingspotPrediction {
@@ -46,7 +47,7 @@ export class BathingspotPrediction {
   @Column({ nullable: true })
   public oldId!: number;
 
-  @Column()
+  @Column({ type: 'timestamp' })
   public date!: Date;
 
   @Column({ type: 'enum', enum: PredictionValue })

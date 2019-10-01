@@ -1,22 +1,23 @@
-import meow from 'meow';
-import ora = require('ora');
-import readlineSync from 'readline-sync';
-import { createConnection, getConnectionOptions, getRepository } from 'typeorm';
 import { DefaultRegions, UserRole } from '../lib/common';
-import { Region } from '../orm/entity/Region';
-import { User } from '../orm/entity/User';
-import { Bathingspot } from './../orm/entity/Bathingspot';
 import {
-  addEntitiesToSpot,
   IAddEntitiesToSpotOptions,
+  addEntitiesToSpot,
 } from './add-entities-to-spot';
-import { createUser } from './create-test-user';
+import { createConnection, getConnectionOptions, getRepository } from 'typeorm';
 import {
   createMeasurements,
   createPredictions,
   createSpots,
-  createSpotsDE /*<--- include this*/,
+  createSpotsDE,
 } from './import-existing-data';
+
+import { Bathingspot } from './../orm/entity/Bathingspot';
+import { Region } from '../orm/entity/Region';
+import { User } from '../orm/entity/User';
+import { createUser } from './create-test-user';
+import meow from 'meow';
+import readlineSync from 'readline-sync';
+import ora = require('ora');
 const spinner = ora('populating database');
 const infoSpinner = (text: string, spin: ora.Ora) => {
   if (spin.isSpinning) {
@@ -200,16 +201,15 @@ pass the path for the config you want to use.
     await connection.manager.save([userCreator]);
     // now update all the spots with createMeasurements
 
-    infoSpinner('Importing BathingspotMeasurement', spinner);
-
-    const measurements = await createMeasurements();
-    // const spotRepo = getCustomRepository(BathingspotRepository);
-    const opts: IAddEntitiesToSpotOptions = {
-      connection,
-      entities: measurements,
-    };
-
     if (process.env.NODATA === undefined) {
+      infoSpinner('Importing BathingspotMeasurement', spinner);
+
+      const measurements = await createMeasurements();
+      // const spotRepo = getCustomRepository(BathingspotRepository);
+      const opts: IAddEntitiesToSpotOptions = {
+        connection,
+        entities: measurements,
+      };
       infoSpinner('Adding BathingspotMeasurement to Bathingspots', spinner);
 
       await addEntitiesToSpot(opts);
