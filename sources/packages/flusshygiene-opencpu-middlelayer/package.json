@@ -1,6 +1,6 @@
 {
   "name": "@tsb/flusshygiene-opencpu-middleware",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "middlelayer between opencpu api and spa-cms",
   "main": "dist/index.js",
   "scripts": {
