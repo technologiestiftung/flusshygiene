@@ -1,15 +1,33 @@
-import { SESSION_SECRET } from './common/constants';
+import { REDIS_PORT, SESSION_SECRET } from './common/constants';
+
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import { logStream } from './logger';
 import morgan from 'morgan';
+import redis from 'redis';
 import { router } from './http-router';
 import session from 'express-session';
+import uuidv4 from 'uuid/v4';
+
+const RedisStore = require('connect-redis')(session);
+const client = redis.createClient({ host: 'redis', port: REDIS_PORT });
+client.on('error', console.error);
+client.on('connect', () => {
+  console.info('redis client has connected');
+});
+
+client.on('end', () => {
+  console.info('redis client session has disconnected');
+});
 
 const app = express();
 app.use(
   session({
+    genid: function(_req) {
+      return uuidv4(); // use UUIDs for session IDs
+    },
+    store: new RedisStore({ client }),
     secret:
       SESSION_SECRET !== undefined
         ? SESSION_SECRET

@@ -25,15 +25,17 @@ router.get('/health', async (_req, res) => {
 });
 
 router.post(['/calibrate', '/predict', '/model'], async (req, res) => {
-  if (req.body.payload === undefined) {
-    res.status(404).json({
-      success: false,
-      message:
-        'You need to pass the "url" [string] of the desired endpoint and the "payload" [Object] in the body of your POST request. The payload will be the body this module passes through',
-      version: VERSION,
-    });
-    return;
-  }
+  console.log(req.sessionID);
+  // if (req.body.payload === undefined) {
+  //   res.status(400).json({
+  //     success: false,
+  //     message:
+  //       'You need to pass the "payload" [Object] in the body of your POST request. The payload will be the body this module passes through',
+  //     version: VERSION,
+  //     sessionID: req.sessionID,
+  //   });
+  //   return;
+  // }
   let url = '';
   switch (req.url) {
     case '/calibrate':
@@ -51,13 +53,14 @@ router.post(['/calibrate', '/predict', '/model'], async (req, res) => {
     success: true,
     message: `Your request to ${req.url} is beeing processed`,
     version: VERSION,
+    sessionID: req.sessionID,
   });
   broadcaster.emit('passthrough', 'start');
-  const passThroughBody = { ...req.body.payload };
-  postPassThrough(url, passThroughBody)
+  // const passThroughBody = { ...req.body };
+  postPassThrough(url, req.body)
     .then((body) => {
       // console.log(body);
-      broadcaster.emit('passthrough', body);
+      broadcaster.emit('passthrough', { body: body, sessionID: req.sessionID });
       broadcaster.emit('passthrough', 'end');
     })
     .catch((error) => {
