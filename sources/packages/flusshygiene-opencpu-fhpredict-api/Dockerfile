@@ -11,6 +11,7 @@ LABEL description="This runs our package kwb-r/fhpredict package on a opencpu ap
 
 ENV TMP "/tmp"
 ENV TEMP "/tmp"
+COPY opencpu-config/user.conf /etc/opencpu/server.conf.d/
 # theese are needed and need to be provided in the environment
 # ENV AUTH0_REQ_URL $AUTH0_REQ_URL
 # ENV AUTH0_CLIENT_ID $AUTH0_CLIENT_ID
@@ -21,7 +22,7 @@ ENV TEMP "/tmp"
 # ENV TOKEN_PROD $TOKEN_PROD
 
 # COPY "./files/.vimrc" "~/"
-RUN R -e "remotes::install_github(\"kwb-r/fhpredict@v0.2.0\", build_vignettes = FALSE, force= TRUE)"
+RUN R -e "remotes::install_github(\"kwb-r/fhpredict@v0.4.0\", build_vignettes = FALSE, force= TRUE)"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004
 EXPOSE 80
