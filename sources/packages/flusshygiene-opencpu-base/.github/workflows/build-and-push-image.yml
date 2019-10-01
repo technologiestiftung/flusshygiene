@@ -10,7 +10,7 @@ jobs:
       - name: Docker login
         uses: actions/docker/login@master
         env:
-          BUILD_DATE: 2019-09-19
+          BUILD_DATE: '2019-09-19'
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           CI: true
