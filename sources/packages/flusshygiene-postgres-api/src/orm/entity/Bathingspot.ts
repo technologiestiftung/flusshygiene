@@ -1,6 +1,4 @@
-import buffer from '@turf/buffer';
-import { GeometryObject, Polygon } from '@turf/turf';
-import { IsEnum } from 'class-validator';
+import { BeforeInsert, UpdateDateColumn, VersionColumn } from 'typeorm';
 // import {Point, Polygon} from 'geojson';
 import {
   Column,
@@ -10,8 +8,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BeforeInsert, UpdateDateColumn, VersionColumn } from 'typeorm';
-import { Influences } from '../../lib/common';
+import { GeometryObject, Polygon } from '@turf/turf';
+
 import { BathingspotMeasurement } from './BathingspotMeasurement';
 import { BathingspotModel } from './BathingspotModel';
 import { BathingspotPrediction } from './BathingspotPrediction';
@@ -19,11 +17,14 @@ import { Discharge } from './Discharge';
 import { GenericInput } from './GenericInput';
 import { GlobalIrradiance } from './GlobalIrradiance';
 import { ImageFile } from './ImageFile';
+import { Influences } from '../../lib/common';
+import { IsEnum } from 'class-validator';
 import { PurificationPlant } from './PurificationPlant';
 import { Rain } from './Rain';
 // import { BathingspotRawModelData } from './BathingspotRawModelData';
 import { Region } from './Region';
 import { User } from './User';
+import buffer from '@turf/buffer';
 
 export const criteriaBathingspot = [
   { type: 'object', key: 'apiEndpoints' },
@@ -348,7 +349,7 @@ export class Bathingspot {
   )
   public globalIrradiances!: GlobalIrradiance[];
 
-  @OneToMany((_type) => Rain, (rain) => rain.bathingspot)
+  @OneToMany((_type) => Rain, (rain) => rain.bathingspot, { eager: true })
   public rains!: Rain[];
 
   @OneToMany((_type) => ImageFile, (image) => image.bathingspot)
