@@ -25,6 +25,7 @@ describe('basic route tests', () => {
     expect(response.status).toBe(201);
     expect(response.body).toMatchSnapshot({
       sessionID: expect.any(String),
+      version: expect.any(String),
     });
     done();
   });
@@ -35,6 +36,7 @@ describe('basic route tests', () => {
     expect(response.status).toBe(201);
     expect(response.body).toMatchSnapshot({
       sessionID: expect.any(String),
+      version: expect.any(String),
     });
     done();
   });
@@ -59,14 +61,16 @@ describe('basic route tests', () => {
     done();
   });
 
-  test.todo('should respond with 404 due to missing payload', async (done) => {
-    // const response = await request(app)
-    //   .post('/middlelayer/calibrate')
-    //   .send({ url: 'http://localhost:4444/foo/bah' });
-    // expect(response.status).toBe(400);
-    // expect(response.body.success).toBe(false);
-    // done();
-  });
+  test.todo(
+    'should respond with 404 due to missing payload' /*, async (done) => {
+    const response = await request(app)
+      .post('/middlelayer/calibrate')
+      .send({ url: 'http://localhost:4444/foo/bah' });
+    expect(response.status).toBe(400);
+    expect(response.body.success).toBe(false);
+    done();
+  }*/,
+  );
 
   test('should call broadcaster after working request', async (done) => {
     const broadcaster = BroadCaster.getInstance();

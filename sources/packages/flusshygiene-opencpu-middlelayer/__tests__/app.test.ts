@@ -27,7 +27,9 @@ describe('basic app tests', () => {
   test('should mount', async (done) => {
     const response = await request(app).get('/middlelayer/health');
     expect(response.status).toBe(200);
-    expect(response.text).toMatchSnapshot();
+    expect(response.body).toMatchSnapshot({
+      version: expect.any(String),
+    });
     done();
   });
 });
