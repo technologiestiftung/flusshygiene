@@ -1,7 +1,7 @@
 {
   "name": "@tsb/flusshygiene-opencpu-middleware",
   "version": "0.1.0",
-  "description": "redis pub sub system for realtime communication between opencpu-api postgres-api and the cms-spa client",
+  "description": "middlelayer between opencpu api and spa-cms",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watch",
