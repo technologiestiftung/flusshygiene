@@ -7,6 +7,7 @@ const REDIS_PORT =
   process.env.REDIS_PORT !== undefined
     ? parseInt(process.env.REDIS_PORT)
     : 6379;
+const REDIS_HOST = process.env[`REDIS_HOST_${ENV_SUFFIX}`];
 
 // const CONSTANTS = [ENV_SUFFIX, OCPU_API_HOST, SESSION_SECRET, VERSION];
 // if (CONSTANTS.includes(undefined)) {
@@ -14,4 +15,11 @@ const REDIS_PORT =
 // }
 
 // ---------------------------------------
-export { VERSION, ENV_SUFFIX, OCPU_API_HOST, SESSION_SECRET, REDIS_PORT };
+export {
+  VERSION,
+  ENV_SUFFIX,
+  OCPU_API_HOST,
+  SESSION_SECRET,
+  REDIS_PORT,
+  REDIS_HOST,
+};

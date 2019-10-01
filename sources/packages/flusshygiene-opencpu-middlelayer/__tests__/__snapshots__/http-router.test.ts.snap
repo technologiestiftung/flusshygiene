@@ -8,32 +8,35 @@ exports[`basic route tests should respond with 404 on non existing route 1`] = `
 <title>Error</title>
 </head>
 <body>
-<pre>Cannot POST /foo</pre>
+<pre>Cannot POST /middlelayer/foo</pre>
 </body>
 </html>
 "
 `;
 
-exports[`basic route tests should responde with success on clibrate 1`] = `
+exports[`basic route tests should responde with success on calibrate 1`] = `
 Object {
   "message": "Your request to /calibrate is beeing processed",
+  "sessionID": Any<String>,
   "success": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
 }
 `;
 
 exports[`basic route tests should responde with success on model 1`] = `
 Object {
   "message": "Your request to /model is beeing processed",
+  "sessionID": Any<String>,
   "success": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
 }
 `;
 
 exports[`basic route tests should responde with success on predict 1`] = `
 Object {
   "message": "Your request to /predict is beeing processed",
+  "sessionID": Any<String>,
   "success": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
 }
 `;

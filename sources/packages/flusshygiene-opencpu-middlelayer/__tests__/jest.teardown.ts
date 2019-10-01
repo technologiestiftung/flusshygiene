@@ -1,3 +1,3 @@
 module.exports = function() {
-  process.exit(0);
+  if (process.env.CI !== undefined) process.exit(0);
 };

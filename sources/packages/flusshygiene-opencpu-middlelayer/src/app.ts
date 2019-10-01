@@ -1,4 +1,4 @@
-import { REDIS_PORT, SESSION_SECRET } from './common/constants';
+import { REDIS_HOST, REDIS_PORT, SESSION_SECRET } from './common/constants';
 
 import cors from 'cors';
 import express from 'express';
@@ -11,7 +11,7 @@ import session from 'express-session';
 import uuidv4 from 'uuid/v4';
 
 const RedisStore = require('connect-redis')(session);
-const client = redis.createClient({ host: 'redis', port: REDIS_PORT });
+const client = redis.createClient({ host: REDIS_HOST, port: REDIS_PORT });
 client.on('error', console.error);
 client.on('connect', () => {
   console.info('redis client has connected');
@@ -46,5 +46,5 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use('/', router);
+app.use('/middlelayer', router);
 export default app;
