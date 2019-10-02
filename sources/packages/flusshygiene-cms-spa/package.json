@@ -104,7 +104,7 @@
     "@testing-library/jest-dom": "^4.1.0",
     "@types/yup": "^0.26.23",
     "babel-plugin-macros": "^2.6.1",
-    "customize-cra": "^0.7.0",
+    "customize-cra": "^0.8.0",
     "cz-conventional-changelog": "^3.0.2",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react-hooks": "^2.0.1",
