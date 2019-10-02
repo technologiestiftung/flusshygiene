@@ -18,16 +18,16 @@ const wss = websocketServer(server);
 broadcaster.on('passthrough', (data: any) => {
   switch (data) {
     case 'start': {
-      console.info('passthrough has started');
+      logger.info('passthrough has started');
 
       break;
     }
     case 'end': {
-      console.info('passthrough has ended');
+      logger.info('passthrough has ended');
       break;
     }
     default: {
-      // console.info('data', data);
+      logger.info('response passed back from opencpu', data);
       wsSubmit(wss, data);
       break;
     }

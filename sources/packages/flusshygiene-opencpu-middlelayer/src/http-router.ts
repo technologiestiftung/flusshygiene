@@ -3,6 +3,7 @@ import { OCPU_API_HOST, VERSION } from './common/constants';
 import { BroadCaster } from './events-broadcaster';
 import Router from 'express-promise-router';
 import { postPassThrough } from './post-pass-through';
+import { logger } from './logger';
 
 enum FHpredictFunctions {
   calibrate = 'provide_rain_data_for_bathing_spot',
@@ -25,7 +26,11 @@ router.get('/health', async (_req, res) => {
 });
 
 router.post(['/calibrate', '/predict', '/model'], async (req, res) => {
-  console.log(req.sessionID);
+  logger.info(
+    `Passing through at ${new Date()} for ${req.sessionID}`,
+    req.body,
+  );
+  // console.log(req.sessionID);
   // if (req.body.payload === undefined) {
   //   res.status(400).json({
   //     success: false,
