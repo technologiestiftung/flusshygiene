@@ -1,6 +1,6 @@
 {
   "name": "flusshygiene-opencpu-fhpredict-api",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "This is a docker setup to run an opencpu API serving the kwb-r/fhpredict package for the Flusshygiene project.",
   "main": "index.js",
   "scripts": {
