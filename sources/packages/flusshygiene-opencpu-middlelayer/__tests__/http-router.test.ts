@@ -1,3 +1,9 @@
+import redis from 'redis';
+import redis_mock from 'redis-mock';
+const mockedRedis = jest
+  .spyOn(redis, 'createClient')
+  .mockImplementation(redis_mock.createClient);
+
 import * as passThrough from '../src/post-pass-through';
 
 import { BroadCaster } from '../src/events-broadcaster';
@@ -15,6 +21,9 @@ const scope = nock('http://localhost:4444')
   .reply(201, {})
   .post('/middlelayer/foo/bah')
   .reply(201, {});
+afterAll(() => {
+  mockedRedis.mockRestore();
+});
 
 describe('basic route tests', () => {
   test('should responde with success on calibrate', async (done) => {

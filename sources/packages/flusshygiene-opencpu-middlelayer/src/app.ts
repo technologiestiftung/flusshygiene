@@ -36,7 +36,15 @@ app.use(
     saveUninitialized: true,
   }),
 );
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      'http://localhost',
+      process.env.APP_HOST_1!,
+      process.env.APP_HOST_2!,
+    ],
+  }),
+);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
 } else if (process.env.NODE_ENV === 'test') {

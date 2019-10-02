@@ -36,6 +36,7 @@ router.post(['/calibrate', '/predict', '/model'], async (req, res) => {
   //   });
   //   return;
   // }
+  console.log('request body', req.body);
   let url = '';
   switch (req.url) {
     case '/calibrate':

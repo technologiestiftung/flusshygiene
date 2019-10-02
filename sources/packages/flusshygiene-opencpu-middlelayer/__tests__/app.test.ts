@@ -1,10 +1,11 @@
-import app from '../src/app';
 import redis from 'redis';
 import redis_mock from 'redis-mock';
 import request from 'supertest';
+
 const mockedRedis = jest
   .spyOn(redis, 'createClient')
   .mockImplementation(redis_mock.createClient);
+import app from '../src/app';
 
 const mock = jest.mock('../src/post-pass-through', () => {
   return (

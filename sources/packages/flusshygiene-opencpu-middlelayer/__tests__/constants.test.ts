@@ -8,6 +8,8 @@ describe('testing constants', () => {
     process.env.NODE_ENV = 'production';
     import('../src/common/constants').then((module) => {
       expect(module.ENV_SUFFIX).toBe('PROD');
+      expect(typeof module.REDIS_PORT).toBe('number');
+      expect(module.REDIS_PORT).toBe(6379);
       process.env.NODE_ENV = curEnv;
       done();
     });

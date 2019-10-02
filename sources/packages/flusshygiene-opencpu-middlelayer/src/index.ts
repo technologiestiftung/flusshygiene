@@ -5,6 +5,7 @@ import { ENV_SUFFIX } from './common/constants';
 import app from './app';
 import http from 'http';
 import { logger } from './logger';
+
 const broadcaster = BroadCaster.getInstance();
 // const ENV_SUFFIX = process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV';
 
@@ -17,16 +18,16 @@ const wss = websocketServer(server);
 broadcaster.on('passthrough', (data: any) => {
   switch (data) {
     case 'start': {
-      console.log('passthrough has started');
+      console.info('passthrough has started');
 
       break;
     }
     case 'end': {
-      console.log('passthrough has ended');
+      console.info('passthrough has ended');
       break;
     }
     default: {
-      console.log('data', data);
+      // console.info('data', data);
       wsSubmit(wss, data);
       break;
     }
