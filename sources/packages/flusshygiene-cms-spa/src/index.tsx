@@ -19,6 +19,7 @@ import {
   REACT_APP_AUTH0_CLIENTID,
   REACT_APP_AUTH0_AUDIENCE,
 } from './lib/config';
+import { OcpuProvider } from './contexts/opencpu';
 // import Toggle from './components/Toggle';
 // A function that routes the user to the right place
 // after login
@@ -35,16 +36,19 @@ const onRedirectCallback = (appState) => {
 ReactDOM.render(
   <ErrorBoundary>
     {/* <BannerProvider> */}
+
     <Provider store={store}>
-      <Auth0Provider
-        domain={REACT_APP_AUTH0_DOMAIN}
-        client_id={REACT_APP_AUTH0_CLIENTID}
-        redirect_uri={window.location.origin}
-        audience={REACT_APP_AUTH0_AUDIENCE}
-        onRedirectCallback={onRedirectCallback}
-      >
-        <App />
-      </Auth0Provider>
+      <OcpuProvider>
+        <Auth0Provider
+          domain={REACT_APP_AUTH0_DOMAIN}
+          client_id={REACT_APP_AUTH0_CLIENTID}
+          redirect_uri={window.location.origin}
+          audience={REACT_APP_AUTH0_AUDIENCE}
+          onRedirectCallback={onRedirectCallback}
+        >
+          <App />
+        </Auth0Provider>
+      </OcpuProvider>
     </Provider>
     {/* </BannerProvider> */}
   </ErrorBoundary>,

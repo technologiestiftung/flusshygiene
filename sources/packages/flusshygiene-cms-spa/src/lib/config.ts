@@ -5,14 +5,14 @@ export const REACT_APP_MAPBOX_API_TOKEN =
   process.env.REACT_APP_MAPBOX_API_TOKEN;
 if (process.env.NODE_ENV === 'development') {
   console.info(
-    `Connecting to REACT_APP_API_HOST ${process.env.REACT_APP_API_HOST}`,
+    `Connecting to REACT_APP_API_HOST "${process.env.REACT_APP_API_HOST}"`,
   );
   if (
     process.env.REACT_APP_API_HOST !== undefined &&
     process.env.REACT_APP_API_HOST.length === 0
   ) {
-    console.info(
-      'The HOST is defined but has no location definition. You should be running in the container setup or the postgres-api should be running on your machine. If not is this an error',
+    console.warn(
+      'The env variable REACT_APP_API_HOST is defined but has no String.length. You should be running in a container in "production" or the postgres-api should be running on your machine proxied by CRA. If not  this is an error. Check your .env file for the REACT_APP_API_HOST value',
     );
   }
 }

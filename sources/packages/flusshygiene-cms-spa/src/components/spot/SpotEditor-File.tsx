@@ -8,23 +8,25 @@ export const SpotEditorFile: React.FC<{
   onChange: (event) => void;
 }> = ({ name, label, type, onChange, disabled }) => {
   return (
-    <div className='file'>
-      <label className='file-label'>
-        <input
-          className='file-input'
-          type='file'
-          name={name}
-          onChange={onChange}
-          disabled={disabled}
-        />
-        <span className='file-cta'>
-          <span className='file-icon'>
-            <IconCSV />
+    <>
+      <div className='file'>
+        <label className='file-label'>
+          <input
+            className='file-input'
+            type='file'
+            name={name}
+            onChange={onChange}
+            disabled={disabled}
+          />
+          <span className='file-cta'>
+            <span className='file-icon'>
+              <IconCSV />
+            </span>
+            <span className='file-label'>{label}</span>
           </span>
-          <span className='file-label'>{label}</span>
-        </span>
-      </label>
-    </div>
+        </label>
+      </div>
+    </>
   );
 };
 

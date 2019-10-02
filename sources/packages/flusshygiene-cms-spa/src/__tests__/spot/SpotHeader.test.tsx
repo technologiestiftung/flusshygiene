@@ -12,9 +12,9 @@ describe('Testing spot header', () => {
       />,
     );
     expect(getByText(/fooo/i)).toBeTruthy();
-    expect(container.querySelector('h1.title.is-1')).toBeTruthy();
-    expect(container.querySelector('h2.subtitle.is-2')).toBeTruthy();
-    expect(container.querySelector('h3.subtitle.is-3')).toBeTruthy();
+    expect(container.querySelector('h1.is-title.is-1')).toBeTruthy();
+    expect(container.querySelector('p.subtitle')).toBeTruthy();
+    expect(container.querySelector('h3.is-subtitle.is-3')).toBeTruthy();
     expect(container.querySelector('.district')).toBeTruthy();
   });
 

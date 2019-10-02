@@ -23,6 +23,10 @@ import {
   faTools,
   faFilePdf,
   faFileCode,
+  faCloudRain,
+  faCalculator,
+  faCommentAlt,
+  faMapPin,
 } from '@fortawesome/free-solid-svg-icons';
 import { ColorNames, QType } from '../lib/common/interfaces';
 import { colorNamesToClassNames } from '../lib/utils/questionnaire-colornames-conversion';
@@ -48,6 +52,10 @@ library.add(
   faTools,
   faFilePdf,
   faFileCode,
+  faCloudRain,
+  faCalculator,
+  faCommentAlt,
+  faMapPin,
 );
 
 export const colorNameToIcon: (cname: ColorNames) => JSX.Element = (cname) => {
@@ -157,6 +165,23 @@ export const IconExclamation: React.FC<{
 export const IconUsersCog: React.FC<{ className?: string }> = ({
   className,
 }) => <FontAwesomeIcon icon={'users-cog'} className={className} />;
+
 export const Icontools: React.FC<{ className?: string }> = ({ className }) => (
   <FontAwesomeIcon icon={'tools'} className={className} />
+);
+
+export const IconRain: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'cloud-rain'} className={className} />
+);
+
+export const IconCalc: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'calculator'} className={className} />
+);
+
+export const IconComment: React.FC<{ className?: string }> = ({
+  className,
+}) => <FontAwesomeIcon icon={'comment-alt'} className={className} />;
+
+export const IconMapPin: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'map-pin'} className={className} />
 );

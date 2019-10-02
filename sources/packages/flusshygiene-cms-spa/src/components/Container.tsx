@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const Container: React.FC<{
+const Container: React.FC<{
   containerClassName?: string;
   columnClassName?: string;
-  children: any;
+  children: React.ReactNode;
 }> = ({ children, containerClassName, columnClassName }) => {
   return (
     <div
@@ -25,3 +25,12 @@ export const Container: React.FC<{
     </div>
   );
 };
+
+const ContainerNoColumn: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <div className='container'>
+    <div className='columns is-centered'>{children}</div>
+  </div>
+);
+export { Container, ContainerNoColumn };

@@ -1,7 +1,7 @@
 import React from 'react';
 export interface ISpotImage {
-  image: string | null;
-  nameLong: string;
+  image?: string | null;
+  nameLong?: string;
   name: string;
   imageAuthor?: string;
 }

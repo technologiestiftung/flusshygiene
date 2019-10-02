@@ -11,11 +11,11 @@ import {
   IconCode,
 } from '../fontawesome-icons';
 import { IAnswer } from '../../lib/common/interfaces';
-import { roundTo } from '../../lib/utils/round-to-float-digits';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
 import { ButtonIconTB as Button } from '../Buttons';
 
 import FileSaver from 'file-saver';
+import { roundToFloatDigits } from '../../lib/utils/formatting-helpers';
 export const Report: React.FC = () => {
   const [state] = useQuestions();
   const [localQuestions, setLocalQuestions] = useState<string[]>([]);
@@ -129,7 +129,7 @@ export const Report: React.FC = () => {
                   title: `Standortbewertung-${state.title}`,
                   probability: `Umsetzungswahrscheinlichkeit: ${isNaN(
                     probability,
-                  ) === false && roundTo(probability, 0)}%`,
+                  ) === false && roundToFloatDigits(probability, 0)}%`,
                   allAnswersGiven: allAnswersGiven,
                 },
               }}
@@ -203,7 +203,9 @@ export const Report: React.FC = () => {
               }`}
             >
               Umsetzungswahrscheinlichkeit:{' '}
-              {isNaN(probability) === false && roundTo(probability, 2)}%
+              {isNaN(probability) === false &&
+                roundToFloatDigits(probability, 2)}
+              %
             </p>
           </div>
           <div className='content'>

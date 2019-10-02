@@ -77,12 +77,28 @@ export interface IBathingspot {
   measurements?: IObject[];
   rawModelData?: IObject[];
   region?: IObject;
+  rains?: IRain[];
   influencePurificationPlant?: 'yes' | 'no' | 'unknown';
   influenceCombinedSewerSystem?: 'yes' | 'no' | 'unknown';
   influenceRainwater?: 'yes' | 'no' | 'unknown';
   influenceAgriculture?: 'yes' | 'no' | 'unknown';
 }
 
+export interface IRain {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  date: Date;
+  dateTime: Date;
+  value: number;
+  comment?: string;
+}
+// export interface IDateOptions {
+//     day: 'numeric',
+//     month: 'short',
+//     weekday: 'short',
+//     year: 'numeric',
+// }
 export interface IBathingspotExtend extends IBathingspot {
   csvFile?: File;
 }
@@ -93,12 +109,12 @@ export interface ICSVValidationErrorRes {
 }
 
 export interface IBathingspotMeasurement {
-  date: Date;
-  conc_ec: number;
+  date?: Date;
+  conc_ec?: number;
   conc_ec_txt?: string;
   oldId?: number;
   detailId?: number;
-  conc_ie: number;
+  conc_ie?: number;
   conc_ie_txt?: string;
   temp?: number;
   algen?: boolean;
@@ -187,6 +203,55 @@ export interface IAnswer {
   possibility?: number;
   qType?: QType;
   reportAddInfo: string;
+}
+
+// ocpe context interfaces
+
+export type OcpuDispatchTypes =
+  | 'START_OCPU_REQUEST'
+  | 'FINISH_OCPU_REQUEST'
+  | 'FAIL_OCPU_REQUEST';
+
+export interface IOcpuAction {
+  type: OcpuDispatchTypes;
+  payload?: {
+    [key: string]: any;
+  };
+}
+export interface IOcpuStartAction extends IOcpuAction {
+  payload: {
+    url: string;
+    config: RequestInit;
+    processingType: OCpuProcessing;
+    //  {
+    //   method: string;
+    //   headers: { [key: string]: any };
+    //   body: string;
+    // };
+  };
+}
+
+export interface IOcpuFinishAction extends IOcpuAction {
+  payload: {
+    response: Response;
+  };
+}
+
+export interface IOcpuFailAction extends IOcpuAction {
+  payload: {
+    error: {
+      [key: string]: any;
+    };
+  };
+}
+
+type OCpuProcessing = 'predict' | 'model' | 'calibrate' | undefined;
+export interface IOcpuState {
+  [key: string]: any;
+  processing: OCpuProcessing;
+  sessionId: string;
+  responses: any[];
+  errors: any[];
 }
 
 // ╔╦╗┬ ┬┌─┐┌─┐┌─┐

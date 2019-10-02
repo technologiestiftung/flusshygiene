@@ -72,6 +72,16 @@ span.asteriks {
 
 // profile
 
+//spot
+
+.buttons__spot-actions--size {
+  // flex-basis: 100%;
+  .button {
+    max-width: 150px;
+    flex: 1 1 0;
+    text-overflow: ellipsis;
+  }
+}
 // card
 
 .card__profile--pad {
