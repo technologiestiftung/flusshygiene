@@ -3,7 +3,7 @@
   "version": "0.8.0",
   "private": true,
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.2.3",
+    "@auth0/auth0-spa-js": "^1.2.4",
     "@deck.gl/core": "^7.2.3",
     "@deck.gl/layers": "^7.2.3",
     "@deck.gl/react": "^7.2.3",
