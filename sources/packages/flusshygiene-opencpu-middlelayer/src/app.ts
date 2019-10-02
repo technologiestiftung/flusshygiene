@@ -36,13 +36,13 @@ app.use(
     saveUninitialized: true,
   }),
 );
+const origins = [process.env.APP_HOST_1!, process.env.APP_HOST_2!];
+if (process.env.NODE_ENV === 'development') {
+  origins.push('http://localhost');
+}
 app.use(
   cors({
-    origin: [
-      'http://localhost',
-      process.env.APP_HOST_1!,
-      process.env.APP_HOST_2!,
-    ],
+    origin: origins,
   }),
 );
 if (process.env.NODE_ENV === 'development') {
