@@ -405,7 +405,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
                         const rows = lastFive.reverse().map((ele, i) => {
                           const tds = [
-                            `${roundToFloatDigits(ele.value, 3)} ml/Fläche`,
+                            `${roundToFloatDigits(ele.value, 2)} mm`,
                           ];
                           return (
                             <TableRow
