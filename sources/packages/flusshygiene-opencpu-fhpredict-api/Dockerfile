@@ -22,7 +22,7 @@ COPY opencpu-config/user.conf /etc/opencpu/server.conf.d/
 # ENV TOKEN_PROD $TOKEN_PROD
 
 # COPY "./files/.vimrc" "~/"
-RUN R -e "remotes::install_github(\"kwb-r/fhpredict@v0.5.0\", build_vignettes = FALSE, force= TRUE)"
+RUN R -e "remotes::install_github(\"kwb-r/fhpredict@v0.6.0\", build_vignettes = FALSE, force= TRUE)"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004
 EXPOSE 80
