@@ -1,6 +1,6 @@
 {
   "name": "flusshygiene-cms-spa",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "private": true,
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.2.4",
