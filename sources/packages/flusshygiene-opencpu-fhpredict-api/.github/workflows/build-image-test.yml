@@ -17,13 +17,17 @@ jobs:
     steps:
       - name: Get the source
         uses: actions/checkout@v1
-      - name: Docker login
-        uses: actions/docker/login@master
+      - name: Docker login and build
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           CI: true
-      - name: Docker build image
-        uses: actions/docker/cli-multi@master
-        with:
-          args: '"build --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
+        run: |
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --tag "${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev" .
+        # uses: actions/docker/login@master
+      # - name: Docker build image
+        # run: docker build --tag "${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev" .
+        # uses: actions/docker/cli-multi@master
+        # with:
+          # args: '"build --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
