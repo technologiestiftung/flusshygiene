@@ -237,7 +237,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   ocpuState.processing === 'calibrate' ? 'is-loading' : ''
                 }
                 handleClick={handleCalibratePredictClick}
-                text='Regen Kalibrierung'
+                text='Regen Laden'
               >
                 <IconRain></IconRain>
               </ButtonIconTB>

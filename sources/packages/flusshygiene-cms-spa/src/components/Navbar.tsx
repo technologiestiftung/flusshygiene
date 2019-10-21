@@ -3,6 +3,7 @@ import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
 import { NavLink } from 'react-router-dom';
 import { RouteNames } from '../lib/common/enums';
 import { APP_VERSION } from '../version';
+import { APP_STAGE } from '../lib/common/constants';
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -23,7 +24,7 @@ const NavBar = () => {
         >
           <img src='/logo-icon-invers@2x.png' alt='' />{' '}
           <strong className='' style={{ paddingLeft: '1em' }}>
-            {`Flusshygiene ${APP_VERSION}`}
+            {`Flusshygiene ${APP_VERSION}-${APP_STAGE}`}
           </strong>
           {/* <div>Flusshygiene/Badegewässer Logo</div> */}
         </NavLink>

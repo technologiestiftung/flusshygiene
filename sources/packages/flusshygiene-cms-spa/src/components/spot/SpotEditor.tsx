@@ -110,6 +110,7 @@ export const SpotEditor: React.FC<{
           delimiter: '',
           dynamicTyping: true,
           header: true,
+          skipEmptyLines: true,
         };
         const results = await papaPromise(csvFile, config);
         // console.log(results);
@@ -385,16 +386,23 @@ export const SpotEditor: React.FC<{
                       type={'file'}
                       label={'Datei auswählen…'}
                       disabled={newSpot === true ? true : false}
+                      /**
+                       * @todo fix this aweful any
+                       * Should be a React.ChangeEvent
+                       * https://stackoverflow.com/questions/43176560/property-files-does-not-exist-on-type-eventtarget-error-in-typescript
+                       * https://github.com/microsoft/TypeScript/issues/31816
+                       */
                       onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>,
+                        event: any /*React.ChangeEvent<HTMLInputElement>*/,
                       ) => {
                         setCSVValidationErrors([]);
                         setParsingErrors([]);
                         if (
                           event.currentTarget.files === null ||
                           event.currentTarget.files.length < 1
-                        )
+                        ) {
                           return;
+                        }
                         const file = event.currentTarget.files[0];
                         // console.log('file', file);
                         props.setFieldValue('csvFile', file);

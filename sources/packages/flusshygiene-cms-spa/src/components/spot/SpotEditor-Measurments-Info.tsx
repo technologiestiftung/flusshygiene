@@ -62,6 +62,9 @@ const InfoText: React.FC = () => (
         </tr>
       </tbody>
     </table>
+    <p>
+      Fehlende Messwerte müssen mit <code>-1</code> eingefügt werden.
+    </p>
   </div>
 );
 export const SpotEditorMeasurmentInfo: React.FC = () => {
