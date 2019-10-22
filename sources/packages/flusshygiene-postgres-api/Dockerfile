@@ -1,5 +1,5 @@
 # Production Dockerfile
-FROM node:10.16.0-alpine as builder
+FROM node:10.16.3-alpine as builder
 
 LABEL maintainer="Fabian Morón Zirfas"
 LABEL description="An API for a postgres/postgis db used in the project flusshygiene"
