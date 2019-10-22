@@ -14,6 +14,7 @@ import { QuestionsIntro } from './components/questionaire/QuestionsIntro';
 import { QA } from './components/questionaire/QA-entrypoint';
 import { Page404 } from './components/Page404';
 import { PDFPage } from './components/questionaire/ReportPDF';
+import { Helmet } from 'react-helmet';
 
 const App: React.FC = () => {
   const { loading } = useAuth0();
@@ -28,6 +29,10 @@ const App: React.FC = () => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>Flusshygiene</title>
+      </Helmet>
       <Router history={history}>
         <main>
           <header>
