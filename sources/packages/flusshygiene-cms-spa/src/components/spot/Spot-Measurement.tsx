@@ -71,10 +71,10 @@ export const MeasurementTable = (props: IMeasurementable) => {
   return (
     <table className='table bathingspot__measurement-table'>
       <tbody>
-        <MeasurementTableRow
+        {/* <MeasurementTableRow
           rowKey={'Anzahl Datensätze'}
           rowValue={`${sortedMeasurement.length}`}
-        ></MeasurementTableRow>
+        ></MeasurementTableRow> */}
         <MeasurementTableRow
           rowKey='Datum'
           rowValue={

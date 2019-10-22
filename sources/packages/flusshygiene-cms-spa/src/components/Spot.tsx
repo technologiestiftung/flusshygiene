@@ -360,13 +360,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                             ></TableRow>
                           );
                         });
-                        rows.unshift(
-                          <TableRow
-                            key={sortedRain.length}
-                            th={'Anzahl Datensätze'}
-                            tds={[`${sortedRain.length}`]}
-                          ></TableRow>,
-                        );
+                        // rows.unshift(
+                        //   <TableRow
+                        //     key={sortedRain.length}
+                        //     th={'Anzahl Datensätze'}
+                        //     tds={[`${sortedRain.length}`]}
+                        //   ></TableRow>,
+                        // );
                         return rows;
                       }
                     })()}
