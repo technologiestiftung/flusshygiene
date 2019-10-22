@@ -2,6 +2,9 @@ name: Node CI Build
 
 on: [push, pull_request]
 jobs:
+  paths:
+    - 'src/*'
+    - '.github/workflows/*.yml'
   build:
     runs-on: ubuntu-latest
 
