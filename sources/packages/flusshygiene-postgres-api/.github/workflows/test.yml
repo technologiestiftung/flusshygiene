@@ -2,6 +2,11 @@ name: Run all tests
 
 on: [push, pull_request]
 jobs:
+  # paths:
+  #   - "src/*"
+  #   - ".github/workflows/*.yml"
+  #   - "Dockerfile"
+  #   - ".dockerignore"
   build:
     runs-on: ubuntu-latest
 

@@ -27,6 +27,7 @@ interface IUserData {
   role: string;
   email: string;
   protected: boolean;
+  auth0Id: string;
 }
 const userData: IUserData[] = [
   {
@@ -35,6 +36,7 @@ const userData: IUserData[] = [
     lastName: 'the Princess of Power',
     protected: false,
     role: UserRole.reporter,
+    auth0Id: '',
   },
   {
     email: 'moron-zirfas@technologiestiftung-berlin.de',
@@ -42,6 +44,47 @@ const userData: IUserData[] = [
     lastName: 'the Barbarian',
     protected: true,
     role: UserRole.admin,
+    auth0Id: '',
+  },
+  {
+    email: 'u1@flsshygn.arend.uberspace.de',
+    firstName: 'User',
+    lastName: 'One',
+    protected: true,
+    role: UserRole.creator,
+    auth0Id: process.env.U1_AUTH0ID || '',
+  },
+  {
+    email: 'u2@flsshygn.arend.uberspace.de',
+    firstName: 'User',
+    lastName: 'Two',
+    protected: true,
+    role: UserRole.creator,
+    auth0Id: process.env.U2_AUTH0ID || '',
+  },
+  {
+    email: 'u3@flsshygn.arend.uberspace.de',
+    firstName: 'User',
+    lastName: 'Three',
+    protected: true,
+    role: UserRole.creator,
+    auth0Id: process.env.U3_AUTH0ID || '',
+  },
+  {
+    email: 'u4@flsshygn.arend.uberspace.de',
+    firstName: 'User',
+    lastName: 'Four',
+    protected: true,
+    role: UserRole.creator,
+    auth0Id: process.env.U4_AUTH0ID || '',
+  },
+  {
+    email: 'u5@flsshygn.arend.uberspace.de',
+    firstName: 'User',
+    lastName: 'Five',
+    protected: true,
+    role: UserRole.creator,
+    auth0Id: process.env.U5_AUTH0ID || '',
   },
   // , {
   //   email: 'faker@fake.com',
@@ -60,6 +103,7 @@ export const createUser = (): User[] => {
     user.role = ele.role;
     user.email = ele.email;
     user.protected = ele.protected;
+    user.auth0Id = ele.auth0Id;
     users.push(user);
   });
   return users;

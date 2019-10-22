@@ -20,4 +20,4 @@ RUN npm ci --quiet
 COPY --from=builder /usr/app/dist /usr/app/dist
 USER node
 EXPOSE 5004
-CMD ["node", "--max_old_space_size=7168", "dist/index.js"]
+CMD ["node", "--max_old_space_size=9216", "dist/index.js"]
