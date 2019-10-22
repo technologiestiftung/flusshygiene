@@ -4,7 +4,7 @@ import { GenericInput } from './GenericInput';
 import { Measurement } from './Measurement';
 
 @Entity()
-@Unique(['date', 'genericInput', 'dateTime'])
+@Unique(['date', 'genericInput'])
 export class GInputMeasurement extends Measurement {
   @Column({ nullable: true })
   public comment!: string;
