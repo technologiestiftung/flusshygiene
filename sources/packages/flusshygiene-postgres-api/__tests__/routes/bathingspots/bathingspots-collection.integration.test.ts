@@ -112,13 +112,13 @@ describe('testing bathingspots collection', () => {
     const arr = [
       {
         comment: 'This is a bulk post 1',
-        date: '2019-12-31',
+        date: '2019-12-31 00:00:01',
         dateTime: '12:00:01',
         value: Math.random() * 10,
       },
       {
         comment: 'This is a bulk post 2',
-        date: '2019-12-31',
+        date: '2019-12-31 00:00:00',
         dateTime: '12:00:02',
         value: Math.random() * 10,
       },
