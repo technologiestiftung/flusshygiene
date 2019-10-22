@@ -10,7 +10,7 @@ COPY ./package*.json ./
 RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
-FROM node:10.16.0-alpine as app
+FROM node:10.16.3-alpine as app
 WORKDIR  /usr/app
 ENV NODE_ENV=production
 ENV NODE_DOCKER_ENV=1
