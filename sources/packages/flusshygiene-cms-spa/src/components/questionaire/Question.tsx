@@ -10,6 +10,7 @@ import { RouteNames } from '../../lib/common/enums';
 import { IAnswer } from '../../lib/common/interfaces';
 import { colorNameToIcon, questionTypeToIcon } from '../fontawesome-icons';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
+import { QIntroNew } from './QIntro';
 
 /**
  * Component holds all the question logic
@@ -28,6 +29,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [answersIds, setAnswersIds] = useState<string[]>([]);
   const [questionnaireTitle, setquestionnaireTitle] = useState<string>('');
+  const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
     // if (state.title === undefined) return;
@@ -115,8 +117,35 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     setAnswersIds([]);
   };
 
+  const handleModalClick: (event: React.ChangeEvent<any>) => void = (
+    e: React.ChangeEvent<any>,
+  ) => {
+    e.preventDefault();
+    setIsModalActive((prev) => !prev);
+  };
+
   return (
     <>
+      <div
+        className={`modal ${isModalActive ? 'is-active' : ''}`}
+        onClick={handleModalClick}
+      >
+        <div className='modal-background'></div>
+        <div className='modal-content' onClick={handleModalClick}>
+          <div className='box' onClick={handleModalClick}>
+            <QIntroNew isModal={true} />
+          </div>
+        </div>
+        <button
+          onClick={(e) => {
+            console.log('click x modal');
+            e.preventDefault();
+            setIsModalActive((_) => false);
+          }}
+          className='modal-close is-large'
+          aria-label='close'
+        ></button>
+      </div>
       {formReadyToRender === true && (
         <Formik
           initialValues={{
@@ -176,6 +205,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       handleInfoClick={(e: React.ChangeEvent<any>) => {
                         // calls info button
                         console.log(e.currentTarget.id);
+                        handleModalClick(e);
                       }}
                       handleReportClick={(e: React.ChangeEvent<any>) => {
                         answerDispatch();

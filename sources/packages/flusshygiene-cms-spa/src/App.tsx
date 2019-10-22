@@ -29,7 +29,7 @@ const App: React.FC = () => {
   return (
     <React.Fragment>
       <Router history={history}>
-        <main className='section'>
+        <main>
           <header>
             <NavBar />
           </header>
@@ -57,7 +57,7 @@ const App: React.FC = () => {
           </Switch>
         </main>
       </Router>
-      <footer className='footer'>Footer</footer>
+      <footer className='footer'></footer>
     </React.Fragment>
   );
 };

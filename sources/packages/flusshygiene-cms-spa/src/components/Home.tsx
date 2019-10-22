@@ -54,7 +54,7 @@ const Home: React.FC = () => {
   // }, [spots, truncated, dispatch]);
 
   return (
-    <div className='index'>
+    <div>
       {/* {editMode === true && (
         <Container>
           <SpotEditor
@@ -64,26 +64,35 @@ const Home: React.FC = () => {
           />
         </Container>
       )} */}
+      <div className='hero is-primary'>
+        <div className='hero-body'>
+          <Container>
+            {/* <div className='columns is-centered'> */}
+            {/* <div className='column is-10'> */}
+            {/* <h1 className='is-title is-1'>Flusshygiene</h1> */}
+            <h1 className='is-title is-1'>Herzlich Willkommen,</h1>
+            <div className='content'>
+              <p>
+                auf dieser Webplattform stehen dem Nutzer zwei wesentliche
+                Erzeugnisse des Forschungsprojekts FLUSSHYGIENE zu Verfügung.
+                Das Projekt FLUSSHYGIENE befasste sich drei Jahre mit der
+                Thematik des Flussbadens in Deutschland. Das Flussbaden wird im
+                Allgemeinen immer beliebter und vielerorts werden Flüsse bereits
+                heute zum Baden genutzt. Dennoch gibt es an Flüssen spezielle
+                Gefahren, wie starke Strömungen, die Schifffahrt sowie eine oft
+                schwankende Wasserqualität, die beim Flussbaden berücksichtigt
+                werden müssen, damit die Gesundheit von Badenden nicht übermäßig
+                gefährdet wird.
+              </p>
+            </div>
+          </Container>
+        </div>
+      </div>
       <Container>
-        {/* <div className='columns is-centered'> */}
-        {/* <div className='column is-10'> */}
-        <h1 className='title is-1'>Flusshygiene</h1>
+        <h3 className='is-title is-3'>
+          Tool zur Erstbewertung neuer Badegewässer
+        </h3>
         <div className='content'>
-          <h2 className='title is-2'>Herzlich Willkommen,</h2>
-          <p>
-            auf dieser Webplattform stehen dem Nutzer zwei wesentliche
-            Erzeugnisse des Forschungsprojekts FLUSSHYGIENE zu Verfügung. Das
-            Projekt FLUSSHYGIENE befasste sich drei Jahre mit der Thematik des
-            Flussbadens in Deutschland. Das Flussbaden wird im Allgemeinen immer
-            beliebter und vielerorts werden Flüsse bereits heute zum Baden
-            genutzt. Dennoch gibt es an Flüssen spezielle Gefahren, wie starke
-            Strömungen, die Schifffahrt sowie eine oft schwankende
-            Wasserqualität, die beim Flussbaden berücksichtigt werden müssen,
-            damit die Gesundheit von Badenden nicht übermäßig gefährdet wird.
-          </p>
-          <h3 className='title is-3'>
-            Tool zur Erstbewertung neuer Badegewässer
-          </h3>
           <p>
             Um eine Einschätzung über die Eignung eines neuen
             Badegewässerstandortes durchführen zu können, wurde im Projekt
@@ -95,7 +104,9 @@ const Home: React.FC = () => {
               zur Standortbewertung
             </Link>
           </p>
-          <h3 className='title is-3'>Tool zum Aufbau von Frühwarnsystem</h3>
+        </div>
+        <h3 className='is-title is-3'>Tool zum Aufbau von Frühwarnsystem</h3>
+        <div className='content'>
           <p>
             Im Projekt FLUSSHYGIENE wurde ein neuer Ansatz zum Aufbau von
             Frühwarnsystemen entwickelt, der den Ansatz der Langzeitbewertung

@@ -1,0 +1,58 @@
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung"
+  ],
+  [
+    3,
+    "Schutzgebiete oder Schutzgüter im Badestellenbereich  ",
+    "Ortsbegehung",
+    "Bei der Evaluierung eines potentiellen Ortes für eine Badestelle empfielt es sich in jedem Fall, frühzeitig Kontakt mit den örtlichen Naturschutz- und Umweltbehörden sowie den lokalen Umweltverbänden aufzunehmen.",
+    "Bestehen im geplanten Badestellenbereich Schutzgebiete nach Fauna-Flora-Habitatrichtlinie (FFH-Richtlinie) oder ein Naturschutzgebiet? ",
+    "Der Kartendienst des Bundesamtes für Naturschutz bietet einen guten ersten Überblick über bestehende Schutzgebiete. <https://geodienste.bfn.de/schutzgebiete?lang=de&layers=NSG>\r\n\r\nFür weitere Informationen siehe:\r\nDWA-Merkblatt 603 (2007): Freizeit und Erholung an Fließgewässern,\r\n\r\nBundesnaturschutzgesetz vom 29. Juli 2009 \r\n\r\nGesetz zur Neuregelung des Rechts des Naturschutzes und der Landschaftspflege\r\nVom 29. Juli 2009\r\n\r\nRichtlinie 92/43/EWG des Rates vom 21. Mai 1992 zur Erhaltung der natürlichen Lebensräume sowie der wildlebenden Tiere und Pflanzen.\r\n\r\nRichtlinie 79/409/EWG des Rates vom 2. April 1979 über die Erhaltung der wildlebenden Vogelarten ",
+    "Kein Schutzgebiet vorhanden",
+    "Perfekt.",
+    "Keine weiteren Aktionen notwendig.",
+    "grün",
+    1,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Ein Schutzgebiet befindet sich in direkter Nachbarschaft.",
+    "Falls ein FFH- oder Naturschutzgebiet in unmittelbarer Nachbarschaft zum anvisierten Ort einer neuen Badestelle besteht, muss mit den zuständigen Behörden für Umwelt- und Naturschutz geklärt werden, inwieweit diese miteinander vereinbar sind.",
+    "Klären Sie mit den\r\nzuständigen Behörden für Umwelt- und Naturschutz, inwieweit eine Badestelle an diesem Standort mit dem in der Nähe befindlichen Schutzgebiet vereinbar ist. ",
+    "orange",
+    0.3,
+    "Verhandlung"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Der Flussbadestellenbereich befindet sich in einem Schutzgebiet.",
+    "K.O.-Kriterium: FFH- und Naturschutzgebiete unterliegen strengen Schutzbestimmungen (vgl. FFH-Richtlinie und/oder Bundesnaturschutzgesetz), die bauliche Maßnahmen und anderweitige Nutzungen stark einschränken, sodass eine Badestelle in einem Schutzgebiet voraussichtlich nicht genehmigungsfähig ist. Von einer weiteren Bearbeitung der Checkliste wird vorbehaltlich abgeraten.",
+    "K.O.-Kriterium: FFH- und Naturschutzgebiete unterliegen strengen Schutzbestimmungen (vgl. FFH-Richtlinie und/oder Bundesnaturschutzgesetz), die bauliche Maßnahmen und anderweitige Nutzungen stark einschränken, sodass eine Badestelle in einem Schutzgebiet voraussichtlich nicht genehmigungsfähig ist. ",
+    "rot",
+    0,
+    null
+  ]
+]

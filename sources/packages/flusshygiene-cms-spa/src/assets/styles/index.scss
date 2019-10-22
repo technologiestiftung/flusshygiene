@@ -7,6 +7,8 @@
 @import 'bulma/sass/utilities/initial-variables';
 @import 'bulma/sass/utilities/functions';
 
+//
+$primary: hsl(231, 52%, 31%);
 $radius-small: 0px;
 $radius: 0px;
 $radius-large: 0px;
@@ -49,7 +51,11 @@ body {
   header {
     background-color: $background-color;
     color: black;
-    padding-bottom: 1em;
+    padding-bottom: 1rem;
+    .navbar {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 
   #map {
@@ -57,12 +63,16 @@ body {
   }
 
   main {
-    /* vertical | horizontal */
-    padding: 2em 1em;
+    padding-top: 2rem;
+    // padding: 2em 1em;
   }
 
-  footer {
-    background-color: $background-color;
+  footer.footer {
+    background-color: $primary;
+    max-height: 50px !important;
+    height: 50px !important;
+    padding: 3rem 1.5rem 2rem;
+    margin-top: 3rem;
   }
 }
 
