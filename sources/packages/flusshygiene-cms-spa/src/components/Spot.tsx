@@ -292,58 +292,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           <div className='column is-5'>
             <h3 className='is-title is-3'>
               <span>
-                <IconComment></IconComment>
-              </span>{' '}
-              <span>Vorhersage</span>
-            </h3>
-            <Table>
-              <TableBody>
-                {spot !== undefined &&
-                  spot.predictions !== undefined &&
-                  (() => {
-                    const dateOpts = {
-                      day: 'numeric',
-                      month: 'short',
-                      weekday: 'short',
-                      year: 'numeric',
-                    };
-                    const sortedPredictions = spot.predictions.sort(
-                      (a: IObject, b: IObject) => {
-                        return (
-                          ((new Date(a.updatedAt) as unknown) as number) -
-                          ((new Date(b.updatedAt) as unknown) as number)
-                        );
-                      },
-                    );
-                    const lastFive = lastElements(sortedPredictions, 5);
-
-                    const rows = lastFive.reverse().map((ele, i) => {
-                      const tds = [ele.prediction];
-                      return (
-                        <TableRow
-                          key={i}
-                          th={new Date(ele.date).toLocaleDateString(
-                            'de-DE',
-                            dateOpts,
-                          )}
-                          tds={tds}
-                        />
-                      );
-                    });
-                    if (rows.length === 0) {
-                      return <TableRow th='k. A.' tds={['']} />;
-                    }
-                    return rows;
-                  })()}
-              </TableBody>
-            </Table>
-          </div>
-          <div className='column is-5'>
-            <h3 className='is-title is-3'>
-              <span>
                 <IconCSV></IconCSV>
               </span>{' '}
-              <span>Wasserqualität </span>
+              <span>Letzte Messung </span>
             </h3>
             {(() => {
               if (
@@ -368,15 +319,14 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               }
             })()}
           </div>
-        </ContainerNoColumn>
-        <ContainerNoColumn>
+
           <div className='column is-5'>
             <div className='bathingspot__rain'>
               <h3 className='is-title is-3'>
                 <span>
                   <IconRain></IconRain>
                 </span>{' '}
-                <span>Durchs. Regenmengen</span>
+                <span>Mittlere Regenhöhen</span>
               </h3>
               <Table>
                 <TableBody>
@@ -411,6 +361,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                             ></TableRow>
                           );
                         });
+                        rows.unshift(
+                          <TableRow
+                            key={sortedRain.length}
+                            th={'Anzahl Datensätze'}
+                            tds={[`${sortedRain.length}`]}
+                          ></TableRow>,
+                        );
                         return rows;
                       }
                     })()}
@@ -418,6 +375,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               </Table>
             </div>
           </div>
+        </ContainerNoColumn>
+        <ContainerNoColumn>
           <div className='column is-5'>
             <div className='bathingspot__model'>
               <h3 className='is-title is-3'>
@@ -476,21 +435,21 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                     } catch (error) {
                       jsonData = {} as IModelInfo;
                     }
-                    const lastFive = sortedModels.slice(
-                      Math.max(sortedModels.length - 5, 0),
-                    );
+                    // const lastFive = sortedModels.slice(
+                    //   Math.max(sortedModels.length - 5, 0),
+                    // );
 
-                    const rows = lastFive
-                      .reverse()
-                      .map((ele, i) => (
-                        <MeasurementTableRow
-                          key={i}
-                          rowKey={`ID: ${ele.id}`}
-                          rowValue={`Generiert am: ${new Date(
-                            ele.updatedAt,
-                          ).toLocaleDateString('de-DE', dateOpts)}`}
-                        />
-                      ));
+                    // const rows = lastFive
+                    //   .reverse()
+                    //   .map((ele, i) => (
+                    //     <MeasurementTableRow
+                    //       key={i}
+                    //       rowKey={`ID: ${ele.id}`}
+                    //       rowValue={`Generiert am: ${new Date(
+                    //         ele.updatedAt,
+                    //       ).toLocaleDateString('de-DE', dateOpts)}`}
+                    //     />
+                    //   ));
 
                     if (lastModel === undefined) {
                       return (
@@ -513,14 +472,24 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                               ).toLocaleDateString('de-DE', dateOpts)}`,
                             ]}
                           />
-                          <TableRow th={'Formel'} tds={[jsonData.formula]} />
+                          <TableRow
+                            th={'Formel'}
+                            tds={[
+                              jsonData.formula === undefined ||
+                              jsonData.formula.length === 0
+                                ? 'k. A.'
+                                : jsonData.formula,
+                            ]}
+                          />
                           <TableRow
                             th={'Anzahl der Datenpunkte'}
-                            tds={[`${jsonData.n_obs}`]}
+                            tds={[
+                              `${jsonData.n_obs ? jsonData.n_obs : 'k. A.'}`,
+                            ]}
                           />
                           <TableRow
                             th={'Bestimmtheitsmaß (R\u00B2)'}
-                            tds={[`${jsonData.R2}`]}
+                            tds={[`${jsonData.R2 ? jsonData.R2 : 'k. A.'}`]}
                           />
                         </TableBody>
                       </Table>
@@ -531,6 +500,55 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 </>
               )}
             </div>
+          </div>
+          <div className='column is-5'>
+            <h3 className='is-title is-3'>
+              <span>
+                <IconComment></IconComment>
+              </span>{' '}
+              <span>Vorhersage</span>
+            </h3>
+            <Table>
+              <TableBody>
+                {spot !== undefined &&
+                  spot.predictions !== undefined &&
+                  (() => {
+                    const dateOpts = {
+                      day: 'numeric',
+                      month: 'short',
+                      weekday: 'short',
+                      year: 'numeric',
+                    };
+                    const sortedPredictions = spot.predictions.sort(
+                      (a: IObject, b: IObject) => {
+                        return (
+                          ((new Date(a.updatedAt) as unknown) as number) -
+                          ((new Date(b.updatedAt) as unknown) as number)
+                        );
+                      },
+                    );
+                    const lastFive = lastElements(sortedPredictions, 5);
+
+                    const rows = lastFive.reverse().map((ele, i) => {
+                      const tds = [ele.prediction];
+                      return (
+                        <TableRow
+                          key={i}
+                          th={new Date(ele.date).toLocaleDateString(
+                            'de-DE',
+                            dateOpts,
+                          )}
+                          tds={tds}
+                        />
+                      );
+                    });
+                    if (rows.length === 0) {
+                      return <TableRow th='k. A.' tds={['']} />;
+                    }
+                    return rows;
+                  })()}
+              </TableBody>
+            </Table>
           </div>
         </ContainerNoColumn>
         <Container>

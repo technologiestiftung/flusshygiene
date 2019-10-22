@@ -71,20 +71,23 @@ export const MeasurementTable = (props: IMeasurementable) => {
   return (
     <table className='table bathingspot__measurement-table'>
       <tbody>
-        {
-          <MeasurementTableRow
-            rowKey='Letzte Messung'
-            rowValue={
-              lastMeasurment.date !== undefined
-                ? new Date(lastMeasurment.date).toLocaleDateString(
-                    'de-DE',
-                    dateOpts,
-                  )
-                : kA
-            }
-          />
-        }
-        {
+        <MeasurementTableRow
+          rowKey={'Anzahl Datensätze'}
+          rowValue={`${sortedMeasurement.length}`}
+        ></MeasurementTableRow>
+        <MeasurementTableRow
+          rowKey='Datum'
+          rowValue={
+            lastMeasurment.date !== undefined
+              ? new Date(lastMeasurment.date).toLocaleDateString(
+                  'de-DE',
+                  dateOpts,
+                )
+              : kA
+          }
+        />
+
+        {/* {
           <MeasurementTableRow
             rowKey='Wasserqualität'
             rowValue={
@@ -93,7 +96,7 @@ export const MeasurementTable = (props: IMeasurementable) => {
                 : kA
             }
           />
-        }
+        } */}
         {
           <MeasurementTableRow
             rowKey='Sichttiefe'
