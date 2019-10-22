@@ -349,7 +349,7 @@ export class Bathingspot {
   )
   public globalIrradiances!: GlobalIrradiance[];
 
-  @OneToMany((_type) => Rain, (rain) => rain.bathingspot, { eager: true })
+  @OneToMany((_type) => Rain, (rain) => rain.bathingspot /* { eager: true }*/)
   public rains!: Rain[];
 
   @OneToMany((_type) => ImageFile, (image) => image.bathingspot)
