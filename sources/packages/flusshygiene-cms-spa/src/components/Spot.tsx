@@ -1,5 +1,5 @@
 // import { DEFAULT_SPOT_ID } from '../lib/common/constants';
-import { APIMountPoints, ApiResources, RouteNames } from '../lib/common/enums';
+import { APIMountPoints, ApiResources } from '../lib/common/enums';
 import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-get-single-spot';
 import {
   IFetchSpotOptions,
@@ -8,8 +8,7 @@ import {
   IBathingspot,
   IRain,
 } from '../lib/common/interfaces';
-import { Link } from 'react-router-dom';
-import { Measurement, MeasurementTableRow } from './spot/Spot-Measurement';
+import { Measurement } from './spot/Spot-Measurement';
 import { RootState } from '../lib/state/reducers/root-reducer';
 import { RouteComponentProps } from 'react-router';
 import { SpotBodyAddonTagGroup } from './spot/Spot-AddonTag-Group';
