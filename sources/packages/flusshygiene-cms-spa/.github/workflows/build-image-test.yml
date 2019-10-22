@@ -2,12 +2,12 @@ name: docker-image-build-test
 
 on: [push, pull_request]
 jobs:
-  paths:
-    - 'src/*'
-    - '.github/workflows/*.yml'
-    - 'Dockerfile'
-    - '.dockerignore'
-    - 'server/*'
+  # paths:
+  #   - 'src/*'
+  #   - '.github/workflows/*.yml'
+  #   - 'Dockerfile'
+  #   - '.dockerignore'
+  #   - 'server/*'
   build:
     runs-on: ubuntu-latest
     steps:
