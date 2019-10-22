@@ -1,0 +1,73 @@
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung"
+  ],
+  [
+    4,
+    "Wasserqualität",
+    null,
+    null,
+    "Befinden sich in der Nähe der geplanten Badestelle Einleitungen kommunaler Kläranlagen innerhalb von 2 Tagen Fließzeit im Oberlauf oder entsprechend in einem Zufluss?",
+    "Zuständige Behörden wie Umweltämter des Landkreises können Auskunft über Klärwerke in der Umgebung geben. ",
+    "keine Einleitungen",
+    "Es sind keine weiteren Aktionen notwendig",
+    null,
+    "grün",
+    1,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    " 1-2 Einleitungen mit Desinfektion",
+    "Es sind mindestens monatliche Messungen zur Abschätzung der Wasserqualität am geplanten Badegewässer während einer Badesaison notwendig ",
+    null,
+    "gelb",
+    0.6,
+    "Infrastruktur"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "entweder 1-2 Einleitungen ohne oder > 2 Einleitungen mit Desinfektion",
+    "Es sind mindestens monatliche Messungen zur Abschätzung der Wasserqualität am geplanten Badegewässer während einer Badesaison notwendig ",
+    null,
+    "orange",
+    0.3,
+    "Infrastruktur"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "> 2 Einleitungen ohne Desinfektion",
+    "Es sind mindestens monatliche Messungen zur Abschätzung der Wasserqualität am geplanten Badegewässer während einer Badesaison notwendig ",
+    null,
+    "orange",
+    0.3,
+    "Infrastruktur"
+  ],
+  [null, null, null, null, null, null, null, null, null, null, null, null]
+]

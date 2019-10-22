@@ -1,0 +1,72 @@
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung"
+  ],
+  [
+    2,
+    "Wasserqualität",
+    null,
+    "Die Wasserqualität eines existierenden Badegewässers kann entweder über die Badegewässer-Seiten der Länder abgerufen werden <https://www.umweltbundesamt.de/wasserqualitaet-in-badegewaessern> oder über die Europäische Umweltagentur EEA <https://www.eea.europa.eu/themes/water/interactive/bathing/state-of-bathing-waters>",
+    "Wie wurde die Badegewässerqualität in der Vorjahresaison bewertet?",
+    "Die rechtliche und methodische Grundlage zur Bewertung der Badegewässerqualität kann in der Badegewässerverordnung Ihres Bundeslandes nachgelesen werden.  \r\n\r\nWar die Bewertung der Badegewässerqualität über die letzten 5-10 Jahre konstant? Falls nicht, kann dies ein Hinweis auf die Anfälligkeit für kurzzeitige Verschmutzungen sein.\r\n\r\nWeitere Informationen unter: <https://www.umweltbundesamt.de/daten/umwelt-gesundheit/qualitaet-von-badegewaessern>",
+    "ausgezeichnet ",
+    "Es sind keine weiteren Aktionen notwendig",
+    null,
+    "grün",
+    1,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "gut",
+    "Es sind keine weiteren Aktionen notwendig",
+    null,
+    "gelb",
+    0.6,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "ausreichend",
+    "Es sind mindestens monatliche Messungen zur Abschätzung der Wasserqualität am geplanten Badegewässer während einer Badesaison notwendig ",
+    null,
+    "orange",
+    0.3,
+    "Infrastruktur"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "mangelhaft",
+    "KO-Kriterium. Aufgrund der schlechten Wasserqualität ist die Einrichtung eines Badgewässers an dieser Stelle nicht sinnvoll",
+    null,
+    "rot",
+    0,
+    "Infrastruktur"
+  ]
+]
