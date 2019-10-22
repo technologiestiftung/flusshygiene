@@ -72,7 +72,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             spot_id: spot.id,
             user_id: user.pgapiData.id,
           };
-          console.log('the body we will send', body);
+          // console.log('the body we will send', body);
           const action: IOcpuStartAction = {
             type: 'START_OCPU_REQUEST',
             payload: {
@@ -208,11 +208,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           </Container>
         )}
         <Container>
+          {/* {isSingleSpotLoading === true && <div>loading data</div>} */}
           <SpotHeader
             name={spot.name}
             nameLong={spot.nameLong}
             water={spot.water}
             district={spot.district}
+            isLoading={isSingleSpotLoading}
           />
         </Container>
         <Container>
@@ -328,6 +330,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                         />
                       );
                     });
+                    if (rows.length === 0) {
+                      return <TableRow th='k. A.' tds={['']} />;
+                    }
                     return rows;
                   })()}
               </TableBody>
@@ -339,38 +344,29 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 <IconCSV></IconCSV>
               </span>{' '}
               <span>Wasserqualität </span>
-              {(() => {
-                if (spot.hasPrediction === true) {
-                  return <span className='asteriks'>*</span>;
-                }
-                return null;
-              })()}
             </h3>
-            {spot !== undefined && spot.measurements !== undefined && (
-              <Measurement
-                measurements={spot.measurements}
-                hasPrediction={spot.hasPrediction}
-              >
-                {(() => {
-                  if (spot.hasPrediction === true) {
-                    return (
-                      <div className='bathingspot__body-prediction'>
-                        <p>
-                          {/*tslint:disable-next-line: max-line-length*/}
-                          <span className='asteriks'>*</span> Die hier
-                          angezeigte Bewertung wird unterstützt durch eine
-                          neuartige tagesaktuelle Vorhersagemethode.{' '}
-                          <Link to={`/${RouteNames.info}`}>
-                            Erfahren Sie mehr&nbsp;&raquo;
-                          </Link>
-                        </p>
-                      </div>
-                    );
-                  }
-                  return null;
-                })()}
-              </Measurement>
-            )}
+            {(() => {
+              if (
+                spot !== undefined &&
+                spot.measurements !== undefined &&
+                spot.measurements.length > 0
+              ) {
+                return (
+                  <Measurement
+                    measurements={spot.measurements}
+                    hasPrediction={spot.hasPrediction}
+                  ></Measurement>
+                );
+              } else {
+                return (
+                  <Table>
+                    <TableBody>
+                      <TableRow th={'k. A.'} tds={['']}></TableRow>
+                    </TableBody>
+                  </Table>
+                );
+              }
+            })()}
           </div>
         </ContainerNoColumn>
         <ContainerNoColumn>
@@ -432,42 +428,107 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               </h3>
 
               {spot !== undefined && spot.models !== undefined && (
-                <table className='table'>
-                  <tbody>
-                    {(() => {
-                      const dateOpts = {
-                        day: 'numeric',
-                        month: 'short',
-                        weekday: 'short',
-                        year: 'numeric',
-                      };
-                      const sortedModels = spot.models.sort(
-                        (a: IObject, b: IObject) => {
-                          return (
-                            ((new Date(a.updatedAt) as unknown) as number) -
-                            ((new Date(b.updatedAt) as unknown) as number)
-                          );
-                        },
-                      );
-                      const lastFive = sortedModels.slice(
-                        Math.max(sortedModels.length - 5, 0),
-                      );
+                <>
+                  {/* <table className='table'> */}
+                  {/* <tbody> */}
+                  {(() => {
+                    const dateOpts = {
+                      day: 'numeric',
+                      month: 'short',
+                      weekday: 'short',
+                      year: 'numeric',
+                    };
 
-                      const rows = lastFive
-                        .reverse()
-                        .map((ele, i) => (
-                          <MeasurementTableRow
-                            key={i}
-                            rowKey={`ID: ${ele.id}`}
-                            rowValue={`Generiert am: ${new Date(
-                              ele.updatedAt,
-                            ).toLocaleDateString('de-DE', dateOpts)}`}
+                    const sortedModels = spot.models.sort(
+                      (a: IObject, b: IObject) => {
+                        return (
+                          ((new Date(a.updatedAt) as unknown) as number) -
+                          ((new Date(b.updatedAt) as unknown) as number)
+                        );
+                      },
+                    );
+
+                    const lastModel = sortedModels[sortedModels.length - 1];
+
+                    console.log(lastModel);
+                    interface IModelInfo {
+                      formula: string;
+                      N: number;
+                      BP: number;
+                      R2: number;
+                      n_obs: number;
+                      stat_correct: boolean;
+                      in50: number;
+                      below90: number;
+                      below95: number;
+                      in95: number;
+                    }
+
+                    // {"formula":"log_e.coli ~ r_mean_mean_345","N":0.713,"BP":0.0187,"R2":0.1198,"n_obs":18,"stat_correct":false,"in50":5,"below90":5,"below95":5,"in95":5};
+                    let jsonData: IModelInfo;
+
+                    try {
+                      jsonData = JSON.parse(
+                        lastModel.comment !== undefined
+                          ? lastModel.comment
+                          : '',
+                      );
+                    } catch (error) {
+                      jsonData = {} as IModelInfo;
+                    }
+                    const lastFive = sortedModels.slice(
+                      Math.max(sortedModels.length - 5, 0),
+                    );
+
+                    const rows = lastFive
+                      .reverse()
+                      .map((ele, i) => (
+                        <MeasurementTableRow
+                          key={i}
+                          rowKey={`ID: ${ele.id}`}
+                          rowValue={`Generiert am: ${new Date(
+                            ele.updatedAt,
+                          ).toLocaleDateString('de-DE', dateOpts)}`}
+                        />
+                      ));
+
+                    if (lastModel === undefined) {
+                      return (
+                        <Table>
+                          <TableBody>
+                            <TableRow th={'k. A.'} tds={['']}></TableRow>
+                          </TableBody>
+                        </Table>
+                      );
+                    }
+                    return (
+                      <Table>
+                        <TableBody>
+                          <TableRow th={'ID:'} tds={[lastModel.id]} />
+                          <TableRow
+                            th={'Generiert am:'}
+                            tds={[
+                              `${new Date(
+                                lastModel.updatedAt,
+                              ).toLocaleDateString('de-DE', dateOpts)}`,
+                            ]}
                           />
-                        ));
-                      return rows;
-                    })()}
-                  </tbody>
-                </table>
+                          <TableRow th={'Formel'} tds={[jsonData.formula]} />
+                          <TableRow
+                            th={'Anzahl der Datenpunkte'}
+                            tds={[`${jsonData.n_obs}`]}
+                          />
+                          <TableRow
+                            th={'Bestimmtheitsmaß (R\u00B2)'}
+                            tds={[`${jsonData.R2}`]}
+                          />
+                        </TableBody>
+                      </Table>
+                    );
+                  })()}
+                  {/* </tbody> */}
+                  {/* </table> */}
+                </>
               )}
             </div>
           </div>

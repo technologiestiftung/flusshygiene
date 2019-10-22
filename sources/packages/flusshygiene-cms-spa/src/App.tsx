@@ -22,7 +22,7 @@ const App: React.FC = () => {
   if (loading) {
     return (
       <div className='pageloader is-active'>
-        <h1 className='title'>Lade Daten vom Server</h1>
+        <h1 className='title'>Authentifizere Benutzer mit Auth Server</h1>
       </div>
     );
   }
