@@ -16,6 +16,10 @@ import { ButtonIconTB as Button } from '../Buttons';
 
 import FileSaver from 'file-saver';
 import { roundToFloatDigits } from '../../lib/utils/formatting-helpers';
+
+/**
+ * @todo missing links in footnote @Urs
+ */
 export const Report: React.FC = () => {
   const [state] = useQuestions();
   const [localQuestions, setLocalQuestions] = useState<string[]>([]);
@@ -165,27 +169,26 @@ export const Report: React.FC = () => {
           </div>
         </Container>
         <Container columnClassName={'is-8'}>
-          {/* <PDFRendererDLLink
-            questions={localQuestions}
-            answers={pdfReportAnswers}
-            addInfoQuestion={localQuestionsAddInfo}
-            title={'Standortbewertung'}
-            probability={`Umsetzungswahrscheinlichkeit: ${isNaN(probability) ===
-              false && roundTo(probability, 2)}%`}
-            allAnswersGiven={allAnswersGiven}
-          /> */}
-          {/* <PDFDownloadLink
-            document={<ReportPDF />}
-            fileName='Standortbewertung-Report.pdf'
-          >
-            {({ blob, url, loading, error }) =>
-              loading ? 'Loading document...' : 'Download now!'
-            }
-          </PDFDownloadLink> */}
-        </Container>
-        <Container columnClassName={'is-8'}>
           <h1 className='title is-1'>Report</h1>
           <h2 className='subtitle is-4'>der aktuellen Standortbewertung</h2>
+          <div className='content'>
+            <p>
+              Mit der Beantwortung der Fragen zur Einschätzung über die Eignung
+              eines neuen Badegewässerstandortes haben Sie einen wichtigen
+              Schritt in Richtung neuer Badestelle unternommen. Glückwunsch!
+            </p>
+            <p>
+              Sie haben nun eine Übersicht über verschiedene wichtige Kriterien
+              ihres anvisierten Standortes und voraussichtlich auch erste
+              konkrete weitere Ansatzpunkte, um durch Recherchen und Gespräche
+              noch bestehende Wissenslücken zu schließen. Außerdem gibt ihnen
+              die ermittelte Umsetzungswahrscheinlichkeit eine Einschätzung der
+              Erfolgsaussichten. Damit aus der vorgenommen Ersteinschätzung und
+              der dahinterstehenden Idee eines neuen Badegewässers jedoch
+              Wirklichkeit werden kann, ist noch einiges zu tun. Was dies in
+              Ihrem Fall ist zeigt Ihnen das folgende Reporting:
+            </p>
+          </div>
           {state.title !== undefined && state.title.length > 0 && (
             <h3 className={'subtitle is 6'}>{state.title}</h3>
           )}
@@ -225,16 +228,6 @@ export const Report: React.FC = () => {
                           </Link>
                         </strong>
                       </p>
-
-                      {/* <p
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            localQuestionsAddInfo[i] !== undefined
-                              ? localQuestionsAddInfo[i]
-                              : '',
-                        }}
-                      /> */}
-
                       {(() => {
                         if (
                           state.answers[i + 1] === undefined ||
@@ -247,13 +240,8 @@ export const Report: React.FC = () => {
                           );
                         }
                         const split = state.answers[i + 1].split('-');
-                        // const id = parseInt(split[0], 10);
                         const aId = parseInt(split[1].substring(1), 10);
-                        // if (id === i + 1) {
-                        //   console.log(id, aId);
-                        //   console.log(localAnswers[i][aId]);
-                        // }
-                        // console.log(i, state.answers[i + 1]);
+
                         return (
                           <>
                             <p>
@@ -280,17 +268,107 @@ export const Report: React.FC = () => {
                           </>
                         );
                       })()}
-
-                      {/* <p>{JSON.stringify(localAnswers[i])}</p> */}
                     </div>
                   </li>
                 );
               })}
             </ol>
           </div>
-          {/* <pre>
-          <code>{JSON.stringify(state.answers, null, 2)}</code>
-        </pre> */}
+          <div className='content'>
+            <p>
+              Unabhängig von den von ihnen gegeben Antworten und den hieraus
+              resultierenden Arbeitsanregungen, ist das Verfassen einer
+              Projektskizze ein wesentlicher erster Schritt, um die Idee eines
+              neuen Badegewässers zu konkretisieren und für andere anschaulich
+              zu machen. Hierbei kann der Leitfaden:{' '}
+              <em>
+                Eröffnung neuer Flussbadestellen – Praxisleitfaden am Beispiel
+                der Berliner Vorstadtspree
+              </em>
+              <sup>
+                <a href='#footnote-1' id='footnote-ref-1'>
+                  [1]
+                </a>
+              </sup>
+              , hervorgegangen aus dem BMBF Forschungsprojekt FLUSSHYGIENE, eine
+              gute Hilfestellung bieten.{' '}
+            </p>
+            <p>
+              Neben der Erstellung einer Projektskizze, sollte möglichst
+              frühzeitig, Kontakt mit den Flächeneigentümer_innen aufgenommen
+              werden, die Einbindung einer Badestelle in vorhandene
+              Planungswerke (Landschaftsprogramme, Stadtentwicklungskonzepte,
+              Gewässerentwicklungskonzepte Tourismuskonzepte, Sportkonzepte,
+              Bäderkonzepte u.a.) geprüft werden und wenn nötig, die Suche nach
+              politischer Unterstützung begonnen werden.
+            </p>
+            <p>
+              Darüber hinaus liefert das kurze{' '}
+              <em>Merkblatt zur Einrichtung neuer Flussbadegewässer </em>einen
+              bündigen Überblick über die wesentlichen Themen und Schritte hin
+              zur Einrichtung eines Badegewässers.
+              <sup>
+                <a href='#footnote-2' id='footnote-ref-2'>
+                  [2]
+                </a>
+              </sup>{' '}
+            </p>
+            <p>
+              Um eine Vorstellung von der Anwendung des Merkblattes zu bekommen
+              wurde dieses beispielhaft auf einen Standort an der Berliner Spree
+              angewandt. Das Ergebnis, die{' '}
+              <em>
+                Anwendung des Merkblattes zur Einrichtung neuer
+                Flussbadegewässer - Anwendungsbeispiel Insel der Jugend Berlin
+                <sup>
+                  <a href='#footnote-3' id='footnote-ref-3'>
+                    [3]
+                  </a>
+                </sup>
+                ,{' '}
+              </em>
+              kann als Anregung dienen.{' '}
+            </p>
+            <p>
+              Wir wünschen ihnen viel Erfolg bei der Initiierung eines neuen
+              Badegewässers!
+            </p>
+            <ol>
+              <li id='footnote-1'>
+                <p>
+                  {' '}
+                  Raber, W., Bösche, U., Schön, S, (2018): Eröffnung neuer
+                  Flussbadestellen – Praxisleitfaden am Beispiel der Berliner
+                  Vorstadtspree, BMBF Forschungsprojekt FLUSSHYGIENE
+                  <a href='https://www.inter3.de/fileadmin/user_upload/Downloads/Flyer_usw/Praxisleitfaden_Eroeffnung_neuer_Flussbadestellen-Januar_2019.pdf'>
+                    <IconPDF />
+                    <span> </span>Praxisleitfaden Eröffnung neuer
+                    Flussbadestellen
+                  </a>{' '}
+                  <a href='#footnote-ref-1'>↑</a>
+                </p>
+              </li>
+              <li id='footnote-2'>
+                <p>
+                  {' '}
+                  Raber, W., Bösche, U., Selinka, H.-C., Szewzyk, R. (Hrsg.)
+                  (2018): Merkblatt zur Einrichtung neuer Flussbadegewässer,
+                  BMBF-Forschungsprojekt FLUSSHYGIENE {/*(LINK)*/}{' '}
+                  <a href='#footnote-ref-2'>↑</a>
+                </p>
+              </li>
+              <li id='footnote-3'>
+                <p>
+                  {' '}
+                  Raber, W., Bösche, U., Seis, W. (Hrsg.) (2019): Anwendung des
+                  Merkblattes zur Einrichtung neuer Flussbadegewässer:
+                  Anwendungsbeispiel Insel der Jugend Berlin,
+                  BMBF-Forschungsprojekt FLUSSHYGIENE {/*(LINK)*/}{' '}
+                  <a href='#footnote-ref-3'>↑</a>
+                </p>
+              </li>
+            </ol>
+          </div>
         </Container>
       </>
     );
