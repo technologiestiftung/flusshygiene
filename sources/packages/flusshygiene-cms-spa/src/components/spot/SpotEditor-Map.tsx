@@ -334,6 +334,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
             width={width}
             height={height}
             mapboxApiAccessToken={REACT_APP_MAPBOX_API_TOKEN}
+            mapStyle='mapbox://styles/fmoronzirfas/ck21m3k446h8g1cp9zj67nw4m'
           />
         </DeckGL>
       </div>
