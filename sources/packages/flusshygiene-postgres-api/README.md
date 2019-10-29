@@ -80,3 +80,21 @@ hub release create -m "from command line" v0.1.4
 ```
 
 more infos coming soon(-ish).
+
+## DB
+
+### Migrations
+
+See the [typeorm migration guide](https://typeorm.io/#/migrations) for further explanation. In short:
+
+```fish
+# this is fish shell. Remove the `env` for bash
+
+# generate latest state
+npm run build
+env NODE_DOCKER_ENV=0 env NODE_ENV=production npm run typeorm migration:generate -- --name NewMigrationFile
+# generate js from ts
+npm run build
+env NODE_DOCKER_ENV=0 env NODE_ENV=production npm run typeorm migration:run
+env NODE_DOCKER_ENV=0 env NODE_ENV=production npm run typeorm migration:revert
+```
