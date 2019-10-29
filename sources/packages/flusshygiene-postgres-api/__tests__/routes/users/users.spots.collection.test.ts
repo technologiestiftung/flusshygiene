@@ -1,3 +1,4 @@
+import { ModelParamter } from './../../../src/lib/common/index';
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import path from 'path';
@@ -28,7 +29,7 @@ const headers = {
   authorization: `${token.token_type} ${token.access_token}`,
 };
 
-describe('Testing all collection tyoe', () => {
+describe('Testing all collection types', () => {
   let app: Application;
   let connections: Connection[];
 
@@ -323,7 +324,7 @@ describe('Testing all collection tyoe', () => {
   test('route GET user by id spot by id models should not have field rmodel', async (done) => {
     await request(app)
       .post('/api/v1/users/1/bathingspots/1/models')
-      .send({ rmodel: 'foo bah baz' })
+      .send({ rmodel: 'foo bah baz', parameter: ModelParamter.conc_ec })
       .set(headers);
 
     const res = await request(app)
@@ -454,6 +455,7 @@ describe('Testing all collection tyoe', () => {
       .send({
         comment: 'This is another test',
         rmodel: 'string dataaaa',
+        parameter: ModelParamter.conc_ec,
       })
       .set(headers);
     expect(res.status).toBe(201);

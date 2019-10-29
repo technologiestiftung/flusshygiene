@@ -1,3 +1,4 @@
+import { ModelParamter } from './../../../src/lib/common/index';
 jest.useFakeTimers();
 import FormData from 'form-data';
 import { HttpCodes } from './../../../src/lib/common';
@@ -238,7 +239,10 @@ describe('testing bathingspots post for a specific user', () => {
 
     const modelRes = await request(app)
       .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/models`)
-      .send({ comment: 'Posting the model as text is deprecated' })
+      .send({
+        comment: 'Posting the model as text is deprecated',
+        parameter: ModelParamter.conc_ec,
+      })
       .set(headers);
 
     const form = new FormData();
@@ -272,7 +276,10 @@ describe('testing bathingspots post for a specific user', () => {
 
     const modelRes = await request(app)
       .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/models`)
-      .send({ comment: 'Posting the model as text is deprecated' })
+      .send({
+        comment: 'Posting the model as text is deprecated',
+        parameter: ModelParamter.conc_ec,
+      })
       .set(headers);
 
     const form = new FormData();

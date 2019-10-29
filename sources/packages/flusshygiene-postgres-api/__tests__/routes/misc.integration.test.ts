@@ -1,3 +1,4 @@
+import { ModelParamter } from './../../src/lib/common/index';
 import { Bathingspot } from './../../src/orm/entity/Bathingspot';
 jest.useFakeTimers();
 import express, { Application } from 'express';
@@ -91,7 +92,9 @@ describe('misc functions that need a DB', () => {
       spot.name = 'foo';
       spot.isPublic = false;
       const mrepo = getRepository(BathingspotModel);
-      const model = getRepository(BathingspotModel).create();
+      const model = getRepository(BathingspotModel).create({
+        parameter: ModelParamter.conc_ie,
+      });
       spot.models = [model];
       const mres = await mrepo.save(model);
 

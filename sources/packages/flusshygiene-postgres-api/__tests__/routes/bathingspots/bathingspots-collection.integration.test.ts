@@ -24,7 +24,10 @@ import {
 import { BathingspotPrediction } from './../../../src/orm/entity/BathingspotPrediction';
 import { Connection } from 'typeorm';
 import { GenericInput } from './../../../src/orm/entity/GenericInput';
-import { PredictionValue } from './../../../src/lib/common/index';
+import {
+  PredictionValue,
+  ModelParamter,
+} from './../../../src/lib/common/index';
 import { async } from 'rxjs/internal/scheduler/async';
 import path from 'path';
 import request from 'supertest';
@@ -298,7 +301,12 @@ describe('testing bathingspots collection', () => {
   test('getColletionItemById should return specific entitiy BathingspotModel', async (done) => {
     const res = await request(app)
       .post('/api/v1/users/1/bathingspots/1/models/')
-      .send({ dateTime: '12:00:00', date: '2019-12-31', rmodel: '' })
+      .send({
+        dateTime: '12:00:00',
+        date: '2019-12-31',
+        rmodel: '',
+        parameter: ModelParamter.conc_ec,
+      })
       .set(headers);
     const entity = await getColletionItemById(
       res.body.data[0].id,

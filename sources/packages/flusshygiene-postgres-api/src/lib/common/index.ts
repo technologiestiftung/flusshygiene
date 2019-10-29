@@ -152,6 +152,10 @@ export enum UserRole {
   reporter = 'reporter',
 }
 
+export enum ModelParamter {
+  conc_ie = 'conc_ie', // eslint-disable-line @typescript-eslint/camelcase
+  conc_ec = 'conc_ec', // eslint-disable-line @typescript-eslint/camelcase
+}
 export enum Pagination {
   'limit' = 50,
   'skip' = 0,
