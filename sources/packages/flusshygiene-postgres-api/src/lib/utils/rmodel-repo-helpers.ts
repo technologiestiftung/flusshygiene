@@ -9,6 +9,7 @@ export const getRModelWithRelation: (
     const query = spotRepo
       .createQueryBuilder('bathingspot_model')
       .leftJoinAndSelect(`bathingspot_model.rmodelfiles`, 'rmodelfile')
+      .leftJoinAndSelect(`bathingspot_model.plotfiles`, 'plotfile')
       .where('bathingspot_model.id = :modelId', { modelId });
     const modelWithRelation = await query.getOne();
     // console.log('model with relation', modelWithRelation);

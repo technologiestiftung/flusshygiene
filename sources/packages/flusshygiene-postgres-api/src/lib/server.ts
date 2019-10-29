@@ -1,10 +1,9 @@
 import http from 'http';
 import app from './app';
-
-const ENV_SUFFIX = process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV';
+import { CONSTANTS } from './common/constants';
 
 const PORT: number | string =
-  process.env[`POSTGRES_EXPRESS_PORT_${ENV_SUFFIX}`] || 5004;
+  process.env[`POSTGRES_EXPRESS_PORT_${CONSTANTS.ENV_SUFFIX}`] || 5004;
 
 const server = http.createServer(app);
 server.listen(PORT, () => {

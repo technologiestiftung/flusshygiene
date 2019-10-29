@@ -19,4 +19,5 @@ export { Questionaire } from './Questionaire';
 export { Rain } from './Rain';
 export { Region } from './Region';
 export { RModelFile } from './RModelFile';
+export { PlotFile } from './PlotFile';
 export { User } from './User';

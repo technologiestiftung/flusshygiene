@@ -78,6 +78,7 @@ export const getColletionItemById: (
       query = repo
         .createQueryBuilder(repoName)
         .leftJoinAndSelect(`${repoName}.rmodelfiles`, 'rmodelfile')
+        .leftJoinAndSelect(`${repoName}.plotfiles`, 'plotfile')
         .where(`${repoName}.id = :itemId`, { itemId })
         .addSelect(`${repoName}.rmodel`);
       // .addSelect(`${repoName}.rmodelfiles`);

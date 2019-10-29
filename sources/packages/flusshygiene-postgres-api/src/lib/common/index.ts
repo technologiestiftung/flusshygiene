@@ -33,6 +33,15 @@ export interface IRegionListEntry {
   name: string;
 }
 /**
+ * Helper interface for deleting elements on s3 bucket
+ */
+export interface IMetaData {
+  [key: string]: any;
+  bucket: string;
+  key: string;
+}
+
+/**
  *
  */
 export type entityFields = (

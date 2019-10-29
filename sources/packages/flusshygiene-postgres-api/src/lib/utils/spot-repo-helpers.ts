@@ -45,6 +45,7 @@ export const getSpotWithRelation: (
         .createQueryBuilder('bathingspot')
         .leftJoinAndSelect(`bathingspot.${relation}`, relation)
         .leftJoinAndSelect('models.rmodelfiles', 'rmodelfile')
+        .leftJoinAndSelect('models.plotfiles', 'plotfile')
         .where('bathingspot.id = :spotId', { spotId });
       // .addSelect((subQuery) => {
       //   return subQuery

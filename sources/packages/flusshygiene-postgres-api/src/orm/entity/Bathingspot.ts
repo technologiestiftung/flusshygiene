@@ -1,4 +1,10 @@
-import { BeforeInsert, UpdateDateColumn, VersionColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  UpdateDateColumn,
+  VersionColumn,
+  BeforeRemove,
+  getRepository,
+} from 'typeorm';
 // import {Point, Polygon} from 'geojson';
 import {
   Column,
@@ -17,7 +23,7 @@ import { Discharge } from './Discharge';
 import { GenericInput } from './GenericInput';
 import { GlobalIrradiance } from './GlobalIrradiance';
 import { ImageFile } from './ImageFile';
-import { Influences } from '../../lib/common';
+import { Influences, IMetaData } from '../../lib/common';
 import { IsEnum } from 'class-validator';
 import { PurificationPlant } from './PurificationPlant';
 import { Rain } from './Rain';
@@ -25,6 +31,8 @@ import { Rain } from './Rain';
 import { Region } from './Region';
 import { User } from './User';
 import buffer from '@turf/buffer';
+import { s3 as awss3 } from '../../lib/s3';
+import { S3 } from 'aws-sdk';
 
 export const criteriaBathingspot = [
   { type: 'object', key: 'apiEndpoints' },
@@ -357,6 +365,23 @@ export class Bathingspot {
 
   // Listeners
 
+  @BeforeRemove()
+  public async removeAllImages() {
+    const imageRepo = getRepository(ImageFile);
+    const imageFiles = await imageRepo.find({
+      where: { bathingspotId: this.id },
+    });
+
+    for (const image of imageFiles) {
+      const metaData = (image.metaData as unknown) as IMetaData;
+      const params: S3.Types.DeleteObjectRequest = {
+        Bucket: metaData.bucket,
+        Key: metaData.key,
+      };
+      await awss3.deleteObject(params).promise();
+      await imageRepo.remove(image);
+    }
+  }
   @BeforeInsert()
   public calcGeoJSONPoint() {
     if (this.location === undefined) {

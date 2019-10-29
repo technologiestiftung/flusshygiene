@@ -160,3 +160,20 @@ export const getCollection: getResponse = async (request, response) => {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }
 };
+
+// export const getModelReport: getResponse = async (request, response) => {
+//   try {
+//     if (response.locals.spot === undefined) {
+//       throw new Error('Middleware did not pass on Bathingspot data');
+//     }
+//     const collectionName = request.params.collectionName;
+//     console.log(collectionName);
+//     const itemId = parseInt(request.params.itemId, 10);
+//     console.log('itemid', itemId);
+//     // const report = await getRModelReportWithRelation(itemId);
+
+//     response.json(response.locals.spot);
+//   } catch (error) {
+//     responder(response, HttpCodes.internalError, errorResponse(error));
+//   }
+// };

@@ -1,5 +1,6 @@
-import { HttpCodes } from './../../../src/lib/common';
 jest.useFakeTimers();
+import FormData from 'form-data';
+import { HttpCodes } from './../../../src/lib/common';
 import express, { Application } from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -228,20 +229,127 @@ describe('testing bathingspots post for a specific user', () => {
     expect(res.status).toBe(201);
     done();
   });
-  test.skip('should post image  to spot', async (done) => {
+
+  test('should post rmodel file to model', async (done) => {
+    const spotRes = await request(app)
+      .post('/api/v1/users/1/bathingspots')
+      .send({ name: 'foo', isPublic: true })
+      .set(headers);
+
+    const modelRes = await request(app)
+      .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/models`)
+      .send({ comment: 'Posting the model as text is deprecated' })
+      .set(headers);
+
     const form = new FormData();
-    // const image = fs.createReadStream(
-    //   path.resolve(__dirname, '../../data/test.png'),
-    // );
     form.append('name', 'Multer');
-    form.append('image', path.resolve(__dirname, '../../data/test.png'));
+    form.append('upload', path.resolve(__dirname, '../../data/test.png'));
     const formHeader = { ...headers };
-    formHeader.Accept = 'multipart/form-data';
+    // formHeader.Accept = 'multipart/form-data';
+    formHeader['Content-Type'] = 'multipart/form-data';
     const res = await request(app)
-      .post(`/api/v1/users/${1}/bathingspots/1/images`)
-      .send({ upload: form.get('image') })
+      .post(
+        `/api/v1/users/${1}/bathingspots/${spotRes.body.data[0].id}/models/${
+          modelRes.body.data[0].id
+        }/upload/rmodel`,
+      )
+      .field(
+        'upload',
+        fs.createReadStream(
+          path.resolve(__dirname, '../../data/large-file.bin'),
+        ),
+      )
       .set(formHeader);
     expect(res.status).toBe(201);
     done();
   });
-});
+
+  test('should post plot file to model', async (done) => {
+    const spotRes = await request(app)
+      .post('/api/v1/users/1/bathingspots')
+      .send({ name: 'foo', isPublic: true })
+      .set(headers);
+
+    const modelRes = await request(app)
+      .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/models`)
+      .send({ comment: 'Posting the model as text is deprecated' })
+      .set(headers);
+
+    const form = new FormData();
+    form.append('name', 'Multer');
+    form.append('upload', path.resolve(__dirname, '../../data/test.png'));
+    const formHeader = { ...headers };
+    formHeader['Content-Type'] = 'multipart/form-data';
+    const res = await request(app)
+      .post(
+        `/api/v1/users/${1}/bathingspots/${spotRes.body.data[0].id}/models/${
+          modelRes.body.data[0].id
+        }/upload/plot`,
+      )
+      .field('title', 'foo')
+      .field('description', 'bah')
+      .field(
+        'upload',
+        fs.createReadStream(path.resolve(__dirname, '../../data/oval.svg')),
+      )
+      .set(formHeader);
+
+    expect(res.body.data[0].title).toBe('foo');
+    expect(res.body.data[0].description).toBe('bah');
+    expect(res.status).toBe(201);
+    done();
+  });
+
+  test('should post image file to spot', async (done) => {
+    const form = new FormData();
+
+    form.append('name', 'Multer');
+    form.append('upload', path.resolve(__dirname, '../../data/test.png'));
+    const formHeader = { ...headers };
+    formHeader['Content-Type'] = 'multipart/form-data';
+    const res = await request(app)
+      .post(`/api/v1/users/${1}/bathingspots/1/images/upload`)
+      .field(
+        'upload',
+        fs.createReadStream(path.resolve(__dirname, '../../data/test.png')),
+      )
+      .set(formHeader);
+    expect(res.status).toBe(201);
+    done();
+  });
+
+  test('should return 400 due to wrong route', async (done) => {
+    const form = new FormData();
+
+    form.append('name', 'Multer');
+    form.append('upload', path.resolve(__dirname, '../../data/test.png'));
+    const formHeader = { ...headers };
+    formHeader['Content-Type'] = 'multipart/form-data';
+    const res = await request(app)
+      .post(`/api/v1/users/${1}/bathingspots/1/rains/upload`)
+      .field(
+        'upload',
+        fs.createReadStream(path.resolve(__dirname, '../../data/test.png')),
+      )
+      .set(formHeader);
+
+    expect(res.status).toBe(400);
+    done();
+  });
+
+  test('should return 500 due to wrong route', async (done) => {
+    const form = new FormData();
+
+    form.append('name', 'Multer');
+    form.append('upload', path.resolve(__dirname, '../../data/test.png'));
+    const formHeader = { ...headers };
+    formHeader['Content-Type'] = 'multipart/form-data';
+    const res = await request(app)
+      .post(`/api/v1/users/${1}/bathingspots/1/images/upload`)
+
+      .set(formHeader);
+
+    expect(res.status).toBe(500);
+    done();
+  });
+}); // end of describe
