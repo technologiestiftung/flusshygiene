@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import React, { useRef, useEffect, useState } from 'react';
 import { SpotEditor } from './spot/SpotEditor';
 import SpotsMap from './spot/Spot-Map';
+import { SpotModelPlots } from './spot/Spot-Model-Plots';
 
 // import '../assets/styles/spot-editor.scss';
 import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
@@ -194,6 +195,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       </div>
     );
   } else {
+    console.log(spot);
+
     return (
       <>
         {showNotification === true && (
@@ -550,6 +553,14 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             </Table>
           </div>
         </ContainerNoColumn>
+        {spot !== undefined &&
+          spot.models !== undefined &&
+          spot.models.length > 0 &&
+          spot.models[0].plotfiles !== undefined && (
+            <SpotModelPlots
+              plotfiles={spot.models[0].plotfiles}
+            ></SpotModelPlots>
+          )}
         <Container>
           {isSingleSpotLoading === false && (
             <div ref={mapRef} id='map__container'>

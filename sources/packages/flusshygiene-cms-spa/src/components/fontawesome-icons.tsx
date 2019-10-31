@@ -27,6 +27,7 @@ import {
   faCalculator,
   faCommentAlt,
   faMapPin,
+  faChartBar,
 } from '@fortawesome/free-solid-svg-icons';
 import { ColorNames, QType } from '../lib/common/interfaces';
 import { colorNamesToClassNames } from '../lib/utils/questionnaire-colornames-conversion';
@@ -56,6 +57,7 @@ library.add(
   faCalculator,
   faCommentAlt,
   faMapPin,
+  faChartBar,
 );
 
 export const colorNameToIcon: (cname: ColorNames) => JSX.Element = (cname) => {
@@ -184,4 +186,8 @@ export const IconComment: React.FC<{ className?: string }> = ({
 
 export const IconMapPin: React.FC<{ className?: string }> = ({ className }) => (
   <FontAwesomeIcon icon={'map-pin'} className={className} />
+);
+
+export const IconChart: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'chart-bar'} className={className} />
 );
