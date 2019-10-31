@@ -5,10 +5,13 @@ import mime from 'mime';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { getRepository } from 'typeorm';
-import { RModelFile } from '../../../../orm/entity/';
-import { PlotFile } from './../../../../orm/entity/PlotFile';
-import { Bathingspot } from '../../../../orm/entity/Bathingspot';
-import { ImageFile } from '../../../../orm/entity/ImageFile';
+import {
+  BathingspotModel,
+  RModelFile,
+  PlotFile,
+  Bathingspot,
+  ImageFile,
+} from '../../../../orm/entity/';
 import { HttpCodes, postResponse } from '../../../common';
 import { collectionRepoMapping } from '../../../utils/collection-repo-helpers';
 import { getSpotWithRelation } from '../../../utils/spot-repo-helpers';
@@ -18,7 +21,6 @@ import {
   responderWrongId,
   successResponse,
 } from '../../responders';
-import { BathingspotModel } from './../../../../orm/entity/BathingspotModel';
 import { getRModelWithRelation } from './../../../utils/rmodel-repo-helpers';
 
 const ENV_SUFFIX = process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV';
@@ -28,6 +30,7 @@ export const upload = (s3: AWS.S3) => {
   const storages3 = multerS3({
     acl: 'public-read',
     bucket,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     key: (
       req: Request,
       file: any,

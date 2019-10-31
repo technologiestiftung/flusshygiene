@@ -41,7 +41,7 @@ export class BathingspotModel {
     nullable: false,
     /*default: ModelParamter.conc_ec,*/
   })
-  parameter!: string;
+  public parameter!: string;
   @OneToMany((_type) => RModelFile, (file) => file.model, {
     eager: true,
     onDelete: 'CASCADE',
