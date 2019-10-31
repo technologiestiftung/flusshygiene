@@ -183,6 +183,7 @@ const Profile: React.FC = () => {
                         hasPrediction={obj.hasPrediction}
                         isUserLoggedIn={false}
                         key={i}
+                        spot={obj}
                       />
                     </div>
                   );

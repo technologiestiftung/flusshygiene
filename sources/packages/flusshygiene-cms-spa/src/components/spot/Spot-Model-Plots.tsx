@@ -33,6 +33,7 @@ const Plot: React.FC<{
 export const SpotModelPlots: React.FC<{ plotfiles: any[] }> = ({
   plotfiles,
 }) => {
+  console.log('in SpotModelPlots', plotfiles);
   const sortedPlotfiles = plotfiles.sort((a: any, b: any) =>
     a.id > b.id ? 1 : -1,
   );
@@ -58,9 +59,7 @@ export const SpotModelPlots: React.FC<{ plotfiles: any[] }> = ({
         <Plot
           key={i + 1}
           imageUrl={sortedPlotfiles[i + 1].url}
-          title={`i: ${i + 1} id:${sortedPlotfiles[i + 1].id} ${
-            sortedPlotfiles[i + 1].title
-          }`}
+          title={`${sortedPlotfiles[i + 1].title}`}
           description={sortedPlotfiles[i + 1].description}
           id={sortedPlotfiles[i + 1].id}
         />

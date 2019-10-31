@@ -102,6 +102,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const dispatch = useDispatch();
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
   const [calibratePredictSelector, setCalibratePredictSelector] = useState<
     'calibrate' | 'predict' | 'model' | undefined
@@ -163,22 +164,29 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     // setFormReadyToRender(true);
   }, [dispatch, match.params.id, token, user, user.pgapiData]);
 
-  // useEffect(() => {
-  //   if (
-  //     spot.id === parseInt(match.params.id!, 10) ||
-  //     spot.id !== DEFAULT_SPOT_ID
-  //   ) {
-  //     return;
-  //   }
-  //   dispatch(fetchSingleSpot(fetchOpts));
-  // }, [spot, dispatch, match.params.id, fetchOpts]);
-
   useEffect(() => {
     if (spot.id === parseInt(match.params.id!, 10)) {
       setFormReadyToRender(true);
     }
   }, [setFormReadyToRender, spot.id, match.params.id]);
+  useEffect(() => {
+    if (
+      spot === undefined ||
+      spot.models === undefined ||
+      spot.models.length < 1
+    ) {
+      return;
+    }
+    const sortedModels = spot.models.sort((a: IObject, b: IObject) => {
+      return (
+        ((new Date(a.updatedAt) as unknown) as number) -
+        ((new Date(b.updatedAt) as unknown) as number)
+      );
+    });
 
+    const model = sortedModels[sortedModels.length - 1];
+    setLastModel(model);
+  }, [spot]);
   if (editMode === true) {
     return (
       <div className='container'>
@@ -195,7 +203,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       </div>
     );
   } else {
-    console.log(spot);
+    // console.log(spot);
 
     return (
       <>
@@ -388,7 +396,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 <span>Vorhersage-Modelle</span>
               </h3>
 
-              {spot !== undefined && spot.models !== undefined && (
+              {lastModel !== undefined && (
                 <>
                   {/* <table className='table'> */}
                   {/* <tbody> */}
@@ -400,18 +408,18 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       year: 'numeric',
                     };
 
-                    const sortedModels = spot.models.sort(
-                      (a: IObject, b: IObject) => {
-                        return (
-                          ((new Date(a.updatedAt) as unknown) as number) -
-                          ((new Date(b.updatedAt) as unknown) as number)
-                        );
-                      },
-                    );
+                    // const sortedModels = spot.models.sort(
+                    //   (a: IObject, b: IObject) => {
+                    //     return (
+                    //       ((new Date(a.updatedAt) as unknown) as number) -
+                    //       ((new Date(b.updatedAt) as unknown) as number)
+                    //     );
+                    //   },
+                    // );
 
-                    const lastModel = sortedModels[sortedModels.length - 1];
+                    // const lastModel = sortedModels[sortedModels.length - 1];
 
-                    console.log(lastModel);
+                    // console.log(lastModel);
                     interface IModelInfo {
                       formula: string;
                       N: number;
@@ -553,14 +561,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             </Table>
           </div>
         </ContainerNoColumn>
-        {spot !== undefined &&
-          spot.models !== undefined &&
-          spot.models.length > 0 &&
-          spot.models[0].plotfiles !== undefined && (
-            <SpotModelPlots
-              plotfiles={spot.models[0].plotfiles}
-            ></SpotModelPlots>
-          )}
+        {lastModel !== undefined && lastModel.plotfiles !== undefined && (
+          <SpotModelPlots plotfiles={lastModel.plotfiles}></SpotModelPlots>
+        )}
         <Container>
           {isSingleSpotLoading === false && (
             <div ref={mapRef} id='map__container'>

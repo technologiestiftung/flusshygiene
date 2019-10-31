@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteNames } from '../../lib/common/enums';
+import { IBathingspot } from '../../lib/common/interfaces';
 // import '../../assets/styles/card.scss';
 import { Link } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ export interface ISpotCard {
   image: string;
   hasPrediction: boolean;
   isUserLoggedIn?: boolean;
+  spot: IBathingspot;
 }
 
 export const CardTile: React.FC<ISpotCard> = ({
@@ -19,6 +21,7 @@ export const CardTile: React.FC<ISpotCard> = ({
   image,
   hasPrediction,
   isUserLoggedIn,
+  spot,
 }) => {
   // console.log(image);
   return (
@@ -58,8 +61,20 @@ export const CardTile: React.FC<ISpotCard> = ({
           </div>
         </div>
         <div className='content'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec
-          iaculis mauris.
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          {spot !== undefined && (
+            <>
+              {(() => {
+                if (spot.models !== undefined) {
+                  return <p>Modelle: {spot.models.length}</p>;
+                }
+                return null;
+              })()}
+            </>
+          )}
           <br />
         </div>
       </div>
