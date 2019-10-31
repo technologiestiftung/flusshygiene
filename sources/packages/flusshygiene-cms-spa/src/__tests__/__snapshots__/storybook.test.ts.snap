@@ -41,7 +41,9 @@ exports[`Storyshots CardTile default 1`] = `
     <div
       className="content"
     >
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
       <br />
     </div>
   </div>
