@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/technologiestiftung/flusshygiene/issues"
   },
-  "homepage": "https://github.com/technologiestiftung/flusshygiene#readme"
+  "homepage": "https://github.com/technologiestiftung/flusshygiene#readme",
+  "devDependencies": {
+    "lerna": "^3.18.3"
+  }
 }
