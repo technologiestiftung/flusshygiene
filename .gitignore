@@ -149,4 +149,3 @@ $RECYCLE.BIN/
 .nfs*/.blackbox/pubring.gpg~
 /.blackbox/pubring.kbx~
 /.blackbox/secring.gpg
-/foo.txt
