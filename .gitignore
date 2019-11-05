@@ -108,7 +108,9 @@ crash.log
 # .tfvars files are managed as part of configuration and so should be included in
 # version control.
 #
-# example.tfvars
+
+# has currently to many secrets
+terraform.tfvars
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
 override.tf
@@ -149,3 +151,10 @@ $RECYCLE.BIN/
 .nfs*/.blackbox/pubring.gpg~
 /.blackbox/pubring.kbx~
 /.blackbox/secring.gpg
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace

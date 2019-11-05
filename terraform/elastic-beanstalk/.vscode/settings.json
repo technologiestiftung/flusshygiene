@@ -1,0 +1,25 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#3b7567",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#bd95ca",
+    "activityBarBadge.foreground": "#15202b",
+    "titleBar.activeBackground": "#2a5349",
+    "titleBar.inactiveBackground": "#2a534999",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveForeground": "#e7e7e799",
+    "statusBar.background": "#2a5349",
+    "statusBarItem.hoverBackground": "#3b7567",
+    "statusBar.foreground": "#e7e7e7"
+  },
+  "peacock.color": "#2a5349",
+  "terraform.languageServer": {
+    "enabled": true,
+    "args": []
+  },
+  "terraform.indexing": {
+    "enabled": false,
+    "liveIndexing": false
+  }
+}
