@@ -1,0 +1,35 @@
+name: Docker Image Build Test CI
+
+on:
+  # push:
+  #   paths:
+  #     - "Dockerfile"
+  #     - ".dockerignore"
+  #     - ".github/workflows/*.yml"
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - ".github/workflows/*.yml"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+      - name: Docker login and build
+        # uses: actions/docker/login@master
+        env:
+          BUILD_DATE: "2019-09-19"
+          # BUILD_DATE: ${{secrets.BUILD_DATE }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          CI: true
+      # - name: Docker build image
+        # uses: actions/docker/cli-multi@master
+        run: |
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --tag "${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev" .
+          # docker push "${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"
+        # with:
+        #   args: '"build  --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ."'
