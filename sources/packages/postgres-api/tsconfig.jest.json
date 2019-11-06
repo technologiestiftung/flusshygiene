@@ -1,0 +1,16 @@
+{
+  "exclude": [
+    "node_modules",
+    ".vscode",
+    "dist",
+    "ormconfig.js",
+    "src/types",
+    "tmp-store",
+    "examples",
+    "__mocks__"
+  ],
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true
+  }
+}

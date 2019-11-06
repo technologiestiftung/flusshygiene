@@ -1,0 +1,13 @@
+pull_request_rules:
+  - name: automatic merge on CI success and review
+    conditions:
+      - status-success=continuous-integration/travis-ci/pr
+      - status-success=codeclimate
+      - status-success=codeclimate
+      - status-success=build (8.x)
+      - status-success=build (10.x)
+      - status-success=build (12.x)
+      - status-success=Build
+    actions:
+      merge:
+        method: merge
