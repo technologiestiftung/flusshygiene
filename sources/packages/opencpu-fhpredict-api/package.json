@@ -1,0 +1,20 @@
+{
+  "name": "@tsb/opencpu-fhpredict-api",
+  "version": "0.8.0",
+  "description": "This is a docker setup to run an opencpu API serving the kwb-r/fhpredict package for the Flusshygiene project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api/issues"
+  },
+  "homepage": "https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api#readme"
+}

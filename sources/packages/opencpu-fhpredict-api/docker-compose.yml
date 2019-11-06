@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  flusshygiene-opencpu-fhpredict-api:
+    container_name: flusshygiene-opencpu-fhpredict-api
+    env_file: ./.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8004:8004
