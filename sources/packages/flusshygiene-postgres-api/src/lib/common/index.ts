@@ -1,5 +1,5 @@
 import { ValidationError } from 'class-validator';
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { Region } from '../../orm/entity/Region';
 import { User } from '../../orm/entity/User';
@@ -53,6 +53,12 @@ export type getResponse = (request: Request, response: Response) => void;
 // export type getCollectionResponse = (request: Request, response: Response) => void;
 export type putResponse = (request: Request, response: Response) => void;
 export type deleteResponse = (request: Request, response: Response) => void;
+
+export type middlewareFunc = (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => void;
 
 // responder.ts
 export type Responder = (
