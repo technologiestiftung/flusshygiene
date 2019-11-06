@@ -159,3 +159,4 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 *.code-workspace
 /sources/packages/radolan-api/serverless.yml
+/sources/packages/radolan-api/.env
