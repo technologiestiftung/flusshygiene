@@ -1,0 +1,238 @@
+//  how to do scss with create-react-app
+// see https://facebook.github.io/create-react-app/docs/adding-a-sass-stylesheet
+// docs for bulma
+// https://bulma.io/
+@import './variables.scss';
+@import './fonts.scss';
+@import 'bulma/sass/utilities/initial-variables';
+@import 'bulma/sass/utilities/functions';
+
+//
+$primary: hsl(231, 52%, 31%);
+$radius-small: 0px;
+$radius: 0px;
+$radius-large: 0px;
+$radius-rounded: 0px;
+
+// $primary: $turquoise
+// $link: $blue
+// $info: $cyan
+// $success: $green
+// $warning: $yellow
+// $danger: $red
+// $dark: $grey-darker
+// $text: $grey-dark
+// $family-primary: $family-sans-serif;
+@import '~bulma/bulma.sass';
+@import '~bulma-extensions/bulma-pageloader/src/sass/index.sass';
+@import './bulma-css-burger.scss';
+@import './type-scale.scss';
+@import './spinner.scss';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  background-color: $background-color;
+  font-weight: 400;
+}
+
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+
+body {
+  color: $foreground-color;
+
+  header {
+    background-color: $background-color;
+    color: black;
+    padding-bottom: 1rem;
+    .navbar {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  #map {
+    background-color: $background-color;
+  }
+
+  main {
+    padding-top: 2rem;
+    // padding: 2em 1em;
+  }
+
+  footer.footer {
+    background-color: $primary;
+    max-height: 50px !important;
+    height: 50px !important;
+    padding: 3rem 1.5rem 2rem;
+    margin-top: 3rem;
+  }
+}
+
+span.asteriks {
+  font-weight: 700;
+}
+
+// profile
+
+//spot
+
+.buttons__spot-actions--size {
+  // flex-basis: 100%;
+  .button {
+    max-width: 150px;
+    flex: 1 1 0;
+    text-overflow: ellipsis;
+  }
+}
+// card
+
+.card__profile--pad {
+  margin: 0.5rem;
+}
+
+.media-content > .title {
+  // white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis !important;
+}
+
+// spoteditor
+
+.form__checkbox--distance {
+  padding-left: 1em;
+}
+
+// navbar
+
+.navbar-item--is-active {
+  // font-weight: 800;
+  text-decoration: underline;
+}
+
+// map
+
+$mapHeight: 400px;
+#map__container {
+  position: relative;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   bottom: 0;
+  width: 100%;
+  height: $mapHeight;
+}
+@import '~mapbox-gl/dist/mapbox-gl.css';
+#map__container > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $mapHeight;
+}
+
+// questionnaire
+
+.label__answer {
+  padding-left: 1rem;
+  display: inline;
+}
+
+// pagination questionaore
+
+.pagination {
+  margin-top: -0.75rem;
+}
+
+// banner
+.banner {
+  position: absolute;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fde073;
+  text-align: center;
+  line-height: 2.5;
+  overflow: hidden;
+}
+
+// report
+
+.report__answer {
+  padding-bottom: 2em;
+  border-top: 1px dashed gray;
+}
+
+// questionnaire colornames
+
+.questionnaire__color {
+  &--green {
+    color: rgb(1, 158, 1);
+  }
+  &--yellow {
+    color: #fdd700;
+    // background-color: black;
+  }
+  &--orange {
+    color: rgb(228, 129, 0);
+  }
+  &--turquoise {
+    color: rgb(51, 204, 171);
+  }
+  &--red {
+    color: rgb(199, 0, 0);
+  }
+}
+// icons
+
+.icon__color {
+  &--red {
+    color: red;
+  }
+}
+
+// pdfviewer
+
+.pdfviewer__parent {
+  position: relative;
+  height: 100%;
+}
+.pdfviewer {
+  position: absolute;
+  height: 100% important;
+}
+.container__pdf--fullpage {
+  height: 80vh;
+  .columns {
+    height: 100%;
+    //   .column {
+    //     height: 100vh;
+    //     position: relative;
+    //     iframe {
+    //       position: absolute;
+    //       height: 100% important;
+    //     }
+    //   }
+  }
+}
+
+// co
+
+// .spot__calib-notification--on-top {
+//   position: absolute;
+//   top: 1rem;
+//   right: 1rem;
+//   height: 50px;
+//   text-align: center;
+//   z-index: 101;
+//   box-shadow: 1px 1px 1px 1px $foreground-color;
+// }

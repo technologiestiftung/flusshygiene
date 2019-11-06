@@ -1,0 +1,60 @@
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung"
+  ],
+  [
+    4,
+    "Erreichbarkeit/ Zugang zur Badestelle ",
+    "Ortsbegehung",
+    null,
+    "Sind ausreichend große Flächen für Fahrradstellplätze vorhanden?",
+    null,
+    "Je 200 m2 Landfläche sind mehr als 2 Fahrrad-Stellplätze vorhanden.",
+    "Perfekt.",
+    "Keine weiteren Aktionen notwendig.",
+    "grün",
+    1,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Je 200 m2 Landfläche sind weniger als 2 Fahrrad-Stellplätze vorhanden.",
+    "Hier sollte mit dem Eigentümer der (angrenzenden) Landfläche bzw. dem Straßen- und Grünflächenamt (wenn Grünflächen oder öffentliches Straßenland betroffen sind) über die Einrichtung weiterer Stellplätze verhandelt werden. Es fallen ggf. Investitionen an.",
+    "Mit dem Eigentümer der (angrenzenden) Landfläche bzw. dem Straßen- und Grünflächenamt (wenn Grünflächen oder öffentliches Straßenland betroffen sind) sollte über die Einrichtung weiterer Fahrrad-Stellplätze verhandelt werden. Es fallen ggf. Investitionen an.",
+    "gelb",
+    0.6,
+    "Infrastruktur"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Es ist keine Fläche für Fahrrad-Stellplätze vorhanden.",
+    "Hier sollte mit dem Eigentümer der (angrenzenden) Landfläche bzw. dem Straßen- und Grünflächenamt (wenn Grünflächen oder öffentliches Straßenland betroffen sind) über die Einrichtung weiterer Stellplätze verhandelt werden. Es fallen ggf. Investitionen an.",
+    "Mit dem Eigentümer der (angrenzenden) Landfläche bzw. dem Straßen- und Grünflächenamt (wenn Grünflächen oder öffentliches Straßenland betroffen sind) sollte über die Einrichtung weiterer Fahrrad-Stellplätze verhandelt werden. Es fallen ggf. Investitionen an.",
+    "orange",
+    0.3,
+    "Infrastruktur"
+  ],
+  [null, null, null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null, null, null]
+]

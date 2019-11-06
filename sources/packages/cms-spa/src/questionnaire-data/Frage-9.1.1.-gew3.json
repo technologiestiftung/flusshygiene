@@ -1,0 +1,60 @@
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung"
+  ],
+  [
+    3,
+    "Erforderliche Infrastruktur ",
+    "Ortsbegehung",
+    null,
+    "Existieren nutzbare Sanitäranlagen in der Nähe der Badestelle?",
+    "Die Errichtung von Sanitäranlagen ist für die Verhinderung negativer Auswirkungen auf die Badegewässerqualität oder auf Badende nach EG-Badegewässerrichtlinie (2006) notwendig. Informationen zur Ausstattung einer Badestelle sind hier zu finden: \r\nSichere Ruhr Leitfaden - Baden in Fließgewässern:Teil II, Kapitel 2.5. \r\n\r\nEröffnung neuer Flussbadestellen - Praxisleitfaden am Beispiel der Berliner Vorstadtspree:\r\n3.1. Infrastrukturausstattung",
+    "Öffentlich zugängliche Sanitäranlagen sind in weniger als 300 m in ausstreichender Kapazität und Größe vorhanden und können auch genutzt werden.",
+    "Perfekt.",
+    "Keine weiteren Aktionen notwendig.",
+    "grün",
+    1,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Öffentlich zugängliche Sanitäranlagen sind in weniger als 300 m mit eingeschränkter Kapazität und Größe vorhanden bzw. nutzbar.",
+    "Mit dem Eigentümer der Sanitäranlagen ist zu verhandeln, wie in diesem Fall vorgegangen werden sollte. Wahrscheinlich sind Investitionen in einen Ausbau der Anlagen erforderlich.",
+    "Mit dem Eigentümer der Sanitäranlagen ist zu verhandeln, wie in diesem Fall vorgegangen werden sollte. Wahrscheinlich sind Investitionen in einen Ausbau der Anlagen erforderlich.",
+    "orange",
+    0.3,
+    "Verhandlung"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Ausreichende Sanitäranlagen sind in einem Umkreis von 300 m nicht vorhanden bzw. nutzbar.",
+    "Es muss geprüft werden, inwieweit sich an dem anvisierten Standort angemessene Sanitäreanlagen einrichten ließen. \r\n",
+    "Es muss geprüft werden, inwieweit sich an dem anvisierten Standort angemessene Sanitäreanlagen einrichten ließen. \r\n",
+    "orange",
+    0.3,
+    "Infrastruktur"
+  ],
+  [null, null, null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null, null, null]
+]

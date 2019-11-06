@@ -1,0 +1,47 @@
+ul {
+  &.report__list {
+    li.report__list-item {
+      & a {
+        color: $foreground-color;
+      }
+
+      .report__list-item-question,
+      .report__list-item-answer {
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+
+      &:nth-child(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .report__list-item-question {
+        padding-top: 1em;
+        padding-bottom: 1em;
+        font-weight: 600;
+      }
+
+      .report__list-item-answer {
+        padding-bottom: 1em;
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      &:nth-child(odd):hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+.bathingspot__body-addon {
+  ul {
+    list-style: none;
+
+    li {
+      list-style: none;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+form {
+  &.questions__form {
+    width: 100%;
+    float: 'left';
+
+    .control {
+      .field {
+        input {
+          margin-right: 2em;
+        }
+
+        label {
+          display: inline;
+          // margin-bottom: 2em;
+        }
+      }
+    }
+  }
+}
+
+@for $i from 0 through 10 {
+  .answer__add--#{$i} {
+    display: none;
+  }
+
+  #answer--#{$i}::hover ~ .answer__add--#{$i} {
+    display: flex;
+  }
+
+  #answer--#{$i}::checked ~ .answer__add--#{$i} {
+    display: flex;
+  }
+}

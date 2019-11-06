@@ -1,0 +1,5 @@
+{
+  "domain": "you.eu.auth0.com",
+  "clientId": "123456",
+  "audience": "your-audience"
+}

@@ -1,0 +1,157 @@
+{
+  "name": "cms-spa",
+  "version": "0.12.1",
+  "private": true,
+  "dependencies": {
+    "@auth0/auth0-spa-js": "^1.2.4",
+    "@deck.gl/core": "^7.2.3",
+    "@deck.gl/layers": "^7.2.3",
+    "@deck.gl/react": "^7.2.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.22",
+    "@fortawesome/free-solid-svg-icons": "^5.10.2",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "@nebula.gl/layers": "^0.15.0-alpha.7",
+    "@react-pdf/renderer": "^1.6.6",
+    "@react-pdf/styled-components": "^1.4.0",
+    "@storybook/addon-info": "^5.1.11",
+    "@testing-library/react": "^9.1.3",
+    "@turf/difference": "^6.0.2",
+    "@types/auth0": "^2.9.21",
+    "@types/file-saver": "^2.0.1",
+    "@types/jest": "24.0.18",
+    "@types/lodash": "^4.14.138",
+    "@types/lodash.differenceby": "^4.8.6",
+    "@types/lodash.throttle": "^4.1.6",
+    "@types/node": "^12.12.3",
+    "@types/papaparse": "^5.0.1",
+    "@types/react": "16.9.2",
+    "@types/react-copy-to-clipboard": "^4.2.6",
+    "@types/react-dom": "16.9.0",
+    "@types/react-helmet": "^5.0.12",
+    "@types/react-map-gl": "^5.0.0",
+    "@types/react-redux": "^7.1.2",
+    "@types/react-router-dom": "^4.3.5",
+    "@types/storybook__addon-storyshots": "^5.1.1",
+    "@types/storybook__react": "^4.0.2",
+    "@types/turndown": "^5.0.0",
+    "abortcontroller-polyfill": "^1.3.0",
+    "bulma": "^0.7.5",
+    "bulma-extensions": "^6.2.7",
+    "eslint": "^6.2.2",
+    "file-saver": "^2.0.2",
+    "formik": "^2.0.1-rc.13",
+    "http-proxy-middleware": "^0.19.1",
+    "lodash.differenceby": "^4.8.0",
+    "lodash.throttle": "^4.1.1",
+    "nebula.gl": "^0.15.0-alpha.7",
+    "node-sass": "^4.12.0",
+    "papaparse": "^5.0.2",
+    "react": "^16.9.0",
+    "react-app-polyfill": "^1.0.3",
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-dom": "^16.9.0",
+    "react-helmet": "^5.2.1",
+    "react-map-gl": "^5.0.10",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.1.1",
+    "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "titlecase": "^1.1.3",
+    "turndown": "^5.0.3",
+    "turndown-plugin-gfm": "^1.0.2",
+    "typescript": "^3.6.3",
+    "yup": "^0.27.0"
+  },
+  "scripts": {
+    "add:version": "node build-tools/version.js",
+    "prebuild": "npm run add:version",
+    "start": "react-app-rewired start",
+    "build": "GENERATE_SOURCEMAP=false react-app-rewired build --max-old-space-size=4096",
+    "build:test": "node build-tools/index.js",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "validate": "npm run prettier -- --list-different",
+    "lint-staged": "lint-staged",
+    "test:coverage": "CI=true npm t -- --coverage --watchAll=false --color",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "IE 11",
+      "IE 10",
+      "IE 9"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "IE 11",
+      "IE 10",
+      "IE 9"
+    ]
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addon-storyshots": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/react": "^5.1.11",
+    "@testing-library/jest-dom": "^4.1.0",
+    "@types/yup": "^0.26.23",
+    "babel-plugin-macros": "^2.6.1",
+    "customize-cra": "^0.8.0",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react-hooks": "^2.0.1",
+    "husky": "^3.0.8",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
+    "react-app-rewired": "^2.1.3",
+    "react-test-renderer": "^16.9.0",
+    "require-context.macro": "^1.1.1",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.3.0"
+  },
+  "jest": {
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": -10
+      }
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/__test-utils",
+      "!**/coverage/**",
+      "!src/setup/**",
+      "!src/react-auth0-wrapper.tsx",
+      "!src/serviceWorker.ts",
+      "!src/stories/**"
+    ]
+  },
+  "//proxy": "http://localhost:3003",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run add:version && npm run lint-staged"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

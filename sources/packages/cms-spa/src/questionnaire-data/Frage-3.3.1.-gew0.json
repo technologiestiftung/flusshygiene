@@ -1,0 +1,47 @@
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung",
+    "wennAntwortoptionDannZu"
+  ],
+  [
+    0,
+    "Wasserqualität",
+    null,
+    null,
+    "Besteht Verschmutzungsgefahr bei Starkregenereignissen?",
+    "Verschmutzungsereignisse durch Starkregen können zu einem Badeverbot führen bzw. dazu, dass die zuständige Behörde vom Baden in einem Badegewässer abrät, um die Gesundheit der Badenden zu schützen. Besonders an Flüssen treten häufig Verschmutzungsereignissen nach Starkregenfällen auf. ",
+    "Ja ",
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Frage-3.3.2.-gew3"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Nein",
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Frage-3.3.3.-gew3"
+  ]
+]
