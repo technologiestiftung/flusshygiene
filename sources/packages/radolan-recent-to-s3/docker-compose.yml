@@ -1,0 +1,7 @@
+version: '3'
+services:
+  radloanrecent:
+    container_name: radloan-recent-scraper
+    image: technologiestiftung/flusshygiene-radolan-recent:v2.0.1
+    env_file:
+      - .env

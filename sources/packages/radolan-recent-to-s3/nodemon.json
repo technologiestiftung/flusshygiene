@@ -1,0 +1,17 @@
+{
+    "ignore": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        ".git",
+        "node_modules/**/node_modules"
+    ],
+    "watch": ["./src"],
+    "exec": "./node_modules/.bin/tsc -p .",
+    "ext": "ts,json",
+    "restartable": "rs",
+    "verbose": true,
+    "env": {
+        "NODE_ENV": "development",
+        "NODE_DOCKER_ENV": "0"
+      }
+}

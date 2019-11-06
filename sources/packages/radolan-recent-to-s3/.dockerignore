@@ -1,0 +1,11 @@
+test
+dist
+node_modules
+tmp
+.env
+*.log
+docker-compose.yml
+example.env
+LICENSE
+nodemon.json
+README.md
