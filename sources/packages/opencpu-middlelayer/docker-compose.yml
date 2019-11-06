@@ -1,0 +1,19 @@
+version: "3"
+services:
+  redis:
+    image: 'redis:5.0.6'
+    ports:
+      - '6379:6379'
+  middlelayer:
+    depends_on:
+      - redis
+    ports:
+      - "${REDIS_EXPRESS_PORT_DEV}:${REDIS_EXPRESS_PORT_DEV}"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=devlopment
+      - OCPU_API_HOST_DEV=$OCPU_API_HOST_DEV
+      - SESSION_SECRET_DEV=$SESSION_SECRET_DEV
+      - REDIS_EXPRESS_PORT_DEV=$REDIS_EXPRESS_PORT_DEV

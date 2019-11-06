@@ -1,5 +1,5 @@
 {
-  "name": "cms-spa",
+  "name": "@tsb/cms-spa",
   "version": "0.12.1",
   "private": true,
   "dependencies": {
