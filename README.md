@@ -9,6 +9,7 @@ This is the the source for the web application of the project Flusshygiene.
 
 - [Flusshygiene](#flusshygiene)
   - [Prerequisites](#prerequisites)
+    - [blackbox](#blackbox)
     - [auth0.com](#auth0com)
     - [AWS](#aws)
     - [Docker](#docker)
@@ -36,6 +37,12 @@ This is the the source for the web application of the project Flusshygiene.
   - docker installed
 - terraform installed
 - serverless installed
+- blackbox installed (optional)
+
+
+### blackbox
+
+encrypt decrypt secrets
 
 ### auth0.com
 
