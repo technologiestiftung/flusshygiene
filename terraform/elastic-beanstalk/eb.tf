@@ -48,13 +48,16 @@ module "elastic_beanstalk_environment" {
   autoscale_upper_bound     = "${var.autoscale_upper_bound}"
   autoscale_upper_increment = "${var.autoscale_upper_increment}"
 
+  loadbalancer_certificate_arn = "${var.ssl_cert_arn}"
+
+  loadbalancer_ssl_policy     = "${var.loadbalancer_ssl_policy}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
   vpc_id                      = "${var.vpc_id}"
   loadbalancer_subnets        = "${module.subnets.public_subnet_ids}"
   application_subnets         = "${module.subnets.public_subnet_ids}"
   # ⤴ should be like the one below for production ⤵
   # application_subnets         = "${module.subnets.private_subnet_ids}"
-  allowed_security_groups     = ["${data.aws_security_group.default.id}", "${data.aws_security_group.rds.id}"]
+  allowed_security_groups = ["${data.aws_security_group.default.id}", "${data.aws_security_group.rds.id}"]
 
   rolling_update_enabled  = "${var.rolling_update_enabled}"
   rolling_update_type     = "${var.rolling_update_type}"

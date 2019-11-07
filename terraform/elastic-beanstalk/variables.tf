@@ -1,6 +1,6 @@
 variable "region" {
   description = "The region to deploy the RDS instances in"
-  default = "eu-central-1"
+  default     = "eu-central-1"
 }
 variable "profile" {}
 variable "vpc_id" {}
@@ -9,6 +9,9 @@ variable "rds_identifier" {}
 variable "security_group_rds_id" {}
 variable "cluster_id" {}
 variable "upload_bucket" {}
+variable "ssl_cert_arn" {}
+variable "loadbalancer_ssl_policy" {}
+variable "domain" {}
 
 variable "associate_public_ip_address" {}
 
@@ -23,7 +26,7 @@ variable "ssh_listener_enabled" {}
 
 
 variable "namespace" {
-  default = "flsshygn"
+  default     = "flsshygn"
   description = "Namespace, which could be your organization name, e.g. 'eg' or 'cp'"
 }
 
