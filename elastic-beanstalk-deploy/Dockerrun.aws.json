@@ -69,7 +69,7 @@
           "containerPort": 80
         }
       ],
-      "links": ["api", "spa", "ocpu", "middlelayer"]
+      "links": ["api:api", "spa:spa", "ocpu:ocpu", "middlelayer:middlelayer"]
     }
   ]
 }
