@@ -17,7 +17,7 @@ jobs:
           cd sources/packages/nginx-gateway/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-nginx-gateway:${GITHUB_REF##*/}-dev" .
-          docker push "${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"
+          docker push "${GITHUB_REPOSITORY}-nginx-gateway:${GITHUB_REF##*/}-dev"
 
       # - name: Build and push the image
         # uses: actions/docker/cli-multi@master
