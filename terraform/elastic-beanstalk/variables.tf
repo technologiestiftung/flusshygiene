@@ -12,7 +12,7 @@ variable "upload_bucket" {}
 variable "ssl_cert_arn" {}
 variable "loadbalancer_ssl_policy" {}
 variable "domain" {}
-
+variable "keypair_name" {}
 variable "associate_public_ip_address" {}
 
 variable "current_host" {

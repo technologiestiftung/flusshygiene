@@ -70,6 +70,7 @@ module "elastic_beanstalk_environment" {
   enable_stream_logs   = "${var.enable_stream_logs}"
   ssh_listener_enabled = "${var.ssh_listener_enabled}"
 
+  keypair = "${var.keypair_name}"
   // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html
   // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html#platforms-supported.docker
   solution_stack_name = "${var.solution_stack_name}"
