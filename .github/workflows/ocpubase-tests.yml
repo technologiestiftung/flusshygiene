@@ -1,0 +1,27 @@
+name: OPENCPU BASE test and build
+env:
+  SUFFIX: "opencpu-base"
+on:
+  push:
+    paths:
+      - '.github/workflows/ocpubase-tests.yml'
+      - 'sources/packages/opencpu-base/Dockerfile'
+      - 'sources/packages/opencpu-base/.dockerignore'
+      - 'sources/packages/opencpu-base/package*.json'
+  pull_request:
+    paths:
+      - '.github/workflows/ocpubase-tests.yml'
+      - 'sources/packages/opencpu-base/Dockerfile'
+      - 'sources/packages/opencpu-base/.dockerignore'
+      - 'sources/packages/opencpu-base/package*.json'
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Get te source
+        uses: actions/checkout@v1
+      - name: image build test
+        run: |
+          cd sources/packages/opencpu-base/
+          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
