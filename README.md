@@ -3,11 +3,17 @@
 
 This is the the source for the web application of the project Flusshygiene.  
 
+## CI Status
+![](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/spa-test.yml/badge.svg)  
+
+<!-- https://github.com/<OWNER>/<REPOSITORY>/workflows/<WORKFLOW_FILE_PATH>/badge.svg -->
+
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
 - [Flusshygiene](#flusshygiene)
+  - [CI Status](#ci-status)
   - [Prerequisites](#prerequisites)
     - [blackbox](#blackbox)
     - [auth0.com](#auth0com)
