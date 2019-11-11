@@ -1,4 +1,4 @@
-name: Node CI Test
+name: CMS SPA test and build
 on:
   push:
     paths:
@@ -27,5 +27,6 @@ jobs:
           cd sources/packages/cms-spa
           npm ci
           npm test
+          npm run build
         env:
           CI: "true"
