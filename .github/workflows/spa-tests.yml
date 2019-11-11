@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - 'sources/packages/cms-spa/src/*'
-      - '.github/workflows/spa-test.yml'
+      - '.github/workflows/spa-tests.yml'
       - 'sources/packages/cms-spa/Dockerfile'
       - 'sources/packages/cms-spa/.dockerignore'
       - 'sources/packages/cms-spa/server'
@@ -11,7 +11,7 @@ on:
   pull_request:
     paths:
       - 'sources/packages/cms-spa/src/*'
-      - '.github/workflows/spa-test.yml'
+      - '.github/workflows/spa-tests.yml'
       - 'sources/packages/cms-spa/Dockerfile'
       - 'sources/packages/cms-spa/.dockerignore'
       - 'sources/packages/cms-spa/server'
@@ -49,7 +49,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and test
+      - name: image build test
         run: |
           cd sources/packages/cms-spa
           docker build --label version=${GITHUB_REF##*/} --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}} --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}} --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}} --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}} --tag ${GITHUB_REPOSITORY}-cms-spa:${GITHUB_REF##*/}-dev .

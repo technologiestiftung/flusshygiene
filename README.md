@@ -4,7 +4,8 @@
 This is the the source for the web application of the project Flusshygiene.  
 
 ## CI Status
-![](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/spa-test.yml/badge.svg)  
+
+![SPA Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/spa-tests.yml/badge.svg)  
 
 <!-- https://github.com/<OWNER>/<REPOSITORY>/workflows/<WORKFLOW_FILE_PATH>/badge.svg -->
 

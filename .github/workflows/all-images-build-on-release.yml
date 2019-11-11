@@ -1,8 +1,13 @@
 name: Docker Image Builder
 
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 on: [release]
 jobs:
-  build:
+
+  nginx:
     runs-on: ubuntu-latest
     steps:
       - name: Get the source
@@ -10,16 +15,102 @@ jobs:
       - name: Docker login, build and push
         # uses: actions/docker/login@master
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+          SUFFIX: "nginx-gateway"
           CI: "true"
         run:  |
           cd sources/packages/nginx-gateway/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-nginx-gateway:${GITHUB_REF##*/}-dev" .
-          docker push "${GITHUB_REPOSITORY}-nginx-gateway:${GITHUB_REF##*/}-dev"
+          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
 
-      # - name: Build and push the image
-        # uses: actions/docker/cli-multi@master
-        # with:
-          # args: '"build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev ." "push ${GITHUB_REPOSITORY}:${GITHUB_REF##*/}-dev"'
+
+  cms-spa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+      - name: Docker login, build and push
+        # uses: actions/docker/login@master
+        env:
+
+          SUFFIX: "cms-spa"
+          CI: "true"
+        run:  |
+          cd sources/packages/cms-spa/
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --label version=${GITHUB_REF##*/} --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}} --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}} --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}} --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+
+
+  ocpu-base:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+      - name: Docker login, build and push
+        # uses: actions/docker/login@master
+        env:
+          BUILD_DATE: '2019-09-19'
+
+          SUFFIX: "opencpu-base"
+          CI: "true"
+        run:  |
+          cd sources/packages/opencpu-base/
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --label version=${GITHUB_REF##*/} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+
+
+  fhpredict:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+      - name: Docker login and build and push
+        # uses: actions/docker/login@master
+        env:
+
+          SUFFIX: "opencpu-fhpredict-api"
+          CI: "true"
+        run: |
+          cd sources/packages/opencpu-fhpredict-api/
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+
+
+  middlelayer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+
+      - name: Docker login, build and push
+        # uses: actions/docker/login@master
+        env:
+
+          SUFFIX: "opencpu-middlelayer"
+          CI: "true"
+        run:  |
+          cd sources/packages/opencpu-middlelayer/
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+
+  postgres-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+
+      - name: Docker login, build and push
+        env:
+
+          SUFFIX: "postgres-api"
+          CI: "true"
+        run: |
+          cd sources/packages/postgres-api/
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
