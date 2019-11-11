@@ -1,0 +1,31 @@
+name: FHPREDICT API test and build
+env:
+  SUFFIX: "opencpu-fhpredict-api"
+on:
+  push:
+    paths:
+      - '.github/workflows/fhpredictapi-tests.yml'
+      - 'sources/packages/opencpu-fhpredict-api/Dockerfile'
+      - 'sources/packages/opencpu-fhpredict-api/.dockerignore'
+      - 'sources/packages/opencpu-fhpredict-api/package*.json'
+      - 'sources/packages/opencpu-fhpredict-api/opencpu-config/*'
+      - 'sources/packages/opencpu-fhpredict-api/files/*'
+  pull_request:
+    paths:
+      - '.github/workflows/fhpredictapi-tests.yml'
+      - 'sources/packages/opencpu-fhpredict-api/Dockerfile'
+      - 'sources/packages/opencpu-fhpredict-api/.dockerignore'
+      - 'sources/packages/opencpu-fhpredict-api/package*.json'
+      - 'sources/packages/opencpu-fhpredict-api/opencpu-config/*'
+      - 'sources/packages/opencpu-fhpredict-api/files/*'
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Get te source
+        uses: actions/checkout@v1
+      - name: image build test
+        run: |
+          cd sources/packages/opencpu-fhpredict-api/
+          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
