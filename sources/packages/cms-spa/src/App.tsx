@@ -1,20 +1,21 @@
 import React from 'react';
-import NavBar from './components/Navbar';
-import Home from './components/Home';
-import { useAuth0 } from './lib/auth/react-auth0-wrapper';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+
+import Spot from './components/Spot';
 import Profile from './components/Profile';
 import PrivateRoute from './components/PrivateRoute';
-import ExternalApi from './components/ExternalApi';
-import Spot from './components/Spot';
+import NavBar from './components/Navbar';
 import Info from './components/Info';
-import { RouteNames } from './lib/common/enums';
+import Home from './components/Home';
 import history from './lib/history';
+import ExternalApi from './components/ExternalApi';
+import { useAuth0 } from './lib/auth/react-auth0-wrapper';
+import { Router, Route, Switch } from 'react-router-dom';
+import { RouteNames } from './lib/common/enums';
 import { QuestionsIntro } from './components/questionaire/QuestionsIntro';
 import { QA } from './components/questionaire/QA-entrypoint';
-import { Page404 } from './components/Page404';
 import { PDFPage } from './components/questionaire/ReportPDF';
-import { Helmet } from 'react-helmet';
+import { Page404 } from './components/Page404';
 
 const App: React.FC = () => {
   const { loading } = useAuth0();
