@@ -4,8 +4,7 @@ on:
     paths:
       - 'sources/packages/cms-spa/src/*'
       - '.github/workflows/spa-test.yml'
-on:
-   pull_request:
+  pull_request:
     paths:
       - 'sources/packages/cms-spa/src/*'
       - '.github/workflows/spa-test.yml'
