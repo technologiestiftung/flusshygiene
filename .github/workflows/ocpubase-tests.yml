@@ -1,6 +1,8 @@
 name: OPENCPU BASE test and build
 env:
   SUFFIX: "opencpu-base"
+  BUILD_DATE: "2019-09-19"
+
 on:
   push:
     paths:
@@ -24,4 +26,4 @@ jobs:
       - name: image build test
         run: |
           cd sources/packages/opencpu-base/
-          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker build --label version=${GITHUB_REF##*/} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
