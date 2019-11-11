@@ -8,4 +8,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8004:8004
-    env_file: ./.env
+    # env_file: ./.env
