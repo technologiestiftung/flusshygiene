@@ -1,0 +1,54 @@
+name: MIDDLELAYER test and build
+env:
+  SUFFIX: "opencpu-middlelayer"
+on:
+  push:
+    paths:
+      - '.github/workflows/middlelayer-tests.yml'
+      - 'sources/packages/opencpu-middlelayer/src/*'
+      - 'sources/packages/opencpu-middlelayer/__tests__/*'
+      - 'sources/packages/opencpu-middlelayer/package*.json'
+      - 'sources/packages/opencpu-middlelayer/Dockerfile'
+      - 'sources/packages/opencpu-middlelayer/.dockerignore'
+  pull_request:
+    paths:
+      - '.github/workflows/middlelayer-tests.yml'
+      - 'sources/packages/opencpu-middlelayer/src/*'
+      - 'sources/packages/opencpu-middlelayer/__tests__/*'
+      - 'sources/packages/opencpu-middlelayer/package*.json'
+      - 'sources/packages/opencpu-middlelayer/Dockerfile'
+      - 'sources/packages/opencpu-middlelayer/.dockerignore'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and test
+        run: |
+          cd sources/packages/${SUFFIX}
+          npm ci
+          npm test
+          npm run build
+        env:
+          CI: "true"
+
+  image:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v1
+      - name: image build test
+        run: |
+          cd sources/packages/${SUFFIX}
+          docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev .
+        env:
+          CI: "true"
