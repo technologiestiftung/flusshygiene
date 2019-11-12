@@ -4,8 +4,8 @@
   "description": "middlelayer between opencpu api and spa-cms",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --watchAll",
-    "test:ci": "jest",
+    "test:watch": "jest --watchAll",
+    "test": "jest",
     "start": "node dist/index",
     "dev": "nodemon",
     "build": "tsc -p .",

@@ -1,6 +1,7 @@
 name: MIDDLELAYER test and build
 env:
-  SUFFIX: "opencpu-middlelayer"
+  SUFFIX: opencpu-middlelayer
+  STAGE: dev
 on:
   push:
     paths:
@@ -34,7 +35,7 @@ jobs:
         run: |
           cd sources/packages/${SUFFIX}
           npm ci
-          npm test
+          npm test --ci --coverage
           npm run build
         env:
           CI: "true"

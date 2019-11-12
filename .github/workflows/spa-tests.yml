@@ -1,6 +1,8 @@
 name: CMS SPA test and build
 env:
   SUFFIX: cms-spa
+  STAGE: dev
+
 on:
   push:
     paths:
@@ -34,7 +36,7 @@ jobs:
         run: |
           cd sources/packages/${SUFFIX}
           npm ci
-          npm test
+          npm test --ci --coverage
           npm run build
         env:
           CI: "true"
