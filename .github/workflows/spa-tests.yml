@@ -2,6 +2,7 @@ name: CMS SPA test and build
 env:
   SUFFIX: cms-spa
   STAGE: dev
+  COMMIT_FILTER: "[skip-ci]"
 
 on:
   push:
@@ -27,6 +28,8 @@ jobs:
       matrix:
         node-version: [10.x, 12.x]
     steps:
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1

@@ -3,6 +3,7 @@ name: Docker Image Builder
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  COMMIT_FILTER: "[skip-ci]"
 
 on: [release]
 jobs:
@@ -10,6 +11,8 @@ jobs:
   nginx:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - name: Get the source
         uses: actions/checkout@v1
       - name: Docker login, build and push
@@ -28,6 +31,8 @@ jobs:
   cms-spa:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - name: Get the source
         uses: actions/checkout@v1
       - name: Docker login, build and push
@@ -46,6 +51,8 @@ jobs:
   ocpu-base:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - name: Get the source
         uses: actions/checkout@v1
       - name: Docker login, build and push
@@ -65,6 +72,8 @@ jobs:
   fhpredict:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - name: Get the source
         uses: actions/checkout@v1
       - name: Docker login and build and push
@@ -83,6 +92,8 @@ jobs:
   middlelayer:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - name: Get the source
         uses: actions/checkout@v1
 
@@ -101,6 +112,8 @@ jobs:
   postgres-api:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - name: Get the source
         uses: actions/checkout@v1
 

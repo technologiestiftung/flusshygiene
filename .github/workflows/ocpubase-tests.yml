@@ -2,6 +2,7 @@ name: OPENCPU BASE test and build
 env:
   SUFFIX: "opencpu-base"
   BUILD_DATE: "2019-09-19"
+  COMMIT_FILTER: "[skip-ci]"
 
 on:
   push:
@@ -20,7 +21,8 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - name: Get te source
         uses: actions/checkout@v1
       - name: image build test

@@ -1,5 +1,6 @@
 name: POSTGRES API test and build
 env:
+  COMMIT_FILTER: "[skip-ci]"
   SUFFIX: postgres-api
   STAGE: dev
   AWS_BUCKET_DEV: test
@@ -40,6 +41,8 @@ jobs:
       matrix:
         node-version: [10.x, 12.x]
     steps:
+      - name: Skip based on commit message
+        uses: veggiemonk/skip-commit@1.0.0
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
