@@ -5,7 +5,7 @@ This is the the source for the web application of the project Flusshygiene.
 
 ## CI Status
 
-![SPA Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/spa-tests.yml/badge.svg) ![NGINX Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/nginx-tests.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/technologiestiftung/flusshygiene/badge.svg?branch=master)](https://coveralls.io/github/technologiestiftung/flusshygiene?branch=master)
+[![Docker Image Builder Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/Docker%20Image%20Builder/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22Docker+Image+Builder%22) [![FHPREDICT Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/FHPREDICT%20API%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22FHPREDICT+API+test+and+build%22)  [![MIDDLELAYER Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/MIDDLELAYER%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22MIDDLELAYER+test+and+build%22) [![NGINX Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/NGINX%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22NGINX+test+and+build%22) [![OPENCPU BASE Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/OPENCPU%20BASE%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22OPENCPU+BASE+test+and+build%22) [![POSTGRES API Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/POSTGRES%20API%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22POSTGRES+API+test+and+build%22) [![CMS SPA Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/CMS%20SPA%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22CMS+SPA+test+and+build%22) [![Coverage Status](https://coveralls.io/repos/github/technologiestiftung/flusshygiene/badge.svg?branch=master)](https://coveralls.io/github/technologiestiftung/flusshygiene?branch=master)
 
 <!-- https://github.com/<OWNER>/<REPOSITORY>/workflows/<WORKFLOW_FILE_PATH>/badge.svg -->
 
@@ -21,13 +21,13 @@ This is the the source for the web application of the project Flusshygiene.
     - [AWS](#aws)
     - [Docker](#docker)
   - [Folder `terraform`](#folder-terraform)
-    - [Setup](#setup)
-    - [Deploy](#deploy)
+    - [Setup Terraform](#setup-terraform)
+    - [Deploy With Terraform](#deploy-with-terraform)
     - [Setup Postgres/Postgis RDS Database](#setup-postgrespostgis-rds-database)
-  - [Folder `sources`](#folder-sources)
+  - [Folder `packages`](#folder-packages)
   - [Folder `elastic-beanstalk-deply`](#folder-elastic-beanstalk-deply)
-    - [Setup](#setup-1)
-    - [Deploy](#deploy-1)
+    - [Setup EB](#setup-eb)
+    - [Deploy EB](#deploy-eb)
 
 <!-- /code_chunk_output -->
 
@@ -62,13 +62,13 @@ encrypt decrypt secrets
 ## Folder `terraform`
 
 
-### Setup
+### Setup Terraform
 
 - install terraform
 - aws credentials
 - fill in variables
 
-### Deploy
+### Deploy With Terraform
 
 Order of deployment:
 
@@ -98,14 +98,13 @@ cd pgapi
 npm run build && NODE_DOCKER_ENV=0 NODE_ENV=production FAST=true npm run populatedb
 ```
 
-## Folder `sources`
+## Folder `packages`
 
 - lerna
 
-
 ## Folder `elastic-beanstalk-deply`
 
-### Setup
+### Setup EB
 
 - Install `eb-cli`
 - setup your env 
@@ -115,7 +114,7 @@ npm run build && NODE_DOCKER_ENV=0 NODE_ENV=production FAST=true npm run populat
   - `eb use {ENV}`
   - `eb ssh --setup` to create ssh keys for your ec2 instances
 
-### Deploy
+### Deploy EB
 
 - deploy `eb deploy --profile flsshygn`
 
