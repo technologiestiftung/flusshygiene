@@ -61,7 +61,7 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
           parallel: true
-          path-to-lcov: ./sources/packages/${SUFFIX}/coverage/lcov.info
+          path-to-lcov: ./sources/packages/postgres-api/coverage/lcov.info
       - name: Coveralls Finished
         if: github.event_name == 'pull_request'
         uses: coverallsapp/github-action@v1.0.1
