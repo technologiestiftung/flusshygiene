@@ -6,19 +6,19 @@ on:
   push:
     paths:
       - '.github/workflows/middlelayer-tests.yml'
-      - 'sources/packages/opencpu-middlelayer/src/*'
-      - 'sources/packages/opencpu-middlelayer/__tests__/*'
-      - 'sources/packages/opencpu-middlelayer/package*.json'
-      - 'sources/packages/opencpu-middlelayer/Dockerfile'
-      - 'sources/packages/opencpu-middlelayer/.dockerignore'
+      - 'packages/opencpu-middlelayer/src/*'
+      - 'packages/opencpu-middlelayer/__tests__/*'
+      - 'packages/opencpu-middlelayer/package*.json'
+      - 'packages/opencpu-middlelayer/Dockerfile'
+      - 'packages/opencpu-middlelayer/.dockerignore'
   pull_request:
     paths:
       - '.github/workflows/middlelayer-tests.yml'
-      - 'sources/packages/opencpu-middlelayer/src/*'
-      - 'sources/packages/opencpu-middlelayer/__tests__/*'
-      - 'sources/packages/opencpu-middlelayer/package*.json'
-      - 'sources/packages/opencpu-middlelayer/Dockerfile'
-      - 'sources/packages/opencpu-middlelayer/.dockerignore'
+      - 'packages/opencpu-middlelayer/src/*'
+      - 'packages/opencpu-middlelayer/__tests__/*'
+      - 'packages/opencpu-middlelayer/package*.json'
+      - 'packages/opencpu-middlelayer/Dockerfile'
+      - 'packages/opencpu-middlelayer/.dockerignore'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm install and test
         run: |
-          cd sources/packages/${SUFFIX}
+          cd packages/${SUFFIX}
           npm ci
           npm test --ci --coverage
           npm run build
@@ -45,7 +45,7 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
           parallel: true
-          path-to-lcov: ./sources/packages/opencpu-middlelayer/coverage/lcov.info
+          path-to-lcov: ./packages/opencpu-middlelayer/coverage/lcov.info
       - name: Coveralls Finished
         if: github.event_name == 'pull_request'
         uses: coverallsapp/github-action@v1.0.1
@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@v1
       - name: image build test
         run: |
-          cd sources/packages/${SUFFIX}
+          cd packages/${SUFFIX}
           docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev .
         env:
           CI: "true"

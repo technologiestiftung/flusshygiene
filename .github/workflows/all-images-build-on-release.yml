@@ -19,7 +19,7 @@ jobs:
           SUFFIX: "nginx-gateway"
           CI: "true"
         run:  |
-          cd sources/packages/nginx-gateway/
+          cd packages/nginx-gateway/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
@@ -37,7 +37,7 @@ jobs:
           SUFFIX: "cms-spa"
           CI: "true"
         run:  |
-          cd sources/packages/cms-spa/
+          cd packages/cms-spa/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}} --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}} --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}} --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
@@ -56,7 +56,7 @@ jobs:
           SUFFIX: "opencpu-base"
           CI: "true"
         run:  |
-          cd sources/packages/opencpu-base/
+          cd packages/opencpu-base/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
@@ -74,7 +74,7 @@ jobs:
           SUFFIX: "opencpu-fhpredict-api"
           CI: "true"
         run: |
-          cd sources/packages/opencpu-fhpredict-api/
+          cd packages/opencpu-fhpredict-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
@@ -93,7 +93,7 @@ jobs:
           SUFFIX: "opencpu-middlelayer"
           CI: "true"
         run:  |
-          cd sources/packages/opencpu-middlelayer/
+          cd packages/opencpu-middlelayer/
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
@@ -110,7 +110,7 @@ jobs:
           SUFFIX: "postgres-api"
           CI: "true"
         run: |
-          cd sources/packages/postgres-api/
+          cd packages/postgres-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"

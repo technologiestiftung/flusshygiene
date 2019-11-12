@@ -1,8 +1,0 @@
-name: Issues to Project Board
-on:
-  issues:
-    jobs:
-      steps:
-        - name: Foo
-          run: echo "foo"
-          if: github.event == 'opened'

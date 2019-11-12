@@ -5,19 +5,19 @@ on:
   push:
     paths:
       - '.github/workflows/nginx-tests.yml'
-      - 'sources/packages/nginx-gateway/Dockerfile'
-      - 'sources/packages/nginx-gateway/.dockerignore'
-      - 'sources/packages/nginx-gateway/default.conf'
-      - 'sources/packages/nginx-gateway/timeout.conf'
-      - 'sources/packages/nginx-gateway/package*.json'
+      - 'packages/nginx-gateway/Dockerfile'
+      - 'packages/nginx-gateway/.dockerignore'
+      - 'packages/nginx-gateway/default.conf'
+      - 'packages/nginx-gateway/timeout.conf'
+      - 'packages/nginx-gateway/package*.json'
   pull_request:
     paths:
       - '.github/workflows/nginx-tests.yml'
-      - 'sources/packages/nginx-gateway/Dockerfile'
-      - 'sources/packages/nginx-gateway/.dockerignore'
-      - 'sources/packages/nginx-gateway/default.conf'
-      - 'sources/packages/nginx-gateway/timeout.conf'
-      - 'sources/packages/nginx-gateway/package*.json'
+      - 'packages/nginx-gateway/Dockerfile'
+      - 'packages/nginx-gateway/.dockerignore'
+      - 'packages/nginx-gateway/default.conf'
+      - 'packages/nginx-gateway/timeout.conf'
+      - 'packages/nginx-gateway/package*.json'
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -27,5 +27,5 @@ jobs:
         uses: actions/checkout@v1
       - name: image build test
         run: |
-          cd sources/packages/nginx-gateway/
+          cd packages/nginx-gateway/
           docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
