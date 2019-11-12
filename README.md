@@ -5,7 +5,7 @@ This is the the source for the web application of the project Flusshygiene.
 
 ## CI Status
 
-![SPA Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/spa-tests.yml/badge.svg) ![NGINX Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/nginx-tests.yml/badge.svg)  
+![SPA Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/spa-tests.yml/badge.svg) ![NGINX Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/.github/workflows/nginx-tests.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/technologiestiftung/flusshygiene/badge.svg?branch=master)](https://coveralls.io/github/technologiestiftung/flusshygiene?branch=master)
 
 <!-- https://github.com/<OWNER>/<REPOSITORY>/workflows/<WORKFLOW_FILE_PATH>/badge.svg -->
 
