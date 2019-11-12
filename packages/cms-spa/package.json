@@ -1,6 +1,6 @@
 {
   "name": "@tsb/cms-spa",
-  "version": "0.12.1",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.2.4",

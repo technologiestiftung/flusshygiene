@@ -1,10 +1,12 @@
 {
   "name": "@tsb/radolan-api",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
-  "engines" : { "node" : ">=10" },
-  "engineStrict" : true,
+  "engines": {
+    "node": ">=10"
+  },
+  "engineStrict": true,
   "scripts": {
     "pretest": "npm run build",
     "test": "tap",
