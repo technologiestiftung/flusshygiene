@@ -29,10 +29,11 @@ export const getUserBathingspots: getResponse = async (request, response) => {
     if (user === undefined) {
       responderWrongId(response);
     } else {
-      const limit: number =
+      let limit: number =
         request.query.limit === undefined
           ? Pagination.limit
           : parseInt(request.query.limit, 10);
+      limit = limit > Pagination.limit ? Pagination.limit : limit;
       const skip: number =
         request.query.skip === undefined
           ? Pagination.skip
