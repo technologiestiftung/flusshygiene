@@ -1,19 +1,15 @@
-/**
- * Use this layout for creating new integration tests
- * that use the API auth0 authentification
- */
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection } from 'typeorm';
-import routes from '../../src/lib/routes';
+import routes from '../../../src/lib/routes';
 import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
   readTokenFromDisc,
-} from '../test-utils';
+} from '../../test-utils';
 import * as path from 'path';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
@@ -31,7 +27,7 @@ const headers = {
   authorization: `${token.token_type} ${token.access_token}`,
 };
 
-describe('misc functions that need a DB', () => {
+describe.only('Testing bathingspot limits', () => {
   let app: Application;
   let connections: Connection[];
 
@@ -75,10 +71,37 @@ describe('misc functions that need a DB', () => {
   // ██████╔╝╚██████╔╝██║ ╚████║███████╗
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
-  test('route get user by id', async (done) => {
-    const res = await request(app).get('/api/v1/users/');
-    expect(res.status).toBe(200);
+  test('get bathingspots with limit', async (done) => {
+    const ures = await request(app)
+      .post('/api/v1/users')
+      .send({
+        firstName: 'foo',
+        lastName: 'bah',
+        role: 'creator',
+        email: 'foo@bah.com',
+      })
+      .set(headers);
+    // console.log(ures.body.data);
+    const user = ures.body.data[0];
+    for (let i = 0; i < 60; i++) {
+      await request(app)
+        .post(`/api/v1/users/${user.id}/bathingspots/`)
+        .send({ name: `foo-${i}`, isPublic: true })
+        .set(headers);
+    }
+
+    const res = await request(app)
+      .get(`/api/v1/users/${user.id}/bathingspots?limit=100&skip=0`)
+      .set(headers);
+    const resNoLimits = await request(app)
+      .get(`/api/v1/users/${user.id}/bathingspots`)
+      .set(headers);
+
     expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.status).toBe(200);
+    expect(res.body.data.length).toBeLessThanOrEqual(50);
+    expect(resNoLimits.body.data.length).toBeLessThanOrEqual(50);
+
     done();
   });
 });
