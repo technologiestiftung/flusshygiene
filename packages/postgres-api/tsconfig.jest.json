@@ -11,6 +11,7 @@
   ],
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["jest", "node"]
   }
 }

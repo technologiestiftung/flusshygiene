@@ -1,3 +1,7 @@
+/**
+ * Use this layout for creating new integration tests
+ * that use the API auth0 authentification
+ */
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
@@ -8,7 +12,9 @@ import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
+  readTokenFromDisc,
 } from '../test-utils';
+import * as path from 'path';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -16,6 +22,14 @@ import {
 // ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+
+const token = readTokenFromDisc(
+  path.resolve(__dirname, '../../.test.token.json'),
+);
+const headers = {
+  Accept: 'application/json',
+  authorization: `${token.token_type} ${token.access_token}`,
+};
 
 describe('misc functions that need a DB', () => {
   let app: Application;

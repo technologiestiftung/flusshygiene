@@ -38,6 +38,6 @@ module.exports = {
       statements: 75,
     },
   },
-  preset: 'ts-jest/presets/js-with-babel',
+  preset: 'ts-jest',
   testMatch: null,
 };
