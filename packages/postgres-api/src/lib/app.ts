@@ -9,7 +9,20 @@ import routes from './routes';
 
 const app = express();
 
-createConnection();
+try {
+  createConnection()
+    .then((_con) => {
+      if (process.env.NODE_ENV === 'development') {
+        process.stdout.write('connection established\n');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+} catch (error) {
+  console.error(error);
+}
 app.use(cors());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));

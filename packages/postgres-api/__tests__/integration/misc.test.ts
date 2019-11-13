@@ -1,5 +1,5 @@
-import { ModelParamter } from './../../src/lib/common/index';
-import { Bathingspot } from './../../src/orm/entity/Bathingspot';
+import { ModelParamter } from '../../src/lib/common/index';
+import { Bathingspot } from '../../src/orm/entity/Bathingspot';
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import 'reflect-metadata';
@@ -12,7 +12,7 @@ import {
   createTestingConnections,
   reloadTestingDatabases,
 } from '../test-utils';
-import { getUserByIdWithSpots } from './../../src/lib/utils/user-repo-helpers';
+import { getUserByIdWithSpots } from '../../src/lib/utils/user-repo-helpers';
 import { getRModelWithRelation } from '../../src/lib/utils/rmodel-repo-helpers';
 import { BathingspotModel } from '../../src/orm/entity';
 // ███████╗███████╗████████╗██╗   ██╗██████╗

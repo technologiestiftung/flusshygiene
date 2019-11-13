@@ -1,15 +1,17 @@
-import { UserRole } from './../../../src/lib/common';
+import { Bathingspot } from '../../../src/orm/entity/Bathingspot';
 jest.useFakeTimers();
 import express, { Application } from 'express';
-import path from 'path';
+import * as path from 'path';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection, getRepository } from 'typeorm';
+import { ERRORS, SUGGESTIONS } from '../../../src/lib/messages';
 import routes from '../../../src/lib/routes';
 import { User } from '../../../src/orm/entity/User';
 import {
   closeTestingConnections,
   createTestingConnections,
+  readFileAsync,
   readTokenFromDisc,
   reloadTestingDatabases,
 } from '../../test-utils';
@@ -28,7 +30,7 @@ const headers = {
   authorization: `${token.token_type} ${token.access_token}`,
 };
 
-describe('testing delete users', () => {
+describe('testing users/bathingspot PUT', () => {
   let app: Application;
   let connections: Connection[];
 
@@ -41,7 +43,14 @@ describe('testing delete users', () => {
     connections = await createTestingConnections();
     done();
   });
-
+  // beforeEach(async (done) => {
+  //   try {
+  //     await reloadTestingDatabases(connections);
+  //     done();
+  //   } catch (err) {
+  //     console.warn(err.message);
+  //   }
+  // });
   afterAll(async (done) => {
     try {
       await reloadTestingDatabases(connections);
@@ -72,66 +81,114 @@ describe('testing delete users', () => {
   // ██████╔╝╚██████╔╝██║ ╚████║███████╗
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
-  test('should delete a users', async (done) => {
+  test('should fail due to wrong id of a bathingspot', async (done) => {
     const userRepo = getRepository(User);
-    await userRepo.insert({
-      email: 'foo@bah.com',
-      firstName: 'Jimmy',
-      lastName: 'Stash',
-      protected: false,
-      role: UserRole.creator,
-    });
-    const user = await userRepo.findOne({ where: { firstName: 'Jimmy' } });
-    const id = user.id;
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
+    const usersWithSpots = usersAndSpots.filter(
+      (u) => u.bathingspots.length > 0,
+    );
+    const user = usersWithSpots[0];
 
     const res = await request(app)
-      .delete(`/api/v1/users/${id}`)
-      .set(headers);
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    done();
-  });
-  test('delete user should fail due to missing id', async (done) => {
-    const res = await request(app)
-      .delete(`/api/v1/users`)
+      .put(`/api/v1/users/${user.id}/bathingspots/${10000}`)
+      .send({
+        name: 'watering hole',
+      })
       .set(headers);
 
     expect(res.status).toBe(404);
-    done();
-  });
-  test('delete user should fail due to wrong id', async (done) => {
-    const res = await request(app)
-      .delete(`/api/v1/users/${10000000}`)
-      .set(headers);
-    expect(res.status).toBe(404);
-    done();
-  });
-
-  test('should delete user even if he has spots', async (done) => {
-    const userRepo = getRepository(User);
-    const usersWithRelations = await userRepo.find({
-      relations: ['bathingspots'],
-      where: { protected: false },
-    });
-    const res = await request(app)
-      .delete(`/api/v1/users/${usersWithRelations[0].id}`)
-      .set(headers);
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    done();
-  });
-  test("should fail. Can't delete protected user", async (done) => {
-    const userRepo = getRepository(User);
-    const usersWithRelations = await userRepo.find({
-      relations: ['bathingspots'],
-      where: { protected: true },
-    });
-
-    const res = await request(app)
-      .delete(`/api/v1/users/${usersWithRelations[0].id}`)
-      .set(headers);
-    expect(res.status).toBe(403);
     expect(res.body.success).toBe(false);
+    expect(res.body.message).toEqual(ERRORS.badRequestMissingOrWrongID404);
+    done();
+  });
+
+  test('should change the name of a bathingspot', async (done) => {
+    const userRepo = getRepository(User);
+    const spotRepo = getRepository(Bathingspot);
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
+    const usersWithSpots = usersAndSpots.filter(
+      (u) => u.bathingspots.length > 0,
+    );
+    const user = usersWithSpots[0];
+    const spot = user.bathingspots[0];
+    const res = await request(app)
+      .put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`)
+      .send({
+        name: 'watering hole',
+      })
+      .set(headers);
+    const spotAgain: Bathingspot | undefined = await spotRepo.findOne(spot.id);
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0].name).toEqual('watering hole');
+    expect(spotAgain.name).toEqual('watering hole');
+    done();
+  });
+
+  test('should set all the fields of a bathingspot', async (done) => {
+    const jsonStringPolygon = await readFileAsync(
+      path.resolve(__dirname, '../../data/polygon.json'),
+      'utf8',
+    );
+    const jsonStringPoint = await readFileAsync(
+      path.resolve(__dirname, '../../data/point.json'),
+      'utf8',
+    );
+    const polygon = JSON.parse(jsonStringPolygon);
+    const point = JSON.parse(jsonStringPoint);
+    const userRepo = getRepository(User);
+    // const spotRepo = getRepository(Bathingspot);
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
+    const usersWithSpots = usersAndSpots.filter(
+      (u) => u.bathingspots.length > 0,
+    );
+    const user = usersWithSpots[0];
+    const spot = user.bathingspots[0];
+    const res = await request(app)
+      .put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`)
+      .send({
+        apiEndpoints: {},
+        area: polygon.geometry,
+        elevation: 1,
+        isPublic: true,
+        latitude: 13,
+        location: point.geometry,
+        longitude: 52,
+        name: 'Sweetwater',
+        state: {},
+      })
+      .set(headers);
+
+    // console.log(res.body);
+
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0].name).toEqual('Sweetwater');
+    done();
+  });
+
+  test('should reject the change due to wrong fields but present an example', async (done) => {
+    const userRepo = getRepository(User);
+    // const spotRepo = getRepository(Bathingspot);
+    const usersAndSpots = await userRepo.find({ relations: ['bathingspots'] });
+    // const usersAndSpots = await userRepo.createQueryBuilder('user')
+    // .leftJoinAndSelect('user.bathingspots', 'bathingspots')
+    //   .getMany();
+    const usersWithSpots = usersAndSpots.filter(
+      (_user) => _user.bathingspots.length > 0,
+    );
+
+    const user = usersWithSpots[0];
+    const spot = user.bathingspots[0];
+    const res = await request(app)
+      .put(`/api/v1/users/${user.id}/bathingspots/${spot.id}`)
+      .send({})
+      .set(headers);
+    expect(res.status).toBe(404);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toBe(SUGGESTIONS.missingFields);
     done();
   });
 });

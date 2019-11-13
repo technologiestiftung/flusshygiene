@@ -21,14 +21,10 @@ import {
   getPPlantWithRelations,
 } from '../../../src/lib/utils/collection-repo-helpers';
 
-import { BathingspotPrediction } from './../../../src/orm/entity/BathingspotPrediction';
+import { BathingspotPrediction } from '../../../src/orm/entity/BathingspotPrediction';
 import { Connection } from 'typeorm';
-import { GenericInput } from './../../../src/orm/entity/GenericInput';
-import {
-  PredictionValue,
-  ModelParamter,
-} from './../../../src/lib/common/index';
-import { async } from 'rxjs/internal/scheduler/async';
+import { GenericInput } from '../../../src/orm/entity/GenericInput';
+import { PredictionValue, ModelParamter } from '../../../src/lib/common/index';
 import path from 'path';
 import request from 'supertest';
 import routes from '../../../src/lib/routes';

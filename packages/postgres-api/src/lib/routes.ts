@@ -143,6 +143,7 @@ router.get(
   checkScopes,
   getGenericInputMeasurements,
 );
+
 router.post(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
   checkJwt,

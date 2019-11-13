@@ -1,4 +1,4 @@
-import { ModelParamter } from './../../../src/lib/common/index';
+import { ModelParamter } from '../../../src/lib/common/index';
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import path from 'path';
