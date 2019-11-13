@@ -7,7 +7,7 @@ env:
 on:
   push:
     paths:
-      - 'packages/cms-spa/src/*'
+      - 'packages/cms-spa/src/**'
       - '.github/workflows/spa-tests.yml'
       - 'packages/cms-spa/Dockerfile'
       - 'packages/cms-spa/.dockerignore'
@@ -15,7 +15,7 @@ on:
       - 'packages/cms-spa/package*.json'
   pull_request:
     paths:
-      - 'packages/cms-spa/src/*'
+      - 'packages/cms-spa/src/**'
       - '.github/workflows/spa-tests.yml'
       - 'packages/cms-spa/Dockerfile'
       - 'packages/cms-spa/.dockerignore'

@@ -8,16 +8,16 @@ on:
   push:
     paths:
       - '.github/workflows/middlelayer-tests.yml'
-      - 'packages/opencpu-middlelayer/src/*'
-      - 'packages/opencpu-middlelayer/__tests__/*'
+      - 'packages/opencpu-middlelayer/src/**'
+      - 'packages/opencpu-middlelayer/__tests__/**'
       - 'packages/opencpu-middlelayer/package*.json'
       - 'packages/opencpu-middlelayer/Dockerfile'
       - 'packages/opencpu-middlelayer/.dockerignore'
   pull_request:
     paths:
       - '.github/workflows/middlelayer-tests.yml'
-      - 'packages/opencpu-middlelayer/src/*'
-      - 'packages/opencpu-middlelayer/__tests__/*'
+      - 'packages/opencpu-middlelayer/src/**'
+      - 'packages/opencpu-middlelayer/__tests__/**'
       - 'packages/opencpu-middlelayer/package*.json'
       - 'packages/opencpu-middlelayer/Dockerfile'
       - 'packages/opencpu-middlelayer/.dockerignore'
