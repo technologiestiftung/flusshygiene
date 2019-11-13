@@ -69,14 +69,7 @@ describe('testing bathingspots collection', () => {
     connections = await createTestingConnections();
     done();
   });
-  // beforeEach(async (done) => {
-  //   try {
-  //     await reloadTestingDatabases(connections);
-  //     done();
-  //   } catch (err) {
-  //     console.warn(err.message);
-  //   }
-  // });
+
   afterAll(async (done) => {
     try {
       await reloadTestingDatabases(connections);

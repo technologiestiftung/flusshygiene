@@ -10,16 +10,16 @@ on:
       - 'packages/opencpu-fhpredict-api/Dockerfile'
       - 'packages/opencpu-fhpredict-api/.dockerignore'
       - 'packages/opencpu-fhpredict-api/package*.json'
-      - 'packages/opencpu-fhpredict-api/opencpu-config/*'
-      - 'packages/opencpu-fhpredict-api/files/*'
+      - 'packages/opencpu-fhpredict-api/opencpu-config/**'
+      - 'packages/opencpu-fhpredict-api/files/**'
   pull_request:
     paths:
       - '.github/workflows/fhpredictapi-tests.yml'
       - 'packages/opencpu-fhpredict-api/Dockerfile'
       - 'packages/opencpu-fhpredict-api/.dockerignore'
       - 'packages/opencpu-fhpredict-api/package*.json'
-      - 'packages/opencpu-fhpredict-api/opencpu-config/*'
-      - 'packages/opencpu-fhpredict-api/files/*'
+      - 'packages/opencpu-fhpredict-api/opencpu-config/**'
+      - 'packages/opencpu-fhpredict-api/files/**'
 jobs:
   tests:
     runs-on: ubuntu-latest

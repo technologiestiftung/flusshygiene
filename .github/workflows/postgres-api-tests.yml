@@ -13,10 +13,10 @@ on:
   push:
     paths:
       - '.github/workflows/postgres-api-tests.yml'
-      - 'packages/postgres-api/src/*'
-      - 'packages/postgres-api/types/*'
-      - 'packages/postgres-api/__tests__/*'
-      - 'packages/postgres-api/__mocks__/*'
+      - 'packages/postgres-api/src/**'
+      - 'packages/postgres-api/types/**'
+      - 'packages/postgres-api/__tests__/**'
+      - 'packages/postgres-api/__mocks__/**'
       - 'packages/postgres-api/package*.json'
       - 'packages/postgres-api/ormconfig.js'
       - 'packages/postgres-api/Dockerfile'
@@ -25,10 +25,10 @@ on:
   pull_request:
     paths:
       - '.github/workflows/postgres-api-tests.yml'
-      - 'packages/postgres-api/src/*'
-      - 'packages/postgres-api/types/*'
-      - 'packages/postgres-api/__tests__/*'
-      - 'packages/postgres-api/__mocks__/*'
+      - 'packages/postgres-api/src/**'
+      - 'packages/postgres-api/types/**'
+      - 'packages/postgres-api/__tests__/**'
+      - 'packages/postgres-api/__mocks__/**'
       - 'packages/postgres-api/package*.json'
       - 'packages/postgres-api/ormconfig.js'
       - 'packages/postgres-api/Dockerfile'
