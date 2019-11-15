@@ -17,7 +17,7 @@ export abstract class Measurement {
   @UpdateDateColumn()
   public updatedAt!: Date;
 
-  @Column({ type: 'time', nullable: false })
+  @Column({ type: 'time', nullable: true })
   public dateTime!: string;
 
   @Column({ type: 'timestamp', nullable: false })

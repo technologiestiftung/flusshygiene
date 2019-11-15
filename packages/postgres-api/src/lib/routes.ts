@@ -49,7 +49,10 @@ import {
   updateUser,
 } from './request-handlers/users/';
 import { s3 } from './s3';
-import { putCollectionItem } from './request-handlers/bathingspots/collections/put';
+import {
+  putCollectionItem,
+  putCollectionSubItem,
+} from './request-handlers/bathingspots/collections/put';
 import { checkUserAndSpot } from './middleware/user-spot-check';
 import { collectionCheck } from './middleware/collection-check';
 // import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
@@ -148,6 +151,8 @@ router.post(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
   checkJwt,
   checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
   postCollectionsSubItem,
 );
 
@@ -165,6 +170,15 @@ router.put(
   checkUserAndSpot,
   collectionCheck,
   putCollectionItem,
+);
+
+router.put(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9])+',
+  checkJwt,
+  checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
+  putCollectionSubItem,
 );
 
 router.delete(

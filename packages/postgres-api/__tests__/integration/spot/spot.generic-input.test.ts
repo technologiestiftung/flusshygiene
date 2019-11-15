@@ -149,6 +149,57 @@ describe('Testing generic inputs', () => {
     expect(resGet.body.data.length).toBe(0);
     expect(resPost.body.data.length).toBe(1);
     expect(resGetPut.body.data[0].name).toMatch(`${gi.name}-edit`);
+    done();
+  });
+
+  test.only('generic input measurement tests', async (done) => {
+    const userRes = await request(app)
+      .post(`/api/v1/users`)
+      .send(userData)
+      .set(headers);
+    const user = userRes.body.data[0];
+
+    const spotRes = await request(app)
+      .post(`/api/v1/users/${user.id}/bathingspots`)
+      .send(spotData)
+      .set(headers);
+
+    const spot = spotRes.body.data[0];
+
+    const GiPostRes = await request(app)
+      .post(`/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs`)
+      .send({ name: 'foo' })
+      .set(headers);
+
+    const gi = GiPostRes.body.data[0];
+    const GiMGetRes = await request(app)
+      .get(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
+      )
+      .set(headers);
+
+    const GiMPostRes = await request(app)
+      .post(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
+      )
+      .send({ date: '2019-11-11 00:00:00', value: 23 })
+      .set(headers);
+
+    const GiMGetResAgain = await request(app)
+      .get(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
+      )
+      .set(headers);
+    console.log(GiMPostRes.body);
+    console.log(GiMGetResAgain.body);
+
+    expect(user).toBeDefined();
+    expect(spot).toBeDefined();
+    expect(gi).toBeDefined();
+    expect(GiPostRes.status).toBe(201);
+    expect(GiMGetRes.status).toBe(200);
+    expect(GiMGetRes.body.data.length).toBe(0);
+    expect(GiMGetResAgain.body.data.length).toBe(1);
 
     done();
   });

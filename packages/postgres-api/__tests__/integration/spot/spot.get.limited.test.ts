@@ -27,7 +27,7 @@ const headers = {
   authorization: `${token.token_type} ${token.access_token}`,
 };
 
-describe.only('Testing bathingspot limits', () => {
+describe('Testing bathingspot limits', () => {
   let app: Application;
   let connections: Connection[];
 

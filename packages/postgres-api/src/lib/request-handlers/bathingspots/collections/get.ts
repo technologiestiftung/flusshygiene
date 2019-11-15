@@ -3,8 +3,8 @@ import { getResponse, HttpCodes } from '../../../common';
 import {
   collectionRepoMapping,
   getColletionItemById,
-  getGIWithRelations,
   getPPlantWithRelations,
+  getGIWithRelations,
 } from '../../../utils/collection-repo-helpers';
 
 import {

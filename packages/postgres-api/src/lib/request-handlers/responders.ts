@@ -163,6 +163,10 @@ export const responderSuccessCreated: ResponderSuccessCreated = (
 export const responderWrongId: ResponderMissingOrWrongIdOrAuth = (response) =>
   responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());
 
+export const responderWrongRoute: ResponderMissingOrWrongIdOrAuth = (
+  response,
+) => responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());
+
 export const responderNotAuthorized: ResponderMissingOrWrongIdOrAuth = (
   response,
 ) =>
