@@ -58,7 +58,6 @@ export const deleteSubItemMeasurement: deleteResponse = async (
         break;
       }
       case 'purificationPlants': {
-        console.log('pp');
         const opts = {
           where: { id: subItemId, purificationPlantId: itemId },
         };
