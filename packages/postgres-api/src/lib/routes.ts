@@ -13,7 +13,10 @@ import {
   updateBathingspotOfUser,
 } from './request-handlers/bathingspots/';
 
-import { deleteCollectionSubItem } from './request-handlers/bathingspots/collections/delete';
+import {
+  deleteCollectionSubItem,
+  deleteSubItemMeasurement,
+} from './request-handlers/bathingspots/collections/delete';
 import {
   getCollection,
   getCollectionsSubItem,
@@ -136,6 +139,8 @@ router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)',
   checkJwt,
   checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
   getCollectionsSubItem,
 );
 
@@ -144,7 +149,29 @@ router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
   checkJwt,
   checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
   getGenericInputMeasurements,
+);
+
+// get subitems of collection
+router.get(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9]+)',
+  checkJwt,
+  checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
+  getGenericInputMeasurements,
+);
+
+// get subitems of collection
+router.delete(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9]+)',
+  checkJwt,
+  checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
+  deleteSubItemMeasurement,
 );
 
 router.post(

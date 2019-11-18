@@ -69,6 +69,7 @@ export const postCollectionsSubItem: postResponse = async (
     // const spotId = parseInt(request.params.spotId, 10);
     // const collectionName = request.params.collectionName;
     const itemId = request.params.itemId;
+    let bulkPost = false;
     // const spot = response.locals.spot;
     const collectionName = response.locals.collectionName;
 
@@ -95,6 +96,7 @@ export const postCollectionsSubItem: postResponse = async (
       inData.push(request.body);
     } else {
       inData = request.body;
+      bulkPost = true;
     }
     switch (repoName) {
       case 'GenericInput': {
@@ -105,8 +107,7 @@ export const postCollectionsSubItem: postResponse = async (
         }
         const repoGInputMeasurement = getRepository(GInputMeasurement);
         const measurements = repoGInputMeasurement.create(inData);
-        await repoGInputMeasurement.save(measurements);
-        console.log(measurements);
+        res = await repoGInputMeasurement.save(measurements);
         if (gi.measurements === undefined) {
           gi.measurements = measurements;
         } else {
@@ -114,7 +115,7 @@ export const postCollectionsSubItem: postResponse = async (
         }
         const repoGenericInput = getRepository(GenericInput);
         await repoGenericInput.save(gi);
-        res = measurements;
+        // res = measurements;
         break;
       }
       case 'PurificationPlant': {
@@ -125,8 +126,8 @@ export const postCollectionsSubItem: postResponse = async (
         }
         const repoPPlantMeasurement = getRepository(PPlantMeasurement);
         const measurements = repoPPlantMeasurement.create(inData);
-        await repoPPlantMeasurement.save(measurements);
-        console.log(measurements);
+        res = await repoPPlantMeasurement.save(measurements);
+        // console.log(measurements);
         if (pp.measurements === undefined) {
           pp.measurements = measurements;
         } else {
@@ -134,7 +135,7 @@ export const postCollectionsSubItem: postResponse = async (
         }
         const repoPPlant = getRepository(PurificationPlant);
         await repoPPlant.save(pp);
-        res = measurements;
+        // res = measurements;
         break;
       }
       default: {
@@ -187,12 +188,16 @@ export const postCollectionsSubItem: postResponse = async (
     //   }
     // }
 
+    // console.log(res);
     // res = await repoGInputMeasurement.save(mergedEntities);
     // await repoGenericInput.save(gi as GenericInput);
     responder(
       response,
       HttpCodes.successCreated,
-      successResponse(`${repoName} measurement posted.`, [res]),
+      successResponse(
+        `${repoName} measurement posted.`,
+        bulkPost === true ? res : [res[0]],
+      ),
     );
     // }
     // }
