@@ -22,7 +22,7 @@ module "subnets" {
   vpc_id               = "${data.aws_vpc.default.id}"
   igw_id               = "${data.aws_internet_gateway.default.id}"
   cidr_block           = "${cidrsubnet(data.aws_vpc.default.cidr_block, 4, 15)}"
-  nat_gateway_enabled  = true
+  nat_gateway_enabled  = false
   nat_instance_enabled = false
 }
 
