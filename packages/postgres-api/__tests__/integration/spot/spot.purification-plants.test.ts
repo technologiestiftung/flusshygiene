@@ -82,7 +82,7 @@ describe('Testing generic inputs', () => {
   // ██████╔╝╚██████╔╝██║ ╚████║███████╗
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
-  test('generic inputs to spot of user', async (done) => {
+  test('purificationPlants to spot of user', async (done) => {
     const userRes = await request(app)
       .post(`/api/v1/users`)
       .send(userData)
@@ -99,42 +99,46 @@ describe('Testing generic inputs', () => {
     // -------
 
     const resGet = await request(app)
-      .get(`/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs`)
+      .get(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants`,
+      )
       .set(headers);
 
     const resPost = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs`)
+      .post(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants`,
+      )
       .send({ name: 'foo' })
       .set(headers);
 
-    const gi = resPost.body.data[0];
+    const pp = resPost.body.data[0];
 
     const resPut = await request(app)
       .put(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}`,
       )
-      .send({ name: `${gi.name}-edit` })
+      .send({ name: `${pp.name}-edit` })
       .set(headers);
 
     const resGetPut = await request(app)
       .get(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}`,
       )
-      .send({ name: `${gi.name}-edit` })
+      .send({ name: `${pp.name}-edit` })
       .set(headers);
 
     const resPutErr = await request(app)
       .put(
         `/api/v1/users/${user.id}/bathingspots/${
           spot.id
-        }/genericInputs/${'fooo'}`,
+        }/purificationPlants/${'fooo'}`,
       )
-      .send({ name: `${gi.name}-edit` })
+      .send({ name: `${pp.name}-edit` })
       .set(headers);
 
     const resDel = await request(app)
       .delete(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}`,
       )
       .set(headers);
 
@@ -148,11 +152,11 @@ describe('Testing generic inputs', () => {
     expect(Array.isArray(resGet.body.data)).toBe(true);
     expect(resGet.body.data.length).toBe(0);
     expect(resPost.body.data.length).toBe(1);
-    expect(resGetPut.body.data[0].name).toMatch(`${gi.name}-edit`);
+    expect(resGetPut.body.data[0].name).toMatch(`${pp.name}-edit`);
     done();
   });
 
-  test('generic input measurement tests', async (done) => {
+  test('purificationPlants measurement tests', async (done) => {
     const userRes = await request(app)
       .post(`/api/v1/users`)
       .send(userData)
@@ -166,36 +170,38 @@ describe('Testing generic inputs', () => {
 
     const spot = spotRes.body.data[0];
 
-    const GiPostRes = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs`)
+    const ppPostRes = await request(app)
+      .post(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants`,
+      )
       .send({ name: 'foo' })
       .set(headers);
 
-    const gi = GiPostRes.body.data[0];
+    const pp = ppPostRes.body.data[0];
     // GET measurements
-    const GiMGetRes = await request(app)
+    const ppMGetRes = await request(app)
       .get(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}/measurements`,
       )
       .set(headers);
 
     // POST measurement
-    const GiMPostRes = await request(app)
+    const ppMPostRes = await request(app)
       .post(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}/measurements`,
       )
       .send({ date: '2019-11-11 00:00:00', value: 23 })
       .set(headers);
 
-    const GiMGetResAgain = await request(app)
+    const ppMGetResAgain = await request(app)
       .get(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}/measurements`,
       )
       .set(headers);
 
-    const GiMBulkPostRes = await request(app)
+    const ppMBulkPostRes = await request(app)
       .post(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}/measurements`,
       )
       .send([
         { date: '2019-11-12 00:00:00', value: 42, comment: 'bulk test' },
@@ -203,43 +209,43 @@ describe('Testing generic inputs', () => {
       ])
       .set(headers);
 
-    const GiMPutRes = await request(app)
+    const ppMPutRes = await request(app)
       .put(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements/${GiMGetResAgain.body.data[0].id}`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}/measurements/${ppMGetResAgain.body.data[0].id}`,
       )
       .send({ comment: 'PUT' })
       .set(headers);
 
-    const GiMGetByIdRes = await request(app)
+    const ppMGetByIdRes = await request(app)
       .get(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements/${GiMGetResAgain.body.data[0].id}`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}/measurements/${ppMGetResAgain.body.data[0].id}`,
       )
       .set(headers);
 
-    const GiMDeleteRes = await request(app)
+    const ppMDeleteRes = await request(app)
       .delete(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements/${GiMGetResAgain.body.data[0].id}`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}/measurements/${ppMGetResAgain.body.data[0].id}`,
       )
       .set(headers);
 
-    const GiMGetByIdAgainRes = await request(app)
+    const ppMGetByIdAgainRes = await request(app)
       .get(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements/${GiMGetResAgain.body.data[0].id}`,
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${pp.id}/measurements/${ppMGetResAgain.body.data[0].id}`,
       )
       .set(headers);
 
-    const GiMDeleteNonExisting = await request(app)
+    const ppMDeleteNonExisting = await request(app)
       .delete(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${
-          gi.id
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${
+          pp.id
         }/measurements/${100000}`,
       )
       .set(headers);
 
-    const GiMPutNonExisting = await request(app)
+    const ppMPutNonExisting = await request(app)
       .put(
-        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${
-          gi.id
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/purificationPlants/${
+          pp.id
         }/measurements/${100000}`,
       )
       .send({ comment: 'foo' })
@@ -247,29 +253,29 @@ describe('Testing generic inputs', () => {
 
     expect(user).toBeDefined(); // SETUP
     expect(spot).toBeDefined(); // SETUP
-    expect(gi).toBeDefined(); // SETUP
-    expect(GiPostRes.status).toBe(201); // SETUP
+    expect(pp).toBeDefined(); // SETUP
+    expect(ppPostRes.status).toBe(201); // SETUP
     //-------------
-    expect(GiMGetRes.status).toBe(200); // GET
-    expect(GiMGetByIdRes.status).toBe(200); // GET by ID
-    expect(GiMPutRes.status).toBe(201); // PUT
-    expect(GiPostRes.status).toBe(201); // POST
-    expect(GiMDeleteRes.status).toBe(200); // DELETE
-    expect(GiMDeleteNonExisting.status).toBe(404); // DELETE non existing
+    expect(ppMGetRes.status).toBe(200); // GET
+    expect(ppMGetByIdRes.status).toBe(200); // GET by ID
+    expect(ppMPutRes.status).toBe(201); // PUT
+    expect(ppPostRes.status).toBe(201); // POST
+    expect(ppMDeleteRes.status).toBe(200); // DELETE
+    expect(ppMDeleteNonExisting.status).toBe(404); // DELETE non existing
 
-    expect(GiMPutNonExisting.status).toBe(404); // PUT non existing
+    expect(ppMPutNonExisting.status).toBe(404); // PUT non existing
 
-    expect(GiMPostRes.body.data[0].value).toBe(23); // POST
-    expect(GiMGetRes.body.data.length).toBe(0); // GET AGAIN
-    expect(GiMGetResAgain.body.data.length).toBe(1); // GET AGAIN
-    expect(GiMBulkPostRes.body.data.length).toBe(2); // POST BULK
-    expect(GiMPutRes.body.data.length).toBe(1); // POST BULK
-    expect(GiMGetByIdRes.body.data.length).toBeLessThanOrEqual(1); // GET by ID
-    expect(GiMGetByIdRes.body.data[0].comment).toBe('PUT'); // GET by ID after PUT
-    expect(GiMGetByIdAgainRes.body.data.length).toBe(0); // GET DELETED
-    expect(GiMDeleteNonExisting.body.success).toBe(false); // DELETE non existing
-    expect(GiMPutNonExisting.body.data).toBeUndefined(); // PUT non existing
-    expect(GiMPutNonExisting.body.success).toBeFalsy(); // PUT non existing
+    expect(ppMPostRes.body.data[0].value).toBe(23); // POST
+    expect(ppMGetRes.body.data.length).toBe(0); // GET AGAIN
+    expect(ppMGetResAgain.body.data.length).toBe(1); // GET AGAIN
+    expect(ppMBulkPostRes.body.data.length).toBe(2); // POST BULK
+    expect(ppMPutRes.body.data.length).toBe(1); // POST BULK
+    expect(ppMGetByIdRes.body.data.length).toBeLessThanOrEqual(1); // GET by ID
+    expect(ppMGetByIdRes.body.data[0].comment).toBe('PUT'); // GET by ID after PUT
+    expect(ppMGetByIdAgainRes.body.data.length).toBe(0); // GET DELETED
+    expect(ppMDeleteNonExisting.body.success).toBe(false); // DELETE non existing
+    expect(ppMPutNonExisting.body.data).toBeUndefined(); // PUT non existing
+    expect(ppMPutNonExisting.body.success).toBeFalsy(); // PUT non existing
     done();
   });
 });

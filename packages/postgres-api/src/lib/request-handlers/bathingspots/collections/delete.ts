@@ -57,8 +57,8 @@ export const deleteSubItemMeasurement: deleteResponse = async (
         await entityManager.remove(item);
         break;
       }
-      case 'purificationPlant': {
-        // console.log('pp');
+      case 'purificationPlants': {
+        console.log('pp');
         const opts = {
           where: { id: subItemId, purificationPlantId: itemId },
         };

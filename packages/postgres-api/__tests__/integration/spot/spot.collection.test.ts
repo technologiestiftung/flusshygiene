@@ -187,7 +187,7 @@ describe('testing bathingspots collection', () => {
     const arr = [
       {
         comment: 'This is a bulk test 1',
-        date: '2019-12-31',
+        date: '2019-12-30',
         dateTime: '12:00:01',
         value: Math.random() * 10,
       },
@@ -341,6 +341,88 @@ describe('testing bathingspots collection', () => {
     done();
   });
 
+  // PUT
+
+  test('PUT non existing collection item', async (done) => {
+    const userData = {
+      firstName: 'foo',
+      role: 'creator',
+      email: 'foo@Bathingspot.com',
+      lastName: 'bah',
+    };
+    const spotData = { name: 'foo', isPublic: true };
+    const userRes = await request(app)
+      .post(`/api/v1/users`)
+      .send(userData)
+      .set(headers);
+    const user = userRes.body.data[0];
+
+    const spotRes = await request(app)
+      .post(`/api/v1/users/${user.id}/bathingspots`)
+      .send(spotData)
+      .set(headers);
+
+    const spot = spotRes.body.data[0];
+    const putRes = await request(app)
+      .put(`/api/v1/users/${user.id}/bathingspots/${spot.id}/rains/${10000}`)
+      .send({ value: 123 })
+      .set(headers);
+
+    expect(user).toBeDefined(); // SETUP
+    expect(spot).toBeDefined(); // SETUP
+
+    expect(putRes.status).toBe(404);
+    done();
+  });
+  test('PUT collection item', async (done) => {
+    const userData = {
+      firstName: 'foo',
+      role: 'creator',
+      email: 'foo@Bathingspot.com',
+      lastName: 'bah',
+    };
+    const spotData = { name: 'foo', isPublic: true };
+    const userRes = await request(app)
+      .post(`/api/v1/users`)
+      .send(userData)
+      .set(headers);
+    const user = userRes.body.data[0];
+
+    const spotRes = await request(app)
+      .post(`/api/v1/users/${user.id}/bathingspots`)
+      .send(spotData)
+      .set(headers);
+
+    const spot = spotRes.body.data[0];
+
+    const postRes = await request(app)
+      .post(`/api/v1/users/${user.id}/bathingspots/${spot.id}/rains/`)
+      .send({ value: 123, date: '2020-11-11 00:00:00' })
+      .set(headers);
+
+    const rain = postRes.body.data[0];
+    const putNonExistingRes = await request(app)
+      .put(`/api/v1/users/${user.id}/bathingspots/${spot.id}/rains/${10000}`)
+      .send({ value: 123 })
+      .set(headers);
+
+    const putNonExistingRouteRes = await request(app)
+      .put(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/rains/${
+          rain.id
+        }/measurements/${10000}`,
+      )
+      .send({ value: 123 })
+      .set(headers);
+
+    expect(user).toBeDefined(); // SETUP
+    expect(spot).toBeDefined(); // SETUP
+    expect(rain).toBeDefined(); // SETUP
+
+    expect(putNonExistingRes.status).toBe(404);
+    expect(putNonExistingRouteRes.status).toBe(404);
+    done();
+  });
   // ┌┬┐┌─┐┬  ┌─┐┌┬┐┌─┐
   //  ││├┤ │  ├┤  │ ├┤
   // ─┴┘└─┘┴─┘└─┘ ┴ └─┘
