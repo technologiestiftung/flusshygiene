@@ -17,7 +17,7 @@ import {
   getColletionItemById,
 } from '../../../utils/collection-repo-helpers';
 
-import { getRepository, getManager, FindConditions } from 'typeorm';
+import { getRepository, getManager } from 'typeorm';
 
 import { SUCCESS } from '../../../messages';
 import { GInputMeasurement, PPlantMeasurement } from '../../../../orm/entity';
