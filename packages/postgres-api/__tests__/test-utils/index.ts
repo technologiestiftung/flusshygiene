@@ -142,9 +142,12 @@ export async function createTestingConnections() {
   // console.log('creating connection done');
   return [connection];
 }
-export async function reloadTestingDatabases(connections: Connection[]) {
+export async function reloadTestingDatabases(
+  connections: Connection[],
+  synchronize: boolean = true,
+) {
   return Promise.all(
-    connections.map((connection) => connection.synchronize(true)),
+    connections.map((connection) => connection.synchronize(synchronize)),
   );
 }
 

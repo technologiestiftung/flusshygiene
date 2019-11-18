@@ -54,7 +54,7 @@ describe('Testing generic inputs', () => {
 
   afterAll(async (done) => {
     try {
-      await reloadTestingDatabases(connections);
+      await reloadTestingDatabases(connections, false);
       await closeTestingConnections(connections);
       done();
     } catch (err) {
@@ -152,7 +152,7 @@ describe('Testing generic inputs', () => {
     done();
   });
 
-  test.only('generic input measurement tests', async (done) => {
+  test('generic input measurement tests', async (done) => {
     const userRes = await request(app)
       .post(`/api/v1/users`)
       .send(userData)
@@ -172,12 +172,14 @@ describe('Testing generic inputs', () => {
       .set(headers);
 
     const gi = GiPostRes.body.data[0];
+    // GET measurements
     const GiMGetRes = await request(app)
       .get(
         `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
       )
       .set(headers);
 
+    // POST measurement
     const GiMPostRes = await request(app)
       .post(
         `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
@@ -190,17 +192,84 @@ describe('Testing generic inputs', () => {
         `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
       )
       .set(headers);
-    console.log(GiMPostRes.body);
-    console.log(GiMGetResAgain.body);
 
-    expect(user).toBeDefined();
-    expect(spot).toBeDefined();
-    expect(gi).toBeDefined();
-    expect(GiPostRes.status).toBe(201);
-    expect(GiMGetRes.status).toBe(200);
-    expect(GiMGetRes.body.data.length).toBe(0);
-    expect(GiMGetResAgain.body.data.length).toBe(1);
+    const GiMBulkPostRes = await request(app)
+      .post(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements`,
+      )
+      .send([
+        { date: '2019-11-12 00:00:00', value: 42, comment: 'bulk test' },
+        { date: '2019-11-13 00:00:00', value: 23, comment: 'bulk test' },
+      ])
+      .set(headers);
 
+    const GiMPutRes = await request(app)
+      .put(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements/${GiMGetResAgain.body.data[0].id}`,
+      )
+      .send({ comment: 'PUT' })
+      .set(headers);
+
+    const GiMGetByIdRes = await request(app)
+      .get(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements/${GiMGetResAgain.body.data[0].id}`,
+      )
+      .set(headers);
+
+    const GiMDeleteRes = await request(app)
+      .delete(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements/${GiMGetResAgain.body.data[0].id}`,
+      )
+      .set(headers);
+
+    const GiMGetByIdAgainRes = await request(app)
+      .get(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${gi.id}/measurements/${GiMGetResAgain.body.data[0].id}`,
+      )
+      .set(headers);
+
+    const GiMDeleteNonExisting = await request(app)
+      .delete(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${
+          gi.id
+        }/measurements/${100000}`,
+      )
+      .set(headers);
+
+    const GiMPutNonExisting = await request(app)
+      .put(
+        `/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs/${
+          gi.id
+        }/measurements/${100000}`,
+      )
+      .send({ comment: 'foo' })
+      .set(headers);
+
+    expect(user).toBeDefined(); // SETUP
+    expect(spot).toBeDefined(); // SETUP
+    expect(gi).toBeDefined(); // SETUP
+    expect(GiPostRes.status).toBe(201); // SETUP
+    //-------------
+    expect(GiMGetRes.status).toBe(200); // GET
+    expect(GiMGetByIdRes.status).toBe(200); // GET by ID
+    expect(GiMPutRes.status).toBe(201); // PUT
+    expect(GiPostRes.status).toBe(201); // POST
+    expect(GiMDeleteRes.status).toBe(200); // DELETE
+    expect(GiMDeleteNonExisting.status).toBe(404); // DELETE non existing
+
+    expect(GiMPutNonExisting.status).toBe(404); // PUT non existing
+
+    expect(GiMPostRes.body.data[0].value).toBe(23); // POST
+    expect(GiMGetRes.body.data.length).toBe(0); // GET AGAIN
+    expect(GiMGetResAgain.body.data.length).toBe(1); // GET AGAIN
+    expect(GiMBulkPostRes.body.data.length).toBe(2); // POST BULK
+    expect(GiMPutRes.body.data.length).toBe(1); // POST BULK
+    expect(GiMGetByIdRes.body.data.length).toBeLessThanOrEqual(1); // GET by ID
+    expect(GiMGetByIdRes.body.data[0].comment).toBe('PUT'); // GET by ID after PUT
+    expect(GiMGetByIdAgainRes.body.data.length).toBe(0); // GET DELETED
+    expect(GiMDeleteNonExisting.body.success).toBe(false); // DELETE non existing
+    expect(GiMPutNonExisting.body.data).toBeUndefined(); // PUT non existing
+    expect(GiMPutNonExisting.body.success).toBeFalsy(); // PUT non existing
     done();
   });
 });
