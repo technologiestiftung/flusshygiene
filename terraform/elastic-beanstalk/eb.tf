@@ -80,9 +80,9 @@ module "elastic_beanstalk_environment" {
 
     API_URL = "${var.current_host}",
     # API_URL = "${module.elastic_beanstalk_environment.endpoint}/api/v1/",
-    OCPU_API_HOST_DEV = "${var.current_host}",
+    OCPU_API_HOST_DEV = "${var.ocpu_api_host}",
     # OCPU_API_HOST_DEV = "${module.elastic_beanstalk_environment.endpoint}",
-    OCPU_API_HOST_PROD = "${var.current_host}",
+    OCPU_API_HOST_PROD = "${var.ocpu_api_host}",
     # OCPU_API_HOST_PROD = "${module.elastic_beanstalk_environment.endpoint}",
     # used by middlelayer for CORS
     APP_HOST_1 = "${var.current_host}",

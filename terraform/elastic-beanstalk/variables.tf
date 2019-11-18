@@ -19,6 +19,10 @@ variable "current_host" {
   description = "This value always changes wen you deploy to a new environment. Should be set after env is created for making updates to it. Will be something like tsb-dev-flusshygiene.kuqv8ds8mr.eu-central-1.elasticbeanstalk.com"
 }
 
+variable "ocpu_api_host" {
+  description = "The container name for the opencpu fhpredict api defined Dockerrun.aws.json"
+  default = "http://ocpu"
+}
 
 
 variable "enable_stream_logs" {}
