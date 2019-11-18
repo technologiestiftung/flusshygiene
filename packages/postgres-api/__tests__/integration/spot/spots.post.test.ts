@@ -1,7 +1,7 @@
-import { ModelParamter } from './../../../src/lib/common/index';
+import { ModelParamter } from '../../../src/lib/common/index';
 jest.useFakeTimers();
 import FormData from 'form-data';
-import { HttpCodes } from './../../../src/lib/common';
+import { HttpCodes } from '../../../src/lib/common';
 import express, { Application } from 'express';
 import fs from 'fs';
 import path from 'path';

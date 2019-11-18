@@ -3,15 +3,15 @@ import express, { Application } from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection } from 'typeorm';
-import routes from '../../src/lib/routes';
+import routes from '../../../src/lib/routes';
 import {
   closeTestingConnections,
   createTestingConnections,
   reloadTestingDatabases,
   readTokenFromDisc,
-} from '../test-utils';
+} from '../../test-utils';
 import path from 'path';
-import { UserRole } from '../../src/lib/common';
+import { UserRole } from '../../../src/lib/common';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -20,7 +20,9 @@ import { UserRole } from '../../src/lib/common';
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
 
-const token = readTokenFromDisc(path.resolve(__dirname, '../.test.token.json'));
+const token = readTokenFromDisc(
+  path.resolve(__dirname, '../../.test.token.json'),
+);
 const headers = {
   authorization: `${token.token_type} ${token.access_token}`,
   Accept: 'application/json',

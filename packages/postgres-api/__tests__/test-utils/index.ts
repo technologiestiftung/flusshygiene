@@ -142,9 +142,17 @@ export async function createTestingConnections() {
   // console.log('creating connection done');
   return [connection];
 }
-export async function reloadTestingDatabases(connections: Connection[]) {
+/**
+ * Reloads and resets the DB use the synchronize flag to not delete elements in the DB
+ * @param connections The connection to work with
+ * @param synchronize Use this to keep results in the DB after test for debugging
+ */
+export async function reloadTestingDatabases(
+  connections: Connection[],
+  synchronize: boolean = true,
+) {
   return Promise.all(
-    connections.map((connection) => connection.synchronize(true)),
+    connections.map((connection) => connection.synchronize(synchronize)),
   );
 }
 

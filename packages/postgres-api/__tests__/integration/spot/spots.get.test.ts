@@ -1,4 +1,4 @@
-import { User } from './../../../src/orm/entity/User';
+import { User } from '../../../src/orm/entity/User';
 jest.useFakeTimers();
 import express, { Application } from 'express';
 import path from 'path';

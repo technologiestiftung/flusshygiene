@@ -27,7 +27,7 @@ const headers = {
   authorization: `${token.token_type} ${token.access_token}`,
 };
 
-describe.only('Testing bathingspot limits', () => {
+describe('Testing bathingspot limits', () => {
   let app: Application;
   let connections: Connection[];
 
@@ -50,14 +50,6 @@ describe.only('Testing bathingspot limits', () => {
       console.warn(err.message);
       throw err;
     }
-  });
-
-  const originalError = console.error;
-  beforeAll(() => {
-    console.error = jest.fn();
-  });
-  afterAll(() => {
-    console.error = originalError;
   });
 
   app = express();
@@ -91,54 +83,25 @@ describe.only('Testing bathingspot limits', () => {
       .set(headers);
     // console.log(ures.body.data);
     const user = ures.body.data[0];
+    for (let i = 0; i < 60; i++) {
+      await request(app)
+        .post(`/api/v1/users/${user.id}/bathingspots/`)
+        .send({ name: `foo-${i}`, isPublic: true })
+        .set(headers);
+    }
 
-    const res500_1 = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/`)
-      .send({ name: 'foo', isPublic: true, influencePurificationPlant: 'foo' })
+    const res = await request(app)
+      .get(`/api/v1/users/${user.id}/bathingspots?limit=100&skip=0`)
       .set(headers);
-    const res500_2 = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/`)
-      .send({
-        name: 'foo',
-        isPublic: true,
-        influenceCombinedSewerSystem: 'foo',
-      })
-      .set(headers);
-    const res500_3 = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/`)
-      .send({ name: 'foo', isPublic: true, influenceRainwater: 'foo' })
-      .set(headers);
-    const res500_4 = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/`)
-      .send({ name: 'foo', isPublic: true, influenceAgriculture: 'foo' })
+    const resNoLimits = await request(app)
+      .get(`/api/v1/users/${user.id}/bathingspots`)
       .set(headers);
 
-    const res201no = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/`)
-      .send({ name: 'foo', isPublic: true, influencePurificationPlant: 'no' })
-      .set(headers);
-    const res201yes = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/`)
-      .send({ name: 'foo', isPublic: true, influencePurificationPlant: 'yes' })
-      .set(headers);
-    const res201unknown = await request(app)
-      .post(`/api/v1/users/${user.id}/bathingspots/`)
-      .send({
-        name: 'foo',
-        isPublic: true,
-        influencePurificationPlant: 'unknown',
-      })
-      .set(headers);
-    // console.log(res500.status);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.status).toBe(200);
+    expect(res.body.data.length).toBeLessThanOrEqual(50);
+    expect(resNoLimits.body.data.length).toBeLessThanOrEqual(50);
 
-    expect(res500_1.status).toBe(500);
-    expect(res500_2.status).toBe(500);
-    expect(res500_3.status).toBe(500);
-    expect(res500_4.status).toBe(500);
-    expect(console.error).toHaveBeenCalledTimes(8);
-    expect(res201no.status).toBe(201);
-    expect(res201yes.status).toBe(201);
-    expect(res201unknown.status).toBe(201);
     done();
   });
 });

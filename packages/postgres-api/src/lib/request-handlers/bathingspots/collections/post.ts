@@ -12,6 +12,7 @@ import {
   responder,
   responderWrongId,
   successResponse,
+  responderWrongRoute,
 } from '../../responders';
 
 import { getSpot, getSpotWithRelation } from '../../../utils/spot-repo-helpers';
@@ -19,6 +20,7 @@ import { getSpot, getSpotWithRelation } from '../../../utils/spot-repo-helpers';
 import {
   collectionRepoMapping,
   getGIWithRelations,
+  getPPlantWithRelations,
 } from '../../../utils/collection-repo-helpers';
 
 import { getConnection, getRepository, ObjectLiteral } from 'typeorm';
@@ -35,6 +37,7 @@ import {
   ImageFile,
   PurificationPlant,
   Rain,
+  PPlantMeasurement,
 } from '../../../../orm/entity';
 
 // interface IIdentifier {
@@ -62,62 +65,142 @@ export const postCollectionsSubItem: postResponse = async (
 ) => {
   try {
     // const repoName = collectionRepoMapping[request.params.collection];
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
-    const collectionName = request.params.collectionName;
+    // const userId = parseInt(request.params.userId, 10);
+    // const spotId = parseInt(request.params.spotId, 10);
+    // const collectionName = request.params.collectionName;
     const itemId = request.params.itemId;
-    if (collectionNames.includes(collectionName) === false) {
-      responder(response, HttpCodes.badRequest, {
-        message: `"${collectionName}" not included in "${JSON.stringify(
-          collectionNames,
-        )}"`,
-        success: false,
-      });
+    let bulkPost = false;
+    // const spot = response.locals.spot;
+    const collectionName = response.locals.collectionName;
+
+    // if (collectionNames.includes(collectionName) === false) {
+    //   responder(response, HttpCodes.badRequest, {
+    //     message: `"${collectionName}" not included in "${JSON.stringify(
+    //       collectionNames,
+    //     )}"`,
+    //     success: false,
+    //   });
+    // } else
+    // {
+    // const spot = await getSpot(userId, spotId);
+
+    const repoName = collectionRepoMapping[collectionName];
+    // const repoPPlant = getRepository(PurificationPlant);
+    // const repoPPlantMeasurement = getRepository(PPlantMeasurement);
+    // let inData: GInputMeasurement[] = [];
+
+    // let pp: PurificationPlant | undefined;
+    let res;
+    let inData: any = [];
+    if (Array.isArray(request.body) === false) {
+      inData.push(request.body);
     } else {
-      const spot = await getSpot(userId, spotId);
-
-      const repoName = collectionRepoMapping[collectionName];
-      const repoGenericInput = getRepository(GenericInput);
-      const repoGInputMeasurement = getRepository(GInputMeasurement);
-      const gi = await getGIWithRelations(itemId);
-      if (spot === undefined || gi === undefined) {
-        responderWrongId(response);
-      } else {
-        let inData: GInputMeasurement[] = [];
-        const mergedEntities: GInputMeasurement[] = [];
-        let mergedEntity: GInputMeasurement | undefined;
-        if (Array.isArray(request.body) === false) {
-          inData.push(request.body);
+      inData = request.body;
+      bulkPost = true;
+    }
+    switch (repoName) {
+      case 'GenericInput': {
+        const gi = await getGIWithRelations(itemId);
+        if (gi === undefined) {
+          responderWrongId(response);
+          return;
+        }
+        const repoGInputMeasurement = getRepository(GInputMeasurement);
+        const measurements = repoGInputMeasurement.create(inData);
+        res = await repoGInputMeasurement.save(measurements);
+        if (gi.measurements === undefined) {
+          gi.measurements = measurements;
         } else {
-          inData = request.body;
+          gi.measurements.push(...measurements);
         }
-        // const repo: any = getRepository(repoName);
-        for (const datum of inData) {
-          // let res;
-          switch (repoName) {
-            case 'GenericInput':
-              const measurement = repoGInputMeasurement.create();
-              mergedEntity = repoGInputMeasurement.merge(measurement, datum);
-              if (gi.measurements === undefined) {
-                gi.measurements = [];
-              }
-              // } else {
-              gi.measurements.push(mergedEntity);
-              // }
-              await repoGenericInput.save(gi);
-              mergedEntities.push(mergedEntity);
-              break;
-          }
+        const repoGenericInput = getRepository(GenericInput);
+        await repoGenericInput.save(gi);
+        // res = measurements;
+        break;
+      }
+      case 'PurificationPlant': {
+        const pp = await getPPlantWithRelations(itemId);
+        if (pp === undefined) {
+          responderWrongId(response);
+          return;
         }
-
-        const res = await repoGInputMeasurement.save(mergedEntities);
-        responder(
-          response,
-          HttpCodes.successCreated,
-          successResponse(`${repoName} measurement posted.`, res),
-        );
+        const repoPPlantMeasurement = getRepository(PPlantMeasurement);
+        const measurements = repoPPlantMeasurement.create(inData);
+        res = await repoPPlantMeasurement.save(measurements);
+        // console.log(measurements);
+        if (pp.measurements === undefined) {
+          pp.measurements = measurements;
+        } else {
+          pp.measurements.push(...measurements);
+        }
+        const repoPPlant = getRepository(PurificationPlant);
+        await repoPPlant.save(pp);
+        // res = measurements;
+        break;
+      }
+      default: {
+        responderWrongRoute(response);
+        return;
       }
     }
+    // const repoGInputMeasurement = getRepository(GInputMeasurement);
+    // const repoPPlantMeasurement = getRepository(PPlantMeasurement);
+    // else
+    // {
+
+    // const mergedEntities: GInputMeasurement[] = [];
+    // let mergedEntity: GInputMeasurement | undefined;
+
+    // if (Array.isArray(request.body) === false) {
+    //   inData.push(request.body);
+    // } else {
+    //   inData = request.body;
+    // }
+    // const repo: any = getRepository(repoName);
+    // let res;
+    // for (const datum of inData) {
+
+    //   switch (repoName) {
+    //     case 'GenericInput': {
+    //       const measurement = repoGInputMeasurement.create(datum);
+    //       // mergedEntity = repoGInputMeasurement.merge(measurement, datum);
+    //       if (gi!.measurements === undefined) {
+    //         gi!.measurements = [];
+    //       }
+    //       // } else {
+    //       gi!.measurements.push(
+    //         measurement as GInputMeasurement,
+    //       );
+    //       // }
+    //       mergedEntities.push(measurement);
+    //       break;
+    //     }
+    //     case 'PurificationPlant': {
+    //       const measurement = repoPPlantMeasurement.create(datum);
+    //       if (pp!.measurements === undefined) {
+    //         pp!.measurements = [];
+    //       }
+    //       pp!.measurements.push(
+    //         measurement as PPlantMeasurement,
+    //       );
+    //       break;
+    //     }
+    //   }
+    // }
+
+    // console.log(res);
+    // res = await repoGInputMeasurement.save(mergedEntities);
+    // await repoGenericInput.save(gi as GenericInput);
+    responder(
+      response,
+      HttpCodes.successCreated,
+      successResponse(
+        `${repoName} measurement posted.`,
+        bulkPost === true ? res : [res[0]],
+      ),
+    );
+    // }
+    // }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }

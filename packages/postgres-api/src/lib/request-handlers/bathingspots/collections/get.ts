@@ -3,8 +3,8 @@ import { getResponse, HttpCodes } from '../../../common';
 import {
   collectionRepoMapping,
   getColletionItemById,
-  getGIWithRelations,
   getPPlantWithRelations,
+  getGIWithRelations,
 } from '../../../utils/collection-repo-helpers';
 
 import {
@@ -27,6 +27,7 @@ export const getGenericInputMeasurements: getResponse = async (
     const userId = parseInt(request.params.userId, 10);
     const spotId = parseInt(request.params.spotId, 10);
     const itemId = request.params.itemId;
+    const subItemId = parseInt(request.params.subItemId, 10);
     const collectionName = request.params.collectionName;
     const allowedRepos = ['genericInputs', 'purificationPlants'];
     const repoName = collectionRepoMapping[collectionName];
@@ -56,13 +57,21 @@ export const getGenericInputMeasurements: getResponse = async (
         if (collection === undefined) {
           responderWrongId(response);
         } else {
+          let res: any = [];
+          if (subItemId !== undefined && isNaN(subItemId) === false) {
+            collection.measurements.forEach((elem: any) => {
+              if (elem.id === subItemId) {
+                res.push(elem);
+              }
+            });
+          } else {
+            res = collection.measurements;
+          }
+
           responder(
             response,
             HttpCodes.success,
-            successResponse(
-              `${repoName} measurements.`,
-              collection.measurements,
-            ),
+            successResponse(`${repoName} measurements.`, res),
           );
         }
       }

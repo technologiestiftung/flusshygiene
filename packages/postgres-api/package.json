@@ -5,6 +5,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "ts-node":"ts-node src/index.ts",
     "test": "jest --runInBand",
     "test:watch": "jest --runInBand --watch",
     "testWithCoverage": "jest --coverage --setupFiles ./__tests__/setupFiles/config",
