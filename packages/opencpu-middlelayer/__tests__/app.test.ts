@@ -6,6 +6,7 @@ const mockedRedis = jest
   .spyOn(redis, 'createClient')
   .mockImplementation(redis_mock.createClient);
 import app from '../src/app';
+import { logger } from '../src/logger';
 
 const mock = jest.mock('../src/post-pass-through', () => {
   return (
@@ -17,12 +18,25 @@ const mock = jest.mock('../src/post-pass-through', () => {
     }
   );
 });
+
+beforeAll(() => {
+  logger.transports.forEach((elem) => {
+    elem.silent = true;
+  });
+});
+// afterAll(() => {
+//   mockedRedis.mockRestore();
+// });
+
 beforeEach(() => {
   mock.resetAllMocks();
 });
 afterAll(() => {
   mockedRedis.mockRestore();
   mock.restoreAllMocks();
+  logger.transports.forEach((elem) => {
+    elem.silent = false;
+  });
 });
 describe('basic app tests', () => {
   test('should mount', async (done) => {
