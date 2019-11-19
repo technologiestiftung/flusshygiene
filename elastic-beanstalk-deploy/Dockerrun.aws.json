@@ -57,7 +57,7 @@
     },
     {
       "name": "nginx",
-      "image": "technologiestiftung/flusshygiene-nginx-gateway:test-ocpu-dev",
+      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.1.0-dev",
       "hostname": "nginx",
       "essential": true,
       "memory": 512,
@@ -71,7 +71,7 @@
           "containerPort": 80
         }
       ],
-      "links": ["api:api", "spa:spa", "ocpu:ocpu", "middlelayer:middlelayer"]
+      "links": ["api:api", "spa:spa", "middlelayer:middlelayer"]
     }
   ]
 }
