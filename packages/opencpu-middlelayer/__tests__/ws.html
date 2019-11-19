@@ -15,7 +15,7 @@
       const socket = new WebSocket(`ws://${location.hostname}:4004`);
       socket.onmessage = (message) => {
         console.log(message.data);
-        document.body.append(message.datafr);
+        document.body.append(message.data);
       };
       socket.onopen = () => {
         let interval = setInterval(() => {

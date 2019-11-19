@@ -1,0 +1,16 @@
+{
+  "name": "docker-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r dotenv/config index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "docker-hub-api": "^0.8.0",
+    "dotenv": "^8.2.0"
+  }
+}

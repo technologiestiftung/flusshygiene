@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  nginx-gateway:
+    image: nginx-gateway
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"

@@ -5,7 +5,7 @@
   "description": "Monorepo for the flusshygiene application",
   "main": " ",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lerna:version":"lerna version --no-git-tag-version"
   },
   "repository": {
     "type": "git",

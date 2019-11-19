@@ -4,7 +4,7 @@
 # change opencpu Password
 ######## https://hub.docker.com/r/opencpu/base/dockerfile #
 # FROM opencpu/base:v2.1.3
-FROM technologiestiftung/flusshygiene-opencpu-base:v0.5.1-dev as base
+FROM technologiestiftung/flusshygiene-opencpu-base:v2.1.0-dev as base
 LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"
@@ -22,7 +22,7 @@ COPY opencpu-config/user.conf /etc/opencpu/server.conf.d/
 # ENV TOKEN_PROD $TOKEN_PROD
 
 # COPY "./files/.vimrc" "~/"
-RUN R -e "remotes::install_github(\"kwb-r/fhpredict@v0.8.0\", build_vignettes = FALSE, force= TRUE)"
+RUN R -e "remotes::install_github(\"kwb-r/fhpredict@v0.8.2\", build_vignettes = FALSE, force= TRUE)"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004
 EXPOSE 80
