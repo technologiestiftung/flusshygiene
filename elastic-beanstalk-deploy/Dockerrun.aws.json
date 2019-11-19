@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "api",
-      "image": "technologiestiftung/flusshygiene-postgres-api:v2.0.0-dev",
+      "image": "technologiestiftung/flusshygiene-postgres-api:v2.1.0-dev",
       "hostname": "api",
       "essential": false,
       "memory": 3072,
@@ -16,7 +16,7 @@
     },
     {
       "name": "ocpu",
-      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.0.0-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:test-dev",
       "hostname": "ocpu",
       "essential": false,
       "memory": 2048,
@@ -42,7 +42,7 @@
     },
     {
       "name": "middlelayer",
-      "image": "technologiestiftung/flusshygiene-opencpu-middlelayer:v2.0.0-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-middlelayer:v2.1.0-dev",
       "hostname": "middlelayer",
       "essential": false,
       "memory": 256,
