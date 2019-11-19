@@ -1,11 +1,11 @@
 {
   "name": "@tsb/postgres-api",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "ts-node":"ts-node src/index.ts",
+    "ts-node": "ts-node src/index.ts",
     "test": "jest --runInBand",
     "test:watch": "jest --runInBand --watch",
     "testWithCoverage": "jest --coverage --setupFiles ./__tests__/setupFiles/config",
