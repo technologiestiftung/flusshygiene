@@ -16,7 +16,7 @@
     },
     {
       "name": "ocpu",
-      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.0.0-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:test-dev",
       "hostname": "ocpu",
       "essential": false,
       "memory": 2048,
@@ -29,7 +29,7 @@
     },
     {
       "name": "spa",
-      "image": "technologiestiftung/flusshygiene-cms-spa:test-dev",
+      "image": "technologiestiftung/flusshygiene-cms-spa:2.1.0-dev",
       "hostname": "spa",
       "essential": false,
       "memory": 512,
