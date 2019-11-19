@@ -57,7 +57,7 @@
     },
     {
       "name": "nginx",
-      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.1.0-dev",
+      "image": "technologiestiftung/flusshygiene-nginx-gateway:test-ocpu-dev",
       "hostname": "nginx",
       "essential": true,
       "memory": 512,
