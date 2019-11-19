@@ -10,6 +10,7 @@ import { BroadCaster } from '../src/events-broadcaster';
 import app from '../src/app';
 import nock from 'nock';
 import request from 'supertest';
+import { logger } from '../src/logger';
 
 jest.useFakeTimers();
 const scope = nock('http://localhost:4444')
@@ -21,8 +22,17 @@ const scope = nock('http://localhost:4444')
   .reply(201, {})
   .post('/middlelayer/foo/bah')
   .reply(201, {});
+
 afterAll(() => {
   mockedRedis.mockRestore();
+  logger.transports.forEach((elem) => {
+    elem.silent = false;
+  });
+});
+beforeAll(() => {
+  logger.transports.forEach((elem) => {
+    elem.silent = true;
+  });
 });
 
 describe('basic route tests', () => {
@@ -56,6 +66,7 @@ describe('basic route tests', () => {
     expect(response.status).toBe(201);
     expect(response.body).toMatchSnapshot({
       sessionID: expect.any(String),
+      version: expect.any(String),
     });
     done();
   });

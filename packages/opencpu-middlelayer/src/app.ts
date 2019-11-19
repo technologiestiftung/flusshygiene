@@ -3,22 +3,23 @@ import { REDIS_HOST, REDIS_PORT, SESSION_SECRET } from './common/constants';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import { logStream } from './logger';
+import { logStream, logger } from './logger';
 import morgan from 'morgan';
 import redis from 'redis';
 import { router } from './http-router';
 import session from 'express-session';
 import uuidv4 from 'uuid/v4';
+import { timeoutMiddleware } from './middleware';
 
 const RedisStore = require('connect-redis')(session);
 const client = redis.createClient({ host: REDIS_HOST, port: REDIS_PORT });
 client.on('error', console.error);
 client.on('connect', () => {
-  console.info('redis client has connected');
+  logger.info('redis client has connected');
 });
 
 client.on('end', () => {
-  console.info('redis client session has disconnected');
+  logger.info('redis client session has disconnected');
 });
 
 const app = express();
@@ -54,5 +55,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(timeoutMiddleware);
 app.use('/middlelayer', router);
 export default app;

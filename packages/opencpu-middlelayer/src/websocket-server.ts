@@ -1,6 +1,7 @@
 import WebSocket, { OPEN as WSOPEN } from 'ws';
 
 import http from 'http';
+import { logger } from './logger';
 
 const greeting = 'welcome from backend WebSocketServer';
 const connection = (socket: WebSocket) => {
@@ -9,7 +10,7 @@ const connection = (socket: WebSocket) => {
 };
 
 const listener = (message: WebSocket.Data) => {
-  process.stdout.write(`received: ${message}\n`);
+  logger.info('received:', message);
 };
 
 const websocketServer = (server: http.Server) => {
