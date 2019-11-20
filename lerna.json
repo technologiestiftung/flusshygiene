@@ -8,5 +8,24 @@
       "allowBranch": "master",
       "message": "chore(release): publish %s"
     }
+  },
+  "changelog": {
+    "labels": {
+      "Packages: CMS SPA Frontend": "Packages: CMS SPA Frontend",
+      "Packages: Cronbot": "Packages: Cronbot",
+      "Packages: FHPredict API": "Packages: FHPredict API",
+      "Packages: FHPredict Base": "Packages: FHPredict Base",
+      "Packages: Middlelayer": "Packages: Middlelayer",
+      "Packages: nginx gateway":"Packages: nginx gateway",
+      "Packages: Postgres API":"Packages: Postgres API",
+      "Packages: radolan recent": "Packages: radolan recent",
+      "docker":"Docker",
+      "R Package: FHPredict": "R Package: FHPredict",
+      "bug":"bug",
+      "documentation":"documentation",
+      "AWS: Terraform": "AWS: Terraform",
+      "hotfix":"Dirty Little Hotfix",
+      "EB Deploy": "EB Deploy"
+    }
   }
 }
