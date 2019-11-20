@@ -43,7 +43,7 @@
 
     {
       "name": "middlelayer",
-      "image": "technologiestiftung/flusshygiene-opencpu-middlelayer:v2.1.0-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-middlelayer:test-sleep-dev",
       "hostname": "middlelayer",
       "essential": false,
       "memory": 256,
