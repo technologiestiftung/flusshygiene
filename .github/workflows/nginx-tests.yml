@@ -31,4 +31,4 @@ jobs:
       - name: image build test
         run: |
           cd packages/nginx-gateway/
-          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker build --label version=${GITHUB_REF##*/}  --build-arg OCPU_USER=${{secrets.OCPU_USER}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
