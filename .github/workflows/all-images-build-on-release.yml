@@ -24,7 +24,7 @@ jobs:
         run:  |
           cd packages/nginx-gateway/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker build --label version=${GITHUB_REF##*/} --build-arg OCPU_USER=${{secrets.OCPU_USER}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
 
 
