@@ -9,7 +9,7 @@ import redis from 'redis';
 import { router } from './http-router';
 import session from 'express-session';
 import uuidv4 from 'uuid/v4';
-import { timeoutMiddleware } from './middleware';
+import { timeoutMiddleware, sleepFuncCheck } from './middleware';
 
 const RedisStore = require('connect-redis')(session);
 const client = redis.createClient({ host: REDIS_HOST, port: REDIS_PORT });
@@ -56,5 +56,5 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(timeoutMiddleware);
-app.use('/middlelayer', router);
+app.use('/middlelayer', sleepFuncCheck, router);
 export default app;

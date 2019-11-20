@@ -81,6 +81,17 @@ describe('basic route tests', () => {
     done();
   });
 
+  test('should respond with forbidden on sleep in production', async (done) => {
+    const oldEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+    // console.log('we are on production', process.env.NODE_ENV);
+    const response = await request(app)
+      .post('/middlelayer/sleep')
+      .send({ seconds: 10 });
+    expect(response.status).toBe(403);
+    process.env.NODE_ENV = oldEnv;
+    done();
+  });
   test.todo(
     'should respond with 404 due to missing payload' /*, async (done) => {
     const response = await request(app)
