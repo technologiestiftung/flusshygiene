@@ -25,7 +25,8 @@
           "sourceVolume": "awseb-logs-ocpu",
           "containerPath": "/var/log/ocpu"
         }
-      ]
+      ],
+      "links":["api:api", "middlelayer:middlelayer"]
     },
     {
       "name": "spa",
@@ -57,7 +58,7 @@
     },
     {
       "name": "nginx",
-      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.1.0-dev",
+      "image": "technologiestiftung/flusshygiene-nginx-gateway:test-public-ocpu-dev",
       "hostname": "nginx",
       "essential": true,
       "memory": 512,
@@ -71,7 +72,7 @@
           "containerPort": 80
         }
       ],
-      "links": ["api:api", "spa:spa", "middlelayer:middlelayer"]
+      "links": ["api:api", "spa:spa","ocpu:ocpu", "middlelayer:middlelayer"]
     }
   ]
 }
