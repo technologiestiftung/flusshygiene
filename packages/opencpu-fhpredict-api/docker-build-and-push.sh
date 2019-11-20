@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 export GITHUB_REPOSITORY=technologiestiftung/flusshygiene
-export GITHUB_REF=test
+export GITHUB_REF=test-0.9.0
 export SUFFIX=opencpu-fhpredict-api
 export STAGE=dev
 
