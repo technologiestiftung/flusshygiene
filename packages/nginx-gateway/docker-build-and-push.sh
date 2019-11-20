@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 IFS=$'\n\t'
+
 export GITHUB_REPOSITORY=technologiestiftung/flusshygiene
 export GITHUB_REF=test
-export SUFFIX=opencpu-fhpredict-api
+export SUFFIX=nginx-gateway
 export STAGE=dev
 
 print_usage() {
@@ -22,10 +23,11 @@ while getopts 't:s:' flag; do
   esac
 done
 
+
 echo "${GITHUB_REPOSITORY}"
 echo "${GITHUB_REF}"
 echo "${SUFFIX}"
 echo "${STAGE}"
 
-docker build  --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}" .
-docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}"
+ docker build  --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-dev" .
+docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-dev"
