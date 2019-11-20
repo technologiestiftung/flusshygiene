@@ -16,7 +16,7 @@
     },
     {
       "name": "ocpu",
-      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:test-0.7.0-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:test-dev-branch-",
       "hostname": "ocpu",
       "essential": false,
       "memory": 2048,
@@ -25,8 +25,7 @@
           "sourceVolume": "awseb-logs-ocpu",
           "containerPath": "/var/log/ocpu"
         }
-      ],
-      "links":["api:api", "middlelayer:middlelayer"]
+      ]
     },
     {
       "name": "spa",
