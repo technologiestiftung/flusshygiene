@@ -22,3 +22,12 @@ export const timeoutMiddleware: middlewareFunc = (req, res, next) => {
   });
   next();
 };
+
+export const sleepFuncCheck: middlewareFunc = (req, res, next) => {
+  if (process.env.NODE_ENV === 'production' && req.url === '/sleep') {
+    let err = new Error('forbidden');
+    res.statusCode = 403;
+    next(err);
+  }
+  next();
+};
