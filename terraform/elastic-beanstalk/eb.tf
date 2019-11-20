@@ -78,7 +78,7 @@ module "elastic_beanstalk_environment" {
   additional_settings = "${var.additional_settings}"
   env_vars = merge({
 
-    API_URL = "${var.current_host}",
+    API_URL = "${var.current_host}/api/v1/",
     # API_URL = "${module.elastic_beanstalk_environment.endpoint}/api/v1/",
     OCPU_API_HOST_DEV = "${var.ocpu_api_host}",
     # OCPU_API_HOST_DEV = "${module.elastic_beanstalk_environment.endpoint}",
