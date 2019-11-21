@@ -2,16 +2,16 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-export GITHUB_REPOSITORY=technologiestiftung/flusshygiene
-export GITHUB_REF=test
-export SUFFIX=nginx-gateway
-export STAGE=dev
-export OCPU_PW=test
-export OCPU_USER=test
+GITHUB_REPOSITORY="technologiestiftung/flusshygiene"
+GITHUB_REF="test"
+SUFFIX=${PWD##*/}
+STAGE="dev"
+OCPU_PW="test"
+OCPU_USER="test"
 
 print_usage() {
   printf "\n\nUsage:------------------------------\n"
-  printf "Usage: script.sh -t yourtag -s stage\n"
+  printf "Usage: %s -t yourtag -s stage\n" "${0}"
   printf "       If -u flag is not specified it will use '%s'\n" $OCPU_USER
   printf "       If -p flag is not specified it will use '%s'\n" $OCPU_PW
   printf "       If -t flag is not specified it will use '%s'\n" $GITHUB_REF
@@ -35,6 +35,17 @@ echo "${GITHUB_REF}"
 echo "${SUFFIX}"
 echo "${STAGE}"
 echo "${OCPU_USER}"
+
+echo "Your image will be build with this repository/tag: '${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}'"
+echo "Your user for the ocpu/test will be ${OCPU_USER}. Your pw will not be shown here"
+read -p "Are you sure?(y/n) " -n 1 -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  echo "abort!"
+  print_usage
+  exit 1
+fi
 
 
  docker build --build-arg OCPU_USER="${OCPU_USER}" --build-arg OCPU_PW="${OCPU_PW}" --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-dev" .

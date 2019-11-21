@@ -5,7 +5,9 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   # COMMIT_FILTER: "[skip-ci]"
 
-on: [release]
+on:
+  release:
+    types: [published]
 jobs:
 
   nginx:
