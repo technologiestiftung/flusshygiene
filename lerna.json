@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "2.1.1",
+  "version": "2.2.0",
   "command": {
     "version": {
       "allowBranch": "master",
@@ -16,15 +16,15 @@
       "Packages: FHPredict API": "Packages: FHPredict API",
       "Packages: FHPredict Base": "Packages: FHPredict Base",
       "Packages: Middlelayer": "Packages: Middlelayer",
-      "Packages: nginx gateway":"Packages: nginx gateway",
-      "Packages: Postgres API":"Packages: Postgres API",
+      "Packages: nginx gateway": "Packages: nginx gateway",
+      "Packages: Postgres API": "Packages: Postgres API",
       "Packages: radolan recent": "Packages: radolan recent",
-      "docker":"Docker",
+      "docker": "Docker",
       "R Package: FHPredict": "R Package: FHPredict",
-      "bug":"bug",
-      "documentation":"documentation",
+      "bug": "bug",
+      "documentation": "documentation",
       "AWS: Terraform": "AWS: Terraform",
-      "hotfix":"Dirty Little Hotfix",
+      "hotfix": "Dirty Little Hotfix",
       "EB Deploy": "EB Deploy"
     }
   }
