@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+  postgres:
+    container_name: 'postgres-db'
+    image: 'mdillon/postgis:10'
+    ports:
+      - '5432:5432'
+  redis:
+    container_name: 'redis'
+    image: 'redis:5.0.6'
+    ports:
+      - '6379:6379'
+
+  nginx:
+    container_name: 'nginx'
+  api:
+    container_name: 'api'
+  ocpu:
+    container_name: 'ocpu'
+  middlelayer:
+    container_name: 'middlelayer'
+  spa:
+    container_name: 'spa'
+
