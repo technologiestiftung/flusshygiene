@@ -10,7 +10,8 @@
     "start": "node dist/index",
     "dev": "nodemon",
     "build": "tsc -p .",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "wscat": "wscat"
   },
   "keywords": [
     "redis",
@@ -24,6 +25,7 @@
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^6.1.1",
     "@types/express-session": "^1.15.14",
+    "@types/express-ws": "^3.0.0",
     "@types/got": "^9.6.7",
     "@types/helmet": "0.0.44",
     "@types/jest": "^24.0.18",
@@ -51,7 +53,8 @@
     "prettier": "^1.18.2",
     "redis-mock": "^0.46.0",
     "supertest": "^4.0.2",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "wscat": "^4.0.0"
   },
   "dependencies": {
     "@types/express": "^4.17.1",
@@ -61,6 +64,7 @@
     "express": "^4.17.1",
     "express-promise-router": "^3.0.3",
     "express-session": "^1.16.2",
+    "express-ws": "^4.0.0",
     "got": "^9.6.0",
     "helmet": "^3.21.1",
     "husky": "^3.0.5",

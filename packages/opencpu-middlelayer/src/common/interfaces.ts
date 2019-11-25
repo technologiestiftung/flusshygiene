@@ -1,5 +1,9 @@
-interface IObject {
+export interface IObject {
   [key: string]: any;
 }
 
-export { IObject };
+export interface IBroadcastData {
+  event?: 'start' | 'end';
+  payload: IObject;
+  sessionID?: string;
+}

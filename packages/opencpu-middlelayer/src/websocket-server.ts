@@ -25,7 +25,7 @@ const wsSubmit: (wsserver: WebSocket.Server, data?: any) => void = (
 ) => {
   wsserver.clients.forEach((client) => {
     if (client.readyState === WSOPEN) {
-      client.send(data);
+      client.send([data]);
     }
   });
 };
