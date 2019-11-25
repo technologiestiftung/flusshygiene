@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import request from 'supertest';
 import { Connection } from 'typeorm';
 import { DefaultRegions, HttpCodes } from '../../../src/lib/common';
+import publicRoutes from '../../../src/lib/routes-public';
 import routes from '../../../src/lib/routes';
 import { findByName } from '../../../src/lib/utils/region-repo-helpers';
 import {
@@ -64,7 +65,8 @@ describe('testing regions api', () => {
   app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use('/api/v1/', routes);
+  app.use('/api/v1/public', publicRoutes);
+  app.use('/api/v1', routes);
 
   // ███████╗███████╗████████╗██╗   ██╗██████╗
   // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -82,7 +84,7 @@ describe('testing regions api', () => {
 
   test('should get all regions', async (done) => {
     const res = await request(app)
-      .get(`/api/v1/regions`)
+      .get(`/api/v1/public/regions`)
       .set(headers);
     expect(res.status).toBe(HttpCodes.success);
     expect(res.body.success).toBe(true);
@@ -120,7 +122,7 @@ describe('testing regions api', () => {
       })
       .set(headers);
     const doubeCheckRegion = await request(app).get(
-      `/api/v1/regions/${region.id}`,
+      `/api/v1/public/regions/${region.id}`,
     );
     expect(res.status).toBe(HttpCodes.successCreated);
     // console.log(res.body);
