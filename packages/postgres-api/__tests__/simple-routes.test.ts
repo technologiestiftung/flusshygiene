@@ -1,4 +1,3 @@
-import { apiVersion } from './../src/lib/common/index';
 import express = require('express');
 import request from 'supertest';
 import routes from '../src/lib/routes';

@@ -5,7 +5,6 @@
  */
 import { Application } from 'express';
 import express = require('express');
-import { resolve } from 'path';
 import path from 'path';
 import request from 'supertest';
 import { Connection } from 'typeorm';
@@ -19,6 +18,7 @@ import {
   createTestingConnections,
   readTokenFromDisc,
 } from './test-utils';
+import publicRoutes from '../src/lib/routes-public';
 // let app: Application;
 const token = readTokenFromDisc(path.resolve(__dirname, './.test.token.json'));
 const headers = {
@@ -34,12 +34,13 @@ afterAll(() => {
 });
 describe('testing missing db connection', () => {
   let app: Application;
-  let connections: Connection[];
+  // let connections: Connection[];
   beforeAll(async (done) => {
     app = express();
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use('/api/v1/', routes);
+    app.use('/api/v1/public', publicRoutes);
     app.use('/test/spots', getBathingspots);
     app.use('/test/spots/noid', getSingleBathingspot);
     if (process.env.NODE_ENV !== 'test') {
@@ -47,8 +48,8 @@ describe('testing missing db connection', () => {
         'We are not in the test env this is harmful tables will be dropped',
       );
     }
-    connections = await createTestingConnections();
-    await closeTestingConnections(connections);
+    // connections = await createTestingConnections();
+    // await closeTestingConnections(connections);
 
     done();
   });
@@ -73,6 +74,7 @@ describe('testing missing db connection', () => {
     expect(res.status).toBe(500);
     done();
   });
+
   it('should return 500 on route getUser id', async (done) => {
     const res = await request(app)
       .get('/api/v1/users/1')
@@ -80,6 +82,7 @@ describe('testing missing db connection', () => {
     expect(res.status).toBe(500);
     done();
   });
+
   it.skip('should return 500 on route getUsers id bathingspots', async (done) => {
     const res = await request(app)
       .get('/api/v1/users/1/bathingspots')
@@ -180,7 +183,7 @@ describe('testing missing db connection', () => {
   it('should return 500 on route get all bathingspots', async (done) => {
     // getBathingspots);
     const res = await request(app)
-      .get('/api/v1/bathingspots')
+      .get('/api/v1/public/bathingspots')
       .set(headers);
     expect(res.status).toBe(500);
     done();
@@ -188,7 +191,7 @@ describe('testing missing db connection', () => {
   it('should return 500 get bathingspot by id', async (done) => {
     // getBathingspot);
     const res = await request(app)
-      .get('/api/v1/bathingspots/1')
+      .get('/api/v1/public/bathingspots/1')
       .set(headers);
     expect(res.status).toBe(500);
     done();
@@ -197,7 +200,7 @@ describe('testing missing db connection', () => {
   it('should return 404 post bathingspot by id', async (done) => {
     // getBathingspot);
     const res = await request(app)
-      .post('/api/v1/bathingspots')
+      .post('/api/v1/public/bathingspots')
       .send({ name: 'foo', isPublic: true })
       .set(headers);
     expect(res.status).toBe(404);
@@ -207,7 +210,7 @@ describe('testing missing db connection', () => {
   it('should return 500 get regions', async (done) => {
     // getBathingspot);
     const res = await request(app)
-      .get('/api/v1/regions')
+      .get('/api/v1/public/regions')
       .set(headers);
     expect(res.status).toBe(500);
     done();
@@ -215,7 +218,7 @@ describe('testing missing db connection', () => {
   it('should return 500 get regions by id', async (done) => {
     // getBathingspot);
     const res = await request(app)
-      .get('/api/v1/regions/1')
+      .get('/api/v1/public/regions/1')
       .set(headers);
     expect(res.status).toBe(500);
     done();

@@ -12,6 +12,7 @@ import {
   readTokenFromDisc,
   reloadTestingDatabases,
 } from '../../test-utils';
+import publicRoutes from '../../../src/lib/routes-public';
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -64,6 +65,7 @@ describe('testing public bathingspots', () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use('/api/v1/', routes);
+  app.use('/api/v1/public/', publicRoutes);
 
   // ███████╗███████╗████████╗██╗   ██╗██████╗
   // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -79,15 +81,15 @@ describe('testing public bathingspots', () => {
   // ██████╔╝╚██████╔╝██║ ╚████║███████╗
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
-  test.skip('route should fail due to wrong route', async (done) => {
+  test('route should fail due to unauthorized wrong route', async (done) => {
     const res = await request(app).get('/api/v1/');
-    expect(res.status).toBe(404);
-    expect(res.body.success).toBe(false);
+    expect(res.status).toBe(401);
+    // expect(res.body.success).toBe(false);
     done();
   });
 
   test('route get bathingspots', async (done) => {
-    const res = await request(app).get('/api/v1/bathingspots');
+    const res = await request(app).get('/api/v1/public/bathingspots');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body.data)).toBe(true);
     expect(res.body.success).toBe(true);
@@ -96,7 +98,7 @@ describe('testing public bathingspots', () => {
 
   test('route get bathingspot by id', async (done) => {
     // expect.assertions(2);
-    const res = await request(app).get('/api/v1/bathingspots/1');
+    const res = await request(app).get('/api/v1/public/bathingspots/1');
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
     expect(Array.isArray(res.body.data)).toBe(true);
@@ -105,20 +107,20 @@ describe('testing public bathingspots', () => {
 
   test('route get single bathingspot should fail due to worng id', async (done) => {
     // expect.assertions(2);
-    const res = await request(app).get(`/api/v1/bathingspots/${100000}`);
+    const res = await request(app).get(`/api/v1/public/bathingspots/${100000}`);
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
     done();
   });
   test('should fail due to wrong spot region id', async (done) => {
-    const res = await request(app).get(`/api/v1/bathingspots/foo`);
+    const res = await request(app).get(`/api/v1/public/bathingspots/foo`);
     expect(res.status).toBe(HttpCodes.badRequestNotFound);
     expect(res.body.success).toBe(false);
     done();
   });
   test('should return empty spot array', async (done) => {
     const res = await request(app).get(
-      `/api/v1/bathingspots/${DefaultRegions.schleswigholstein}`,
+      `/api/v1/public/bathingspots/${DefaultRegions.schleswigholstein}`,
     );
     expect(res.status).toBe(HttpCodes.success);
     expect(res.body.success).toBe(true);
