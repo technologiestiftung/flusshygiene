@@ -26,7 +26,7 @@ describe('Testing cookie listing dev tool middleware functions', () => {
     expect(spyLogger).toHaveBeenCalled();
     spyLogger.mockReset();
     done();
-    process.env.NOqDE_ENV = nodeEnv;
+    process.env.NODE_ENV = nodeEnv;
   });
 
   test('should log to the console', async (done) => {
