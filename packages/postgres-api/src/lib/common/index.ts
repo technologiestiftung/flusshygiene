@@ -41,6 +41,15 @@ export interface IMetaData {
   key: string;
 }
 
+
+export interface IConstants {
+  AWS_BUCKET: string;
+  ENV_SUFFIX: string;
+  REDIS_HOST: string;
+  REDIS_PORT: number;
+  SESSION_SECRET: string;
+}
+
 /**
  *
  */

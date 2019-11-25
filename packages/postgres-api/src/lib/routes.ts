@@ -1,10 +1,7 @@
 import jwtAuthz from 'express-jwt-authz';
 import Router from 'express-promise-router';
 import { checkJwt } from './auth';
-import {
-  getBathingspots,
-  getSingleBathingspot,
-} from './request-handlers/bathingspots';
+
 import {
   addBathingspotToUser,
   deleteBathingspotOfUser,
@@ -33,15 +30,13 @@ import {
 } from './request-handlers/bathingspots/collections/post-file';
 import { postFileMiddleWare } from './middleware/post-file-mw';
 import { getOneUsersBathingspotsByRegion } from './request-handlers/bathingspots/get';
-import { getBathingspotsByRegion } from './request-handlers/bathingspots/public-get';
+
 import { defaultGetResponse } from './request-handlers/defaults';
 import {
   deleteRegion,
-  getAllRegions,
   postRegion,
   putRegion,
 } from './request-handlers/regions';
-import { getRegionById } from './request-handlers/regions/index';
 // import { defaultGetResponse, defaultPostResponse } from './request-handlers/default-requests';
 import {
   // addUser,
@@ -267,22 +262,6 @@ router.post('/users', checkJwt, checkScopes, postUser);
 router.put('/users/:userId([0-9]+)', checkJwt, checkScopes, updateUser);
 // delete user
 router.delete('/users/:userId([0-9]+)', checkJwt, checkScopes, deleteUser);
-
-// ┌─┐┌─┐┌─┐┌┬┐
-// └─┐├─┘│ │ │
-// └─┘┴  └─┘ ┴
-// ┌─┐┬ ┬┌┐ ┬  ┬┌─┐
-// ├─┘│ │├┴┐│  ││
-// ┴  └─┘└─┘┴─┘┴└─┘
-// get all bathingspots PUBLIC
-router.get('/bathingspots', getBathingspots);
-
-router.get('/bathingspots/:id([0-9]+)', getSingleBathingspot);
-
-router.get('/bathingspots/:region([a-z]+)', getBathingspotsByRegion);
-
-router.get('/regions', getAllRegions);
-router.get('/regions/:regionId([0-9]+)', getRegionById);
 
 // ┬─┐┌─┐┌─┐┬┌─┐┌┐┌┌─┐
 // ├┬┘├┤ │ ┬││ ││││└─┐
