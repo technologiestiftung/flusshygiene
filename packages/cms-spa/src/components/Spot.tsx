@@ -40,11 +40,13 @@ import {
   IconCalc,
   IconComment,
   IconCSV,
+  IconCode,
 } from './fontawesome-icons';
 import {
   formatDate,
   roundToFloatDigits,
 } from '../lib/utils/formatting-helpers';
+import { useEventSource } from '../contexts/eventsource';
 const messageCalibratePredict = {
   calibrate:
     'Ihre Kalibrierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
@@ -58,20 +60,26 @@ type RouteProps = RouteComponentProps<{ id: string }>;
 const Spot: React.FC<RouteProps> = ({ match }) => {
   const { user, isAuthenticated, getTokenSilently } = useAuth0();
   const [ocpuState, ocpuDispatch] = useOcpu();
+  const eventSourceState = useEventSource();
 
   const handleEditModeClick = () => {
     setEditMode(!editMode);
   };
   const handleCalibratePredictClick = (event: React.ChangeEvent<any>) => {
     switch (event.currentTarget.id) {
+      case 'sleep':
       case 'predict':
       case 'model':
       case 'calibrate':
         {
-          const body = {
+          let body;
+          body = {
             spot_id: spot.id,
             user_id: user.pgapiData.id,
           };
+          if (event.currentTarget.id === 'sleep') {
+            body = { seconds: 10 };
+          }
           // console.log('the body we will send', body);
           const action: IOcpuStartAction = {
             type: 'START_OCPU_REQUEST',
@@ -100,12 +108,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     setShowNotification((prevState) => !prevState);
   };
   const dispatch = useDispatch();
+  const [message, setMessage] = useState<string>('');
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
   const [calibratePredictSelector, setCalibratePredictSelector] = useState<
-    'calibrate' | 'predict' | 'model' | undefined
+    'calibrate' | 'predict' | 'model' | 'sleep' | undefined
   >(undefined);
   const [showNotification, setShowNotification] = useState(false);
   const spot = useSelector(
@@ -117,14 +126,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
-  // const fetchOpts: IFetchSpotOptions = {
-  //   method: 'GET',
-  //   url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.bathingspots}/${match.params.id}`,
-  //   headers: {
-  //     'content-type': 'application/json',
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
+  useEffect(() => {
+    console.log('Event source state change');
+    console.log(eventSourceState);
+  }, [eventSourceState]);
+
   useEffect(() => {
     async function getToken() {
       try {
@@ -144,6 +150,24 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }, 5000);
   }, [showNotification]);
 
+  useEffect(() => {
+    setMessage(JSON.stringify(ocpuState.responses[0]));
+    setShowNotification(true);
+  }, [ocpuState]);
+  useEffect(() => {
+    // const filteredEvents = eventSourceState.events.filter((event) => {
+    //   let json;
+    //   try {
+    //     json = JSON.parse(event.data);
+    //   } catch (error) {}
+    //   if (json.event === 'response') {
+    //     return event;
+    //   }
+    // });
+    // console.log('filteredEvents', filteredEvents);
+    setMessage(JSON.stringify(eventSourceState));
+    setShowNotification(true);
+  }, [eventSourceState]);
   useEffect(() => {
     // if (spot.id === parseInt(match.params.id, 10)) {
     //   return;
@@ -187,6 +211,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     const model = sortedModels[sortedModels.length - 1];
     setLastModel(model);
   }, [spot]);
+
   if (editMode === true) {
     return (
       <div className='container'>
@@ -213,7 +238,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {calibratePredictSelector !== undefined
                 ? messageCalibratePredict[calibratePredictSelector]
                 : ''}
-              {JSON.stringify(ocpuState.responses[0])}
+              {message}
             </div>
           </Container>
         )}
@@ -243,6 +268,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {/* <button className='button is-small' onClick={handleEditModeClick}>
                 Editieren
               </button> */}
+              <ButtonIconTB
+                cssId='sleep'
+                text='Sleep'
+                handleClick={handleCalibratePredictClick}
+              >
+                <IconCode></IconCode>
+              </ButtonIconTB>
               <ButtonIconTB
                 cssId='calibrate'
                 additionalClassNames={

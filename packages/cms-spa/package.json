@@ -69,7 +69,6 @@
     "prebuild": "npm run add:version",
     "start": "react-app-rewired start",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build --max-old-space-size=4096",
-    "build:test": "node build-tools/index.js",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "validate": "npm run prettier -- --list-different",
@@ -143,7 +142,7 @@
       "!src/stories/**"
     ]
   },
-  "//proxy": "http://localhost:3003",
+  "proxy": "http://localhost:8888",
   "husky": {
     "hooks": {
       "pre-commit": "npm run add:version && npm run lint-staged"
