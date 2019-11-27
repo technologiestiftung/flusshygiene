@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Server Side Events</title>
+    <meta name="description" content="something" />
+    <meta name="author" content="me" />
+  </head>
+  <body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const pre = document.createElement('pre');
+        const code = document.createElement('code');;
+        code.id = 'target';
+        pre.appendChild(code);
+        document.body.appendChild(pre);
+
+        const eventSource = new EventSource(
+          'http://localhost:8888/middlelayer/stream',
+        );
+
+        eventSource.onmessage = (event) => {
+          let data;
+          // console.log(event.data);
+          try {
+            data = JSON.parse(event.data);
+          } catch (error) {
+            data = event.data;
+          }
+          document.querySelector('#target').textContent = `${document.querySelector('#target').textContent}
+          ${data}`;
+        };
+        eventSource.addEventListener('passthrough', (event) => {
+          let data;
+          try {
+            data = JSON.parse(event.data);
+          } catch (error) {
+            data = event.data;
+          }
+          console.log(data);
+        });
+      });
+    </script>
+  </body>
+</html>
