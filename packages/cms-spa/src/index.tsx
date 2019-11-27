@@ -20,6 +20,7 @@ import {
 } from './lib/config';
 import { OcpuProvider } from './contexts/opencpu';
 import { EventSourceProvider } from './contexts/eventsource';
+import { ApiProvider } from './contexts/postgres-api';
 // import Toggle from './components/Toggle';
 // A function that routes the user to the right place
 // after login
@@ -37,17 +38,19 @@ ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
       <EventSourceProvider>
-        <OcpuProvider>
-          <Auth0Provider
-            domain={REACT_APP_AUTH0_DOMAIN}
-            client_id={REACT_APP_AUTH0_CLIENTID}
-            redirect_uri={window.location.origin}
-            audience={REACT_APP_AUTH0_AUDIENCE}
-            onRedirectCallback={onRedirectCallback}
-          >
-            <App />
-          </Auth0Provider>
-        </OcpuProvider>
+        <ApiProvider>
+          <OcpuProvider>
+            <Auth0Provider
+              domain={REACT_APP_AUTH0_DOMAIN}
+              client_id={REACT_APP_AUTH0_CLIENTID}
+              redirect_uri={window.location.origin}
+              audience={REACT_APP_AUTH0_AUDIENCE}
+              onRedirectCallback={onRedirectCallback}
+            >
+              <App />
+            </Auth0Provider>
+          </OcpuProvider>
+        </ApiProvider>
       </EventSourceProvider>
     </Provider>
   </ErrorBoundary>,
