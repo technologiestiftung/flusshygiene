@@ -407,27 +407,6 @@ export const SpotEditor: React.FC<{
                         // console.log('file', file);
                         props.setFieldValue('csvFile', file);
                         setCsvFile(file);
-
-                        // let reader = new FileReader();
-                        // reader.readAsText(file);
-                        // reader.onerror = (event: ProgressEvent) => {
-                        //   if (reader.error) {
-                        //     console.error(reader.error);
-                        //   }
-                        // };
-                        // reader.onload = (_event: ProgressEvent) => {
-                        //   // if (event === null || event.target === null) return;
-                        //   const csv = reader.result;
-                        //   const validate = (csv) => csv;
-                        //   console.log(validate(csv));
-                        // };
-                        // reader.onloadend = () => {
-                        //   // console.log(reader.result);
-                        //   console.log(
-                        //     'props.values.file',
-                        //     props.values.csvFile,
-                        //   );
-                        // };
                       }}
                     ></SpotEditorFile>
                   }

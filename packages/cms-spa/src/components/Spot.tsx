@@ -7,6 +7,8 @@ import {
   IObject,
   IBathingspot,
   IRain,
+  IApiAction,
+  ApiActionTypes,
 } from '../lib/common/interfaces';
 import { Measurement } from './spot/Spot-Measurement';
 import { RootState } from '../lib/state/reducers/root-reducer';
@@ -47,6 +49,7 @@ import {
   roundToFloatDigits,
 } from '../lib/utils/formatting-helpers';
 import { useEventSource } from '../contexts/eventsource';
+import { useApi, apiRequest } from '../contexts/postgres-api';
 const messageCalibratePredict = {
   calibrate:
     'Ihre Kalibrierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
@@ -60,6 +63,7 @@ type RouteProps = RouteComponentProps<{ id: string }>;
 const Spot: React.FC<RouteProps> = ({ match }) => {
   const { user, isAuthenticated, getTokenSilently } = useAuth0();
   const [ocpuState, ocpuDispatch] = useOcpu();
+  const [apiState, apiDispatch] = useApi();
   const eventSourceState = useEventSource();
 
   const handleEditModeClick = () => {
@@ -130,6 +134,32 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     console.log('Event source state change');
     console.log(eventSourceState);
   }, [eventSourceState]);
+
+  useEffect(() => {
+    console.log('apiState', apiState);
+  }, [apiState]);
+
+  useEffect(() => {
+    if (token === undefined) return;
+    const action: IApiAction = {
+      type: ApiActionTypes.START_API_REQUEST,
+      payload: {
+        requestType: { type: 'GET', resource: 'ping' },
+        url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}`,
+        config: {
+          method: 'GET',
+
+          headers: {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: 'include',
+        },
+      },
+    };
+    console.log('run');
+    apiRequest(apiDispatch, action);
+  }, [token, apiDispatch]);
 
   useEffect(() => {
     async function getToken() {

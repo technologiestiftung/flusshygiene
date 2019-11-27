@@ -205,6 +205,45 @@ export interface IAnswer {
   reportAddInfo: string;
 }
 
+// postgres api
+
+export interface IApiActionRequestType {
+  type: 'POST' | 'GET' | 'PUT' | 'DELETE';
+  resource:
+    | 'bathingspot'
+    | 'bathingspots'
+    | 'rains'
+    | 'measurements'
+    | 'predictions'
+    | 'user'
+    | 'users'
+    | 'ping';
+}
+export interface IApiActionPayload {
+  url: string;
+  requestType?: IApiActionRequestType;
+  response?: IObject;
+  config?: RequestInit;
+  error?: Error;
+  [key: string]: any;
+}
+export enum ApiActionTypes {
+  START_API_REQUEST = 'START_API_REQUEST',
+  FINISH_API_REQUEST = 'FINISH_API_REQUEST',
+  FAIL_API_REQUEST = 'FAIL_API_REQUEST',
+}
+export interface IApiAction {
+  type: ApiActionTypes;
+  payload: IApiActionPayload;
+}
+// interface IUser{
+//   [key: string]: any;
+// }
+export interface IApiState {
+  spots: IBathingspot[];
+  [key: string]: any;
+}
+
 // ocpe context interfaces
 
 export type OcpuDispatchTypes =

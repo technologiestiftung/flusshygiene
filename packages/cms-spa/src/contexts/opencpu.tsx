@@ -70,9 +70,7 @@ const OcpuProvider = ({ children }: OcpuProviderProps) => {
 const useOcpuState = () => {
   const stateContext = useContext(OcpuStateContext);
   if (stateContext === undefined) {
-    throw new Error(
-      'useQuestionsState must be used within a QuestionsProvider',
-    );
+    throw new Error('useOcpuState must be used within a OcpuProvider');
   }
 
   return stateContext;
@@ -117,9 +115,7 @@ const postOcpu = async (dispatch: Dispatch, action: IOcpuAction) => {
 const useOcpuDispatch = () => {
   const dispatchContext = useContext(OcpuDispatchContext);
   if (dispatchContext === undefined) {
-    throw new Error(
-      'useQuestionsDispatch must be used within a QuestionsProvider',
-    );
+    throw new Error('useOcpuDispatch must be used within a OcpuProvider');
   }
   return dispatchContext;
 };
