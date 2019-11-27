@@ -23,6 +23,8 @@ client.on('end', () => {
 });
 
 const app = express();
+// const ewss = expressWs(app);
+// const wss = expressWs.getWss();
 app.use(
   session({
     genid: function(_req) {
@@ -39,13 +41,14 @@ app.use(
 );
 const origins = [process.env.APP_HOST_1!, process.env.APP_HOST_2!];
 if (process.env.NODE_ENV === 'development') {
-  origins.push('http://localhost');
+  origins.push(...['http://localhost:3000', 'http://localhost:8888']);
 }
 app.use(
   cors({
     origin: origins,
   }),
 );
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
 } else if (process.env.NODE_ENV === 'test') {
@@ -57,4 +60,5 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(timeoutMiddleware);
 app.use('/middlelayer', sleepFuncCheck, router);
-export default app;
+
+export { app };

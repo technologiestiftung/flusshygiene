@@ -1,0 +1,103 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: "postgres-db"
+    image: "mdillon/postgis:10"
+    ports:
+      - "5432:5432"
+  redis:
+    container_name: "redis"
+    image: "redis:5.0.6"
+    ports:
+      - "6379:6379"
+
+
+
+  nginx:
+    container_name: "nginx"
+    build:
+      context: ./packages/nginx-gateway
+      dockerfile: Dockerfile
+      args:
+        - OCPU_USER=test
+        - OCPU_PW=test
+    ports:
+      - "8888:80"
+    depends_on:
+      - api
+      - spa
+      - ocpu
+      - middlelayer
+      - redis
+      - postgres
+
+
+
+  api:
+    container_name: "api"
+    build:
+      context: ./packages/postgres-api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /usr/app/node_modules
+      - ./packages/postgres-api:/usr/app
+    # command: npm run dev
+    env_file: ./packages/postgres-api/.env
+    environment:
+      - REDIS_HOST_DEV=redis
+      - PG_HOST_DEV=postgres
+      - NODE_DOCKER_ENV=1
+    ports:
+      - "5004:5004"
+    depends_on:
+      - postgres
+      - redis
+
+
+  ocpu:
+    container_name: "ocpu"
+    build:
+      context: ./packages/opencpu-fhpredict-api
+      dockerfile: Dockerfile
+    env_file: ./packages/opencpu-fhpredict-api/.env
+    environment:
+      - FHPREDICT_PG_API_URL=http://localhost:5004/api/v1
+
+
+
+  middlelayer:
+    container_name: "middlelayer"
+    build:
+      context: ./packages/opencpu-middlelayer
+      dockerfile: Dockerfile.dev
+    environment:
+      - REDIS_HOST_DEV=redis
+      - OCPU_API_HOST_DEV=http://ocpu
+      - SESSION_SECRET_DEV=test
+      - APP_HOST=http://localhost:8888
+    volumes:
+      - /usr/app/node_modules
+      - ./packages/opencpu-middlelayer:/usr/app
+
+    depends_on:
+      - ocpu
+      - redis
+  spa:
+    container_name: "spa"
+    # env_file: ./packages/cms-spa/.env
+    build:
+      context: ./packages/cms-spa
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /usr/app/node_modules
+      - ./packages/cms-spa:/usr/app
+    environment:
+      - REACT_APP_API_HOST=http://localhost:8888
+      - REACT_APP_MAPBOX_API_TOKEN=${REACT_APP_MAPBOX_API_TOKEN}
+      - REACT_APP_AUTH0_DOMAIN=${REACT_APP_AUTH0_DOMAIN}
+      - REACT_APP_AUTH0_CLIENTID=${REACT_APP_AUTH0_CLIENTID}
+      - REACT_APP_AUTH0_AUDIENCE=${REACT_APP_AUTH0_AUDIENCE}
+
+
+

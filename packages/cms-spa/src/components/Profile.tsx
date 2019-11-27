@@ -14,7 +14,6 @@ import { IFetchSpotOptions } from '../lib/common/interfaces';
 import { fetchSpots } from '../lib/state/reducers/actions/fetch-get-spots';
 import { CardTile } from './spot/Spot-CardTile';
 import SpotsMap from './spot/Spot-Map';
-// import { useBanner, BannerContext } from '../contexts/banner';
 
 const Profile: React.FC = () => {
   // ╦  ╦╔═╗╦═╗╔═╗
@@ -89,12 +88,6 @@ const Profile: React.FC = () => {
 
   return (
     <React.Fragment>
-      {/* <BannerContext.Consumer>
-        {(value) => {
-          return <div>Hello Banner</div>;
-        }}
-      </BannerContext.Consumer> */}
-
       <Container>
         {(() => {
           if (loading) {
@@ -195,15 +188,6 @@ const Profile: React.FC = () => {
       )}
     </React.Fragment>
   );
-  // if (loading) {
-  //   return
-  // } else {
-  //   return (
-  //     <React.Fragment>
-
-  //     </React.Fragment>
-  //   );
-  // }
 };
 
 export default Profile;

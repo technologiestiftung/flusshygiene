@@ -10,7 +10,8 @@
     "start": "node dist/index",
     "dev": "nodemon",
     "build": "tsc -p .",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "wscat": "wscat"
   },
   "keywords": [
     "redis",
@@ -35,7 +36,6 @@
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.5",
     "@types/winston": "^2.4.4",
-    "@types/ws": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
     "coveralls": "^3.0.6",
@@ -70,8 +70,7 @@
     "ts-jest": "^24.1.0",
     "tsconfig-paths": "^3.9.0",
     "uuid": "^3.3.3",
-    "winston": "^3.2.1",
-    "ws": "^7.1.2"
+    "winston": "^3.2.1"
   },
   "config": {
     "commitizen": {

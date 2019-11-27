@@ -44,6 +44,7 @@ try {
 }
 app.use(cors());
 if (process.env.NODE_ENV === 'development') {
+  app.options('*', cors());
   app.use(morgan('combined'));
 } else {
   app.use(helmet());
