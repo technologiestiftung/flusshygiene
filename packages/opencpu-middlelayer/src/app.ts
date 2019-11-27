@@ -10,7 +10,6 @@ import { router } from './http-router';
 import session from 'express-session';
 import uuidv4 from 'uuid/v4';
 import { timeoutMiddleware, sleepFuncCheck } from './middleware';
-import expressWs from 'express-ws';
 
 const RedisStore = require('connect-redis')(session);
 const client = redis.createClient({ host: REDIS_HOST, port: REDIS_PORT });
@@ -23,10 +22,7 @@ client.on('end', () => {
   logger.info('redis client session has disconnected');
 });
 
-const eapp = express();
-const wsInstance = expressWs(eapp);
-const { app } = wsInstance;
-const wss = wsInstance.getWss();
+const app = express();
 // const ewss = expressWs(app);
 // const wss = expressWs.getWss();
 app.use(
@@ -45,7 +41,7 @@ app.use(
 );
 const origins = [process.env.APP_HOST_1!, process.env.APP_HOST_2!];
 if (process.env.NODE_ENV === 'development') {
-  origins.push('http://localhost');
+  origins.push(...['http://localhost:3000', 'http://localhost:8888']);
 }
 app.use(
   cors({
@@ -65,16 +61,4 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(timeoutMiddleware);
 app.use('/middlelayer', sleepFuncCheck, router);
 
-app.ws('/middlelayer/socket', (ws, _req) => {
-  // console.log(req.sessionID);
-  // logger.info('req loc', req);
-  ws.on('message', (data) => {
-    // console.log(data);
-    logger.info(`Message over ws ${data}`, data);
-    // wss.clients.forEach((client: any) => {
-    //   client.send(data);
-    // });
-  });
-});
-
-export { app, wss };
+export { app };

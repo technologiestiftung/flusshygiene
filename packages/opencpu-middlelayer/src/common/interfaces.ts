@@ -3,7 +3,7 @@ export interface IObject {
 }
 
 export interface IBroadcastData {
-  event?: 'start' | 'end';
+  event?: 'start' | 'end' | 'response';
   payload: IObject;
   sessionID?: string;
 }

@@ -16,6 +16,33 @@ enum FHpredictFunctions {
 // import got from 'got';
 const router = Router();
 const broadcaster = BroadCaster.getInstance();
+/**
+ * No need to have this here in index.
+ * Should go to http-router or broadcaser itself
+ */
+broadcaster.on('passthrough', (data: IBroadcastData) => {
+  switch (data.event) {
+    case 'start': {
+      logger.info('passthrough has started');
+      broadcaster.emit('data', { data });
+      break;
+    }
+    case 'end': {
+      logger.info('passthrough has ended');
+      broadcaster.emit('data', { data });
+      break;
+    }
+    default: {
+      logger.info(
+        `response passed back from opencpu ${JSON.stringify(data)}`,
+        data,
+      );
+      broadcaster.emit('data', { data });
+      break;
+    }
+  }
+});
+router.get('/stream', broadcaster.route);
 
 router.get('/health', async (_req, res) => {
   // req.session!.name = 'foo';
@@ -45,7 +72,7 @@ router.post(
     //   });
     //   return;
     // }
-    logger.info('request body', req.body);
+    logger.info(`request body ${JSON.stringify(req.body)}`);
     let url = '';
     switch (req.url) {
       case '/calibrate':
@@ -78,9 +105,8 @@ router.post(
       .then((body) => {
         // console.log(body);
         broadcaster.emit('passthrough', {
-          payload: {
-            body: body,
-          },
+          event: 'response',
+          payload: body,
           sessionID: req.sessionID,
         } as IBroadcastData);
 
@@ -91,6 +117,7 @@ router.post(
       })
       .catch((error) => {
         broadcaster.emit('passthrough', {
+          event: 'response',
           payload: error,
           sessionID: req.sessionID,
         } as IBroadcastData);

@@ -1,0 +1,14 @@
+# Production Dockerfile
+FROM node:10.16.3-alpine as builder
+
+LABEL maintainer="Fabian Morón Zirfas"
+LABEL description="An middle layer between cms-spa and opencpu-api"
+
+ENV NODE_ENV=development
+WORKDIR /usr/app
+COPY ./package*.json ./
+RUN npm ci --quiet
+COPY ./ ./
+EXPOSE 4004
+CMD ["npm", "run", "dev"]
+
