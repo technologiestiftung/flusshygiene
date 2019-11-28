@@ -1,5 +1,4 @@
-import { IGeoJson, IBathingspot } from './interfaces';
-import { FormikProps, FormikHelpers } from 'formik';
+import { FormikHelpers } from 'formik';
 
 export interface IObject {
   [key: string]: any;
