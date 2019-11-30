@@ -241,6 +241,8 @@ export interface IApiAction {
 export interface IApiState {
   spots: IBathingspot[];
   [key: string]: any;
+  sessionId?: string;
+  currentSpot?: IBathingspot;
 }
 
 // ocpe context interfaces
