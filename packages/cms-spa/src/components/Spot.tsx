@@ -1,4 +1,5 @@
-// import { DEFAULT_SPOT_ID } from '../lib/common/constants';
+import React, { useRef, useEffect, useState } from 'react';
+
 import { APIMountPoints, ApiResources } from '../lib/common/enums';
 import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-get-single-spot';
 import {
@@ -6,69 +7,78 @@ import {
   IOcpuStartAction,
   IObject,
   IBathingspot,
-  IRain,
   IApiAction,
   ApiActionTypes,
 } from '../lib/common/interfaces';
-import { Measurement } from './spot/Spot-Measurement';
 import { RootState } from '../lib/state/reducers/root-reducer';
 import { RouteComponentProps } from 'react-router';
-import { SpotBodyAddonTagGroup } from './spot/Spot-AddonTag-Group';
 import { SpotHeader } from './spot/Spot-Header';
-import { SpotImage } from './spot/Spot-Image';
-import { SpotLocation } from './spot/Spot-Location';
 import { useMapResizeEffect } from '../hooks/map-hooks';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useRef, useEffect, useState } from 'react';
 import { SpotEditor } from './spot/SpotEditor';
-import SpotsMap from './spot/Spot-Map';
 import { SpotModelPlots } from './spot/Spot-Model-Plots';
-
-// import '../assets/styles/spot-editor.scss';
 import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../lib/config';
 import { Container, ContainerNoColumn } from './Container';
 import { useOcpu, postOcpu } from '../contexts/opencpu';
-import {
-  lastElements,
-  arraySortByDateField,
-  genericLastElements,
-} from '../lib/utils/array-helpers';
-import { Table, TableBody, TableRow } from './spot/Spot-Table';
-import { ButtonIconTB } from './Buttons';
-import {
-  IconRain,
-  IconEdit,
-  IconCalc,
-  IconComment,
-  IconCSV,
-  IconCode,
-} from './fontawesome-icons';
-import {
-  formatDate,
-  roundToFloatDigits,
-} from '../lib/utils/formatting-helpers';
 import { useEventSource } from '../contexts/eventsource';
 import { useApi, apiRequest } from '../contexts/postgres-api';
-const messageCalibratePredict = {
-  calibrate:
-    'Ihre Kalibrierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
-  predict:
-    'Ihre Vorhersagegenerierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
-  model:
-    'Ihre Modelierung wurde gestartet. Dies kann etwas dauern. Bitte kommen Sie in einigen Minuten zurück.',
-};
+import { Banner } from './spot/Spot-Banner';
+import { SpotButtonBar } from './spot/Spot-ButtonBar';
+import { SpotAdditionalTags } from './spot/Spot-AdditionalTags';
+import { SpotBasicInfos } from './spot/Spot-BasicInfos';
+import { MapWrapper } from './spot/Spot-Map-Wrapper';
+import { PredictionTable } from './spot/Spot-PredictionTable';
+import { RainTable } from './spot/Spot-RainTable';
+import { SpotMeasurementsTable } from './spot/Spot-MeasurementsTable';
+import { SpotModelTable } from './spot/Spot-ModelTable';
+import { SpotTableBlock } from './spot/Spot-TableBlock';
+import { SpotHr } from './spot/Spot-Hr';
+
+// const messageCalibratePredict = {
+//   calibrate:
+//     'Ihre Kalibrierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
+//   predict:
+//     'Ihre Vorhersagegenerierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
+//   model:
+//     'Ihre Modelierung wurde gestartet. Dies kann etwas dauern. Bitte kommen Sie in einigen Minuten zurück.',
+// };
 type RouteProps = RouteComponentProps<{ id: string }>;
 
+export interface IModelInfo {
+  formula: string;
+  N: number;
+  BP: number;
+  R2: number;
+  n_obs: number;
+  stat_correct: boolean;
+  in50: number;
+  below90: number;
+  below95: number;
+  in95: number;
+}
+
+/**
+ * This is the component that displays a single spot
+ *
+ */
 const Spot: React.FC<RouteProps> = ({ match }) => {
   const { user, isAuthenticated, getTokenSilently } = useAuth0();
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
   const eventSourceState = useEventSource();
 
+  /**
+   * Toggles the edit mode (open SpotEditor)
+   */
   const handleEditModeClick = () => {
     setEditMode(!editMode);
   };
+
+  /**
+   * Handles the click events on the button bar on top for all the calls to middlelayer
+   *
+   */
   const handleCalibratePredictClick = (event: React.ChangeEvent<any>) => {
     switch (event.currentTarget.id) {
       case 'sleep':
@@ -76,7 +86,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       case 'model':
       case 'calibrate':
         {
-          let body;
+          let body: { spot_id?: number; user_id?: any; seconds?: number };
           body = {
             spot_id: spot.id,
             user_id: user.pgapiData.id,
@@ -108,7 +118,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       default:
         throw new Error('Target for button not defined');
     }
-    setCalibratePredictSelector(event.currentTarget.id);
+    // setCalibratePredictSelector(event.currentTarget.id);
     setShowNotification((prevState) => !prevState);
   };
   const dispatch = useDispatch();
@@ -117,9 +127,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [editMode, setEditMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
-  const [calibratePredictSelector, setCalibratePredictSelector] = useState<
-    'calibrate' | 'predict' | 'model' | 'sleep' | undefined
-  >(undefined);
+  // const [calibratePredictSelector, setCalibratePredictSelector] = useState<
+  // 'calibrate' | 'predict' | 'model' | 'sleep' | undefined
+  // >(undefined);
   const [showNotification, setShowNotification] = useState(false);
   const spot = useSelector(
     (state: RootState) => state.detailSpot.spot as IBathingspot,
@@ -130,15 +140,28 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
+  /**
+   * Displays event source state
+   * FIXME: Just for debuggoing
+   */
   useEffect(() => {
     console.log('Event source state change');
     console.log(eventSourceState);
   }, [eventSourceState]);
 
+  /**
+   * displays api state
+   * FIXME: Just for debugging
+   */
   useEffect(() => {
     console.log('apiState', apiState);
   }, [apiState]);
 
+  /**
+   * This effect is just for testing putrpose and should be removed
+   * Makes a call to the private api
+   * FIXME: Just for debugging and testing
+   */
   useEffect(() => {
     if (token === undefined) return;
     const action: IApiAction = {
@@ -161,6 +184,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     apiRequest(apiDispatch, action);
   }, [token, apiDispatch]);
 
+  /**
+   * This effect gets the api token from the auth0 wrapper
+   *
+   *
+   */
   useEffect(() => {
     async function getToken() {
       try {
@@ -173,6 +201,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     getToken();
   }, [getTokenSilently, setToken]);
 
+  /**
+   * Timing effect for the banner display time
+   */
   useEffect(() => {
     if (showNotification === false) return;
     setTimeout(() => {
@@ -180,28 +211,36 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }, 5000);
   }, [showNotification]);
 
+  /**
+   * this effect sets the content of the banner based on ocpu data
+   *
+   */
   useEffect(() => {
     setMessage(JSON.stringify(ocpuState.responses[0]));
     setShowNotification(true);
   }, [ocpuState]);
+
+  /**
+   * This effect sets the current content of the Banner based on event souce data
+   *
+   *
+   *
+   */
   useEffect(() => {
-    // const filteredEvents = eventSourceState.events.filter((event) => {
-    //   let json;
-    //   try {
-    //     json = JSON.parse(event.data);
-    //   } catch (error) {}
-    //   if (json.event === 'response') {
-    //     return event;
-    //   }
-    // });
-    // console.log('filteredEvents', filteredEvents);
     setMessage(JSON.stringify(eventSourceState));
     setShowNotification(true);
   }, [eventSourceState]);
+
+  /**
+   * This effect calls the api (still redux) and gets information about a single spot
+   *
+   * MIGRATE to new context or better just pass down the information we already have from the profile?
+   * Might be problematic due to missing information
+   *
+   *
+   *
+   */
   useEffect(() => {
-    // if (spot.id === parseInt(match.params.id, 10)) {
-    //   return;
-    // }
     if (token === undefined) return;
     if (user.pgapiData === undefined) return;
     const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
@@ -218,11 +257,25 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     // setFormReadyToRender(true);
   }, [dispatch, match.params.id, token, user, user.pgapiData]);
 
+  /**
+   * This effect checks if the form is ready to formReadyToRender
+   * e.g. if the spot data is already there and it matches the route id
+   *
+   *
+   *
+   */
   useEffect(() => {
     if (spot.id === parseInt(match.params.id!, 10)) {
       setFormReadyToRender(true);
     }
   }, [setFormReadyToRender, spot.id, match.params.id]);
+  /**
+   * This effect sorts the models of the spot and get s the last one
+   *
+   *
+   *
+   *
+   */
   useEffect(() => {
     if (
       spot === undefined ||
@@ -242,6 +295,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     setLastModel(model);
   }, [spot]);
 
+  //
+  //
+  // ---------RENDERING------------------------
+  //
+  //
   if (editMode === true) {
     return (
       <div className='container'>
@@ -262,18 +320,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
     return (
       <>
-        {showNotification === true && (
-          <Container>
-            <div className='notification spot__calib-notification--on-top'>
-              {calibratePredictSelector !== undefined
-                ? messageCalibratePredict[calibratePredictSelector]
-                : ''}
-              {message}
-            </div>
-          </Container>
+        {isAuthenticated === true && showNotification === true && (
+          <Container>{Banner(message)}</Container>
         )}
         <Container>
-          {/* {isSingleSpotLoading === true && <div>loading data</div>} */}
           <SpotHeader
             name={spot.name}
             nameLong={spot.nameLong}
@@ -282,419 +332,53 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             isLoading={isSingleSpotLoading}
           />
         </Container>
-        <Container>
-          <hr />
-        </Container>
+        {SpotHr()}
         {isAuthenticated === true && (
           <Container>
-            <div className='buttons buttons__spot-actions--size'>
-              <ButtonIconTB
-                cssId='edit'
-                handleClick={handleEditModeClick}
-                text='Editieren'
-              >
-                <IconEdit></IconEdit>
-              </ButtonIconTB>
-              {/* <button className='button is-small' onClick={handleEditModeClick}>
-                Editieren
-              </button> */}
-              <ButtonIconTB
-                cssId='sleep'
-                text='Sleep'
-                handleClick={handleCalibratePredictClick}
-              >
-                <IconCode></IconCode>
-              </ButtonIconTB>
-              <ButtonIconTB
-                cssId='calibrate'
-                additionalClassNames={
-                  ocpuState.processing === 'calibrate' ? 'is-loading' : ''
-                }
-                handleClick={handleCalibratePredictClick}
-                text='Regen Laden'
-              >
-                <IconRain></IconRain>
-              </ButtonIconTB>
-              {/* <button
-                className='button is-small'
-                onClick={handleCalibratePredictClick}
-                id='calibrate'
-              >
-                Regen Kalibrierung
-              </button> */}
-              {/* <button
-                className='button is-small'
-                onClick={handleCalibratePredictClick}
-                id='model'
-              >
-                Modellierung
-              </button> */}
-              <ButtonIconTB
-                cssId='model'
-                additionalClassNames={
-                  ocpuState.processing === 'model' ? 'is-loading' : ''
-                }
-                handleClick={handleCalibratePredictClick}
-                text='Modellierung'
-              >
-                <IconCalc></IconCalc>
-              </ButtonIconTB>
-              <ButtonIconTB
-                cssId='predict'
-                additionalClassNames={
-                  ocpuState.processing === 'predict' ? 'is-loading' : ''
-                }
-                handleClick={handleCalibratePredictClick}
-                text='Vorhersage'
-              >
-                <IconComment></IconComment>
-              </ButtonIconTB>
-              {/* <button
-                className='button is-small'
-                onClick={handleCalibratePredictClick}
-                id='predict'
-              >
-                Vorhersage
-              </button> */}
-            </div>
+            {SpotButtonBar({
+              handleEditModeClick,
+              handleCalibratePredictClick,
+              ocpuState,
+            })}
           </Container>
         )}
-
         <ContainerNoColumn>
-          <div className='column is-5'>
-            <h3 className='is-title is-3'>
-              <span>
-                <IconCSV></IconCSV>
-              </span>{' '}
-              <span>Letzte Messung </span>
-            </h3>
-            {(() => {
-              if (
-                spot !== undefined &&
-                spot.measurements !== undefined &&
-                spot.measurements.length > 0
-              ) {
-                return (
-                  <Measurement
-                    measurements={spot.measurements}
-                    hasPrediction={spot.hasPrediction}
-                  ></Measurement>
-                );
-              } else {
-                return (
-                  <Table>
-                    <TableBody>
-                      <TableRow th={'k. A.'} tds={['']}></TableRow>
-                    </TableBody>
-                  </Table>
-                );
-              }
-            })()}
-          </div>
+          {SpotTableBlock({
+            title: { title: 'Letzte Messung', iconType: 'IconCSV' },
+            Table: () => SpotMeasurementsTable(spot),
+          })}
 
-          <div className='column is-5'>
-            <div className='bathingspot__rain'>
-              <h3 className='is-title is-3'>
-                <span>
-                  <IconRain></IconRain>
-                </span>{' '}
-                <span>Mittlere Regenhöhen</span>
-              </h3>
-              <Table>
-                <TableBody>
-                  {spot !== undefined &&
-                    (() => {
-                      if (spot.rains === undefined || spot.rains.length === 0) {
-                        return <TableRow th={'k. A.'} tds={['']}></TableRow>;
-                      } else {
-                        const dateOpts: Intl.DateTimeFormatOptions = {
-                          day: 'numeric',
-                          month: 'short',
-                          weekday: 'short',
-                          year: 'numeric',
-                        };
-                        const sortedRain = spot.rains.sort(
-                          arraySortByDateField,
-                        );
-                        const lastFive = genericLastElements<IRain>(
-                          sortedRain,
-                          5,
-                        );
-
-                        const rows = lastFive.reverse().map((ele, i) => {
-                          const tds = [
-                            `${roundToFloatDigits(ele.value, 2)} mm`,
-                          ];
-                          return (
-                            <TableRow
-                              key={i}
-                              th={formatDate(ele.date, dateOpts)}
-                              tds={tds}
-                            ></TableRow>
-                          );
-                        });
-                        // rows.unshift(
-                        //   <TableRow
-                        //     key={sortedRain.length}
-                        //     th={'Anzahl Datensätze'}
-                        //     tds={[`${sortedRain.length}`]}
-                        //   ></TableRow>,
-                        // );
-                        return rows;
-                      }
-                    })()}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
+          {SpotTableBlock({
+            title: {
+              title: 'Mittlere Regenhöhen',
+              iconType: 'IconRain',
+            },
+            Table: () => RainTable(spot),
+          })}
         </ContainerNoColumn>
         <ContainerNoColumn>
-          <div className='column is-5'>
-            <div className='bathingspot__model'>
-              <h3 className='is-title is-3'>
-                <span>
-                  <IconCalc></IconCalc>
-                </span>{' '}
-                <span>Vorhersage-Modelle</span>
-              </h3>
-
-              {lastModel !== undefined && (
-                <>
-                  {/* <table className='table'> */}
-                  {/* <tbody> */}
-                  {(() => {
-                    const dateOpts = {
-                      day: 'numeric',
-                      month: 'short',
-                      weekday: 'short',
-                      year: 'numeric',
-                    };
-
-                    // const sortedModels = spot.models.sort(
-                    //   (a: IObject, b: IObject) => {
-                    //     return (
-                    //       ((new Date(a.updatedAt) as unknown) as number) -
-                    //       ((new Date(b.updatedAt) as unknown) as number)
-                    //     );
-                    //   },
-                    // );
-
-                    // const lastModel = sortedModels[sortedModels.length - 1];
-
-                    // console.log(lastModel);
-                    interface IModelInfo {
-                      formula: string;
-                      N: number;
-                      BP: number;
-                      R2: number;
-                      n_obs: number;
-                      stat_correct: boolean;
-                      in50: number;
-                      below90: number;
-                      below95: number;
-                      in95: number;
-                    }
-
-                    // {"formula":"log_e.coli ~ r_mean_mean_345","N":0.713,"BP":0.0187,"R2":0.1198,"n_obs":18,"stat_correct":false,"in50":5,"below90":5,"below95":5,"in95":5};
-                    let jsonData: IModelInfo;
-
-                    try {
-                      jsonData = JSON.parse(
-                        lastModel.comment !== undefined
-                          ? lastModel.comment
-                          : '',
-                      );
-                    } catch (error) {
-                      jsonData = {} as IModelInfo;
-                    }
-                    // const lastFive = sortedModels.slice(
-                    //   Math.max(sortedModels.length - 5, 0),
-                    // );
-
-                    // const rows = lastFive
-                    //   .reverse()
-                    //   .map((ele, i) => (
-                    //     <MeasurementTableRow
-                    //       key={i}
-                    //       rowKey={`ID: ${ele.id}`}
-                    //       rowValue={`Generiert am: ${new Date(
-                    //         ele.updatedAt,
-                    //       ).toLocaleDateString('de-DE', dateOpts)}`}
-                    //     />
-                    //   ));
-
-                    if (lastModel === undefined) {
-                      return (
-                        <Table>
-                          <TableBody>
-                            <TableRow th={'k. A.'} tds={['']}></TableRow>
-                          </TableBody>
-                        </Table>
-                      );
-                    }
-                    return (
-                      <Table>
-                        <TableBody>
-                          <TableRow th={'ID:'} tds={[lastModel.id]} />
-                          <TableRow
-                            th={'Generiert am:'}
-                            tds={[
-                              `${new Date(
-                                lastModel.updatedAt,
-                              ).toLocaleDateString('de-DE', dateOpts)}`,
-                            ]}
-                          />
-                          <TableRow
-                            th={'Formel'}
-                            tds={[
-                              jsonData.formula === undefined ||
-                              jsonData.formula.length === 0
-                                ? 'k. A.'
-                                : jsonData.formula,
-                            ]}
-                          />
-                          <TableRow
-                            th={'Anzahl der Datenpunkte'}
-                            tds={[
-                              `${jsonData.n_obs ? jsonData.n_obs : 'k. A.'}`,
-                            ]}
-                          />
-                          <TableRow
-                            th={'Bestimmtheitsmaß (R\u00B2)'}
-                            tds={[`${jsonData.R2 ? jsonData.R2 : 'k. A.'}`]}
-                          />
-                        </TableBody>
-                      </Table>
-                    );
-                  })()}
-                  {/* </tbody> */}
-                  {/* </table> */}
-                </>
-              )}
-            </div>
-          </div>
-          <div className='column is-5'>
-            <h3 className='is-title is-3'>
-              <span>
-                <IconComment></IconComment>
-              </span>{' '}
-              <span>Vorhersage</span>
-            </h3>
-            <Table>
-              <TableBody>
-                {spot !== undefined &&
-                  spot.predictions !== undefined &&
-                  (() => {
-                    const dateOpts = {
-                      day: 'numeric',
-                      month: 'short',
-                      weekday: 'short',
-                      year: 'numeric',
-                    };
-                    const sortedPredictions = spot.predictions.sort(
-                      (a: IObject, b: IObject) => {
-                        return (
-                          ((new Date(a.updatedAt) as unknown) as number) -
-                          ((new Date(b.updatedAt) as unknown) as number)
-                        );
-                      },
-                    );
-                    const lastFive = lastElements(sortedPredictions, 5);
-
-                    const rows = lastFive.reverse().map((ele, i) => {
-                      const tds = [ele.prediction];
-                      return (
-                        <TableRow
-                          key={i}
-                          th={new Date(ele.date).toLocaleDateString(
-                            'de-DE',
-                            dateOpts,
-                          )}
-                          tds={tds}
-                        />
-                      );
-                    });
-                    if (rows.length === 0) {
-                      return <TableRow th='k. A.' tds={['']} />;
-                    }
-                    return rows;
-                  })()}
-              </TableBody>
-            </Table>
-          </div>
+          {SpotTableBlock({
+            title: {
+              title: 'Vorhersage-Modelle',
+              iconType: 'IconCalc',
+            },
+            Table: () => SpotModelTable(lastModel),
+          })}
+          {SpotTableBlock({
+            title: { title: 'Vorhersage', iconType: 'IconComment' },
+            Table: () => PredictionTable(spot),
+          })}
         </ContainerNoColumn>
         {lastModel !== undefined && lastModel.plotfiles !== undefined && (
           <SpotModelPlots plotfiles={lastModel.plotfiles}></SpotModelPlots>
         )}
         <Container>
-          {isSingleSpotLoading === false && (
-            <div ref={mapRef} id='map__container'>
-              <SpotsMap
-                width={mapDims.width}
-                height={mapDims.height}
-                data={(() => {
-                  return Array.isArray(spot) === true ? spot : [spot];
-                })()}
-                zoom={4}
-              />
-            </div>
-          )}
+          {isSingleSpotLoading === false && MapWrapper(mapRef, mapDims, spot)}
         </Container>
         <ContainerNoColumn>
-          {spot !== undefined && (
-            <>
-              <div className='column is-5'>
-                <SpotLocation
-                  name={spot.name}
-                  nameLong={spot.nameLong}
-                  street={spot.street}
-                  location={spot.location}
-                  postalCode={(() => {
-                    if (
-                      spot.postalCode !== undefined &&
-                      spot.postalCode !== null
-                    ) {
-                      return `${spot.postalCode}`;
-                    }
-                    return '';
-                  })()}
-                  city={spot.city}
-                  website={spot.website}
-                />
-              </div>
-              <div className='column is-5'>
-                <SpotImage
-                  image={spot.image}
-                  nameLong={spot.nameLong}
-                  name={spot.name}
-                  imageAuthor={undefined}
-                />
-              </div>
-            </>
-          )}
+          {spot !== undefined && SpotBasicInfos(spot)}
         </ContainerNoColumn>
-        <Container>
-          {spot !== undefined && (
-            <div className='bathingspot__body-addon'>
-              <h3>Weitere Angaben zur Badesstelle</h3>
-              <SpotBodyAddonTagGroup
-                cyanoPossible={spot.cyanoPossible}
-                lifeguard={spot.lifeguard}
-                disabilityAccess={spot.disabilityAccess}
-                hasDisabilityAccesableEntrence={
-                  spot.hasDisabilityAccesableEntrence
-                }
-                restaurant={spot.restaurant}
-                snack={spot.snack}
-                parkingSpots={spot.parkingSpots}
-                bathrooms={spot.bathrooms}
-                disabilityAccessBathrooms={spot.disabilityAccessBathrooms}
-                bathroomsMobile={spot.bathroomsMobile}
-                dogban={spot.dogban}
-              />
-            </div>
-          )}
-        </Container>
+        <Container>{spot !== undefined && SpotAdditionalTags(spot)}</Container>
       </>
     );
   }
