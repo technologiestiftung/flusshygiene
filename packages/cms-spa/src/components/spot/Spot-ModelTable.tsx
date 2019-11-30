@@ -1,7 +1,6 @@
 import React from 'react';
-import { IObject } from '../../lib/common/interfaces';
+import { IObject, IModelInfo } from '../../lib/common/interfaces';
 import { Table, TableBody, TableRow } from './Spot-Table';
-import { IModelInfo } from '../Spot';
 export function SpotModelTable(lastModel?: IObject) {
   const dateOpts = {
     day: 'numeric',
