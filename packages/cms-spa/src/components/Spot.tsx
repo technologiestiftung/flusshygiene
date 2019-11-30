@@ -9,9 +9,9 @@ import {
   IBathingspot,
   IApiAction,
   ApiActionTypes,
+  RouteProps,
 } from '../lib/common/interfaces';
 import { RootState } from '../lib/state/reducers/root-reducer';
-import { RouteComponentProps } from 'react-router';
 import { SpotHeader } from './spot/Spot-Header';
 import { useMapResizeEffect } from '../hooks/map-hooks';
 import { useSelector, useDispatch } from 'react-redux';
@@ -35,34 +35,12 @@ import { SpotModelTable } from './spot/Spot-ModelTable';
 import { SpotTableBlock } from './spot/Spot-TableBlock';
 import { SpotHr } from './spot/Spot-Hr';
 
-// const messageCalibratePredict = {
-//   calibrate:
-//     'Ihre Kalibrierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
-//   predict:
-//     'Ihre Vorhersagegenerierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
-//   model:
-//     'Ihre Modelierung wurde gestartet. Dies kann etwas dauern. Bitte kommen Sie in einigen Minuten zurück.',
-// };
-type RouteProps = RouteComponentProps<{ id: string }>;
-
-export interface IModelInfo {
-  formula: string;
-  N: number;
-  BP: number;
-  R2: number;
-  n_obs: number;
-  stat_correct: boolean;
-  in50: number;
-  below90: number;
-  below95: number;
-  in95: number;
-}
-
 /**
  * This is the component that displays a single spot
  *
  */
 const Spot: React.FC<RouteProps> = ({ match }) => {
+  console.group('Spot');
   const { user, isAuthenticated, getTokenSilently } = useAuth0();
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
@@ -94,7 +72,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           if (event.currentTarget.id === 'sleep') {
             body = { seconds: 10 };
           }
-          // console.log('the body we will send', body);
           const action: IOcpuStartAction = {
             type: 'START_OCPU_REQUEST',
             payload: {
@@ -118,7 +95,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       default:
         throw new Error('Target for button not defined');
     }
-    // setCalibratePredictSelector(event.currentTarget.id);
     setShowNotification((prevState) => !prevState);
   };
   const dispatch = useDispatch();
@@ -127,9 +103,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [editMode, setEditMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
-  // const [calibratePredictSelector, setCalibratePredictSelector] = useState<
-  // 'calibrate' | 'predict' | 'model' | 'sleep' | undefined
-  // >(undefined);
+
   const [showNotification, setShowNotification] = useState(false);
   const spot = useSelector(
     (state: RootState) => state.detailSpot.spot as IBathingspot,
@@ -162,27 +136,27 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    * Makes a call to the private api
    * FIXME: Just for debugging and testing
    */
-  useEffect(() => {
-    if (token === undefined) return;
-    const action: IApiAction = {
-      type: ApiActionTypes.START_API_REQUEST,
-      payload: {
-        requestType: { type: 'GET', resource: 'ping' },
-        url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}`,
-        config: {
-          method: 'GET',
+  // useEffect(() => {
+  //   if (token === undefined) return;
+  //   const action: IApiAction = {
+  //     type: ApiActionTypes.START_API_REQUEST,
+  //     payload: {
+  //       requestType: { type: 'GET', resource: 'ping' },
+  //       url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}`,
+  //       config: {
+  //         method: 'GET',
 
-          headers: {
-            'content-type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          credentials: 'include',
-        },
-      },
-    };
-    console.log('run');
-    apiRequest(apiDispatch, action);
-  }, [token, apiDispatch]);
+  //         headers: {
+  //           'content-type': 'application/json',
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         credentials: 'include',
+  //       },
+  //     },
+  //   };
+  //   console.log('run');
+  //   apiRequest(apiDispatch, action);
+  // }, [token, apiDispatch]);
 
   /**
    * This effect gets the api token from the auth0 wrapper
@@ -237,8 +211,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    * MIGRATE to new context or better just pass down the information we already have from the profile?
    * Might be problematic due to missing information
    *
-   *
-   *
    */
   useEffect(() => {
     if (token === undefined) return;
@@ -256,6 +228,34 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     dispatch(fetchSingleSpot(fetchOpts));
     // setFormReadyToRender(true);
   }, [dispatch, match.params.id, token, user, user.pgapiData]);
+
+  /**
+   *
+   */
+  useEffect(() => {
+    if (token === undefined) return;
+    if (user.pgapiData === undefined) return;
+
+    const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+
+    const action: IApiAction = {
+      type: ApiActionTypes.START_API_REQUEST,
+      payload: {
+        requestType: { type: 'GET', resource: 'bathingspot' },
+        url,
+        config: {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: 'include',
+        },
+      },
+    };
+    console.log('run get bathingspot');
+    apiRequest(apiDispatch, action);
+  }, [token, apiDispatch]);
 
   /**
    * This effect checks if the form is ready to formReadyToRender
@@ -301,6 +301,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   //
   //
   if (editMode === true) {
+    console.groupEnd();
     return (
       <div className='container'>
         <div className='columns is-centered'>
@@ -317,7 +318,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     );
   } else {
     // console.log(spot);
-
+    console.groupEnd();
     return (
       <>
         {isAuthenticated === true && showNotification === true && (

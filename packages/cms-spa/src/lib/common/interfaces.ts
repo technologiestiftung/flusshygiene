@@ -1,4 +1,5 @@
 import { FormikHelpers } from 'formik';
+import { RouteComponentProps } from 'react-router';
 
 export interface IObject {
   [key: string]: any;
@@ -218,14 +219,27 @@ export interface IApiActionRequestType {
     | 'users'
     | 'ping';
 }
+interface IApiResponse {
+  data: IObject[];
+  success: boolean;
+  truncated: boolean;
+  apiVersion: string;
+  message: string;
+}
+
 export interface IApiActionPayload {
   url: string;
-  requestType?: IApiActionRequestType;
-  response?: IObject;
+  requestType: IApiActionRequestType;
+  response?: IApiResponse;
   config?: RequestInit;
   error?: Error;
   [key: string]: any;
 }
+
+export interface IApiFinishedActionPayload extends IApiActionPayload {
+  response: IApiResponse;
+}
+
 export enum ApiActionTypes {
   START_API_REQUEST = 'START_API_REQUEST',
   FINISH_API_REQUEST = 'FINISH_API_REQUEST',
@@ -235,6 +249,9 @@ export interface IApiAction {
   type: ApiActionTypes;
   payload: IApiActionPayload;
 }
+export interface IApiActionFinished extends IApiAction {
+  payload: IApiFinishedActionPayload;
+}
 // interface IUser{
 //   [key: string]: any;
 // }
@@ -243,6 +260,7 @@ export interface IApiState {
   [key: string]: any;
   sessionId?: string;
   currentSpot?: IBathingspot;
+  loading: boolean;
 }
 
 // ocpe context interfaces
@@ -294,6 +312,22 @@ export interface IOcpuState {
   errors: any[];
 }
 
+/**
+ * For table display in spot.tsx
+ */
+export interface IModelInfo {
+  formula: string;
+  N: number;
+  BP: number;
+  R2: number;
+  n_obs: number;
+  stat_correct: boolean;
+  in50: number;
+  below90: number;
+  below95: number;
+  in95: number;
+}
+
 // ╔╦╗┬ ┬┌─┐┌─┐┌─┐
 //  ║ └┬┘├─┘├┤ └─┐
 //  ╩  ┴ ┴  └─┘└─┘
@@ -308,3 +342,9 @@ export type MapEditModes =
 export type MapActiveEditor = 'area' | 'location' | undefined;
 
 export type ColorNames = 'grün' | 'gelb' | 'orange' | 'türkis' | 'rot';
+
+/**
+ * Properties of route
+ * currently only the match string from the url
+ */
+export type RouteProps = RouteComponentProps<{ id: string }>;
