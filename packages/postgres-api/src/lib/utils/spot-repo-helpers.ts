@@ -24,6 +24,22 @@ export const getSpot: (
   }
 };
 
+export const getSpotCount: (userId: number) => Promise<number> = async (
+  userId,
+) => {
+  try {
+    const spotRepo = getRepository(Bathingspot);
+
+    const query = spotRepo
+      .createQueryBuilder('bathingspot')
+      .where('"bathingspot"."userId" = :userId', { userId });
+    const count = await query.getCount();
+    return count;
+  } catch (error) {
+    return error;
+  }
+};
+
 /**
  * Get a spot by its spotId with a relation defined by a string
  * @param spotId

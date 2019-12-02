@@ -29,7 +29,10 @@ import {
   postPlot,
 } from './request-handlers/bathingspots/collections/post-file';
 import { postFileMiddleWare } from './middleware/post-file-mw';
-import { getOneUsersBathingspotsByRegion } from './request-handlers/bathingspots/get';
+import {
+  getOneUsersBathingspotsByRegion,
+  getSpotsCount,
+} from './request-handlers/bathingspots/get';
 
 import { defaultGetResponse } from './request-handlers/defaults';
 import {
@@ -51,7 +54,7 @@ import {
   putCollectionItem,
   putCollectionSubItem,
 } from './request-handlers/bathingspots/collections/put';
-import { checkUserAndSpot } from './middleware/user-spot-check';
+import { checkUserAndSpot, checkUser } from './middleware/user-spot-check';
 import { collectionCheck } from './middleware/collection-check';
 // import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
 
@@ -81,6 +84,14 @@ router.get(
   checkJwt,
   checkScopes,
   getUserBathingspots,
+);
+
+router.get(
+  '/users/:userId([0-9]+)/bathingspots/count',
+  checkJwt,
+  checkScopes,
+  checkUser,
+  getSpotsCount,
 );
 
 router.get(
