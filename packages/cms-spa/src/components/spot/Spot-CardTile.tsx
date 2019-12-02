@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 
 export interface ISpotCard {
   title: string;
-  water: string | undefined;
+  water?: string;
   id: number;
-  image: string;
-  hasPrediction: boolean;
+  image?: string;
+  hasPrediction?: boolean;
   isUserLoggedIn?: boolean;
   spot: IBathingspot;
 }

@@ -37,21 +37,21 @@ const onRedirectCallback = (appState: any) => {
 ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
-      <EventSourceProvider>
+      <Auth0Provider
+        domain={REACT_APP_AUTH0_DOMAIN}
+        client_id={REACT_APP_AUTH0_CLIENTID}
+        redirect_uri={window.location.origin}
+        audience={REACT_APP_AUTH0_AUDIENCE}
+        onRedirectCallback={onRedirectCallback}
+      >
         <ApiProvider>
           <OcpuProvider>
-            <Auth0Provider
-              domain={REACT_APP_AUTH0_DOMAIN}
-              client_id={REACT_APP_AUTH0_CLIENTID}
-              redirect_uri={window.location.origin}
-              audience={REACT_APP_AUTH0_AUDIENCE}
-              onRedirectCallback={onRedirectCallback}
-            >
+            <EventSourceProvider>
               <App />
-            </Auth0Provider>
+            </EventSourceProvider>
           </OcpuProvider>
         </ApiProvider>
-      </EventSourceProvider>
+      </Auth0Provider>
     </Provider>
   </ErrorBoundary>,
   document.getElementById('root'),

@@ -207,17 +207,19 @@ export interface IAnswer {
 
 // postgres api
 
+export type RequestTypes = 'POST' | 'GET' | 'PUT' | 'DELETE';
+export type RequestResourceTypes =
+  | 'bathingspot'
+  | 'bathingspots'
+  | 'rains'
+  | 'measurements'
+  | 'predictions'
+  | 'user'
+  | 'users'
+  | 'ping';
 export interface IApiActionRequestType {
-  type: 'POST' | 'GET' | 'PUT' | 'DELETE';
-  resource:
-    | 'bathingspot'
-    | 'bathingspots'
-    | 'rains'
-    | 'measurements'
-    | 'predictions'
-    | 'user'
-    | 'users'
-    | 'ping';
+  type: RequestTypes;
+  resource: RequestResourceTypes;
 }
 interface IApiResponse {
   data: IObject[];
@@ -261,6 +263,7 @@ export interface IApiState {
   sessionId?: string;
   currentSpot?: IBathingspot;
   loading: boolean;
+  truncated: boolean;
 }
 
 // ocpe context interfaces

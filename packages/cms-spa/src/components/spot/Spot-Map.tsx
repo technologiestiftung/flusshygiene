@@ -55,6 +55,7 @@ const SpotsMap: React.FC<IMapsProps> = ({
   lat,
   lon,
 }) => {
+  // console.log('spotsmap');
   const [isHovered, setIsHovered] = useState(false);
   // const [hoverObject, setHoverObject] = useState<React.ReactNode>(undefined);
   const [hoverObjectPointer, setHoverObjectPointer] = useState<number[]>([]);

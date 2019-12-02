@@ -1,20 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
-
+import { actionCreator } from '../lib/utils/pgapi-actionCreator';
 import { APIMountPoints, ApiResources } from '../lib/common/enums';
-import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-get-single-spot';
+
 import {
-  IFetchSpotOptions,
   IOcpuStartAction,
   IObject,
   IBathingspot,
-  IApiAction,
   ApiActionTypes,
   RouteProps,
 } from '../lib/common/interfaces';
-import { RootState } from '../lib/state/reducers/root-reducer';
+
 import { SpotHeader } from './spot/Spot-Header';
 import { useMapResizeEffect } from '../hooks/map-hooks';
-import { useSelector, useDispatch } from 'react-redux';
 import { SpotEditor } from './spot/SpotEditor';
 import { SpotModelPlots } from './spot/Spot-Model-Plots';
 import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
@@ -34,6 +31,7 @@ import { SpotMeasurementsTable } from './spot/Spot-MeasurementsTable';
 import { SpotModelTable } from './spot/Spot-ModelTable';
 import { SpotTableBlock } from './spot/Spot-TableBlock';
 import { SpotHr } from './spot/Spot-Hr';
+import { Spinner } from './util/Spinner';
 
 /**
  * This is the component that displays a single spot
@@ -58,6 +56,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    *
    */
   const handleCalibratePredictClick = (event: React.ChangeEvent<any>) => {
+    if (spot === undefined) return;
     switch (event.currentTarget.id) {
       case 'sleep':
       case 'predict':
@@ -97,7 +96,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }
     setShowNotification((prevState) => !prevState);
   };
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [message, setMessage] = useState<string>('');
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -105,12 +104,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [token, setToken] = useState<string>();
 
   const [showNotification, setShowNotification] = useState(false);
-  const spot = useSelector(
-    (state: RootState) => state.detailSpot.spot as IBathingspot,
-  );
-  const isSingleSpotLoading = useSelector(
-    (state: RootState) => state.detailSpot.loading,
-  );
+
+  const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
+
+  // const spot = useSelector(
+  //   (state: RootState) => state.detailSpot.spot as IBathingspot,
+  // );
+  // const isSingleSpotLoading = useSelector(
+  //   (state: RootState) => state.detailSpot.loading,
+  // );
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
@@ -118,18 +120,18 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    * Displays event source state
    * FIXME: Just for debuggoing
    */
-  useEffect(() => {
-    console.log('Event source state change');
-    console.log(eventSourceState);
-  }, [eventSourceState]);
+  // useEffect(() => {
+  //   console.log('Event source state change');
+  //   console.log(eventSourceState);
+  // }, [eventSourceState]);
 
   /**
    * displays api state
    * FIXME: Just for debugging
    */
-  useEffect(() => {
-    console.log('apiState', apiState);
-  }, [apiState]);
+  // useEffect(() => {
+  //   console.log('apiState', apiState);
+  // }, [apiState]);
 
   /**
    * This effect is just for testing putrpose and should be removed
@@ -182,7 +184,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     if (showNotification === false) return;
     setTimeout(() => {
       setShowNotification(false);
-    }, 5000);
+    }, 7000);
   }, [showNotification]);
 
   /**
@@ -212,25 +214,26 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    * Might be problematic due to missing information
    *
    */
-  useEffect(() => {
-    if (token === undefined) return;
-    if (user.pgapiData === undefined) return;
-    const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
-    const fetchOpts: IFetchSpotOptions = {
-      method: 'GET',
-      url,
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    };
+  // useEffect(() => {
+  //   if (token === undefined) return;
+  //   if (user.pgapiData === undefined) return;
+  //   const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+  //   const fetchOpts: IFetchSpotOptions = {
+  //     method: 'GET',
+  //     url,
+  //     headers: {
+  //       'content-type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   };
 
-    dispatch(fetchSingleSpot(fetchOpts));
-    // setFormReadyToRender(true);
-  }, [dispatch, match.params.id, token, user, user.pgapiData]);
+  //   dispatch(fetchSingleSpot(fetchOpts));
+  //   // setFormReadyToRender(true);
+  // }, [dispatch, match.params.id, token, user, user.pgapiData]);
 
   /**
-   *
+   * This effect gets one bathingspot
+   * Follow the crumbs to contexts/postgres-api
    */
   useEffect(() => {
     if (token === undefined) return;
@@ -238,25 +241,42 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
     const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
 
-    const action: IApiAction = {
+    // const action: IApiAction = {
+    //   type: ApiActionTypes.START_API_REQUEST,
+    //   payload: {
+    //     requestType: { type: 'GET', resource: 'bathingspot' },
+    //     url,
+    //     config: {
+    //       method: 'GET',
+    //       headers: {
+    //         'content-type': 'application/json',
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //       credentials: 'include',
+    //     },
+    //   },
+    // };
+    const action = actionCreator({
+      token,
+      method: 'GET',
+      url,
       type: ApiActionTypes.START_API_REQUEST,
-      payload: {
-        requestType: { type: 'GET', resource: 'bathingspot' },
-        url,
-        config: {
-          method: 'GET',
-          headers: {
-            'content-type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          credentials: 'include',
-        },
-      },
-    };
+      resource: 'bathingspot',
+    });
     console.log('run get bathingspot');
     apiRequest(apiDispatch, action);
-  }, [token, apiDispatch]);
+  }, [token, apiDispatch, match.params.id, user.pgapiData]);
 
+  useEffect(() => {
+    if (apiState === undefined) return;
+    const filtered = apiState.spots.filter(
+      (spot) => spot.id === parseInt(match.params.id, 10),
+    );
+
+    if (filtered.length > 0) {
+      setSpot(filtered[0]);
+    }
+  }, [apiState, match.params.id]);
   /**
    * This effect checks if the form is ready to formReadyToRender
    * e.g. if the spot data is already there and it matches the route id
@@ -265,10 +285,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    *
    */
   useEffect(() => {
+    if (spot === undefined) return;
     if (spot.id === parseInt(match.params.id!, 10)) {
       setFormReadyToRender(true);
     }
-  }, [setFormReadyToRender, spot.id, match.params.id]);
+  }, [setFormReadyToRender, spot, match.params.id]);
   /**
    * This effect sorts the models of the spot and get s the last one
    *
@@ -300,7 +321,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   // ---------RENDERING------------------------
   //
   //
-  if (editMode === true) {
+  if (editMode === true && spot !== undefined) {
     console.groupEnd();
     return (
       <div className='container'>
@@ -321,18 +342,20 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     console.groupEnd();
     return (
       <>
-        {isAuthenticated === true && showNotification === true && (
-          <Container>{Banner(message)}</Container>
+        {isAuthenticated === true &&
+          showNotification === true &&
+          spot !== undefined && <Container>{Banner(message)}</Container>}
+        {spot !== undefined && (
+          <Container>
+            <SpotHeader
+              name={spot.name}
+              nameLong={spot.nameLong}
+              water={spot.water}
+              district={spot.district}
+              isLoading={apiState.loading}
+            />
+          </Container>
         )}
-        <Container>
-          <SpotHeader
-            name={spot.name}
-            nameLong={spot.nameLong}
-            water={spot.water}
-            district={spot.district}
-            isLoading={isSingleSpotLoading}
-          />
-        </Container>
         {SpotHr()}
         {isAuthenticated === true && (
           <Container>
@@ -344,18 +367,20 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           </Container>
         )}
         <ContainerNoColumn>
-          {SpotTableBlock({
-            title: { title: 'Letzte Messung', iconType: 'IconCSV' },
-            Table: () => SpotMeasurementsTable(spot),
-          })}
+          {spot !== undefined &&
+            SpotTableBlock({
+              title: { title: 'Letzte Messung', iconType: 'IconCSV' },
+              Table: () => SpotMeasurementsTable(spot),
+            })}
 
-          {SpotTableBlock({
-            title: {
-              title: 'Mittlere Regenhöhen',
-              iconType: 'IconRain',
-            },
-            Table: () => RainTable(spot),
-          })}
+          {spot !== undefined &&
+            SpotTableBlock({
+              title: {
+                title: 'Mittlere Regenhöhen',
+                iconType: 'IconRain',
+              },
+              Table: () => RainTable(spot),
+            })}
         </ContainerNoColumn>
         <ContainerNoColumn>
           {SpotTableBlock({
@@ -365,16 +390,20 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             },
             Table: () => SpotModelTable(lastModel),
           })}
-          {SpotTableBlock({
-            title: { title: 'Vorhersage', iconType: 'IconComment' },
-            Table: () => PredictionTable(spot),
-          })}
+          {spot !== undefined &&
+            SpotTableBlock({
+              title: { title: 'Vorhersage', iconType: 'IconComment' },
+              Table: () => PredictionTable(spot),
+            })}
         </ContainerNoColumn>
         {lastModel !== undefined && lastModel.plotfiles !== undefined && (
           <SpotModelPlots plotfiles={lastModel.plotfiles}></SpotModelPlots>
         )}
         <Container>
-          {isSingleSpotLoading === false && MapWrapper(mapRef, mapDims, spot)}
+          {apiState.loading === true && <Spinner />}
+          {spot !== undefined &&
+            apiState.loading === false &&
+            MapWrapper(mapRef, mapDims, spot)}
         </Container>
         <ContainerNoColumn>
           {spot !== undefined && SpotBasicInfos(spot)}

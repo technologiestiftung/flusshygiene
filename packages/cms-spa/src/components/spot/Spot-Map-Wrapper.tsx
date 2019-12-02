@@ -9,6 +9,8 @@ export function MapWrapper(
   },
   spot: IBathingspot,
 ): React.ReactNode {
+  // console.log('mapwrapper');
+
   return (
     <div ref={mapRef} id='map__container'>
       <SpotsMap

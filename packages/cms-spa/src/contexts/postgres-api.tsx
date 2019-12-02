@@ -20,11 +20,9 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
   state,
   action,
 ) => {
-  console.group('api reducer');
   switch (action.type) {
     case ApiActionTypes.START_API_REQUEST: {
       console.log('apiReducer case START', action);
-      console.groupEnd();
       return { ...state, loading: true };
     }
     case ApiActionTypes.FINISH_API_REQUEST: {
@@ -49,11 +47,39 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           /**
            * This is getting a single spot
            */
-          case 'bathingspot': {
+          case 'bathingspots': {
             /**
-             * FIXME: We need to get the id from the URL or we need to pass it along. Better we take it from the URL so we don't have to handle another resource
+             * TODO: Do we need an update of the state or can we just replace them all?
              */
-            const id = 1;
+            // console.log('requesting spots');
+            // console.log(action.payload.response);
+            const newSpots = state.spots;
+            action.payload.response.data.forEach((obj) => {
+              const index = newSpots.findIndex((spot) => spot.id === obj.id);
+              if (index === -1) {
+                newSpots.push(obj as IBathingspot);
+              } else {
+                newSpots[index] = obj as IBathingspot;
+              }
+            });
+            return {
+              ...state,
+              loading: false,
+              truncated: action.payload.response.truncated,
+              spots: [...newSpots],
+            };
+          }
+          case 'bathingspot': {
+            // console.log('url in spot request', action.payload.url);
+            const reg = /bathingspots\/(?<spotId>\d+?)$/;
+            const matchRes = action.payload.url.match(reg);
+            // console.log(matchRes);
+
+            if (matchRes === null || matchRes.groups === undefined) {
+              throw new Error(`Can't match spotId in ${action.payload.url}`);
+            }
+            const id = parseInt(matchRes.groups.spotId, 10);
+
             /**
              * if the state already contains a spot with that ID we update it
              */
@@ -65,10 +91,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
                   return spot;
                 }
               });
-              console.groupEnd();
               return { ...state, loading: false, spots };
             } else {
-              console.groupEnd();
               /**
                * State does not contain the spot. We Just push the result to the end of the this.state.
                * This is currently not happening in our application flow, but hey. Might be possible some time
@@ -92,13 +116,11 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
          * Here we handle POST, PUT, DELETE
          * TODO: trigger another GET call to update the state
          */
-        console.groupEnd();
         return { ...state, loading: false };
       }
     }
     case ApiActionTypes.FAIL_API_REQUEST: {
-      console.log('apiReducer case FAILS', action);
-      console.groupEnd();
+      console.error('apiReducer case FAILS', action);
 
       return { ...state, loading: false, error: action.payload.error };
     }
@@ -114,6 +136,7 @@ const ApiProvider: (children: ApiProviderProps) => JSX.Element = ({
   const [state, dispatch] = useReducer(apiReducer, {
     spots: [],
     loading: false,
+    truncated: false,
   });
   return (
     <ApiStateContext.Provider value={state}>
@@ -148,8 +171,8 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
   dispatch,
   action,
 ) => {
-  console.group('apiRequest');
-  console.info('Starting apiRequest');
+  // console.group('apiRequest');
+  // console.info('Starting apiRequest');
 
   let response: Response;
   dispatch({
@@ -163,7 +186,7 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
   try {
     response = await fetch(action.payload.url, action.payload.config);
     if (response.ok === true) {
-      console.info('apiRequest response ok');
+      // console.info('apiRequest response ok');
       let json: any;
       try {
         json = await response.json();
@@ -186,6 +209,6 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
       payload: action.payload,
     });
   }
-  console.groupEnd();
+  // console.groupEnd();
 };
 export { useApi, ApiProvider, apiRequest };
