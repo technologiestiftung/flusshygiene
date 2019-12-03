@@ -16,6 +16,11 @@ const ApiDispatchContext = createContext<Dispatch | undefined>(undefined);
 const missingRequestTypeErrorMsg =
   'You need to define the request type opject on the payload. See "IApiActionRequestType" in interface.ts';
 
+/**
+ * The Big old reducer
+ * @param state
+ * @param action
+ */
 const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
   state,
   action,
@@ -34,6 +39,12 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
       if (action.payload.response === undefined) {
         throw new Error('The action.payload.response from the API is missing');
       }
+
+      //  ## ### ###
+      // #   #    #
+      // # # ##   #
+      // # # #    #
+      //  ## ###  #
       /**
        * If it is a GET call we need to handle all the updates of the state
        * If it is a PUT, POST, DELETE we only need to trigger another GET call
@@ -65,6 +76,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             return {
               ...state,
               loading: false,
+              reload: false,
               truncated: action.payload.response.truncated,
               spots: [...newSpots],
             };
@@ -91,7 +103,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
                   return spot;
                 }
               });
-              return { ...state, loading: false, spots };
+              return { ...state, loading: false, spots, reload: false };
             } else {
               /**
                * State does not contain the spot. We Just push the result to the end of the this.state.
@@ -100,6 +112,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               return {
                 ...state,
                 loading: false,
+                reload: false,
                 spots: [
                   ...state.spots,
                   action.payload.response!.data[0] as IBathingspot,
@@ -108,12 +121,79 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             }
           }
           default: {
-            throw new Error('no default case defined');
+            throw new Error('no default GET case defined');
+          }
+        }
+
+        //  ________  ________  ________  _________
+        // |\   __  \|\   __  \|\   ____\|\___   ___\
+        // \ \  \|\  \ \  \|\  \ \  \___|\|___ \  \_|
+        //  \ \   ____\ \  \\\  \ \_____  \   \ \  \
+        //   \ \  \___|\ \  \\\  \|____|\  \   \ \  \
+        //    \ \__\    \ \_______\____\_\  \   \ \__\
+        //     \|__|     \|_______|\_________\   \|__|
+        //                        \|_________|
+
+        /**
+         * Here we handle all POST requests
+         *
+         *
+         *
+         *
+         */
+      } else if (action.payload.requestType.type === 'POST') {
+        console.log('called POST');
+        switch (action.payload.requestType.resource) {
+          case 'bathingspot':
+          case 'measurements': {
+            console.log('POST bathingspot or measurements');
+            console.log(action.payload.response);
+            /**
+             * TODO: Should dispatch another get call here
+             */
+            return { ...state, reload: true, loading: false };
+          }
+
+          default: {
+            throw new Error('no default POST case defined');
+          }
+        }
+
+        //  *******  **     ** **********
+        // /**////**/**    /**/////**///
+        // /**   /**/**    /**    /**
+        // /******* /**    /**    /**
+        // /**////  /**    /**    /**
+        // /**      /**    /**    /**
+        // /**      //*******     /**
+        // //        ///////      //
+        /**
+         *
+         *
+         * Handle PUT requests
+         *
+         *
+         */
+      } else if (action.payload.requestType.type === 'PUT') {
+        console.log('called PUT');
+        switch (action.payload.requestType.resource) {
+          case 'bathingspot':
+          case 'measurements': {
+            console.log('PUT bathingspot or measurements');
+            console.log(action.payload.response);
+
+            /**
+             * TODO: should disptch a new GET here
+             */
+            return { ...state, reload: true, loading: false };
+          }
+          default: {
+            throw new Error('no default POST case defined');
           }
         }
       } else {
         /**
-         * Here we handle POST, PUT, DELETE
+         * Here we handle PUT, DELETE
          * TODO: trigger another GET call to update the state
          */
         return { ...state, loading: false };
@@ -137,6 +217,7 @@ const ApiProvider: (children: ApiProviderProps) => JSX.Element = ({
     spots: [],
     loading: false,
     truncated: false,
+    reload: false,
   });
   return (
     <ApiStateContext.Provider value={state}>
@@ -167,6 +248,61 @@ const useApi: () => [IApiState, Dispatch] = () => {
   return [useApiState(), useApiDispatch()];
 };
 
+//           _____                    _____                    _____
+//          /\    \                  /\    \                  /\    \
+//         /::\    \                /::\    \                /::\    \
+//        /::::\    \              /::::\    \               \:::\    \
+//       /::::::\    \            /::::::\    \               \:::\    \
+//      /:::/\:::\    \          /:::/\:::\    \               \:::\    \
+//     /:::/__\:::\    \        /:::/__\:::\    \               \:::\    \
+//    /::::\   \:::\    \      /::::\   \:::\    \              /::::\    \
+//   /::::::\   \:::\    \    /::::::\   \:::\    \    ____    /::::::\    \
+//  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\  /\   \  /:::/\:::\    \
+// /:::/  \:::\   \:::\____\/:::/  \:::\   \:::|    |/::\   \/:::/  \:::\____\
+// \::/    \:::\  /:::/    /\::/    \:::\  /:::|____|\:::\  /:::/    \::/    /
+//  \/____/ \:::\/:::/    /  \/_____/\:::\/:::/    /  \:::\/:::/    / \/____/
+//           \::::::/    /            \::::::/    /    \::::::/    /
+//            \::::/    /              \::::/    /      \::::/____/
+//            /:::/    /                \::/____/        \:::\    \
+//           /:::/    /                  ~~               \:::\    \
+//          /:::/    /                                     \:::\    \
+//         /:::/    /                                       \:::\____\
+//         \::/    /                                         \::/    /
+//          \/____/                                           \/____/
+
+//           _____                    _____                   _______
+//          /\    \                  /\    \                 /::\    \
+//         /::\    \                /::\    \               /::::\    \
+//        /::::\    \              /::::\    \             /::::::\    \
+//       /::::::\    \            /::::::\    \           /::::::::\    \
+//      /:::/\:::\    \          /:::/\:::\    \         /:::/~~\:::\    \
+//     /:::/__\:::\    \        /:::/__\:::\    \       /:::/    \:::\    \
+//    /::::\   \:::\    \      /::::\   \:::\    \     /:::/    / \:::\    \
+//   /::::::\   \:::\    \    /::::::\   \:::\    \   /:::/____/   \:::\____\
+//  /:::/\:::\   \:::\____\  /:::/\:::\   \:::\    \ |:::|    |     |:::|    |
+// /:::/  \:::\   \:::|    |/:::/__\:::\   \:::\____\|:::|____|     |:::|____|
+// \::/   |::::\  /:::|____|\:::\   \:::\   \::/    / \:::\   _\___/:::/    /
+//  \/____|:::::\/:::/    /  \:::\   \:::\   \/____/   \:::\ |::| /:::/    /
+//        |:::::::::/    /    \:::\   \:::\    \        \:::\|::|/:::/    /
+//        |::|\::::/    /      \:::\   \:::\____\        \::::::::::/    /
+//        |::| \::/____/        \:::\   \::/    /         \::::::::/    /
+//        |::|  ~|               \:::\   \/____/           \::::::/    /
+//        |::|   |                \:::\    \                \::::/____/
+//        \::|   |                 \:::\____\                |::|    |
+//         \:|   |                  \::/    /                |::|____|
+//          \|___|                   \/____/                  ~~
+
+/**
+ *
+ *API REQUEST
+ *API REQUEST
+ *API REQUEST
+ *API REQUEST
+ *API REQUEST
+ *API REQUEST
+ *API REQUEST
+ *
+ */
 const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
   dispatch,
   action,
@@ -186,7 +322,7 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
   try {
     response = await fetch(action.payload.url, action.payload.config);
     if (response.ok === true) {
-      // console.info('apiRequest response ok');
+      console.info('apiRequest response ok');
       let json: any;
       try {
         json = await response.json();
@@ -200,9 +336,13 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
       } as IApiActionFinished);
     } else {
       console.warn('fetch response not ok');
+      console.log(await response.text());
+
+      console.error(response.body);
       throw new Error('Network fetch response not ok');
     }
   } catch (error) {
+    console.error(response!);
     console.error('Error while making fetch call', error);
     dispatch({
       type: ApiActionTypes.FAIL_API_REQUEST,

@@ -9,9 +9,6 @@ import * as serviceWorker from './serviceWorker';
 import { Auth0Provider } from './lib/auth/react-auth0-wrapper';
 // import { Auth0Provider } from './react-auth0-wrapper-offline';
 
-// import config from './auth_config.json';
-import { Provider } from 'react-redux';
-import store from './lib/state/store';
 import ErrorBoundary from './components/ErrorBoundary';
 import {
   REACT_APP_AUTH0_DOMAIN,
@@ -21,7 +18,8 @@ import {
 import { OcpuProvider } from './contexts/opencpu';
 import { EventSourceProvider } from './contexts/eventsource';
 import { ApiProvider } from './contexts/postgres-api';
-// import Toggle from './components/Toggle';
+// import { Provider } from 'react-redux';
+// import store from './lib/state/store';
 // A function that routes the user to the right place
 // after login
 const onRedirectCallback = (appState: any) => {
@@ -36,23 +34,23 @@ const onRedirectCallback = (appState: any) => {
 
 ReactDOM.render(
   <ErrorBoundary>
-    <Provider store={store}>
-      <Auth0Provider
-        domain={REACT_APP_AUTH0_DOMAIN}
-        client_id={REACT_APP_AUTH0_CLIENTID}
-        redirect_uri={window.location.origin}
-        audience={REACT_APP_AUTH0_AUDIENCE}
-        onRedirectCallback={onRedirectCallback}
-      >
-        <ApiProvider>
-          <OcpuProvider>
-            <EventSourceProvider>
-              <App />
-            </EventSourceProvider>
-          </OcpuProvider>
-        </ApiProvider>
-      </Auth0Provider>
-    </Provider>
+    {/* <Provider store={store}> */}
+    <Auth0Provider
+      domain={REACT_APP_AUTH0_DOMAIN}
+      client_id={REACT_APP_AUTH0_CLIENTID}
+      redirect_uri={window.location.origin}
+      audience={REACT_APP_AUTH0_AUDIENCE}
+      onRedirectCallback={onRedirectCallback}
+    >
+      <ApiProvider>
+        <OcpuProvider>
+          <EventSourceProvider>
+            <App />
+          </EventSourceProvider>
+        </OcpuProvider>
+      </ApiProvider>
+    </Auth0Provider>
+    {/* </Provider> */}
   </ErrorBoundary>,
   document.getElementById('root'),
 );

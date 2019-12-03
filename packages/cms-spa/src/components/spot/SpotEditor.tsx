@@ -2,25 +2,27 @@ import React, { useState, useEffect, createRef } from 'react';
 import { Formik, Form } from 'formik';
 import {
   IBathingspot,
-  IFetchSpotOptions,
   MapEditModes,
   IGeoJsonGeometry,
   IBathingspotExtend,
   ICSVValidationErrorRes,
   IBathingspotMeasurement,
+  ApiActionTypes,
+  IObject,
   // MapActiveEditor,
 } from '../../lib/common/interfaces';
 import {
   // editorSchema,
   measurementsSchema,
 } from '../../lib/utils/spot-validation-schema';
+
 import { nullValueTransform } from '../../lib/utils/spot-nullvalue-transformer';
 import { SpotEditorButtons } from './SpotEditor-Buttons';
 import { APIMountPoints, ApiResources } from '../../lib/common/enums';
 import { useAuth0 } from '../../lib/auth/react-auth0-wrapper';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../lib/state/reducers/root-reducer';
-import { putSpot } from '../../lib/state/reducers/actions/fetch-post-spot';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { RootState } from '../../lib/state/reducers/root-reducer';
+// import { putSpot } from '../../lib/state/reducers/actions/fetch-post-spot';
 // import { SpotEditorSelect } from './SpotEditor-Select';
 import { SpotEditorBox } from './SpotEditor-Box';
 import { formSectionBuilder } from './SpotEditor-form-section-builder';
@@ -39,6 +41,9 @@ import { IconSave, IconCloseWin, IconInfo } from '../fontawesome-icons';
 import { SpotEditorInfoModal } from './SpotEditor-InfoModal';
 import { SpotEditorMeasurmentInfo } from './SpotEditor-Measurments-Info';
 import { SpotEditorToClipboard } from './SpotEditor-ToClipboard';
+import { useApi, apiRequest } from '../../contexts/postgres-api';
+import { actionCreator } from '../../lib/utils/pgapi-actionCreator';
+import { papaPromise } from '../../lib/utils/papaPromise';
 
 export const SpotEditor: React.FC<{
   initialSpot: IBathingspotExtend;
@@ -54,6 +59,8 @@ export const SpotEditor: React.FC<{
   // ┌─┐┌┬┐┌─┐┌┬┐┌─┐
   // └─┐ │ ├─┤ │ ├┤
   // └─┘ ┴ ┴ ┴ ┴ └─┘
+  const [apiState, apiDispatch] = useApi();
+
   const [csvFile, setCsvFile] = useState<File>();
   const [parsingErrors, setParsingErrors] = useState<Array<ParseError>>();
   const [csvValidationErrors, setCSVValidationErrors] = useState<
@@ -87,17 +94,8 @@ export const SpotEditor: React.FC<{
   // ╦═╗┌─┐┌┬┐┬ ┬─┐ ┬
   // ╠╦╝├┤  │││ │┌┴┬┘
   // ╩╚═└─┘─┴┘└─┘┴ └─
-  const postDone = useSelector((state: RootState) => state.postSpot.loading);
-  const dispatch = useDispatch();
+  // const postDone = useSelector((state: RootState) => state.postSpot.loading);
 
-  const papaPromise: (file: any, opts: any) => Promise<Papa.ParseResult> = (
-    file,
-    opts,
-  ) => {
-    return new Promise((complete, error) => {
-      Papa.parse(file, { ...opts, complete, error });
-    });
-  };
   // ╔═╗╔═╗╔═╗╔═╗╔═╗╔╦╗
   // ║╣ ╠╣ ╠╣ ║╣ ║   ║
   // ╚═╝╚  ╚  ╚═╝╚═╝ ╩
@@ -179,29 +177,39 @@ export const SpotEditor: React.FC<{
 
     // console.log('patched body ', body);
 
-    let url: string;
+    {
+      let url: string;
 
-    if (newSpot === true) {
-      url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}`;
-    } else {
-      url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}`;
+      if (newSpot === true) {
+        url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}`;
+      } else {
+        url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}`;
+      }
+      // const postSpotOpts: IFetchSpotOptions = {
+      //   method: newSpot === true ? 'POST' : 'PUT',
+      //   url,
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify(body),
+      //   update: true,
+      //   updateSingle: true,
+      //   updateAll: true,
+      // };
+      const action = actionCreator({
+        method: newSpot === true ? 'POST' : 'PUT',
+        type: ApiActionTypes.START_API_REQUEST,
+        token,
+        url,
+        resource: 'bathingspot',
+        body,
+      });
+      // console.log('post options', postSpotOpts);
+      console.log('action ', action);
+      apiRequest(apiDispatch, action);
     }
-    const postSpotOpts: IFetchSpotOptions = {
-      method: newSpot === true ? 'POST' : 'PUT',
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-      update: true,
-      updateSingle: true,
-      updateAll: true,
-    };
-
-    // console.log('post options', postSpotOpts);
-
-    dispatch(putSpot(postSpotOpts));
+    // dispatch(putSpot(postSpotOpts));
     if (
       newSpot === false ||
       (newSpot === undefined &&
@@ -209,17 +217,27 @@ export const SpotEditor: React.FC<{
         measurmentData.length > 0)
     ) {
       // console.log('posting measurements');
-      const postMeasurmentsOpts: IFetchSpotOptions = {
+      const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}/${ApiResources.measurements}`;
+      // const postMeasurmentsOpts: IFetchSpotOptions = {
+      //   method: 'POST',
+      //   url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}/${ApiResources.measurements}`,
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify(measurmentData),
+      //   update: false,
+      // };
+      const action = actionCreator({
         method: 'POST',
-        url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}/${ApiResources.measurements}`,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(measurmentData),
-        update: false,
-      };
-      dispatch(putSpot(postMeasurmentsOpts));
+        type: ApiActionTypes.START_API_REQUEST,
+        token,
+        url,
+        resource: 'measurements',
+        body: measurmentData as IObject,
+      });
+      apiRequest(apiDispatch, action);
+      // dispatch(putSpot(postMeasurmentsOpts));
     }
   };
 
@@ -235,7 +253,7 @@ export const SpotEditor: React.FC<{
           callPutPostSpot(values, measurments).catch((err) => {
             console.error(err);
           });
-          setSubmitting(postDone);
+          setSubmitting(apiState.loading);
           handleEditModeClick();
         }}
       >

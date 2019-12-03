@@ -5,6 +5,7 @@ import {
   ApiActionTypes,
   RequestTypes,
   RequestResourceTypes,
+  IObject,
 } from '../common/interfaces';
 
 export function actionCreator({
@@ -13,17 +14,20 @@ export function actionCreator({
   method,
   resource,
   token,
+  body,
 }: {
   url: string;
   type: ApiActionTypes;
   method: RequestTypes;
   resource: RequestResourceTypes;
   token: string;
+  body: IObject;
 }): IApiAction {
   const action: IApiAction = {
     type,
     payload: {
       config: {
+        body: JSON.stringify(body),
         method,
         headers: {
           'content-type': 'application/json',
@@ -35,5 +39,8 @@ export function actionCreator({
       requestType: { type: method, resource },
     },
   };
+  if (method === 'GET') {
+    delete action.payload.config!.body;
+  }
   return action;
 }

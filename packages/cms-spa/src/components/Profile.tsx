@@ -100,6 +100,7 @@ const Profile: React.FC = () => {
             const actions: IApiAction[] = [];
             for (let skip = 0; skip < count; skip += limit) {
               const action = actionCreator({
+                body: {},
                 token,
                 url: `${url}?skip=${skip}&limit=${limit}`,
                 method: 'GET',
@@ -113,6 +114,7 @@ const Profile: React.FC = () => {
             });
           } else {
             const action = actionCreator({
+              body: {},
               token,
               url,
               method: 'GET',

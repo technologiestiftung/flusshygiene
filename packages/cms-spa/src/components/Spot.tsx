@@ -38,7 +38,6 @@ import { Spinner } from './util/Spinner';
  *
  */
 const Spot: React.FC<RouteProps> = ({ match }) => {
-  console.group('Spot');
   const { user, isAuthenticated, getTokenSilently } = useAuth0();
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
@@ -88,7 +87,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             },
           };
           postOcpu(ocpuDispatch, action);
-          console.log(`clicked ${event.currentTarget.id}`);
         }
         break;
       default:
@@ -117,48 +115,16 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const mapDims = useMapResizeEffect(mapRef);
 
   /**
-   * Displays event source state
-   * FIXME: Just for debuggoing
+   * This effect triggers a reload of the page
    */
   // useEffect(() => {
-  //   console.log('Event source state change');
-  //   console.log(eventSourceState);
-  // }, [eventSourceState]);
-
-  /**
-   * displays api state
-   * FIXME: Just for debugging
-   */
-  // useEffect(() => {
-  //   console.log('apiState', apiState);
-  // }, [apiState]);
-
-  /**
-   * This effect is just for testing putrpose and should be removed
-   * Makes a call to the private api
-   * FIXME: Just for debugging and testing
-   */
-  // useEffect(() => {
-  //   if (token === undefined) return;
-  //   const action: IApiAction = {
-  //     type: ApiActionTypes.START_API_REQUEST,
-  //     payload: {
-  //       requestType: { type: 'GET', resource: 'ping' },
-  //       url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}`,
-  //       config: {
-  //         method: 'GET',
-
-  //         headers: {
-  //           'content-type': 'application/json',
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         credentials: 'include',
-  //       },
-  //     },
-  //   };
-  //   console.log('run');
-  //   apiRequest(apiDispatch, action);
-  // }, [token, apiDispatch]);
+  //   if (apiState === undefined) return;
+  //   if (apiState.reload === false) return;
+  //   if (apiState.loading === true) return;
+  //   if (apiState.reload === true && apiState.loading === false) {
+  //     window.location.reload();
+  //   }
+  // }, [apiState.reload, apiState.loading]);
 
   /**
    * This effect gets the api token from the auth0 wrapper
@@ -182,9 +148,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    */
   useEffect(() => {
     if (showNotification === false) return;
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setShowNotification(false);
     }, 7000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [showNotification]);
 
   /**
@@ -208,30 +178,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   }, [eventSourceState]);
 
   /**
-   * This effect calls the api (still redux) and gets information about a single spot
-   *
-   * MIGRATE to new context or better just pass down the information we already have from the profile?
-   * Might be problematic due to missing information
-   *
-   */
-  // useEffect(() => {
-  //   if (token === undefined) return;
-  //   if (user.pgapiData === undefined) return;
-  //   const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
-  //   const fetchOpts: IFetchSpotOptions = {
-  //     method: 'GET',
-  //     url,
-  //     headers: {
-  //       'content-type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
-
-  //   dispatch(fetchSingleSpot(fetchOpts));
-  //   // setFormReadyToRender(true);
-  // }, [dispatch, match.params.id, token, user, user.pgapiData]);
-
-  /**
    * This effect gets one bathingspot
    * Follow the crumbs to contexts/postgres-api
    */
@@ -241,29 +187,14 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
     const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
 
-    // const action: IApiAction = {
-    //   type: ApiActionTypes.START_API_REQUEST,
-    //   payload: {
-    //     requestType: { type: 'GET', resource: 'bathingspot' },
-    //     url,
-    //     config: {
-    //       method: 'GET',
-    //       headers: {
-    //         'content-type': 'application/json',
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //       credentials: 'include',
-    //     },
-    //   },
-    // };
     const action = actionCreator({
+      body: {},
       token,
       method: 'GET',
       url,
       type: ApiActionTypes.START_API_REQUEST,
       resource: 'bathingspot',
     });
-    console.log('run get bathingspot');
     apiRequest(apiDispatch, action);
   }, [token, apiDispatch, match.params.id, user.pgapiData]);
 
@@ -322,7 +253,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   //
   //
   if (editMode === true && spot !== undefined) {
-    console.groupEnd();
     return (
       <div className='container'>
         <div className='columns is-centered'>
@@ -338,8 +268,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       </div>
     );
   } else {
-    // console.log(spot);
-    console.groupEnd();
     return (
       <>
         {isAuthenticated === true &&

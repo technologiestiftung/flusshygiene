@@ -259,7 +259,7 @@ export interface IApiActionFinished extends IApiAction {
 // }
 export interface IApiState {
   spots: IBathingspot[];
-  [key: string]: any;
+  reload: boolean;
   sessionId?: string;
   currentSpot?: IBathingspot;
   loading: boolean;
