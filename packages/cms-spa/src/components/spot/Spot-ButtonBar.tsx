@@ -6,27 +6,48 @@ import {
   IconCalc,
   IconComment,
   IconCode,
+  IconInfo,
+  IconCSV,
 } from '../fontawesome-icons';
 import { IOcpuState } from '../../lib/common/interfaces';
+
+type ClickFunction = (event?: React.ChangeEvent<any>) => void;
 export function SpotButtonBar({
-  handleEditModeClick,
+  handleBasisEditModeClick,
+  handleDataEditModeClick,
+  handleInfoShowModeClick,
   handleCalibratePredictClick,
   ocpuState,
 }: {
-  handleEditModeClick: () => void;
+  handleBasisEditModeClick: ClickFunction;
+  handleDataEditModeClick: ClickFunction;
+  handleInfoShowModeClick: ClickFunction;
   handleCalibratePredictClick: (event: React.ChangeEvent<any>) => void;
   ocpuState: IOcpuState;
 }) {
   return (
     <div className='buttons buttons__spot-actions--size'>
       <ButtonIconTB
+        cssId='info'
+        handleClick={handleInfoShowModeClick}
+        text='Information'
+      >
+        <IconInfo></IconInfo>
+      </ButtonIconTB>
+      <ButtonIconTB
         cssId='edit'
-        handleClick={handleEditModeClick}
-        text='Editieren'
+        handleClick={handleBasisEditModeClick}
+        text='Basisdaten'
       >
         <IconEdit></IconEdit>
       </ButtonIconTB>
-
+      <ButtonIconTB
+        cssId='data'
+        handleClick={handleDataEditModeClick}
+        text='Messdaten'
+      >
+        <IconCSV></IconCSV>
+      </ButtonIconTB>
       <ButtonIconTB
         cssId='sleep'
         text='Sleep'

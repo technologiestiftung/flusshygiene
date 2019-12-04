@@ -133,36 +133,6 @@ const Profile: React.FC = () => {
     };
     getSpots();
   }, [token, apiDispatch, user.pgapiData]);
-  /**
-   * This effect calls the api and gets all spots. Uses redux
-   * TODO: Remove this and use api context
-   */
-  // useEffect(() => {
-  //   // some infinit scroll would also be nice
-  //   // https://upmostly.com/tutorials/build-an-infinite-scroll-component-in-react-using-react-hooks
-  //   //
-  //   // initial loading of map data
-  //   if (token === undefined) return;
-  //   if (user.pgapiData === undefined) return;
-
-  //   if (!truncated) {
-  //     return;
-  //   }
-  //   // console.log(user);
-  //   // const token = await getTokenSilently();
-  //   const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}`;
-  //   // console.log(url);
-  //   // console.log(url);
-  //   const opts: IFetchSpotOptions = {
-  //     url,
-  //     headers: {
-  //       'content-type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     method: 'GET',
-  //   };
-  //   dispatch(fetchSpots(opts));
-  // }, [spots, truncated, dispatch, token, user, user.pgapiData]);
 
   // ╔═╗╦ ╦╔╗╔╔═╗╔╦╗╦╔═╗╔╗╔  ╦ ╦╔═╗╔╗╔╔╦╗╦  ╔═╗╦═╗╔═╗
   // ╠╣ ║ ║║║║║   ║ ║║ ║║║║  ╠═╣╠═╣║║║ ║║║  ║╣ ╠╦╝╚═╗
@@ -222,6 +192,9 @@ const Profile: React.FC = () => {
           <SpotEditor
             initialSpot={DEFAULT_SPOT}
             handleEditModeClick={handleEditModeClick}
+            handleInfoShowModeClick={(e) => {
+              if (e) e.preventDefault();
+            }}
             newSpot={true}
           />
         </Container>

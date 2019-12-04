@@ -65,11 +65,13 @@ export const SpotEditorInfoModal: React.FC<{
             <p>
               Die Dateneingabe muss über eine csv.-Datei erfolgen, dass wiederum
               einem bestimmten Format genügen muss, um von der Plattform
-              eingelesen werden zu können. Innerhalb der Plattform werden die
-              folgenden Trennzeichen verwendet:
+              eingelesen werden zu können. Genauere Information zu der Form der
+              Daten finden Sie bei den einzelnen Upload Modulen.
+              {/* Innerhalb der Plattform werden die
+              folgenden Trennzeichen verwendet: */}
             </p>
 
-            <table className='table'>
+            {/* <table className='table'>
               <tbody>
                 <tr>
                   <td>Art des Trennzeichens</td>
@@ -118,7 +120,7 @@ export const SpotEditorInfoModal: React.FC<{
                   <td>Ganze Zahlen, keine Dezimalstellen</td>
                 </tr>
               </tbody>
-            </table>
+            </table> */}
             <h2>Definition der Niederschlagsfläche</h2>
             <p>
               Unter einer „relevanten Niederschlagsfläche“ wird die Grundfläche

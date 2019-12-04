@@ -2,7 +2,9 @@ import React from 'react';
 import { ButtonIconTB } from '../Buttons';
 import { IconInfo } from '../fontawesome-icons';
 
-const InfoText: React.FC = () => (
+type InfoTypes = 'measurements' | 'discharge' | 'globalIrridiance';
+
+const InfoText: React.FC<{ type: InfoTypes }> = ({ type }) => (
   <div className='content'>
     <p> Innerhalb der Plattform werden die folgenden Trennzeichen verwendet:</p>
     <div className='columns'>
@@ -50,16 +52,27 @@ const InfoText: React.FC = () => (
             Sekunden)
           </td>
         </tr>
-        <tr>
-          <td>conc_ec</td>
-          <td>Messwert von E.coli [MPN/100mL]</td>
-          <td>Ganze Zahlen, keine Dezimalstellen</td>
-        </tr>
-        <tr>
-          <td>conc_ie</td>
-          <td>Messwert von intestinalen Enterokokken [MPN/100mL]</td>
-          <td>Ganze Zahlen, keine Dezimalstellen</td>
-        </tr>
+
+        {(() => {
+          if (type === 'measurements') {
+            return (
+              <>
+                <tr>
+                  <td>conc_ec</td>
+                  <td>Messwert von E.coli [MPN/100mL]</td>
+                  <td>Ganze Zahlen, keine Dezimalstellen</td>
+                </tr>
+                <tr>
+                  <td>conc_ie</td>
+                  <td>Messwert von intestinalen Enterokokken [MPN/100mL]</td>
+                  <td>Ganze Zahlen, keine Dezimalstellen</td>
+                </tr>
+              </>
+            );
+          } else {
+            throw new Error('not defined');
+          }
+        })()}
       </tbody>
     </table>
     <p>
@@ -67,7 +80,9 @@ const InfoText: React.FC = () => (
     </p>
   </div>
 );
-export const SpotEditorMeasurmentInfo: React.FC = () => {
+export const SpotEditorMeasurmentInfo: React.FC<{ type: InfoTypes }> = ({
+  type,
+}) => {
   const [infoIsVisible, setInfoIsVisible] = React.useState(false);
   return (
     <>
@@ -90,7 +105,7 @@ export const SpotEditorMeasurmentInfo: React.FC = () => {
           der Plattform eingelesen werden zu können.
         </p>
       </div>
-      {infoIsVisible ? <InfoText></InfoText> : null}
+      {infoIsVisible ? <InfoText type={type}></InfoText> : null}
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { FormikHelpers } from 'formik';
 import { RouteComponentProps } from 'react-router';
-
+import * as Yup from 'yup';
 export interface IObject {
   [key: string]: any;
 }
@@ -329,6 +329,45 @@ export interface IModelInfo {
   below90: number;
   below95: number;
   in95: number;
+}
+
+export interface IMeasurementsUploadBox {
+  title: string;
+  // setCSVValidationErrors: React.Dispatch<
+  //   React.SetStateAction<ICSVValidationErrorRes[]>
+  // >;
+  // setParsingErrors: React.Dispatch<
+  //   React.SetStateAction<ParseError[] | undefined>
+  // >;
+  fieldNameFile: string;
+  fieldNameUrl: string;
+
+  props: any;
+  schema: Yup.ObjectSchema<
+    Yup.Shape<
+      object,
+      {
+        date: Date;
+        [key: string]: any;
+      }
+    >
+  >;
+}
+
+export interface IMeasurement {
+  Date: string;
+  [key: string]: any;
+}
+
+export interface IMeasurmentsUploadInitialValues {
+  // csvFile?: File;
+  // url?: string;
+  measurementsUrl: string;
+  measurements: IMeasurement[];
+  globalIrradiance: IMeasurement[];
+  globalIrradianceUrl: string;
+  discharges: IMeasurement[];
+  dischargesUrl: string;
 }
 
 // ╔╦╗┬ ┬┌─┐┌─┐┌─┐

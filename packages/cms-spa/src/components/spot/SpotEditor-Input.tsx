@@ -2,9 +2,10 @@ import { Field, ErrorMessage } from 'formik';
 
 // SpotEditorInput.tsx;
 import React from 'react';
+type SpotEditorInputTypes = 'text' | 'number' | 'email';
 export const SpotEditorInput: React.FC<{
   name: string;
-  type: string;
+  type: SpotEditorInputTypes;
   label: string;
   // handleChange: (event) => void;
 }> = ({ name, label, type }) => {
@@ -25,7 +26,6 @@ export const SpotEditorInput: React.FC<{
               className='input'
               id={name}
               data-testid={`test-input-${name}`}
-              // onChange={handleChange}
             />
             <ErrorMessage
               name={name}

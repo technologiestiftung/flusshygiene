@@ -32,6 +32,9 @@ import { SpotModelTable } from './spot/Spot-ModelTable';
 import { SpotTableBlock } from './spot/Spot-TableBlock';
 import { SpotHr } from './spot/Spot-Hr';
 import { Spinner } from './util/Spinner';
+import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurments';
+import { measurementsSchema } from '../lib/utils/spot-validation-schema';
+import { SpotEditorInfoModal } from './spot/SpotEditor-InfoModal';
 
 /**
  * This is the component that displays a single spot
@@ -42,14 +45,47 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
   const eventSourceState = useEventSource();
+  // const dispatch = useDispatch();
+  const [message, setMessage] = useState<string>('');
+  const [formReadyToRender, setFormReadyToRender] = useState(false);
+  const [basisEditMode, setBasisEditMode] = useState(false);
+  const [dataEditMode, setDataEditMode] = useState(false);
+  const [infoShowMode, setInfoShowMode] = useState(false);
+  const [lastModel, setLastModel] = useState<IObject>();
+  const [token, setToken] = useState<string>();
+
+  const [showNotification, setShowNotification] = useState(false);
+
+  const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapDims = useMapResizeEffect(mapRef);
 
   /**
-   * Toggles the edit mode (open SpotEditor)
+   * Toggles the edit modes (open BasisSpotEditor)
    */
-  const handleEditModeClick = () => {
-    setEditMode(!editMode);
+  const handleBasisEditModeClick = (e?: React.ChangeEvent<any>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    // e?.preventDefault?.();
+    setBasisEditMode(!basisEditMode);
   };
 
+  const handleDataEditModeClick = (e?: React.ChangeEvent<any>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    // e?.preventDefault?.();
+    setDataEditMode(!dataEditMode);
+  };
+
+  const handleInfoShowModeClick = (e?: React.ChangeEvent<any>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    // e?.preventDefault?.();
+    setInfoShowMode(!infoShowMode);
+  };
   /**
    * Handles the click events on the button bar on top for all the calls to middlelayer
    *
@@ -94,25 +130,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }
     setShowNotification((prevState) => !prevState);
   };
-  // const dispatch = useDispatch();
-  const [message, setMessage] = useState<string>('');
-  const [formReadyToRender, setFormReadyToRender] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [lastModel, setLastModel] = useState<IObject>();
-  const [token, setToken] = useState<string>();
-
-  const [showNotification, setShowNotification] = useState(false);
-
-  const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
-
-  // const spot = useSelector(
-  //   (state: RootState) => state.detailSpot.spot as IBathingspot,
-  // );
-  // const isSingleSpotLoading = useSelector(
-  //   (state: RootState) => state.detailSpot.loading,
-  // );
-  const mapRef = useRef<HTMLDivElement>(null);
-  const mapDims = useMapResizeEffect(mapRef);
 
   /**
    * This effect triggers a reload of the page
@@ -252,94 +269,132 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   // ---------RENDERING------------------------
   //
   //
-  if (editMode === true && spot !== undefined) {
-    return (
-      <div className='container'>
-        <div className='columns is-centered'>
-          <div className='column is-10'>
-            {formReadyToRender === true && editMode === true && (
-              <SpotEditor
-                initialSpot={spot}
-                handleEditModeClick={handleEditModeClick}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <>
-        {isAuthenticated === true &&
-          showNotification === true &&
-          spot !== undefined && <Container>{Banner(message)}</Container>}
-        {spot !== undefined && (
-          <Container>
-            <SpotHeader
-              name={spot.name}
-              nameLong={spot.nameLong}
-              water={spot.water}
-              district={spot.district}
-              isLoading={apiState.loading}
-            />
-          </Container>
-        )}
-        {SpotHr()}
-        {isAuthenticated === true && (
-          <Container>
-            {SpotButtonBar({
-              handleEditModeClick,
-              handleCalibratePredictClick,
-              ocpuState,
-            })}
-          </Container>
-        )}
-        <ContainerNoColumn>
-          {spot !== undefined &&
-            SpotTableBlock({
-              title: { title: 'Letzte Messung', iconType: 'IconCSV' },
-              Table: () => SpotMeasurementsTable(spot),
-            })}
+  return (
+    <>
+      <SpotEditorInfoModal
+        isActive={infoShowMode}
+        clickHandler={handleInfoShowModeClick}
+      />
+      {(() => {
+        if (basisEditMode === true && spot !== undefined) {
+          return (
+            <Container>
+              {formReadyToRender === true && basisEditMode === true && (
+                <SpotEditor
+                  initialSpot={spot}
+                  handleEditModeClick={handleBasisEditModeClick}
+                  handleInfoShowModeClick={handleInfoShowModeClick}
+                />
+              )}
+            </Container>
+          );
+        } else if (dataEditMode === true && spot !== undefined) {
+          return (
+            <Container>
+              <SpotEditorMeasurmentsUpload
+                initialValues={{
+                  // csvFile: undefined,
+                  measurementsUrl: '',
+                  measurements: [],
+                  globalIrradiance: [],
+                  globalIrradianceUrl: '',
+                  discharges: [],
+                  dischargesUrl: '',
+                }}
+                handleInfoClick={handleInfoShowModeClick}
+                handeCloseClick={handleDataEditModeClick}
+                schema={measurementsSchema}
+                postData={(data: any) => {
+                  console.log(
+                    'This is the data submitted by the new SpotEditorMeasurmentsUpload Formik component ',
+                    data,
+                  );
+                }}
+              ></SpotEditorMeasurmentsUpload>
+            </Container>
+          );
+        } else {
+          return (
+            <>
+              {isAuthenticated === true &&
+                showNotification === true &&
+                spot !== undefined && <Container>{Banner(message)}</Container>}
+              {spot !== undefined && (
+                <Container>
+                  <SpotHeader
+                    name={spot.name}
+                    nameLong={spot.nameLong}
+                    water={spot.water}
+                    district={spot.district}
+                    isLoading={apiState.loading}
+                  />
+                </Container>
+              )}
+              {SpotHr()}
+              {isAuthenticated === true && (
+                <Container>
+                  {SpotButtonBar({
+                    handleBasisEditModeClick,
+                    handleInfoShowModeClick,
+                    handleCalibratePredictClick,
+                    handleDataEditModeClick,
+                    ocpuState,
+                  })}
+                </Container>
+              )}
+              <ContainerNoColumn>
+                {spot !== undefined &&
+                  SpotTableBlock({
+                    title: { title: 'Letzte Messung', iconType: 'IconCSV' },
+                    Table: () => SpotMeasurementsTable(spot),
+                  })}
 
-          {spot !== undefined &&
-            SpotTableBlock({
-              title: {
-                title: 'Mittlere Regenhöhen',
-                iconType: 'IconRain',
-              },
-              Table: () => RainTable(spot),
-            })}
-        </ContainerNoColumn>
-        <ContainerNoColumn>
-          {SpotTableBlock({
-            title: {
-              title: 'Vorhersage-Modelle',
-              iconType: 'IconCalc',
-            },
-            Table: () => SpotModelTable(lastModel),
-          })}
-          {spot !== undefined &&
-            SpotTableBlock({
-              title: { title: 'Vorhersage', iconType: 'IconComment' },
-              Table: () => PredictionTable(spot),
-            })}
-        </ContainerNoColumn>
-        {lastModel !== undefined && lastModel.plotfiles !== undefined && (
-          <SpotModelPlots plotfiles={lastModel.plotfiles}></SpotModelPlots>
-        )}
-        <Container>
-          {apiState.loading === true && <Spinner />}
-          {spot !== undefined &&
-            apiState.loading === false &&
-            MapWrapper(mapRef, mapDims, spot)}
-        </Container>
-        <ContainerNoColumn>
-          {spot !== undefined && SpotBasicInfos(spot)}
-        </ContainerNoColumn>
-        <Container>{spot !== undefined && SpotAdditionalTags(spot)}</Container>
-      </>
-    );
-  }
+                {spot !== undefined &&
+                  SpotTableBlock({
+                    title: {
+                      title: 'Mittlere Regenhöhen',
+                      iconType: 'IconRain',
+                    },
+                    Table: () => RainTable(spot),
+                  })}
+              </ContainerNoColumn>
+              <ContainerNoColumn>
+                {SpotTableBlock({
+                  title: {
+                    title: 'Vorhersage-Modelle',
+                    iconType: 'IconCalc',
+                  },
+                  Table: () => SpotModelTable(lastModel),
+                })}
+                {spot !== undefined &&
+                  SpotTableBlock({
+                    title: { title: 'Vorhersage', iconType: 'IconComment' },
+                    Table: () => PredictionTable(spot),
+                  })}
+              </ContainerNoColumn>
+              {lastModel !== undefined && lastModel.plotfiles !== undefined && (
+                <SpotModelPlots
+                  plotfiles={lastModel.plotfiles}
+                ></SpotModelPlots>
+              )}
+              <Container>
+                {apiState.loading === true && <Spinner />}
+                {spot !== undefined &&
+                  apiState.loading === false &&
+                  MapWrapper(mapRef, mapDims, spot)}
+              </Container>
+              <ContainerNoColumn>
+                {spot !== undefined && SpotBasicInfos(spot)}
+              </ContainerNoColumn>
+              <Container>
+                {spot !== undefined && SpotAdditionalTags(spot)}
+              </Container>
+            </>
+          );
+        }
+      })()}
+    </>
+  );
 };
 
 export default Spot;
