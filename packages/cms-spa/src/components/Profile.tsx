@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useAuth0, Auth0Context } from '../lib/auth/react-auth0-wrapper';
 import { Container } from './Container';
-import { SpotEditor } from './spot/SpotEditor';
+import { SpotEditorBasisData } from './spot/SpotEditor-Basis-Data';
 import { DEFAULT_SPOT } from '../lib/common/constants';
 import { useMapResizeEffect } from '../hooks/map-hooks';
 // import { RootState } from '../lib/state/reducers/root-reducer';
@@ -17,8 +17,8 @@ import {
   IBathingspot,
 } from '../lib/common/interfaces';
 // import { fetchSpots } from '../lib/state/reducers/actions/fetch-get-spots';
-import { CardTile } from './spot/Spot-CardTile';
-import SpotsMap from './spot/Spot-Map';
+import { CardTile } from './spot/elements/Spot-CardTile';
+import SpotsMap from './spot/elements/Spot-Map';
 import { apiRequest, useApi } from '../contexts/postgres-api';
 import { actionCreator } from '../lib/utils/pgapi-actionCreator';
 import { Spinner } from './util/Spinner';
@@ -189,7 +189,7 @@ const Profile: React.FC = () => {
 
       {editMode === true && (
         <Container>
-          <SpotEditor
+          <SpotEditorBasisData
             initialSpot={DEFAULT_SPOT}
             handleEditModeClick={handleEditModeClick}
             handleInfoShowModeClick={(e) => {

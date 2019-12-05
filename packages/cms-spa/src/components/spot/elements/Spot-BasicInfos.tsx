@@ -1,4 +1,4 @@
-import { IBathingspot } from '../../lib/common/interfaces';
+import { IBathingspot } from '../../../lib/common/interfaces';
 import { SpotImage } from './Spot-Image';
 import { SpotLocation } from './Spot-Location';
 import React from 'react';

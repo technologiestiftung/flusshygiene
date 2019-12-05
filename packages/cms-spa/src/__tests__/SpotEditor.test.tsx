@@ -4,7 +4,7 @@ import { reducer } from '../../__test-utils/empty-reducer';
 import { initialState } from '../../__test-utils/initial-state';
 import { render, fireEvent } from '../../__test-utils/render-with-providers';
 import { createMemoryHistory } from 'history';
-import { SpotEditor } from '../components/spot/SpotEditor';
+import { SpotEditorBasisData } from '../components/spot/SpotEditor-Basis-Data';
 import { IBathingspot } from '../lib/common/interfaces';
 
 /**
@@ -45,7 +45,7 @@ it.skip('renders Spoteditor without crashing', () => {
     getByTestId,
     debug,
   } = render(
-    <SpotEditor
+    <SpotEditorBasisData
       initialSpot={spot}
       handleEditModeClick={handleEditModeClickMock}
       newSpot={true}

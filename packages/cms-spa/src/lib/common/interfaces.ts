@@ -213,6 +213,8 @@ export type RequestResourceTypes =
   | 'bathingspots'
   | 'rains'
   | 'measurements'
+  | 'globalIrradiances'
+  | 'discharges'
   | 'predictions'
   | 'user'
   | 'users'
@@ -264,6 +266,7 @@ export interface IApiState {
   currentSpot?: IBathingspot;
   loading: boolean;
   truncated: boolean;
+  error?: IObject;
 }
 
 // ocpe context interfaces
@@ -341,7 +344,7 @@ export interface IMeasurementsUploadBox {
   // >;
   fieldNameFile: string;
   fieldNameUrl: string;
-
+  type: MeasurementTypes;
   props: any;
   schema: Yup.ObjectSchema<
     Yup.Shape<
@@ -374,6 +377,11 @@ export interface IMeasurmentsUploadInitialValues {
 //  ║ └┬┘├─┘├┤ └─┐
 //  ╩  ┴ ┴  └─┘└─┘
 
+export type MeasurementTypes =
+  | 'measurements'
+  | 'discharges'
+  | 'globalIrradiances';
+export type ClickHandler = (event: React.ChangeEvent<any>) => void;
 export type MapEditors = 'area' | 'location';
 export type MapEditModes =
   | 'modify'

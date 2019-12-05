@@ -1,4 +1,4 @@
-import cors from 'cors';
+import cors, { CorsOptions } from 'cors';
 // import errorHandler from 'errorhandler';
 import express from 'express';
 import helmet from 'helmet';
@@ -43,7 +43,23 @@ try {
 } catch (error) {
   console.error(error);
 }
-app.use(cors());
+
+const whitelist = [
+  'https://www.flusshygiene.xyz',
+  'http://localhost:3000',
+  'http://localhost:8888',
+];
+const corsOptions: CorsOptions = {
+  origin: function(origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 if (process.env.NODE_ENV === 'development') {
   app.options('*', cors());
   app.use(morgan('combined'));

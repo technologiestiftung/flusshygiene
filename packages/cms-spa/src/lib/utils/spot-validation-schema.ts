@@ -113,3 +113,11 @@ export const measurementsSchema = Yup.object().shape({
     // .positive()
     .required('Kein integer >= 0'),
 });
+
+export const defaultMeasurementsSchema = Yup.object().shape({
+  date: Yup.date().required('Kein valides datum'),
+  value: Yup.number()
+    // .integer()
+    // .positive()
+    .required('Kein Fließkommawert >= 0'),
+});

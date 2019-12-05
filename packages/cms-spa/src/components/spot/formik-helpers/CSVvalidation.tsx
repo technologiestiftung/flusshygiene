@@ -1,6 +1,6 @@
 import React from 'react';
 import { ICSVValidationErrorRes } from '../../../lib/common/interfaces';
-import { SpotEditorToClipboard } from '../SpotEditor-ToClipboard';
+import { SpotEditorToClipboard } from '../elements/SpotEditor-ToClipboard';
 
 export function CSVvalidation(
   csvValidationRef: React.RefObject<HTMLTableElement>,

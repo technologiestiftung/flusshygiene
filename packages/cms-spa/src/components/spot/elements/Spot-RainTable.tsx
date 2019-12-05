@@ -1,14 +1,14 @@
-import { IBathingspot, IRain } from '../../lib/common/interfaces';
+import { IBathingspot, IRain } from '../../../lib/common/interfaces';
 import React from 'react';
 import {
   arraySortByDateField,
   genericLastElements,
-} from '../../lib/utils/array-helpers';
+} from '../../../lib/utils/array-helpers';
 import { Table, TableBody, TableRow } from './Spot-Table';
 import {
   formatDate,
   roundToFloatDigits,
-} from '../../lib/utils/formatting-helpers';
+} from '../../../lib/utils/formatting-helpers';
 export function RainTable(spot: IBathingspot): React.ReactNode {
   return (
     <Table>

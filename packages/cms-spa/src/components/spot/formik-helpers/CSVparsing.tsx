@@ -1,6 +1,6 @@
 import React from 'react';
 import Papa from 'papaparse';
-import { SpotEditorToClipboard } from '../SpotEditor-ToClipboard';
+import { SpotEditorToClipboard } from '../elements/SpotEditor-ToClipboard';
 export function CSVparsing(
   papaParseValidationRef: React.RefObject<HTMLTableElement>,
   parsingErrors: Papa.ParseError[],

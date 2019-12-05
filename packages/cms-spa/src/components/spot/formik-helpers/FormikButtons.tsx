@@ -1,11 +1,11 @@
 import React from 'react';
 import { IconSave, IconCloseWin, IconInfo } from '../../fontawesome-icons';
 
-export function FormikButtons(
-  props: any,
-  handleCancelClick: (e?: React.ChangeEvent<any> | undefined) => void,
-  infoModalClickHandler: () => void,
-): React.ReactNode {
+export const FormikButtons: React.FC<{
+  props: any;
+  handleCancelClick: (e?: React.ChangeEvent<any> | undefined) => void;
+  infoModalClickHandler: () => void;
+}> = ({ props, handleCancelClick, infoModalClickHandler }) => {
   return (
     <div className='buttons'>
       <button
@@ -43,4 +43,4 @@ export function FormikButtons(
       </button>
     </div>
   );
-}
+};

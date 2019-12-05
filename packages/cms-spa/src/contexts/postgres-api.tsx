@@ -145,8 +145,10 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
         console.log('called POST');
         switch (action.payload.requestType.resource) {
           case 'bathingspot':
-          case 'measurements': {
-            console.log('POST bathingspot or measurements');
+          case 'measurements':
+          case 'discharges':
+          case 'globalIrradiances': {
+            console.log(`POST data for ${action.payload.requestType.resource}`);
             console.log(action.payload.response);
             /**
              * TODO: Should dispatch another get call here
@@ -335,18 +337,22 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
         payload: { response: json, url: action.payload.url, requestType },
       } as IApiActionFinished);
     } else {
+      console.group('Error Response');
       console.warn('fetch response not ok');
-      console.log(await response.text());
-
-      console.error(response.body);
+      // console.log(await response.json());
+      // console.error(response.body);
+      console.groupEnd();
       throw new Error('Network fetch response not ok');
     }
   } catch (error) {
-    console.error(response!);
+    console.group('Error response catched');
+    // console.error(await response!.json());
     console.error('Error while making fetch call', error);
+    console.groupEnd();
+    const json = await response!.json();
     dispatch({
       type: ApiActionTypes.FAIL_API_REQUEST,
-      payload: action.payload,
+      payload: { ...action.payload, error: json, response: json },
     });
   }
   // console.groupEnd();

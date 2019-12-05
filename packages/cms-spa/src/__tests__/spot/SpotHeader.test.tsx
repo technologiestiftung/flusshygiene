@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { SpotHeader } from '../../components/spot/Spot-Header';
+import { SpotHeader } from '../../components/spot/elements/Spot-Header';
 describe('Testing spot header', () => {
   test('should render the spot headers', () => {
     const { container, getByText } = render(

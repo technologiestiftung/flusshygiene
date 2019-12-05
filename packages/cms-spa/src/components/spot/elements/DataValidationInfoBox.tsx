@@ -1,8 +1,9 @@
 import React from 'react';
-import { IconThumbsUp, IconBug } from '../fontawesome-icons';
-export function DataValidationInfoBox(
-  dataIsValid: boolean | undefined,
-): React.ReactNode {
+import { IconThumbsUp, IconBug } from '../../fontawesome-icons';
+export const DataValidationInfoBox: React.FC<{
+  dataIsValid: boolean | undefined;
+  title: string;
+}> = ({ dataIsValid, title }) => {
   return (
     <div className='box box__info'>
       <div className='content'>
@@ -15,7 +16,7 @@ export function DataValidationInfoBox(
                     <IconThumbsUp></IconThumbsUp>
                   </span>{' '}
                   <strong>
-                    Alle Daten sind valide und bereit für den Upload
+                    {title}: Alle Daten sind valide und bereit für den Upload
                   </strong>
                 </>
               );
@@ -26,7 +27,8 @@ export function DataValidationInfoBox(
                     <IconBug></IconBug>
                   </span>{' '}
                   <strong>
-                    Fehler in ihren Daten. Bitte überprüfen sie diese nochmals.
+                    {title}: Fehler in ihren Daten. Bitte überprüfen sie diese
+                    nochmals.
                   </strong>
                 </>
               );
@@ -38,4 +40,4 @@ export function DataValidationInfoBox(
       </div>
     </div>
   );
-}
+};

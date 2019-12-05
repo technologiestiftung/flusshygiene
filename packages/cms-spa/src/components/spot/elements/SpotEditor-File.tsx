@@ -1,15 +1,18 @@
 import React from 'react';
-import { IconCSV } from '../fontawesome-icons';
+import { IconCSV, IconTrash } from '../../fontawesome-icons';
+import { ButtonIconTB } from '../../Buttons';
+import { ClickHandler } from '../../../lib/common/interfaces';
 export const SpotEditorFile: React.FC<{
   name: string;
   type: string;
   label: string;
   disabled: boolean;
-  onChange: (event) => void;
-}> = ({ name, label, type, onChange, disabled }) => {
+  onChange: ClickHandler;
+  handleClearClick: ClickHandler;
+}> = ({ name, label, type, onChange, disabled, handleClearClick }) => {
   return (
     <>
-      <div className='file'>
+      <div className='file is-small'>
         <label className='file-label'>
           <input
             className='file-input'
@@ -25,6 +28,11 @@ export const SpotEditorFile: React.FC<{
             <span className='file-label'>{label}</span>
           </span>
         </label>
+        <div className='buttons'>
+          <ButtonIconTB text={'Daten löschen'} handleClick={handleClearClick}>
+            <IconTrash></IconTrash>
+          </ButtonIconTB>
+        </div>
       </div>
     </>
   );

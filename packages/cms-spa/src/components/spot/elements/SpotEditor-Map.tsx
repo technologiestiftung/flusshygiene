@@ -8,13 +8,13 @@ import {
   MapEditModes,
   IGeoJsonFeature,
   IBathingspotExtend,
-} from '../../lib/common/interfaces';
+} from '../../../lib/common/interfaces';
 import { EditableGeoJsonLayer } from '@nebula.gl/layers';
-import { useMapResizeEffect } from '../../hooks/map-hooks';
+import { useMapResizeEffect } from '../../../hooks/map-hooks';
 
 import { StaticMap } from 'react-map-gl';
-import { REACT_APP_MAPBOX_API_TOKEN } from '../../lib/config';
-import { IconAngleDown } from '../fontawesome-icons';
+import { REACT_APP_MAPBOX_API_TOKEN } from '../../../lib/config';
+import { IconAngleDown } from '../../fontawesome-icons';
 const initialViewState = {
   bearing: 0,
   latitude: 52,

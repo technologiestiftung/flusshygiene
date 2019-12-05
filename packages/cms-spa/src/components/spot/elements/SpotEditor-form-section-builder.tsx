@@ -2,7 +2,7 @@ import React from 'react';
 import { SpotEditorInput } from './SpotEditor-Input';
 import { SpotEditorCheckbox } from './SpotEditor-Checkbox';
 import { SpotEditorSelect } from './SpotEditor-Select';
-import { IFormBuildData } from '../../lib/common/interfaces';
+import { IFormBuildData } from '../../../lib/common/interfaces';
 
 export const formSectionBuilder: (
   data: IFormBuildData[],

@@ -1,10 +1,9 @@
 import React from 'react';
-import { ButtonIconTB } from '../Buttons';
-import { IconInfo } from '../fontawesome-icons';
+import { ButtonIconTB } from '../../Buttons';
+import { IconInfo } from '../../fontawesome-icons';
+import { MeasurementTypes } from '../../../lib/common/interfaces';
 
-type InfoTypes = 'measurements' | 'discharge' | 'globalIrridiance';
-
-const InfoText: React.FC<{ type: InfoTypes }> = ({ type }) => (
+const InfoText: React.FC<{ type: MeasurementTypes }> = ({ type }) => (
   <div className='content'>
     <p> Innerhalb der Plattform werden die folgenden Trennzeichen verwendet:</p>
     <div className='columns'>
@@ -54,23 +53,42 @@ const InfoText: React.FC<{ type: InfoTypes }> = ({ type }) => (
         </tr>
 
         {(() => {
-          if (type === 'measurements') {
-            return (
-              <>
-                <tr>
-                  <td>conc_ec</td>
-                  <td>Messwert von E.coli [MPN/100mL]</td>
-                  <td>Ganze Zahlen, keine Dezimalstellen</td>
-                </tr>
-                <tr>
-                  <td>conc_ie</td>
-                  <td>Messwert von intestinalen Enterokokken [MPN/100mL]</td>
-                  <td>Ganze Zahlen, keine Dezimalstellen</td>
-                </tr>
-              </>
-            );
-          } else {
-            throw new Error('not defined');
+          switch (type) {
+            case 'measurements': {
+              return (
+                <>
+                  <tr>
+                    <td>conc_ec</td>
+                    <td>Messwert von E.coli [MPN/100mL]</td>
+                    <td>Ganze Zahlen, keine Dezimalstellen</td>
+                  </tr>
+                  <tr>
+                    <td>conc_ie</td>
+                    <td>Messwert von intestinalen Enterokokken [MPN/100mL]</td>
+                    <td>Ganze Zahlen, keine Dezimalstellen</td>
+                  </tr>
+                </>
+              );
+            }
+            case 'discharges':
+            case 'globalIrradiances': {
+              const typeDict = {
+                discharges: 'Durchfluss',
+                globalIrradiances: 'Global Strahlung',
+              };
+              return (
+                <>
+                  <tr>
+                    <td>value</td>
+                    <td>Messwert für {typeDict[type]}</td>
+                    <td>Fließkommazahlen größer gleich 0</td>
+                  </tr>
+                </>
+              );
+            }
+            default: {
+              throw new Error('No default case defined');
+            }
           }
         })()}
       </tbody>
@@ -80,9 +98,9 @@ const InfoText: React.FC<{ type: InfoTypes }> = ({ type }) => (
     </p>
   </div>
 );
-export const SpotEditorMeasurmentInfo: React.FC<{ type: InfoTypes }> = ({
-  type,
-}) => {
+export const SpotEditorMeasurmentInfo: React.FC<{
+  type: MeasurementTypes;
+}> = ({ type }) => {
   const [infoIsVisible, setInfoIsVisible] = React.useState(false);
   return (
     <>

@@ -1,7 +1,7 @@
 import React, { useState, createRef, useEffect } from 'react';
 import { Field, ErrorMessage } from 'formik';
-import { SpotEditorBox } from './SpotEditor-Box';
-import { SpotEditorFile } from './SpotEditor-File';
+import { SpotEditorBox } from './elements/SpotEditor-Box';
+
 import { ParseError } from 'papaparse';
 import {
   ICSVValidationErrorRes,
@@ -11,9 +11,10 @@ import {
 import { CSVvalidation } from './formik-helpers/CSVvalidation';
 import { CSVparsing } from './formik-helpers/CSVparsing';
 import { papaPromise } from '../../lib/utils/papaPromise';
-import { SpotEditorMeasurmentInfo } from './SpotEditor-Measurments-Info';
-import { DataValidationInfoBox } from './DataValidationInfoBox';
-import { validURL } from './validURL';
+import { DataValidationInfoBox } from './elements/DataValidationInfoBox';
+import { validURL } from '../../lib/utils/validURL';
+import { SpotEditorMeasurmentInfo } from './elements/SpotEditor-Measurments-Info';
+import { SpotEditorFile } from './elements/SpotEditor-File';
 
 export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   title,
@@ -30,7 +31,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
     ICSVValidationErrorRes[]
   >([]);
   const [data, setData] = useState<IMeasurement[] | undefined>(undefined);
-  const [dataUrl, setDataUrl] = useState('');
+  const [dataUrl, setDataUrl] = useState<string | undefined>(undefined);
   // const [urlIsValid, setUrlIsValid] = useState<boolean | undefined>(undefined);
   const [csvFile, setCsvFile] = useState<File>();
   const [dataIsValid, setDataIsValid] = useState<boolean | undefined>(
@@ -38,6 +39,20 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   );
   let csvValidationRef = createRef<HTMLTableElement>();
   let papaParseValidationRef = createRef<HTMLTableElement>();
+
+  const resetData = () => {
+    setDataIsValid(undefined);
+    setCsvFile(undefined);
+    setData(undefined);
+    setFieldValue(fieldNameFile, []);
+    setCSVValidationErrors([]);
+    setParsingErrors([]);
+  };
+  const resetDataUrl = () => {
+    setDataUrl(undefined);
+    setFieldValue(fieldNameUrl, '');
+  };
+
   /**
    * This effect sets the data for formik;
    */
@@ -104,7 +119,9 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   }, [csvFile, schema]);
   return (
     <>
-      {DataValidationInfoBox(dataIsValid)}
+      {dataIsValid !== undefined && (
+        <DataValidationInfoBox title={title} dataIsValid={dataIsValid} />
+      )}
       <SpotEditorBox title={title}>
         <SpotEditorMeasurmentInfo type={'measurements'} />
         <SpotEditorFile
@@ -112,6 +129,10 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
           type={'file'}
           label={'Datei auswählen…'}
           disabled={false}
+          handleClearClick={(e) => {
+            e.preventDefault();
+            resetData();
+          }}
           onChange={(event: React.ChangeEvent<any>) => {
             setCSVValidationErrors([]);
             setParsingErrors([]);
@@ -147,8 +168,8 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
             </label>
           </div>
           <div className='field-body'>
-            <div className='field'>
-              <div className='control'>
+            <div className='field has-addons'>
+              <div className='control is-expanded'>
                 <Field
                   type={'input'}
                   name={fieldNameUrl}
@@ -169,6 +190,28 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
                   component='div'
                   className='help is-danger'
                 />
+              </div>
+              <div className='control'>
+                <button
+                  className='button'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert('Noch nicht möglich');
+                  }}
+                >
+                  testen
+                </button>
+              </div>
+              <div className='control'>
+                <button
+                  className='button'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    resetDataUrl();
+                  }}
+                >
+                  löschen
+                </button>
               </div>
             </div>
           </div>

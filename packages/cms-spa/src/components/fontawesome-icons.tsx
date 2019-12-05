@@ -30,6 +30,7 @@ import {
   faChartBar,
   faThumbsUp,
   faBug,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { ColorNames, QType } from '../lib/common/interfaces';
 import { colorNamesToClassNames } from '../lib/utils/questionnaire-colornames-conversion';
@@ -62,6 +63,7 @@ library.add(
   faChartBar,
   faThumbsUp,
   faBug,
+  faTrash,
 );
 
 export const colorNameToIcon: (cname: ColorNames) => JSX.Element = (cname) => {
@@ -202,4 +204,8 @@ export const IconThumbsUp: React.FC<{ className?: string }> = ({
 
 export const IconBug: React.FC<{ className?: string }> = ({ className }) => (
   <FontAwesomeIcon icon={'bug'} className={className} />
+);
+
+export const IconTrash: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'trash'} className={className} />
 );

@@ -1,4 +1,4 @@
-import { IBathingspot } from '../../lib/common/interfaces';
+import { IBathingspot } from '../../../lib/common/interfaces';
 import React from 'react';
 import SpotsMap from './Spot-Map';
 export function MapWrapper(

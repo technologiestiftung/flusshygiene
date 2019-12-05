@@ -1,6 +1,6 @@
 import React from 'react';
-import { ContainerNoColumn } from '../Container';
-import { IconChart } from '../fontawesome-icons';
+import { ContainerNoColumn } from '../../Container';
+import { IconChart } from '../../fontawesome-icons';
 
 const Plot: React.FC<{
   imageUrl: string;

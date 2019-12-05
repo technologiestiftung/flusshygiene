@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from '../util/Spinner';
+import { Spinner } from '../../util/Spinner';
 export interface ISpotHeader {
   nameLong?: string;
   district?: string;

@@ -1,5 +1,10 @@
 import React from 'react';
-import { IconRain, IconCalc, IconComment, IconCSV } from '../fontawesome-icons';
+import {
+  IconRain,
+  IconCalc,
+  IconComment,
+  IconCSV,
+} from '../../fontawesome-icons';
 export type TableTitleIconType =
   | 'IconCalc'
   | 'IconRain'

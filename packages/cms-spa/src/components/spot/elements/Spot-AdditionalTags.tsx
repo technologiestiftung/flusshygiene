@@ -1,4 +1,4 @@
-import { IBathingspot } from '../../lib/common/interfaces';
+import { IBathingspot } from '../../../lib/common/interfaces';
 import { SpotBodyAddonTagGroup } from './Spot-AddonTag-Group';
 import React from 'react';
 export function SpotAdditionalTags(spot: IBathingspot): React.ReactNode {

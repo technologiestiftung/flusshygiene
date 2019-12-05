@@ -1,6 +1,6 @@
 import React from 'react';
-import { RouteNames } from '../../lib/common/enums';
-import { IBathingspot } from '../../lib/common/interfaces';
+import { RouteNames } from '../../../lib/common/enums';
+import { IBathingspot } from '../../../lib/common/interfaces';
 // import '../../assets/styles/card.scss';
 import { Link } from 'react-router-dom';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '../../../__test-utils/render-with-providers';
-import { SpotImage } from '../../components/spot/Spot-Image';
+import { SpotImage } from '../../components/spot/elements/Spot-Image';
 
 describe('Testing spot image', () => {
   test('should render the image component without crashing', () => {

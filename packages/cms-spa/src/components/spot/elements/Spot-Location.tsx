@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconMapPin } from '../fontawesome-icons';
+import { IconMapPin } from '../../fontawesome-icons';
 export interface ISpotBodyLocation {
   children?: React.ReactNode;
   nameLong?: string;

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { ButtonIconTB as Button } from '../Buttons';
+import { ButtonIconTB as Button } from '../../Buttons';
 
-import { MapEditModes } from '../../lib/common/interfaces';
+import { MapEditModes } from '../../../lib/common/interfaces';
 import {
   IconAngleDown,
   IconInfo,
   IconPolygon,
   IconMapMarker,
-} from '../fontawesome-icons';
+} from '../../fontawesome-icons';
 
 const dropdownTexts = {
   view: { text: ' Anzeige' },

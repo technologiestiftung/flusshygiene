@@ -1,6 +1,6 @@
 import React from 'react';
 import { IFormBuildData } from '../../../../lib/common/interfaces';
-import { formSectionBuilder } from '../../../../components/spot/SpotEditor-form-section-builder';
+import { formSectionBuilder } from '../../../../components/spot/elements/SpotEditor-form-section-builder';
 import {
   render,
   fireEvent,

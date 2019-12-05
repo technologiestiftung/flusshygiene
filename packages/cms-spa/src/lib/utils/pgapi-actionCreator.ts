@@ -17,14 +17,14 @@ export function actionCreator({
   body,
 }: {
   url: string;
-  type: ApiActionTypes;
+  type?: ApiActionTypes;
   method: RequestTypes;
   resource: RequestResourceTypes;
   token: string;
   body: IObject;
 }): IApiAction {
   const action: IApiAction = {
-    type,
+    type: type ? type : ApiActionTypes.START_API_REQUEST,
     payload: {
       config: {
         body: JSON.stringify(body),

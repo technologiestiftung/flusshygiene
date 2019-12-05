@@ -4,10 +4,8 @@ import { action } from '@storybook/addon-actions';
 import { MemoryRouter } from 'react-router';
 import { SpotEditor } from '../components/spot/SpotEditor';
 import { IBathingspot } from '../lib/common/interfaces';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { reducer } from '../../__test-utils/empty-reducer';
-import { initialState } from '../../__test-utils/initial-state';
+import { ApiProvider } from '../contexts/postgres-api';
+
 const spot: IBathingspot = {
   name: 'foo',
   id: 1,
@@ -15,10 +13,9 @@ const spot: IBathingspot = {
   updatedAt: new Date(),
   isPublic: true,
 };
-const store = createStore(reducer, initialState);
 
 storiesOf('SpotEditor', module)
-  .addDecorator((story) => <Provider store={store}>{story()}</Provider>)
+  .addDecorator((story) => <ApiProvider>{story()}</ApiProvider>)
   .addDecorator((story) => (
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
@@ -26,6 +23,7 @@ storiesOf('SpotEditor', module)
     <SpotEditor
       initialSpot={spot}
       handleEditModeClick={action('Handle Edit Mode Click')}
+      handleInfoShowModeClick={action('Handle Edit Mode Click')}
     />
     // <Formik
     //   initialValues={{ name: 'foo' }}

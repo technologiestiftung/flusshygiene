@@ -1,5 +1,5 @@
 import React from 'react';
-import { IObject, IModelInfo } from '../../lib/common/interfaces';
+import { IObject, IModelInfo } from '../../../lib/common/interfaces';
 import { Table, TableBody, TableRow } from './Spot-Table';
 export function SpotModelTable(lastModel?: IObject) {
   const dateOpts = {

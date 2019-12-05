@@ -1,5 +1,8 @@
 import React from 'react';
-import { IObject, IBathingspotMeasurement } from '../../lib/common/interfaces';
+import {
+  IObject,
+  IBathingspotMeasurement,
+} from '../../../lib/common/interfaces';
 
 const kA = 'k. A.';
 export interface IMeasurement {

@@ -8,33 +8,33 @@ import {
   IBathingspot,
   ApiActionTypes,
   RouteProps,
+  ClickHandler,
 } from '../lib/common/interfaces';
 
-import { SpotHeader } from './spot/Spot-Header';
+import { SpotHeader } from './spot/elements/Spot-Header';
 import { useMapResizeEffect } from '../hooks/map-hooks';
-import { SpotEditor } from './spot/SpotEditor';
-import { SpotModelPlots } from './spot/Spot-Model-Plots';
+import { SpotEditorBasisData } from './spot/SpotEditor-Basis-Data';
+import { SpotModelPlots } from './spot/elements/Spot-Model-Plots';
 import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../lib/config';
 import { Container, ContainerNoColumn } from './Container';
 import { useOcpu, postOcpu } from '../contexts/opencpu';
 import { useEventSource } from '../contexts/eventsource';
 import { useApi, apiRequest } from '../contexts/postgres-api';
-import { Banner } from './spot/Spot-Banner';
-import { SpotButtonBar } from './spot/Spot-ButtonBar';
-import { SpotAdditionalTags } from './spot/Spot-AdditionalTags';
-import { SpotBasicInfos } from './spot/Spot-BasicInfos';
-import { MapWrapper } from './spot/Spot-Map-Wrapper';
-import { PredictionTable } from './spot/Spot-PredictionTable';
-import { RainTable } from './spot/Spot-RainTable';
-import { SpotMeasurementsTable } from './spot/Spot-MeasurementsTable';
-import { SpotModelTable } from './spot/Spot-ModelTable';
-import { SpotTableBlock } from './spot/Spot-TableBlock';
-import { SpotHr } from './spot/Spot-Hr';
+import { Banner } from './spot/elements/Spot-Banner';
+import { SpotButtonBar } from './spot/elements/Spot-ButtonBar';
+import { SpotAdditionalTags } from './spot/elements/Spot-AdditionalTags';
+import { SpotBasicInfos } from './spot/elements/Spot-BasicInfos';
+import { MapWrapper } from './spot/elements/Spot-Map-Wrapper';
+import { PredictionTable } from './spot/elements/Spot-PredictionTable';
+import { RainTable } from './spot/elements/Spot-RainTable';
+import { SpotMeasurementsTable } from './spot/elements/Spot-MeasurementsTable';
+import { SpotModelTable } from './spot/elements/Spot-ModelTable';
+import { SpotTableBlock } from './spot/elements/Spot-TableBlock';
+import { SpotHr } from './spot/elements/Spot-Hr';
 import { Spinner } from './util/Spinner';
 import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurments';
-import { measurementsSchema } from '../lib/utils/spot-validation-schema';
-import { SpotEditorInfoModal } from './spot/SpotEditor-InfoModal';
+import { SpotEditorInfoModal } from './spot/elements/SpotEditor-InfoModal';
 
 /**
  * This is the component that displays a single spot
@@ -90,7 +90,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    * Handles the click events on the button bar on top for all the calls to middlelayer
    *
    */
-  const handleCalibratePredictClick = (event: React.ChangeEvent<any>) => {
+  const handleCalibratePredictClick: ClickHandler = (event) => {
     if (spot === undefined) return;
     switch (event.currentTarget.id) {
       case 'sleep':
@@ -194,6 +194,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     setShowNotification(true);
   }, [eventSourceState]);
 
+  useEffect(() => {
+    if (apiState.error === undefined) return;
+    setMessage(JSON.stringify(apiState.error.error.message));
+    setShowNotification(true);
+  }, [apiState.error]);
   /**
    * This effect gets one bathingspot
    * Follow the crumbs to contexts/postgres-api
@@ -280,7 +285,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           return (
             <Container>
               {formReadyToRender === true && basisEditMode === true && (
-                <SpotEditor
+                <SpotEditorBasisData
                   initialSpot={spot}
                   handleEditModeClick={handleBasisEditModeClick}
                   handleInfoShowModeClick={handleInfoShowModeClick}
@@ -303,13 +308,14 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 }}
                 handleInfoClick={handleInfoShowModeClick}
                 handeCloseClick={handleDataEditModeClick}
-                schema={measurementsSchema}
-                postData={(data: any) => {
-                  console.log(
-                    'This is the data submitted by the new SpotEditorMeasurmentsUpload Formik component ',
-                    data,
-                  );
-                }}
+                spotId={spot.id}
+                // schema={measurementsSchema}
+                // postData={(data: any) => {
+                //   console.log(
+                //     'This is the data submitted by the new SpotEditorMeasurmentsUpload Formik component ',
+                //     data,
+                //   );
+                // }}
               ></SpotEditorMeasurmentsUpload>
             </Container>
           );
@@ -333,13 +339,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {SpotHr()}
               {isAuthenticated === true && (
                 <Container>
-                  {SpotButtonBar({
-                    handleBasisEditModeClick,
-                    handleInfoShowModeClick,
-                    handleCalibratePredictClick,
-                    handleDataEditModeClick,
-                    ocpuState,
-                  })}
+                  <SpotButtonBar
+                    handleBasisEditModeClick={handleBasisEditModeClick}
+                    handleInfoShowModeClick={handleInfoShowModeClick}
+                    handleCalibratePredictClick={handleCalibratePredictClick}
+                    handleDataEditModeClick={handleDataEditModeClick}
+                    ocpuState={ocpuState}
+                  />
                 </Container>
               )}
               <ContainerNoColumn>
