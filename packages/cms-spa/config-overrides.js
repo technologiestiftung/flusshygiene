@@ -1,5 +1,10 @@
 // // config-overrides.js
-const { addWebpackAlias } = require('customize-cra');
+const {
+  addWebpackAlias,
+  useBabelRc,
+  override,
+  addWebpackModuleRule,
+} = require('customize-cra');
 const path = require('path');
 
 // const supportMjs = () => (webpackConfig) => {
@@ -13,16 +18,15 @@ const path = require('path');
 
 // module.exports = override(supportMjs());
 // see https://github.com/reactioncommerce/reaction-component-library/issues/399
-module.exports = function override(webpackConfig) {
-  webpackConfig.module.rules.push({
+module.exports = override(
+  addWebpackModuleRule({
     test: /\.mjs$/,
     include: /node_modules/,
     type: 'javascript/auto',
-  });
+  }),
   // see https://github.com/uber/deck.gl/blob/master/examples/get-started/react/mapbox/webpack.config.js
   addWebpackAlias({
     'mapbox-gl$': path.resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js'),
-  });
-
-  return webpackConfig;
-};
+  }),
+  useBabelRc(),
+);
