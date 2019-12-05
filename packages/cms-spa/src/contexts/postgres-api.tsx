@@ -5,6 +5,7 @@ import {
   ApiActionTypes,
   IBathingspot,
   IApiActionFinished,
+  IDefaultMeasurement,
 } from '../lib/common/interfaces';
 
 type Dispatch = (action: IApiAction) => void;
@@ -50,6 +51,12 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
        * If it is a PUT, POST, DELETE we only need to trigger another GET call
        */
       if (action.payload.requestType.type === 'GET') {
+        const reg = /bathingspots\/(?<spotId>\d+)/;
+        const matchRes = action.payload.url.match(reg);
+        if (matchRes === null || matchRes.groups === undefined) {
+          throw new Error(`Can't match spotId in ${action.payload.url}`);
+        }
+        const spotId = parseInt(matchRes.groups.spotId, 10);
         /**
          * Now we switch based on the resource type we are getting
          *
@@ -59,11 +66,6 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
            * This is getting a single spot
            */
           case 'bathingspots': {
-            /**
-             * TODO: Do we need an update of the state or can we just replace them all?
-             */
-            // console.log('requesting spots');
-            // console.log(action.payload.response);
             const newSpots = state.spots;
             action.payload.response.data.forEach((obj) => {
               const index = newSpots.findIndex((spot) => spot.id === obj.id);
@@ -73,37 +75,31 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
                 newSpots[index] = obj as IBathingspot;
               }
             });
+            newSpots.sort((a, b) => (a.id > b.id ? -1 : 1));
             return {
               ...state,
               loading: false,
-              reload: false,
               truncated: action.payload.response.truncated,
               spots: [...newSpots],
             };
           }
           case 'bathingspot': {
             // console.log('url in spot request', action.payload.url);
-            const reg = /bathingspots\/(?<spotId>\d+?)$/;
-            const matchRes = action.payload.url.match(reg);
-            // console.log(matchRes);
 
-            if (matchRes === null || matchRes.groups === undefined) {
-              throw new Error(`Can't match spotId in ${action.payload.url}`);
-            }
-            const id = parseInt(matchRes.groups.spotId, 10);
+            // console.log(matchRes);
 
             /**
              * if the state already contains a spot with that ID we update it
              */
-            if (state.spots.some((spot) => spot.id === id)) {
+            if (state.spots.some((spot) => spot.id === spotId)) {
               const spots = state.spots.map((spot) => {
-                if (spot.id === id) {
+                if (spot.id === spotId) {
                   return action.payload.response!.data[0] as IBathingspot;
                 } else {
                   return spot;
                 }
               });
-              return { ...state, loading: false, spots, reload: false };
+              return { ...state, loading: false, spots };
             } else {
               /**
                * State does not contain the spot. We Just push the result to the end of the this.state.
@@ -112,13 +108,77 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               return {
                 ...state,
                 loading: false,
-                reload: false,
                 spots: [
                   ...state.spots,
                   action.payload.response!.data[0] as IBathingspot,
                 ],
               };
             }
+          }
+          case 'predictions': {
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId) {
+                spot.predictions = action.payload.response!.data;
+              }
+              return spot;
+            });
+
+            return { ...state, spots: [...updatedSpots], loading: false };
+          }
+          case 'measurements': {
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId) {
+                spot.measurements = action.payload.response!.data;
+              }
+              return spot;
+            });
+
+            return { ...state, spots: [...updatedSpots], loading: false };
+          }
+          case 'discharges': {
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId) {
+                spot.discharges = action.payload.response!
+                  .data as IDefaultMeasurement[];
+              }
+              return spot;
+            });
+
+            return {
+              ...state,
+              spots: [...updatedSpots],
+              loading: false,
+            };
+          }
+          case 'globalIrradiances': {
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId) {
+                spot.globalIrradiances = action.payload.response!
+                  .data as IDefaultMeasurement[];
+              }
+              return spot;
+            });
+
+            return {
+              ...state,
+              spots: [...updatedSpots],
+              loading: false,
+            };
+          }
+          case 'rains': {
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId) {
+                spot.rains = action.payload.response!
+                  .data as IDefaultMeasurement[];
+              }
+              return spot;
+            });
+
+            return {
+              ...state,
+              spots: [...updatedSpots],
+              loading: false,
+            };
           }
           default: {
             throw new Error('no default GET case defined');
@@ -150,10 +210,9 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           case 'globalIrradiances': {
             console.log(`POST data for ${action.payload.requestType.resource}`);
             console.log(action.payload.response);
-            /**
-             * TODO: Should dispatch another get call here
-             */
-            return { ...state, reload: true, loading: false };
+
+            const reload = state.reload + 1;
+            return { ...state, reload: reload, loading: false };
           }
 
           default: {
@@ -183,21 +242,14 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           case 'measurements': {
             console.log('PUT bathingspot or measurements');
             console.log(action.payload.response);
-
-            /**
-             * TODO: should disptch a new GET here
-             */
-            return { ...state, reload: true, loading: false };
+            const reload = state.reload + 1;
+            return { ...state, reload, loading: false };
           }
           default: {
             throw new Error('no default POST case defined');
           }
         }
       } else {
-        /**
-         * Here we handle PUT, DELETE
-         * TODO: trigger another GET call to update the state
-         */
         return { ...state, loading: false };
       }
     }
@@ -219,7 +271,7 @@ const ApiProvider: (children: ApiProviderProps) => JSX.Element = ({
     spots: [],
     loading: false,
     truncated: false,
-    reload: false,
+    reload: 0,
   });
   return (
     <ApiStateContext.Provider value={state}>

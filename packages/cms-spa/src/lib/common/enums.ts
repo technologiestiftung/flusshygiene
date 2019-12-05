@@ -68,6 +68,7 @@ export enum ApiResources {
   measurements = 'measurements',
   discharges = 'discharges',
   globalIrradiances = 'globalIrradiances',
+  rains = 'rains',
 }
 export enum APIMountPoints {
   v1 = 'api/v1',

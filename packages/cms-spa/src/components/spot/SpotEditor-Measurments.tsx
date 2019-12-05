@@ -6,6 +6,7 @@ import { UploadBox } from './elements/SpotEditor-UploadBox';
 import {
   IMeasurmentsUploadInitialValues,
   IApiAction,
+  IBathingspotApiEndpoints,
 } from '../../lib/common/interfaces';
 import { useAuth0 } from '../../lib/auth/react-auth0-wrapper';
 import {
@@ -15,6 +16,7 @@ import {
 import { REACT_APP_API_HOST } from '../../lib/config';
 import { APIMountPoints, ApiResources } from '../../lib/common/enums';
 import { actionCreator } from '../../lib/utils/pgapi-actionCreator';
+import { validURL } from '../../lib/utils/validURL';
 
 // import { measurementsSchema } from '../../lib/utils/spot-validation-schema';
 
@@ -94,7 +96,33 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
           }),
         );
       }
+      let apiEndpoints: IBathingspotApiEndpoints = {};
+      if (measurementsUrl !== undefined && validURL(measurementsUrl) === true) {
+        apiEndpoints = { ...apiEndpoints, measurementsUrl };
+      }
+      if (
+        globalIrradianceUrl !== undefined &&
+        validURL(globalIrradianceUrl) === true
+      ) {
+        apiEndpoints = { ...apiEndpoints, globalIrradianceUrl };
+      }
+      if (dischargesUrl !== undefined && validURL(dischargesUrl) === true) {
+        apiEndpoints = { ...apiEndpoints, dischargesUrl };
+      }
+
+      if (Object.keys(apiEndpoints).length > 0) {
+        actions.push(
+          actionCreator({
+            body: { apiEndpoints },
+            url: baseUrl,
+            token,
+            method: 'PUT',
+            resource: 'bathingspot',
+          }),
+        );
+      }
       console.log(actions);
+      console.log('apiEndpoints', apiEndpoints);
       if (actions.length > 0) {
         actions.forEach((action) => {
           apiRequest(apiDispatch, action);

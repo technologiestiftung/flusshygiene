@@ -22,6 +22,11 @@ export interface IFetchSpotOptions extends IFetchOptions {
   updateAll?: boolean;
 }
 
+export interface IBathingspotApiEndpoints {
+  measurementsUrl?: string;
+  dischargesUrl?: string;
+  globalIrradianceUrl?: string;
+}
 export interface IBathingspot {
   id: number;
   createdAt: Date;
@@ -63,7 +68,7 @@ export interface IBathingspot {
   dogban?: boolean;
   lastClassification?: string;
   image?: string;
-  apiEndpoints?: string;
+  apiEndpoints?: IBathingspotApiEndpoints;
   state?: string;
   location?: IGeoJsonGeometry;
   area?: IGeoJsonGeometry;
@@ -77,19 +82,21 @@ export interface IBathingspot {
   measurements?: IObject[];
   rawModelData?: IObject[];
   region?: IObject;
-  rains?: IRain[];
+  rains?: IDefaultMeasurement[];
+  globalIrradiances?: IDefaultMeasurement[];
+  discharges?: IDefaultMeasurement[];
   influencePurificationPlant?: 'yes' | 'no' | 'unknown';
   influenceCombinedSewerSystem?: 'yes' | 'no' | 'unknown';
   influenceRainwater?: 'yes' | 'no' | 'unknown';
   influenceAgriculture?: 'yes' | 'no' | 'unknown';
 }
 
-export interface IRain {
+export interface IDefaultMeasurement {
   id: number;
   createdAt: Date;
   updatedAt: Date;
   date: Date;
-  dateTime: Date;
+  dateTime?: Date;
   value: number;
   comment?: string;
 }
@@ -261,9 +268,10 @@ export interface IApiActionFinished extends IApiAction {
 // }
 export interface IApiState {
   spots: IBathingspot[];
-  reload: boolean;
+  reload: number;
   sessionId?: string;
   currentSpot?: IBathingspot;
+
   loading: boolean;
   truncated: boolean;
   error?: IObject;

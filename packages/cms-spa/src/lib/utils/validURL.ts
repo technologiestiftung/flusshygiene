@@ -8,5 +8,5 @@ export function validURL(str: string) {
       '(\\#[-a-z\\d_]*)?$',
     'i',
   ); // fragment locator
-  return !!pattern.test(str);
+  return pattern.test(str);
 }

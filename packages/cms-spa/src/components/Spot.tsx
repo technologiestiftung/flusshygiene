@@ -9,6 +9,7 @@ import {
   ApiActionTypes,
   RouteProps,
   ClickHandler,
+  IApiAction,
 } from '../lib/common/interfaces';
 
 import { SpotHeader } from './spot/elements/Spot-Header';
@@ -207,19 +208,100 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     if (token === undefined) return;
     if (user.pgapiData === undefined) return;
 
+    const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
     const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
 
-    const action = actionCreator({
-      body: {},
-      token,
-      method: 'GET',
-      url,
-      type: ApiActionTypes.START_API_REQUEST,
-      resource: 'bathingspot',
-    });
-    apiRequest(apiDispatch, action);
-  }, [token, apiDispatch, match.params.id, user.pgapiData]);
+    const actions: IApiAction[] = [];
 
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: baseUrl,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'bathingspot',
+      }),
+    );
+
+    /**
+     * Actions for
+     * rains
+     * discharges
+     * measurements
+     * models
+     * predictions
+     * globalIrradiance
+     *
+     */
+    if (actions.length > 0) {
+      actions.forEach((action) => {
+        apiRequest(apiDispatch, action);
+      });
+    }
+  }, [
+    token,
+    apiDispatch,
+    match.params.id,
+    user.pgapiData,
+    apiState.reload,
+    eventSourceState,
+  ]);
+
+  useEffect(() => {
+    if (token === undefined) return;
+    if (user.pgapiData === undefined) return;
+
+    const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+
+    const actions: IApiAction[] = [];
+
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.measurements}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'measurements',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.globalIrradiances}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'globalIrradiances',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.discharges}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'discharges',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.rains}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'rains',
+      }),
+    );
+    if (actions.length > 0) {
+      actions.forEach((action) => {
+        apiRequest(apiDispatch, action);
+      });
+    }
+  }, [spot]);
   useEffect(() => {
     if (apiState === undefined) return;
     const filtered = apiState.spots.filter(
@@ -299,12 +381,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               <SpotEditorMeasurmentsUpload
                 initialValues={{
                   // csvFile: undefined,
-                  measurementsUrl: '',
                   measurements: [],
+                  measurementsUrl: spot.apiEndpoints?.measurementsUrl ?? '',
                   globalIrradiance: [],
-                  globalIrradianceUrl: '',
+                  globalIrradianceUrl:
+                    spot.apiEndpoints?.globalIrradianceUrl ?? '',
                   discharges: [],
-                  dischargesUrl: '',
+                  dischargesUrl: spot.apiEndpoints?.dischargesUrl ?? '',
                 }}
                 handleInfoClick={handleInfoShowModeClick}
                 handeCloseClick={handleDataEditModeClick}
@@ -324,7 +407,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             <>
               {isAuthenticated === true &&
                 showNotification === true &&
-                spot !== undefined && <Container>{Banner(message)}</Container>}
+                spot !== undefined && (
+                  <Container>
+                    <Banner message={message}></Banner>
+                  </Container>
+                )}
               {spot !== undefined && (
                 <Container>
                   <SpotHeader

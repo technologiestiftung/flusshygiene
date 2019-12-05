@@ -11,7 +11,6 @@ export function SpotTableBlock({
   return (
     <div className='column is-5'>
       {SpotTableTitle(title)}
-      {/* {Title()} */}
       {Table()}
     </div>
   );

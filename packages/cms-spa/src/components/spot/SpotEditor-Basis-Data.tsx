@@ -5,7 +5,6 @@ import {
   MapEditModes,
   IGeoJsonGeometry,
   IBathingspotExtend,
-  IBathingspotMeasurement,
   ApiActionTypes,
 } from '../../lib/common/interfaces';
 import { nullValueTransform } from '../../lib/utils/spot-nullvalue-transformer';

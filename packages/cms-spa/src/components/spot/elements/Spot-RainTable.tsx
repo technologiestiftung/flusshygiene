@@ -1,4 +1,7 @@
-import { IBathingspot, IRain } from '../../../lib/common/interfaces';
+import {
+  IBathingspot,
+  IDefaultMeasurement,
+} from '../../../lib/common/interfaces';
 import React from 'react';
 import {
   arraySortByDateField,
@@ -25,7 +28,10 @@ export function RainTable(spot: IBathingspot): React.ReactNode {
                 year: 'numeric',
               };
               const sortedRain = spot.rains.sort(arraySortByDateField);
-              const lastFive = genericLastElements<IRain>(sortedRain, 5);
+              const lastFive = genericLastElements<IDefaultMeasurement>(
+                sortedRain,
+                5,
+              );
               const rows = lastFive.reverse().map((ele, i) => {
                 const tds = [`${roundToFloatDigits(ele.value, 2)} mm`];
                 return (

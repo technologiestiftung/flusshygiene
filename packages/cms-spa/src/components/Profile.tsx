@@ -132,7 +132,7 @@ const Profile: React.FC = () => {
       }
     };
     getSpots();
-  }, [token, apiDispatch, user.pgapiData]);
+  }, [token, apiDispatch, user.pgapiData, apiState.reload]);
 
   // ╔═╗╦ ╦╔╗╔╔═╗╔╦╗╦╔═╗╔╗╔  ╦ ╦╔═╗╔╗╔╔╦╗╦  ╔═╗╦═╗╔═╗
   // ╠╣ ║ ║║║║║   ║ ║║ ║║║║  ╠═╣╠═╣║║║ ║║║  ║╣ ╠╦╝╚═╗
