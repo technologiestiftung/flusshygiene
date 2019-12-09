@@ -36,7 +36,7 @@ import { SpotHr } from './spot/elements/Spot-Hr';
 import { Spinner } from './util/Spinner';
 import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurments';
 import { SpotEditorInfoModal } from './spot/elements/SpotEditor-InfoModal';
-
+import { DefaultTable } from './spot/elements/Spot-DefaultMeasurementsTable';
 /**
  * This is the component that displays a single spot
  *
@@ -209,7 +209,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     if (user.pgapiData === undefined) return;
 
     const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
-    const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+    // const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
 
     const actions: IApiAction[] = [];
 
@@ -301,7 +301,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         apiRequest(apiDispatch, action);
       });
     }
-  }, [spot]);
+  }, [spot, user.pgapiData, match.params.id, token, apiDispatch]);
+
   useEffect(() => {
     if (apiState === undefined) return;
     const filtered = apiState.spots.filter(
@@ -436,34 +437,69 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 </Container>
               )}
               <ContainerNoColumn>
-                {spot !== undefined &&
-                  SpotTableBlock({
-                    title: { title: 'Letzte Messung', iconType: 'IconCSV' },
-                    Table: () => SpotMeasurementsTable(spot),
-                  })}
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{ title: 'Letzte Messung', iconType: 'IconCSV' }}
+                    Table={() => SpotMeasurementsTable(spot)}
+                  />
+                )}
 
-                {spot !== undefined &&
-                  SpotTableBlock({
-                    title: {
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{
                       title: 'Mittlere Regenhöhen',
                       iconType: 'IconRain',
-                    },
-                    Table: () => RainTable(spot),
-                  })}
+                    }}
+                    Table={() => RainTable(spot)}
+                  ></SpotTableBlock>
+                )}
               </ContainerNoColumn>
               <ContainerNoColumn>
-                {SpotTableBlock({
-                  title: {
-                    title: 'Vorhersage-Modelle',
-                    iconType: 'IconCalc',
-                  },
-                  Table: () => SpotModelTable(lastModel),
-                })}
-                {spot !== undefined &&
-                  SpotTableBlock({
-                    title: { title: 'Vorhersage', iconType: 'IconComment' },
-                    Table: () => PredictionTable(spot),
-                  })}
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{
+                      title: 'Letzte Globalstrahlung Messungen',
+                      iconType: 'IconCSV',
+                    }}
+                    Table={() => (
+                      <DefaultTable
+                        unit={'PiratenNinjas'}
+                        measurements={spot.globalIrradiances}
+                      ></DefaultTable>
+                    )}
+                  ></SpotTableBlock>
+                )}
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{
+                      title: 'Letzte Abwasser Messungen',
+                      iconType: 'IconCSV',
+                    }}
+                    Table={() => (
+                      <DefaultTable
+                        unit={'PiratenNinjas'}
+                        measurements={spot.discharges}
+                      ></DefaultTable>
+                    )}
+                  ></SpotTableBlock>
+                )}
+              </ContainerNoColumn>
+              <ContainerNoColumn>
+                {
+                  <SpotTableBlock
+                    title={{
+                      title: 'Vorhersage-Modelle',
+                      iconType: 'IconCalc',
+                    }}
+                    Table={() => SpotModelTable(lastModel)}
+                  />
+                }
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{ title: 'Vorhersage', iconType: 'IconComment' }}
+                    Table={() => PredictionTable(spot)}
+                  />
+                )}
               </ContainerNoColumn>
               {lastModel !== undefined && lastModel.plotfiles !== undefined && (
                 <SpotModelPlots

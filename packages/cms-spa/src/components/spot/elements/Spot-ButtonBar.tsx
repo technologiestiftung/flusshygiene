@@ -6,8 +6,8 @@ import {
   IconCalc,
   IconComment,
   IconCode,
-  IconInfo,
   IconCSV,
+  IconHelp,
 } from '../../fontawesome-icons';
 import { IOcpuState } from '../../../lib/common/interfaces';
 
@@ -32,9 +32,9 @@ export const SpotButtonBar: React.FC<{
         <ButtonIconTB
           cssId='info'
           handleClick={handleInfoShowModeClick}
-          text='Information'
+          text='Hilfe'
         >
-          <IconInfo></IconInfo>
+          <IconHelp></IconHelp>
         </ButtonIconTB>
         <ButtonIconTB
           cssId='edit'

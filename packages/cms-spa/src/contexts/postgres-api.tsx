@@ -8,6 +8,16 @@ import {
   IDefaultMeasurement,
 } from '../lib/common/interfaces';
 
+function matchSpotId(action: IApiAction) {
+  const reg = /bathingspots\/(?<spotId>\d+)/;
+  const matchRes = action.payload.url.match(reg);
+  if (matchRes === null || matchRes.groups === undefined) {
+    throw new Error(`Can't match spotId in ${action.payload.url}`);
+  }
+  const spotId = parseInt(matchRes.groups.spotId, 10);
+  return spotId;
+}
+
 type Dispatch = (action: IApiAction) => void;
 type ApiProviderProps = { children: React.ReactNode };
 
@@ -50,13 +60,11 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
        * If it is a GET call we need to handle all the updates of the state
        * If it is a PUT, POST, DELETE we only need to trigger another GET call
        */
+      let spotId: number;
+      if (action.payload.requestType.resource !== 'bathingspots') {
+        spotId = matchSpotId(action);
+      }
       if (action.payload.requestType.type === 'GET') {
-        const reg = /bathingspots\/(?<spotId>\d+)/;
-        const matchRes = action.payload.url.match(reg);
-        if (matchRes === null || matchRes.groups === undefined) {
-          throw new Error(`Can't match spotId in ${action.payload.url}`);
-        }
-        const spotId = parseInt(matchRes.groups.spotId, 10);
         /**
          * Now we switch based on the resource type we are getting
          *
@@ -84,6 +92,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             };
           }
           case 'bathingspot': {
+            // const spotId = matchSpotId(action);
             // console.log('url in spot request', action.payload.url);
 
             // console.log(matchRes);
@@ -116,6 +125,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             }
           }
           case 'predictions': {
+            // const spotId = matchSpotId(action);
+
             const updatedSpots = state.spots.map((spot) => {
               if (spot.id === spotId) {
                 spot.predictions = action.payload.response!.data;
@@ -126,6 +137,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             return { ...state, spots: [...updatedSpots], loading: false };
           }
           case 'measurements': {
+            const spotId = matchSpotId(action);
+
             const updatedSpots = state.spots.map((spot) => {
               if (spot.id === spotId) {
                 spot.measurements = action.payload.response!.data;
@@ -136,6 +149,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             return { ...state, spots: [...updatedSpots], loading: false };
           }
           case 'discharges': {
+            // const spotId = matchSpotId(action);
+
             const updatedSpots = state.spots.map((spot) => {
               if (spot.id === spotId) {
                 spot.discharges = action.payload.response!
@@ -151,6 +166,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             };
           }
           case 'globalIrradiances': {
+            // const spotId = matchSpotId(action);
+
             const updatedSpots = state.spots.map((spot) => {
               if (spot.id === spotId) {
                 spot.globalIrradiances = action.payload.response!
@@ -166,6 +183,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             };
           }
           case 'rains': {
+            // const spotId = matchSpotId(action);
+
             const updatedSpots = state.spots.map((spot) => {
               if (spot.id === spotId) {
                 spot.rains = action.payload.response!

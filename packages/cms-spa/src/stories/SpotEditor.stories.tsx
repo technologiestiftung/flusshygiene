@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { MemoryRouter } from 'react-router';
-import { SpotEditor } from '../components/spot/SpotEditor';
+import { SpotEditorBasisData } from '../components/spot/SpotEditor-Basis-Data';
 import { IBathingspot } from '../lib/common/interfaces';
 import { ApiProvider } from '../contexts/postgres-api';
 
@@ -20,7 +20,7 @@ storiesOf('SpotEditor', module)
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
   .add('default', () => (
-    <SpotEditor
+    <SpotEditorBasisData
       initialSpot={spot}
       handleEditModeClick={action('Handle Edit Mode Click')}
       handleInfoShowModeClick={action('Handle Edit Mode Click')}
