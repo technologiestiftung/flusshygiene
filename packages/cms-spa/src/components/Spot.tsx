@@ -10,6 +10,7 @@ import {
   RouteProps,
   ClickHandler,
   IApiAction,
+  IPurificationPlant,
 } from '../lib/common/interfaces';
 
 import { SpotHeader } from './spot/elements/Spot-Header';
@@ -37,6 +38,10 @@ import { Spinner } from './util/Spinner';
 import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurments';
 import { SpotEditorInfoModal } from './spot/elements/SpotEditor-InfoModal';
 import { DefaultTable } from './spot/elements/Spot-DefaultMeasurementsTable';
+import {
+  SpotEditorPurificationPlants,
+  ISpotEditorPurificationPlantsInitialValues,
+} from './spot/SpotEditor-PurificationPlants';
 /**
  * This is the component that displays a single spot
  *
@@ -51,6 +56,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [basisEditMode, setBasisEditMode] = useState(false);
   const [dataEditMode, setDataEditMode] = useState(false);
+  const [ppDataEditMode, setPPDataEditMode] = useState(false);
   const [infoShowMode, setInfoShowMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
@@ -78,6 +84,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }
     // e?.preventDefault?.();
     setDataEditMode(!dataEditMode);
+  };
+  const handlePPDataEditModeClick = (e?: React.ChangeEvent<any>) => {
+    // if (e) {
+    //   e.preventDefault();
+    // }
+    e?.preventDefault?.();
+    setPPDataEditMode(!ppDataEditMode);
   };
 
   const handleInfoShowModeClick = (e?: React.ChangeEvent<any>) => {
@@ -403,6 +416,22 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               ></SpotEditorMeasurmentsUpload>
             </Container>
           );
+        } else if (ppDataEditMode === true && spot !== undefined) {
+          const initialValues: ISpotEditorPurificationPlantsInitialValues = {
+            purificationPlants: spot.purificationPlants
+              ? spot.purificationPlants
+              : ([{ name: 'foo', id: 1 }] as IPurificationPlant[]),
+          };
+          return (
+            <Container>
+              <SpotEditorPurificationPlants
+                initialValues={initialValues}
+                handeCloseClick={handlePPDataEditModeClick}
+                handleInfoClick={handleInfoShowModeClick}
+                spotId={spot.id}
+              ></SpotEditorPurificationPlants>
+            </Container>
+          );
         } else {
           return (
             <>
@@ -428,6 +457,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {isAuthenticated === true && (
                 <Container>
                   <SpotButtonBar
+                    handlePPEditModeClick={handlePPDataEditModeClick}
                     handleBasisEditModeClick={handleBasisEditModeClick}
                     handleInfoShowModeClick={handleInfoShowModeClick}
                     handleCalibratePredictClick={handleCalibratePredictClick}

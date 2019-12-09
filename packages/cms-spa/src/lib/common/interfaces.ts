@@ -84,11 +84,21 @@ export interface IBathingspot {
   region?: IObject;
   rains?: IDefaultMeasurement[];
   globalIrradiances?: IDefaultMeasurement[];
+  purificationPlants?: IPurificationPlant[];
   discharges?: IDefaultMeasurement[];
   influencePurificationPlant?: 'yes' | 'no' | 'unknown';
   influenceCombinedSewerSystem?: 'yes' | 'no' | 'unknown';
   influenceRainwater?: 'yes' | 'no' | 'unknown';
   influenceAgriculture?: 'yes' | 'no' | 'unknown';
+}
+
+export interface IPurificationPlant {
+  id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  name: string;
+  url?: string;
+  measurement?: IDefaultMeasurement[];
 }
 
 export interface IDefaultMeasurement {

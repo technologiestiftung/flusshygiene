@@ -41,6 +41,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - /usr/app/node_modules
+      - /dist
       - ./packages/postgres-api:/usr/app
     # command: npm run dev
     env_file: ./packages/postgres-api/.env
@@ -77,6 +78,7 @@ services:
       - SESSION_SECRET_DEV=test
       - APP_HOST=http://localhost:8888
     volumes:
+      - /dist
       - /usr/app/node_modules
       - ./packages/opencpu-middlelayer:/usr/app
 

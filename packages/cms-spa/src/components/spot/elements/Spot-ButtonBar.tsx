@@ -17,6 +17,7 @@ export const SpotButtonBar: React.FC<{
   handleBasisEditModeClick: ClickFunction;
   handleDataEditModeClick: ClickFunction;
   handleInfoShowModeClick: ClickFunction;
+  handlePPEditModeClick: ClickFunction;
   handleCalibratePredictClick: (event: React.ChangeEvent<any>) => void;
   ocpuState: IOcpuState;
 }> = ({
@@ -24,6 +25,7 @@ export const SpotButtonBar: React.FC<{
   handleDataEditModeClick,
   handleInfoShowModeClick,
   handleCalibratePredictClick,
+  handlePPEditModeClick,
   ocpuState,
 }) => {
   return (
@@ -47,6 +49,13 @@ export const SpotButtonBar: React.FC<{
           cssId='data'
           handleClick={handleDataEditModeClick}
           text='Messdaten'
+        >
+          <IconCSV></IconCSV>
+        </ButtonIconTB>
+        <ButtonIconTB
+          cssId='pp-data'
+          handleClick={handlePPEditModeClick}
+          text='Klärwerke'
         >
           <IconCSV></IconCSV>
         </ButtonIconTB>

@@ -33,7 +33,7 @@ const Plot: React.FC<{
 export const SpotModelPlots: React.FC<{ plotfiles: any[] }> = ({
   plotfiles,
 }) => {
-  console.log('in SpotModelPlots', plotfiles);
+  // console.log('in SpotModelPlots', plotfiles);
   const sortedPlotfiles = plotfiles.sort((a: any, b: any) =>
     a.id > b.id ? 1 : -1,
   );
