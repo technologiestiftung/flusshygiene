@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconCSV, IconTrash } from '../../fontawesome-icons';
-import { ButtonIconTB } from '../../Buttons';
+import { ButtonIcon } from '../../Buttons';
 import { ClickHandler } from '../../../lib/common/interfaces';
 export const SpotEditorFile: React.FC<{
   name: string;
@@ -29,9 +29,9 @@ export const SpotEditorFile: React.FC<{
           </span>
         </label>
         <div className='buttons'>
-          <ButtonIconTB text={'Daten löschen'} handleClick={handleClearClick}>
+          <ButtonIcon text={'Daten löschen'} handleClick={handleClearClick}>
             <IconTrash></IconTrash>
-          </ButtonIconTB>
+          </ButtonIcon>
         </div>
       </div>
     </>

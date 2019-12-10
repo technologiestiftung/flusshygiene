@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonIconTB } from '../../Buttons';
+import { ButtonIcon } from '../../Buttons';
 import {
   IconRain,
   IconEdit,
@@ -31,45 +31,45 @@ export const SpotButtonBar: React.FC<{
   return (
     <>
       <div className='buttons buttons__spot-actions--size'>
-        <ButtonIconTB
+        <ButtonIcon
           cssId='info'
           handleClick={handleInfoShowModeClick}
           text='Hilfe'
         >
           <IconHelp></IconHelp>
-        </ButtonIconTB>
-        <ButtonIconTB
+        </ButtonIcon>
+        <ButtonIcon
           cssId='edit'
           handleClick={handleBasisEditModeClick}
           text='Basisdaten'
         >
           <IconEdit></IconEdit>
-        </ButtonIconTB>
-        <ButtonIconTB
+        </ButtonIcon>
+        <ButtonIcon
           cssId='data'
           handleClick={handleDataEditModeClick}
           text='Messdaten'
         >
           <IconCSV></IconCSV>
-        </ButtonIconTB>
-        <ButtonIconTB
+        </ButtonIcon>
+        <ButtonIcon
           cssId='pp-data'
           handleClick={handlePPEditModeClick}
           text='Klärwerke'
         >
           <IconCSV></IconCSV>
-        </ButtonIconTB>
+        </ButtonIcon>
       </div>
 
       <div className='buttons buttons__spot-actions--size'>
-        <ButtonIconTB
+        <ButtonIcon
           cssId='sleep'
           text='Sleep'
           handleClick={handleCalibratePredictClick}
         >
           <IconCode></IconCode>
-        </ButtonIconTB>
-        <ButtonIconTB
+        </ButtonIcon>
+        <ButtonIcon
           cssId='calibrate'
           additionalClassNames={
             ocpuState.processing === 'calibrate' ? 'is-loading' : ''
@@ -78,9 +78,9 @@ export const SpotButtonBar: React.FC<{
           text='Regen Laden'
         >
           <IconRain></IconRain>
-        </ButtonIconTB>
+        </ButtonIcon>
 
-        <ButtonIconTB
+        <ButtonIcon
           cssId='model'
           additionalClassNames={
             ocpuState.processing === 'model' ? 'is-loading' : ''
@@ -89,8 +89,8 @@ export const SpotButtonBar: React.FC<{
           text='Modellierung'
         >
           <IconCalc></IconCalc>
-        </ButtonIconTB>
-        <ButtonIconTB
+        </ButtonIcon>
+        <ButtonIcon
           cssId='predict'
           additionalClassNames={
             ocpuState.processing === 'predict' ? 'is-loading' : ''
@@ -99,7 +99,7 @@ export const SpotButtonBar: React.FC<{
           text='Vorhersage'
         >
           <IconComment></IconComment>
-        </ButtonIconTB>
+        </ButtonIcon>
       </div>
     </>
   );

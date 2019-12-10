@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ButtonIconTB: React.FC<{
+export const ButtonIcon: React.FC<{
   isActive?: boolean;
   handleClick?: (event: React.ChangeEvent<any>) => void;
   cssId?: string;
