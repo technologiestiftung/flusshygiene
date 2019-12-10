@@ -72,7 +72,6 @@ exports[`Storyshots SpotEditor default 1`] = `
   >
     <button
       className="button is-primary is-small"
-      disabled={false}
       type="submit"
     >
       <span>
@@ -104,7 +103,6 @@ exports[`Storyshots SpotEditor default 1`] = `
     <button
       className="button is-light is-small"
       data-testid="handle-edit-mode-button"
-      disabled={false}
       onClick={[Function]}
       type="button"
     >
@@ -1721,34 +1719,6 @@ exports[`Storyshots SpotEditor default 1`] = `
         </div>
       </div>
     </fieldset>
-  </div>
-  <div
-    className="field is-grouped is-grouped-left"
-  >
-    <p
-      className="control"
-    >
-      <button
-        className="button is-primary"
-        disabled={false}
-        type="submit"
-      >
-        Speichern
-      </button>
-    </p>
-    <p
-      className="control"
-    >
-      <button
-        className="button is-light"
-        data-testid="handle-edit-mode-button"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        Abbrechen
-      </button>
-    </p>
   </div>
 </form>
 `;
