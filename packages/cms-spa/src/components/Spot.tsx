@@ -64,6 +64,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [showNotification, setShowNotification] = useState(false);
 
   const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
+  const [purificationPlants, setPurificationPlants] = useState<
+    IPurificationPlant[] | undefined
+  >(undefined);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
@@ -309,6 +312,31 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         resource: 'rains',
       }),
     );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.purificationPlants}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'purificationPlants',
+      }),
+    );
+
+    if (spot !== undefined && spot.purificationPlants !== undefined) {
+      spot.purificationPlants.forEach((plant) => {
+        actions.push(
+          actionCreator({
+            body: {},
+            token,
+            method: 'GET',
+            url: `${baseUrl}/${ApiResources.purificationPlants}/${plant.id}/${ApiResources.measurements}`,
+            type: ApiActionTypes.START_API_REQUEST,
+            resource: 'pplantMeasurements',
+          }),
+        );
+      });
+    }
     if (actions.length > 0) {
       actions.forEach((action) => {
         apiRequest(apiDispatch, action);
@@ -316,6 +344,49 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }
   }, [spot, user.pgapiData, match.params.id, token, apiDispatch]);
 
+  // useEffect(() => {
+  //   if (spot === undefined) return;
+  //   if (spot!.purificationPlants === undefined) return;
+  //   setPurificationPlants(spot!.purificationPlants);
+  // }, [spot, apiState]);
+
+  /**
+   * TODO: Make a requeest to the api for getting all the plants
+   * FIXME: This effect sends us into an inifinte loop of refreshing
+   */
+  useEffect(() => {
+    if (token === undefined) return;
+    if (spot === undefined) return;
+    if (user.pgapiData === undefined) return;
+    if (spot.purificationPlants === undefined) return;
+
+    const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+
+    const actions: IApiAction[] = [];
+
+    spot!.purificationPlants.forEach((plant) => {
+      actions.push(
+        actionCreator({
+          body: {},
+          token,
+          method: 'GET',
+          url: `${baseUrl}/${ApiResources.purificationPlants}/${plant.id}/${ApiResources.measurements}`,
+          type: ApiActionTypes.START_API_REQUEST,
+          resource: 'pplantMeasurements',
+        }),
+      );
+    });
+
+    if (actions.length > 0) {
+      actions.forEach((action) => {
+        apiRequest(apiDispatch, action);
+      });
+    }
+  }, [spot, match.params.id, user.pgapiData, token, apiDispatch]);
+
+  /**
+   * This effect filters out the single spot.
+   */
   useEffect(() => {
     if (apiState === undefined) return;
     const filtered = apiState.spots.filter(
@@ -326,6 +397,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       setSpot(filtered[0]);
     }
   }, [apiState, match.params.id]);
+
   /**
    * This effect checks if the form is ready to formReadyToRender
    * e.g. if the spot data is already there and it matches the route id

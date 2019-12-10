@@ -6,6 +6,7 @@ import {
   IBathingspot,
   IApiActionFinished,
   IDefaultMeasurement,
+  IPurificationPlant,
 } from '../lib/common/interfaces';
 
 function matchSpotId(action: IApiAction) {
@@ -38,12 +39,12 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
 ) => {
   switch (action.type) {
     case ApiActionTypes.START_API_REQUEST: {
-      console.log('apiReducer case START', action);
+      // console.log('apiReducer case START', action);
       return { ...state, loading: true };
     }
     case ApiActionTypes.FINISH_API_REQUEST: {
       action = action as IApiActionFinished;
-      console.log('apiReducer case FINISH', action);
+      // console.log('apiReducer case FINISH', action);
       if (action.payload.requestType === undefined) {
         throw new Error(missingRequestTypeErrorMsg);
       }
@@ -51,11 +52,14 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
         throw new Error('The action.payload.response from the API is missing');
       }
 
-      //  ## ### ###
-      // #   #    #
-      // # # ##   #
-      // # # #    #
-      //  ## ###  #
+      //    ********  ******** **********
+      //   **//////**/**///// /////**///
+      //  **      // /**          /**
+      // /**         /*******     /**
+      // /**    *****/**////      /**
+      // //**  ////**/**          /**
+      //  //******** /********    /**
+      //   ////////  ////////     //
       /**
        * If it is a GET call we need to handle all the updates of the state
        * If it is a PUT, POST, DELETE we only need to trigger another GET call
@@ -123,6 +127,44 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
                 ],
               };
             }
+          }
+          case 'purificationPlants': {
+            console.log('Updating pplants');
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId) {
+                spot.purificationPlants = action.payload.response!
+                  .data as IPurificationPlant[];
+              }
+              return spot;
+            });
+
+            return { ...state, spots: [...updatedSpots], loading: false };
+          }
+          case 'pplantMeasurements': {
+            console.log('pplantMeasurements update in postgres-api.tsx');
+            const reg = /purificationPlants\/(?<pplantId>\d+)/;
+            const matchRes = action.payload.url.match(reg);
+            if (matchRes === null || matchRes.groups === undefined) {
+              throw new Error(
+                `Can't match purificationPlant id in ${action.payload.url}`,
+              );
+            }
+            const pplantId = parseInt(matchRes.groups.pplantId, 10);
+            console.log(action.payload.response);
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId && spot.purificationPlants !== undefined) {
+                const updatedPlants = spot.purificationPlants.map((plant) => {
+                  if (plant.id === pplantId) {
+                    plant.measurements = action.payload.response!
+                      .data as IDefaultMeasurement[];
+                  }
+                  return plant;
+                });
+                spot.purificationPlants = updatedPlants;
+              }
+              return spot;
+            });
+            return { ...state, spots: [...updatedSpots], loading: false };
           }
           case 'predictions': {
             // const spotId = matchSpotId(action);
@@ -395,7 +437,7 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
   try {
     response = await fetch(action.payload.url, action.payload.config);
     if (response.ok === true) {
-      console.info('apiRequest response ok');
+      // console.info('apiRequest response ok');
       let json: any;
       try {
         json = await response.json();

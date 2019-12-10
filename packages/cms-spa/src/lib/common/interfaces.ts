@@ -98,7 +98,7 @@ export interface IPurificationPlant {
   updatedAt?: Date;
   name: string;
   url?: string;
-  measurement?: IDefaultMeasurement[];
+  measurements?: IDefaultMeasurement[];
 }
 
 export interface IDefaultMeasurement {
@@ -235,7 +235,12 @@ export type RequestResourceTypes =
   | 'predictions'
   | 'user'
   | 'users'
-  | 'ping';
+  | 'ping'
+  | 'purificationPlants'
+  | 'pplantMeasurements'
+  | 'gInputMeasurements'
+  | 'genericInputs';
+
 export interface IApiActionRequestType {
   type: RequestTypes;
   resource: RequestResourceTypes;

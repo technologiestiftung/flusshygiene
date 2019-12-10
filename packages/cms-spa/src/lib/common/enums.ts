@@ -69,6 +69,8 @@ export enum ApiResources {
   discharges = 'discharges',
   globalIrradiances = 'globalIrradiances',
   rains = 'rains',
+  purificationPlants = 'purificationPlants',
+  genericInputs = 'genericInputs',
 }
 export enum APIMountPoints {
   v1 = 'api/v1',
