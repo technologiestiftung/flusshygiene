@@ -354,6 +354,9 @@ export interface IModelInfo {
 
 export interface IMeasurementsUploadBox {
   title: string;
+  unboxed?: boolean;
+  hasNoUrlField?: boolean;
+  addionalClassNames?: string;
   // setCSVValidationErrors: React.Dispatch<
   //   React.SetStateAction<ICSVValidationErrorRes[]>
   // >;
@@ -398,7 +401,9 @@ export interface IMeasurmentsUploadInitialValues {
 export type MeasurementTypes =
   | 'measurements'
   | 'discharges'
-  | 'globalIrradiances';
+  | 'globalIrradiances'
+  | 'pplantMeasurements'
+  | 'gInputMeasurements';
 export type ClickHandler = (event: React.ChangeEvent<any>) => void;
 export type MapEditors = 'area' | 'location';
 export type MapEditModes =

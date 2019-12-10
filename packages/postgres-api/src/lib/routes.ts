@@ -150,6 +150,14 @@ router.get(
   getCollectionsSubItem,
 );
 
+router.post(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
+  checkJwt,
+  checkScopes,
+  checkUserAndSpot,
+  postCollection,
+);
+
 // get subitems of collection
 router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
@@ -187,13 +195,6 @@ router.post(
   checkUserAndSpot,
   collectionCheck,
   postCollectionsSubItem,
-);
-
-router.post(
-  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
-  checkJwt,
-  checkScopes,
-  postCollection,
 );
 
 router.put(

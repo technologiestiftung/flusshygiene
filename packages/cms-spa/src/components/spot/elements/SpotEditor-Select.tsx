@@ -17,7 +17,7 @@ export const SpotEditorSelect: React.FC<{
         {label}
       </label>
       <div className='control'>
-        <div className='select'>
+        <div className='select is-small'>
           <Field name={name} as={'select'} value={value} id={name}>
             {options.map((opt, i) => {
               return (

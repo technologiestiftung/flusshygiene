@@ -3,9 +3,10 @@ import { IconThumbsUp, IconBug } from '../../fontawesome-icons';
 export const DataValidationInfoBox: React.FC<{
   dataIsValid: boolean | undefined;
   title: string;
-}> = ({ dataIsValid, title }) => {
+  unboxed?: boolean;
+}> = ({ dataIsValid, title, unboxed }) => {
   return (
-    <div className='box box__info'>
+    <div className={`${unboxed === true ? '' : 'box box__info'}`}>
       <div className='content'>
         <p>
           {(() => {

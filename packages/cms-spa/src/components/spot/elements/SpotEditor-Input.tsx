@@ -7,8 +7,9 @@ export const SpotEditorInput: React.FC<{
   name: string;
   type: SpotEditorInputTypes;
   label: string;
+  children?: React.ReactNode;
   // handleChange: (event) => void;
-}> = ({ name, label, type }) => {
+}> = ({ name, label, type, children }) => {
   // console.log(name);
   return (
     <div className='field is-horizontal'>
@@ -18,12 +19,14 @@ export const SpotEditorInput: React.FC<{
         </label>
       </div>
       <div className='field-body'>
-        <div className='field'>
-          <div className='control'>
+        <div className={`field ${children !== undefined ? 'is-grouped' : ''}`}>
+          <div
+            className={`control ${children !== undefined ? 'is-expanded' : ''}`}
+          >
             <Field
               type={type}
               name={name}
-              className='input'
+              className='input is-small'
               id={name}
               data-testid={`test-input-${name}`}
             />
@@ -33,6 +36,7 @@ export const SpotEditorInput: React.FC<{
               className='help is-danger'
             />
           </div>
+          {children !== undefined && children}
         </div>
       </div>
     </div>

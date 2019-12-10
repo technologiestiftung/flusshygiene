@@ -22,6 +22,9 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   fieldNameFile,
   fieldNameUrl,
   type,
+  unboxed,
+  addionalClassNames,
+  hasNoUrlField,
 }) => {
   const { setFieldValue } = props;
   const [parsingErrors, setParsingErrors] = useState<
@@ -117,106 +120,131 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
       console.error(err);
     });
   }, [csvFile, schema]);
+
+  const box = (
+    <div className={`${addionalClassNames ? addionalClassNames : ''}`}>
+      <SpotEditorMeasurmentInfo type={type} />
+      <SpotEditorFile
+        name={fieldNameFile}
+        type={'file'}
+        label={'Datei auswählen…'}
+        disabled={false}
+        handleClearClick={(e) => {
+          e.preventDefault();
+          resetData();
+        }}
+        onChange={(event: React.ChangeEvent<any>) => {
+          setCSVValidationErrors([]);
+          setParsingErrors([]);
+          if (
+            event.currentTarget.files === null ||
+            event.currentTarget.files.length < 1
+          ) {
+            return;
+          }
+          const file = event.currentTarget.files[0];
+          // console.log('file', file);
+          setCsvFile(file);
+        }}
+      ></SpotEditorFile>
+      {csvValidationErrors.length > 0 &&
+        CSVvalidation(csvValidationRef, csvValidationErrors)}
+      {parsingErrors !== undefined &&
+        parsingErrors.length > 0 &&
+        CSVparsing(papaParseValidationRef, parsingErrors)}
+      {(() => {
+        if (hasNoUrlField === true) {
+          return null;
+        } else {
+          return (
+            <>
+              <div className='content' style={{ paddingTop: '1rem' }}>
+                <p>
+                  Für automatisierte Datenaggregation <br />
+                  …Lorem ipsum dolor sit amet consectetur adipisicing elit. Temp
+                  is id tempore, suscipit dignissimos, ab placeat aperi
+                  sitatibus at minima impedit architecto iste nostrum animi
+                  voluptates minus!
+                </p>
+              </div>
+              <div className='field is-horizontal'>
+                <div className='field-label is-normal'>
+                  <label htmlFor={fieldNameUrl} className='label'>
+                    {'http(s) url:'}
+                  </label>
+                </div>
+                <div className='field-body'>
+                  <div className='field has-addons'>
+                    <div className='control is-expanded'>
+                      <Field
+                        type={'input'}
+                        name={fieldNameUrl}
+                        className='input is-small'
+                        id={fieldNameUrl}
+                        data-testid={`test-input-${fieldNameUrl}`}
+                        onChange={(event: React.ChangeEvent<any>) => {
+                          // console.log(event.currentTarget);
+                          setDataUrl(event.currentTarget.value);
+                          props.setFieldValue(
+                            fieldNameUrl,
+                            event.currentTarget.value,
+                          );
+                        }}
+                      />
+                      <ErrorMessage
+                        name={fieldNameUrl}
+                        component='div'
+                        className='help is-danger'
+                      />
+                    </div>
+                    <div className='control'>
+                      <button
+                        className='button is-small'
+                        onClick={(e) => {
+                          e.preventDefault();
+                          alert('Noch nicht möglich');
+                        }}
+                      >
+                        testen
+                      </button>
+                    </div>
+                    <div className='control'>
+                      <button
+                        className='button is-small'
+                        onClick={(e) => {
+                          e.preventDefault();
+                          resetDataUrl();
+                        }}
+                      >
+                        löschen
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        }
+      })()}
+    </div>
+  );
+
   return (
     <>
       {dataIsValid !== undefined && (
-        <DataValidationInfoBox title={title} dataIsValid={dataIsValid} />
+        <DataValidationInfoBox
+          title={title}
+          dataIsValid={dataIsValid}
+          unboxed={unboxed}
+        />
       )}
-      <SpotEditorBox title={title}>
-        <SpotEditorMeasurmentInfo type={type} />
-        <SpotEditorFile
-          name={fieldNameFile}
-          type={'file'}
-          label={'Datei auswählen…'}
-          disabled={false}
-          handleClearClick={(e) => {
-            e.preventDefault();
-            resetData();
-          }}
-          onChange={(event: React.ChangeEvent<any>) => {
-            setCSVValidationErrors([]);
-            setParsingErrors([]);
-            if (
-              event.currentTarget.files === null ||
-              event.currentTarget.files.length < 1
-            ) {
-              return;
-            }
-            const file = event.currentTarget.files[0];
-            // console.log('file', file);
-            setCsvFile(file);
-          }}
-        ></SpotEditorFile>
-        {csvValidationErrors.length > 0 &&
-          CSVvalidation(csvValidationRef, csvValidationErrors)}
-        {parsingErrors !== undefined &&
-          parsingErrors.length > 0 &&
-          CSVparsing(papaParseValidationRef, parsingErrors)}
-
-        <div className='content' style={{ paddingTop: '1rem' }}>
-          <p>
-            Für automatisierte Datenaggregation <br />
-            …Lorem ipsum dolor sit amet consectetur adipisicing elit. Temp is id
-            tempore, suscipit dignissimos, ab placeat aperi sitatibus at minima
-            impedit architecto iste nostrum animi voluptates minus!
-          </p>
-        </div>
-        <div className='field is-horizontal'>
-          <div className='field-label is-normal'>
-            <label htmlFor={fieldNameUrl} className='label'>
-              {'http(s) url:'}
-            </label>
-          </div>
-          <div className='field-body'>
-            <div className='field has-addons'>
-              <div className='control is-expanded'>
-                <Field
-                  type={'input'}
-                  name={fieldNameUrl}
-                  className='input'
-                  id={fieldNameUrl}
-                  data-testid={`test-input-${fieldNameUrl}`}
-                  onChange={(event: React.ChangeEvent<any>) => {
-                    // console.log(event.currentTarget);
-                    setDataUrl(event.currentTarget.value);
-                    props.setFieldValue(
-                      fieldNameUrl,
-                      event.currentTarget.value,
-                    );
-                  }}
-                />
-                <ErrorMessage
-                  name={fieldNameUrl}
-                  component='div'
-                  className='help is-danger'
-                />
-              </div>
-              <div className='control'>
-                <button
-                  className='button'
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert('Noch nicht möglich');
-                  }}
-                >
-                  testen
-                </button>
-              </div>
-              <div className='control'>
-                <button
-                  className='button'
-                  onClick={(e) => {
-                    e.preventDefault();
-                    resetDataUrl();
-                  }}
-                >
-                  löschen
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </SpotEditorBox>
+      {(() => {
+        if (unboxed === true) {
+          return box;
+        } else {
+          return <SpotEditorBox title={title}>{box}</SpotEditorBox>;
+        }
+      })()}
     </>
   );
 };

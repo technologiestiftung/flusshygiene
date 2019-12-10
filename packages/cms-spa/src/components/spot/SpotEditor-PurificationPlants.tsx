@@ -1,7 +1,27 @@
 import React from 'react';
-import { Formik, Form, FieldArray, Field } from 'formik';
+import * as Yup from 'yup';
+import { Formik, Form, FieldArray } from 'formik';
 import { FormikButtons } from './formik-helpers/FormikButtons';
 import { IPurificationPlant } from '../../lib/common/interfaces';
+import { SpotEditorInput } from './elements/SpotEditor-Input';
+import { SpotEditorBox } from './elements/SpotEditor-Box';
+import { ButtonIcon as Button } from '../Buttons';
+import { IconPlus, IconMinus } from '../fontawesome-icons';
+import { UploadBox } from './elements/SpotEditor-UploadBox';
+import { defaultMeasurementsSchema } from '../../lib/utils/spot-validation-schema';
+
+const pplantSchema = Yup.object().shape({
+  purificationPlants: Yup.array().of(
+    Yup.object().shape({
+      name: Yup.string()
+        .min(3, 'Der Name ist zu kurz.')
+        .max(50, 'Der Name ist zu lang.')
+        .required('Required'),
+      url: Yup.string().url('Keine valide URL.'),
+    }),
+  ),
+});
+
 export interface ISpotEditorPurificationPlantsInitialValues {
   purificationPlants: IPurificationPlant[];
 }
@@ -15,9 +35,10 @@ export const SpotEditorPurificationPlants: React.FC<{
     <>
       <Formik
         initialValues={initialValues}
+        validationSchema={pplantSchema}
         enableReinitialize={true}
         onSubmit={(values, { setSubmitting }) => {
-          console.log('vlaues in pp form', values);
+          console.log('values in pp form', values);
           setSubmitting(true);
           handeCloseClick();
         }}
@@ -42,53 +63,95 @@ export const SpotEditorPurificationPlants: React.FC<{
                       (pplant, index) => {
                         return (
                           <div key={index}>
-                            <Field
+                            <SpotEditorInput
+                              label={'Name'}
+                              type={'text'}
                               name={`purificationPlants[${index}].name`}
-                            ></Field>{' '}
-                            <Field
+                            >
+                              <Button
+                                text={'Klärwerk entfernen'}
+                                handleClick={() => arrayHelpers.remove(index)}
+                              >
+                                <IconMinus />
+                              </Button>
+                            </SpotEditorInput>
+                            {/* <Field
+                              name={`purificationPlants[${index}].name`}
+                            ></Field>{' '} */}
+                            <SpotEditorInput
+                              label={'http (s) url'}
+                              type={'text'}
                               name={`purificationPlants[${index}].url`}
-                            ></Field>{' '}
-                            <div className='buttons'>
-                              <button
-                                className='button'
-                                type='button'
-                                onClick={() => arrayHelpers.remove(index)}
+                            >
+                              <Button
+                                text={'Klärwerk entfernen'}
+                                additionalClassNames={'is-invisible'}
                               >
-                                - Remove Plant
-                              </button>
-                              <button
-                                className='button'
-                                type='button'
-                                onClick={() =>
-                                  arrayHelpers.insert(index, {
-                                    name: 'foo',
-                                    url: '',
-                                  })
-                                } // insert an empty string at a position
-                              >
-                                + Add Plant
-                              </button>
-                            </div>
+                                {' '}
+                                <IconMinus />
+                              </Button>
+                            </SpotEditorInput>
+                            <UploadBox
+                              addionalClassNames={'add-padding-top'}
+                              hasNoUrlField={true}
+                              unboxed={true}
+                              title={'Messdaten hochladen'}
+                              fieldNameFile={`purificationPlants[${index}].measurements`}
+                              fieldNameUrl={'url'}
+                              type={'pplantMeasurements'}
+                              props={props}
+                              schema={defaultMeasurementsSchema}
+                            ></UploadBox>
+                            {(() => {
+                              if (
+                                index !==
+                                props.values.purificationPlants.length - 1
+                              ) {
+                                return <hr />;
+                              }
+                              return;
+                            })()}
                           </div>
                         );
                       },
                     );
-                    return fields;
+                    return (
+                      <SpotEditorBox title={'Klärwerke'}>
+                        <div className='buttons'>
+                          {' '}
+                          <Button
+                            text={'Klärwerk hinzufügen'}
+                            handleClick={() =>
+                              arrayHelpers.insert(0, {
+                                name: '',
+                                url: '',
+                              })
+                            }
+                          >
+                            <IconPlus />
+                          </Button>
+                        </div>
+                        <hr />
+
+                        {fields}
+                      </SpotEditorBox>
+                    );
                   } else {
                     return (
                       <>
-                        <div className='buttons'>
-                          <button
-                            className='button is-small'
-                            type='button'
-                            onClick={() =>
-                              arrayHelpers.push({ name: 'foo', url: '' })
-                            }
-                          >
-                            {/* show this when user has removed all plants from the list */}
-                            Add a plant
-                          </button>
-                        </div>
+                        <SpotEditorBox title={'Klärwerke'}>
+                          <div className='buttons'>
+                            <Button
+                              text={'Klärwerk hinzufügen'}
+                              type='button'
+                              handleClick={() =>
+                                arrayHelpers.push({ name: 'foo', url: '' })
+                              }
+                            >
+                              <IconPlus></IconPlus>
+                            </Button>
+                          </div>
+                        </SpotEditorBox>
                       </>
                     );
                   }

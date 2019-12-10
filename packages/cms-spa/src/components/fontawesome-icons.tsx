@@ -32,6 +32,8 @@ import {
   faBug,
   faTrash,
   faQuestion,
+  faPlus,
+  faMinus,
 } from '@fortawesome/free-solid-svg-icons';
 import { ColorNames, QType } from '../lib/common/interfaces';
 import { colorNamesToClassNames } from '../lib/utils/questionnaire-colornames-conversion';
@@ -66,6 +68,8 @@ library.add(
   faBug,
   faTrash,
   faQuestion,
+  faPlus,
+  faMinus,
 );
 
 export const colorNameToIcon: (cname: ColorNames) => JSX.Element = (cname) => {
@@ -214,4 +218,11 @@ export const IconTrash: React.FC<{ className?: string }> = ({ className }) => (
 
 export const IconHelp: React.FC<{ className?: string }> = ({ className }) => (
   <FontAwesomeIcon icon={'question'} className={className} />
+);
+
+export const IconPlus: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'plus'} className={className} />
+);
+export const IconMinus: React.FC<{ className?: string }> = ({ className }) => (
+  <FontAwesomeIcon icon={'minus'} className={className} />
 );

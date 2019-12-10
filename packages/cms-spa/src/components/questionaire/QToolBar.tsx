@@ -2,7 +2,7 @@ import React from 'react';
 import { IconInfo, IconSave, IconTimes } from '../fontawesome-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faInfo } from '@fortawesome/free-solid-svg-icons';
-import { ButtonIconTB as Button } from '../Buttons';
+import { ButtonIcon as Button } from '../Buttons';
 export const QToolBar: React.FC<{
   handleInfoClick: (e: React.ChangeEvent<any>) => void;
   handleReportClick: (e: React.ChangeEvent<any>) => void;

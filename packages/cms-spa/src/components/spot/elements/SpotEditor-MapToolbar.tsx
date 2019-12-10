@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonIconTB as Button } from '../../Buttons';
+import { ButtonIcon as Button } from '../../Buttons';
 
 import { MapEditModes } from '../../../lib/common/interfaces';
 import {

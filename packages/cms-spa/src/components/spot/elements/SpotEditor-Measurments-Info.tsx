@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonIconTB } from '../../Buttons';
+import { ButtonIcon } from '../../Buttons';
 import { IconInfo } from '../../fontawesome-icons';
 import { MeasurementTypes } from '../../../lib/common/interfaces';
 
@@ -71,10 +71,14 @@ const InfoText: React.FC<{ type: MeasurementTypes }> = ({ type }) => (
               );
             }
             case 'discharges':
+            case 'pplantMeasurements':
+            case 'gInputMeasurements':
             case 'globalIrradiances': {
               const typeDict = {
                 discharges: 'Durchfluss',
                 globalIrradiances: 'Global Strahlung',
+                pplantMeasurements: 'Klärwerk',
+                gInputMeasurements: 'Generischer Eingabe',
               };
               return (
                 <>
@@ -105,7 +109,7 @@ export const SpotEditorMeasurmentInfo: React.FC<{
   return (
     <>
       <div className='buttons'>
-        <ButtonIconTB
+        <ButtonIcon
           text={'Mehr erfahren'}
           handleClick={(e: React.ChangeEvent<any>) => {
             e.preventDefault();
@@ -113,7 +117,7 @@ export const SpotEditorMeasurmentInfo: React.FC<{
           }}
         >
           <IconInfo></IconInfo>
-        </ButtonIconTB>
+        </ButtonIcon>
       </div>
       <div className='content'>
         {/* <h2>Dateineingabe</h2> */}

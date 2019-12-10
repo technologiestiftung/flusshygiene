@@ -12,7 +12,7 @@ import {
 } from '../fontawesome-icons';
 import { IAnswer } from '../../lib/common/interfaces';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
-import { ButtonIconTB as Button } from '../Buttons';
+import { ButtonIcon as Button } from '../Buttons';
 
 import FileSaver from 'file-saver';
 import { roundToFloatDigits } from '../../lib/utils/formatting-helpers';
