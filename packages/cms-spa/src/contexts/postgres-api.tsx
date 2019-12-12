@@ -128,6 +128,12 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               };
             }
           }
+          case 'genericInputs': {
+            throw new Error('Not yet there');
+          }
+          case 'gInputMeasurements': {
+            throw new Error('Not yet there');
+          }
           case 'purificationPlants': {
             console.log('Updating pplants');
             const updatedSpots = state.spots.map((spot) => {
@@ -141,7 +147,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             return { ...state, spots: [...updatedSpots], loading: false };
           }
           case 'pplantMeasurements': {
-            console.log('pplantMeasurements update in postgres-api.tsx');
+            // console.log('pplantMeasurements update in postgres-api.tsx');
             const reg = /purificationPlants\/(?<pplantId>\d+)/;
             const matchRes = action.payload.url.match(reg);
             if (matchRes === null || matchRes.groups === undefined) {
@@ -265,6 +271,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
       } else if (action.payload.requestType.type === 'POST') {
         console.log('called POST');
         switch (action.payload.requestType.resource) {
+          case 'purificationPlants':
+          case 'genericInputs':
           case 'bathingspot':
           case 'measurements':
           case 'discharges':
@@ -300,6 +308,9 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
         console.log('called PUT');
         switch (action.payload.requestType.resource) {
           case 'bathingspot':
+          case 'discharges':
+          case 'globalIrradiances':
+          case 'purificationPlants':
           case 'measurements': {
             console.log('PUT bathingspot or measurements');
             console.log(action.payload.response);
@@ -462,7 +473,12 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
     // console.error(await response!.json());
     console.error('Error while making fetch call', error);
     console.groupEnd();
-    const json = await response!.json();
+    let json: any;
+    try {
+      json = await response!.json();
+    } catch (e) {
+      json = { message: await response!.text() };
+    }
     dispatch({
       type: ApiActionTypes.FAIL_API_REQUEST,
       payload: { ...action.payload, error: json, response: json },

@@ -18,6 +18,7 @@ export const SpotButtonBar: React.FC<{
   handleDataEditModeClick: ClickFunction;
   handleInfoShowModeClick: ClickFunction;
   handlePPEditModeClick: ClickFunction;
+  handleGIEditModeClock: ClickFunction;
   handleCalibratePredictClick: (event: React.ChangeEvent<any>) => void;
   ocpuState: IOcpuState;
 }> = ({
@@ -26,6 +27,7 @@ export const SpotButtonBar: React.FC<{
   handleInfoShowModeClick,
   handleCalibratePredictClick,
   handlePPEditModeClick,
+  handleGIEditModeClock,
   ocpuState,
 }) => {
   return (
@@ -56,6 +58,13 @@ export const SpotButtonBar: React.FC<{
           cssId='pp-data'
           handleClick={handlePPEditModeClick}
           text='Klärwerke'
+        >
+          <IconCSV></IconCSV>
+        </ButtonIcon>
+        <ButtonIcon
+          cssId='gi-data'
+          handleClick={handleGIEditModeClock}
+          text='Generische Messungen'
         >
           <IconCSV></IconCSV>
         </ButtonIcon>

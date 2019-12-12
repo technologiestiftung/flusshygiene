@@ -135,8 +135,18 @@ export const IconArrowCircleRight: React.FC<{
 export const IconPDF: React.FC<{ className?: string }> = ({ className }) => (
   <FontAwesomeIcon icon={'file-pdf'} className={className} />
 );
-export const IconCode: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'file-code'} className={className} />
+export const IconCode: React.FC<{
+  className?: string;
+  handleClick?: (e?: React.ChangeEvent<any>) => void;
+}> = ({ className, handleClick }) => (
+  <FontAwesomeIcon
+    icon={'file-code'}
+    className={className}
+    onClick={(e) => {
+      e.preventDefault();
+      handleClick?.();
+    }}
+  />
 );
 export const IconTimes: React.FC<{ className?: string }> = ({ className }) => (
   <FontAwesomeIcon icon={'times'} className={className} />

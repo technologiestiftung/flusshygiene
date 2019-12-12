@@ -86,6 +86,7 @@ export interface IBathingspot {
   globalIrradiances?: IDefaultMeasurement[];
   purificationPlants?: IPurificationPlant[];
   discharges?: IDefaultMeasurement[];
+  genericInputs?: IGenericInput[];
   influencePurificationPlant?: 'yes' | 'no' | 'unknown';
   influenceCombinedSewerSystem?: 'yes' | 'no' | 'unknown';
   influenceRainwater?: 'yes' | 'no' | 'unknown';
@@ -100,7 +101,22 @@ export interface IPurificationPlant {
   url?: string;
   measurements?: IDefaultMeasurement[];
 }
-
+export interface IGenericInput {
+  id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  name: string;
+  url?: string;
+  measurements?: IDefaultMeasurement[];
+}
+export interface ICollectionWithSubitem {
+  id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  name: string;
+  url?: string;
+  measurements?: IDefaultMeasurement[];
+}
 export interface IDefaultMeasurement {
   id: number;
   createdAt: Date;

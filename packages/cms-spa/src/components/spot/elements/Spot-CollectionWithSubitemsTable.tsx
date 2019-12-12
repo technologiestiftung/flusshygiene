@@ -20,9 +20,10 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
     return (
       <Table>
         <TableBody>
-          {items.map((item) => {
+          {items.map((item, index) => {
             return (
               <TableRow
+                key={index}
                 th={item.name}
                 tds={[
                   'Datenpunkte',

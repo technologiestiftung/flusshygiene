@@ -11,6 +11,7 @@ import {
   ClickHandler,
   IApiAction,
   IPurificationPlant,
+  IGenericInput,
 } from '../lib/common/interfaces';
 
 import { SpotHeader } from './spot/elements/Spot-Header';
@@ -39,10 +40,11 @@ import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurments';
 import { SpotEditorInfoModal } from './spot/elements/SpotEditor-InfoModal';
 import { DefaultTable } from './spot/elements/Spot-DefaultMeasurementsTable';
 import {
-  SpotEditorPurificationPlants,
-  ISpotEditorPurificationPlantsInitialValues,
-} from './spot/SpotEditor-PurificationPlants';
+  SpotEditorCollectionWithSubitem,
+  ISpotEditorCollectionWithSubItemsInitialValues,
+} from './spot/SpotEditor-CollectionWithSubitem';
 import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
+import { pplantSchema } from '../lib/utils/spot-validation-schema';
 /**
  * This is the component that displays a single spot
  *
@@ -58,6 +60,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [basisEditMode, setBasisEditMode] = useState(false);
   const [dataEditMode, setDataEditMode] = useState(false);
   const [ppDataEditMode, setPPDataEditMode] = useState(false);
+  const [giDataEditMode, setGIDataEditMode] = useState(false);
+
   const [infoShowMode, setInfoShowMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
@@ -65,9 +69,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [showNotification, setShowNotification] = useState(false);
 
   const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
-  const [purificationPlants, setPurificationPlants] = useState<
-    IPurificationPlant[] | undefined
-  >(undefined);
   const [pplantsNumber, setPPlantsNumber] = useState<number | undefined>(
     undefined,
   );
@@ -98,6 +99,14 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     // }
     e?.preventDefault?.();
     setPPDataEditMode(!ppDataEditMode);
+  };
+
+  const handleGIDataEditModeClick = (e?: React.ChangeEvent<any>) => {
+    // if (e) {
+    //   e.preventDefault();
+    // }
+    e?.preventDefault?.();
+    setGIDataEditMode(!giDataEditMode);
   };
 
   const handleInfoShowModeClick = (e?: React.ChangeEvent<any>) => {
@@ -346,20 +355,27 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         apiRequest(apiDispatch, action);
       });
     }
-  }, [spot, user.pgapiData, match.params.id, token, apiDispatch]);
+  }, [
+    spot,
+    user.pgapiData,
+    match.params.id,
+    token,
+    apiDispatch,
+    apiState.reload,
+  ]);
 
+  /**
+   * This effect is a trigger to the pplants measurements effect
+   */
   useEffect(() => {
     if (spot === undefined) return;
     if (spot!.purificationPlants === undefined) return;
 
     setPPlantsNumber(spot!.purificationPlants.length);
-  }, [spot, spot?.purificationPlants, apiState]);
+  }, [spot, apiState]);
 
   /**
-   * TODO: Make a requeest to the api for getting all the plants
-   * FIXME: This effect sends us into an inifinte loop of refreshing
-   *
-   *
+   * This effect takes care of updating the pplants measurements
    *
    */
   useEffect(() => {
@@ -390,7 +406,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         apiRequest(apiDispatch, action);
       });
     }
-  }, [pplantsNumber, user.pgapiData, apiDispatch, match.params.id, token]);
+  }, [
+    pplantsNumber,
+    user.pgapiData,
+    apiDispatch,
+    match.params.id,
+    token,
+    spot,
+    apiState.reload,
+  ]);
 
   /**
    * This effect filters out the single spot.
@@ -497,19 +521,43 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             </Container>
           );
         } else if (ppDataEditMode === true && spot !== undefined) {
-          const initialValues: ISpotEditorPurificationPlantsInitialValues = {
-            purificationPlants: spot.purificationPlants
+          const initialValues: ISpotEditorCollectionWithSubItemsInitialValues = {
+            collection: spot.purificationPlants
               ? spot.purificationPlants
-              : ([{ name: 'foo', id: 1 }] as IPurificationPlant[]),
+              : ([{ name: '', url: '' }] as IPurificationPlant[]),
           };
           return (
             <Container>
-              <SpotEditorPurificationPlants
+              <SpotEditorCollectionWithSubitem
+                validationSchema={pplantSchema}
+                resourceType={ApiResources.purificationPlants}
+                uploadBoxResourceType={'pplantMeasurements'}
+                title={'Klärwerke'}
                 initialValues={initialValues}
                 handeCloseClick={handlePPDataEditModeClick}
                 handleInfoClick={handleInfoShowModeClick}
                 spotId={spot.id}
-              ></SpotEditorPurificationPlants>
+              ></SpotEditorCollectionWithSubitem>
+            </Container>
+          );
+        } else if (giDataEditMode === true && spot !== undefined) {
+          const initialValues: ISpotEditorCollectionWithSubItemsInitialValues = {
+            collection: spot.genericInputs
+              ? spot.genericInputs
+              : ([{ name: '', url: '' }] as IGenericInput[]),
+          };
+          return (
+            <Container>
+              <SpotEditorCollectionWithSubitem
+                validationSchema={pplantSchema}
+                resourceType={ApiResources.genericInputs}
+                uploadBoxResourceType={'gInputMeasurements'}
+                title={'Generische Messwete'}
+                initialValues={initialValues}
+                handeCloseClick={handleGIDataEditModeClick}
+                handleInfoClick={handleInfoShowModeClick}
+                spotId={spot.id}
+              ></SpotEditorCollectionWithSubitem>
             </Container>
           );
         } else {
@@ -551,6 +599,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                     handleInfoShowModeClick={handleInfoShowModeClick}
                     handleCalibratePredictClick={handleCalibratePredictClick}
                     handleDataEditModeClick={handleDataEditModeClick}
+                    handleGIEditModeClock={handleGIDataEditModeClick}
                     ocpuState={ocpuState}
                   />
                 </Container>

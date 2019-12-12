@@ -121,8 +121,8 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
           }),
         );
       }
-      console.log(actions);
-      console.log('apiEndpoints', apiEndpoints);
+      // console.log(actions);
+      // console.log('papiEndpoints', apiEndpoints);
       if (actions.length > 0) {
         actions.forEach((action) => {
           apiRequest(apiDispatch, action);
