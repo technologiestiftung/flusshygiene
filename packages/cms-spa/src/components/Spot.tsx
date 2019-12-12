@@ -42,6 +42,7 @@ import {
   SpotEditorPurificationPlants,
   ISpotEditorPurificationPlantsInitialValues,
 } from './spot/SpotEditor-PurificationPlants';
+import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
 /**
  * This is the component that displays a single spot
  *
@@ -67,6 +68,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [purificationPlants, setPurificationPlants] = useState<
     IPurificationPlant[] | undefined
   >(undefined);
+  const [pplantsNumber, setPPlantsNumber] = useState<number | undefined>(
+    undefined,
+  );
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
@@ -344,22 +348,26 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     }
   }, [spot, user.pgapiData, match.params.id, token, apiDispatch]);
 
-  // useEffect(() => {
-  //   if (spot === undefined) return;
-  //   if (spot!.purificationPlants === undefined) return;
-  //   setPurificationPlants(spot!.purificationPlants);
-  // }, [spot, apiState]);
+  useEffect(() => {
+    if (spot === undefined) return;
+    if (spot!.purificationPlants === undefined) return;
+
+    setPPlantsNumber(spot!.purificationPlants.length);
+  }, [spot, spot?.purificationPlants, apiState]);
 
   /**
    * TODO: Make a requeest to the api for getting all the plants
    * FIXME: This effect sends us into an inifinte loop of refreshing
+   *
+   *
+   *
    */
   useEffect(() => {
     if (token === undefined) return;
     if (spot === undefined) return;
     if (user.pgapiData === undefined) return;
     if (spot.purificationPlants === undefined) return;
-
+    console.log('PPlant update hook');
     const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
 
     const actions: IApiAction[] = [];
@@ -382,7 +390,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         apiRequest(apiDispatch, action);
       });
     }
-  }, [spot, match.params.id, user.pgapiData, token, apiDispatch]);
+  }, [pplantsNumber, user.pgapiData, apiDispatch, match.params.id, token]);
 
   /**
    * This effect filters out the single spot.
@@ -507,6 +515,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         } else {
           return (
             <>
+              {apiState.loading === true && spot === undefined && (
+                <Container>
+                  <h1>
+                    {' '}
+                    {'Aktualisiere Badestellen Daten'}
+                    <Spinner />
+                  </h1>
+                </Container>
+              )}
               {isAuthenticated === true &&
                 showNotification === true &&
                 spot !== undefined && (
@@ -538,10 +555,28 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   />
                 </Container>
               )}
+              {spot !== undefined && (
+                <ContainerNoColumn>
+                  <SpotTableBlock
+                    title={{
+                      title: 'Vorhersage-Modelle',
+                      iconType: 'IconCalc',
+                    }}
+                    Table={() => SpotModelTable(lastModel)}
+                  />
+                  <SpotTableBlock
+                    title={{ title: 'Vorhersage', iconType: 'IconComment' }}
+                    Table={() => PredictionTable(spot)}
+                  />
+                </ContainerNoColumn>
+              )}
               <ContainerNoColumn>
                 {spot !== undefined && (
                   <SpotTableBlock
-                    title={{ title: 'Letzte Messung', iconType: 'IconCSV' }}
+                    title={{
+                      title: 'letzte E.C./I.C. Messung',
+                      iconType: 'IconCSV',
+                    }}
                     Table={() => SpotMeasurementsTable(spot)}
                   />
                 )}
@@ -560,7 +595,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 {spot !== undefined && (
                   <SpotTableBlock
                     title={{
-                      title: 'Letzte Globalstrahlung Messungen',
+                      title: 'letzte Globalstrahlungs Messungen',
                       iconType: 'IconCSV',
                     }}
                     Table={() => (
@@ -586,30 +621,34 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   ></SpotTableBlock>
                 )}
               </ContainerNoColumn>
-              <ContainerNoColumn>
-                {
+              {spot !== undefined && (
+                <ContainerNoColumn>
                   <SpotTableBlock
                     title={{
-                      title: 'Vorhersage-Modelle',
-                      iconType: 'IconCalc',
+                      title: 'Klärwerke',
+                      iconType: 'IconIndustry',
                     }}
-                    Table={() => SpotModelTable(lastModel)}
-                  />
-                }
-                {spot !== undefined && (
+                    Table={() => (
+                      <CollectionWithSubItemTable
+                        items={spot.purificationPlants}
+                      />
+                    )}
+                  ></SpotTableBlock>
                   <SpotTableBlock
-                    title={{ title: 'Vorhersage', iconType: 'IconComment' }}
-                    Table={() => PredictionTable(spot)}
-                  />
-                )}
-              </ContainerNoColumn>
+                    title={{
+                      title: 'Generische Messwerte',
+                      iconType: 'IconCSV',
+                    }}
+                    Table={() => <CollectionWithSubItemTable />}
+                  ></SpotTableBlock>
+                </ContainerNoColumn>
+              )}
               {lastModel !== undefined && lastModel.plotfiles !== undefined && (
                 <SpotModelPlots
                   plotfiles={lastModel.plotfiles}
                 ></SpotModelPlots>
               )}
               <Container>
-                {apiState.loading === true && <Spinner />}
                 {spot !== undefined &&
                   apiState.loading === false &&
                   MapWrapper(mapRef, mapDims, spot)}

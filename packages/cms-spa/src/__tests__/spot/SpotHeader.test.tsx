@@ -9,6 +9,7 @@ describe('Testing spot header', () => {
         nameLong={'fooo'}
         district={'bah'}
         water={'water'}
+        isLoading={false}
       />,
     );
     expect(getByText(/fooo/i)).toBeTruthy();

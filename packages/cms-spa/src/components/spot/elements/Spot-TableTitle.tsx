@@ -4,12 +4,14 @@ import {
   IconCalc,
   IconComment,
   IconCSV,
+  IconIndustry,
 } from '../../fontawesome-icons';
 export type TableTitleIconType =
   | 'IconCalc'
   | 'IconRain'
   | 'IconCSV'
-  | 'IconComment';
+  | 'IconComment'
+  | 'IconIndustry';
 export interface ISpotTableTitle {
   title: string;
   iconType: TableTitleIconType;
@@ -34,6 +36,9 @@ export function SpotTableTitle({
             }
             case 'IconCalc': {
               return <IconCalc></IconCalc>;
+            }
+            case 'IconIndustry': {
+              return <IconIndustry></IconIndustry>;
             }
             default: {
               throw new Error('No default icon defiend');
