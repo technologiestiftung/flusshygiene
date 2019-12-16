@@ -698,9 +698,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 ></SpotModelPlots>
               )}
               <Container>
-                {spot !== undefined &&
-                  apiState.loading === false &&
-                  MapWrapper(mapRef, mapDims, spot)}
+                <div ref={mapRef} id='map__container'>
+                  {spot !== undefined &&
+                    apiState.loading === false &&
+                    mapRef !== null && (
+                      <MapWrapper mapDims={mapDims} spot={spot} />
+                    )}
+                </div>
               </Container>
               <ContainerNoColumn>
                 {spot !== undefined && SpotBasicInfos(spot)}

@@ -301,42 +301,44 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
         </div>
       </div>
       <div ref={mapRef} id='map__container'>
-        <DeckGL
-          width={mapDims.width}
-          height={mapDims.height}
-          initialViewState={initialViewState}
-          // controller={true}
-          layers={[geoLayer]}
-          getCursor={(() => {
-            if (activeEditor === 'location') {
-              return geoLayer.getCursor.bind(geoLayer);
-            } else {
-              return;
-            }
-          })()}
-          onClick={(info: any) => {
-            // console.log('onLayerClick', info);
-            if (editMode === 'view' || editMode === 'drawPolygon') {
-              return;
-            }
-            if (info) {
-              console.log(`select editing feature ${info.index}`);
-              if (info.index >= 0) {
-                setSelectedIndex([info.index]);
+        {
+          <DeckGL
+            width={mapDims.width}
+            height={mapDims.height}
+            initialViewState={initialViewState}
+            // controller={true}
+            layers={[geoLayer]}
+            getCursor={(() => {
+              if (activeEditor === 'location') {
+                return geoLayer.getCursor.bind(geoLayer);
+              } else {
+                return;
               }
-            } else {
-              setSelectedIndex([]);
-            }
-          }}
-          controller={{ type: MapController, doubleClickZoom: false }}
-        >
-          <StaticMap
-            width={width}
-            height={height}
-            mapboxApiAccessToken={REACT_APP_MAPBOX_API_TOKEN}
-            mapStyle='mapbox://styles/fmoronzirfas/ck21m3k446h8g1cp9zj67nw4m'
-          />
-        </DeckGL>
+            })()}
+            onClick={(info: any) => {
+              // console.log('onLayerClick', info);
+              if (editMode === 'view' || editMode === 'drawPolygon') {
+                return;
+              }
+              if (info) {
+                console.log(`select editing feature ${info.index}`);
+                if (info.index >= 0) {
+                  setSelectedIndex([info.index]);
+                }
+              } else {
+                setSelectedIndex([]);
+              }
+            }}
+            controller={{ type: MapController, doubleClickZoom: false }}
+          >
+            <StaticMap
+              width={width}
+              height={height}
+              mapboxApiAccessToken={REACT_APP_MAPBOX_API_TOKEN}
+              mapStyle='mapbox://styles/fmoronzirfas/ck21m3k446h8g1cp9zj67nw4m'
+            />
+          </DeckGL>
+        }
       </div>
     </>
   );
