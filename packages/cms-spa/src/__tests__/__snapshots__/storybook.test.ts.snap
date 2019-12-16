@@ -191,13 +191,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-name"
                 id="name"
                 name="name"
@@ -402,7 +402,7 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="control"
         >
           <div
-            className="select"
+            className="select is-small"
           >
             <select
               id="influencePurificationPlant"
@@ -442,7 +442,7 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="control"
         >
           <div
-            className="select"
+            className="select is-small"
           >
             <select
               id="influenceCombinedSewerSystem"
@@ -482,7 +482,7 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="control"
         >
           <div
-            className="select"
+            className="select is-small"
           >
             <select
               id="influenceRainwater"
@@ -522,7 +522,7 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="control"
         >
           <div
-            className="select"
+            className="select is-small"
           >
             <select
               id="influenceAgriculture"
@@ -619,13 +619,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-nameLong"
                 id="nameLong"
                 name="nameLong"
@@ -654,13 +654,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-water"
                 id="water"
                 name="water"
@@ -689,13 +689,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-district"
                 id="district"
                 name="district"
@@ -724,13 +724,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-street"
                 id="street"
                 name="street"
@@ -759,13 +759,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-postalCode"
                 id="postalCode"
                 name="postalCode"
@@ -794,13 +794,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-city"
                 id="city"
                 name="city"
@@ -829,13 +829,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-website"
                 id="website"
                 name="website"
@@ -864,13 +864,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-lastClassification"
                 id="lastClassification"
                 name="lastClassification"
@@ -899,13 +899,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-image"
                 id="image"
                 name="image"
@@ -934,13 +934,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-elevation"
                 id="elevation"
                 name="elevation"
@@ -969,13 +969,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-apiEndpoints"
                 id="apiEndpoints"
                 name="apiEndpoints"
@@ -1004,13 +1004,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-waterRescue"
                 id="waterRescue"
                 name="waterRescue"
@@ -1490,13 +1490,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-healthDepartment"
                 id="healthDepartment"
                 name="healthDepartment"
@@ -1525,13 +1525,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-healthDepartmentAddition"
                 id="healthDepartmentAddition"
                 name="healthDepartmentAddition"
@@ -1560,13 +1560,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-healthDepartmentStreet"
                 id="healthDepartmentStreet"
                 name="healthDepartmentStreet"
@@ -1595,13 +1595,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-healthDepartmentPostalCode"
                 id="healthDepartmentPostalCode"
                 name="healthDepartmentPostalCode"
@@ -1630,13 +1630,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-healthDepartmentCity"
                 id="healthDepartmentCity"
                 name="healthDepartmentCity"
@@ -1665,13 +1665,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-healthDepartmentMail"
                 id="healthDepartmentMail"
                 name="healthDepartmentMail"
@@ -1700,13 +1700,13 @@ exports[`Storyshots SpotEditor default 1`] = `
           className="field-body"
         >
           <div
-            className="field"
+            className="field "
           >
             <div
-              className="control"
+              className="control "
             >
               <input
-                className="input"
+                className="input is-small"
                 data-testid="test-input-healthDepartmentPhone"
                 id="healthDepartmentPhone"
                 name="healthDepartmentPhone"
@@ -1817,13 +1817,13 @@ exports[`Storyshots SpotEditor/Input text 1`] = `
       className="field-body"
     >
       <div
-        className="field"
+        className="field "
       >
         <div
-          className="control"
+          className="control "
         >
           <input
-            className="input"
+            className="input is-small"
             data-testid="test-input-name"
             id="name"
             name="name"
@@ -1882,7 +1882,7 @@ exports[`Storyshots SpotEditor/Select default 1`] = `
       className="control"
     >
       <div
-        className="select"
+        className="select is-small"
       >
         <select
           id="name"
