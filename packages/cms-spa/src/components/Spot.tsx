@@ -72,6 +72,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [pplantsNumber, setPPlantsNumber] = useState<number | undefined>(
     undefined,
   );
+  const [gisNumber, setGIsNumber] = useState<number | undefined>(undefined);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
 
@@ -161,6 +162,17 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     setShowNotification((prevState) => !prevState);
   };
 
+  //   ******** ******** ******** ********   ******  **********  ********
+  //  /**///// /**///// /**///// /**/////   **////**/////**///  **//////
+  //  /**      /**      /**      /**       **    //     /**    /**
+  //  /******* /******* /******* /******* /**           /**    /*********
+  //  /**////  /**////  /**////  /**////  /**           /**    ////////**
+  //  /**      /**      /**      /**      //**    **    /**           /**
+  //  /********/**      /**      /******** //******     /**     ********
+  //  //////// //       //       ////////   //////      //     ////////
+  //
+  //
+  //
   /**
    * This effect triggers a reload of the page
    */
@@ -216,8 +228,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   /**
    * This effect sets the current content of the Banner based on event souce data
    *
-   *
-   *
    */
   useEffect(() => {
     setMessage(JSON.stringify(eventSourceState));
@@ -226,7 +236,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
   useEffect(() => {
     if (apiState.error === undefined) return;
-    setMessage(JSON.stringify(apiState.error.error.message));
+    setMessage(JSON.stringify(apiState.error?.error?.message));
     setShowNotification(true);
   }, [apiState.error]);
   /**
@@ -236,7 +246,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   useEffect(() => {
     if (token === undefined) return;
     if (user.pgapiData === undefined) return;
-
     const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
     // const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
 
@@ -367,6 +376,30 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         resource: 'purificationPlants',
       }),
     );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.genericInputs}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'genericInputs',
+      }),
+    );
+    if (spot !== undefined && spot.purificationPlants !== undefined) {
+      spot.purificationPlants.forEach((gi) => {
+        actions.push(
+          actionCreator({
+            body: {},
+            token,
+            method: 'GET',
+            url: `${baseUrl}/${ApiResources.genericInputs}/${gi.id}/${ApiResources.measurements}`,
+            type: ApiActionTypes.START_API_REQUEST,
+            resource: 'gInputMeasurements',
+          }),
+        );
+      });
+    }
 
     if (spot !== undefined && spot.purificationPlants !== undefined) {
       spot.purificationPlants.forEach((plant) => {
@@ -382,6 +415,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         );
       });
     }
+
     if (actions.length > 0) {
       actions.forEach((action) => {
         apiRequest(apiDispatch, action);
@@ -446,6 +480,60 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     token,
     spot,
     apiState.reload,
+    apiState.reloadSubItems,
+  ]);
+
+  /**
+   * This effect is a trigger to the pplants measurements effect
+   */
+  useEffect(() => {
+    if (spot === undefined) return;
+    if (spot!.genericInputs === undefined) return;
+
+    setGIsNumber(spot!.genericInputs.length);
+  }, [spot, apiState]);
+
+  /**
+   * This effect takes care of updating the genericInputs measurements
+   *
+   */
+  useEffect(() => {
+    if (token === undefined) return;
+    if (spot === undefined) return;
+    if (user.pgapiData === undefined) return;
+    if (spot.genericInputs === undefined) return;
+    console.log('Gis m update hook');
+    const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+
+    const actions: IApiAction[] = [];
+
+    spot!.genericInputs.forEach((plant) => {
+      actions.push(
+        actionCreator({
+          body: {},
+          token,
+          method: 'GET',
+          url: `${baseUrl}/${ApiResources.genericInputs}/${plant.id}/${ApiResources.measurements}`,
+          type: ApiActionTypes.START_API_REQUEST,
+          resource: 'gInputMeasurements',
+        }),
+      );
+    });
+
+    if (actions.length > 0) {
+      actions.forEach((action) => {
+        apiRequest(apiDispatch, action);
+      });
+    }
+  }, [
+    gisNumber,
+    user.pgapiData,
+    apiDispatch,
+    match.params.id,
+    token,
+    spot,
+    apiState.reload,
+    apiState.reloadSubItems,
   ]);
 
   /**
@@ -750,7 +838,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Generische Messwerte',
                       iconType: 'IconCSV',
                     }}
-                    Table={() => <CollectionWithSubItemTable />}
+                    Table={() => (
+                      <CollectionWithSubItemTable items={spot.genericInputs} />
+                    )}
                   ></SpotTableBlock>
                 </ContainerNoColumn>
               )}
