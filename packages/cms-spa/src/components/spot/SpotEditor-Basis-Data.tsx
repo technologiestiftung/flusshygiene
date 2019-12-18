@@ -8,7 +8,6 @@ import {
   ApiActionTypes,
 } from '../../lib/common/interfaces';
 import { nullValueTransform } from '../../lib/utils/spot-nullvalue-transformer';
-// import { SpotEditorButtons } from './SpotEditor-Buttons';
 import { APIMountPoints, ApiResources } from '../../lib/common/enums';
 import { useAuth0 } from '../../lib/auth/react-auth0-wrapper';
 import { SpotEditorBox } from './elements/SpotEditor-Box';
@@ -68,8 +67,6 @@ export const SpotEditorBasisData: React.FC<{
       }
     }
 
-    // console.log('patched body ', body);
-
     {
       let url: string;
 
@@ -84,7 +81,7 @@ export const SpotEditorBasisData: React.FC<{
         type: ApiActionTypes.START_API_REQUEST,
         token,
         url,
-        resource: 'bathingspot',
+        resource: newSpot === true ? 'bathingspots' : 'bathingspot',
         body,
       });
       // console.log('post options', postSpotOpts);
