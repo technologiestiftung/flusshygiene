@@ -143,9 +143,8 @@ const Profile: React.FC = () => {
   const handleNewSpot = () => {
     setEditMode(true);
   };
-
   return (
-    <React.Fragment>
+    <>
       <Container>
         {(() => {
           if (loading) {
@@ -252,7 +251,7 @@ const Profile: React.FC = () => {
           </Container>
         </>
       )}
-    </React.Fragment>
+    </>
   );
 };
 
