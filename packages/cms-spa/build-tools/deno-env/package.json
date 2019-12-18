@@ -1,0 +1,15 @@
+{
+  "name": "deno-env",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "mock-data": "deno --allow-write mock-data.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript-deno-plugin": "^1.2.7"
+  }
+}
