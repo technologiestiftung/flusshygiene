@@ -49,6 +49,7 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
   const [cleanedInitialValues, setCleanedInitialValues] = useState<
     ISpotEditorCollectionWithSubItemsInitialValues
   >({ collection: [] });
+
   useEffect(() => {
     const values: ISpotEditorCollectionWithSubItemsInitialValues = JSON.parse(
       JSON.stringify(initialValues),
@@ -60,7 +61,9 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
       }
     });
     setCleanedInitialValues(values);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const postData: (options: {
     values: ISpotEditorCollectionWithSubItemsInitialValues;
     spotId: number;

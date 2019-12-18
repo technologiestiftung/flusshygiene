@@ -1,9 +1,12 @@
 import React from 'react';
-import { IPurificationPlant } from '../../../lib/common/interfaces';
+import {
+  IPurificationPlant,
+  IGenericInput,
+} from '../../../lib/common/interfaces';
 import { TableBody, Table, TableRow } from './Spot-Table';
 
 interface ICollection {
-  items?: IPurificationPlant[];
+  items?: IPurificationPlant[] | IGenericInput[];
 }
 export const CollectionWithSubItemTable: React.FC<ICollection> = ({
   items,
