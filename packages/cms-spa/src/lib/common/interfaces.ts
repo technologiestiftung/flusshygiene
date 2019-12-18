@@ -300,6 +300,7 @@ export interface IApiActionFinished extends IApiAction {
 export interface IApiState {
   spots: IBathingspot[];
   reload: number;
+  reloadSubItems: number;
   sessionId?: string;
   currentSpot?: IBathingspot;
 

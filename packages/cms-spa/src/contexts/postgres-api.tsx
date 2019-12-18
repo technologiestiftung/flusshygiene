@@ -129,22 +129,70 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             }
           }
           case 'genericInputs': {
-            throw new Error('Not yet there');
-          }
-          case 'gInputMeasurements': {
-            throw new Error('Not yet there');
-          }
-          case 'purificationPlants': {
-            console.log('Updating pplants');
+            // console.log('update gi');
+
+            let reloadSubItems = state.reloadSubItems;
             const updatedSpots = state.spots.map((spot) => {
               if (spot.id === spotId) {
-                spot.purificationPlants = action.payload.response!
-                  .data as IPurificationPlant[];
+                spot.genericInputs = action.payload.response!
+                  .data as IGenericInput[];
+                reloadSubItems = state.reloadSubItems + 1;
               }
               return spot;
             });
 
+            return {
+              ...state,
+              spots: [...updatedSpots],
+              reloadSubItems,
+              loading: false,
+            };
+          }
+          case 'gInputMeasurements': {
+            // console.log('genericInputs update in postgres-api.tsx');
+            const reg = /genericInputs\/(?<pplantId>\d+)/;
+            const matchRes = action.payload.url.match(reg);
+            if (matchRes === null || matchRes.groups === undefined) {
+              throw new Error(
+                `Can't match genericInputs id in ${action.payload.url}`,
+              );
+            }
+            const giId = parseInt(matchRes.groups.pplantId, 10);
+            // console.log(action.payload.response);
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId && spot.genericInputs !== undefined) {
+                const updatedGis = spot.genericInputs.map((gi) => {
+                  if (gi.id === giId) {
+                    gi.measurements = action.payload.response!
+                      .data as IDefaultMeasurement[];
+                  }
+                  return gi;
+                });
+                spot.genericInputs = updatedGis;
+              }
+              return spot;
+            });
             return { ...state, spots: [...updatedSpots], loading: false };
+          }
+          case 'purificationPlants': {
+            // console.log('Updating pplants');
+            let reloadSubItems = state.reloadSubItems;
+
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId) {
+                spot.purificationPlants = action.payload.response!
+                  .data as IPurificationPlant[];
+                reloadSubItems = state.reloadSubItems + 1;
+              }
+              return spot;
+            });
+
+            return {
+              ...state,
+              spots: [...updatedSpots],
+              reloadSubItems,
+              loading: false,
+            };
           }
           case 'pplantMeasurements': {
             // console.log('pplantMeasurements update in postgres-api.tsx');
@@ -281,7 +329,14 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             console.log(action.payload.response);
 
             const reload = state.reload + 1;
-            return { ...state, reload: reload, loading: false };
+            let reloadSubItems = state.reloadSubItems;
+            if (
+              hasSubItemsList.includes(action.payload.requestType.resource) ===
+              true
+            ) {
+              reloadSubItems = state.reloadSubItems + 1;
+            }
+            return { ...state, reload, reloadSubItems, loading: false };
           }
 
           default: {
@@ -315,10 +370,19 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             console.log('PUT bathingspot or measurements');
             console.log(action.payload.response);
             const reload = state.reload + 1;
-            return { ...state, reload, loading: false };
+            let reloadSubItems = state.reloadSubItems;
+            if (
+              hasSubItemsList.includes(action.payload.requestType.resource) ===
+              true
+            ) {
+              console.log('reload suitem update');
+
+              reloadSubItems = state.reloadSubItems + 1;
+            }
+            return { ...state, reload, reloadSubItems, loading: false };
           }
           default: {
-            throw new Error('no default POST case defined');
+            throw new Error('no default PUT case defined');
           }
         }
       } else {
