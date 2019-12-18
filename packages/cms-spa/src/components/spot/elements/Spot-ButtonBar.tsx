@@ -64,7 +64,7 @@ export const SpotButtonBar: React.FC<{
         <ButtonIcon
           cssId='gi-data'
           handleClick={handleGIEditModeClock}
-          text='Generische Messungen'
+          text='Generische Werte'
         >
           <IconCSV></IconCSV>
         </ButtonIcon>
