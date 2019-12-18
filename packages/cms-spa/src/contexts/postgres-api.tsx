@@ -7,6 +7,7 @@ import {
   IApiActionFinished,
   IDefaultMeasurement,
   IPurificationPlant,
+  IGenericInput,
 } from '../lib/common/interfaces';
 
 function matchSpotId(action: IApiAction) {
@@ -21,6 +22,7 @@ function matchSpotId(action: IApiAction) {
 
 type Dispatch = (action: IApiAction) => void;
 type ApiProviderProps = { children: React.ReactNode };
+const hasSubItemsList = ['genericInputs', 'purificationPlants'];
 
 const ApiStateContext = createContext<IApiState | undefined>(undefined);
 
@@ -366,6 +368,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           case 'discharges':
           case 'globalIrradiances':
           case 'purificationPlants':
+          case 'genericInputs':
           case 'measurements': {
             console.log('PUT bathingspot or measurements');
             console.log(action.payload.response);
@@ -408,6 +411,7 @@ const ApiProvider: (children: ApiProviderProps) => JSX.Element = ({
     loading: false,
     truncated: false,
     reload: 0,
+    reloadSubItems: 0,
   });
   return (
     <ApiStateContext.Provider value={state}>
