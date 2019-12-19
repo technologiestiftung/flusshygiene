@@ -47,7 +47,7 @@ jobs:
         run:  |
           cd packages/cms-spa/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --label version=${GITHUB_REF##*/} --build-arg --build-arg REACT_APP_EVENT_SOURCE_URL=${{secrets.REACT_APP_EVENT_SOURCE_URL}} REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}} --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}} --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}} --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
+          docker build --label version=${GITHUB_REF##*/} --build-arg REACT_APP_EVENT_SOURCE_URL=${{secrets.REACT_APP_EVENT_SOURCE_URL}} --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}} --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}} --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}} --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
 
