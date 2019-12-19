@@ -51,10 +51,6 @@ const eventSourceReducer: (
 };
 
 const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
-  // const url =
-  //   process.env.REACT_APP_EVENT_SOURCE_URL === undefined
-  //     ? 'http://localhost:8888/middlelayer/stream'
-  //     : process.env.REACT_APP_EVENT_SOURCE_URL;
   url =
     url === undefined
       ? process.env.REACT_APP_EVENT_SOURCE_URL === undefined
