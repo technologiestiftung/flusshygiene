@@ -17,7 +17,7 @@ ENV NODE_DOCKER_ENV=1
 COPY ./package*.json ./
 COPY ./ormconfig.js ./
 RUN npm ci --quiet
-COPY --from=builder /usr/app/dist /usr/app/dist
+COPY --from=builder /usr/app/dist /home/node/dist
 
 USER node
 EXPOSE 5004
