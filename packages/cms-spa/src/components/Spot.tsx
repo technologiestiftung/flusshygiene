@@ -55,13 +55,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
   const eventSourceState = useEventSource();
-  // const dispatch = useDispatch();
-  const [message, setMessage] = useState<string>('');
+
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [basisEditMode, setBasisEditMode] = useState(false);
   const [dataEditMode, setDataEditMode] = useState(false);
   const [ppDataEditMode, setPPDataEditMode] = useState(false);
   const [giDataEditMode, setGIDataEditMode] = useState(false);
+
   // const [tableEditMode, setTableEditMode] = useState(true);
   // const [tableEditData, setTableEditData] = useState<any | undefined>(
   //   undefined,
@@ -71,6 +71,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
 
+  const [message, setMessage] = useState<string>('');
   const [showNotification, setShowNotification] = useState(false);
   const [bannerType, setBannerType] = useState<BannerType | undefined>(
     undefined,
@@ -178,6 +179,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const handleBannerClose = (e?: React.ChangeEvent<any>) => {
     e?.preventDefault();
     setShowNotification(false);
+    setMessage('');
   };
   //   ******** ******** ******** ********   ******  **********  ********
   //  /**///// /**///// /**///// /**/////   **////**/////**///  **//////
