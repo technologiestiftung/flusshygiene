@@ -45,6 +45,7 @@ import {
 } from './spot/SpotEditor-CollectionWithSubitem';
 import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
 import { pplantSchema } from '../lib/utils/spot-validation-schema';
+// import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
  * This is the component that displays a single spot
  *
@@ -61,6 +62,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [dataEditMode, setDataEditMode] = useState(false);
   const [ppDataEditMode, setPPDataEditMode] = useState(false);
   const [giDataEditMode, setGIDataEditMode] = useState(false);
+  // const [tableEditMode, setTableEditMode] = useState(true);
+  // const [tableEditData, setTableEditData] = useState<any | undefined>(
+  //   undefined,
+  // );
 
   const [infoShowMode, setInfoShowMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
@@ -109,6 +114,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     e?.preventDefault?.();
     setGIDataEditMode(!giDataEditMode);
   };
+
+  // const handleTableEditModeClick = (e?: React.ChangeEvent<any>) => {
+  //   e?.preventDefault?.();
+  //   setTableEditMode(!tableEditMode);
+  // };
 
   const handleInfoShowModeClick = (e?: React.ChangeEvent<any>) => {
     if (e) {
@@ -631,6 +641,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         clickHandler={handleInfoShowModeClick}
       />
       {(() => {
+        // if (tableEditMode === true && spot !== undefined) {
+        //   return (
+        //     <MeasurementEditor
+        //       resourceType={'measurements'}
+        //       handleCloseClick={handleTableEditModeClick}
+        //       inData={spot.measurements ? spot.measurements : []}
+        //     />
+        //   );
+        // } else
         if (basisEditMode === true && spot !== undefined) {
           return (
             <Container>
@@ -754,6 +773,33 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   />
                 </Container>
               )}
+              {/**
+               *
+               *
+               *
+               *
+               *
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               *
+               *
+               *
+               *
+               *
+               *
+               */}
               {spot !== undefined && (
                 <ContainerNoColumn>
                   <SpotTableBlock
@@ -762,6 +808,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       iconType: 'IconCalc',
                     }}
                     Table={() => SpotModelTable(lastModel)}
+                    // handleEditClick={() => {
+                    //   setTableEditMode(true);
+                    // }}
                   />
                   <SpotTableBlock
                     title={{ title: 'Vorhersage', iconType: 'IconComment' }}
@@ -777,6 +826,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       iconType: 'IconCSV',
                     }}
                     Table={() => SpotMeasurementsTable(spot)}
+                    // handleEditClick={() => {
+                    //   setTableEditData(spot.measurements);
+                    //   setTableEditMode(true);
+                    // }}
                   />
                 )}
 

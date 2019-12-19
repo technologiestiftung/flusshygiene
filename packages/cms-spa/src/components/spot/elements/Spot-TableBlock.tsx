@@ -1,12 +1,15 @@
 import React from 'react';
 import { SpotTableTitle, ISpotTableTitle } from './Spot-TableTitle';
 import { IconCode } from '../../fontawesome-icons';
+import { ClickFunction } from '../../../lib/common/interfaces';
+import { ButtonIcon } from '../../Buttons';
 
 export const SpotTableBlock: React.FC<{
   data?: any;
   title: ISpotTableTitle;
   Table: () => React.ReactNode;
-}> = ({ title, Table, data }) => {
+  handleEditClick?: ClickFunction;
+}> = ({ title, Table, data, handleEditClick }) => {
   return (
     <div className='column is-5'>
       {data && (
@@ -27,6 +30,12 @@ export const SpotTableBlock: React.FC<{
       )}
       {SpotTableTitle(title)}
       {Table()}
+      {handleEditClick !== undefined && (
+        <ButtonIcon
+          handleClick={handleEditClick}
+          text={'Daten Editieren (exp.)'}
+        ></ButtonIcon>
+      )}
     </div>
   );
 };
