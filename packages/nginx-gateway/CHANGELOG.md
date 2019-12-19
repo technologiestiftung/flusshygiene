@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/technologiestiftung/flusshygiene-nginx-gateway/compare/v2.3.0...v2.3.1) (2019-12-19)
+
+
+### Bug Fixes
+
+* **fix(rights for pgapi): could not create folder for logs:** had an error creating log folder ([dc93d26](https://github.com/technologiestiftung/flusshygiene-nginx-gateway/commit/dc93d26cfff31fb36329cfd9ff4dc5565e304450))
+
+
+
+
+
 # [2.3.0](https://github.com/technologiestiftung/flusshygiene-nginx-gateway/compare/v2.2.1...v2.3.0) (2019-12-19)
 
 **Note:** Version bump only for package @tsb/nginx-gateway

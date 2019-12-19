@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.3.0...v2.3.1) (2019-12-19)
+
+
+### Bug Fixes
+
+* **fix(rights for pgapi): could not create folder for logs:** had an error creating log folder ([dc93d26](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/commit/dc93d26cfff31fb36329cfd9ff4dc5565e304450))
+* **null constrains api:** migrations remove null constrains ([3f06bfc](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/commit/3f06bfce33ac6e111f99c7220bb95ce002133344))
+
+
+
+
+
 # [2.3.0](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.2.1...v2.3.0) (2019-12-19)
 
 
