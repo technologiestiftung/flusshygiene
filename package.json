@@ -1,6 +1,6 @@
 {
   "name": "@tsb/flusshygiene",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": true,
   "description": "Monorepo for the flusshygiene application",
   "main": " ",
