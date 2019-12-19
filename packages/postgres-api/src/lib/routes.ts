@@ -11,7 +11,7 @@ import {
 } from './request-handlers/bathingspots/';
 
 import {
-  deleteCollectionSubItem,
+  deleteCollectionItem,
   deleteSubItemMeasurement,
 } from './request-handlers/bathingspots/collections/delete';
 import {
@@ -178,7 +178,7 @@ router.get(
   getGenericInputMeasurements,
 );
 
-// get subitems of collection
+// delete subitems of collection
 router.delete(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9]+)',
   checkJwt,
@@ -219,7 +219,9 @@ router.delete(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)',
   checkJwt,
   checkScopes,
-  deleteCollectionSubItem,
+  checkUserAndSpot,
+  collectionCheck,
+  deleteCollectionItem,
 );
 
 // Model Reports
