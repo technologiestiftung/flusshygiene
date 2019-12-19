@@ -11,13 +11,14 @@ RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
 FROM node:10.16.3-alpine as app
-WORKDIR  /usr/app
+WORKDIR  /home/node
 ENV NODE_ENV=production
 ENV NODE_DOCKER_ENV=1
 COPY ./package*.json ./
 COPY ./ormconfig.js ./
 RUN npm ci --quiet
 COPY --from=builder /usr/app/dist /usr/app/dist
+
 USER node
 EXPOSE 5004
-CMD ["node", "--max_old_space_size=20480", "dist/index.js"]
+CMD ["node", "--max_old_space_size=2048", "dist/index.js"]

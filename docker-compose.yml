@@ -18,7 +18,7 @@ services:
     container_name: "nginx"
     build:
       context: ./packages/nginx-gateway
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       args:
         - OCPU_USER=test
         - OCPU_PW=test
