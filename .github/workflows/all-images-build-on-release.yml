@@ -3,6 +3,7 @@ name: Docker Image Builder
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  STAGE: dev
   # COMMIT_FILTER: "[skip-ci]"
 
 on:
@@ -26,8 +27,8 @@ jobs:
         run:  |
           cd packages/nginx-gateway/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --label version=${GITHUB_REF##*/} --build-arg OCPU_USER=${{secrets.OCPU_USER}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
-          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+          docker build --label version=${GITHUB_REF##*/} --build-arg OCPU_USER=${{secrets.OCPU_USER}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
 
   cms-spa:
@@ -46,8 +47,8 @@ jobs:
         run:  |
           cd packages/cms-spa/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --label version=${GITHUB_REF##*/} --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}} --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}} --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}} --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev .
-          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+          docker build --label version=${GITHUB_REF##*/} --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}} --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}} --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}} --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
 
   ocpu-base:
@@ -67,8 +68,8 @@ jobs:
         run:  |
           cd packages/opencpu-base/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --label version=${GITHUB_REF##*/} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
-          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+          docker build --label version=${GITHUB_REF##*/} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
 
   fhpredict:
@@ -87,8 +88,8 @@ jobs:
         run: |
           cd packages/opencpu-fhpredict-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
-          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+          docker build --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
 
   middlelayer:
@@ -108,8 +109,8 @@ jobs:
         run:  |
           cd packages/opencpu-middlelayer/
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
-          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
   postgres-api:
     runs-on: ubuntu-latest
@@ -127,5 +128,5 @@ jobs:
         run: |
           cd packages/postgres-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
-          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev"
+          docker build --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"

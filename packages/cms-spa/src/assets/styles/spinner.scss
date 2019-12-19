@@ -1,16 +1,17 @@
 .spinner {
-  margin: 100px auto 0;
-  width: 70px;
-  text-align: center;
+  // margin: 100px auto 0;
+  // width: 70px;
+  // text-align: center;
 }
 
 .spinner > div {
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
   background-color: #000;
 
   border-radius: 100%;
-  display: inline-block;
+  display: inline-flex !important;
+
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
   animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 }

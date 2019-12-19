@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { SpotLocation } from '../../components/spot/Spot-Location';
+import { SpotLocation } from '../../components/spot/elements/Spot-Location';
 describe('Testing spot location', () => {
   test('should render the spot location', () => {
     const { getByText, getByTestId } = render(

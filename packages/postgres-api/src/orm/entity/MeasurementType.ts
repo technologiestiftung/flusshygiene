@@ -12,6 +12,9 @@ export abstract class MeasurementType {
   @Column()
   public name!: string;
 
+  @Column({ type: 'text', nullable: true })
+  public url!: string;
+
   @Column()
   @CreateDateColumn()
   public createdAt!: Date;

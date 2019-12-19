@@ -12,7 +12,7 @@ import {
 } from '../fontawesome-icons';
 import { IAnswer } from '../../lib/common/interfaces';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
-import { ButtonIconTB as Button } from '../Buttons';
+import { ButtonIcon as Button } from '../Buttons';
 
 import FileSaver from 'file-saver';
 import { roundToFloatDigits } from '../../lib/utils/formatting-helpers';
@@ -84,7 +84,7 @@ export const Report: React.FC = () => {
 
     const answers = state.answers.filter((ele) => ele !== undefined);
     // console.log('A', state.answers.length, 'Q', state.questions.length);
-    console.log(answers);
+    // console.log(answers);
     const copyAnwers = [...state.answers];
     copyAnwers.shift();
     if (copyAnwers.includes(undefined) === false) {
@@ -147,7 +147,7 @@ export const Report: React.FC = () => {
             <Button
               text={'JSON'}
               handleClick={(e: React.ChangeEvent<any>) => {
-                console.log('JSON');
+                // console.log('JSON');
                 const blob = new Blob(
                   [
                     JSON.stringify({
@@ -161,7 +161,7 @@ export const Report: React.FC = () => {
                   },
                 );
                 FileSaver.saveAs(blob, `standortbewertung-${state.title}.json`);
-                console.log(state.answers);
+                // console.log(state.answers);
               }}
             >
               <IconCode />

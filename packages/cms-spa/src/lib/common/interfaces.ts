@@ -1,6 +1,6 @@
-import { IGeoJson, IBathingspot } from './interfaces';
-import { FormikProps, FormikHelpers } from 'formik';
-
+import { FormikHelpers } from 'formik';
+import { RouteComponentProps } from 'react-router';
+import * as Yup from 'yup';
 export interface IObject {
   [key: string]: any;
 }
@@ -22,6 +22,11 @@ export interface IFetchSpotOptions extends IFetchOptions {
   updateAll?: boolean;
 }
 
+export interface IBathingspotApiEndpoints {
+  measurementsUrl?: string;
+  dischargesUrl?: string;
+  globalIrradianceUrl?: string;
+}
 export interface IBathingspot {
   id: number;
   createdAt: Date;
@@ -63,7 +68,7 @@ export interface IBathingspot {
   dogban?: boolean;
   lastClassification?: string;
   image?: string;
-  apiEndpoints?: string;
+  apiEndpoints?: IBathingspotApiEndpoints;
   state?: string;
   location?: IGeoJsonGeometry;
   area?: IGeoJsonGeometry;
@@ -77,19 +82,47 @@ export interface IBathingspot {
   measurements?: IObject[];
   rawModelData?: IObject[];
   region?: IObject;
-  rains?: IRain[];
+  rains?: IDefaultMeasurement[];
+  globalIrradiances?: IDefaultMeasurement[];
+  purificationPlants?: IPurificationPlant[];
+  discharges?: IDefaultMeasurement[];
+  genericInputs?: IGenericInput[];
   influencePurificationPlant?: 'yes' | 'no' | 'unknown';
   influenceCombinedSewerSystem?: 'yes' | 'no' | 'unknown';
   influenceRainwater?: 'yes' | 'no' | 'unknown';
   influenceAgriculture?: 'yes' | 'no' | 'unknown';
 }
 
-export interface IRain {
+export interface IPurificationPlant {
+  id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  name: string;
+  url?: string;
+  measurements?: IDefaultMeasurement[];
+}
+export interface IGenericInput {
+  id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  name: string;
+  url?: string;
+  measurements?: IDefaultMeasurement[];
+}
+export interface ICollectionWithSubitem {
+  id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  name: string;
+  url?: string;
+  measurements?: IDefaultMeasurement[];
+}
+export interface IDefaultMeasurement {
   id: number;
   createdAt: Date;
   updatedAt: Date;
   date: Date;
-  dateTime: Date;
+  dateTime?: Date;
   value: number;
   comment?: string;
 }
@@ -205,6 +238,77 @@ export interface IAnswer {
   reportAddInfo: string;
 }
 
+// postgres api
+
+export type RequestTypes = 'POST' | 'GET' | 'PUT' | 'DELETE';
+export type RequestResourceTypes =
+  | 'bathingspot'
+  | 'bathingspots'
+  | 'rains'
+  | 'measurements'
+  | 'globalIrradiances'
+  | 'discharges'
+  | 'predictions'
+  | 'user'
+  | 'users'
+  | 'ping'
+  | 'purificationPlants'
+  | 'pplantMeasurements'
+  | 'gInputMeasurements'
+  | 'genericInputs';
+
+export interface IApiActionRequestType {
+  type: RequestTypes;
+  resource: RequestResourceTypes;
+}
+interface IApiResponse {
+  data: IObject[];
+  success: boolean;
+  truncated: boolean;
+  apiVersion: string;
+  message: string;
+}
+
+export interface IApiActionPayload {
+  url: string;
+  requestType: IApiActionRequestType;
+  response?: IApiResponse;
+  config?: RequestInit;
+  error?: Error;
+  [key: string]: any;
+}
+
+export interface IApiFinishedActionPayload extends IApiActionPayload {
+  response: IApiResponse;
+}
+
+export enum ApiActionTypes {
+  START_API_REQUEST = 'START_API_REQUEST',
+  FINISH_API_REQUEST = 'FINISH_API_REQUEST',
+  FAIL_API_REQUEST = 'FAIL_API_REQUEST',
+}
+export interface IApiAction {
+  type: ApiActionTypes;
+  payload: IApiActionPayload;
+}
+export interface IApiActionFinished extends IApiAction {
+  payload: IApiFinishedActionPayload;
+}
+// interface IUser{
+//   [key: string]: any;
+// }
+export interface IApiState {
+  spots: IBathingspot[];
+  reload: number;
+  reloadSubItems: number;
+  sessionId?: string;
+  currentSpot?: IBathingspot;
+
+  loading: boolean;
+  truncated: boolean;
+  error?: IObject;
+}
+
 // ocpe context interfaces
 
 export type OcpuDispatchTypes =
@@ -254,10 +358,75 @@ export interface IOcpuState {
   errors: any[];
 }
 
+/**
+ * For table display in spot.tsx
+ */
+export interface IModelInfo {
+  formula: string;
+  N: number;
+  BP: number;
+  R2: number;
+  n_obs: number;
+  stat_correct: boolean;
+  in50: number;
+  below90: number;
+  below95: number;
+  in95: number;
+}
+
+export interface IMeasurementsUploadBox {
+  title: string;
+  unboxed?: boolean;
+  hasNoUrlField?: boolean;
+  addionalClassNames?: string;
+  // setCSVValidationErrors: React.Dispatch<
+  //   React.SetStateAction<ICSVValidationErrorRes[]>
+  // >;
+  // setParsingErrors: React.Dispatch<
+  //   React.SetStateAction<ParseError[] | undefined>
+  // >;
+  fieldNameFile: string;
+  fieldNameUrl: string;
+  type: MeasurementTypes;
+  props: any;
+  schema: Yup.ObjectSchema<
+    Yup.Shape<
+      object,
+      {
+        date: Date;
+        [key: string]: any;
+      }
+    >
+  >;
+}
+
+export interface IMeasurement {
+  Date: string;
+  [key: string]: any;
+}
+
+export interface IMeasurmentsUploadInitialValues {
+  // csvFile?: File;
+  // url?: string;
+  measurementsUrl: string;
+  measurements: IMeasurement[];
+  globalIrradiance: IMeasurement[];
+  globalIrradianceUrl: string;
+  discharges: IMeasurement[];
+  dischargesUrl: string;
+}
+
 // ╔╦╗┬ ┬┌─┐┌─┐┌─┐
 //  ║ └┬┘├─┘├┤ └─┐
 //  ╩  ┴ ┴  └─┘└─┘
 
+export type MeasurementTypes =
+  | 'measurements'
+  | 'discharges'
+  | 'globalIrradiances'
+  | 'pplantMeasurements'
+  | 'gInputMeasurements';
+export type ClickHandler = (event: React.ChangeEvent<any>) => void;
 export type MapEditors = 'area' | 'location';
 export type MapEditModes =
   | 'modify'
@@ -268,3 +437,11 @@ export type MapEditModes =
 export type MapActiveEditor = 'area' | 'location' | undefined;
 
 export type ColorNames = 'grün' | 'gelb' | 'orange' | 'türkis' | 'rot';
+
+/**
+ * Properties of route
+ * currently only the match string from the url
+ */
+export type RouteProps = RouteComponentProps<{ id: string }>;
+
+export type ClickFunction = (event?: React.ChangeEvent<any>) => void;

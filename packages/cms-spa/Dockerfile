@@ -1,4 +1,4 @@
-FROM node:10.16.3-alpine as builder
+FROM node:12.13.1-alpine as builder
 LABEL maintainer="Fabian Morón Zirfas"
 # LABEL version="1.0.0"
 LABEL description="A frontend for a the  postgres/postgis api used in the project flusshygiene"

@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { SpotEditorInput } from '../components/spot/SpotEditor-Input';
-import { SpotEditorButtons } from '../components/spot/SpotEditor-Buttons';
+import { SpotEditorInput } from '../components/spot/elements/SpotEditor-Input';
+import { SpotEditorButtons } from '../components/spot/elements/SpotEditor-Buttons';
 import { MemoryRouter } from 'react-router';
 import { Formik } from 'formik';
 

@@ -1,5 +1,5 @@
-import cors from 'cors';
-import errorHandler from 'errorhandler';
+import cors, { CorsOptions } from 'cors';
+// import errorHandler from 'errorhandler';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -12,6 +12,7 @@ import uuidv4 from 'uuid/v4';
 import { cookieListing } from './middleware/cookie-listing';
 import { logger } from './logger';
 import publicRoutes from './routes-public';
+import { errorHandler } from './middleware/errorHandler';
 
 const RedisStore = require('connect-redis')(session);
 const client = redis.createClient({
@@ -42,7 +43,23 @@ try {
 } catch (error) {
   console.error(error);
 }
-app.use(cors());
+
+const whitelist = [
+  'https://www.flusshygiene.xyz',
+  'http://localhost:3000',
+  'http://localhost:8888',
+];
+const corsOptions: CorsOptions = {
+  origin: function(origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 if (process.env.NODE_ENV === 'development') {
   app.options('*', cors());
   app.use(morgan('combined'));
@@ -72,10 +89,12 @@ app.use(
 app.use(cookieListing);
 app.use('/api/v1', routes);
 
-if (process.env.NODE_ENV === 'development') {
-  // In Express an error handler,
-  // always has to be the last line before starting the server.
-  app.use(errorHandler());
-}
+// if (process.env.NODE_ENV === 'development') {
+// In Express an error handler,
+// always has to be the last line before starting the server.
+// app.use(errorHandler());
+app.use(errorHandler);
+// } else {
+// }
 
 export = app;

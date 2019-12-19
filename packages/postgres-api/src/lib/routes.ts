@@ -11,7 +11,7 @@ import {
 } from './request-handlers/bathingspots/';
 
 import {
-  deleteCollectionSubItem,
+  deleteCollectionItem,
   deleteSubItemMeasurement,
 } from './request-handlers/bathingspots/collections/delete';
 import {
@@ -29,7 +29,10 @@ import {
   postPlot,
 } from './request-handlers/bathingspots/collections/post-file';
 import { postFileMiddleWare } from './middleware/post-file-mw';
-import { getOneUsersBathingspotsByRegion } from './request-handlers/bathingspots/get';
+import {
+  getOneUsersBathingspotsByRegion,
+  getSpotsCount,
+} from './request-handlers/bathingspots/get';
 
 import { defaultGetResponse } from './request-handlers/defaults';
 import {
@@ -51,7 +54,7 @@ import {
   putCollectionItem,
   putCollectionSubItem,
 } from './request-handlers/bathingspots/collections/put';
-import { checkUserAndSpot } from './middleware/user-spot-check';
+import { checkUserAndSpot, checkUser } from './middleware/user-spot-check';
 import { collectionCheck } from './middleware/collection-check';
 // import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
 
@@ -81,6 +84,14 @@ router.get(
   checkJwt,
   checkScopes,
   getUserBathingspots,
+);
+
+router.get(
+  '/users/:userId([0-9]+)/bathingspots/count',
+  checkJwt,
+  checkScopes,
+  checkUser,
+  getSpotsCount,
 );
 
 router.get(
@@ -139,6 +150,14 @@ router.get(
   getCollectionsSubItem,
 );
 
+router.post(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
+  checkJwt,
+  checkScopes,
+  checkUserAndSpot,
+  postCollection,
+);
+
 // get subitems of collection
 router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
@@ -159,7 +178,7 @@ router.get(
   getGenericInputMeasurements,
 );
 
-// get subitems of collection
+// delete subitems of collection
 router.delete(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9]+)',
   checkJwt,
@@ -176,13 +195,6 @@ router.post(
   checkUserAndSpot,
   collectionCheck,
   postCollectionsSubItem,
-);
-
-router.post(
-  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
-  checkJwt,
-  checkScopes,
-  postCollection,
 );
 
 router.put(
@@ -207,7 +219,9 @@ router.delete(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)',
   checkJwt,
   checkScopes,
-  deleteCollectionSubItem,
+  checkUserAndSpot,
+  collectionCheck,
+  deleteCollectionItem,
 );
 
 // Model Reports

@@ -1,78 +1,148 @@
-// import { DEFAULT_SPOT_ID } from '../lib/common/constants';
+import React, { useRef, useEffect, useState } from 'react';
+import { actionCreator } from '../lib/utils/pgapi-actionCreator';
 import { APIMountPoints, ApiResources } from '../lib/common/enums';
-import { fetchSingleSpot } from '../lib/state/reducers/actions/fetch-get-single-spot';
+
 import {
-  IFetchSpotOptions,
   IOcpuStartAction,
   IObject,
   IBathingspot,
-  IRain,
+  ApiActionTypes,
+  RouteProps,
+  ClickHandler,
+  IApiAction,
+  IPurificationPlant,
+  IGenericInput,
 } from '../lib/common/interfaces';
-import { Measurement } from './spot/Spot-Measurement';
-import { RootState } from '../lib/state/reducers/root-reducer';
-import { RouteComponentProps } from 'react-router';
-import { SpotBodyAddonTagGroup } from './spot/Spot-AddonTag-Group';
-import { SpotHeader } from './spot/Spot-Header';
-import { SpotImage } from './spot/Spot-Image';
-import { SpotLocation } from './spot/Spot-Location';
-import { useMapResizeEffect } from '../hooks/map-hooks';
-import { useSelector, useDispatch } from 'react-redux';
-import React, { useRef, useEffect, useState } from 'react';
-import { SpotEditor } from './spot/SpotEditor';
-import SpotsMap from './spot/Spot-Map';
-import { SpotModelPlots } from './spot/Spot-Model-Plots';
 
-// import '../assets/styles/spot-editor.scss';
+import { SpotHeader } from './spot/elements/Spot-Header';
+import { useMapResizeEffect } from '../hooks/map-hooks';
+import { SpotEditorBasisData } from './spot/SpotEditor-Basis-Data';
+import { SpotModelPlots } from './spot/elements/Spot-Model-Plots';
 import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../lib/config';
 import { Container, ContainerNoColumn } from './Container';
 import { useOcpu, postOcpu } from '../contexts/opencpu';
-import {
-  lastElements,
-  arraySortByDateField,
-  genericLastElements,
-} from '../lib/utils/array-helpers';
-import { Table, TableBody, TableRow } from './spot/Spot-Table';
-import { ButtonIconTB } from './Buttons';
-import {
-  IconRain,
-  IconEdit,
-  IconCalc,
-  IconComment,
-  IconCSV,
-  IconCode,
-} from './fontawesome-icons';
-import {
-  formatDate,
-  roundToFloatDigits,
-} from '../lib/utils/formatting-helpers';
 import { useEventSource } from '../contexts/eventsource';
-const messageCalibratePredict = {
-  calibrate:
-    'Ihre Kalibrierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
-  predict:
-    'Ihre Vorhersagegenerierung wurde gestartet. Abhängig von der Menge an Messwerten kann dies dauern. Bitte kommen Sie in einigen Minuten zurück.',
-  model:
-    'Ihre Modelierung wurde gestartet. Dies kann etwas dauern. Bitte kommen Sie in einigen Minuten zurück.',
-};
-type RouteProps = RouteComponentProps<{ id: string }>;
-
+import { useApi, apiRequest } from '../contexts/postgres-api';
+import { Banner, BannerType } from './spot/elements/Spot-Banner';
+import { SpotButtonBar } from './spot/elements/Spot-ButtonBar';
+import { SpotAdditionalTags } from './spot/elements/Spot-AdditionalTags';
+import { SpotBasicInfos } from './spot/elements/Spot-BasicInfos';
+import { MapWrapper } from './spot/elements/Spot-Map-Wrapper';
+import { PredictionTable } from './spot/elements/Spot-PredictionTable';
+import { RainTable } from './spot/elements/Spot-RainTable';
+import { SpotMeasurementsTable } from './spot/elements/Spot-MeasurementsTable';
+import { SpotModelTable } from './spot/elements/Spot-ModelTable';
+import { SpotTableBlock } from './spot/elements/Spot-TableBlock';
+import { SpotHr } from './spot/elements/Spot-Hr';
+import { Spinner } from './util/Spinner';
+import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurments';
+import { SpotEditorInfoModal } from './spot/elements/SpotEditor-InfoModal';
+import { DefaultTable } from './spot/elements/Spot-DefaultMeasurementsTable';
+import {
+  SpotEditorCollectionWithSubitem,
+  ISpotEditorCollectionWithSubItemsInitialValues,
+} from './spot/SpotEditor-CollectionWithSubitem';
+import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
+import { pplantSchema } from '../lib/utils/spot-validation-schema';
+// import { MeasurementEditor } from './spot/MeasurementEditor';
+/**
+ * This is the component that displays a single spot
+ *
+ */
 const Spot: React.FC<RouteProps> = ({ match }) => {
   const { user, isAuthenticated, getTokenSilently } = useAuth0();
   const [ocpuState, ocpuDispatch] = useOcpu();
+  const [apiState, apiDispatch] = useApi();
   const eventSourceState = useEventSource();
+  // const dispatch = useDispatch();
+  const [message, setMessage] = useState<string>('');
+  const [formReadyToRender, setFormReadyToRender] = useState(false);
+  const [basisEditMode, setBasisEditMode] = useState(false);
+  const [dataEditMode, setDataEditMode] = useState(false);
+  const [ppDataEditMode, setPPDataEditMode] = useState(false);
+  const [giDataEditMode, setGIDataEditMode] = useState(false);
+  // const [tableEditMode, setTableEditMode] = useState(true);
+  // const [tableEditData, setTableEditData] = useState<any | undefined>(
+  //   undefined,
+  // );
 
-  const handleEditModeClick = () => {
-    setEditMode(!editMode);
+  const [infoShowMode, setInfoShowMode] = useState(false);
+  const [lastModel, setLastModel] = useState<IObject>();
+  const [token, setToken] = useState<string>();
+
+  const [showNotification, setShowNotification] = useState(false);
+  const [bannerType, setBannerType] = useState<BannerType | undefined>(
+    undefined,
+  );
+
+  const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
+  const [pplantsNumber, setPPlantsNumber] = useState<number | undefined>(
+    undefined,
+  );
+  const [gisNumber, setGIsNumber] = useState<number | undefined>(undefined);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapDims = useMapResizeEffect(mapRef);
+
+  /**
+   * Toggles the edit modes (open BasisSpotEditor)
+   */
+  const handleBasisEditModeClick = (e?: React.ChangeEvent<any>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    // e?.preventDefault?.();
+    setBasisEditMode(!basisEditMode);
   };
-  const handleCalibratePredictClick = (event: React.ChangeEvent<any>) => {
+
+  const handleDataEditModeClick = (e?: React.ChangeEvent<any>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    // e?.preventDefault?.();
+    setDataEditMode(!dataEditMode);
+  };
+  const handlePPDataEditModeClick = (e?: React.ChangeEvent<any>) => {
+    // if (e) {
+    //   e.preventDefault();
+    // }
+    e?.preventDefault?.();
+    setPPDataEditMode(!ppDataEditMode);
+  };
+
+  const handleGIDataEditModeClick = (e?: React.ChangeEvent<any>) => {
+    // if (e) {
+    //   e.preventDefault();
+    // }
+    e?.preventDefault?.();
+    setGIDataEditMode(!giDataEditMode);
+  };
+
+  // const handleTableEditModeClick = (e?: React.ChangeEvent<any>) => {
+  //   e?.preventDefault?.();
+  //   setTableEditMode(!tableEditMode);
+  // };
+
+  const handleInfoShowModeClick = (e?: React.ChangeEvent<any>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    // e?.preventDefault?.();
+    setInfoShowMode(!infoShowMode);
+  };
+  /**
+   * Handles the click events on the button bar on top for all the calls to middlelayer
+   *
+   */
+  const handleCalibratePredictClick: ClickHandler = (event) => {
+    if (spot === undefined) return;
     switch (event.currentTarget.id) {
       case 'sleep':
       case 'predict':
       case 'model':
       case 'calibrate':
         {
-          let body;
+          let body: { spot_id?: number; user_id?: any; seconds?: number };
           body = {
             spot_id: spot.id,
             user_id: user.pgapiData.id,
@@ -80,7 +150,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           if (event.currentTarget.id === 'sleep') {
             body = { seconds: 10 };
           }
-          // console.log('the body we will send', body);
           const action: IOcpuStartAction = {
             type: 'START_OCPU_REQUEST',
             payload: {
@@ -98,39 +167,46 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             },
           };
           postOcpu(ocpuDispatch, action);
-          console.log(`clicked ${event.currentTarget.id}`);
         }
         break;
       default:
         throw new Error('Target for button not defined');
     }
-    setCalibratePredictSelector(event.currentTarget.id);
     setShowNotification((prevState) => !prevState);
   };
-  const dispatch = useDispatch();
-  const [message, setMessage] = useState<string>('');
-  const [formReadyToRender, setFormReadyToRender] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [lastModel, setLastModel] = useState<IObject>();
-  const [token, setToken] = useState<string>();
-  const [calibratePredictSelector, setCalibratePredictSelector] = useState<
-    'calibrate' | 'predict' | 'model' | 'sleep' | undefined
-  >(undefined);
-  const [showNotification, setShowNotification] = useState(false);
-  const spot = useSelector(
-    (state: RootState) => state.detailSpot.spot as IBathingspot,
-  );
-  const isSingleSpotLoading = useSelector(
-    (state: RootState) => state.detailSpot.loading,
-  );
-  const mapRef = useRef<HTMLDivElement>(null);
-  const mapDims = useMapResizeEffect(mapRef);
 
-  useEffect(() => {
-    console.log('Event source state change');
-    console.log(eventSourceState);
-  }, [eventSourceState]);
+  const handleBannerClose = (e?: React.ChangeEvent<any>) => {
+    e?.preventDefault();
+    setShowNotification(false);
+  };
+  //   ******** ******** ******** ********   ******  **********  ********
+  //  /**///// /**///// /**///// /**/////   **////**/////**///  **//////
+  //  /**      /**      /**      /**       **    //     /**    /**
+  //  /******* /******* /******* /******* /**           /**    /*********
+  //  /**////  /**////  /**////  /**////  /**           /**    ////////**
+  //  /**      /**      /**      /**      //**    **    /**           /**
+  //  /********/**      /**      /******** //******     /**     ********
+  //  //////// //       //       ////////   //////      //     ////////
+  //
+  //
+  //
+  /**
+   * This effect triggers a reload of the page
+   */
+  // useEffect(() => {
+  //   if (apiState === undefined) return;
+  //   if (apiState.reload === false) return;
+  //   if (apiState.loading === true) return;
+  //   if (apiState.reload === true && apiState.loading === false) {
+  //     window.location.reload();
+  //   }
+  // }, [apiState.reload, apiState.loading]);
 
+  /**
+   * This effect gets the api token from the auth0 wrapper
+   *
+   *
+   */
   useEffect(() => {
     async function getToken() {
       try {
@@ -143,56 +219,348 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     getToken();
   }, [getTokenSilently, setToken]);
 
-  useEffect(() => {
-    if (showNotification === false) return;
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 5000);
-  }, [showNotification]);
+  /**
+   * Timing effect for the banner display time
+   */
+  // useEffect(() => {
+  //   if (showNotification === false) return;
+  //   // const timeout = setTimeout(() => {
+  //   //   setShowNotification(false);
+  //   // }, 7000);
 
+  //   // return () => {
+  //   //   clearTimeout(timeout);
+  //   // };
+  // }, [showNotification]);
+
+  /**
+   * this effect sets the content of the banner based on ocpu data
+   *
+   */
   useEffect(() => {
     setMessage(JSON.stringify(ocpuState.responses[0]));
+    setBannerType('normal');
     setShowNotification(true);
   }, [ocpuState]);
+
+  /**
+   * This effect sets the current content of the Banner based on event souce data
+   *
+   */
   useEffect(() => {
-    // const filteredEvents = eventSourceState.events.filter((event) => {
-    //   let json;
-    //   try {
-    //     json = JSON.parse(event.data);
-    //   } catch (error) {}
-    //   if (json.event === 'response') {
-    //     return event;
-    //   }
-    // });
-    // console.log('filteredEvents', filteredEvents);
     setMessage(JSON.stringify(eventSourceState));
+    setBannerType('normal');
     setShowNotification(true);
   }, [eventSourceState]);
+
   useEffect(() => {
-    // if (spot.id === parseInt(match.params.id, 10)) {
-    //   return;
-    // }
+    if (apiState.error === undefined) return;
+    setMessage(JSON.stringify(apiState.error?.error?.message));
+    setBannerType('error');
+    setShowNotification(true);
+  }, [apiState.error]);
+  /**
+   * This effect gets one bathingspot
+   * Follow the crumbs to contexts/postgres-api
+   */
+  useEffect(() => {
     if (token === undefined) return;
     if (user.pgapiData === undefined) return;
-    const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
-    const fetchOpts: IFetchSpotOptions = {
-      method: 'GET',
-      url,
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+    // const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
 
-    dispatch(fetchSingleSpot(fetchOpts));
-    // setFormReadyToRender(true);
-  }, [dispatch, match.params.id, token, user, user.pgapiData]);
+    const actions: IApiAction[] = [];
+
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: baseUrl,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'bathingspot',
+      }),
+    );
+
+    /**
+     * Actions for
+     * rains
+     * discharges
+     * measurements
+     * models
+     * predictions
+     * globalIrradiance
+     *
+     */
+    if (actions.length > 0) {
+      actions.forEach((action) => {
+        apiRequest(apiDispatch, action);
+      });
+    }
+  }, [
+    token,
+    apiDispatch,
+    match.params.id,
+    user.pgapiData,
+    apiState.reload,
+    eventSourceState,
+  ]);
+
+  //    ********  ******** **********
+  //   **//////**/**///// /////**///
+  //  **      // /**          /**
+  // /**         /*******     /**
+  // /**    *****/**////      /**
+  // //**  ////**/**          /**
+  //  //******** /********    /**
+  //
+  //
+  //
+  //   ////////  ////////     //
+  //      **     **       **
+  //     ****   /**      /**
+  //    **//**  /**      /**
+  //   **  //** /**      /**
+  //  **********/**      /**
+  // /**//////**/**      /**
+  // /**     /**/********/********
+  // //      // //////// ////////
+  //
+  //
+  //
+  //
+  //  ** ********** ******** ****     ****  ********
+  // /**/////**/// /**///// /**/**   **/** **//////
+  // /**    /**    /**      /**//** ** /**/**
+  // /**    /**    /******* /** //***  /**/*********
+  // /**    /**    /**////  /**  //*   /**////////**
+  // /**    /**    /**      /**   /    /**       /**
+  // /**    /**    /********/**        /** ********
+  // //     //     //////// //         // ////////
 
   useEffect(() => {
+    if (token === undefined) return;
+    if (user.pgapiData === undefined) return;
+
+    const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+
+    const actions: IApiAction[] = [];
+
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.measurements}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'measurements',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.globalIrradiances}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'globalIrradiances',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.discharges}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'discharges',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.rains}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'rains',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.purificationPlants}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'purificationPlants',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.genericInputs}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'genericInputs',
+      }),
+    );
+
+    if (actions.length > 0) {
+      actions.forEach((action) => {
+        apiRequest(apiDispatch, action);
+      });
+    }
+  }, [
+    spot,
+    user.pgapiData,
+    match.params.id,
+    token,
+    apiDispatch,
+    apiState.reload,
+  ]);
+
+  /**
+   * This effect is a trigger to the pplants measurements effect
+   */
+  useEffect(() => {
+    if (spot === undefined) return;
+    if (spot!.purificationPlants === undefined) return;
+
+    setPPlantsNumber(spot!.purificationPlants.length);
+  }, [spot, apiState]);
+
+  /**
+   * This effect takes care of updating the pplants measurements
+   *
+   */
+  useEffect(() => {
+    if (token === undefined) return;
+    if (spot === undefined) return;
+    if (user.pgapiData === undefined) return;
+    if (spot.purificationPlants === undefined) return;
+    // console.log('PPlant update hook');
+    const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+
+    const actions: IApiAction[] = [];
+
+    spot!.purificationPlants.forEach((plant) => {
+      actions.push(
+        actionCreator({
+          body: {},
+          token,
+          method: 'GET',
+          url: `${baseUrl}/${ApiResources.purificationPlants}/${plant.id}/${ApiResources.measurements}`,
+          type: ApiActionTypes.START_API_REQUEST,
+          resource: 'pplantMeasurements',
+        }),
+      );
+    });
+
+    if (actions.length > 0) {
+      actions.forEach((action) => {
+        apiRequest(apiDispatch, action);
+      });
+    }
+  }, [
+    pplantsNumber,
+    user.pgapiData,
+    apiDispatch,
+    match.params.id,
+    token,
+    spot,
+    apiState.reload,
+    apiState.reloadSubItems,
+  ]);
+
+  /**
+   * This effect is a trigger to the pplants measurements effect
+   */
+  useEffect(() => {
+    if (spot === undefined) return;
+    if (spot!.genericInputs === undefined) return;
+
+    setGIsNumber(spot!.genericInputs.length);
+  }, [spot, apiState]);
+
+  /**
+   * This effect takes care of updating the genericInputs measurements
+   *
+   */
+  useEffect(() => {
+    if (token === undefined) return;
+    if (spot === undefined) return;
+    if (user.pgapiData === undefined) return;
+    if (spot.genericInputs === undefined) return;
+    // console.log('Gis m update hook');
+    const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
+
+    const actions: IApiAction[] = [];
+
+    spot!.genericInputs.forEach((plant) => {
+      actions.push(
+        actionCreator({
+          body: {},
+          token,
+          method: 'GET',
+          url: `${baseUrl}/${ApiResources.genericInputs}/${plant.id}/${ApiResources.measurements}`,
+          type: ApiActionTypes.START_API_REQUEST,
+          resource: 'gInputMeasurements',
+        }),
+      );
+    });
+
+    if (actions.length > 0) {
+      actions.forEach((action) => {
+        apiRequest(apiDispatch, action);
+      });
+    }
+  }, [
+    gisNumber,
+    user.pgapiData,
+    apiDispatch,
+    match.params.id,
+    token,
+    spot,
+    apiState.reload,
+    apiState.reloadSubItems,
+  ]);
+
+  /**
+   * This effect filters out the single spot.
+   */
+  useEffect(() => {
+    if (apiState === undefined) return;
+    const filtered = apiState.spots.filter(
+      (spot) => spot.id === parseInt(match.params.id, 10),
+    );
+
+    if (filtered.length > 0) {
+      setSpot(filtered[0]);
+    }
+  }, [apiState, match.params.id]);
+
+  /**
+   * This effect checks if the form is ready to formReadyToRender
+   * e.g. if the spot data is already there and it matches the route id
+   *
+   *
+   *
+   */
+  useEffect(() => {
+    if (spot === undefined) return;
     if (spot.id === parseInt(match.params.id!, 10)) {
       setFormReadyToRender(true);
     }
-  }, [setFormReadyToRender, spot.id, match.params.id]);
+  }, [setFormReadyToRender, spot, match.params.id]);
+  /**
+   * This effect sorts the models of the spot and get s the last one
+   *
+   *
+   *
+   *
+   */
   useEffect(() => {
     if (
       spot === undefined ||
@@ -211,463 +579,336 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     const model = sortedModels[sortedModels.length - 1];
     setLastModel(model);
   }, [spot]);
-
-  if (editMode === true) {
-    return (
-      <div className='container'>
-        <div className='columns is-centered'>
-          <div className='column is-10'>
-            {formReadyToRender === true && editMode === true && (
-              <SpotEditor
-                initialSpot={spot}
-                handleEditModeClick={handleEditModeClick}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    // console.log(spot);
-
-    return (
-      <>
-        {showNotification === true && (
-          <Container>
-            <div className='notification spot__calib-notification--on-top'>
-              {calibratePredictSelector !== undefined
-                ? messageCalibratePredict[calibratePredictSelector]
-                : ''}
-              {message}
-            </div>
-          </Container>
-        )}
-        <Container>
-          {/* {isSingleSpotLoading === true && <div>loading data</div>} */}
-          <SpotHeader
-            name={spot.name}
-            nameLong={spot.nameLong}
-            water={spot.water}
-            district={spot.district}
-            isLoading={isSingleSpotLoading}
-          />
-        </Container>
-        <Container>
-          <hr />
-        </Container>
-        {isAuthenticated === true && (
-          <Container>
-            <div className='buttons buttons__spot-actions--size'>
-              <ButtonIconTB
-                cssId='edit'
-                handleClick={handleEditModeClick}
-                text='Editieren'
-              >
-                <IconEdit></IconEdit>
-              </ButtonIconTB>
-              {/* <button className='button is-small' onClick={handleEditModeClick}>
-                Editieren
-              </button> */}
-              <ButtonIconTB
-                cssId='sleep'
-                text='Sleep'
-                handleClick={handleCalibratePredictClick}
-              >
-                <IconCode></IconCode>
-              </ButtonIconTB>
-              <ButtonIconTB
-                cssId='calibrate'
-                additionalClassNames={
-                  ocpuState.processing === 'calibrate' ? 'is-loading' : ''
-                }
-                handleClick={handleCalibratePredictClick}
-                text='Regen Laden'
-              >
-                <IconRain></IconRain>
-              </ButtonIconTB>
-              {/* <button
-                className='button is-small'
-                onClick={handleCalibratePredictClick}
-                id='calibrate'
-              >
-                Regen Kalibrierung
-              </button> */}
-              {/* <button
-                className='button is-small'
-                onClick={handleCalibratePredictClick}
-                id='model'
-              >
-                Modellierung
-              </button> */}
-              <ButtonIconTB
-                cssId='model'
-                additionalClassNames={
-                  ocpuState.processing === 'model' ? 'is-loading' : ''
-                }
-                handleClick={handleCalibratePredictClick}
-                text='Modellierung'
-              >
-                <IconCalc></IconCalc>
-              </ButtonIconTB>
-              <ButtonIconTB
-                cssId='predict'
-                additionalClassNames={
-                  ocpuState.processing === 'predict' ? 'is-loading' : ''
-                }
-                handleClick={handleCalibratePredictClick}
-                text='Vorhersage'
-              >
-                <IconComment></IconComment>
-              </ButtonIconTB>
-              {/* <button
-                className='button is-small'
-                onClick={handleCalibratePredictClick}
-                id='predict'
-              >
-                Vorhersage
-              </button> */}
-            </div>
-          </Container>
-        )}
-
-        <ContainerNoColumn>
-          <div className='column is-5'>
-            <h3 className='is-title is-3'>
-              <span>
-                <IconCSV></IconCSV>
-              </span>{' '}
-              <span>Letzte Messung </span>
-            </h3>
-            {(() => {
-              if (
-                spot !== undefined &&
-                spot.measurements !== undefined &&
-                spot.measurements.length > 0
-              ) {
-                return (
-                  <Measurement
-                    measurements={spot.measurements}
-                    hasPrediction={spot.hasPrediction}
-                  ></Measurement>
-                );
-              } else {
-                return (
-                  <Table>
-                    <TableBody>
-                      <TableRow th={'k. A.'} tds={['']}></TableRow>
-                    </TableBody>
-                  </Table>
-                );
-              }
-            })()}
-          </div>
-
-          <div className='column is-5'>
-            <div className='bathingspot__rain'>
-              <h3 className='is-title is-3'>
-                <span>
-                  <IconRain></IconRain>
-                </span>{' '}
-                <span>Mittlere Regenhöhen</span>
-              </h3>
-              <Table>
-                <TableBody>
-                  {spot !== undefined &&
-                    (() => {
-                      if (spot.rains === undefined || spot.rains.length === 0) {
-                        return <TableRow th={'k. A.'} tds={['']}></TableRow>;
-                      } else {
-                        const dateOpts: Intl.DateTimeFormatOptions = {
-                          day: 'numeric',
-                          month: 'short',
-                          weekday: 'short',
-                          year: 'numeric',
-                        };
-                        const sortedRain = spot.rains.sort(
-                          arraySortByDateField,
-                        );
-                        const lastFive = genericLastElements<IRain>(
-                          sortedRain,
-                          5,
-                        );
-
-                        const rows = lastFive.reverse().map((ele, i) => {
-                          const tds = [
-                            `${roundToFloatDigits(ele.value, 2)} mm`,
-                          ];
-                          return (
-                            <TableRow
-                              key={i}
-                              th={formatDate(ele.date, dateOpts)}
-                              tds={tds}
-                            ></TableRow>
-                          );
-                        });
-                        // rows.unshift(
-                        //   <TableRow
-                        //     key={sortedRain.length}
-                        //     th={'Anzahl Datensätze'}
-                        //     tds={[`${sortedRain.length}`]}
-                        //   ></TableRow>,
-                        // );
-                        return rows;
-                      }
-                    })()}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        </ContainerNoColumn>
-        <ContainerNoColumn>
-          <div className='column is-5'>
-            <div className='bathingspot__model'>
-              <h3 className='is-title is-3'>
-                <span>
-                  <IconCalc></IconCalc>
-                </span>{' '}
-                <span>Vorhersage-Modelle</span>
-              </h3>
-
-              {lastModel !== undefined && (
-                <>
-                  {/* <table className='table'> */}
-                  {/* <tbody> */}
-                  {(() => {
-                    const dateOpts = {
-                      day: 'numeric',
-                      month: 'short',
-                      weekday: 'short',
-                      year: 'numeric',
-                    };
-
-                    // const sortedModels = spot.models.sort(
-                    //   (a: IObject, b: IObject) => {
-                    //     return (
-                    //       ((new Date(a.updatedAt) as unknown) as number) -
-                    //       ((new Date(b.updatedAt) as unknown) as number)
-                    //     );
-                    //   },
-                    // );
-
-                    // const lastModel = sortedModels[sortedModels.length - 1];
-
-                    // console.log(lastModel);
-                    interface IModelInfo {
-                      formula: string;
-                      N: number;
-                      BP: number;
-                      R2: number;
-                      n_obs: number;
-                      stat_correct: boolean;
-                      in50: number;
-                      below90: number;
-                      below95: number;
-                      in95: number;
-                    }
-
-                    // {"formula":"log_e.coli ~ r_mean_mean_345","N":0.713,"BP":0.0187,"R2":0.1198,"n_obs":18,"stat_correct":false,"in50":5,"below90":5,"below95":5,"in95":5};
-                    let jsonData: IModelInfo;
-
-                    try {
-                      jsonData = JSON.parse(
-                        lastModel.comment !== undefined
-                          ? lastModel.comment
-                          : '',
-                      );
-                    } catch (error) {
-                      jsonData = {} as IModelInfo;
-                    }
-                    // const lastFive = sortedModels.slice(
-                    //   Math.max(sortedModels.length - 5, 0),
-                    // );
-
-                    // const rows = lastFive
-                    //   .reverse()
-                    //   .map((ele, i) => (
-                    //     <MeasurementTableRow
-                    //       key={i}
-                    //       rowKey={`ID: ${ele.id}`}
-                    //       rowValue={`Generiert am: ${new Date(
-                    //         ele.updatedAt,
-                    //       ).toLocaleDateString('de-DE', dateOpts)}`}
-                    //     />
-                    //   ));
-
-                    if (lastModel === undefined) {
-                      return (
-                        <Table>
-                          <TableBody>
-                            <TableRow th={'k. A.'} tds={['']}></TableRow>
-                          </TableBody>
-                        </Table>
-                      );
-                    }
-                    return (
-                      <Table>
-                        <TableBody>
-                          <TableRow th={'ID:'} tds={[lastModel.id]} />
-                          <TableRow
-                            th={'Generiert am:'}
-                            tds={[
-                              `${new Date(
-                                lastModel.updatedAt,
-                              ).toLocaleDateString('de-DE', dateOpts)}`,
-                            ]}
-                          />
-                          <TableRow
-                            th={'Formel'}
-                            tds={[
-                              jsonData.formula === undefined ||
-                              jsonData.formula.length === 0
-                                ? 'k. A.'
-                                : jsonData.formula,
-                            ]}
-                          />
-                          <TableRow
-                            th={'Anzahl der Datenpunkte'}
-                            tds={[
-                              `${jsonData.n_obs ? jsonData.n_obs : 'k. A.'}`,
-                            ]}
-                          />
-                          <TableRow
-                            th={'Bestimmtheitsmaß (R\u00B2)'}
-                            tds={[`${jsonData.R2 ? jsonData.R2 : 'k. A.'}`]}
-                          />
-                        </TableBody>
-                      </Table>
-                    );
-                  })()}
-                  {/* </tbody> */}
-                  {/* </table> */}
-                </>
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //  *******   ******** ****     ** *******   ******** *******
+  // /**////** /**///// /**/**   /**/**////** /**///// /**////**
+  // /**   /** /**      /**//**  /**/**    /**/**      /**   /**
+  // /*******  /******* /** //** /**/**    /**/******* /*******
+  // /**///**  /**////  /**  //**/**/**    /**/**////  /**///**
+  // /**  //** /**      /**   //****/**    ** /**      /**  //**
+  // /**   //**/********/**    //***/*******  /********/**   //**
+  // //     // //////// //      /// ///////   //////// //     //
+  //
+  //
+  // ---------RENDERING------------------------
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  return (
+    <>
+      <SpotEditorInfoModal
+        isActive={infoShowMode}
+        clickHandler={handleInfoShowModeClick}
+      />
+      {(() => {
+        // if (tableEditMode === true && spot !== undefined) {
+        //   return (
+        //     <MeasurementEditor
+        //       resourceType={'measurements'}
+        //       handleCloseClick={handleTableEditModeClick}
+        //       inData={spot.measurements ? spot.measurements : []}
+        //     />
+        //   );
+        // } else
+        if (basisEditMode === true && spot !== undefined) {
+          return (
+            <Container>
+              {formReadyToRender === true && basisEditMode === true && (
+                <SpotEditorBasisData
+                  initialSpot={spot}
+                  handleEditModeClick={handleBasisEditModeClick}
+                  handleInfoShowModeClick={handleInfoShowModeClick}
+                />
               )}
-            </div>
-          </div>
-          <div className='column is-5'>
-            <h3 className='is-title is-3'>
-              <span>
-                <IconComment></IconComment>
-              </span>{' '}
-              <span>Vorhersage</span>
-            </h3>
-            <Table>
-              <TableBody>
-                {spot !== undefined &&
-                  spot.predictions !== undefined &&
-                  (() => {
-                    const dateOpts = {
-                      day: 'numeric',
-                      month: 'short',
-                      weekday: 'short',
-                      year: 'numeric',
-                    };
-                    const sortedPredictions = spot.predictions.sort(
-                      (a: IObject, b: IObject) => {
-                        return (
-                          ((new Date(a.updatedAt) as unknown) as number) -
-                          ((new Date(b.updatedAt) as unknown) as number)
-                        );
-                      },
-                    );
-                    const lastFive = lastElements(sortedPredictions, 5);
-
-                    const rows = lastFive.reverse().map((ele, i) => {
-                      const tds = [ele.prediction];
-                      return (
-                        <TableRow
-                          key={i}
-                          th={new Date(ele.date).toLocaleDateString(
-                            'de-DE',
-                            dateOpts,
-                          )}
-                          tds={tds}
-                        />
-                      );
-                    });
-                    if (rows.length === 0) {
-                      return <TableRow th='k. A.' tds={['']} />;
-                    }
-                    return rows;
-                  })()}
-              </TableBody>
-            </Table>
-          </div>
-        </ContainerNoColumn>
-        {lastModel !== undefined && lastModel.plotfiles !== undefined && (
-          <SpotModelPlots plotfiles={lastModel.plotfiles}></SpotModelPlots>
-        )}
-        <Container>
-          {isSingleSpotLoading === false && (
-            <div ref={mapRef} id='map__container'>
-              <SpotsMap
-                width={mapDims.width}
-                height={mapDims.height}
-                data={(() => {
-                  return Array.isArray(spot) === true ? spot : [spot];
-                })()}
-                zoom={4}
-              />
-            </div>
-          )}
-        </Container>
-        <ContainerNoColumn>
-          {spot !== undefined && (
+            </Container>
+          );
+        } else if (dataEditMode === true && spot !== undefined) {
+          return (
+            <Container>
+              <SpotEditorMeasurmentsUpload
+                initialValues={{
+                  // csvFile: undefined,
+                  measurements: [],
+                  measurementsUrl: spot.apiEndpoints?.measurementsUrl ?? '',
+                  globalIrradiance: [],
+                  globalIrradianceUrl:
+                    spot.apiEndpoints?.globalIrradianceUrl ?? '',
+                  discharges: [],
+                  dischargesUrl: spot.apiEndpoints?.dischargesUrl ?? '',
+                }}
+                handleInfoClick={handleInfoShowModeClick}
+                handeCloseClick={handleDataEditModeClick}
+                spotId={spot.id}
+                // schema={measurementsSchema}
+                // postData={(data: any) => {
+                //   console.log(
+                //     'This is the data submitted by the new SpotEditorMeasurmentsUpload Formik component ',
+                //     data,
+                //   );
+                // }}
+              ></SpotEditorMeasurmentsUpload>
+            </Container>
+          );
+        } else if (ppDataEditMode === true && spot !== undefined) {
+          const initialValues: ISpotEditorCollectionWithSubItemsInitialValues = {
+            collection: spot.purificationPlants
+              ? spot.purificationPlants
+              : ([{ name: '', url: '' }] as IPurificationPlant[]),
+          };
+          return (
+            <Container>
+              <SpotEditorCollectionWithSubitem
+                validationSchema={pplantSchema}
+                resourceType={ApiResources.purificationPlants}
+                uploadBoxResourceType={'pplantMeasurements'}
+                title={'Klärwerke'}
+                initialValues={initialValues}
+                handeCloseClick={handlePPDataEditModeClick}
+                handleInfoClick={handleInfoShowModeClick}
+                spotId={spot.id}
+              ></SpotEditorCollectionWithSubitem>
+            </Container>
+          );
+        } else if (giDataEditMode === true && spot !== undefined) {
+          const initialValues: ISpotEditorCollectionWithSubItemsInitialValues = {
+            collection: spot.genericInputs
+              ? spot.genericInputs
+              : ([{ name: '', url: '' }] as IGenericInput[]),
+          };
+          return (
+            <Container>
+              <SpotEditorCollectionWithSubitem
+                validationSchema={pplantSchema}
+                resourceType={ApiResources.genericInputs}
+                uploadBoxResourceType={'gInputMeasurements'}
+                title={'Generische Messwete'}
+                initialValues={initialValues}
+                handeCloseClick={handleGIDataEditModeClick}
+                handleInfoClick={handleInfoShowModeClick}
+                spotId={spot.id}
+              ></SpotEditorCollectionWithSubitem>
+            </Container>
+          );
+        } else {
+          return (
             <>
-              <div className='column is-5'>
-                <SpotLocation
-                  name={spot.name}
-                  nameLong={spot.nameLong}
-                  street={spot.street}
-                  location={spot.location}
-                  postalCode={(() => {
-                    if (
-                      spot.postalCode !== undefined &&
-                      spot.postalCode !== null
-                    ) {
-                      return `${spot.postalCode}`;
-                    }
-                    return '';
-                  })()}
-                  city={spot.city}
-                  website={spot.website}
-                />
-              </div>
-              <div className='column is-5'>
-                <SpotImage
-                  image={spot.image}
-                  nameLong={spot.nameLong}
-                  name={spot.name}
-                  imageAuthor={undefined}
-                />
-              </div>
+              {apiState.loading === true && spot === undefined && (
+                <Container>
+                  <h1>
+                    {' '}
+                    {'Aktualisiere Badestellen Daten'}
+                    <Spinner />
+                  </h1>
+                </Container>
+              )}
+              {isAuthenticated === true &&
+                showNotification === true &&
+                spot !== undefined && (
+                  <Container>
+                    <Banner
+                      message={message}
+                      handleClose={handleBannerClose}
+                      bannerType={bannerType}
+                    ></Banner>
+                  </Container>
+                )}
+              {spot !== undefined && (
+                <Container>
+                  <SpotHeader
+                    name={spot.name}
+                    nameLong={spot.nameLong}
+                    water={spot.water}
+                    district={spot.district}
+                    isLoading={apiState.loading}
+                  />
+                </Container>
+              )}
+              {SpotHr()}
+              {isAuthenticated === true && (
+                <Container>
+                  <SpotButtonBar
+                    handlePPEditModeClick={handlePPDataEditModeClick}
+                    handleBasisEditModeClick={handleBasisEditModeClick}
+                    handleInfoShowModeClick={handleInfoShowModeClick}
+                    handleCalibratePredictClick={handleCalibratePredictClick}
+                    handleDataEditModeClick={handleDataEditModeClick}
+                    handleGIEditModeClock={handleGIDataEditModeClick}
+                    ocpuState={ocpuState}
+                  />
+                </Container>
+              )}
+
+              {/**
+               *
+               *
+               *
+               *
+               *
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               * TABLES
+               *
+               *
+               *
+               *
+               *
+               *
+               */}
+              {spot !== undefined && (
+                <ContainerNoColumn>
+                  <SpotTableBlock
+                    title={{
+                      title: 'Vorhersage-Modelle',
+                      iconType: 'IconCalc',
+                    }}
+                    Table={() => SpotModelTable(lastModel)}
+                    // handleEditClick={() => {
+                    //   setTableEditMode(true);
+                    // }}
+                  />
+                  <SpotTableBlock
+                    title={{ title: 'Vorhersage', iconType: 'IconComment' }}
+                    Table={() => PredictionTable(spot)}
+                  />
+                </ContainerNoColumn>
+              )}
+              <ContainerNoColumn>
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{
+                      title: 'letzte E.C./I.C. Messung',
+                      iconType: 'IconCSV',
+                    }}
+                    Table={() => SpotMeasurementsTable(spot)}
+                    // handleEditClick={() => {
+                    //   setTableEditData(spot.measurements);
+                    //   setTableEditMode(true);
+                    // }}
+                  />
+                )}
+
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{
+                      title: 'Mittlere Regenhöhen',
+                      iconType: 'IconRain',
+                    }}
+                    Table={() => RainTable(spot)}
+                  ></SpotTableBlock>
+                )}
+              </ContainerNoColumn>
+              <ContainerNoColumn>
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{
+                      title: 'letzte Globalstrahlungs Messungen',
+                      iconType: 'IconCSV',
+                    }}
+                    Table={() => (
+                      <DefaultTable
+                        unit={'PiratenNinjas'}
+                        measurements={spot.globalIrradiances}
+                      ></DefaultTable>
+                    )}
+                  ></SpotTableBlock>
+                )}
+                {spot !== undefined && (
+                  <SpotTableBlock
+                    title={{
+                      title: 'Letzte Abwasser Messungen',
+                      iconType: 'IconCSV',
+                    }}
+                    Table={() => (
+                      <DefaultTable
+                        unit={'PiratenNinjas'}
+                        measurements={spot.discharges}
+                      ></DefaultTable>
+                    )}
+                  ></SpotTableBlock>
+                )}
+              </ContainerNoColumn>
+              {spot !== undefined && (
+                <ContainerNoColumn>
+                  <SpotTableBlock
+                    title={{
+                      title: 'Klärwerke',
+                      iconType: 'IconIndustry',
+                    }}
+                    Table={() => (
+                      <CollectionWithSubItemTable
+                        items={spot.purificationPlants}
+                      />
+                    )}
+                  ></SpotTableBlock>
+                  <SpotTableBlock
+                    title={{
+                      title: 'Generische Messwerte',
+                      iconType: 'IconCSV',
+                    }}
+                    Table={() => (
+                      <CollectionWithSubItemTable items={spot.genericInputs} />
+                    )}
+                  ></SpotTableBlock>
+                </ContainerNoColumn>
+              )}
+              {lastModel !== undefined && lastModel.plotfiles !== undefined && (
+                <SpotModelPlots
+                  plotfiles={lastModel.plotfiles}
+                ></SpotModelPlots>
+              )}
+              <Container>
+                <div ref={mapRef} id='map__container'>
+                  {spot !== undefined &&
+                    apiState.loading === false &&
+                    mapRef !== null && (
+                      <MapWrapper mapDims={mapDims} spot={spot} />
+                    )}
+                </div>
+              </Container>
+              <ContainerNoColumn>
+                {spot !== undefined && SpotBasicInfos(spot)}
+              </ContainerNoColumn>
+              <Container>
+                {spot !== undefined && SpotAdditionalTags(spot)}
+              </Container>
             </>
-          )}
-        </ContainerNoColumn>
-        <Container>
-          {spot !== undefined && (
-            <div className='bathingspot__body-addon'>
-              <h3>Weitere Angaben zur Badesstelle</h3>
-              <SpotBodyAddonTagGroup
-                cyanoPossible={spot.cyanoPossible}
-                lifeguard={spot.lifeguard}
-                disabilityAccess={spot.disabilityAccess}
-                hasDisabilityAccesableEntrence={
-                  spot.hasDisabilityAccesableEntrence
-                }
-                restaurant={spot.restaurant}
-                snack={spot.snack}
-                parkingSpots={spot.parkingSpots}
-                bathrooms={spot.bathrooms}
-                disabilityAccessBathrooms={spot.disabilityAccessBathrooms}
-                bathroomsMobile={spot.bathroomsMobile}
-                dogban={spot.dogban}
-              />
-            </div>
-          )}
-        </Container>
-      </>
-    );
-  }
+          );
+        }
+      })()}
+    </>
+  );
 };
 
 export default Spot;

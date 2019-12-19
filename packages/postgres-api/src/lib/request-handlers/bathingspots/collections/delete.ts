@@ -1,7 +1,4 @@
 import { HttpCodes, postResponse, deleteResponse } from '../../../common';
-
-import { collectionNames } from './collections';
-
 import {
   errorResponse,
   responder,
@@ -9,16 +6,11 @@ import {
   successResponse,
   responderWrongRoute,
 } from '../../responders';
-
-import { getSpot } from '../../../utils/spot-repo-helpers';
-
 import {
   collectionRepoMapping,
   getColletionItemById,
 } from '../../../utils/collection-repo-helpers';
-
 import { getRepository, getManager } from 'typeorm';
-
 import { SUCCESS } from '../../../messages';
 import { GInputMeasurement, PPlantMeasurement } from '../../../../orm/entity';
 
@@ -84,42 +76,22 @@ export const deleteSubItemMeasurement: deleteResponse = async (
   }
 };
 
-export const deleteCollectionSubItem: postResponse = async (
-  request,
-  response,
-) => {
+export const deleteCollectionItem: postResponse = async (request, response) => {
   try {
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
     const itemId = request.params.itemId;
     const collectionId = request.params.collectionName;
-    if (collectionNames.includes(collectionId) === false) {
-      responder(response, HttpCodes.badRequest, {
-        message: `"${collectionId}" not included in "${JSON.stringify(
-          collectionNames,
-        )}"`,
-        success: false,
-      });
+    const repoName = collectionRepoMapping[collectionId];
+    const repo: any = getRepository(repoName);
+    const entity = await getColletionItemById(itemId, repoName);
+    if (entity !== undefined) {
+      const res = await repo.remove(entity);
+      responder(
+        response,
+        HttpCodes.success,
+        successResponse(SUCCESS.successDelete200, [res]),
+      );
     } else {
-      const spot = await getSpot(userId, spotId); // await query.getOne();
-      if (spot === undefined) {
-        responderWrongId(response);
-      } else {
-        const repoName = collectionRepoMapping[collectionId];
-        const repo: any = getRepository(repoName);
-        const entity = await getColletionItemById(itemId, repoName);
-        if (entity !== undefined) {
-          const res = await repo.remove(entity);
-          responder(
-            response,
-            HttpCodes.success,
-            successResponse(SUCCESS.successDelete200, [res]),
-          );
-        } else {
-          // console.log(entity);
-          responderWrongId(response);
-        }
-      }
+      responderWrongId(response);
     }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));

@@ -236,8 +236,12 @@ export class Bathingspot {
   @Column({ type: 'boolean' })
   public isPublic!: boolean;
 
-  @Column({ type: 'json', nullable: true })
-  public apiEndpoints!: string;
+  @Column({ type: 'simple-json', nullable: true })
+  public apiEndpoints!: {
+    measurementsUrl: string;
+    globalIrradianceUrl: string;
+    dischargesUrl: string;
+  };
 
   @Column({ type: 'json', nullable: true })
   public state!: string;

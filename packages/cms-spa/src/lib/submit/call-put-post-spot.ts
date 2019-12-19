@@ -82,7 +82,7 @@ export const callPutPostSpot = async (
       measurmentData !== undefined &&
       measurmentData.length > 0)
   ) {
-    console.log('posting measurements');
+    //     console.log('posting measurements');
     const postMeasurmentsOpts: IFetchSpotOptions = {
       method: 'POST',
       url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}/${ApiResources.measurements}`,

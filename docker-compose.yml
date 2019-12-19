@@ -24,6 +24,8 @@ services:
         - OCPU_PW=test
     ports:
       - "8888:80"
+      # - "35729:35729"
+      # - "8888:35729"
     depends_on:
       - api
       - spa
@@ -41,6 +43,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - /usr/app/node_modules
+      - /dist
       - ./packages/postgres-api:/usr/app
     # command: npm run dev
     env_file: ./packages/postgres-api/.env
@@ -77,6 +80,7 @@ services:
       - SESSION_SECRET_DEV=test
       - APP_HOST=http://localhost:8888
     volumes:
+      - /dist
       - /usr/app/node_modules
       - ./packages/opencpu-middlelayer:/usr/app
 
@@ -89,6 +93,9 @@ services:
     build:
       context: ./packages/cms-spa
       dockerfile: Dockerfile.dev
+    # ports:
+      # - "35729:35729"
+      # - "35729:80"
     volumes:
       - /usr/app/node_modules
       - ./packages/cms-spa:/usr/app

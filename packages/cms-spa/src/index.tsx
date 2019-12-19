@@ -9,9 +9,6 @@ import * as serviceWorker from './serviceWorker';
 import { Auth0Provider } from './lib/auth/react-auth0-wrapper';
 // import { Auth0Provider } from './react-auth0-wrapper-offline';
 
-// import config from './auth_config.json';
-import { Provider } from 'react-redux';
-import store from './lib/state/store';
 import ErrorBoundary from './components/ErrorBoundary';
 import {
   REACT_APP_AUTH0_DOMAIN,
@@ -20,7 +17,9 @@ import {
 } from './lib/config';
 import { OcpuProvider } from './contexts/opencpu';
 import { EventSourceProvider } from './contexts/eventsource';
-// import Toggle from './components/Toggle';
+import { ApiProvider } from './contexts/postgres-api';
+// import { Provider } from 'react-redux';
+// import store from './lib/state/store';
 // A function that routes the user to the right place
 // after login
 const onRedirectCallback = (appState: any) => {
@@ -35,27 +34,29 @@ const onRedirectCallback = (appState: any) => {
 
 ReactDOM.render(
   <ErrorBoundary>
-    <Provider store={store}>
-      <EventSourceProvider>
+    {/* <Provider store={store}> */}
+    <Auth0Provider
+      domain={REACT_APP_AUTH0_DOMAIN}
+      client_id={REACT_APP_AUTH0_CLIENTID}
+      redirect_uri={window.location.origin}
+      audience={REACT_APP_AUTH0_AUDIENCE}
+      onRedirectCallback={onRedirectCallback}
+    >
+      <ApiProvider>
         <OcpuProvider>
-          <Auth0Provider
-            domain={REACT_APP_AUTH0_DOMAIN}
-            client_id={REACT_APP_AUTH0_CLIENTID}
-            redirect_uri={window.location.origin}
-            audience={REACT_APP_AUTH0_AUDIENCE}
-            onRedirectCallback={onRedirectCallback}
-          >
+          <EventSourceProvider>
             <App />
-          </Auth0Provider>
+          </EventSourceProvider>
         </OcpuProvider>
-      </EventSourceProvider>
-    </Provider>
+      </ApiProvider>
+    </Auth0Provider>
+    {/* </Provider> */}
   </ErrorBoundary>,
   document.getElementById('root'),
 );
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-if (process.env.NODE_ENV === 'production') {
-  serviceWorker.unregister();
-}
+// if (process.env.NODE_ENV === 'production') {
+serviceWorker.unregister();
+// }

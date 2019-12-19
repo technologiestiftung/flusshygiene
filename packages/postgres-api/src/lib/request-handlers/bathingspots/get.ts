@@ -6,6 +6,7 @@ import {
   findByUserAndRegion,
   getAllSpotsFromUser,
   getSpot,
+  getSpotCount,
 } from '../../utils/spot-repo-helpers';
 import { getUserById } from '../../utils/user-repo-helpers';
 import {
@@ -16,12 +17,10 @@ import {
 } from '../responders';
 // import { responderWrongIdOrSuccess } from '../responders';
 import { Bathingspot } from './../../../orm/entity/Bathingspot';
+
 /**
  * Gets all the bathingspots of the user
- * @param request
- * @param response
  */
-
 export const getUserBathingspots: getResponse = async (request, response) => {
   try {
     const user = await getUserById(request.params.userId);
@@ -56,9 +55,24 @@ export const getUserBathingspots: getResponse = async (request, response) => {
 };
 
 /**
+ * Gets the count of bathingspots from user
+ */
+export const getSpotsCount: getResponse = async (_request, response) => {
+  try {
+    const count = await getSpotCount(response.locals.user.id);
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(SUCCESS.success200, [count], false),
+    );
+  } catch (e) {
+    responder(response, HttpCodes.internalError, errorResponse(e));
+  }
+};
+
+/**
  * Gets single bathingspot of user by id
- * @param request
- * @param response
+
  */
 export const getOneUserBathingspotById: getResponse = async (
   request,

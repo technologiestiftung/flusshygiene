@@ -1,3 +1,4 @@
+__test-files/MOCK_DATA*.csv
 Dockerfile.secret
 .netlify/*
 auth_config.json

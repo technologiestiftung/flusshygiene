@@ -1,10 +1,10 @@
-FROM node:10.16.3-alpine as builder
+FROM node:12.13.1-alpine as builder
 LABEL maintainer="Fabian Morón Zirfas"
 LABEL description="A frontend for a the  postgres/postgis api used in the project flusshygiene"
 ENV NODE_ENV=development
 WORKDIR /usr/app
 COPY ./package*.json ./
-RUN npm ci --quiet
+RUN npm ci
 COPY ./ ./
 EXPOSE 3000
 ENTRYPOINT [ "npm", "start", "--" ]

@@ -113,3 +113,25 @@ export const measurementsSchema = Yup.object().shape({
     // .positive()
     .required('Kein integer >= 0'),
 });
+
+export const defaultMeasurementsSchema = Yup.object().shape({
+  date: Yup.date().required('Kein valides datum'),
+  value: Yup.number()
+    // .integer()
+    // .positive()
+    .required('Kein Fließkommawert >= 0'),
+});
+
+export const pplantSchema = Yup.object().shape({
+  purificationPlants: Yup.array().of(
+    Yup.object().shape({
+      name: Yup.string()
+        .min(3, 'Der Name ist zu kurz.')
+        .max(50, 'Der Name ist zu lang.')
+        .required('Required'),
+      url: Yup.string()
+        .url('Keine valide URL.')
+        .nullable(),
+    }),
+  ),
+});
