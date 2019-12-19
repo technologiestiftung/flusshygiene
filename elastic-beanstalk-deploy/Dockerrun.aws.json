@@ -15,6 +15,7 @@
         }
       ]
     },
+
     {
       "name": "ocpu",
       "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.3.0-dev",
