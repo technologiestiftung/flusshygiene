@@ -319,7 +319,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
          *
          */
       } else if (action.payload.requestType.type === 'POST') {
-        console.log('called POST');
+        // console.log('called POST');
         switch (action.payload.requestType.resource) {
           case 'purificationPlants':
           case 'genericInputs':
@@ -327,8 +327,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           case 'measurements':
           case 'discharges':
           case 'globalIrradiances': {
-            console.log(`POST data for ${action.payload.requestType.resource}`);
-            console.log(action.payload.response);
+            // console.log(`POST data for ${action.payload.requestType.resource}`);
+            // console.log(action.payload.response);
 
             const reload = state.reload + 1;
             let reloadSubItems = state.reloadSubItems;
