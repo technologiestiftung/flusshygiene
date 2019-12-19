@@ -24,7 +24,7 @@ import { Container, ContainerNoColumn } from './Container';
 import { useOcpu, postOcpu } from '../contexts/opencpu';
 import { useEventSource } from '../contexts/eventsource';
 import { useApi, apiRequest } from '../contexts/postgres-api';
-import { Banner } from './spot/elements/Spot-Banner';
+import { Banner, BannerType } from './spot/elements/Spot-Banner';
 import { SpotButtonBar } from './spot/elements/Spot-ButtonBar';
 import { SpotAdditionalTags } from './spot/elements/Spot-AdditionalTags';
 import { SpotBasicInfos } from './spot/elements/Spot-BasicInfos';
@@ -72,6 +72,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [token, setToken] = useState<string>();
 
   const [showNotification, setShowNotification] = useState(false);
+  const [bannerType, setBannerType] = useState<BannerType | undefined>(
+    undefined,
+  );
 
   const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
   const [pplantsNumber, setPPlantsNumber] = useState<number | undefined>(
@@ -172,6 +175,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     setShowNotification((prevState) => !prevState);
   };
 
+  const handleBannerClose = (e?: React.ChangeEvent<any>) => {
+    e?.preventDefault();
+    setShowNotification(false);
+  };
   //   ******** ******** ******** ********   ******  **********  ********
   //  /**///// /**///// /**///// /**/////   **////**/////**///  **//////
   //  /**      /**      /**      /**       **    //     /**    /**
@@ -215,16 +222,16 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   /**
    * Timing effect for the banner display time
    */
-  useEffect(() => {
-    if (showNotification === false) return;
-    const timeout = setTimeout(() => {
-      setShowNotification(false);
-    }, 7000);
+  // useEffect(() => {
+  //   if (showNotification === false) return;
+  //   // const timeout = setTimeout(() => {
+  //   //   setShowNotification(false);
+  //   // }, 7000);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [showNotification]);
+  //   // return () => {
+  //   //   clearTimeout(timeout);
+  //   // };
+  // }, [showNotification]);
 
   /**
    * this effect sets the content of the banner based on ocpu data
@@ -232,6 +239,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    */
   useEffect(() => {
     setMessage(JSON.stringify(ocpuState.responses[0]));
+    setBannerType('normal');
     setShowNotification(true);
   }, [ocpuState]);
 
@@ -241,12 +249,14 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    */
   useEffect(() => {
     setMessage(JSON.stringify(eventSourceState));
+    setBannerType('normal');
     setShowNotification(true);
   }, [eventSourceState]);
 
   useEffect(() => {
     if (apiState.error === undefined) return;
     setMessage(JSON.stringify(apiState.error?.error?.message));
+    setBannerType('error');
     setShowNotification(true);
   }, [apiState.error]);
   /**
@@ -745,7 +755,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 showNotification === true &&
                 spot !== undefined && (
                   <Container>
-                    <Banner message={message}></Banner>
+                    <Banner
+                      message={message}
+                      handleClose={handleBannerClose}
+                      bannerType={bannerType}
+                    ></Banner>
                   </Container>
                 )}
               {spot !== undefined && (
@@ -773,6 +787,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   />
                 </Container>
               )}
+
               {/**
                *
                *
