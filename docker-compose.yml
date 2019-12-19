@@ -24,6 +24,8 @@ services:
         - OCPU_PW=test
     ports:
       - "8888:80"
+      # - "35729:35729"
+      # - "8888:35729"
     depends_on:
       - api
       - spa
@@ -91,6 +93,9 @@ services:
     build:
       context: ./packages/cms-spa
       dockerfile: Dockerfile.dev
+    # ports:
+      # - "35729:35729"
+      # - "35729:80"
     volumes:
       - /usr/app/node_modules
       - ./packages/cms-spa:/usr/app
