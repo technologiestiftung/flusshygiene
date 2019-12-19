@@ -145,7 +145,7 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
           postData(values).catch((err) => {
             throw err;
           });
-          console.log('values in form', values);
+          // console.log('values in form', values);
           setSubmitting(apiState.loading);
           handeCloseClick();
         }}

@@ -92,7 +92,7 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
         return item;
       }
     });
-    console.log('delted items', deletedItems);
+    // console.log('delted items', deletedItems);
     /**
      * delete actions
      */
@@ -123,7 +123,7 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
           });
 
           if (Object.keys(target).length > 0) {
-            console.log(`diff for item.id ${item.id}`);
+            // console.log(`diff for item.id ${item.id}`);
             actions.push(
               actionCreator({
                 body: target,
@@ -155,8 +155,8 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
       );
     }
 
-    console.log('isDirty', isDirty);
-    console.log('actions', actions);
+    // console.log('isDirty', isDirty);
+    // console.log('actions', actions);
 
     if (actions.length > 0) {
       actions.forEach((action) => {
@@ -171,7 +171,7 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
         validationSchema={validationSchema}
         enableReinitialize={true}
         onSubmit={(values, bag) => {
-          console.log('values in pp form', values);
+          // console.log('values in pp form', values);
           bag.setSubmitting(true);
           postData({ values, spotId });
           handeCloseClick();

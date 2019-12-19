@@ -493,7 +493,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     if (spot === undefined) return;
     if (user.pgapiData === undefined) return;
     if (spot.genericInputs === undefined) return;
-    console.log('Gis m update hook');
+    // console.log('Gis m update hook');
     const baseUrl = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${match.params.id}`;
 
     const actions: IApiAction[] = [];

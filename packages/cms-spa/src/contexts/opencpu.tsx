@@ -21,12 +21,12 @@ const ocpuReducer: (
   switch (action.type) {
     case 'START_OCPU_REQUEST': {
       const locAction = action as IOcpuStartAction;
-      console.log('request started');
+      // console.log('request started');
 
       return { ...state, processing: locAction.payload.processingType };
     }
     case 'FINISH_OCPU_REQUEST': {
-      console.log('request finished');
+      // console.log('request finished');
       const locAction = action as IOcpuFinishAction;
 
       return {
@@ -36,7 +36,7 @@ const ocpuReducer: (
       };
     }
     case 'FAIL_OCPU_REQUEST': {
-      console.log('request failed');
+      //       console.log('request failed');
       const locAction = action as IOcpuFailAction;
 
       return {
@@ -81,8 +81,8 @@ const postOcpu = async (dispatch: Dispatch, action: IOcpuAction) => {
   const fetchAction = action as IOcpuStartAction;
   dispatch(fetchAction);
   try {
-    console.log('ocpu action triggered');
-    console.log(fetchAction.payload.config);
+    //     console.log('ocpu action triggered');
+    //     console.log(fetchAction.payload.config);
     response = await fetch(fetchAction.payload.url, fetchAction.payload.config);
     // console.log(response);
     if (response.ok === true) {

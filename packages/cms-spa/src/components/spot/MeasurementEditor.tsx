@@ -84,11 +84,12 @@ export const MeasurementEditor: React.FC<{
     columns,
     data,
   });
-
-  console.log('headerGroups:', headerGroups);
-  console.log('getTableProps:', getTableProps());
-  console.log('getTableBodyProps:', getTableBodyProps());
-  console.log('Data to edit', inData);
+  // console.group('Meas. Editor');
+  // console.log('headerGroups:', headerGroups);
+  // console.log('getTableProps:', getTableProps());
+  // console.log('getTableBodyProps:', getTableBodyProps());
+  // console.log('Data to edit', inData);
+  // console.groupEnd()
   return (
     <>
       <Container>

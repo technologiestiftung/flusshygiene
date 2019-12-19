@@ -81,7 +81,7 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
     //   return;
     // }
     eventSource.current.addEventListener('passthrough', (event) => {
-      console.log('passthrough', event);
+      // console.log('passthrough', event);
       const action: IEventAction = { type: 'INCOMING', event };
       dispatch(action);
     });

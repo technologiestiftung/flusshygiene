@@ -185,8 +185,8 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     mode: editMode,
     onStopDragging: () => {},
     onEdit: ({ updatedData, editContext }) => {
-      console.log('updated data from nebula');
-      console.log(editContext);
+      // console.log('updated data from nebula');
+      // console.log(editContext);
 
       // console.log(updatedData);
       const pointFeatures = updatedData.features.filter(
@@ -321,7 +321,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
                 return;
               }
               if (info) {
-                console.log(`select editing feature ${info.index}`);
+                // console.log(`select editing feature ${info.index}`);
                 if (info.index >= 0) {
                   setSelectedIndex([info.index]);
                 }

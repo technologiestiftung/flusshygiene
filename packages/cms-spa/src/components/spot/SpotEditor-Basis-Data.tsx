@@ -85,7 +85,7 @@ export const SpotEditorBasisData: React.FC<{
         body,
       });
       // console.log('post options', postSpotOpts);
-      console.log('action ', action);
+      // console.log('action ', action);
       apiRequest(apiDispatch, action);
     }
     // if (
@@ -129,9 +129,9 @@ export const SpotEditorBasisData: React.FC<{
             location?: IGeoJsonGeometry,
             area?: IGeoJsonGeometry,
           ) => void = (e, location, area) => {
-            console.log('handel geojson update');
+            // console.log('handel geojson update');
             if (area !== undefined) {
-              console.log('the area', area);
+              // console.log('the area', area);
               props.setFieldValue('area', area);
             }
             if (location !== undefined) {

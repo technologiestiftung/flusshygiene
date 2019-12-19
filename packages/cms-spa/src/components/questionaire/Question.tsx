@@ -138,7 +138,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
         </div>
         <button
           onClick={(e) => {
-            console.log('click x modal');
+            // console.log('click x modal');
             e.preventDefault();
             setIsModalActive((_) => false);
           }}
@@ -155,7 +155,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
           }}
           enableReinitialize={true}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            console.log('submitted', values);
+            // console.log('submitted', values);
             dispatch({
               type: 'SET_TITLE',
               payload: { title: values.questionnaireTitle },
@@ -204,7 +204,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       isSubmitting={isSubmitting}
                       handleInfoClick={(e: React.ChangeEvent<any>) => {
                         // calls info button
-                        console.log(e.currentTarget.id);
+                        // console.log(e.currentTarget.id);
                         handleModalClick(e);
                       }}
                       handleReportClick={(e: React.ChangeEvent<any>) => {

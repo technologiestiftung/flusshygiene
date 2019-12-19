@@ -133,7 +133,7 @@ const SpotsMap: React.FC<IMapsProps> = ({
                 radiusScale={6}
                 stroked={true}
                 onClick={(info) => {
-                  console.log(info.object);
+                  // console.log(info.object);
                   history.push(`${RouteNames.bathingspot}/${info.object.id}`);
                 }}
                 onHover={(info) => {
