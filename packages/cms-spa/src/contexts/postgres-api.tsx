@@ -393,6 +393,42 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             throw new Error('no default PUT case defined');
           }
         }
+
+        //  ________  _______   ___
+        // |\   ___ \|\  ___ \ |\  \
+        // \ \  \_|\ \ \   __/|\ \  \
+        //  \ \  \ \\ \ \  \_|/_\ \  \
+        //   \ \  \_\\ \ \  \_|\ \ \  \____
+        //    \ \_______\ \_______\ \_______\
+        //     \|_______|\|_______|\|_______|
+      } else if (action.payload.requestType.type === 'DELETE') {
+        switch (action.payload.requestType.resource) {
+          case 'bathingspot':
+          case 'bathingspots':
+          case 'discharges':
+          case 'globalIrradiances':
+          case 'purificationPlants':
+          case 'gInputMeasurements':
+          case 'pplantMeasurements':
+          case 'genericInputs':
+          case 'measurements': {
+            // let reloadSubItems = state.reloadSubItems;
+            // let reload = state.reload;
+
+            // if (
+            //   subItemsList.includes(action.payload.requestType.resource) ===
+            //   true
+            // ) {
+            //   reloadSubItems = state.reloadSubItems + 1;
+            // } else {
+            const reload = state.reload + 1;
+            // }
+            return { ...state, loading: false, reload };
+          }
+          default: {
+            throw new Error('no default DELETE case defined');
+          }
+        }
       } else {
         return { ...state, loading: false };
       }
@@ -408,6 +444,34 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
   }
 };
 
+//  _______   ________   ________
+// |\  ___ \ |\   ___  \|\   ___ \
+// \ \   __/|\ \  \\ \  \ \  \_|\ \
+//  \ \  \_|/_\ \  \\ \  \ \  \ \\ \
+//   \ \  \_|\ \ \  \\ \  \ \  \_\\ \
+//    \ \_______\ \__\\ \__\ \_______\
+//     \|_______|\|__| \|__|\|_______|
+
+//  ________  ________
+// |\   __  \|\  _____\
+// \ \  \|\  \ \  \__/
+//  \ \  \\\  \ \   __\
+//   \ \  \\\  \ \  \_|
+//    \ \_______\ \__\
+//     \|_______|\|__|
+
+//  ________  _______   ________  ___  ___  ________  _______   ________
+// |\   __  \|\  ___ \ |\   ___ \|\  \|\  \|\   ____\|\  ___ \ |\   __  \
+// \ \  \|\  \ \   __/|\ \  \_|\ \ \  \\\  \ \  \___|\ \   __/|\ \  \|\  \
+//  \ \   _  _\ \  \_|/_\ \  \ \\ \ \  \\\  \ \  \    \ \  \_|/_\ \   _  _\
+//   \ \  \\  \\ \  \_|\ \ \  \_\\ \ \  \\\  \ \  \____\ \  \_|\ \ \  \\  \|
+//    \ \__\\ _\\ \_______\ \_______\ \_______\ \_______\ \_______\ \__\\ _\
+//     \|__|\|__|\|_______|\|_______|\|_______|\|_______|\|_______|\|__|\|__|
+
+/**
+ * Init the ApiProvider
+ *
+ */
 const ApiProvider: (children: ApiProviderProps) => JSX.Element = ({
   children,
 }) => {

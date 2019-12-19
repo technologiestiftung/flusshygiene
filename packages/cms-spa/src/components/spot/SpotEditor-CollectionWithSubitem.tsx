@@ -76,6 +76,38 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
     const actions: IApiAction[] = [];
 
     /**
+     * Delete actions
+     */
+    const deletedItems = cleanedInitialValues.collection.filter((item) => {
+      let found: boolean = false;
+      for (const newItem of collection) {
+        if (item.id === newItem.id) {
+          found = true;
+          break;
+        }
+      }
+      if (found === true) {
+        return null;
+      } else {
+        return item;
+      }
+    });
+    console.log('delted items', deletedItems);
+    /**
+     * delete actions
+     */
+    deletedItems.forEach((delItem) => {
+      actions.push(
+        actionCreator({
+          body: {},
+          token,
+          url: `${baseUrl}/${delItem.id}`,
+          method: 'DELETE',
+          resource: resourceType,
+        }),
+      );
+    });
+    /**
      * PUT actions
      */
     cleanedInitialValues.collection.forEach((item, index) => {
