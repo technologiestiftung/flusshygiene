@@ -443,3 +443,5 @@ export type ColorNames = 'grün' | 'gelb' | 'orange' | 'türkis' | 'rot';
  * currently only the match string from the url
  */
 export type RouteProps = RouteComponentProps<{ id: string }>;
+
+export type ClickFunction = (event?: React.ChangeEvent<any>) => void;

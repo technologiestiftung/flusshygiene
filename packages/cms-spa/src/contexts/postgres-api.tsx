@@ -22,7 +22,7 @@ function matchSpotId(action: IApiAction) {
 
 type Dispatch = (action: IApiAction) => void;
 type ApiProviderProps = { children: React.ReactNode };
-const hasSubItemsList = ['genericInputs', 'purificationPlants'];
+const subItemsList = ['genericInputs', 'purificationPlants'];
 
 const ApiStateContext = createContext<IApiState | undefined>(undefined);
 
@@ -333,7 +333,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             const reload = state.reload + 1;
             let reloadSubItems = state.reloadSubItems;
             if (
-              hasSubItemsList.includes(action.payload.requestType.resource) ===
+              subItemsList.includes(action.payload.requestType.resource) ===
               true
             ) {
               reloadSubItems = state.reloadSubItems + 1;
@@ -376,16 +376,15 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           case 'purificationPlants':
           case 'genericInputs':
           case 'measurements': {
-            console.log('PUT bathingspot or measurements');
-            console.log(action.payload.response);
+            // console.log('PUT bathingspot or measurements');
+            // console.log(action.payload.response);
             const reload = state.reload + 1;
             let reloadSubItems = state.reloadSubItems;
             if (
-              hasSubItemsList.includes(action.payload.requestType.resource) ===
+              subItemsList.includes(action.payload.requestType.resource) ===
               true
             ) {
-              console.log('reload suitem update');
-
+              // console.log('reload suitem update');
               reloadSubItems = state.reloadSubItems + 1;
             }
             return { ...state, reload, reloadSubItems, loading: false };

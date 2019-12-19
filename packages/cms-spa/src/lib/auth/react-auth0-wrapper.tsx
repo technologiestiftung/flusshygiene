@@ -69,13 +69,18 @@ export const Auth0Provider = ({
           `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}?auth0Id=${user.sub}`,
           opts,
         );
-        let json = await response.json();
-        // console.log(json);
-        // const getUserId
-        if (json.data.length > 0) {
+        try {
+          let json = await response.json();
+          // console.log(json);
+          // const getUserId
+          // if (json.data.length > 0) {
+          // }
+          user.pgapiData = json.data[0];
+          setUser(user);
+        } catch (err) {
+          console.error(err);
+          throw err;
         }
-        user.pgapiData = json.data[0];
-        setUser(user);
       }
 
       setLoading(false);

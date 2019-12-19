@@ -9,9 +9,7 @@ import {
   IconCSV,
   IconHelp,
 } from '../../fontawesome-icons';
-import { IOcpuState } from '../../../lib/common/interfaces';
-
-type ClickFunction = (event?: React.ChangeEvent<any>) => void;
+import { IOcpuState, ClickFunction } from '../../../lib/common/interfaces';
 
 export const SpotButtonBar: React.FC<{
   handleBasisEditModeClick: ClickFunction;

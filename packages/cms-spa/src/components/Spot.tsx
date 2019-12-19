@@ -406,35 +406,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         resource: 'genericInputs',
       }),
     );
-    if (spot !== undefined && spot.purificationPlants !== undefined) {
-      spot.purificationPlants.forEach((gi) => {
-        actions.push(
-          actionCreator({
-            body: {},
-            token,
-            method: 'GET',
-            url: `${baseUrl}/${ApiResources.genericInputs}/${gi.id}/${ApiResources.measurements}`,
-            type: ApiActionTypes.START_API_REQUEST,
-            resource: 'gInputMeasurements',
-          }),
-        );
-      });
-    }
-
-    if (spot !== undefined && spot.purificationPlants !== undefined) {
-      spot.purificationPlants.forEach((plant) => {
-        actions.push(
-          actionCreator({
-            body: {},
-            token,
-            method: 'GET',
-            url: `${baseUrl}/${ApiResources.purificationPlants}/${plant.id}/${ApiResources.measurements}`,
-            type: ApiActionTypes.START_API_REQUEST,
-            resource: 'pplantMeasurements',
-          }),
-        );
-      });
-    }
 
     if (actions.length > 0) {
       actions.forEach((action) => {
