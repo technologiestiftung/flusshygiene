@@ -87,7 +87,7 @@ const NavBar = () => {
                     })
                   }
                 >
-                  Log in
+                  Einloggen
                 </button>
               </div>
             </div>
@@ -96,7 +96,7 @@ const NavBar = () => {
             <div className='navbar-item'>
               <div className='buttons'>
                 <NavLink to='/profile' className='button'>
-                  Profile
+                  Profil
                 </NavLink>
                 <button
                   className='button'
@@ -106,7 +106,7 @@ const NavBar = () => {
                     })
                   }
                 >
-                  Log out
+                  Ausloggen
                 </button>
               </div>
             </div>
