@@ -1,0 +1,15 @@
+{
+  "exclude": [
+    "node_modules",
+    ".vscode",
+    "dist",
+    "src/types",
+    "examples",
+    "__mocks__"
+  ],
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "types": ["jest", "node"]
+  }
+}
