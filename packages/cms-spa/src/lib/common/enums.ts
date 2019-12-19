@@ -34,6 +34,9 @@ export enum RouteNames {
   user = 'user',
   passwordreset = 'user/password-reset',
   callback = 'callback',
+  imprint = 'impressum',
+  profile = 'profil',
+  privacy = 'datenschutz',
 }
 
 export enum RouteParams {

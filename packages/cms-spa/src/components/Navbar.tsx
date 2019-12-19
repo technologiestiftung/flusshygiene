@@ -80,10 +80,10 @@ const NavBar = () => {
               <div className='buttons'>
                 <button className='button is-hidden'>Registrieren</button>
                 <button
-                  className='button is-primary'
+                  className='button is-small is-primary'
                   onClick={() =>
                     loginWithRedirect({
-                      redirect_uri: `${window.location.protocol}//${window.location.host}/profile`,
+                      redirect_uri: `${window.location.protocol}//${window.location.host}/${RouteNames.profile}`,
                     })
                   }
                 >
@@ -95,11 +95,14 @@ const NavBar = () => {
           {isAuthenticated && (
             <div className='navbar-item'>
               <div className='buttons'>
-                <NavLink to='/profile' className='button'>
+                <NavLink
+                  to={`/${RouteNames.profile}`}
+                  className='button is-small'
+                >
                   Profil
                 </NavLink>
                 <button
-                  className='button'
+                  className='button is-small'
                   onClick={() =>
                     logout({
                       returnTo: `${window.location.protocol}//${window.location.host}`,
