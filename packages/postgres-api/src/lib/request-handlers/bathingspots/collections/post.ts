@@ -468,7 +468,7 @@ export const postCollection: postResponse = async (request, response) => {
             }
           }
         }
-        console.log('post collection res', res);
+        // console.log('post collection res', res);
         // try {
         // res = await repo.save(mergedEntities);
         await getRepository(Bathingspot).save(spotWithRelation);

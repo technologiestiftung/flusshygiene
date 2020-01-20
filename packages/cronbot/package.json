@@ -12,11 +12,11 @@
   "license": "MIT",
   "main": "dist/index.js",
   "directories": {
-    "lib": "lib",
+    "lib": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -26,11 +26,17 @@
     "url": "git+https://github.com/technologiestiftung/flusshygiene.git"
   },
   "scripts": {
+    "build": "just build",
+    "just": "just",
+    "jest": "jest",
+    "dev": "just dev",
+    "start": "just start",
+    "test:ci": "just test",
+    "test": "just jest:watch",
+    "change": "beachball change",
+    "gen": "plop",
     "ts-node": "ts-node src/index.ts",
-    "test": "jest",
     "test:watch": "jest --watch",
-    "build": "tsc -p .",
-    "start": "node -r dotenv/config dist/index.js",
     "prettier": "prettier \"**/*.+(js|json|yml|yaml|ts)\"",
     "prettier:list": "npm run prettier -- --list-different",
     "prettier:write": "npm run prettier -- --write",
@@ -48,17 +54,19 @@
     "@types/node": "^12.12.21",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
     "@typescript-eslint/parser": "^2.12.0",
+    "beachball": "^1.16.0",
     "cz-conventional-changelog": "^3.0.2",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
+    "just-scripts": "^0.36.1",
     "lint-staged": "^9.5.0",
     "nodemon": "^2.0.2",
+    "plop": "^2.5.3",
     "prettier": "^1.19.1",
     "ts-jest": "^24.2.0",
-    "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },
   "husky": {
@@ -67,7 +75,9 @@
     }
   },
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "got": "^10.2.2",
+    "meow": "^6.0.0"
   },
   "config": {
     "commitizen": {

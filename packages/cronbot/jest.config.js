@@ -1,4 +1,5 @@
 module.exports = {
+  roots: ["<rootDir>/src"],
   globals: {
     "ts-jest": {
       tsConfig: "./tsconfig.jest.json",
@@ -9,6 +10,7 @@ module.exports = {
     "^.+\\.ts?$": "ts-jest",
   },
   testEnvironment: "node",
+  setupFiles: ["dotenv/config"],
   // setupFilesAfterEnv: ['<rootDir>/__tests__/jest.setup.after-env.ts'],
   testRegex: "/__tests__/.*\\.(test|spec)?\\.(ts|tsx)$",
   // globalSetup: '<rootDir>/__tests__/jest.setup.ts',
@@ -16,7 +18,7 @@ module.exports = {
   moduleFileExtensions: ["js", "json", "jsx", "node", "ts", "tsx"],
   collectCoverage: true,
   coverageReporters: ["lcov", "text"],
-  collectCoverageFrom: ["src/**/*.{ts}"],
+  collectCoverageFrom: ["src/**/*.ts"],
   coverageThreshold: {
     global: {
       branches: 75,

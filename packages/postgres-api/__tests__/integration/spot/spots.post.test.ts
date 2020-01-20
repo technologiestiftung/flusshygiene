@@ -59,7 +59,7 @@ describe('testing bathingspots post for a specific user', () => {
   // });
   afterAll(async (done) => {
     try {
-      await reloadTestingDatabases(connections);
+      // await reloadTestingDatabases(connections);
       await closeTestingConnections(connections);
       done();
     } catch (err) {
@@ -148,6 +148,40 @@ describe('testing bathingspots post for a specific user', () => {
     expect(res.status).toBe(404);
     expect(res.body.success).toBe(false);
     expect(res.body.message).toEqual(ERRORS.badRequestMissingOrWrongID404);
+    done();
+  });
+
+  test('Should add apiEndpoints to spot', async (done) => {
+    const u = new User();
+
+    u.firstName = 'foo';
+    u.lastName = 'bah';
+    u.email = 'foo@bah.com';
+
+    u.role = UserRole.creator;
+    const userRepo = getRepository(User);
+    const user = await userRepo.save(u);
+    const apiEndpoints = { measurementsUrl: 'http://example.com' };
+    const spotRes = await request(app)
+      .post(`/api/v1/users/${user.id}/bathingspots`)
+      .send({ isPublic: true, name: 'Goohooo Boo' })
+      .set(headers);
+    // console.log(spotRes.body); // eslint-disable-line
+    const spotResAgain = await request(app)
+      .put(`/api/v1/users/${user.id}/bathingspots/${spotRes.body.data[0].id}`)
+      .send({ apiEndpoints: apiEndpoints })
+      .set(headers);
+
+    // console.log(spotResAgain.body); // eslint-disable-line
+
+    const res = await request(app)
+      .get(
+        `/api/v1/users/${user.id}/bathingspots/${spotResAgain.body.data[0].id}`,
+      )
+      .set(headers);
+
+    expect(res.body.data[0].apiEndpoints).toStrictEqual(apiEndpoints);
+
     done();
   });
 

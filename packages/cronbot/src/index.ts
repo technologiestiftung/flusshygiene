@@ -2,8 +2,9 @@
  * Should
  * - get a token
  *
+ * - get all users?
  *
- * - get all spots
+ * - get all users? spots
  *    - get all endpoints
  *    - get all data
  *    - POST

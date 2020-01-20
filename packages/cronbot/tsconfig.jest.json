@@ -5,7 +5,6 @@
     "dist",
     "src/types",
     "examples",
-    "__mocks__"
   ],
   "extends": "./tsconfig.json",
   "compilerOptions": {

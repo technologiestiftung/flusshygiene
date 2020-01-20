@@ -3,10 +3,12 @@
     "**/*.test.ts",
     "**/*.spec.ts",
     ".git",
-    "node_modules/**/node_modules"
+    "node_modules/**/node_modules",
+    "**/__tests__",
+    "**/__mocks__"
   ],
-  "watch": ["./src"],
-  "exec": "./node_modules/.bin/tsc -p . && node -r dotenv/config --inspect dist/index.js",
+  "watch": ["./dist"],
+  "exec": "node -r dotenv/config --inspect dist/index.js",
   "ext": "ts,json",
   "restartable": "rs",
   "verbose": true,
