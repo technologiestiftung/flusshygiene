@@ -5,7 +5,8 @@
     ".git",
     "node_modules/**/node_modules",
     "**/__tests__",
-    "**/__mocks__"
+    "**/__mocks__",
+    "dist/**/*.d.ts"
   ],
   "watch": ["./dist"],
   "exec": "node -r dotenv/config --inspect dist/index.js",

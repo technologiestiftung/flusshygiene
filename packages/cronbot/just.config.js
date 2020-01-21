@@ -49,4 +49,4 @@ task("nodemon", function() {
       logger.info("App restarted due to: ", files);
     });
 });
-task("dev", series("clean", "ts", parallel("ts:watch", "nodemon")));
+task("dev", series("clean", "ts", parallel("ts:watch")));

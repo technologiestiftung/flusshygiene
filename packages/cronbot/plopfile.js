@@ -17,4 +17,21 @@ module.exports = function(plop) {
       },
     ],
   });
+  plop.setGenerator("test", {
+    description: "jest test boilerplate",
+    prompts: [
+      {
+        type: "input",
+        name: "name",
+        message: "test name please",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "src/__tests__/{{name}}.test.ts",
+        templateFile: "plop-templates/test.hbs",
+      },
+    ],
+  });
 };
