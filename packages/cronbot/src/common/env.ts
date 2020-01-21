@@ -7,6 +7,15 @@ const AUTH0_CLIENT_SECRET: string | undefined = process.env.AUTH0_CLIENT_SECRET;
 const AUTH0_TOKEN_ISSUER: string | undefined = process.env.AUTH0_TOKEN_ISSUER;
 // dereived
 const API_URL: string | undefined = `${API_HOST}/api/${API_VERSION}`;
+let CRONBOT_API_TOKEN: string | undefined;
+
+export const setApiToken: (token: string) => void = (token) => {
+  CRONBOT_API_TOKEN = token;
+};
+
+export const getApiToken: () => string | undefined = () => {
+  return CRONBOT_API_TOKEN;
+};
 
 // #########
 if (AUTH0_AUDIENCE === undefined) {
@@ -29,6 +38,9 @@ if (API_HOST === undefined) {
 if (API_VERSION === undefined) {
   throw new Error("API_VERSION is not defiend");
 }
+if (API_URL === undefined) {
+  throw new Error("API_URL cis not defiend");
+}
 
 if (/undefined/gi.exec(API_URL) !== null) {
   throw new Error("API_URL contains the word undefined");
@@ -42,4 +54,5 @@ export {
   AUTH0_CLIENT_SECRET,
   AUTH0_TOKEN_ISSUER,
   AUTH0_AUDIENCE,
+  CRONBOT_API_TOKEN,
 };

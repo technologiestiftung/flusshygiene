@@ -1,3 +1,7 @@
+import path from "path";
+import { setApiToken, getApiToken } from "./../common/env";
+import { gotOptionsFactory } from "./../utils/got";
+import fs from "fs";
 import got from "got";
 import {
   AUTH0_TOKEN_ISSUER,
@@ -28,15 +32,94 @@ export const getNewToken: () => Promise<IToken> = async () => {
     return error;
   }
 };
-
-export const getToken = async () => {
-  if (process.env.CRONBOT_API_TOKEN === undefined) {
-    const res = await getNewToken();
-    const token = `${res.token_type} ${res.access_token}`;
-    process.env.CRONBOT_API_TOKEN = token;
+export const testToken: (token: string) => Promise<boolean> = async (token) => {
+  try {
+    const opts = await gotOptionsFactory({ headers: { authorization: token } });
+    const response = await got(opts);
+    if (response.statusCode !== 200) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+export const getFromDisk: (
+  filePath?: string,
+) => Promise<string | undefined> = async (filePath) => {
+  try {
+    if (filePath === undefined) {
+      return undefined;
+    }
+    // console.log("Getting token from disk"); // eslint-disable-line
+    if (fs.existsSync(filePath) === false) {
+      console.warn(`Path to disk token is wrong "${filePath}"`);
+      return undefined;
+    }
+    const token = fs.readFileSync(filePath, "utf8");
+    if (token.startsWith("Bearer ") === false) {
+      console.warn("Token format is wrong. Does not start with 'Bearer'");
+      return undefined;
+    }
     return token;
-  } else {
-    // console.log(process.env.CRONBOT_API_TOKEN); // eslint-disable-line
-    return process.env.CRONBOT_API_TOKEN;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// getToken
+// 1. check for token on disc
+//  if it existsSync
+// 2. testToken
+// 2.1 it works set ApiTpoken
+// 2.2. return token
+// 3. testFaild
+// 4. getNewToken
+// 5. testToken
+// setApiToken
+// return token
+
+/**
+ *
+ * This function should only be called once on entry
+ */
+export const getTokenOnce: (tokenPath?: string) => Promise<string> = async (
+  tokenPath,
+) => {
+  try {
+    // read from constants
+    let token = getApiToken();
+    if (token !== undefined && (await testToken(token)) === true) {
+      // it works great return it
+      setApiToken(token);
+      return token;
+    }
+    // did not work read from disk
+    token = await getFromDisk(tokenPath);
+    // console.log(token);
+
+    if (token !== undefined && (await testToken(token)) === true) {
+      //  great it worked
+      // console.log("token works");
+      setApiToken(token);
+      return token;
+    } else {
+      // did not work reset token
+      token = undefined;
+    }
+
+    const res = await getNewToken();
+    token = `${res.token_type} ${res.access_token}`;
+    if (token === undefined) {
+      throw new Error("Token is still undefined");
+    }
+    if ((await testToken(token)) === false) {
+      throw new Error("Token is still invalid");
+    }
+    fs.writeFileSync(path.resolve(process.cwd(), ".token"), token, "utf8");
+    setApiToken(token);
+    return token;
+  } catch (error) {
+    throw error;
   }
 };
