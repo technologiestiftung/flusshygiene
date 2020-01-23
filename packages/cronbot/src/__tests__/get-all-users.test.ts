@@ -1,5 +1,5 @@
 // import { getUsers, getUsersRequest } from "../requests/get-data";
-import { getUsers } from "../requests/get-data";
+import { getUsers } from "../requests/get-users";
 import nock from "nock";
 const URL = "http://foo.com";
 const user = { id: 1, email: "foo@bah.com" };

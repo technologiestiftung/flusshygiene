@@ -11,7 +11,7 @@ export const gotOptionsFactory: (
 ) => Promise<IGotOptionsOverrides> = async (overrides) => {
   try {
     const token = getApiToken();
-    console.log(token);
+    // console.log(token);
     if (
       token === undefined &&
       overrides?.headers?.authorization === undefined

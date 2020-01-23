@@ -1,3 +1,42 @@
+// DB
+
+export interface IUser {
+  id: number;
+  email: string;
+}
+export interface ISpot {
+  id: number;
+  name: string;
+}
+
+export interface IBasis {
+  id: string;
+  user: IUser;
+  spot: ISpot;
+}
+
+export interface IEndpoints extends IBasis {
+  measurementsUrl?: string;
+  globalIrradianceUrl?: string;
+  dischargesUrl?: string;
+  discharges: IMeasurement[];
+  measurments: IMeasurementConc[];
+  globalIrradiances: IMeasurement[];
+}
+
+export interface IGeneric extends IBasis {
+  url?: string;
+  data: IMeasurement[];
+}
+
+export interface IError {
+  id: string;
+  message: string;
+  stack?: string;
+  source: IObject;
+}
+
+// end DB
 export interface IObject {
   [key: string]: any;
 }
@@ -7,7 +46,7 @@ export interface IMeasurement {
   value: number;
 }
 export interface IMeasurementConc {
-  data: string;
+  date: string;
   conc_ec: number;
   conc_ie: number;
 }
@@ -17,22 +56,23 @@ export interface IApiResponse {
   apiVersion: string;
 }
 
-export interface IUser {
-  id: number;
-  email: string;
-  spots: ISpot[];
-}
+// export interface IUser {
+//   id: number;
+//   email: string;
+//   spots: ISpot[];
+// }
 
 export interface IUserData extends IUser {
   spots: ISpotData[];
 }
 
-export interface ISpot {
-  id: number;
-  apiEndpoints: IApiEndpoints;
-  purificationPlants: IPurificationPlant[];
-  genericInputs: IGenericInput[];
-}
+// export interface ISpot {
+//   id: number;
+//   name: string;
+//   apiEndpoints: IApiEndpoints;
+//   purificationPlants: IPurificationPlant[];
+//   genericInputs: IGenericInput[];
+// }
 export interface ISpotData extends ISpot {
   apiEndpointsData: IApiEndpointsData;
   purificationPlantsData: IPurificationPlantData[];

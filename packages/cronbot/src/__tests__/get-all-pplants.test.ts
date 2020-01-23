@@ -41,6 +41,7 @@ describe("Get all Purification plants", () => {
           spots: [
             {
               id: 1,
+              name: "foo",
               apiEndpoints: {},
               purificationPlants: [],
               genericInputs: [],

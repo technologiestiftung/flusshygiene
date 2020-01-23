@@ -1,0 +1,37 @@
+{
+  "name": "@tsb/cronbot-sources",
+  "version": "2.3.2",
+  "description": "Files on the web the cronbot can access",
+  "author": "fabianmoronzirfas <fabianmoronzirfas@protonmail.ch>",
+  "homepage": "https://github.com/technologiestiftung/flusshygiene/tree/master/packages/cronbot-sources#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technologiestiftung/flusshygiene.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/technologiestiftung/flusshygiene/issues"
+  },
+  "devDependencies": {
+    "@now/build-utils": "^1.3.6",
+    "@now/node": "^1.3.5",
+    "@types/micro": "^7.3.3",
+    "@types/node": "^13.1.8",
+    "eslint": "^6.8.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "micro": "^9.3.4"
+  }
+}

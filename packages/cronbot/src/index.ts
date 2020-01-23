@@ -2,9 +2,12 @@ import path from "path";
 import { config } from "dotenv";
 config({ path: path.resolve(process.cwd(), ".env") });
 import { getTokenOnce } from "./auth/token";
-import { getSpots, getRemoteData, getUsers } from "./requests/get-data";
-import { getSubitems } from "./requests/get-sub-items";
+import { getSpots, Spot } from "./requests/get-spots";
+import { getUsers } from "./requests/get-users";
 import { API_URL } from "./common/env";
+import { getApiEndpointsData } from "./get-api-endpoints-data";
+import { getGenericData } from "./get-generic-pplant-data";
+
 /**
  * Should
  * - get a token
@@ -45,12 +48,10 @@ export async function main() {
   try {
     await getTokenOnce(path.resolve(process.cwd(), ".token"));
     const users = await getUsers(`${API_URL}/users`);
-
-    const collection = await getSpots(users);
-    const reqSources = await getSubitems(collection, "genericInputs");
-    // console.log("Request source", JSON.stringify(reqSources, null, 2)); // eslint-disable-line
-    const remoteData = await getRemoteData(reqSources);
-    console.log(remoteData); // eslint-disable-line
+    const spots: Spot[] = await getSpots(users);
+    await getApiEndpointsData(spots);
+    await getGenericData("genericInputs", spots);
+    await getGenericData("purificationPlants", spots);
   } catch (error) {
     throw error;
   }

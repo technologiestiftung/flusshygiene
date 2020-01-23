@@ -1,4 +1,4 @@
-import { getRemoteData } from "../requests/get-data";
+import { getApiEndpointsData } from "../requests/get-api-endpoints-data";
 import { IUserCollection } from "../common/interfaces";
 const nock = require("nock"); // eslint-disable-line
 const URL = "http://foo.com";
@@ -46,27 +46,33 @@ describe("get-remote-data", () => {
           spots: [
             {
               id: 1,
+              name: "foo",
               apiEndpoints: {
                 measurementsUrl: "http://foo.com/measurements",
                 dischargesUrl: "http://foo.com/discharges",
                 globalIrradianceUrl: "http://foo.com/globalIrradiance",
               },
               purificationPlants: [
-                { id: 1, url: "http://foo.com/purificationPlant" },
+                { id: 1, url: "http://foo.com/purificationPlant", name: "foo" },
               ],
-              genericInputs: [{ id: 1, url: "http://foo.com/genericInput" }],
+              genericInputs: [
+                { id: 1, url: "http://foo.com/genericInput", name: "bah" },
+              ],
             },
             {
               id: 23,
+              name: "bah",
               apiEndpoints: {
                 measurementsUrl: "http://foo.com/measurements",
                 dischargesUrl: "http://foo.com/discharges",
                 globalIrradianceUrl: "http://foo.com/globalIrradiance",
               },
               purificationPlants: [
-                { id: 1, url: "http://foo.com/purificationPlant" },
+                { id: 1, url: "http://foo.com/purificationPlant", name: "foo" },
               ],
-              genericInputs: [{ id: 1, url: "http://foo.com/genericInput" }],
+              genericInputs: [
+                { id: 1, url: "http://foo.com/genericInput", name: "bah" },
+              ],
             },
           ],
         },
@@ -75,7 +81,7 @@ describe("get-remote-data", () => {
     // await expect(getRemoteData(collection)).resolves.toStrictEqual({
     //   users: [],
     // });
-    const res = await getRemoteData(collection);
+    const res = await getApiEndpointsData(collection);
     // console.log(JSON.stringify(res, null, 2));
     expect(res).toBeDefined();
     expect(res.users[0].email).toBe(collection.users[0].email);

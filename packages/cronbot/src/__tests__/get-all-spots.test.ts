@@ -1,11 +1,12 @@
 import { IApiResponse, ISpot } from "./../common/interfaces";
-import { getSpots } from "../requests/get-data";
+import { getSpots } from "../requests/get-spots";
 import nock from "nock";
 const URL = "http://foo.com";
 const user = { id: 1, email: "foo@bah.com" };
 
 const spot: ISpot = {
   id: 1,
+  name: "foo",
   apiEndpoints: { measurementsUrl: "http:/boom.xyz" },
   purificationPlants: [],
   genericInputs: [],
