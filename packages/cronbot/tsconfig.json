@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", ".vscode","dist", "src/types"],
+  "exclude": ["node_modules", ".vscode","dist", "src/types", "src/__tests__"],
   "compilerOptions": {
     "resolveJsonModule": true,
     /* Basic Options */

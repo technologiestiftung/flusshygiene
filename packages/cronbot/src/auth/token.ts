@@ -1,6 +1,6 @@
 import path from "path";
 import { setApiToken, getApiToken } from "./../common/env";
-import { gotOptionsFactory } from "./../utils/got";
+import { gotOptionsFactory } from "../utils/got-util";
 import fs from "fs";
 import got from "got";
 import {
@@ -28,7 +28,7 @@ export const getNewToken: () => Promise<IToken> = async () => {
     });
     return response.json();
   } catch (error) {
-    console.error(error.response.body);
+    console.error(error);
     return error;
   }
 };
@@ -41,6 +41,7 @@ export const testToken: (token: string) => Promise<boolean> = async (token) => {
     }
     return true;
   } catch (error) {
+    console.error(error);
     return error;
   }
 };
@@ -63,6 +64,8 @@ export const getFromDisk: (
     }
     return token;
   } catch (error) {
+    console.error(error);
+
     throw error;
   }
 };
@@ -120,6 +123,7 @@ export const getTokenOnce: (tokenPath?: string) => Promise<string> = async (
     setApiToken(token);
     return token;
   } catch (error) {
+    console.error(error);
     throw error;
   }
 };

@@ -12,6 +12,7 @@ module.exports = {
   testEnvironment: "node",
   setupFiles: ["dotenv/config"],
   setupFilesAfterEnv: ["<rootDir>/src/__jest__/jest.setup.after-env.ts"],
+  testPathIgnorePatterns: ["<rootDir>/src/__tests/__/deprecated/"],
   testRegex: "/__tests__/.*\\.(test|spec)?\\.(ts|tsx)$",
   // globalSetup: "<rootDir>/src/__tests__/jest.setup.ts",
   // globalTeardown: '<rootDir>/__tests__/jest.teardown.ts',
@@ -24,6 +25,7 @@ module.exports = {
     "!src/__mocks__/**/*",
     "!src/cli.ts",
     "!src/index.ts",
+    "!src/__tests/__/deprectaed/**/*",
   ],
   coverageThreshold: {
     global: {

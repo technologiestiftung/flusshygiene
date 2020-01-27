@@ -250,7 +250,7 @@ export const postCollection: postResponse = async (request, response) => {
         if (Array.isArray(request.body) === false) {
           if (request.body.hasOwnProperty('measurements') === true) {
             attachedMeasurements = request.body.measurements;
-            console.log('attachedMeasurements:', attachedMeasurements);
+            // console.log('attachedMeasurements:', attachedMeasurements);
           }
           inData.push(request.body);
         } else {
@@ -439,7 +439,7 @@ export const postCollection: postResponse = async (request, response) => {
                   'Could not find newly created resource severe!!!',
                 );
               gi.measurements = gim;
-              await repoGiM.save(gim);
+              await repoGiM.insert(gim);
               res = await repoGi.save(gi);
               break;
             }
@@ -457,7 +457,7 @@ export const postCollection: postResponse = async (request, response) => {
                   'Could not find newly created resource severe!!!',
                 );
               pp.measurements = ppm;
-              await repoPM.save(ppm);
+              await repoPM.insert(ppm);
               res = await repoPP.save(pp);
               break;
             }

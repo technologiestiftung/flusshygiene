@@ -36,9 +36,11 @@ if (cli.flags.diskToken !== undefined) {
     process.env.CRONBOT_API_TOKEN = token;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }
 console.log(cli.flags); // eslint-disable-line
 main().catch((err) => {
   console.error(err);
+  throw err;
 });
