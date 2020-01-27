@@ -1,15 +1,15 @@
-import { IApiResponse, ISpot } from "./../common/interfaces";
-import { getSpots } from "../requests/get-spots";
+import { IApiResponse } from "./../common/interfaces";
+import { getSpots } from "../lib/requests/get-spots";
 import nock from "nock";
 const URL = "http://foo.com";
 const user = { id: 1, email: "foo@bah.com" };
 
-const spot: ISpot = {
+const spot = {
   id: 1,
   name: "foo",
   apiEndpoints: { measurementsUrl: "http:/boom.xyz" },
-  purificationPlants: [],
-  genericInputs: [],
+  // purificationPlants: [],
+  // genericInputs: [],
 };
 
 jest.mock("../common/env", () => {
@@ -20,7 +20,7 @@ jest.mock("../common/env", () => {
     }),
   };
 });
-jest.mock("../utils/got", () => {
+jest.mock("../utils/got-util", () => {
   return {
     gotOptionsFactory: jest.fn(() => {
       return { url: `${URL}/users/1/bathingspots` };
@@ -39,10 +39,12 @@ describe("getting spots", () => {
         apiVersion: "0.0.0",
       });
     const users: IApiResponse = { data: [user], success: true, apiVersion: "" };
-    const collection = await getSpots(users);
-    expect(collection).toBeDefined();
-    expect(collection.users).toBeDefined();
-    expect(collection.users[0].spots[0]).toStrictEqual(spot);
+    const spots = await getSpots(users);
+    expect(spots).toBeDefined();
+    expect(spots[0].spotId).toStrictEqual(spot.id);
+    expect(spots[0].spotName).toStrictEqual(spot.name);
+    // expect(spots.users).toBeDefined();
+    // expect(collection.users[0].spots[0]).toStrictEqual(spot);
   });
 
   test("User without spots will be removed", async (done) => {
@@ -60,8 +62,8 @@ describe("getting spots", () => {
       apiVersion: "",
     };
 
-    const collection = await getSpots(users);
-    expect(collection.users.length).toBe(0);
+    const spots = await getSpots(users);
+    expect(spots.length).toBe(0);
     done();
   });
 });

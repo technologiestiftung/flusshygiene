@@ -1,5 +1,5 @@
 import * as dep from "./../common/env";
-import { gotOptionsFactory } from "../utils/got";
+import { gotOptionsFactory } from "../utils/got-util";
 
 // beforeAll(() => {
 //   process.env.API_URL = "http://foo.com";

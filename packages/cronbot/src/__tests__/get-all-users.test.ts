@@ -1,5 +1,6 @@
+import { getUsersRequest } from "../lib/requests/get-users";
 // import { getUsers, getUsersRequest } from "../requests/get-data";
-import { getUsers } from "../requests/get-users";
+import { getUsers } from "../lib/requests/get-users";
 import nock from "nock";
 const URL = "http://foo.com";
 const user = { id: 1, email: "foo@bah.com" };
@@ -11,23 +12,23 @@ jest.mock("../common/env", () => {
     }),
   };
 });
-jest.mock("../utils/got", () => {
+jest.mock("../utils/got-util", () => {
   return {
     gotOptionsFactory: jest.fn(() => {
       return { url: `${URL}/users` };
     }),
   };
 });
-nock(URL)
-  .get("/users")
-  .reply(200, {
-    data: [user],
-    success: true,
-    apiVersion: "0.0.0",
-  });
 
 describe("get all users from API", () => {
   test("Getting all users", async (done) => {
+    nock(URL)
+      .get("/users")
+      .reply(200, {
+        data: [user],
+        success: true,
+        apiVersion: "0.0.0",
+      });
     const usersRes = await getUsers(`${URL}/users`);
     expect(usersRes).toBeDefined();
     expect(usersRes.data[0].id).toBe(user.id);
@@ -36,5 +37,12 @@ describe("get all users from API", () => {
     // expect(usersRes.data).toBeDefined();
     // expect(usersRes.apiVersion).toBeDefined();
     // expect(usersRes.success).toBeDefined();
+  });
+  test.skip("error", async (done) => {
+    nock(URL)
+      .get("/users")
+      .reply(500, "error");
+    await expect(getUsersRequest(`${URL}/users`)).rejects.toThrow();
+    done();
   });
 });
