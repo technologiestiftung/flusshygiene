@@ -5,9 +5,13 @@ const AUTH0_AUDIENCE: string | undefined = process.env.AUTH0_AUDIENCE;
 const AUTH0_CLIENT_ID: string | undefined = process.env.AUTH0_CLIENT_ID;
 const AUTH0_CLIENT_SECRET: string | undefined = process.env.AUTH0_CLIENT_SECRET;
 const AUTH0_TOKEN_ISSUER: string | undefined = process.env.AUTH0_TOKEN_ISSUER;
+const MAILGUN_DOMAIN: string | undefined = process.env.MAILGUN_DOMAIN;
+const MAILGUN_APIKEY: string | undefined = process.env.MAILGUN_APIKEY;
+const MAILGUN_FROM: string | undefined = process.env.MAILGUN_FROM;
+const MAILGUN_TO: string | undefined = process.env.MAILGUN_TO;
 // dereived
 const API_URL: string | undefined = `${API_HOST}/api/${API_VERSION}`;
-let CRONBOT_API_TOKEN: string | undefined;
+let CRONBOT_API_TOKEN: string | undefined = undefined;
 
 export const setApiToken: (token: string) => void = (token) => {
   CRONBOT_API_TOKEN = token;
@@ -18,28 +22,40 @@ export const getApiToken: () => string | undefined = () => {
 };
 
 // #########
+if (MAILGUN_DOMAIN === undefined) {
+  throw new Error("MAILGUN_DOMAIN is not defined");
+}
+if (MAILGUN_APIKEY === undefined) {
+  throw new Error("MAILGUN_APIKEY is not defined");
+}
+if (MAILGUN_FROM === undefined) {
+  throw new Error("MAILGUN_FROM is not defined");
+}
+if (MAILGUN_TO === undefined) {
+  throw new Error("MAILGUN_TO is not defined");
+}
 if (AUTH0_AUDIENCE === undefined) {
-  throw new Error("AUTH0_AUDIENCE is not defiend");
+  throw new Error("AUTH0_AUDIENCE is not defined");
 }
 if (AUTH0_CLIENT_ID === undefined) {
-  throw new Error("CLIEAUTH0_CLIENT_IDNT_ID is not defiend");
+  throw new Error("AUTH0_CLIENT_ID is not defined");
 }
 if (AUTH0_CLIENT_SECRET === undefined) {
-  throw new Error("AUTH0_CLIENT_SECRET is not defiend");
+  throw new Error("AUTH0_CLIENT_SECRET is not defined");
 }
 
 if (AUTH0_TOKEN_ISSUER === undefined) {
-  throw new Error("AUTH0_TOKEN_ISSUER is not defiend");
+  throw new Error("AUTH0_TOKEN_ISSUER is not defined");
 }
 if (API_HOST === undefined) {
-  throw new Error("API_HOST is not defiend");
+  throw new Error("API_HOST is not defined");
 }
 
 if (API_VERSION === undefined) {
-  throw new Error("API_VERSION is not defiend");
+  throw new Error("API_VERSION is not defined");
 }
 if (API_URL === undefined) {
-  throw new Error("API_URL cis not defiend");
+  throw new Error("API_URL cis not defined");
 }
 
 if (/undefined/gi.exec(API_URL) !== null) {
@@ -55,4 +71,8 @@ export {
   AUTH0_TOKEN_ISSUER,
   AUTH0_AUDIENCE,
   CRONBOT_API_TOKEN,
+  MAILGUN_DOMAIN,
+  MAILGUN_APIKEY,
+  MAILGUN_FROM,
+  MAILGUN_TO,
 };

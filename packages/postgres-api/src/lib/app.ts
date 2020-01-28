@@ -66,8 +66,34 @@ const app = express();
       await manager.save(spot);
       user.bathingspots = [spot];
       await manager.save(user);
+
+      const spotErr = new Bathingspot();
+      spotErr.isPublic = true;
+      spotErr.name = 'error';
+      spotErr.apiEndpoints = {
+        measurementsUrl:
+          'https://cronbot-sources.now.sh/?count=10&type&err=true',
+        dischargesUrl: 'https://cronbot-sources.now.sh/?count=10&type&err=true',
+        globalIrradianceUrl: 'cronbot-sources.now.sh/?count=10&type&err=true',
+      };
+      await manager.save(spotErr);
+      user.bathingspots.push(spotErr);
+      await manager.save(user);
+      const errPPlant = manager.create(PurificationPlant, [
+        {
+          name: 'error1',
+          url: 'http://doesnotexist',
+        },
+        {
+          name: 'error2',
+          url: 'https://cronbot-sources.now.sh/?count=10&type&err=true',
+        },
+      ]);
+      await manager.save(errPPlant);
+      spotErr.purificationPlants = errPPlant;
+      await manager.save(spotErr);
       // const plant = new PurificationPlant();
-      const pplants = await manager.create(PurificationPlant, [
+      const pplants = manager.create(PurificationPlant, [
         {
           name: 'plant1',
 
@@ -90,7 +116,7 @@ const app = express();
       // gi.url = 'https://cronbot-sources.now.sh/?count=10';
 
       // await manager.save(gi);
-      const gis = await manager.create(GenericInput, [
+      const gis = manager.create(GenericInput, [
         {
           name: 'gi1',
           url: 'https://cronbot-sources.now.sh/?count=100',

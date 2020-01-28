@@ -1,17 +1,23 @@
-import * as dep from "./../common/env";
+import { unique } from "../utils/unique-values";
+jest.mock("../common/env", () => {
+  return {
+    getApiToken: jest.fn().mockImplementation(() => "Bearer xyz"),
+  };
+});
 import { gotOptionsFactory } from "../utils/got-util";
 
-// beforeAll(() => {
-//   process.env.API_URL = "http://foo.com";
-// });
-jest.mock("../common/env");
-
-describe.skip("utils", () => {
+describe("utils", () => {
   test("got function factory", async (done) => {
-    const opts = await gotOptionsFactory();
-    const token = dep.getApiToken();
-    // expect(opts.url).toBe(API_URL);
-    expect(opts.headers).toStrictEqual({ authorization: token });
+    const mockConsoleErr = jest
+      .spyOn(console, "error")
+      .mockImplementation(jest.fn);
+    await expect(gotOptionsFactory()).rejects.toThrow();
+    mockConsoleErr.mockRestore();
+
     done();
+  });
+  test("unique values", () => {
+    const data = [{ key: 1 }, { key: 2 }, { key: 1 }];
+    expect(unique(data, "key")).toStrictEqual([{ key: 1 }, { key: 2 }]);
   });
 });

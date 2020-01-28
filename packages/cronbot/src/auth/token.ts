@@ -16,7 +16,8 @@ export interface IToken {
 }
 export const getNewToken: () => Promise<IToken> = async () => {
   try {
-    const response = got.post({
+    // console.log("getting new token");
+    const opts = {
       url: `${AUTH0_TOKEN_ISSUER}`,
       headers: { "content-type": "application/json" },
       json: {
@@ -25,24 +26,32 @@ export const getNewToken: () => Promise<IToken> = async () => {
         audience: AUTH0_AUDIENCE,
         grant_type: "client_credentials",
       },
-    });
-    return response.json();
+    };
+    // console.log(opts);
+    const response = await got.post({ ...opts, retry: 0 });
+    // console.log(response);
+    const json = JSON.parse(response.body);
+    return json;
   } catch (error) {
+    console.error("we are here");
     console.error(error);
-    return error;
+    // process.exit();
+    throw error;
   }
 };
 export const testToken: (token: string) => Promise<boolean> = async (token) => {
   try {
     const opts = await gotOptionsFactory({ headers: { authorization: token } });
     const response = await got(opts);
+
     if (response.statusCode !== 200) {
       return false;
+    } else {
+      return true;
     }
-    return true;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 export const getFromDisk: (
@@ -92,14 +101,16 @@ export const getTokenOnce: (tokenPath?: string) => Promise<string> = async (
   try {
     // read from constants
     let token = getApiToken();
+    // console.log(token, "first try");
     if (token !== undefined && (await testToken(token)) === true) {
+      // console.log("token is defined and testToken passed");
       // it works great return it
       setApiToken(token);
       return token;
     }
     // did not work read from disk
     token = await getFromDisk(tokenPath);
-    // console.log(token);
+    // console.log(token, "second try ");
 
     if (token !== undefined && (await testToken(token)) === true) {
       //  great it worked
@@ -113,6 +124,7 @@ export const getTokenOnce: (tokenPath?: string) => Promise<string> = async (
 
     const res = await getNewToken();
     token = `${res.token_type} ${res.access_token}`;
+    // console.log(token, "last try");
     if (token === undefined) {
       throw new Error("Token is still undefined");
     }

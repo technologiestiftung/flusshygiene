@@ -1,9 +1,4 @@
-import { getUsersRequest } from "../lib/requests/get-users";
-// import { getUsers, getUsersRequest } from "../requests/get-data";
-import { getUsers } from "../lib/requests/get-users";
-import nock from "nock";
 const URL = "http://foo.com";
-const user = { id: 1, email: "foo@bah.com" };
 jest.mock("../common/env", () => {
   return {
     API_URL: "http://foo.com",
@@ -14,11 +9,16 @@ jest.mock("../common/env", () => {
 });
 jest.mock("../utils/got-util", () => {
   return {
-    gotOptionsFactory: jest.fn(() => {
-      return { url: `${URL}/users` };
-    }),
+    gotOptionsFactory: () => {
+      return { url: "http://foo.com/users" };
+    },
   };
 });
+import { getUsersRequest } from "../lib/requests/get-users";
+// import { getUsers, getUsersRequest } from "../requests/get-data";
+import { getUsers } from "../lib/requests/get-users";
+import nock from "nock";
+const user = { id: 1, email: "foo@bah.com" };
 
 describe("get all users from API", () => {
   test("Getting all users", async (done) => {
@@ -40,7 +40,7 @@ describe("get all users from API", () => {
   });
   test.skip("error", async (done) => {
     nock(URL)
-      .get("/users")
+      .get(/.*?$/)
       .reply(500, "error");
     await expect(getUsersRequest(`${URL}/users`)).rejects.toThrow();
     done();

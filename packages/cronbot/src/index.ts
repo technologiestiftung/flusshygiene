@@ -1,3 +1,4 @@
+import { sendReports } from "./lib/report";
 import { postGenerics, postApiEndpoints } from "./lib/requests/post-data";
 // import { GenericType } from "./common/types";
 // import got from "got";
@@ -55,6 +56,8 @@ import { DB } from "./lib/DB";
 export async function main() {
   try {
     await getTokenOnce(path.resolve(process.cwd(), ".token"));
+
+    // process.exit();
     const users = await getUsers(`${API_URL}/users`);
     const spots: Spot[] = await getSpots(users);
     // console.log(spots, API_URL);
@@ -70,6 +73,8 @@ export async function main() {
     await postGenerics("genericInputs", dataGi);
     await postGenerics("purificationPlants", dataPP);
     await postApiEndpoints(dataE);
+    const reports = db.getReports();
+    await sendReports(reports);
     // console.log(pplantData);
 
     // for (const plant of pplantData) {

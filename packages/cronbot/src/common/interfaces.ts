@@ -1,4 +1,4 @@
-import { GenericTypeDE } from "./types";
+import { GenericTypeDE, ReportType } from "./types";
 // DB
 export interface IUser {
   id: number;
@@ -37,12 +37,24 @@ export interface IGeneric extends IBasis {
   comment?: string;
   data: IMeasurement[];
 }
-export interface IError {
+export interface IReport {
   id: string;
+  email: string;
+  type: ReportType;
   message: string;
   stack?: string;
   source: IObject;
 }
+
+export interface IBuildReport {
+  id: string;
+  message: string;
+  source: IGeneric | IEndpoints | Spot;
+  type: ReportType;
+  stack?: string;
+  email: string;
+}
+
 // end DB
 export interface IObject {
   [key: string]: any;

@@ -6,14 +6,16 @@
 import lowdb from "lowdb";
 import FileSync from "lowdb/adapters/FileSync";
 import Memory from "lowdb/adapters/Memory";
-import { IEndpoints, IGeneric, IError } from "../common/interfaces";
+import { IEndpoints, IGeneric, IReport } from "../common/interfaces";
 import { GenericType } from "../common/types";
+
 export type Schema = {
   endpoints: IEndpoints[];
   genericInputs: IGeneric[];
   purificationPlants: IGeneric[];
-  errors: IError[];
+  reports: IReport[];
 };
+
 export class DB {
   public static getInstance() {
     if (!DB.instance) {
@@ -34,14 +36,14 @@ export class DB {
       endpoints: [],
       genericInputs: [],
       purificationPlants: [],
-      errors: [],
+      reports: [],
     });
     this.db
       .defaults({
         endpoints: [],
         genericInputs: [],
         purificationPlants: [],
-        errors: [],
+        reports: [],
       })
       .write();
     // this.db._.mixin({
@@ -115,12 +117,36 @@ export class DB {
         .write();
     }
   }
+  public getReports(): IReport[] {
+    return this.db.get("reports").value();
+  }
+  public getReportsSorted(): IReport[][] {
+    return this.db
+      .get("reports")
+      .filter((elem) => elem.type !== "admin")
+      .groupBy("email")
+      .sortBy("email")
+      .value();
+  }
+  public addReports(reports: IReport[] | IReport): void {
+    if (Array.isArray(reports)) {
+      this.db
+        .get("reports")
+        .push(...reports)
+        .write();
+    } else {
+      this.db
+        .get("reports")
+        .push(reports)
+        .write();
+    }
+  }
   public resetState(): void {
     this.db.setState({
       endpoints: [],
       genericInputs: [],
       purificationPlants: [],
-      errors: [],
+      reports: [],
     });
   }
   public getState(): Schema {

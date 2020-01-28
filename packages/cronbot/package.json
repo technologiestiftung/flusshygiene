@@ -26,6 +26,7 @@
     "url": "git+https://github.com/technologiestiftung/flusshygiene.git"
   },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "build": "just build",
     "just": "just",
     "jest": "jest",
@@ -54,7 +55,9 @@
     "@types/jest": "^24.0.24",
     "@types/lodash": "^4.14.149",
     "@types/lowdb": "1.0.9",
+    "@types/mailgun-js": "^0.22.3",
     "@types/meow": "^5.0.0",
+    "@types/mock-fs": "^4.10.0",
     "@types/node": "^12.12.21",
     "@types/shortid": "0.0.29",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
@@ -69,6 +72,7 @@
     "just-scripts": "^0.36.1",
     "lint-staged": "^9.5.0",
     "mkdirp": "^0.5.1",
+    "mock-fs": "^4.10.4",
     "nock": "^11.7.2",
     "nodemon": "^2.0.2",
     "plop": "^2.5.3",
@@ -85,6 +89,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+    "form-data": "^3.0.0",
     "got": "^10.2.2",
     "lodash.uniqby": "^4.7.0",
     "lowdb": "^1.0.0",
@@ -95,5 +100,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "resolutions": {
+    "https-proxy-agent": "^4.0.0"
   }
 }

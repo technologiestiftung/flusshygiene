@@ -35,6 +35,10 @@ describe("Environment variables", () => {
       expect(typeof module.AUTH0_CLIENT_SECRET).toBe("string");
       expect(module.AUTH0_TOKEN_ISSUER).toBeDefined();
       expect(typeof module.AUTH0_TOKEN_ISSUER).toBe("string");
+      expect(typeof module.MAILGUN_DOMAIN).toBe("string");
+      expect(typeof module.MAILGUN_APIKEY).toBe("string");
+      expect(typeof module.MAILGUN_FROM).toBe("string");
+      expect(typeof module.MAILGUN_TO).toBe("string");
       done();
     });
   });

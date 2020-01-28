@@ -53,31 +53,6 @@ jest.mock("../utils/got-util", () => {
 });
 
 describe("postGenerics data should resolve fine", () => {
-  // test("", async (done) => {
-  //   nock(API_URL)
-  //     .post(
-  //       `/users/${spot.userId}/bathingspots/${spot.spotId}/genericInputs/1/measurements`,
-  //     )
-  //     .reply(201, {
-  //       data: [{ id: 1 }],
-  //     });
-
-  //   await expect(postGenerics("genericInputs", data)).resolves.toBe(undefined);
-  //   // await postGenerics("genericInputs", data);
-
-  //   done();
-  // });
-  // test.skip("should throw an error", async (done) => {
-  //   nock(API_URL)
-  //     .post(
-  //       `/users/${spot.userId}/bathingspots/${spot.spotId}/genericInputs/1/measurements`,
-  //     )
-  //     .reply(401);
-
-  //   await expect(postGenerics("genericInputs", [])).rejects.toThrow();
-  //   done();
-  // });
-
   test("postApiEndpoitsData", async (done) => {
     const scope = nock(API_URL)
       // .log(console.log)
@@ -94,6 +69,10 @@ describe("postGenerics data should resolve fine", () => {
     done();
   });
   test("errors", async (done) => {
+    const mockConsoleErr = jest
+      .spyOn(console, "error")
+      .mockImplementation(jest.fn);
+
     nock(API_URL)
       // .log(console.log)
       .persist()
@@ -102,6 +81,7 @@ describe("postGenerics data should resolve fine", () => {
       )
       .reply(500, "err");
     await expect(postApiEndpoints(data)).rejects.toThrow();
+    mockConsoleErr.mockRestore();
     done();
   });
 });

@@ -75,27 +75,13 @@ describe("postGenerics data should resolve fine", () => {
         `/users/${spot.userId}/bathingspots/${spot.spotId}/genericInputs/1/measurements`,
       )
       .reply(500);
+    const mockConsoleErr = jest
+      .spyOn(console, "error")
+      .mockImplementation(jest.fn);
 
     await expect(postGenerics("genericInputs", data)).rejects.toThrow();
+    mockConsoleErr.mockRestore();
+
     done();
   });
-
-  // test("postApiEndpoitsData", async (done) => {
-  //   nock(API_URL)
-  //     .persist()
-  //     .post(`/users/${spot.userId}/bathingspots/${spot.spotId}/measurements`)
-  //     .reply(500, "Err");
-  //   const data: IEndpoints[] = [
-  //     {
-  //       id: "",
-  //       measurements: [{ date: "2020-01-10", conc_ec: 1, conc_ie: 1 }],
-  //       discharges: [],
-  //       globalIrradiances: [],
-  //       user: { id: spot.userId, email: spot.email },
-  //       spot: { id: spot.spotId, name: spot.spotName },
-  //     },
-  //   ];
-  //   await expect(postApiEndpoints(data)).resolves.toBe(true);
-  //   done();
-  // });
 });

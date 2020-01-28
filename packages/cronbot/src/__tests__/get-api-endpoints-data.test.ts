@@ -1,3 +1,5 @@
+import { ReportType } from "./../common/types";
+import { report } from "./../lib/report";
 import { getApiEndpointsData } from "../lib/requests/get-api-endpoints-data";
 import nock from "nock";
 
@@ -7,6 +9,7 @@ import { DB } from "../lib/DB";
 
 const CRON_URL = "https://cronbot-sources.now.sh";
 const API_URL = "https://www.flusshygiene.xyz";
+const db = DB.getInstance();
 const spot: Spot = {
   spotId: 1,
   spotName: "foo",
@@ -48,6 +51,9 @@ nock(API_URL)
     ],
   });
 
+beforeEach(() => {
+  db.resetState();
+});
 describe("get-api-endpoints-data", () => {
   test("", async (done) => {
     const responseData: { date: string; value: number }[] = getData(10);
@@ -70,14 +76,17 @@ describe("get-api-endpoints-data", () => {
     done();
   });
 
-  test("should throw error due to unparable data", async (done) => {
+  test("should create report due to unparsable data", async (done) => {
     const mockConsoleErr = jest
       .spyOn(console, "error")
       .mockImplementation(jest.fn);
     nock(CRON_URL)
       .get("/?type=conc&count=10")
       .reply(200, "ERROR");
-    await expect(getApiEndpointsData([spot])).rejects.toThrow();
+    await expect(getApiEndpointsData([spot])).resolves.toBe(undefined);
+    const reports = db.getReports();
+    expect(reports.length).toBeGreaterThan(0);
+    expect(reports[0].type).toBe<ReportType>("dataparse");
     mockConsoleErr.mockRestore();
 
     done();

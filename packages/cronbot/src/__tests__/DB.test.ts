@@ -1,43 +1,66 @@
 import { IEndpoints, IGeneric } from "./../common/interfaces";
 import { DB, Schema } from "../lib/DB";
-// import nock from "nock";
-// import { Spot } from "../common/interfaces";
 
-// const spot: Spot = {
-//   spotId: 1,
-//   spotName: "foo",
-//   userId: 1,
-//   email: "foo@bah.com",
-//   apiEndpoints: {},
-// };
-// const CRON_URL = "https://cronbot-sources.now.sh";
-// const API_URL = "https://www.flusshygiene.xyz";
-// nock(API_URL)
-//   .persist()
-//   .get(`/users/${spot.userId}/bathingspots/${spot.spotId}/genericInputs`)
-//   .reply(200, {
-//     data: [{ id: 1, url: `${CRON_URL}?count=10`, name: "foo" }],
-//   });
-
-// jest.mock("../common/env", () => {
-//   return {
-//     API_URL: "http://foo.com",
-//     getApiToken: jest.fn(() => {
-//       return "Bearer xyz";
-//     }),
-//   };
-// });
-// jest.mock("../utils/got-util", () => {
-//   return {
-//     gotOptionsFactory: jest.fn(() => {
-//       return { url: `${URL}/users/1/bathingspots` };
-//     }),
-//   };
-// });
-
+const db = DB.getInstance();
+beforeEach(() => {
+  db.resetState();
+});
 describe("DB", () => {
+  test("db type", () => {
+    expect(db).toBeInstanceOf(DB);
+  });
+
+  test("getReportsSorted", async (done) => {
+    db.addReports({
+      id: "foo",
+      email: "foo@bah.com",
+      type: "dataget",
+      message: "foo",
+      source: {} as IGeneric,
+      stack: "",
+    });
+    db.addReports({
+      id: "foo",
+      email: "foo@bah.com",
+      type: "admin",
+      message: "foo",
+      source: {} as IGeneric,
+      stack: "",
+    });
+    db.addReports({
+      id: "foo",
+      email: "foo@bah.com",
+      type: "dataget",
+      message: "foo",
+      source: {} as IGeneric,
+      stack: "",
+    });
+    db.addReports({
+      id: "foo",
+      email: "boo@boo.com",
+      type: "dataparse",
+      message: "foo",
+      source: {} as IGeneric,
+      stack: "",
+    });
+    const reports = db.getReportsSorted();
+    console.log(reports);
+    done();
+  });
+
+  test("getReports/addReports", async (done) => {
+    db.addReports({
+      id: "foo",
+      email: "foo@bah.com",
+      type: "admin",
+      message: "foo",
+      source: {} as IGeneric,
+      stack: "",
+    });
+    expect(db.getReports().length).toBe(1);
+    done();
+  });
   test("getEndpoints/addEndpoints", async (done) => {
-    const db = DB.getInstance();
     expect(db).toBeInstanceOf(DB);
     expect(db.getEndpoints).toBeDefined();
     expect(db.getEndpoints()).toStrictEqual<IEndpoints[]>([]);
@@ -57,8 +80,6 @@ describe("DB", () => {
   });
 
   test("getGenerics/addGenerics", async (done) => {
-    const db = DB.getInstance();
-    expect(db).toBeInstanceOf(DB);
     expect(db.getGenerics("genericInputs")).toStrictEqual([]);
     const data: IGeneric[] = [
       {
@@ -79,7 +100,7 @@ describe("DB", () => {
       endpoints: [],
       genericInputs: [],
       purificationPlants: [],
-      errors: [],
+      reports: [],
     });
     done();
   });
