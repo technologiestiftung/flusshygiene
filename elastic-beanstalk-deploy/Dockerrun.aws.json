@@ -1,5 +1,4 @@
 {
-
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
@@ -12,6 +11,20 @@
         {
           "sourceVolume": "awseb-logs-api",
           "containerPath": "/var/log/api"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "flsshygn",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "api"
+        }
+      },
+      "environment": [
+        {
+          "name": "ECS_AVAILABLE_LOGGING_DRIVERS",
+          "value": "'[\"json-file\",\"awslogs\"]'"
         }
       ]
     },
@@ -26,6 +39,20 @@
           "sourceVolume": "awseb-logs-ocpu",
           "containerPath": "/var/log/ocpu"
         }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "flsshygn",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "ocpu"
+        }
+      },
+      "environment": [
+        {
+          "name": "ECS_AVAILABLE_LOGGING_DRIVERS",
+          "value": "'[\"json-file\",\"awslogs\"]'"
+        }
       ]
     },
     {
@@ -38,6 +65,20 @@
         {
           "sourceVolume": "awseb-logs-spa",
           "containerPath": "/var/log/spa"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "flsshygn",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "spa"
+        }
+      },
+      "environment": [
+        {
+          "name": "ECS_AVAILABLE_LOGGING_DRIVERS",
+          "value": "'[\"json-file\",\"awslogs\"]'"
         }
       ]
     },
@@ -54,7 +95,21 @@
           "containerPath": "/var/log/middlelayer"
         }
       ],
-      "links":["ocpu:ocpu","spa:spa"]
+      "links": ["ocpu:ocpu", "spa:spa"],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "flsshygn",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "middlelayer"
+        }
+      },
+      "environment": [
+        {
+          "name": "ECS_AVAILABLE_LOGGING_DRIVERS",
+          "value": "'[\"json-file\",\"awslogs\"]'"
+        }
+      ]
     },
     {
       "name": "nginx",
@@ -72,7 +127,21 @@
           "containerPort": 80
         }
       ],
-      "links": ["api:api", "spa:spa","ocpu:ocpu", "middlelayer:middlelayer"]
+      "links": ["api:api", "spa:spa", "ocpu:ocpu", "middlelayer:middlelayer"],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "flsshygn",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "nginx"
+        }
+      },
+      "environment": [
+        {
+          "name": "ECS_AVAILABLE_LOGGING_DRIVERS",
+          "value": "'[\"json-file\",\"awslogs\"]'"
+        }
+      ]
     }
   ]
 }
