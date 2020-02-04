@@ -1,9 +1,10 @@
+import { getSpots } from "./../lib/requests/get-spots";
 import { IApiResponse } from "./../common/interfaces";
-import { getSpots } from "../lib/requests/get-spots";
 import nock from "nock";
 const URL = "http://foo.com";
 const user = { id: 1, email: "foo@bah.com" };
-
+import { DB } from "../lib/DB";
+const db = DB.getInstance();
 const spot = {
   id: 1,
   name: "foo",
@@ -39,10 +40,11 @@ describe("getting spots", () => {
         apiVersion: "0.0.0",
       });
     const users: IApiResponse = { data: [user], success: true, apiVersion: "" };
-    const spots = await getSpots(users);
-    expect(spots).toBeDefined();
-    expect(spots[0].spotId).toStrictEqual(spot.id);
-    expect(spots[0].spotName).toStrictEqual(spot.name);
+    // await getSpots(users);
+    await expect(getSpots(users)).resolves.toBe(undefined);
+    // expect(spots).toBeDefined();
+    // expect(spots[0].spotId).toStrictEqual(spot.id);
+    // expect(spots[0].spotName).toStrictEqual(spot.name);
     // expect(spots.users).toBeDefined();
     // expect(collection.users[0].spots[0]).toStrictEqual(spot);
   });
@@ -62,7 +64,8 @@ describe("getting spots", () => {
       apiVersion: "",
     };
 
-    const spots = await getSpots(users);
+    await getSpots(users);
+    const spots = db.getSpots();
     expect(spots.length).toBe(0);
     done();
   });

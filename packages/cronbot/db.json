@@ -1,521 +1,795 @@
 {
   "endpoints": [
     {
-      "id": "iKrtIowR",
+      "id": "QoQE19-R",
       "user": {
-        "id": 8,
-        "email": "flusshygiene@protonmail.com"
+        "id": 1,
+        "email": "foo@bah.com"
       },
       "spot": {
-        "id": 43,
-        "name": "kleine Badewiese"
-      },
-      "discharges": [
-        {
-          "date": "2020-01-30",
-          "value": 36.02,
-          "comment": "cronbot"
-        }
-      ],
-      "measurements": [],
-      "globalIrradiances": [],
-      "dischargesUrl": "https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json"
-    },
-    {
-      "id": "MnDT3l3w-",
-      "user": {
-        "id": 9,
-        "email": "moron-zirfas@technologiestiftung-berlin.de"
-      },
-      "spot": {
-        "id": 41,
+        "id": 1,
         "name": "foo"
       },
       "discharges": [
         {
-          "date": "2020-01-31 16:02:16",
-          "value": 164,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:17",
-          "value": 677,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:18",
-          "value": 167,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:19",
-          "value": 979,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:20",
-          "value": 916,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:21",
-          "value": 73,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:22",
-          "value": 786,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:23",
-          "value": 41,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:24",
-          "value": 607,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:25",
-          "value": 71,
+          "date": "2020-02-03",
+          "value": 46.81,
           "comment": "cronbot"
         }
       ],
       "measurements": [
         {
-          "date": "2020-01-31 16:02:16",
-          "conc_ec": 979,
-          "conc_ic": 51,
+          "date": "2020-02-04 14:23:34",
+          "conc_ec": 989,
+          "conc_ic": 217,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:17",
-          "conc_ec": 870,
-          "conc_ic": 272,
+          "date": "2020-02-04 14:23:35",
+          "conc_ec": 99,
+          "conc_ic": 34,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:18",
-          "conc_ec": 400,
-          "conc_ic": 223,
+          "date": "2020-02-04 14:23:36",
+          "conc_ec": 63,
+          "conc_ic": 187,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:19",
-          "conc_ec": 268,
-          "conc_ic": 721,
+          "date": "2020-02-04 14:23:37",
+          "conc_ec": 447,
+          "conc_ic": 390,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:20",
-          "conc_ec": 506,
-          "conc_ic": 376,
+          "date": "2020-02-04 14:23:38",
+          "conc_ec": 456,
+          "conc_ic": 379,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:21",
-          "conc_ec": 754,
-          "conc_ic": 578,
+          "date": "2020-02-04 14:23:39",
+          "conc_ec": 860,
+          "conc_ic": 762,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:22",
-          "conc_ec": 687,
-          "conc_ic": 778,
+          "date": "2020-02-04 14:23:40",
+          "conc_ec": 149,
+          "conc_ic": 34,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:23",
-          "conc_ec": 609,
-          "conc_ic": 452,
+          "date": "2020-02-04 14:23:41",
+          "conc_ec": 635,
+          "conc_ic": 658,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:24",
-          "conc_ec": 673,
-          "conc_ic": 907,
+          "date": "2020-02-04 14:23:42",
+          "conc_ec": 820,
+          "conc_ic": 316,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:25",
-          "conc_ec": 271,
-          "conc_ic": 706,
+          "date": "2020-02-04 14:23:43",
+          "conc_ec": 381,
+          "conc_ic": 560,
           "comment": "cronbot"
         }
       ],
       "globalIrradiances": [
         {
-          "date": "2020-01-31 16:02:16",
-          "value": 436,
+          "date": "2020-02-04 14:23:34",
+          "value": 944,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:17",
-          "value": 851,
+          "date": "2020-02-04 14:23:35",
+          "value": 937,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:18",
-          "value": 354,
+          "date": "2020-02-04 14:23:36",
+          "value": 335,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:19",
-          "value": 193,
+          "date": "2020-02-04 14:23:37",
+          "value": 191,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:20",
-          "value": 490,
+          "date": "2020-02-04 14:23:38",
+          "value": 638,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:21",
-          "value": 516,
+          "date": "2020-02-04 14:23:39",
+          "value": 0,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:22",
-          "value": 996,
+          "date": "2020-02-04 14:23:40",
+          "value": 923,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:23",
-          "value": 398,
+          "date": "2020-02-04 14:23:41",
+          "value": 388,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:24",
-          "value": 869,
+          "date": "2020-02-04 14:23:42",
+          "value": 189,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:25",
-          "value": 110,
+          "date": "2020-02-04 14:23:43",
+          "value": 891,
           "comment": "cronbot"
         }
       ],
-      "measurementsUrl": "https://cronbot-sources.now.sh?count=10&type=conc",
-      "globalIrradianceUrl": "https://cronbot-sources.now.sh?count=10",
-      "dischargesUrl": "https://cronbot-sources.now.sh?count=10"
+      "measurementsUrl": "https://cronbot-sources.now.sh/?count=10&type=conc",
+      "globalIrradianceUrl": "https://cronbot-sources.now.sh/?count=10",
+      "dischargesUrl": "https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json"
+    },
+    {
+      "id": "0TSnS-r8l",
+      "user": {
+        "id": 1,
+        "email": "foo@bah.com"
+      },
+      "spot": {
+        "id": 2,
+        "name": "error"
+      },
+      "discharges": [
+        {
+          "date": "2020-02-03",
+          "value": 46.81,
+          "comment": "cronbot"
+        }
+      ],
+      "measurements": [],
+      "globalIrradiances": [],
+      "measurementsUrl": "https://cronbot-sources.now.sh/?count=10&type&err=true",
+      "globalIrradianceUrl": "cronbot-sources.now.sh/?count=10&type&err=true",
+      "dischargesUrl": "https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json"
     }
   ],
   "genericInputs": [
     {
       "type": "Generische Werte",
-      "pgId": 10,
-      "name": "Boom",
-      "id": "NozWcTnq",
+      "pgId": 1,
+      "name": "gi1",
+      "id": "PPqKRGuD7",
       "user": {
-        "id": 9,
-        "email": "moron-zirfas@technologiestiftung-berlin.de"
+        "id": 1,
+        "email": "foo@bah.com"
       },
       "spot": {
-        "id": 41,
+        "id": 1,
         "name": "foo"
       },
-      "url": "https://cronbot-sources.now.sh?count=100",
+      "url": "https://cronbot-sources.now.sh/?count=100",
       "data": [
         {
-          "date": "2020-01-31 16:02:16",
-          "value": 123,
+          "date": "2020-02-04 14:23:34",
+          "value": 442,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:17",
-          "value": 303,
+          "date": "2020-02-04 14:23:35",
+          "value": 257,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:18",
-          "value": 362,
+          "date": "2020-02-04 14:23:36",
+          "value": 46,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:19",
-          "value": 990,
+          "date": "2020-02-04 14:23:37",
+          "value": 175,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:20",
-          "value": 888,
+          "date": "2020-02-04 14:23:38",
+          "value": 848,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:21",
-          "value": 488,
+          "date": "2020-02-04 14:23:39",
+          "value": 363,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:22",
-          "value": 662,
+          "date": "2020-02-04 14:23:40",
+          "value": 708,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:23",
-          "value": 438,
+          "date": "2020-02-04 14:23:41",
+          "value": 50,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:24",
-          "value": 641,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:25",
-          "value": 719,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:26",
-          "value": 561,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:27",
-          "value": 601,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:28",
-          "value": 226,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:29",
-          "value": 194,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:30",
-          "value": 104,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:31",
-          "value": 680,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:32",
-          "value": 327,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:33",
-          "value": 882,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:34",
-          "value": 936,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:35",
-          "value": 884,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:36",
-          "value": 838,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:37",
-          "value": 343,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:38",
-          "value": 516,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:39",
-          "value": 602,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:40",
-          "value": 685,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:41",
-          "value": 11,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:42",
-          "value": 520,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:43",
-          "value": 512,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:44",
-          "value": 735,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:45",
-          "value": 324,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:46",
-          "value": 270,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:47",
-          "value": 709,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:48",
-          "value": 300,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:49",
-          "value": 911,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:50",
-          "value": 845,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:51",
-          "value": 793,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:52",
-          "value": 489,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:53",
-          "value": 59,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:54",
-          "value": 36,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:55",
-          "value": 462,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:56",
-          "value": 860,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:57",
-          "value": 320,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:58",
-          "value": 858,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:59",
-          "value": 236,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:00",
-          "value": 26,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:01",
-          "value": 805,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:02",
-          "value": 170,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:03",
-          "value": 810,
-          "comment": "cronbot"
-        },
-        {
-          "date": "2020-01-31 16:02:04",
+          "date": "2020-02-04 14:23:42",
           "value": 716,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:05",
-          "value": 470,
+          "date": "2020-02-04 14:23:43",
+          "value": 132,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:06",
-          "value": 522,
+          "date": "2020-02-04 14:23:44",
+          "value": 496,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:07",
-          "value": 338,
+          "date": "2020-02-04 14:23:45",
+          "value": 782,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:08",
-          "value": 458,
+          "date": "2020-02-04 14:23:46",
+          "value": 410,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:09",
-          "value": 684,
+          "date": "2020-02-04 14:23:47",
+          "value": 613,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:10",
+          "date": "2020-02-04 14:23:48",
+          "value": 426,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:49",
+          "value": 801,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:50",
+          "value": 4,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:51",
+          "value": 669,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:52",
+          "value": 913,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:53",
+          "value": 298,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:54",
+          "value": 699,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:55",
+          "value": 33,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:56",
+          "value": 831,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:57",
+          "value": 887,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:58",
+          "value": 36,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:59",
+          "value": 105,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:00",
+          "value": 289,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:01",
+          "value": 174,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:02",
+          "value": 510,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:03",
+          "value": 950,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:04",
+          "value": 682,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:05",
+          "value": 448,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:06",
+          "value": 718,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:07",
+          "value": 113,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:08",
+          "value": 425,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:09",
+          "value": 297,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:10",
+          "value": 212,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:11",
+          "value": 765,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:12",
+          "value": 87,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:13",
           "value": 234,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:11",
-          "value": 999,
+          "date": "2020-02-04 14:23:14",
+          "value": 462,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:12",
-          "value": 76,
+          "date": "2020-02-04 14:23:15",
+          "value": 618,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:13",
-          "value": 674,
+          "date": "2020-02-04 14:23:16",
+          "value": 96,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:14",
-          "value": 852,
+          "date": "2020-02-04 14:23:17",
+          "value": 543,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:15",
-          "value": 896,
+          "date": "2020-02-04 14:23:18",
+          "value": 434,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:19",
+          "value": 495,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:20",
+          "value": 20,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:21",
+          "value": 118,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:22",
+          "value": 427,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:23",
+          "value": 92,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:24",
+          "value": 869,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:25",
+          "value": 601,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:26",
+          "value": 697,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:27",
+          "value": 119,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:28",
+          "value": 456,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:29",
+          "value": 185,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:30",
+          "value": 730,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:31",
+          "value": 854,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:32",
+          "value": 9,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:33",
+          "value": 338,
+          "comment": "cronbot"
+        }
+      ]
+    },
+    {
+      "type": "Generische Werte",
+      "pgId": 2,
+      "name": "gi2",
+      "id": "RxO1mbgQ",
+      "user": {
+        "id": 1,
+        "email": "foo@bah.com"
+      },
+      "spot": {
+        "id": 1,
+        "name": "foo"
+      },
+      "url": "https://cronbot-sources.now.sh/?count=100",
+      "data": [
+        {
+          "date": "2020-02-04 14:23:34",
+          "value": 297,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:35",
+          "value": 172,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:36",
+          "value": 261,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:37",
+          "value": 233,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:38",
+          "value": 759,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:39",
+          "value": 189,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:40",
+          "value": 221,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:41",
+          "value": 657,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:42",
+          "value": 293,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:43",
+          "value": 980,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:44",
+          "value": 349,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:45",
+          "value": 266,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:46",
+          "value": 198,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:47",
+          "value": 14,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:48",
+          "value": 139,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:49",
+          "value": 773,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:50",
+          "value": 17,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:51",
+          "value": 655,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:52",
+          "value": 265,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:53",
+          "value": 350,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:54",
+          "value": 766,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:55",
+          "value": 22,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:56",
+          "value": 926,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:57",
+          "value": 599,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:58",
+          "value": 491,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:59",
+          "value": 402,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:00",
+          "value": 508,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:01",
+          "value": 114,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:02",
+          "value": 900,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:03",
+          "value": 18,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:04",
+          "value": 917,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:05",
+          "value": 912,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:06",
+          "value": 637,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:07",
+          "value": 926,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:08",
+          "value": 560,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:09",
+          "value": 165,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:10",
+          "value": 182,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:11",
+          "value": 737,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:12",
+          "value": 292,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:13",
+          "value": 398,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:14",
+          "value": 111,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:15",
+          "value": 285,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:16",
+          "value": 883,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:17",
+          "value": 696,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:18",
+          "value": 344,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:19",
+          "value": 240,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:20",
+          "value": 751,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:21",
+          "value": 606,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:22",
+          "value": 177,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:23",
+          "value": 814,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:24",
+          "value": 746,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:25",
+          "value": 79,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:26",
+          "value": 772,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:27",
+          "value": 658,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:28",
+          "value": 534,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:29",
+          "value": 980,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:30",
+          "value": 369,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:31",
+          "value": 167,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:32",
+          "value": 328,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:33",
+          "value": 340,
           "comment": "cronbot"
         }
       ]
@@ -524,156 +798,451 @@
   "purificationPlants": [
     {
       "type": "Klärwerk",
-      "pgId": 9,
-      "name": "Ruhleben",
-      "id": "oBuyGbJ9Q",
+      "pgId": 4,
+      "name": "plant1",
+      "id": "2LZNhvyv",
       "user": {
-        "id": 8,
-        "email": "flusshygiene@protonmail.com"
+        "id": 1,
+        "email": "foo@bah.com"
       },
       "spot": {
-        "id": 43,
-        "name": "kleine Badewiese"
+        "id": 1,
+        "name": "foo"
       },
-      "url": "https://kwb-r.github.io/flusshygiene/ka_ruh.json",
+      "url": "https://cronbot-sources.now.sh/?count=10",
       "data": [
         {
-          "date": "2020-01-30",
-          "value": 252.57,
+          "date": "2020-02-04 14:23:34",
+          "value": 959,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:35",
+          "value": 912,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:36",
+          "value": 115,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:37",
+          "value": 322,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:38",
+          "value": 374,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:39",
+          "value": 214,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:40",
+          "value": 183,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:41",
+          "value": 39,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:42",
+          "value": 649,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:43",
+          "value": 42,
           "comment": "cronbot"
         }
       ]
     },
     {
       "type": "Klärwerk",
-      "pgId": 6,
-      "name": "Boom",
-      "id": "D2rjfQeEt",
+      "pgId": 5,
+      "name": "plant2",
+      "id": "CuZntAY9r",
       "user": {
-        "id": 9,
-        "email": "moron-zirfas@technologiestiftung-berlin.de"
+        "id": 1,
+        "email": "foo@bah.com"
       },
       "spot": {
-        "id": 41,
+        "id": 1,
         "name": "foo"
       },
-      "url": "https://cronbot-sources.now.sh?count=10",
+      "url": "https://cronbot-sources.now.sh/?count=10",
       "data": [
         {
-          "date": "2020-01-31 16:02:16",
-          "value": 751,
+          "date": "2020-02-04 14:23:34",
+          "value": 326,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:17",
-          "value": 651,
+          "date": "2020-02-04 14:23:35",
+          "value": 778,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:18",
-          "value": 58,
+          "date": "2020-02-04 14:23:36",
+          "value": 759,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:19",
-          "value": 691,
+          "date": "2020-02-04 14:23:37",
+          "value": 731,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:20",
-          "value": 474,
+          "date": "2020-02-04 14:23:38",
+          "value": 457,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:21",
-          "value": 704,
+          "date": "2020-02-04 14:23:39",
+          "value": 243,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:22",
-          "value": 182,
+          "date": "2020-02-04 14:23:40",
+          "value": 597,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:23",
-          "value": 882,
+          "date": "2020-02-04 14:23:41",
+          "value": 690,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:24",
-          "value": 801,
+          "date": "2020-02-04 14:23:42",
+          "value": 344,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:25",
-          "value": 77,
+          "date": "2020-02-04 14:23:43",
+          "value": 988,
           "comment": "cronbot"
         }
       ]
     },
     {
       "type": "Klärwerk",
-      "pgId": 7,
-      "name": "Bop",
-      "id": "bkWyQ-OM",
+      "pgId": 3,
+      "name": "error3",
+      "id": "ImldLXyA",
       "user": {
-        "id": 9,
-        "email": "moron-zirfas@technologiestiftung-berlin.de"
+        "id": 1,
+        "email": "foo@bah.com"
       },
       "spot": {
-        "id": 41,
-        "name": "foo"
+        "id": 2,
+        "name": "error"
       },
-      "url": "https://cronbot-sources.now.sh?count=10",
+      "url": "https://cronbot-sources.now.sh/?count=100",
       "data": [
         {
-          "date": "2020-01-31 16:02:16",
-          "value": 551,
+          "date": "2020-02-04 14:23:34",
+          "value": 755,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:17",
+          "date": "2020-02-04 14:23:35",
+          "value": 936,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:36",
+          "value": 222,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:37",
+          "value": 86,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:38",
+          "value": 590,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:39",
+          "value": 969,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:40",
+          "value": 895,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:41",
+          "value": 164,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:42",
+          "value": 313,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:43",
+          "value": 312,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:44",
+          "value": 398,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:45",
+          "value": 291,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:46",
+          "value": 936,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:47",
+          "value": 935,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:48",
+          "value": 139,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:49",
+          "value": 123,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:50",
+          "value": 802,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:51",
+          "value": 993,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:52",
+          "value": 962,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:53",
+          "value": 373,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:54",
+          "value": 245,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:55",
+          "value": 491,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:56",
+          "value": 677,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:57",
           "value": 196,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:18",
-          "value": 486,
+          "date": "2020-02-04 14:23:58",
+          "value": 657,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:19",
-          "value": 234,
+          "date": "2020-02-04 14:23:59",
+          "value": 472,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:20",
-          "value": 711,
+          "date": "2020-02-04 14:23:00",
+          "value": 12,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:21",
-          "value": 419,
+          "date": "2020-02-04 14:23:01",
+          "value": 194,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:22",
-          "value": 662,
+          "date": "2020-02-04 14:23:02",
+          "value": 285,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:23",
-          "value": 103,
+          "date": "2020-02-04 14:23:03",
+          "value": 869,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:24",
-          "value": 758,
+          "date": "2020-02-04 14:23:04",
+          "value": 682,
           "comment": "cronbot"
         },
         {
-          "date": "2020-01-31 16:02:25",
-          "value": 185,
+          "date": "2020-02-04 14:23:05",
+          "value": 884,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:06",
+          "value": 60,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:07",
+          "value": 19,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:08",
+          "value": 352,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:09",
+          "value": 277,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:10",
+          "value": 596,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:11",
+          "value": 834,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:12",
+          "value": 561,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:13",
+          "value": 34,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:14",
+          "value": 993,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:15",
+          "value": 727,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:16",
+          "value": 801,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:17",
+          "value": 198,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:18",
+          "value": 435,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:19",
+          "value": 854,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:20",
+          "value": 729,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:21",
+          "value": 53,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:22",
+          "value": 249,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:23",
+          "value": 776,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:24",
+          "value": 420,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:25",
+          "value": 427,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:26",
+          "value": 422,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:27",
+          "value": 341,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:28",
+          "value": 113,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:29",
+          "value": 230,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:30",
+          "value": 764,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:31",
+          "value": 421,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:32",
+          "value": 953,
+          "comment": "cronbot"
+        },
+        {
+          "date": "2020-02-04 14:23:33",
+          "value": 60,
           "comment": "cronbot"
         }
       ]
@@ -681,58 +1250,114 @@
   ],
   "reports": [
     {
-      "email": "flusshygiene@protonmail.com",
-      "id": "iKrtIowR",
-      "message": "\"DuplicateError\". Some elements could not be inserted into the database",
+      "email": "foo@bah.com",
+      "id": "0TSnS-r8l",
+      "message": "Data from endpoint measurementsUrl https://cronbot-sources.now.sh/?count=10&type&err=true could not be parsed. Messag: \" Unexpected token I in JSON at position 0\"",
       "source": {
-        "id": "iKrtIowR",
+        "id": "0TSnS-r8l",
         "user": {
-          "id": 8,
-          "email": "flusshygiene@protonmail.com"
+          "id": 1,
+          "email": "foo@bah.com"
         },
         "spot": {
-          "id": 43,
-          "name": "kleine Badewiese"
+          "id": 2,
+          "name": "error"
         },
         "discharges": [
           {
-            "date": "2020-01-30",
-            "value": 36.02,
+            "date": "2020-02-03",
+            "value": 46.81,
             "comment": "cronbot"
           }
         ],
         "measurements": [],
         "globalIrradiances": [],
+        "measurementsUrl": "https://cronbot-sources.now.sh/?count=10&type&err=true",
+        "globalIrradianceUrl": "cronbot-sources.now.sh/?count=10&type&err=true",
         "dischargesUrl": "https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json"
       },
-      "type": "datapost",
-      "stack": [
-        "entity type: discharges",
-        "{\"id\":163,\"createdAt\":\"2020-01-31T16:02:19.704Z\",\"updatedAt\":\"2020-01-31T16:02:19.704Z\",\"dateTime\":null,\"date\":\"2020-01-30T00:00:00.000Z\",\"value\":36.02,\"comment\":\"cronbot\"}"
-      ],
-      "specifics": "spot: 43 user: 8 mail: flusshygiene@protonmail.com type: discharges"
+      "type": "dataparse",
+      "stack": "{}",
+      "specifics": "spot: 2 user: 1 mail: foo@bah.com type:"
+    },
+    {
+      "email": "foo@bah.com",
+      "id": "0TSnS-r8l",
+      "message": "Endpoint for globalIrradianceUrl could not be read Message: \"Invalid URL: cronbot-sources.now.sh/?count=10&type&err=true\"",
+      "source": {
+        "id": "0TSnS-r8l",
+        "user": {
+          "id": 1,
+          "email": "foo@bah.com"
+        },
+        "spot": {
+          "id": 2,
+          "name": "error"
+        },
+        "discharges": [
+          {
+            "date": "2020-02-03",
+            "value": 46.81,
+            "comment": "cronbot"
+          }
+        ],
+        "measurements": [],
+        "globalIrradiances": [],
+        "measurementsUrl": "https://cronbot-sources.now.sh/?count=10&type&err=true",
+        "globalIrradianceUrl": "cronbot-sources.now.sh/?count=10&type&err=true",
+        "dischargesUrl": "https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json"
+      },
+      "type": "dataget",
+      "stack": "{\"input\":\"cronbot-sources.now.sh/?count=10&type&err=true\",\"code\":\"ERR_INVALID_URL\"}",
+      "specifics": "spot: 2 user: 1 mail: foo@bah.com type:"
+    },
+    {
+      "email": "foo@bah.com",
+      "id": "jcNQden62",
+      "message": "Could not get purificationPlants from https://cronbot-sources.now.sh/?count=10&type&err=true. Message: \"Cannot read property 'id' of undefined\"",
+      "source": {
+        "type": "Klärwerk",
+        "pgId": 2,
+        "name": "error2",
+        "id": "jcNQden62",
+        "user": {
+          "id": 1,
+          "email": "foo@bah.com"
+        },
+        "spot": {
+          "id": 2,
+          "name": "error"
+        },
+        "url": "https://cronbot-sources.now.sh/?count=10&type&err=true",
+        "data": []
+      },
+      "type": "dataget",
+      "stack": "\"TypeError: Cannot read property 'id' of undefined\\n    at Object.exports.getGenericData (/Users/icke/Documents/flusshygiene/flsshygn/packages/cronbot/src/lib/requests/get-generic-pplant-data.ts:64:49)\\n    at processTicksAndRejections (internal/process/task_queues.js:94:5)\\n    at Object.main (/Users/icke/Documents/flusshygiene/flsshygn/packages/cronbot/src/index.ts:80:5)\"",
+      "specifics": "spot: 2 user: 1 mail: foo@bah.com type: purificationPlants"
     }
   ],
   "spots": [
     {
-      "spotId": 43,
-      "spotName": "kleine Badewiese",
-      "userId": 8,
-      "email": "flusshygiene@protonmail.com",
+      "spotId": 1,
+      "spotName": "foo",
+      "userId": 1,
+      "email": "foo@bah.com",
       "apiEndpoints": {
-        "dischargesUrl": "https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json"
+        "measurementsUrl": "https://cronbot-sources.now.sh/?count=10&type=conc",
+        "dischargesUrl": "https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json",
+        "globalIrradianceUrl": "https://cronbot-sources.now.sh/?count=10"
       },
       "hasModel": false
     },
     {
-      "spotId": 41,
-      "spotName": "foo",
-      "userId": 9,
-      "email": "moron-zirfas@technologiestiftung-berlin.de",
+      "spotId": 2,
+      "spotName": "error",
+      "userId": 1,
+      "email": "foo@bah.com",
       "apiEndpoints": {
-        "measurementsUrl": "https://cronbot-sources.now.sh?count=10&type=conc",
-        "globalIrradianceUrl": "https://cronbot-sources.now.sh?count=10",
-        "dischargesUrl": "https://cronbot-sources.now.sh?count=10"
+        "measurementsUrl": "https://cronbot-sources.now.sh/?count=10&type&err=true",
+        "dischargesUrl": "https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json",
+        "globalIrradianceUrl": "cronbot-sources.now.sh/?count=10&type&err=true"
       },
       "hasModel": false
     }

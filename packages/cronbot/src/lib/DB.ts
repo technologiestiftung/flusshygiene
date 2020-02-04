@@ -40,6 +40,7 @@ export class DB {
     this.db = lowdb(
       process.env.NODE_ENV === "test" ? new Memory<Schema>("") : adapter,
     );
+    if (this.db === undefined) throw new Error("DB not defined");
     this.db.setState(defaultState);
     this.db.defaults(defaultState).write();
     // this.db._.mixin({
@@ -69,7 +70,6 @@ export class DB {
     //     return array.push(...cleanItems);
     //   },
     // });
-    if (this.db === undefined) throw new Error("DB not defiend");
   }
   private constructor(public readonly name: string) {
     this.init();
@@ -138,7 +138,7 @@ export class DB {
     }
   }
   public resetState(): void {
-    this.db.setState(defaultState);
+    this.db.setState({ ...defaultState });
   }
   public getSpots(): Spot[] {
     return this.db.get("spots").value();

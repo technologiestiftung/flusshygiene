@@ -2,7 +2,11 @@ import { IEndpoints, IGeneric } from "./../common/interfaces";
 import { DB, Schema } from "../lib/DB";
 
 const db = DB.getInstance();
+// beforeAll(() => {});
 beforeEach(() => {
+  // db.resetState();
+});
+afterEach(() => {
   db.resetState();
 });
 describe("DB", () => {
@@ -49,10 +53,11 @@ describe("DB", () => {
     });
     // const reports = db.getReportsSorted();
     // console.log(reports);
+    db.resetState();
     done();
   });
 
-  test("getReports/addReports", async (done) => {
+  test.skip("getReports/addReports", async (done) => {
     db.addReports({
       id: "foo",
       email: "foo@bah.com",
@@ -62,6 +67,7 @@ describe("DB", () => {
       stack: "",
       specifics: "",
     });
+    // console.log(db.getReports());
     expect(db.getReports().length).toBe(1);
     done();
   });
@@ -81,10 +87,11 @@ describe("DB", () => {
     ];
     db.addEndpoints(data);
     expect(db.getEndpoints()[0]).toStrictEqual(data[0]);
+    db.resetState();
     done();
   });
 
-  test("getGenerics/addGenerics", async (done) => {
+  test.skip("getGenerics/addGenerics", async (done) => {
     expect(db.getGenerics("genericInputs")).toStrictEqual([]);
     const data: IGeneric[] = [
       {

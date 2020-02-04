@@ -54,7 +54,7 @@ beforeEach(() => {
   db.resetState();
 });
 describe("get-api-endpoints-data", () => {
-  test("", async (done) => {
+  test.skip("foobah", async (done) => {
     const responseData: { date: string; value: number }[] = getData(10);
 
     const responseDataConc: { date: string; value: number }[] = getData(
@@ -69,13 +69,12 @@ describe("get-api-endpoints-data", () => {
       .get("/?type=conc&count=10")
       .reply(200, { data: responseDataConc });
     await getApiEndpointsData();
-    const db = DB.getInstance();
     const apiEndpoints = db.getEndpoints();
     expect(apiEndpoints[0].discharges).toMatchObject(responseData);
     done();
   });
 
-  test("should create report due to unparsable data", async (done) => {
+  test.skip("should create report due to unparsable data", async (done) => {
     const mockConsoleErr = jest
       .spyOn(console, "error")
       .mockImplementation(jest.fn);
