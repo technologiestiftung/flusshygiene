@@ -97,26 +97,31 @@ export const getCollectionsSubItem: getResponse = async (request, response) => {
         )}"`,
         success: false,
       });
+      return;
     } else {
       const spot = await getSpot(userId, spotId);
       if (spot === undefined) {
         responderWrongId(response);
+        return;
       } else {
         const repoName = collectionRepoMapping[request.params.collectionName];
         const collection = await getColletionItemById(itemId, repoName);
         if (collection === undefined) {
           responderWrongId(response);
+          return;
         } else {
           responder(
             response,
             HttpCodes.success,
             successResponse(`${itemId} from ${collectionName}`, [collection]),
           );
+          return;
         }
       }
     }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
+    return;
   }
 };
 

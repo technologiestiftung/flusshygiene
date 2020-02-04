@@ -1,6 +1,7 @@
 playground.js
 tempCodeRunnerFile.javascript
-dist/
+dist
+!dist/.gitkeep
 .vscode
 flussgygiene-utils/
 .env

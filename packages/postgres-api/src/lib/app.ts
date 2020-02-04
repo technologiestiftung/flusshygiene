@@ -1,6 +1,6 @@
-import { UserRole } from './common/index';
-import { GenericInput } from './../orm/entity/GenericInput';
-import { PurificationPlant } from './../orm/entity/PurificationPlant';
+import { UserRole } from './common';
+// import { GenericInput } from './../orm/entity/GenericInput';
+// import { PurificationPlant } from './../orm/entity/PurificationPlant';
 import { Bathingspot } from './../orm/entity/Bathingspot';
 import cors, { CorsOptions } from 'cors';
 // import errorHandler from 'errorhandler';
@@ -17,7 +17,7 @@ import { cookieListing } from './middleware/cookie-listing';
 import { logger } from './logger';
 import publicRoutes from './routes-public';
 import { errorHandler } from './middleware/errorHandler';
-import { User } from '../orm/entity';
+import { User, PurificationPlant, GenericInput } from '../orm/entity';
 
 const RedisStore = require('connect-redis')(session); // eslint-disable-line
 const client = redis.createClient({
@@ -60,12 +60,25 @@ const app = express();
       spot.name = 'foo';
       spot.apiEndpoints = {
         measurementsUrl: 'https://cronbot-sources.now.sh/?count=10&type=conc',
-        dischargesUrl: 'https://cronbot-sources.now.sh/?count=70',
-        globalIrradianceUrl: 'https://cronbot-sources.now.sh/?count=70',
+        dischargesUrl:
+          'https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json',
+        globalIrradianceUrl: 'https://cronbot-sources.now.sh/?count=10',
       };
       await manager.save(spot);
       user.bathingspots = [spot];
       await manager.save(user);
+
+      // const model = new BathingspotModel();
+      // model.parameter = ModelParamter.conc_ec;
+      // await manager.save(model);
+      // const modelFile = new RModelFile();
+      // modelFile.type = 'rmodel';
+      // modelFile.url = 'foo';
+      // await manager.save(RModelFile);
+      // model.rmodelfiles = [modelFile];
+      // await manager.save(model);
+      // spot.models = [model];
+      // await manager.save(spot);
 
       const spotErr = new Bathingspot();
       spotErr.isPublic = true;
@@ -73,7 +86,8 @@ const app = express();
       spotErr.apiEndpoints = {
         measurementsUrl:
           'https://cronbot-sources.now.sh/?count=10&type&err=true',
-        dischargesUrl: 'https://cronbot-sources.now.sh/?count=10&type&err=true',
+        dischargesUrl:
+          'https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json',
         globalIrradianceUrl: 'cronbot-sources.now.sh/?count=10&type&err=true',
       };
       await manager.save(spotErr);
@@ -88,6 +102,10 @@ const app = express();
           name: 'error2',
           url: 'https://cronbot-sources.now.sh/?count=10&type&err=true',
         },
+        {
+          name: 'error3',
+          url: 'https://cronbot-sources.now.sh/?count=100',
+        },
       ]);
       await manager.save(errPPlant);
       spotErr.purificationPlants = errPPlant;
@@ -97,12 +115,12 @@ const app = express();
         {
           name: 'plant1',
 
-          url: 'https://cronbot-sources.now.sh/?count=100',
+          url: 'https://cronbot-sources.now.sh/?count=10',
         },
         {
           name: 'plant2',
 
-          url: 'https://cronbot-sources.now.sh/?count=100',
+          url: 'https://cronbot-sources.now.sh/?count=10',
         },
       ]);
       // plant.name = 'plant';
@@ -110,7 +128,6 @@ const app = express();
       await manager.save(pplants);
       spot.purificationPlants = pplants;
       await manager.save(spot);
-
       // const gi = new GenericInput();
       // gi.name = 'gi';
       // gi.url = 'https://cronbot-sources.now.sh/?count=10';

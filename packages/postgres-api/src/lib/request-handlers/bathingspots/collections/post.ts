@@ -1,3 +1,6 @@
+// import { PurificationPlant } from './../../../../orm/entity/PurificationPlant';
+// import { GenericInput } from './../../../../orm/entity/GenericInput';
+// import { buildPayload } from './../../responders';
 import {
   // apiVersion,
   HttpCodes,
@@ -10,18 +13,13 @@ import { collectionNames } from './collections';
 import {
   errorResponse,
   responder,
-  responderWrongId,
-  successResponse,
-  responderWrongRoute,
+  partialSuccessResponder,
+  buildPayload,
 } from '../../responders';
 
 import { getSpotWithRelation } from '../../../utils/spot-repo-helpers';
 
-import {
-  collectionRepoMapping,
-  getGIWithRelations,
-  getPPlantWithRelations,
-} from '../../../utils/collection-repo-helpers';
+import { collectionRepoMapping } from '../../../utils/collection-repo-helpers';
 
 import { getConnection, getRepository, ObjectLiteral } from 'typeorm';
 
@@ -32,13 +30,14 @@ import {
   BathingspotPrediction,
   Discharge,
   GenericInput,
-  GInputMeasurement,
+  // GInputMeasurement,
   GlobalIrradiance,
   ImageFile,
   PurificationPlant,
   Rain,
-  PPlantMeasurement,
+  // PPlantMeasurement,
 } from '../../../../orm/entity';
+import { DuplicateError } from '../../../errors/DuplicateError';
 
 // interface IIdentifier {
 //   id: number;
@@ -59,147 +58,13 @@ const insertUniqueOnly: (
   return ires.identifiers;
 };
 
-export const postCollectionsSubItem: postResponse = async (
-  request,
-  response,
-) => {
-  try {
-    // const repoName = collectionRepoMapping[request.params.collection];
-    // const userId = parseInt(request.params.userId, 10);
-    // const spotId = parseInt(request.params.spotId, 10);
-    // const collectionName = request.params.collectionName;
-    const itemId = request.params.itemId;
-    let bulkPost = false;
-    // const spot = response.locals.spot;
-    const collectionName = response.locals.collectionName;
-
-    const repoName = collectionRepoMapping[collectionName];
-    // const repoPPlant = getRepository(PurificationPlant);
-    // const repoPPlantMeasurement = getRepository(PPlantMeasurement);
-    // let inData: GInputMeasurement[] = [];
-
-    // let pp: PurificationPlant | undefined;
-    let res;
-    let inData: any = [];
-    if (Array.isArray(request.body) === false) {
-      inData.push(request.body);
-    } else {
-      inData = request.body;
-      bulkPost = true;
-    }
-    switch (repoName) {
-      case 'GenericInput': {
-        const gi = await getGIWithRelations(itemId);
-        if (gi === undefined) {
-          responderWrongId(response);
-          return;
-        }
-        const repoGInputMeasurement = getRepository(GInputMeasurement);
-        const measurements = repoGInputMeasurement.create(inData);
-        res = await repoGInputMeasurement.save(measurements);
-        if (gi.measurements === undefined) {
-          gi.measurements = measurements;
-        } else {
-          gi.measurements.push(...measurements);
-        }
-        const repoGenericInput = getRepository(GenericInput);
-        await repoGenericInput.save(gi);
-        // res = measurements;
-        break;
-      }
-      case 'PurificationPlant': {
-        const pp = await getPPlantWithRelations(itemId);
-        if (pp === undefined) {
-          responderWrongId(response);
-          return;
-        }
-        const repoPPlantMeasurement = getRepository(PPlantMeasurement);
-        const measurements = repoPPlantMeasurement.create(inData);
-        res = await repoPPlantMeasurement.save(measurements);
-        // console.log(measurements);
-        if (pp.measurements === undefined) {
-          pp.measurements = measurements;
-        } else {
-          pp.measurements.push(...measurements);
-        }
-        const repoPPlant = getRepository(PurificationPlant);
-        await repoPPlant.save(pp);
-        // res = measurements;
-        break;
-      }
-      default: {
-        responderWrongRoute(response);
-        return;
-      }
-    }
-    // const repoGInputMeasurement = getRepository(GInputMeasurement);
-    // const repoPPlantMeasurement = getRepository(PPlantMeasurement);
-    // else
-    // {
-
-    // const mergedEntities: GInputMeasurement[] = [];
-    // let mergedEntity: GInputMeasurement | undefined;
-
-    // if (Array.isArray(request.body) === false) {
-    //   inData.push(request.body);
-    // } else {
-    //   inData = request.body;
-    // }
-    // const repo: any = getRepository(repoName);
-    // let res;
-    // for (const datum of inData) {
-
-    //   switch (repoName) {
-    //     case 'GenericInput': {
-    //       const measurement = repoGInputMeasurement.create(datum);
-    //       // mergedEntity = repoGInputMeasurement.merge(measurement, datum);
-    //       if (gi!.measurements === undefined) {
-    //         gi!.measurements = [];
-    //       }
-    //       // } else {
-    //       gi!.measurements.push(
-    //         measurement as GInputMeasurement,
-    //       );
-    //       // }
-    //       mergedEntities.push(measurement);
-    //       break;
-    //     }
-    //     case 'PurificationPlant': {
-    //       const measurement = repoPPlantMeasurement.create(datum);
-    //       if (pp!.measurements === undefined) {
-    //         pp!.measurements = [];
-    //       }
-    //       pp!.measurements.push(
-    //         measurement as PPlantMeasurement,
-    //       );
-    //       break;
-    //     }
-    //   }
-    // }
-
-    // console.log(res);
-    // res = await repoGInputMeasurement.save(mergedEntities);
-    // await repoGenericInput.save(gi as GenericInput);
-    responder(
-      response,
-      HttpCodes.successCreated,
-      successResponse(
-        `${repoName} measurement posted.`,
-        bulkPost === true ? res : [res[0]],
-      ),
-    );
-    // }
-    // }
-  } catch (error) {
-    responder(response, HttpCodes.internalError, errorResponse(error));
-  }
-};
-
 export const postCollection: postResponse = async (request, response) => {
   try {
     // const userId = parseInt(request.params.userId, 10);
     // const spotId = parseInt(request.params.spotId, 10);
     const collectionId: string = request.params.collectionName;
+    const responseMessages: DuplicateError[] = [];
+
     if (collectionNames.includes(collectionId) === false) {
       responder(response, HttpCodes.badRequest, {
         message: `"${collectionId}" not included in "${JSON.stringify(
@@ -298,6 +163,7 @@ export const postCollection: postResponse = async (request, response) => {
                   BathingspotMeasurement,
                 );
                 identifiersArray.push(...ires);
+
                 // const ires = await getConnection()
                 //   .createQueryBuilder()
                 //   .insert()
@@ -383,6 +249,7 @@ export const postCollection: postResponse = async (request, response) => {
             case 'images':
               {
                 const mEntity = mergedEntity as ImageFile;
+
                 if (spotWithRelation.images === undefined) {
                   spotWithRelation.images = [mEntity];
                 } else {
@@ -395,6 +262,29 @@ export const postCollection: postResponse = async (request, response) => {
           }
           mergedEntities.push(mergedEntity);
         }
+
+        // console.log('identifiersArray:', identifiersArray);
+        for (const identifier of identifiersArray) {
+          try {
+            await getRepository(Bathingspot)
+              .createQueryBuilder()
+              .relation(Bathingspot, collectionId)
+              .of(spotWithRelation)
+              .add(identifier);
+          } catch (e) {
+            const faildEntity = await repo.findOne(identifier.id);
+            responseMessages.push(
+              new DuplicateError([
+                `entity type: ${collectionId}`,
+                JSON.stringify(faildEntity),
+              ]),
+            );
+            // console.error('enitity', faildEntity, 'could not be inserted');
+            if (faildEntity !== undefined) {
+              await repo.remove(faildEntity);
+            }
+          }
+        }
         const ids = identifiersArray
           .filter((ele) => {
             if (ele === undefined) {
@@ -406,8 +296,11 @@ export const postCollection: postResponse = async (request, response) => {
             return ele;
           })
           .map((ele) => ele.id);
-        // console.log(ids);
-        let res = await repo.findByIds(ids);
+        const inserted = await repo.findByIds(ids);
+        // console.log(inserted, 'inserted');
+        // console.log(responseMessages, 'responseMessages');
+
+        const res = [...inserted, ...responseMessages];
         /**
          * WE need to be able to post a GI or PP with measruements in attachedMeasurements
          * This is somekind of an edge case but makes creating those way faster
@@ -423,59 +316,91 @@ export const postCollection: postResponse = async (request, response) => {
           (collectionId === 'genericInputs' ||
             collectionId === 'purificationPlants')
         ) {
-          // so we are in single PP or GI
-          switch (collectionId) {
-            case 'genericInputs': {
-              const repoGi = getRepository(GenericInput);
-              const repoGiM = getRepository(GInputMeasurement);
-              const gim = repoGiM.create(attachedMeasurements);
-              // const gim = attachedMeasurements.map((elem) => {
-              //   const measurement = repoGiM.create(elem);
-              //   return measurement;
-              // });
-              const gi = await repoGi.findOne(res[0].id);
-              if (gi === undefined)
-                throw new Error(
-                  'Could not find newly created resource severe!!!',
-                );
-              gi.measurements = gim;
-              await repoGiM.insert(gim);
-              res = await repoGi.save(gi);
-              break;
-            }
-            case 'purificationPlants': {
-              const repoPP = getRepository(PurificationPlant);
-              const repoPM = getRepository(PPlantMeasurement);
-              const ppm = repoPM.create(attachedMeasurements);
-              // const gim = attachedMeasurements.map((elem) => {
-              //   const measurement = repoGiM.create(elem);
-              //   return measurement;
-              // });
-              const pp = await repoPP.findOne(res[0].id);
-              if (pp === undefined)
-                throw new Error(
-                  'Could not find newly created resource severe!!!',
-                );
-              pp.measurements = ppm;
-              await repoPM.insert(ppm);
-              res = await repoPP.save(pp);
-              break;
-            }
-            default: {
-              throw new Error(
-                'No default case defined for attachedMeasurements posting. Needs to be PP or GI',
-              );
-            }
-          }
+          responder(
+            response,
+            HttpCodes.badRequestConflict,
+            buildPayload(
+              false,
+              'Inserting measurements together with GenericInput or PurificationPlant is deprecated',
+              [],
+            ),
+          );
+          return;
+          // // so we are in single PP or GI
+          // switch (collectionId) {
+          //   case 'genericInputs': {
+          //     const repoGi = getRepository(GenericInput);
+          //     const repoGiM = getRepository(GInputMeasurement);
+          //     const gim = repoGiM.create(attachedMeasurements);
+          //     // const gim = attachedMeasurements.map((elem) => {
+          //     //   const measurement = repoGiM.create(elem);
+          //     //   return measurement;
+          //     // });
+          //     const gi = await repoGi.findOne(res[0].id);
+          //     if (gi === undefined)
+          //       throw new Error(
+          //         'Could not find newly created resource severe!!!',
+          //       );
+          //     gi.measurements = gim;
+          //     await repoGiM.insert(gim);
+          //     res = await repoGi.save(gi);
+          //     break;
+          //   }
+          //   case 'purificationPlants': {
+          //     // console.log('in PPlant measrements');
+          //     const repoPP = getRepository(PurificationPlant);
+          //     const repoPM = getRepository(PPlantMeasurement);
+          //     // const ppm = repoPM.create(attachedMeasurements);
+          //     // const gim = attachedMeasurements.map((elem) => {
+          //     //   const measurement = repoGiM.create(elem);
+          //     //   return measurement;
+          //     // });
+          //     const pp = await repoPP.findOne(res[0].id);
+          //     if (pp === undefined)
+          //       throw new Error(
+          //         'Could not find newly created resource severe!!!',
+          //       );
+          //     const insertRes = await repoPM
+          //       .createQueryBuilder()
+          //       .insert()
+          //       .into(PPlantMeasurement)
+          //       .values(attachedMeasurements)
+          //       .onConflict(`("date") DO NOTHING`)
+          //       .execute();
+          //     // pp.measurements = insertRes;
+          //     // await repoPM.insert(ppm);
+          //     // console.log(insertRes, 'insertRes');
+          //     await repoPP
+          //       .createQueryBuilder()
+          //       .relation(PurificationPlant, 'measurements')
+          //       .of(pp)
+          //       .add(insertRes.identifiers);
+          //     // res = await repoPP.save(pp);
+          //     break;
+          //   }
+          //   default: {
+          //     throw new Error(
+          //       'No default case defined for attachedMeasurements posting. Needs to be PP or GI',
+          //     );
+          //   }
+          // }
         }
         // console.log('post collection res', res);
         // try {
         // res = await repo.save(mergedEntities);
-        await getRepository(Bathingspot).save(spotWithRelation);
+        // await getRepository(Bathingspot).save(spotWithRelation);
+        const success = responseMessages.length > 0 ? false : true;
         responder(
           response,
           HttpCodes.successCreated,
-          successResponse(`${repoName} Posted`, res),
+          partialSuccessResponder({
+            message: `${repoName} Posted.${
+              success ? '' : 'Some values could not be inserted'
+            }`,
+            data: res,
+            success,
+          }),
+          // successResponse(`${repoName} Posted`, res),
         );
         // } catch (e) {
         //   // console.error(e);

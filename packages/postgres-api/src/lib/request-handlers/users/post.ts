@@ -58,11 +58,8 @@ export const postUser: postResponse = async (request, response) => {
     const result = await createNewUser(request.body);
     if (Array.isArray(result) === true) {
       // console.log(result);
-      responder(
-        response,
-        HttpCodes.badRequestNotFound,
-        errorResponse(result as ValidationError[]),
-      );
+      const err = new Error(JSON.stringify(result));
+      responder(response, HttpCodes.badRequestNotFound, errorResponse(err));
     } else {
       const user = result as User;
       let region: Region | undefined;

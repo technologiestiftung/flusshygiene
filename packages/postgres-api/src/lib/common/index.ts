@@ -4,6 +4,7 @@ import { Bathingspot } from '../../orm/entity/Bathingspot';
 import { Region } from '../../orm/entity/Region';
 import { User } from '../../orm/entity/User';
 import { version } from './../version';
+import { QueryFailedError } from 'typeorm';
 
 export const apiVersion = version;
 export interface IFilteredEntityPropsResoponse {
@@ -40,7 +41,6 @@ export interface IMetaData {
   bucket: string;
   key: string;
 }
-
 
 export interface IConstants {
   AWS_BUCKET: string;
@@ -82,6 +82,7 @@ export type SuccessResponder = (
   truncated?: boolean,
   skip?: number,
   limit?: number,
+  success?: boolean,
 ) => IDefaultResponsePayload;
 
 export type SuggestionResponder = (
@@ -98,7 +99,7 @@ export type ResponderSuccessCreated = (
 export type ResponderSuccess = (response: Response, message: string) => void;
 
 export type ErrorResponder = (
-  error: Error | ValidationError | ValidationError[],
+  error: Error | ValidationError | QueryFailedError,
 ) => IDefaultResponsePayload;
 
 export type PayloadBuilder = (

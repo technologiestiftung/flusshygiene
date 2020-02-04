@@ -39,7 +39,7 @@ const userData = {
 };
 const spotData = { name: 'foo', isPublic: true };
 describe('Testing generic inputs', () => {
-  let app: Application;
+  // let app: Application;
   let connections: Connection[];
 
   beforeAll(async (done) => {
@@ -63,7 +63,7 @@ describe('Testing generic inputs', () => {
     }
   });
 
-  app = express();
+  const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use('/api/v1/', routes);
@@ -88,7 +88,6 @@ describe('Testing generic inputs', () => {
       .send(userData)
       .set(headers);
     const user = userRes.body.data[0];
-
     const spotRes = await request(app)
       .post(`/api/v1/users/${user.id}/bathingspots`)
       .send(spotData)
@@ -102,6 +101,7 @@ describe('Testing generic inputs', () => {
       .get(`/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs`)
       .set(headers);
 
+    // console.log(resGet.body);
     const resPost = await request(app)
       .post(`/api/v1/users/${user.id}/bathingspots/${spot.id}/genericInputs`)
       .send({ name: 'foo' })

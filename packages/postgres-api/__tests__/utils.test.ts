@@ -1,3 +1,4 @@
+import { formatDateToString, pad } from './../src/lib/utils/format-dates';
 import fs from 'fs';
 import path from 'path';
 import { IObject } from '../src/lib/common';
@@ -53,5 +54,21 @@ describe('generic property getter', () => {
     expect(getPropsValueGeneric(o, 'foo')).toBe(undefined);
     expect(getPropsValueGeneric<string>(o, 'bool')).toBe(true);
     expect(getPropsValueGeneric<string>(o, 'foo')).toBe(undefined);
+  });
+});
+
+describe('string formatting tools', () => {
+  test('should match string', () => {
+    const date = new Date();
+    const res = formatDateToString(date);
+
+    expect(res).toEqual(
+      expect.stringMatching(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/),
+    );
+  });
+  test('should pad number', () => {
+    expect(pad(2)).toEqual('02');
+    expect(pad(10)).toEqual('10');
+    expect(pad(100)).toEqual('100');
   });
 });

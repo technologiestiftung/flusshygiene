@@ -12,7 +12,7 @@ import {
 import { Bathingspot } from './Bathingspot';
 
 @Entity()
-@Unique(['date', 'bathingspot'])
+@Unique(['date', 'bathingspot.id'])
 export class BathingspotMeasurement {
   @PrimaryGeneratedColumn()
   public id!: number;

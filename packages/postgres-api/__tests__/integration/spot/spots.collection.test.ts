@@ -3,7 +3,6 @@ jest.useFakeTimers();
 import express, { Application } from 'express';
 import path from 'path';
 import 'reflect-metadata';
-import { async } from 'rxjs/internal/scheduler/async';
 import request from 'supertest';
 import { Connection } from 'typeorm';
 import routes from '../../../src/lib/routes';
@@ -42,6 +41,15 @@ describe('Testing all collection types', () => {
     connections = await createTestingConnections();
     done();
   });
+
+  // afterEach(async (done) => {
+  //   try {
+  //     await reloadTestingDatabases(connections);
+  //     done();
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // });
 
   afterAll(async (done) => {
     try {
@@ -117,7 +125,7 @@ describe('Testing all collection types', () => {
       .send({ name: 'water', isPublic: true })
       .set(headers);
     // console.log(spotRes.body);
-    const rainRes = await request(app)
+    await request(app)
       .post(`/api/v1/users/1/bathingspots/${spotRes.body.data[0].id}/rains`)
       .send({
         date: '08-Jan-1999',
