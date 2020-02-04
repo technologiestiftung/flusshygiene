@@ -62,7 +62,7 @@ if (API_URL === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("API_URL cis not defined");
 }
 
-if (/undefined/gi.exec(API_URL) !== null) {
+if (/undefined/gi.exec(API_URL) !== null && process.env.NODE_ENV !== "test") {
   throw new Error("API_URL contains the word undefined");
 }
 
