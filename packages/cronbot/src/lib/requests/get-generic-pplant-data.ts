@@ -1,6 +1,6 @@
 import { logger } from "./../../utils/logger";
 import { buildReport } from "./../report";
-import { IGeneric, Spot } from "../../common/interfaces";
+import { IGeneric } from "../../common/interfaces";
 import got from "got";
 import { gotOptionsFactory } from "../../utils/got-util";
 import { API_URL } from "../../common/env";
@@ -8,12 +8,13 @@ import { DB } from "../DB";
 import shortid from "shortid";
 import { GenericType } from "../../common/types";
 import { unique } from "../../utils/unique-values";
+import { isURL } from "../../utils/is-url";
 
 const db = DB.getInstance();
-export const getGenericData: (
-  type: GenericType,
-  spots: Spot[],
-) => Promise<void> = async (type, spots) => {
+export const getGenericData: (type: GenericType) => Promise<void> = async (
+  type,
+) => {
+  const spots = db.getSpots();
   for (const spot of spots) {
     const opts = await gotOptionsFactory({
       url: `${API_URL}/users/${spot.userId}/bathingspots/${spot.spotId}/${type}`,
@@ -24,7 +25,11 @@ export const getGenericData: (
       try {
         const json = JSON.parse(res.body);
         for (const item of json.data) {
-          if (item.url !== undefined && item.url !== null) {
+          if (
+            item.url !== undefined &&
+            item.url !== null &&
+            isURL(item.url) === true
+          ) {
             const data: IGeneric = {
               type: type === "genericInputs" ? "Generische Werte" : "Klärwerk",
               pgId: item.id,
@@ -36,6 +41,7 @@ export const getGenericData: (
               data: [],
             };
             try {
+              logger.info("item url", JSON.stringify(item.url));
               const response = await got(item.url);
 
               try {
@@ -55,8 +61,9 @@ export const getGenericData: (
                   stack: JSON.stringify(eParse.stack),
                   email: spot.email,
                   type: "dataparse",
+                  specifics: `spot: ${item.spot.id} user: ${item.user.id} mail: ${item.user.email} type: ${type}`,
                 });
-                logger.err(eParse);
+                logger.error(JSON.stringify(eParse));
                 db.addReports(report);
               } // Done! woohoo! \o/
             } catch (eGetItemData) {
@@ -67,8 +74,9 @@ export const getGenericData: (
                 stack: JSON.stringify(eGetItemData.stack),
                 email: spot.email,
                 type: "dataget",
+                specifics: `spot: ${spot.spotId} user: ${spot.userId} mail: ${spot.email} type: ${type}`,
               });
-              logger.err(eGetItemData);
+              logger.error(JSON.stringify(eGetItemData));
               db.addReports(report);
             }
           }
@@ -82,21 +90,23 @@ export const getGenericData: (
           type: "admin",
           stack: JSON.stringify(eParsePGApi.stack),
           email: "admin",
+          specifics: `spot: ${spot.spotId} user: ${spot.userId} mail: ${spot.email} type: ${type}`,
         });
-        logger.err(eParsePGApi);
+        logger.error(JSON.stringify(eParsePGApi));
         db.addReports(report);
       }
     } catch (eGetGeneric) {
       // get GI or PP from postgres api did not work
       const report = buildReport({
         id: "",
-        message: `${type} Message: "${eGetGeneric.message}"`,
+        message: `${type} Message: "${eGetGeneric.message}" from url: "${opts.url}"`,
         source: spot,
-        type: "admin",
+        type: "dataget",
         stack: JSON.stringify(eGetGeneric.stack),
         email: "admin",
+        specifics: `spot: ${spot.spotId} user: ${spot.userId} mail: ${spot.email} type: ${type}`,
       });
-      logger.err(eGetGeneric);
+      logger.error("GET from PG DB error", JSON.stringify(eGetGeneric));
       db.addReports(report);
     }
   } // end of for loop

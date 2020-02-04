@@ -9,6 +9,7 @@ import {
   AUTH0_CLIENT_SECRET,
   AUTH0_AUDIENCE,
 } from "../common/env";
+import { logger } from "../utils/logger";
 
 export interface IToken {
   access_token: string;
@@ -63,17 +64,17 @@ export const getFromDisk: (
     }
     // console.log("Getting token from disk"); // eslint-disable-line
     if (fs.existsSync(filePath) === false) {
-      console.warn(`Path to disk token is wrong "${filePath}"`);
+      logger.warn(`Path to disk token is wrong "${filePath}"`);
       return undefined;
     }
     const token = fs.readFileSync(filePath, "utf8");
     if (token.startsWith("Bearer ") === false) {
-      console.warn("Token format is wrong. Does not start with 'Bearer'");
+      logger.warn("Token format is wrong. Does not start with 'Bearer'");
       return undefined;
     }
     return token;
   } catch (error) {
-    console.error(error);
+    logger.error(JSON.stringify(error));
 
     throw error;
   }

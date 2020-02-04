@@ -9,6 +9,8 @@ const MAILGUN_DOMAIN: string | undefined = process.env.MAILGUN_DOMAIN;
 const MAILGUN_APIKEY: string | undefined = process.env.MAILGUN_APIKEY;
 const MAILGUN_FROM: string | undefined = process.env.MAILGUN_FROM;
 const MAILGUN_TO: string | undefined = process.env.MAILGUN_TO;
+const FLSSHYGN_PREDICT_URL: string | undefined =
+  process.env.FLSSHYGN_PREDICT_URL;
 // dereived
 const API_URL: string | undefined = `${API_HOST}/api/${API_VERSION}`;
 let CRONBOT_API_TOKEN: string | undefined = undefined;
@@ -43,7 +45,9 @@ if (AUTH0_CLIENT_ID === undefined) {
 if (AUTH0_CLIENT_SECRET === undefined) {
   throw new Error("AUTH0_CLIENT_SECRET is not defined");
 }
-
+if (FLSSHYGN_PREDICT_URL === undefined) {
+  throw new Error("FLSSHYGN_PREDICT_URL is not defined");
+}
 if (AUTH0_TOKEN_ISSUER === undefined) {
   throw new Error("AUTH0_TOKEN_ISSUER is not defined");
 }
@@ -75,4 +79,5 @@ export {
   MAILGUN_APIKEY,
   MAILGUN_FROM,
   MAILGUN_TO,
+  FLSSHYGN_PREDICT_URL,
 };

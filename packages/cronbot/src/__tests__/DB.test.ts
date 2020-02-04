@@ -18,6 +18,7 @@ describe("DB", () => {
       message: "foo",
       source: {} as IGeneric,
       stack: "",
+      specifics: "",
     });
     db.addReports({
       id: "foo",
@@ -26,6 +27,7 @@ describe("DB", () => {
       message: "foo",
       source: {} as IGeneric,
       stack: "",
+      specifics: "",
     });
     db.addReports({
       id: "foo",
@@ -34,6 +36,7 @@ describe("DB", () => {
       message: "foo",
       source: {} as IGeneric,
       stack: "",
+      specifics: "",
     });
     db.addReports({
       id: "foo",
@@ -42,9 +45,10 @@ describe("DB", () => {
       message: "foo",
       source: {} as IGeneric,
       stack: "",
+      specifics: "",
     });
-    const reports = db.getReportsSorted();
-    console.log(reports);
+    // const reports = db.getReportsSorted();
+    // console.log(reports);
     done();
   });
 
@@ -56,6 +60,7 @@ describe("DB", () => {
       message: "foo",
       source: {} as IGeneric,
       stack: "",
+      specifics: "",
     });
     expect(db.getReports().length).toBe(1);
     done();
@@ -101,6 +106,7 @@ describe("DB", () => {
       genericInputs: [],
       purificationPlants: [],
       reports: [],
+      spots: [],
     });
     done();
   });

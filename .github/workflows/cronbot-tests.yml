@@ -1,4 +1,4 @@
-name: CMS SPA test and build
+name: CRONBOT test and build
 env:
   SUFFIX: cronbot
   STAGE: dev

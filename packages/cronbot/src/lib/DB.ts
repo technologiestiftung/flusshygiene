@@ -6,16 +6,24 @@
 import lowdb from "lowdb";
 import FileSync from "lowdb/adapters/FileSync";
 import Memory from "lowdb/adapters/Memory";
-import { IEndpoints, IGeneric, IReport } from "../common/interfaces";
+import { IEndpoints, IGeneric, IReport, Spot } from "../common/interfaces";
 import { GenericType } from "../common/types";
 
 export type Schema = {
+  spots: Spot[];
   endpoints: IEndpoints[];
   genericInputs: IGeneric[];
   purificationPlants: IGeneric[];
   reports: IReport[];
 };
 
+const defaultState = {
+  endpoints: [],
+  genericInputs: [],
+  purificationPlants: [],
+  reports: [],
+  spots: [],
+};
 export class DB {
   public static getInstance() {
     if (!DB.instance) {
@@ -32,20 +40,8 @@ export class DB {
     this.db = lowdb(
       process.env.NODE_ENV === "test" ? new Memory<Schema>("") : adapter,
     );
-    this.db.setState({
-      endpoints: [],
-      genericInputs: [],
-      purificationPlants: [],
-      reports: [],
-    });
-    this.db
-      .defaults({
-        endpoints: [],
-        genericInputs: [],
-        purificationPlants: [],
-        reports: [],
-      })
-      .write();
+    this.db.setState(defaultState);
+    this.db.defaults(defaultState).write();
     // this.db._.mixin({
     //   /**
     //    * batch insert
@@ -142,12 +138,28 @@ export class DB {
     }
   }
   public resetState(): void {
-    this.db.setState({
-      endpoints: [],
-      genericInputs: [],
-      purificationPlants: [],
-      reports: [],
-    });
+    this.db.setState(defaultState);
+  }
+  public getSpots(): Spot[] {
+    return this.db.get("spots").value();
+  }
+  public setSpots(spots: Spot[]): void {
+    this.db
+      .get("spots")
+      .remove()
+      .write();
+    // console.log("setting spots");
+    this.db
+      .get("spots")
+      .push(...spots)
+      .write();
+  }
+  public updateSpot(id: number, value: boolean): void {
+    this.db
+      .get("spots")
+      .find({ spotId: id })
+      .assign({ hasModel: value })
+      .write();
   }
   public getState(): Schema {
     const res = this.db.getState();

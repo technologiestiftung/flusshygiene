@@ -1,10 +1,19 @@
+import { globals } from "../common/globals";
+
 export const logger = {
-  err: (...args: any[]) => {
-    if (
-      process.env.NODE_ENV === "development" ||
-      process.env.NODE_ENV === "test"
-    ) {
-      console.error(...args);
+  error: (...args: any[]) => {
+    if (globals.VERBOSE === true) {
+      console.error("ERROR", ...args);
+    }
+  },
+  warn: (...args: any[]) => {
+    if (globals.VERBOSE === true) {
+      console.warn("WARNING", ...args); // eslint-disable-line
+    }
+  },
+  info: (...args: any[]) => {
+    if (globals.VERBOSE === true) {
+      console.info("INFO", ...args); // eslint-disable-line
     }
   },
 };

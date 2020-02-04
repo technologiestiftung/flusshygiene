@@ -4,7 +4,6 @@ import {
   IMeasurement,
   IEndpoints,
   IMeasurementConc,
-  Spot,
 } from "../../common/interfaces";
 import { DB } from "../DB";
 import shortid from "shortid";
@@ -12,10 +11,9 @@ import { unique } from "../../utils/unique-values";
 
 const db = DB.getInstance();
 
-export const getApiEndpointsData: (spots: Spot[]) => Promise<void> = async (
-  spots,
-) => {
+export const getApiEndpointsData: () => Promise<void> = async () => {
   // try {
+  const spots = db.getSpots();
   for (const spot of spots) {
     const data: IEndpoints = {
       id: shortid.generate(),
@@ -31,6 +29,7 @@ export const getApiEndpointsData: (spots: Spot[]) => Promise<void> = async (
       message: "",
       type: "dataget",
       email: spot.email,
+      specifics: `spot: ${spot.spotId} user: ${spot.userId} mail: ${spot.email} type:`,
     });
     if (spot.apiEndpoints.hasOwnProperty("measurementsUrl")) {
       data.measurementsUrl = spot.apiEndpoints.measurementsUrl;
@@ -45,6 +44,7 @@ export const getApiEndpointsData: (spots: Spot[]) => Promise<void> = async (
           report.message = `Data from endpoint measurementsUrl ${spot.apiEndpoints.measurementsUrl} could not be parsed. Messag: " ${eParse.message}"`;
           report.stack = JSON.stringify(eParse);
           report.type = "dataparse";
+          report.specifics;
           db.addReports({ ...report });
           // throw eParse;
         }
@@ -52,6 +52,8 @@ export const getApiEndpointsData: (spots: Spot[]) => Promise<void> = async (
         report.message = `Endpoint for measurementsUrl could not be read. Message "${eRead.message}"`;
         report.stack = JSON.stringify(eRead);
         report.type = "dataget";
+        report.specifics;
+
         db.addReports({ ...report });
         // throw e;
       }

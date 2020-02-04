@@ -1,5 +1,7 @@
-import { sendReports } from "./lib/report";
-import { postGenerics, postApiEndpoints } from "./lib/requests/post-data";
+import shortid from "shortid";
+import { globals } from "./common/globals";
+// import { sendReports } from "./lib/report";
+import { postApiEndpoints, postGenerics } from "./lib/requests/post-data";
 // import { GenericType } from "./common/types";
 // import got from "got";
 import path from "path";
@@ -8,11 +10,16 @@ config({ path: path.resolve(process.cwd(), ".env") });
 import { getTokenOnce } from "./auth/token";
 import { getSpots } from "./lib/requests/get-spots";
 import { getUsers } from "./lib/requests/get-users";
-import { API_URL } from "./common/env";
+import { API_URL, FLSSHYGN_PREDICT_URL } from "./common/env";
 import { getApiEndpointsData } from "./lib/requests/get-api-endpoints-data";
-import { getGenericData } from "./lib/requests/get-generic-pplant-data";
-import { Spot } from "./common/interfaces";
+// import { getGenericData } from "./lib/requests/get-generic-pplant-data";
 import { DB } from "./lib/DB";
+import { getGenericData } from "./lib/requests/get-generic-pplant-data";
+// import { GenericType } from "./common/types";
+import { sendReports } from "./lib/report";
+import got, { HTTPError } from "got/dist/source";
+import { getSpotModelInfo } from "./lib/requests/get-spot-model-info";
+import { IReport } from "./common/interfaces";
 // import { DB } from "./DB";
 
 /**
@@ -55,26 +62,70 @@ import { DB } from "./lib/DB";
 
 export async function main() {
   try {
+    // console.log("ADMIN", globals.ADMIN_ONLY);
+    // console.log("VERBOSE", globals.VERBOSE);
+    // console.log("SKIP", globals.SKIP_MAIL);
+    const db = DB.getInstance();
     await getTokenOnce(path.resolve(process.cwd(), ".token"));
 
     // process.exit();
     const users = await getUsers(`${API_URL}/users`);
-    const spots: Spot[] = await getSpots(users);
-    // console.log(spots, API_URL);
-    await getApiEndpointsData(spots);
-    await getGenericData("genericInputs", spots);
-    await getGenericData("purificationPlants", spots);
-    // const type: GenericType = "purificationPlants";
-    // const pplantData = db.getGenerics(type);
-    const db = DB.getInstance();
+    await getSpots(users);
+    // console.log(db.getSpots());
+    await getSpotModelInfo();
+
+    // console.log(spots);
+    await getApiEndpointsData();
+    await getGenericData("genericInputs");
+    await getGenericData("purificationPlants");
+
     const dataGi = db.getGenerics("genericInputs");
     const dataPP = db.getGenerics("purificationPlants");
     const dataE = db.getEndpoints();
+    // console.log(dataE, "data E");
     await postGenerics("genericInputs", dataGi);
     await postGenerics("purificationPlants", dataPP);
     await postApiEndpoints(dataE);
-    const reports = db.getReports();
-    await sendReports(reports);
+    // const reports = db.getReports();
+
+    if (globals.PREDICT === true) {
+      const spots = db.getSpots();
+      // call predict
+      for (const spot of spots) {
+        try {
+          if (spot.hasModel === true) {
+            const url = FLSSHYGN_PREDICT_URL;
+            try {
+              await got.post({
+                url: url,
+                json: {
+                  spot_id: spot.spotId,
+                  user_id: spot.userId,
+                },
+              });
+            } catch (error) {
+              if (error instanceof HTTPError) {
+                const report: IReport = {
+                  id: shortid(),
+                  message: error.response.body as string,
+                  email: "admin",
+                  source: spot,
+                  type: "admin",
+                  specifics: `spot: ${spot.spotId} user: ${spot.userId} mail: ${spot.email} type: predict`,
+                };
+                db.addReports(report);
+              }
+            }
+            // console.log(response.body);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+    if (globals.SKIP_MAIL === false) {
+      await sendReports();
+    }
     // console.log(pplantData);
 
     // for (const plant of pplantData) {

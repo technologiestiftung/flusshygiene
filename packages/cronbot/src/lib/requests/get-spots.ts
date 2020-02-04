@@ -2,6 +2,7 @@ import { gotOptionsFactory } from "../../utils/got-util";
 import { API_URL } from "../../common/env";
 import got from "got";
 import { IApiResponse, Spot } from "../../common/interfaces";
+import { DB } from "../DB";
 export const getSpotsRequest: (
   userId: string | number,
 ) => Promise<IApiResponse> = async (userId) => {
@@ -15,10 +16,11 @@ export const getSpotsRequest: (
     throw error;
   }
 };
-export const getSpots: (users: IApiResponse) => Promise<Spot[]> = async (
+export const getSpots: (users: IApiResponse) => Promise<void> = async (
   users,
 ) => {
   try {
+    const db = DB.getInstance();
     const result: Spot[] = [];
     // const collection: IUserCollection = {
     //   users: [],
@@ -33,19 +35,19 @@ export const getSpots: (users: IApiResponse) => Promise<Spot[]> = async (
             }
             // console.log(json.data, "<-- In getSpots");
             for (const spot of json.data) {
-              // if (
-              //   spot.apiEndpoints !== null &&
-              //   Object.keys(spot.apiEndpoints).length > 0
-              // ) {
-              // console.log(spot);
-              result.push({
-                spotId: spot.id,
-                spotName: spot.name,
-                userId: user.id,
-                email: user.email,
-                apiEndpoints: spot.apiEndpoints,
-              });
-              // }
+              if (
+                spot.apiEndpoints !== null &&
+                Object.keys(spot.apiEndpoints).length > 0
+              ) {
+                result.push({
+                  spotId: spot.id,
+                  spotName: spot.name,
+                  userId: user.id,
+                  email: user.email,
+                  apiEndpoints: spot.apiEndpoints,
+                  hasModel: false,
+                });
+              }
             }
             resolve();
           } catch (error) {
@@ -57,7 +59,8 @@ export const getSpots: (users: IApiResponse) => Promise<Spot[]> = async (
     await Promise.all(getSpotsTasks).catch((err) => {
       throw err;
     });
-    return result;
+    db.setSpots(result);
+    // return result;
   } catch (error) {
     console.error(error);
 

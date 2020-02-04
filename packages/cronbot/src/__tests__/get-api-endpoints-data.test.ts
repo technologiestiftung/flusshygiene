@@ -1,5 +1,4 @@
 import { ReportType } from "./../common/types";
-import { report } from "./../lib/report";
 import { getApiEndpointsData } from "../lib/requests/get-api-endpoints-data";
 import nock from "nock";
 
@@ -69,7 +68,7 @@ describe("get-api-endpoints-data", () => {
     nock(CRON_URL)
       .get("/?type=conc&count=10")
       .reply(200, { data: responseDataConc });
-    await getApiEndpointsData([spot]);
+    await getApiEndpointsData();
     const db = DB.getInstance();
     const apiEndpoints = db.getEndpoints();
     expect(apiEndpoints[0].discharges).toMatchObject(responseData);
@@ -83,7 +82,7 @@ describe("get-api-endpoints-data", () => {
     nock(CRON_URL)
       .get("/?type=conc&count=10")
       .reply(200, "ERROR");
-    await expect(getApiEndpointsData([spot])).resolves.toBe(undefined);
+    await expect(getApiEndpointsData()).resolves.toBe(undefined);
     const reports = db.getReports();
     expect(reports.length).toBeGreaterThan(0);
     expect(reports[0].type).toBe<ReportType>("dataparse");

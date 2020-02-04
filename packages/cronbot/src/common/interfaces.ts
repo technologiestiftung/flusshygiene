@@ -11,6 +11,7 @@ export interface Spot {
   userId: number;
   email: string;
   apiEndpoints: IApiEndpoints;
+  hasModel?: boolean;
 }
 export interface ISpot {
   id: number;
@@ -44,6 +45,7 @@ export interface IReport {
   message: string;
   stack?: string;
   source: IObject;
+  specifics: string;
 }
 
 export interface IBuildReport {
@@ -53,6 +55,7 @@ export interface IBuildReport {
   type: ReportType;
   stack?: string;
   email: string;
+  specifics: string;
 }
 
 // end DB
@@ -79,4 +82,15 @@ export interface IApiEndpoints {
   measurementsUrl?: string;
   globalIrradianceUrl?: string;
   dischargesUrl?: string;
+}
+
+export interface IGlobals {
+  ADMIN_ONLY?: boolean;
+  VERBOSE?: boolean;
+  SKIP_MAIL?: boolean;
+  PREDICT?: boolean;
+  setAdminOnly: (value: boolean) => void;
+  setVerbose: (value: boolean) => void;
+  setSkipMail: (value: boolean) => void;
+  setPredict: (value: boolean) => void;
 }

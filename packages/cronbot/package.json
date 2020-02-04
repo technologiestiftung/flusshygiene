@@ -27,7 +27,7 @@
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
-    "build": "just build",
+    "build": "tsc -p .",
     "just": "just",
     "jest": "jest",
     "dev": "just dev",

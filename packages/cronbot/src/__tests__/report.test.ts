@@ -9,6 +9,7 @@ describe("Sending out reports", () => {
       type: "admin",
       message: "foo",
       stack: "",
+      specifics: "",
       source: {} as Spot,
     };
     const res = buildReport(source);
