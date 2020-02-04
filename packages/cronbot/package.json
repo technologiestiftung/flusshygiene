@@ -84,7 +84,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo 'not yet' && exit 0 #npm run validate && npm run lint-staged"
+      "pre-commit": "npm run validate && npm run lint-staged"
     }
   },
   "dependencies": {
