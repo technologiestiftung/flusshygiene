@@ -30,7 +30,7 @@ nock(API_URL)
 // });
 
 describe("test-token", () => {
-  test("testing token validation", async (done) => {
+  test.skip("testing token validation", async (done) => {
     await expect(testToken("Bearer xyz")).resolves.toBe(true);
 
     done();
