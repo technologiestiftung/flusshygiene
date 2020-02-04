@@ -94,7 +94,6 @@
   },
   "dependencies": {
     "@mapbox/geojsonhint": "^3.0.0",
-    "@tsb/flusshygiene-utils": "^0.5.2",
     "@turf/buffer": "^5.1.5",
     "@turf/nearest-point-to-line": "^6.0.0",
     "@turf/point-to-line-distance": "^6.0.0",
