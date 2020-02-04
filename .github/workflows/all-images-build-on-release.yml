@@ -30,6 +30,20 @@ jobs:
           docker build --label version=${GITHUB_REF##*/} --build-arg OCPU_USER=${{secrets.OCPU_USER}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
+  cronbot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v1
+      - name: Docker login, build and push
+        env:
+          SUFFIX: "cronbot"
+          CI: "true"
+        run:  |
+          cd packages/cronbot/
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
   cms-spa:
     runs-on: ubuntu-latest
@@ -41,7 +55,6 @@ jobs:
       - name: Docker login, build and push
         # uses: actions/docker/login@master
         env:
-
           SUFFIX: "cms-spa"
           CI: "true"
         run:  |
