@@ -35,7 +35,7 @@ nock(`${AUTH0_TOKEN_ISSUER}`)
 // });
 
 describe("get-new-token tests", () => {
-  test("", async (done) => {
+  test.skip("", async (done) => {
     await expect(getNewToken()).resolves.toStrictEqual({});
     // const mockConsoleErr = jest.spyOn(console, "error");
     // test here
