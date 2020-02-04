@@ -5,7 +5,8 @@
   "description": "Monorepo for the flusshygiene application",
   "main": " ",
   "scripts": {
-    "lerna:version": "lerna version --no-git-tag-version --conventional-commits"
+    "lerna:version": "lerna version --no-git-tag-version --conventional-commits",
+    "lerna": "lerna"
   },
   "repository": {
     "type": "git",

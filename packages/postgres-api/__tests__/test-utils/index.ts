@@ -96,7 +96,7 @@ export async function createTestingConnections() {
   await connection.manager.save(spot);
   // console.log(resspot);
   await connection.manager.save(user);
-  const us = await connection.manager.save(createUser());
+  await connection.manager.save(createUser());
   // console.log(resuser);
 
   await getRepository(Region).find();
@@ -149,7 +149,7 @@ export async function createTestingConnections() {
  */
 export async function reloadTestingDatabases(
   connections: Connection[],
-  synchronize: boolean = true,
+  synchronize = true,
 ) {
   return Promise.all(
     connections.map((connection) => connection.synchronize(synchronize)),
@@ -173,15 +173,42 @@ export interface IDiskToken {
 }
 
 const isTokenOutdated: (
-  issuance_ms: number,
-  issuance_duration_ms: number,
-) => boolean = (issuance_ms, issuance_duration_ms) => {
+  issuanceMs: number,
+  issuanceDurationMs: number,
+) => boolean = (issuanceMs, issuanceDurationMs) => {
   const now = new Date();
 
-  if (now.getTime() - issuance_ms < issuance_duration_ms) {
+  if (now.getTime() - issuanceMs < issuanceDurationMs) {
     return true;
   }
   return false;
+};
+const writeTokenToDisk: (filePath: string, dataStr: string) => void = (
+  filePath,
+  dataStr,
+) => {
+  // console.info('writing token to disk');
+  fs.writeFileSync(filePath, dataStr);
+};
+export const getNewToken: (
+  filePath: string,
+  opts: rq.OptionsWithUrl,
+) => Promise<void> = async (filePath, opts) => {
+  try {
+    const response = await rq(opts);
+    if (response.statusCode !== 200) {
+      // console.log(response);
+      throw new Error('Status on new token request is not 200');
+    } else {
+      // console.log(response.body);
+      const parsedBody = JSON.parse(response.body);
+      parsedBody.issuance = new Date().getTime();
+      writeTokenToDisk(filePath, JSON.stringify(parsedBody));
+    }
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
 };
 
 export const readTokenFromDisc: (filePath: string) => IDiskToken | undefined = (
@@ -208,35 +235,6 @@ export const readTokenFromDisc: (filePath: string) => IDiskToken | undefined = (
     }
   } else {
     return undefined;
-  }
-};
-
-const writeTokenToDisk: (filePath: string, dataStr: string) => void = (
-  filePath,
-  dataStr,
-) => {
-  console.info('writing token to disk');
-  fs.writeFileSync(filePath, dataStr);
-};
-
-export const getNewToken: (
-  filePath: string,
-  opts: rq.OptionsWithUrl,
-) => Promise<void> = async (filePath, opts) => {
-  try {
-    const response = await rq(opts);
-    if (response.statusCode !== 200) {
-      console.log(response);
-      throw new Error('Status on new token request is not 200');
-    } else {
-      // console.log(response.body);
-      const parsedBody = JSON.parse(response.body);
-      parsedBody.issuance = new Date().getTime();
-      writeTokenToDisk(filePath, JSON.stringify(parsedBody));
-    }
-  } catch (error) {
-    console.error(error.message);
-    throw error;
   }
 };
 

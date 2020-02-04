@@ -1,3 +1,4 @@
+import { IDefaultResponsePayload } from './../common/index';
 import { ValidationError } from 'class-validator';
 import {
   ErrorResponder,
@@ -43,6 +44,13 @@ export const buildPayload: PayloadBuilder = (
  */
 export const userIDErrorResponse = () =>
   buildPayload(false, ERRORS.badRequestMissingOrWrongID404, undefined);
+
+/**
+ * a error Response with a duplicate values 409
+ */
+export const duplicateValuesErrorResponse = () =>
+  buildPayload(false, ERRORS.badRequestDuplicateValuesID409, undefined);
+
 /**
  * a error Response with a wrong user ID 404
  */
@@ -55,25 +63,17 @@ export const userNotAuthorizedErrorResponse = () =>
  */
 export const errorResponse: ErrorResponder = (error) => {
   if (process.env.NODE_ENV === 'development') {
+    // console.error(error);
     throw error;
-  } else if (
-    process.env.NODE_ENV === 'test' &&
-    process.env.TRAVIS === undefined
-  ) {
-    if (error instanceof Error) {
-      console.error(error.name);
-      console.error(error.message);
-      // console.error(error.stack);
-      // console.trace();
-
-      return buildPayload(false, error.message, undefined);
-    } else if (error instanceof ValidationError) {
-      return buildPayload(false, JSON.stringify(error.constraints), undefined);
-    } else {
-      return buildPayload(false, JSON.stringify(error), undefined);
-    }
   } else {
-    return buildPayload(false, 'internal server error', undefined);
+    // console.error(error);
+    return buildPayload(
+      false,
+      `internal server error: "${
+        !(error instanceof ValidationError) ? error.message : 'ValidationError'
+      }"`,
+      undefined,
+    );
   }
 };
 
@@ -96,7 +96,26 @@ export const successResponse: SuccessResponder = (
   truncated = false,
   skip = undefined,
   limit = undefined,
-) => buildPayload(true, message, data, truncated, skip, limit);
+  success = true,
+) => buildPayload(success, message, data, truncated, skip, limit);
+
+export const partialSuccessResponder: (opts: {
+  message: string;
+  data: any | any[];
+  truncated?: boolean;
+  skip?: number;
+  limit?: number;
+  success?: boolean;
+}) => IDefaultResponsePayload = ({
+  message,
+  data,
+  truncated = false /* default true*/,
+  skip = undefined /* undef*/,
+  limit = undefined /*undef */,
+  success = true /* true */,
+}) => {
+  return buildPayload(success, message, data, truncated, skip, limit);
+};
 
 /**
  * The default responder for json
@@ -163,6 +182,14 @@ export const responderSuccessCreated: ResponderSuccessCreated = (
 export const responderWrongId: ResponderMissingOrWrongIdOrAuth = (response) =>
   responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());
 
+export const responderDuplicateValues: ResponderMissingOrWrongIdOrAuth = (
+  response,
+) =>
+  responder(
+    response,
+    HttpCodes.badRequestConflict,
+    duplicateValuesErrorResponse(),
+  );
 export const responderWrongRoute: ResponderMissingOrWrongIdOrAuth = (
   response,
 ) => responder(response, HttpCodes.badRequestNotFound, userIDErrorResponse());

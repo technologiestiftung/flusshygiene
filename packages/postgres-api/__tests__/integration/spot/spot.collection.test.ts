@@ -134,6 +134,7 @@ describe('testing bathingspots collection', () => {
       .post('/api/v1/users/1/bathingspots/1/rains')
       .send(obj)
       .set(headers);
+    // console.log(res.body);
     expect(res.status).toBe(201);
     expect(Array.isArray(res.body.data)).toBe(true);
     expect(res.body.success).toBe(true);

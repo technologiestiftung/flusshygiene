@@ -1,9 +1,13 @@
+import { UserRole } from './common';
+// import { GenericInput } from './../orm/entity/GenericInput';
+// import { PurificationPlant } from './../orm/entity/PurificationPlant';
+import { Bathingspot } from './../orm/entity/Bathingspot';
 import cors, { CorsOptions } from 'cors';
 // import errorHandler from 'errorhandler';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnectionOptions } from 'typeorm';
 import routes from './routes';
 import { CONSTANTS } from './common/constants';
 import redis from 'redis';
@@ -13,8 +17,9 @@ import { cookieListing } from './middleware/cookie-listing';
 import { logger } from './logger';
 import publicRoutes from './routes-public';
 import { errorHandler } from './middleware/errorHandler';
+import { User, PurificationPlant, GenericInput } from '../orm/entity';
 
-const RedisStore = require('connect-redis')(session);
+const RedisStore = require('connect-redis')(session); // eslint-disable-line
 const client = redis.createClient({
   host: CONSTANTS.REDIS_HOST,
   port: CONSTANTS.REDIS_PORT,
@@ -29,20 +34,137 @@ client.on('end', () => {
 });
 const app = express();
 
-try {
-  createConnection()
-    .then((_con) => {
-      if (process.env.NODE_ENV === 'development') {
-        process.stdout.write('connection established\n');
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      throw err;
-    });
-} catch (error) {
-  console.error(error);
-}
+(async () => {
+  try {
+    if (
+      process.env.POPULATE !== undefined &&
+      process.env.NODE_ENV === 'development'
+    ) {
+      const connectionOptions = await getConnectionOptions();
+      Object.assign(connectionOptions, {
+        synchronize: true,
+        dropSchema: true,
+      });
+      process.stdout.write('sync schema established\n');
+      const connection = await createConnection(connectionOptions);
+      const manager = connection.createEntityManager();
+      const user = new User();
+      user.email = 'foo@bah.com';
+      user.firstName = 'foo';
+      user.lastName = 'bah';
+      user.role = UserRole.creator;
+      await manager.save(user);
+
+      const spot = new Bathingspot();
+      spot.isPublic = true;
+      spot.name = 'foo';
+      spot.apiEndpoints = {
+        measurementsUrl: 'https://cronbot-sources.now.sh/?count=10&type=conc',
+        dischargesUrl:
+          'https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json',
+        globalIrradianceUrl: 'https://cronbot-sources.now.sh/?count=10',
+      };
+      await manager.save(spot);
+      user.bathingspots = [spot];
+      await manager.save(user);
+
+      // const model = new BathingspotModel();
+      // model.parameter = ModelParamter.conc_ec;
+      // await manager.save(model);
+      // const modelFile = new RModelFile();
+      // modelFile.type = 'rmodel';
+      // modelFile.url = 'foo';
+      // await manager.save(RModelFile);
+      // model.rmodelfiles = [modelFile];
+      // await manager.save(model);
+      // spot.models = [model];
+      // await manager.save(spot);
+
+      const spotErr = new Bathingspot();
+      spotErr.isPublic = true;
+      spotErr.name = 'error';
+      spotErr.apiEndpoints = {
+        measurementsUrl:
+          'https://cronbot-sources.now.sh/?count=10&type&err=true',
+        dischargesUrl:
+          'https://raw.githubusercontent.com/KWB-R/flusshygiene/gh-pages/q_tw.json',
+        globalIrradianceUrl: 'cronbot-sources.now.sh/?count=10&type&err=true',
+      };
+      await manager.save(spotErr);
+      user.bathingspots.push(spotErr);
+      await manager.save(user);
+      const errPPlant = manager.create(PurificationPlant, [
+        {
+          name: 'error1',
+          url: 'http://doesnotexist',
+        },
+        {
+          name: 'error2',
+          url: 'https://cronbot-sources.now.sh/?count=10&type&err=true',
+        },
+        {
+          name: 'error3',
+          url: 'https://cronbot-sources.now.sh/?count=100',
+        },
+      ]);
+      await manager.save(errPPlant);
+      spotErr.purificationPlants = errPPlant;
+      await manager.save(spotErr);
+      // const plant = new PurificationPlant();
+      const pplants = manager.create(PurificationPlant, [
+        {
+          name: 'plant1',
+
+          url: 'https://cronbot-sources.now.sh/?count=10',
+        },
+        {
+          name: 'plant2',
+
+          url: 'https://cronbot-sources.now.sh/?count=10',
+        },
+      ]);
+      // plant.name = 'plant';
+      // plant.url = 'https://cronbot-sources.now.sh/?count=100';
+      await manager.save(pplants);
+      spot.purificationPlants = pplants;
+      await manager.save(spot);
+      // const gi = new GenericInput();
+      // gi.name = 'gi';
+      // gi.url = 'https://cronbot-sources.now.sh/?count=10';
+
+      // await manager.save(gi);
+      const gis = manager.create(GenericInput, [
+        {
+          name: 'gi1',
+          url: 'https://cronbot-sources.now.sh/?count=100',
+        },
+        {
+          name: 'gi2',
+          url: 'https://cronbot-sources.now.sh/?count=100',
+        },
+      ]);
+      // console.log(gis);
+      await manager.save(gis);
+      spot.genericInputs = gis;
+      await manager.save(spot);
+
+      // crate userIDErrorResponse
+      // create spot
+      // crate pplant
+      // create gi
+      // create
+      process.stdout.write('connection established\n');
+    } else if (process.env.NODE_ENV === 'development') {
+      await createConnection();
+      process.stdout.write('connection established\n');
+    } else {
+      await createConnection();
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+})();
 
 const whitelist = [
   'https://www.flusshygiene.xyz',

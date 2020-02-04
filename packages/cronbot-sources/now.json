@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "name": "cronbot-sources",
+  "builds": [
+      { "src": "index.ts", "use": "@now/node" }
+  ],
+  "public": true,
+  "regions": ["bru"]
+}

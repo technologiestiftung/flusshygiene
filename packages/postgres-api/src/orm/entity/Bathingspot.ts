@@ -238,9 +238,9 @@ export class Bathingspot {
 
   @Column({ type: 'simple-json', nullable: true })
   public apiEndpoints!: {
-    measurementsUrl: string;
-    globalIrradianceUrl: string;
-    dischargesUrl: string;
+    measurementsUrl?: string;
+    globalIrradianceUrl?: string;
+    dischargesUrl?: string;
   };
 
   @Column({ type: 'json', nullable: true })

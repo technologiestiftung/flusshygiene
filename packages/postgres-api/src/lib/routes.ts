@@ -19,10 +19,8 @@ import {
   getCollectionsSubItem,
   getGenericInputMeasurements,
 } from './request-handlers/bathingspots/collections/get';
-import {
-  postCollection,
-  postCollectionsSubItem,
-} from './request-handlers/bathingspots/collections/post';
+import { postCollection } from './request-handlers/bathingspots/collections/post';
+import { postCollectionsSubItem } from './request-handlers/bathingspots/collections/post-collections-subItem';
 import {
   postFile,
   upload,
@@ -56,6 +54,7 @@ import {
 } from './request-handlers/bathingspots/collections/put';
 import { checkUserAndSpot, checkUser } from './middleware/user-spot-check';
 import { collectionCheck } from './middleware/collection-check';
+// import { uniqueCheck } from './middleware/unique-check';
 // import { getPredictions } from './request-handlers/users/bathingspots/prediction/get';
 
 const checkScopes = jwtAuthz(['admin', 'read:bathingspots']);
@@ -155,6 +154,8 @@ router.post(
   checkJwt,
   checkScopes,
   checkUserAndSpot,
+  // collectionCheck,
+  // uniqueCheck, // TODO: Check why this creates so many errors
   postCollection,
 );
 
@@ -194,6 +195,7 @@ router.post(
   checkScopes,
   checkUserAndSpot,
   collectionCheck,
+  // uniqueCheck, // TODO: Check why this creates so many errors
   postCollectionsSubItem,
 );
 

@@ -4,7 +4,12 @@ import { Measurement } from './Measurement';
 import { PurificationPlant } from './PurificationPlant';
 
 @Entity()
-@Unique(['date', 'purificationPlant'])
+@Unique(
+  'UQ_CONSTRAIN',
+  ((obj) => {
+    return [obj.name, 'purificationPlant.id'];
+  })({ name: 'date' }),
+)
 export class PPlantMeasurement extends Measurement {
   @Column({ nullable: true })
   public comment!: string;
