@@ -24,41 +24,41 @@ export const getApiToken: () => string | undefined = () => {
 };
 
 // #########
-if (MAILGUN_DOMAIN === undefined) {
+if (MAILGUN_DOMAIN === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("MAILGUN_DOMAIN is not defined");
 }
-if (MAILGUN_APIKEY === undefined) {
+if (MAILGUN_APIKEY === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("MAILGUN_APIKEY is not defined");
 }
-if (MAILGUN_FROM === undefined) {
+if (MAILGUN_FROM === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("MAILGUN_FROM is not defined");
 }
-if (MAILGUN_TO === undefined) {
+if (MAILGUN_TO === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("MAILGUN_TO is not defined");
 }
-if (AUTH0_AUDIENCE === undefined) {
+if (AUTH0_AUDIENCE === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("AUTH0_AUDIENCE is not defined");
 }
-if (AUTH0_CLIENT_ID === undefined) {
+if (AUTH0_CLIENT_ID === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("AUTH0_CLIENT_ID is not defined");
 }
-if (AUTH0_CLIENT_SECRET === undefined) {
+if (AUTH0_CLIENT_SECRET === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("AUTH0_CLIENT_SECRET is not defined");
 }
-if (FLSSHYGN_PREDICT_URL === undefined) {
+if (FLSSHYGN_PREDICT_URL === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("FLSSHYGN_PREDICT_URL is not defined");
 }
-if (AUTH0_TOKEN_ISSUER === undefined) {
+if (AUTH0_TOKEN_ISSUER === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("AUTH0_TOKEN_ISSUER is not defined");
 }
-if (API_HOST === undefined) {
+if (API_HOST === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("API_HOST is not defined");
 }
 
-if (API_VERSION === undefined) {
+if (API_VERSION === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("API_VERSION is not defined");
 }
-if (API_URL === undefined) {
+if (API_URL === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("API_URL cis not defined");
 }
 
