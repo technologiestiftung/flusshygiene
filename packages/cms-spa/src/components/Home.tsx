@@ -127,51 +127,16 @@ const Home: React.FC = () => {
             </Link>
           </p>
         </div>
-        {/* {isAuthenticated !== undefined && isAuthenticated === true && (
-            <button className='button' onClick={handleNewSpot}>
-            Neue Badestelle
-            </button>
-          )} */}
-        {/* </div> */}
-        {/* </div> */}
       </Container>
-
-      {/* <div className='columns is-centered'>
-        <div className='column is-10'>
-          <div ref={mapRef} id='map__container'>
-            <SpotsMap
-              width={mapDims.width}
-              height={mapDims.height}
-              data={spots}
-              selectedIndex={0}
-            />
-          </div>
+      <Container>
+        <h3 className='is-title is-3'>Zugang zur Plattform</h3>
+        <div className='content'>
+          <p>
+            Um Zugang zu unserer Plattform zu erhalten schreiben Sie eine E-Mail
+            an "flusshygiene [at] technologiestiftung-berlin [Punkt] de"
+          </p>
         </div>
-      </div> */}
-      {/* <div className='columns is-centered'>
-        <div className='column is-10'>
-          <div className='tile is-ancestor'>
-            <div style={{ flexWrap: 'wrap' }} className='tile is-parent'>
-              {spots.map((obj, i) => {
-
-                return (
-                  <div key={i} className='tile is-child is-3'>
-                    <CardTile
-                      title={obj.name}
-                      water={obj.water}
-                      id={obj.id}
-                      image={obj.image}
-                      hasPrediction={obj.hasPrediction}
-                      isUserLoggedIn={false}
-                      key={i}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div> */}
+      </Container>
     </div>
   );
 };
