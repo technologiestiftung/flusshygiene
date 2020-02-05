@@ -170,7 +170,7 @@ const Profile: React.FC = () => {
                             <span>{'E-Mail: '}</span>
                             {value.user.email} <br />
                             <span>{'API ID: '}</span>
-                            {value.user.pgapiData.id}
+                            {value.user.pgapiData?.id ?? undefined}
                           </p>
                           {/* <pre>
                             <code>{JSON.stringify(user, null, 2)}</code>
