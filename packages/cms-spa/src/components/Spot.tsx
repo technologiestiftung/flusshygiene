@@ -24,7 +24,7 @@ import { Container, ContainerNoColumn } from './Container';
 import { useOcpu, postOcpu } from '../contexts/opencpu';
 import { useEventSource } from '../contexts/eventsource';
 import { useApi, apiRequest } from '../contexts/postgres-api';
-import { Banner, BannerType } from './spot/elements/Spot-Banner';
+// import { Banner, BannerType } from './spot/elements/Spot-Banner';
 import { SpotButtonBar } from './spot/elements/Spot-ButtonBar';
 import { SpotAdditionalTags } from './spot/elements/Spot-AdditionalTags';
 import { SpotBasicInfos } from './spot/elements/Spot-BasicInfos';
@@ -36,7 +36,7 @@ import { SpotModelTable } from './spot/elements/Spot-ModelTable';
 import { SpotTableBlock } from './spot/elements/Spot-TableBlock';
 import { SpotHr } from './spot/elements/Spot-Hr';
 import { Spinner } from './util/Spinner';
-import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurments';
+import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurements';
 import { SpotEditorInfoModal } from './spot/elements/SpotEditor-InfoModal';
 import { DefaultTable } from './spot/elements/Spot-DefaultMeasurementsTable';
 import {
@@ -71,11 +71,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
 
-  const [message, setMessage] = useState<string>('');
-  const [showNotification, setShowNotification] = useState(false);
-  const [bannerType, setBannerType] = useState<BannerType | undefined>(
-    undefined,
-  );
+  // const [message, setMessage] = useState<string>('');
+  // const [showNotification, setShowNotification] = useState(false);
+  // const [bannerType, setBannerType] = useState<BannerType | undefined>(
+  // undefined,
+  // );
 
   const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
   const [pplantsNumber, setPPlantsNumber] = useState<number | undefined>(
@@ -173,14 +173,14 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       default:
         throw new Error('Target for button not defined');
     }
-    setShowNotification((prevState) => !prevState);
+    // setShowNotification((prevState) => !prevState);
   };
 
-  const handleBannerClose = (e?: React.ChangeEvent<any>) => {
-    e?.preventDefault();
-    setShowNotification(false);
-    setMessage('');
-  };
+  // const handleBannerClose = (e?: React.ChangeEvent<any>) => {
+  //   e?.preventDefault();
+  //   setShowNotification(false);
+  //   setMessage('');
+  // };
   //   ******** ******** ******** ********   ******  **********  ********
   //  /**///// /**///// /**///// /**/////   **////**/////**///  **//////
   //  /**      /**      /**      /**       **    //     /**    /**
@@ -239,28 +239,28 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    * this effect sets the content of the banner based on ocpu data
    *
    */
-  useEffect(() => {
-    setMessage(JSON.stringify(ocpuState.responses[0]));
-    setBannerType('normal');
-    setShowNotification(true);
-  }, [ocpuState]);
+  // useEffect(() => {
+  //   setMessage(JSON.stringify(ocpuState.responses[0]));
+  //   setBannerType('normal');
+  //   setShowNotification(true);
+  // }, [ocpuState]);
 
   /**
    * This effect sets the current content of the Banner based on event souce data
    *
    */
-  useEffect(() => {
-    setMessage(JSON.stringify(eventSourceState));
-    setBannerType('normal');
-    setShowNotification(true);
-  }, [eventSourceState]);
+  // useEffect(() => {
+  //   setMessage(JSON.stringify(eventSourceState));
+  //   setBannerType('normal');
+  //   setShowNotification(true);
+  // }, [eventSourceState]);
 
-  useEffect(() => {
-    if (apiState.error === undefined) return;
-    setMessage(JSON.stringify(apiState.error?.error?.message));
-    setBannerType('error');
-    setShowNotification(true);
-  }, [apiState.error]);
+  // useEffect(() => {
+  //   if (apiState.error === undefined) return;
+  //   setMessage(JSON.stringify(apiState.error?.error?.message));
+  //   setBannerType('error');
+  //   setShowNotification(true);
+  // }, [apiState.error]);
   /**
    * This effect gets one bathingspot
    * Follow the crumbs to contexts/postgres-api
@@ -724,7 +724,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   </h1>
                 </Container>
               )}
-              {isAuthenticated === true &&
+              {/* {isAuthenticated === true &&
                 showNotification === true &&
                 spot !== undefined && (
                   <Container>
@@ -734,7 +734,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       bannerType={bannerType}
                     ></Banner>
                   </Container>
-                )}
+                )} */}
               {spot !== undefined && (
                 <Container>
                   <SpotHeader
@@ -795,6 +795,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Vorhersage-Modelle',
                       iconType: 'IconCalc',
                     }}
+                    // data={[1, 2, 3]}
                     Table={() => SpotModelTable(lastModel)}
                     // handleEditClick={() => {
                     //   setTableEditMode(true);

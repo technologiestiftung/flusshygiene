@@ -5,7 +5,7 @@ import {
   IconEdit,
   IconCalc,
   IconComment,
-  IconCode,
+  // IconCode,
   IconCSV,
   IconHelp,
 } from '../../fontawesome-icons';
@@ -69,13 +69,13 @@ export const SpotButtonBar: React.FC<{
       </div>
 
       <div className='buttons buttons__spot-actions--size'>
-        <ButtonIcon
+        {/* <ButtonIcon
           cssId='sleep'
           text='Sleep'
           handleClick={handleCalibratePredictClick}
         >
-          <IconCode></IconCode>
-        </ButtonIcon>
+         <IconCode></IconCode>
+        </ButtonIcon> */}
         <ButtonIcon
           cssId='calibrate'
           additionalClassNames={

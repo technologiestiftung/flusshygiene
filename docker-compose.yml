@@ -51,6 +51,8 @@ services:
       - REDIS_HOST_DEV=redis
       - PG_HOST_DEV=postgres
       - NODE_DOCKER_ENV=1
+      - POPULATE=true
+      - NODE_ENV=development
     ports:
       - "5004:5004"
     depends_on:

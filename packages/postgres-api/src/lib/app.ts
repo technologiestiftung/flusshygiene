@@ -52,6 +52,7 @@ const app = express();
       user.email = 'foo@bah.com';
       user.firstName = 'foo';
       user.lastName = 'bah';
+      user.auth0Id = process.env.DEFAULT_AUTH0ID || '';
       user.role = UserRole.creator;
       await manager.save(user);
 
