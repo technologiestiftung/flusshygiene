@@ -77,7 +77,9 @@ Order of deployment:
 3. rds
 4. elastic-cache
 5. ecs-radolan-recent
-6. elastic-beanstalk
+6. cloud-watch
+7. elastic-beanstalk
+8. ecs-fargate-cronbot
 
 after `cd elastic-beanstalk && terraform apply` you will have to create a ssh key, download it, `chmod 600` it and store it in `~/.ssh` for usage with the eb cli and for provisioning the DB
 

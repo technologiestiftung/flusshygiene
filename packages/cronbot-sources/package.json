@@ -1,6 +1,7 @@
 {
   "name": "@tsb/cronbot-sources",
   "version": "2.3.2",
+  "private": true,
   "description": "Files on the web the cronbot can access",
   "author": "fabianmoronzirfas <fabianmoronzirfas@protonmail.ch>",
   "homepage": "https://github.com/technologiestiftung/flusshygiene/tree/master/packages/cronbot-sources#readme",

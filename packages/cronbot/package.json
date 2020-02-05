@@ -1,6 +1,7 @@
 {
   "name": "@tsb/cronbot",
   "version": "2.3.2",
+  "private": true,
   "description": "A cron worker for the Flusshygiene project",
   "keywords": [
     "cron",
