@@ -14,6 +14,8 @@ import { papaPromise } from '../../../lib/utils/papaPromise';
 import { SpotEditorMeasurmentInfo } from './SpotEditor-Measurments-Info';
 import { DataValidationInfoBox } from './DataValidationInfoBox';
 import { validURL } from '../../../lib/utils/validURL';
+import { unique } from '../../../lib/utils/unique-values';
+import { CSVUnique } from '../formik-helpers/CSVunique';
 
 export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   title,
@@ -33,6 +35,9 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   const [csvValidationErrors, setCSVValidationErrors] = useState<
     ICSVValidationErrorRes[]
   >([]);
+  const [uniqueDataError, setUniqueDataError] = useState<boolean | undefined>(
+    undefined,
+  );
   const [data, setData] = useState<IMeasurement[] | undefined>(undefined);
   const [dataUrl, setDataUrl] = useState<string | undefined>(undefined);
   // const [urlIsValid, setUrlIsValid] = useState<boolean | undefined>(undefined);
@@ -50,6 +55,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
     setFieldValue(fieldNameFile, []);
     setCSVValidationErrors([]);
     setParsingErrors([]);
+    setUniqueDataError(undefined);
   };
   const resetDataUrl = () => {
     setDataUrl(undefined);
@@ -75,7 +81,6 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   }, [dataUrl, fieldNameUrl, setFieldValue]);
   /**
    * This hook takes care of data validation
-   * TODO: Add duplicate detection
    */
   useEffect(() => {
     if (csvFile === undefined) return;
@@ -112,6 +117,15 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
           }
         }
         setDataIsValid(allValid);
+        const uniqueData = unique(results.data, 'date');
+        // console.log(results.data);
+        if (uniqueData.length < results.data.length) {
+          setUniqueDataError(false);
+          setDataIsValid(false);
+        } else {
+          setUniqueDataError(undefined);
+          setDataIsValid(true);
+        }
       } catch (error) {
         throw error;
       }
@@ -136,6 +150,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
         onChange={(event: React.ChangeEvent<any>) => {
           setCSVValidationErrors([]);
           setParsingErrors([]);
+          setUniqueDataError(undefined);
           if (
             event.currentTarget.files === null ||
             event.currentTarget.files.length < 1
@@ -152,6 +167,9 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
       {parsingErrors !== undefined &&
         parsingErrors.length > 0 &&
         CSVparsing(papaParseValidationRef, parsingErrors)}
+      {(uniqueDataError !== undefined || uniqueDataError === true) && (
+        <CSVUnique type={type} />
+      )}
       {(() => {
         if (hasNoUrlField === true) {
           return null;
@@ -160,11 +178,10 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
             <>
               <div className='content' style={{ paddingTop: '1rem' }}>
                 <p>
-                  Für automatisierte Datenaggregation <br />
-                  …Lorem ipsum dolor sit amet consectetur adipisicing elit. Temp
-                  is id tempore, suscipit dignissimos, ab placeat aperi
-                  sitatibus at minima impedit architecto iste nostrum animi
-                  voluptates minus!
+                  Automatisierte Datenaggregation <br />
+                  Um Daten automatisiert für ihre Badestelle bereit zu stellen,
+                  müssen sie eine öffentlich zugängliche http URL eintragen, die
+                  täglich um 09:00 abgeholt werden kann.
                 </p>
               </div>
               <div className='field is-horizontal'>
@@ -198,7 +215,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
                       />
                     </div>
                     <div className='control'>
-                      <button
+                      {/* <button
                         className='button is-small'
                         onClick={(e) => {
                           e.preventDefault();
@@ -206,7 +223,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
                         }}
                       >
                         testen
-                      </button>
+                      </button> */}
                     </div>
                     <div className='control'>
                       <button
@@ -216,7 +233,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
                           resetDataUrl();
                         }}
                       >
-                        löschen
+                        URL entfernen
                       </button>
                     </div>
                   </div>
