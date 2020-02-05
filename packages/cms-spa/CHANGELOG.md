@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.3.2...v2.4.0) (2020-02-05)
+
+
+### Bug Fixes
+
+* **auth0id in profile:** Makes id conditinoal ([5624354](https://github.com/technologiestiftung/flusshygiene/commit/562435470fa49e05b2a9d055058980723350fa0b))
+* **buton wording:** Renames button ([44983c4](https://github.com/technologiestiftung/flusshygiene/commit/44983c49cfbb83bfa4c52b6d25a6ff4ca02a87d9))
+* **no location:** Make location display conditional ([28e06f3](https://github.com/technologiestiftung/flusshygiene/commit/28e06f3276472636367cf688e275e256cca9be5e))
+* packages/cms-spa/package.json & packages/cms-spa/package-lock.json to reduce vulnerabilities ([a883281](https://github.com/technologiestiftung/flusshygiene/commit/a88328165398f8c57444ab58178b7aa6fe42cfdc))
+
+
+
+
+
 ## [2.3.2](https://github.com/technologiestiftung/flusshygiene/compare/v2.3.1...v2.3.2) (2019-12-19)
 
 **Note:** Version bump only for package @tsb/cms-spa

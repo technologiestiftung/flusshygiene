@@ -1,4 +1,4 @@
-FROM opencpu/base:v2.1.4
+FROM opencpu/base:v2.1.5
 # FROM opencpu/rstudio as base
 LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
