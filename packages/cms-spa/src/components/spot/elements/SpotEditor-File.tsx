@@ -29,7 +29,10 @@ export const SpotEditorFile: React.FC<{
           </span>
         </label>
         <div className='buttons'>
-          <ButtonIcon text={'Daten löschen'} handleClick={handleClearClick}>
+          <ButtonIcon
+            text={'Zwischenspeicher löschen'}
+            handleClick={handleClearClick}
+          >
             <IconTrash></IconTrash>
           </ButtonIcon>
         </div>
