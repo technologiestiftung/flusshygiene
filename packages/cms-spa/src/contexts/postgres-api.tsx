@@ -8,7 +8,10 @@ import {
   IDefaultMeasurement,
   IPurificationPlant,
   IGenericInput,
+  IPrediction,
+  IMeasurement,
 } from '../lib/common/interfaces';
+import { ISpotMeasurement } from '../components/spot/elements/Spot-Measurement';
 
 function matchSpotId(action: IApiAction) {
   const reg = /bathingspots\/(?<spotId>\d+)/;
@@ -227,7 +230,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
 
             const updatedSpots = state.spots.map((spot) => {
               if (spot.id === spotId) {
-                spot.predictions = action.payload.response!.data;
+                spot.predictions = action.payload.response!
+                  .data as IPrediction[];
               }
               return spot;
             });
@@ -239,7 +243,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
 
             const updatedSpots = state.spots.map((spot) => {
               if (spot.id === spotId) {
-                spot.measurements = action.payload.response!.data;
+                spot.measurements = action.payload.response!
+                  .data as IMeasurement[];
               }
               return spot;
             });
@@ -362,12 +367,12 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
          *
          */
       } else if (action.payload.requestType.type === 'PUT') {
-        console.log('called PUT');
+        // console.log('called PUT');
 
-        console.log(
-          'action.payload.requestType.resource:',
-          action.payload.requestType.resource,
-        );
+        // console.log(
+        //   'action.payload.requestType.resource:',
+        //   action.payload.requestType.resource,
+        // );
         switch (action.payload.requestType.resource) {
           case 'bathingspot':
           case 'bathingspots':
@@ -570,9 +575,6 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
   dispatch,
   action,
 ) => {
-  // console.group('apiRequest');
-  // console.info('Starting apiRequest');
-
   let response: Response;
   dispatch({
     type: ApiActionTypes.START_API_REQUEST,
@@ -585,7 +587,6 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
   try {
     response = await fetch(action.payload.url, action.payload.config);
     if (response.ok === true) {
-      // console.info('apiRequest response ok');
       let json: any;
       try {
         json = await response.json();
@@ -598,32 +599,20 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
         payload: { response: json, url: action.payload.url, requestType },
       } as IApiActionFinished);
     } else {
-      console.group('Error Response');
-      console.warn('fetch response not ok');
-      // console.log(await response.json());
-      // console.error(response.body);
-      console.groupEnd();
       throw new Error('Network fetch response not ok');
     }
   } catch (error) {
-    console.group('Error response catched');
-    // console.error(await response!.json());
     console.error('Error while making fetch call', error);
     let json: any;
     try {
-      console.log('Getting json from response');
       json = await response!.json();
     } catch (e) {
-      console.log('had an error getting json. Getting text from response');
-      console.log(response!);
       json = { message: 'error in parsing response from error ' };
     }
-    console.groupEnd();
     dispatch({
       type: ApiActionTypes.FAIL_API_REQUEST,
       payload: { ...action.payload, error: json, response: json },
     });
   }
-  // console.groupEnd();
 };
 export { useApi, ApiProvider, apiRequest };

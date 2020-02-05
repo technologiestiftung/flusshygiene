@@ -77,9 +77,9 @@ export interface IBathingspot {
   elevation?: number;
   user?: IObject;
   userId?: number;
-  predictions?: IObject[];
-  models?: IObject[];
-  measurements?: IObject[];
+  predictions?: IPrediction[];
+  models?: IModel[];
+  measurements?: IMeasurement[];
   rawModelData?: IObject[];
   region?: IObject;
   rains?: IDefaultMeasurement[];
@@ -93,6 +93,19 @@ export interface IBathingspot {
   influenceAgriculture?: 'yes' | 'no' | 'unknown';
 }
 
+export interface IDefaultResource {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface IModel extends IDefaultResource {
+  rmodel?: string;
+  parameter: 'conc_ie' | 'conc_ec';
+  rmodelfiles?: IObject[];
+  plotfiles?: IObject[];
+  comment?: string;
+  evaluation?: string;
+}
 export interface IPurificationPlant {
   id: number;
   createdAt?: Date;
@@ -116,6 +129,22 @@ export interface ICollectionWithSubitem {
   name: string;
   url?: string;
   measurements?: IDefaultMeasurement[];
+}
+
+export interface IPrediction {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  date: Date;
+  prediction: string;
+  comment?: string;
+  percentile2_5?: number;
+  percentile50?: number;
+  percentile90?: number;
+  percentile95?: number;
+  percentile97_5?: number;
+  credibleInterval2_5?: number;
+  credibleInterval97_5?: number;
 }
 export interface IDefaultMeasurement {
   id: number;
@@ -251,6 +280,7 @@ export type RequestResourceTypes =
   | 'predictions'
   | 'user'
   | 'users'
+  | 'models'
   | 'ping'
   | 'purificationPlants'
   | 'pplantMeasurements'

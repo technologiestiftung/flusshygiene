@@ -10,6 +10,7 @@ export const ButtonIcon: React.FC<{
   isSubmitting?: boolean;
   type?: 'button' | 'submit' | 'reset';
   text?: string;
+  isDisabled?: boolean;
 }> = ({
   isActive,
   handleClick,
@@ -20,6 +21,7 @@ export const ButtonIcon: React.FC<{
   isSubmitting = false,
   type = 'button',
   text,
+  isDisabled,
 }) => {
   return (
     <button
@@ -30,7 +32,7 @@ export const ButtonIcon: React.FC<{
       } ${additionalClassNames !== undefined ? additionalClassNames : ''}`}
       onClick={handleClick}
       id={cssId}
-      disabled={isSubmitting}
+      disabled={isSubmitting || isDisabled}
     >
       <span className='icon is-small'>{children}</span>
       {text !== undefined && <span>{text}</span>}

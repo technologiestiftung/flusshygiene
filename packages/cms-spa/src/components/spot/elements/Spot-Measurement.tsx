@@ -5,7 +5,7 @@ import {
 } from '../../../lib/common/interfaces';
 
 const kA = 'k. A.';
-export interface IMeasurement {
+export interface ISpotMeasurement {
   measurements: IObject[];
   hasPrediction?: boolean;
   children?: React.ReactNode;
@@ -30,7 +30,7 @@ const sortIObjectByDate = (a: IObject, b: IObject) => {
   );
 };
 
-export const Measurement: React.FC<IMeasurement> = (props) => {
+export const Measurement: React.FC<ISpotMeasurement> = (props) => {
   const sortedMeasurement = props.measurements.sort(sortIObjectByDate);
 
   let lastMeasurment: IBathingspotMeasurement =

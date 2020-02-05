@@ -12,6 +12,7 @@ import {
   IApiAction,
   IPurificationPlant,
   IGenericInput,
+  RequestResourceTypes,
 } from '../lib/common/interfaces';
 
 import { SpotHeader } from './spot/elements/Spot-Header';
@@ -45,6 +46,7 @@ import {
 } from './spot/SpotEditor-CollectionWithSubitem';
 import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
 import { pplantSchema } from '../lib/utils/spot-validation-schema';
+import { MeasurementEditor } from './spot/Measurement-Editor';
 // import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
  * This is the component that displays a single spot
@@ -62,14 +64,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [ppDataEditMode, setPPDataEditMode] = useState(false);
   const [giDataEditMode, setGIDataEditMode] = useState(false);
 
-  // const [tableEditMode, setTableEditMode] = useState(true);
-  // const [tableEditData, setTableEditData] = useState<any | undefined>(
-  //   undefined,
-  // );
+  const [tableEditMode, setTableEditMode] = useState(true);
+  const [tableEditData, setTableEditData] = useState<any[] | undefined>([]);
 
   const [infoShowMode, setInfoShowMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
+  const [tableEditDataType, setTableEditDataType] = useState<
+    RequestResourceTypes | undefined
+  >(undefined);
 
   // const [message, setMessage] = useState<string>('');
   // const [showNotification, setShowNotification] = useState(false);
@@ -119,10 +122,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     setGIDataEditMode(!giDataEditMode);
   };
 
-  // const handleTableEditModeClick = (e?: React.ChangeEvent<any>) => {
-  //   e?.preventDefault?.();
-  //   setTableEditMode(!tableEditMode);
-  // };
+  const handleTableEditModeClick = (e?: React.ChangeEvent<any>) => {
+    e?.preventDefault?.();
+    setTableEditMode(!tableEditMode);
+  };
 
   const handleInfoShowModeClick = (e?: React.ChangeEvent<any>) => {
     if (e) {
@@ -624,16 +627,29 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         clickHandler={handleInfoShowModeClick}
       />
       {(() => {
-        // if (tableEditMode === true && spot !== undefined) {
-        //   return (
-        //     <MeasurementEditor
-        //       resourceType={'measurements'}
-        //       handleCloseClick={handleTableEditModeClick}
-        //       inData={spot.measurements ? spot.measurements : []}
-        //     />
-        //   );
-        // } else
-        if (basisEditMode === true && spot !== undefined) {
+        if (
+          tableEditMode === true &&
+          spot !== undefined &&
+          tableEditData !== undefined &&
+          tableEditDataType !== undefined
+        ) {
+          // 888888    db    88""Yb 88     888888
+          //   88     dPYb   88__dP 88     88__
+          //   88    dP__Yb  88""Yb 88  .o 88""
+          //   88   dP""""Yb 88oodP 88ood8 888888
+          // 888888 8888b.  88 888888  dP"Yb  88""Yb
+          // 88__    8I  Yb 88   88   dP   Yb 88__dP
+          // 88""    8I  dY 88   88   Yb   dP 88"Yb
+          // 888888 8888Y"  88   88    YbodP  88  Yb
+
+          return (
+            <MeasurementEditor
+              resourceType={tableEditDataType}
+              handleCloseClick={handleTableEditModeClick}
+              inData={tableEditData}
+            />
+          );
+        } else if (basisEditMode === true && spot !== undefined) {
           return (
             <Container>
               {formReadyToRender === true && basisEditMode === true && (
@@ -795,14 +811,22 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Vorhersage-Modelle',
                       iconType: 'IconCalc',
                     }}
-                    // data={[1, 2, 3]}
+                    hasData={spot.models && spot.models.length > 0}
+                    handleEditClick={() => {
+                      setTableEditData(spot.models);
+                      setTableEditMode(true);
+                      setTableEditDataType('models');
+                    }}
                     Table={() => SpotModelTable(lastModel)}
-                    // handleEditClick={() => {
-                    //   setTableEditMode(true);
-                    // }}
                   />
                   <SpotTableBlock
                     title={{ title: 'Vorhersage', iconType: 'IconComment' }}
+                    hasData={spot.predictions && spot.predictions.length > 0}
+                    handleEditClick={() => {
+                      setTableEditData(spot.predictions);
+                      setTableEditMode(true);
+                      setTableEditDataType('predictions');
+                    }}
                     Table={() => PredictionTable(spot)}
                   />
                 </ContainerNoColumn>
@@ -814,11 +838,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'letzte E.C./I.C. Messung',
                       iconType: 'IconCSV',
                     }}
+                    hasData={spot.measurements && spot.measurements.length > 0}
                     Table={() => SpotMeasurementsTable(spot)}
-                    // handleEditClick={() => {
-                    //   setTableEditData(spot.measurements);
-                    //   setTableEditMode(true);
-                    // }}
+                    handleEditClick={() => {
+                      setTableEditData(spot.measurements);
+                      setTableEditMode(true);
+                      setTableEditDataType('measurements');
+                    }}
                   />
                 )}
 
@@ -828,7 +854,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Mittlere Regenhöhen',
                       iconType: 'IconRain',
                     }}
+                    hasData={spot.rains && spot.rains.length > 0}
                     Table={() => RainTable(spot)}
+                    handleEditClick={() => {
+                      setTableEditData(spot.rains);
+                      setTableEditMode(true);
+                      setTableEditDataType('rains');
+                    }}
                   ></SpotTableBlock>
                 )}
               </ContainerNoColumn>
@@ -839,9 +871,18 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'letzte Globalstrahlungs Messungen',
                       iconType: 'IconCSV',
                     }}
+                    hasData={
+                      spot.globalIrradiances &&
+                      spot.globalIrradiances.length > 0
+                    }
+                    handleEditClick={() => {
+                      setTableEditData(spot.globalIrradiances);
+                      setTableEditMode(true);
+                      setTableEditDataType('globalIrradiances');
+                    }}
                     Table={() => (
                       <DefaultTable
-                        unit={'PiratenNinjas'}
+                        unit={'W/m²'}
                         measurements={spot.globalIrradiances}
                       ></DefaultTable>
                     )}
@@ -853,9 +894,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Letzte Abwasser Messungen',
                       iconType: 'IconCSV',
                     }}
+                    hasData={spot.discharges && spot.discharges.length > 0}
+                    handleEditClick={() => {
+                      setTableEditData(spot.discharges);
+                      setTableEditMode(true);
+                      setTableEditDataType('discharges');
+                    }}
                     Table={() => (
                       <DefaultTable
-                        unit={'PiratenNinjas'}
+                        unit={' m³/s'}
                         measurements={spot.discharges}
                       ></DefaultTable>
                     )}
