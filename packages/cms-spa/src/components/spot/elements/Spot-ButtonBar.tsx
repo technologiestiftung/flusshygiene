@@ -5,7 +5,7 @@ import {
   IconEdit,
   IconCalc,
   IconComment,
-  IconCode,
+  // IconCode,
   IconCSV,
   IconHelp,
 } from '../../fontawesome-icons';
