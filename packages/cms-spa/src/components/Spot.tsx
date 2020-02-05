@@ -36,7 +36,7 @@ import { SpotModelTable } from './spot/elements/Spot-ModelTable';
 import { SpotTableBlock } from './spot/elements/Spot-TableBlock';
 import { SpotHr } from './spot/elements/Spot-Hr';
 import { Spinner } from './util/Spinner';
-import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurments';
+import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurements';
 import { SpotEditorInfoModal } from './spot/elements/SpotEditor-InfoModal';
 import { DefaultTable } from './spot/elements/Spot-DefaultMeasurementsTable';
 import {
@@ -724,7 +724,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   </h1>
                 </Container>
               )}
-              {isAuthenticated === true &&
+              {/* {isAuthenticated === true &&
                 showNotification === true &&
                 spot !== undefined && (
                   <Container>
@@ -734,7 +734,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       bannerType={bannerType}
                     ></Banner>
                   </Container>
-                )}
+                )} */}
               {spot !== undefined && (
                 <Container>
                   <SpotHeader
@@ -795,6 +795,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Vorhersage-Modelle',
                       iconType: 'IconCalc',
                     }}
+                    // data={[1, 2, 3]}
                     Table={() => SpotModelTable(lastModel)}
                     // handleEditClick={() => {
                     //   setTableEditMode(true);
