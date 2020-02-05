@@ -16,5 +16,7 @@ app.use('/*', (req, res) => {
 //});
 
 app.listen(PORT, () => {
-  console.log(`listening on http://localhost:${PORT}`);
+  if (process.env.NODE_ENV === 'development') {
+    process.stdout.write(`listening on http://localhost:${PORT}\n`);
+  }
 });
