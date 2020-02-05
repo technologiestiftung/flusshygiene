@@ -45,7 +45,7 @@ export const SpotLocation: React.FC<ISpotBodyLocation> = (props) => {
           }
           return null;
         })()}
-        {props.location !== undefined && (
+        {props.location?.coordinates !== undefined && (
           <p>
             <a
               data-testid='google-link'
