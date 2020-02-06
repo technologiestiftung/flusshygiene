@@ -11,6 +11,7 @@ export const ButtonIcon: React.FC<{
   type?: 'button' | 'submit' | 'reset';
   text?: string;
   isDisabled?: boolean;
+  dataTooltipText?: string;
 }> = ({
   isActive,
   handleClick,
@@ -22,11 +23,13 @@ export const ButtonIcon: React.FC<{
   type = 'button',
   text,
   isDisabled,
+  dataTooltipText,
 }) => {
   return (
     <button
       type={type}
       data-testid={dataTestId}
+      data-tooltip={dataTooltipText}
       className={`button is-small is-badge-small ${
         isActive ? 'is-active' : ''
       } ${additionalClassNames !== undefined ? additionalClassNames : ''}`}

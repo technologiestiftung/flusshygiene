@@ -46,7 +46,7 @@ import {
 } from './spot/SpotEditor-CollectionWithSubitem';
 import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
 import { pplantSchema } from '../lib/utils/spot-validation-schema';
-import { MeasurementEditor } from './spot/Measurement-Editor';
+import { MeasurementEditor } from './spot/measurement-editor/editor';
 // import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
  * This is the component that displays a single spot
@@ -66,7 +66,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
   const [tableEditMode, setTableEditMode] = useState(true);
   const [tableEditData, setTableEditData] = useState<any[] | undefined>([]);
-
+  const [tableHeaderTitle, setTableHeaderTitle] = useState<string | undefined>(
+    undefined,
+  );
   const [infoShowMode, setInfoShowMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
@@ -644,9 +646,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
           return (
             <MeasurementEditor
+              spotId={spot.id}
               resourceType={tableEditDataType}
               handleCloseClick={handleTableEditModeClick}
               inData={tableEditData}
+              headerTitle={tableHeaderTitle}
             />
           );
         } else if (basisEditMode === true && spot !== undefined) {
@@ -816,6 +820,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.models);
                       setTableEditMode(true);
                       setTableEditDataType('models');
+                      setTableHeaderTitle('Vorhersage-Modelle');
                     }}
                     Table={() => SpotModelTable(lastModel)}
                   />
@@ -826,6 +831,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.predictions);
                       setTableEditMode(true);
                       setTableEditDataType('predictions');
+                      setTableHeaderTitle('Vorhersage');
                     }}
                     Table={() => PredictionTable(spot)}
                   />
@@ -844,6 +850,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.measurements);
                       setTableEditMode(true);
                       setTableEditDataType('measurements');
+                      setTableHeaderTitle('E.C./I.C. Messungen');
                     }}
                   />
                 )}
@@ -860,6 +867,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.rains);
                       setTableEditMode(true);
                       setTableEditDataType('rains');
+                      setTableHeaderTitle('Mittlere Regenhöhen');
                     }}
                   ></SpotTableBlock>
                 )}
@@ -879,6 +887,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.globalIrradiances);
                       setTableEditMode(true);
                       setTableEditDataType('globalIrradiances');
+                      setTableHeaderTitle('Globalstrahlungs Messungen');
                     }}
                     Table={() => (
                       <DefaultTable
@@ -899,6 +908,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.discharges);
                       setTableEditMode(true);
                       setTableEditDataType('discharges');
+                      setTableHeaderTitle('Abwasser Messungen');
                     }}
                     Table={() => (
                       <DefaultTable

@@ -1,32 +1,23 @@
-import React from 'react';
-import { useTable } from 'react-table';
 import {
-  ClickFunction,
   RequestResourceTypes,
   IMeasurement,
   IDefaultMeasurement,
   IPrediction,
   IModel,
-} from '../../lib/common/interfaces';
-import { ButtonIcon } from '../Buttons';
-import { IconCloseWin } from '../fontawesome-icons';
-import { Container } from '../Container';
-
-export const MeasurementEditor: React.FC<{
-  handleCloseClick: ClickFunction;
-  inData: any;
-  columns?: any;
-  resourceType: RequestResourceTypes;
-}> = ({ handleCloseClick, inData, resourceType }) => {
-  let preparedColumns;
+} from '../common/interfaces';
+export function prepareData(
+  inData: any,
+  resourceType: RequestResourceTypes,
+  headerTitle?: string,
+): [any[], any[]] {
+  let preparedColumns: any[] = [];
   let preparedData: any[] = [];
-
   switch (resourceType) {
     case 'models': {
       const d = inData as IModel[];
       preparedColumns = [
         {
-          Header: 'EC/IC Messwerte',
+          Header: headerTitle ? headerTitle : 'DEFINE ME',
           columns: [
             { Header: 'id', accessor: 'id' },
             { Header: 'createdAt', accessor: 'createdAt' },
@@ -49,7 +40,7 @@ export const MeasurementEditor: React.FC<{
       const d = inData as IMeasurement[];
       preparedColumns = [
         {
-          Header: 'EC/IC Messwerte',
+          Header: headerTitle ? headerTitle : 'DEFINE ME',
           columns: [
             { Header: 'id', accessor: 'id' },
             { Header: 'date', accessor: 'date' },
@@ -76,7 +67,7 @@ export const MeasurementEditor: React.FC<{
       const d = inData as IDefaultMeasurement[];
       preparedColumns = [
         {
-          Header: 'EC/IC Messwerte',
+          Header: headerTitle ? headerTitle : 'DEFINE ME',
           columns: [
             { Header: 'id', accessor: 'id' },
             { Header: 'date', accessor: 'date' },
@@ -99,7 +90,7 @@ export const MeasurementEditor: React.FC<{
       const d = inData as IPrediction[];
       preparedColumns = [
         {
-          Header: 'EC/IC Messwerte',
+          Header: headerTitle ? headerTitle : 'DEFINE ME',
           columns: [
             { Header: 'id', accessor: 'id' },
             { Header: 'date', accessor: 'date' },
@@ -143,58 +134,5 @@ export const MeasurementEditor: React.FC<{
       throw new Error('Ne default resourceType for MeasurementEditor defined');
     }
   }
-  const columns = React.useMemo(() => preparedColumns, []);
-  const data = React.useMemo(() => preparedData, []);
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  });
-  // console.group('Meas. Editor');
-  // console.log('headerGroups:', headerGroups);
-  // console.log('getTableProps:', getTableProps());
-  // console.log('getTableBodyProps:', getTableBodyProps());
-  // console.log('Data to edit', inData);
-  // console.groupEnd()
-  return (
-    <>
-      <Container>
-        <ButtonIcon handleClick={handleCloseClick} text='schließen'>
-          <IconCloseWin></IconCloseWin>
-        </ButtonIcon>
-        <table {...getTableProps()} className='table'>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render('Header')}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row, i) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </Container>
-    </>
-  );
-};
+  return [preparedData, preparedColumns];
+}
