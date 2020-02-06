@@ -11,7 +11,6 @@ import {
   IPrediction,
   IMeasurement,
 } from '../lib/common/interfaces';
-import { ISpotMeasurement } from '../components/spot/elements/Spot-Measurement';
 
 function matchSpotId(action: IApiAction) {
   const reg = /bathingspots\/(?<spotId>\d+)/;
