@@ -13,6 +13,7 @@ import {
 import {
   deleteCollectionItem,
   deleteSubItemMeasurement,
+  deleteColletionItemsList,
 } from './request-handlers/bathingspots/collections/delete';
 import {
   getCollection,
@@ -215,6 +216,15 @@ router.put(
   checkUserAndSpot,
   collectionCheck,
   putCollectionSubItem,
+);
+
+router.delete(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
+  checkJwt,
+  checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
+  deleteColletionItemsList,
 );
 
 router.delete(

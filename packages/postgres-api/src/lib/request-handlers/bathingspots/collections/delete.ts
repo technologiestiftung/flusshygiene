@@ -1,3 +1,4 @@
+import { responderMissingBodyValue } from './../../responders';
 import { HttpCodes, postResponse, deleteResponse } from '../../../common';
 import {
   errorResponse,
@@ -93,6 +94,35 @@ export const deleteCollectionItem: postResponse = async (request, response) => {
     } else {
       responderWrongId(response);
     }
+  } catch (error) {
+    responder(response, HttpCodes.internalError, errorResponse(error));
+  }
+};
+
+export const deleteColletionItemsList: deleteResponse = async (
+  request,
+  response,
+) => {
+  try {
+    const collectionId = request.params.collectionName;
+    const repoName = collectionRepoMapping[collectionId];
+    const ids = request.body.ids;
+    if (ids === undefined) {
+      responderMissingBodyValue(response, { ids: [1, 2, 3] });
+      return;
+    }
+    const repo: any = getRepository(repoName);
+    const entities = await repo
+      .createQueryBuilder('collection')
+      .where('collection.id IN (:...ids)', { ids })
+      .getMany();
+    const delIds = entities.map((e: any) => e.id);
+    await repo.remove(entities);
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(SUCCESS.successDelete200, delIds),
+    );
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }

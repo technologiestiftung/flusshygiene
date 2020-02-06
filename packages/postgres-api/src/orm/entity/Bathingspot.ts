@@ -312,7 +312,9 @@ export class Bathingspot {
     (prediction) => prediction.bathingspot,
     {
       // cascade: true,
-      eager: true,
+      // eager: true,
+
+      onDelete: 'CASCADE',
     },
   )
   public predictions!: BathingspotPrediction[];
@@ -324,7 +326,9 @@ export class Bathingspot {
   // public categories!: BathingspotPrediction[];
 
   @OneToMany((_type) => BathingspotModel, (model) => model.bathingspot, {
-    eager: true,
+    // eager: true,
+
+    onDelete: 'CASCADE',
   })
   public models!: BathingspotModel[];
 
@@ -332,7 +336,8 @@ export class Bathingspot {
     (_type) => BathingspotMeasurement,
     (measurement) => measurement.bathingspot,
     {
-      eager: true,
+      // eager: true,
+      onDelete: 'CASCADE',
     },
   )
   public measurements!: BathingspotMeasurement[];
@@ -346,25 +351,38 @@ export class Bathingspot {
   })
   public region!: Region;
 
-  @OneToMany((_type) => PurificationPlant, (plant) => plant.bathingspot)
+  @OneToMany((_type) => PurificationPlant, (plant) => plant.bathingspot, {
+    onDelete: 'CASCADE',
+  })
   public purificationPlants!: PurificationPlant[];
 
-  @OneToMany((_type) => GenericInput, (ginput) => ginput.bathingspot)
+  @OneToMany((_type) => GenericInput, (ginput) => ginput.bathingspot, {
+    onDelete: 'CASCADE',
+  })
   public genericInputs!: GenericInput[];
 
-  @OneToMany((_type) => Discharge, (discharge) => discharge.bathingspot)
+  @OneToMany((_type) => Discharge, (discharge) => discharge.bathingspot, {
+    onDelete: 'CASCADE',
+  })
   public discharges!: Discharge[];
 
   @OneToMany(
     (_type) => GlobalIrradiance,
     (globalIrradiance) => globalIrradiance.bathingspot,
+    {
+      onDelete: 'CASCADE',
+    },
   )
   public globalIrradiances!: GlobalIrradiance[];
 
-  @OneToMany((_type) => Rain, (rain) => rain.bathingspot /* { eager: true }*/)
+  @OneToMany((_type) => Rain, (rain) => rain.bathingspot, {
+    onDelete: 'CASCADE',
+  })
   public rains!: Rain[];
 
-  @OneToMany((_type) => ImageFile, (image) => image.bathingspot)
+  @OneToMany((_type) => ImageFile, (image) => image.bathingspot, {
+    onDelete: 'CASCADE',
+  })
   public images!: ImageFile[];
 
   // Listeners
