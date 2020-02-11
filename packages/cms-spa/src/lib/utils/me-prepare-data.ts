@@ -1,3 +1,4 @@
+import { IPurificationPlant } from './../common/interfaces';
 import {
   RequestResourceTypes,
   IMeasurement,
@@ -63,6 +64,8 @@ export function prepareData(
     }
     case 'discharges':
     case 'globalIrradiances':
+    case 'gInputMeasurements':
+    case 'pplantMeasurements':
     case 'rains': {
       const d = inData as IDefaultMeasurement[];
       preparedColumns = [
@@ -126,6 +129,28 @@ export function prepareData(
             elem.credibleInterval2_5 === null ? '' : elem.credibleInterval2_5,
           credibleInterval97_5:
             elem.credibleInterval97_5 === null ? '' : elem.credibleInterval97_5,
+        });
+      });
+      break;
+    }
+    case 'genericInputs':
+    case 'purificationPlants': {
+      const d = inData as IPurificationPlant[];
+      preparedColumns = [
+        {
+          Header: headerTitle ? headerTitle : 'DEFINE ME',
+          columns: [
+            { Header: 'id', accessor: 'id' },
+            { Header: 'name', accessor: 'name' },
+            { Header: 'url', accessor: 'url' },
+          ],
+        },
+      ];
+      d.forEach((elem) => {
+        preparedData.push({
+          id: elem.id,
+          name: elem.name,
+          url: elem.url,
         });
       });
       break;
