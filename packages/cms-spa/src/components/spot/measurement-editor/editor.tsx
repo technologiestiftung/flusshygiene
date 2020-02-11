@@ -23,7 +23,18 @@ export const MeasurementEditor: React.FC<{
   resourceType: RequestResourceTypes;
   headerTitle?: string;
   spotId: number;
-}> = ({ handleCloseClick, inData, resourceType, headerTitle, spotId }) => {
+  subItemId?: number;
+  setEditMode: (value: React.SetStateAction<boolean>) => void;
+  setDataEditMode: () => void;
+}> = ({
+  handleCloseClick,
+  inData,
+  resourceType,
+  headerTitle,
+  spotId,
+  subItemId,
+  setEditMode,
+  setDataEditMode,
   const [preparedData, preparedColumns] = prepareData(
     inData,
     resourceType,
@@ -81,14 +92,29 @@ export const MeasurementEditor: React.FC<{
     try {
       const token = await getTokenSilently();
       // TODO: Handle genericInputs and PPlants in URL
-      const url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spotId}/${resourceType}`;
+      // TODO: Test deletion!! 2020-02-06 18:09:41
+      const BASE_URL = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spotId}`;
+
+      let url = '';
+      // console.log(resourceType);
+      switch (resourceType) {
+        case 'gInputMeasurements':
+          url = `${BASE_URL}/${ApiResources.genericInputs}/${subItemId}/${ApiResources.measurements}`;
+          break;
+        case 'pplantMeasurements':
+          url = `${BASE_URL}/${ApiResources.purificationPlants}/${subItemId}/${ApiResources.measurements}`;
+          break;
+        default:
+          url = `${BASE_URL}/${resourceType}`;
+          break;
+      }
       const action = actionCreator({
         method: 'DELETE',
         type: ApiActionTypes.START_API_REQUEST,
         token,
         url,
         resource: resourceType,
-        body: {},
+        body: { ids },
       });
 
       console.log(url, action);
