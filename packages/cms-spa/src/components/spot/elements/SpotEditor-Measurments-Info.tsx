@@ -3,7 +3,50 @@ import { ButtonIcon } from '../../Buttons';
 import { IconInfo } from '../../fontawesome-icons';
 import { MeasurementTypes } from '../../../lib/common/interfaces';
 
-const InfoText: React.FC<{ type: MeasurementTypes }> = ({ type }) => (
+export const InfoAutoData = () => {
+  return (
+    <div className='content' style={{ paddingTop: '1rem' }}>
+      <h3 className='is-title is-3'>Automatisierte Datenaggregation </h3>
+      <p>
+        Um Daten automatisiert für ihre Badestelle bereit zu stellen, müssen sie
+        eine öffentlich zugängliche http URL eintragen, die täglich um 09:00
+        abgeholt werden kann. Für E.C. und I.C. Messwerte müssen die Daten im
+        Format JSON bereit stehen und benötigen folgende Formatierung.
+      </p>
+      <pre>
+        <code>
+          {JSON.stringify({
+            data: [
+              {
+                date: '2020-02-05 10:00:00',
+                conc_ec: 1,
+                conc_ic: 1,
+              },
+            ],
+          })}
+        </code>
+      </pre>
+      <p>Für alle anderen Messwerte ist folgende Formatierung notwendig</p>
+      <pre>
+        <code>
+          {JSON.stringify({
+            data: [
+              {
+                date: '2020-02-05 10:00:00',
+                value: 1,
+              },
+            ],
+          })}
+        </code>
+      </pre>
+    </div>
+  );
+};
+
+export const InfoText: React.FC<{
+  type: MeasurementTypes;
+  showDataAggregationText?: boolean;
+}> = ({ type, showDataAggregationText }) => (
   <>
     <h3 className='is-title is-3'>CSV Daten Upload </h3>
     <div className='content'>
@@ -108,7 +151,9 @@ const InfoText: React.FC<{ type: MeasurementTypes }> = ({ type }) => (
         Fehlende Messwerte müssen mit <code>-1</code> eingefügt werden.
       </p>
     </div>
-    <div className='content' style={{ paddingTop: '1rem' }}>
+    {(showDataAggregationText === undefined ||
+      showDataAggregationText === true) && <InfoAutoData></InfoAutoData>}
+    {/* <div className='content' style={{ paddingTop: '1rem' }}>
       <h3 className='is-title is-3'>Automatisierte Datenaggregation </h3>
       <p>
         Um Daten automatisiert für ihre Badestelle bereit zu stellen, müssen sie
@@ -142,7 +187,7 @@ const InfoText: React.FC<{ type: MeasurementTypes }> = ({ type }) => (
           })}
         </code>
       </pre>
-    </div>
+    </div> */}
   </>
 );
 export const SpotEditorMeasurmentInfo: React.FC<{

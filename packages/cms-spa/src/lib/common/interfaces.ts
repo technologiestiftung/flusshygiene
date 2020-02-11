@@ -446,6 +446,11 @@ export interface IMeasurmentsUploadInitialValues {
   dischargesUrl: string;
 }
 
+export interface IInitialGiPPValues {
+  url?: string;
+  name: string;
+}
+
 // ╔╦╗┬ ┬┌─┐┌─┐┌─┐
 //  ║ └┬┘├─┘├┤ └─┐
 //  ╩  ┴ ┴  └─┘└─┘

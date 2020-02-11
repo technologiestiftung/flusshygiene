@@ -122,7 +122,16 @@ export const defaultMeasurementsSchema = Yup.object().shape({
     .required('Kein Fließkommawert >= 0'),
 });
 
-export const pplantSchema = Yup.object().shape({
+export const singlePPlantGiSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(3, 'Der Name ist zu kurz.')
+    .max(50, 'Der Name ist zu lang.')
+    .required('Required'),
+  url: Yup.string()
+    .url('Keine valide URL.')
+    .nullable(),
+});
+export const pplantGiSchema = Yup.object().shape({
   purificationPlants: Yup.array().of(
     Yup.object().shape({
       name: Yup.string()

@@ -34,7 +34,7 @@ const TableRowWithButton: React.FC<{
   th: string;
   tds: string[];
   handleEditClick: ClickFunction;
-  disabled: boolean;
+  disabled?: boolean;
 }> = ({ th, tds, handleEditClick, disabled }) => {
   return (
     <tr>

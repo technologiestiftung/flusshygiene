@@ -37,15 +37,25 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
               <TableRowWithButton
                 key={index}
                 th={item.name}
-                disabled={
-                  item.measurements !== undefined &&
-                  item.measurements.length > 0
-                    ? false
-                    : true
-                }
+                // disabled={
+                //   item.measurements !== undefined &&
+                //   item.measurements.length > 0
+                //     ? false
+                //     : true
+                // }
                 handleEditClick={(e?: React.ChangeEvent<any>) => {
                   e?.preventDefault();
-                  setTitle(item.name);
+                  setTitle(
+                    `${item.name}${
+                      item.url
+                        ? ' || ' +
+                          item.url
+                            .replace(/http(s)?:\/\//, '')
+                            .substring(0, 13) +
+                          '…'
+                        : ''
+                    }`,
+                  );
                   setData(item.measurements);
                   setSubItemId(item.id);
                   handleEditClick();
@@ -54,6 +64,7 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
                 tds={[
                   'Datenpunkte',
                   item.measurements ? `${item.measurements.length}` : 'k. A.',
+                  `Autom.: ${item.url ? '✓' : '✘'}`,
                 ]}
               ></TableRowWithButton>
             );

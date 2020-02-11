@@ -16,6 +16,7 @@ import { DataValidationInfoBox } from './DataValidationInfoBox';
 import { validURL } from '../../../lib/utils/validURL';
 import { unique } from '../../../lib/utils/unique-values';
 import { CSVUnique } from '../formik-helpers/CSVunique';
+import { InfoDataAggregation } from '../../infos/data-aggregation';
 
 export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   title,
@@ -176,14 +177,15 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
         } else {
           return (
             <>
-              <div className='content' style={{ paddingTop: '1rem' }}>
+              {<InfoDataAggregation />}
+              {/* <div className='content' style={{ paddingTop: '1rem' }}>
                 <p>
                   Automatisierte Datenaggregation <br />
                   Um Daten automatisiert für ihre Badestelle bereit zu stellen,
                   müssen sie eine öffentlich zugängliche http URL eintragen, die
                   täglich um 09:00 abgeholt werden kann.
                 </p>
-              </div>
+              </div> */}
               <div className='field is-horizontal'>
                 <div className='field-label is-normal'>
                   <label htmlFor={fieldNameUrl} className='label'>

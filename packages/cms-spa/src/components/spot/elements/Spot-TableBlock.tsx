@@ -31,11 +31,11 @@ export const SpotTableBlock: React.FC<{
        )} */}
       {SpotTableTitle(title)}
       {Table()}
-      {hasData ? (
-        <ButtonIcon handleClick={handleEditClick} text={'Daten Editieren'}>
-          <IconEdit />
-        </ButtonIcon>
-      ) : (
+      {/* {hasData ? ( */}
+      <ButtonIcon handleClick={handleEditClick} text={'Daten Editieren'}>
+        <IconEdit />
+      </ButtonIcon>
+      {/* ) : (
         <ButtonIcon
           isDisabled={true}
           handleClick={handleEditClick}
@@ -43,7 +43,7 @@ export const SpotTableBlock: React.FC<{
         >
           <IconEdit />
         </ButtonIcon>
-      )}
+      )} */}
     </div>
   );
 };

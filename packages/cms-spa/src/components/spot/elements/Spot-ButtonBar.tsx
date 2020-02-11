@@ -45,13 +45,13 @@ export const SpotButtonBar: React.FC<{
         >
           <IconEdit></IconEdit>
         </ButtonIcon>
-        <ButtonIcon
+        {/* <ButtonIcon
           cssId='data'
           handleClick={handleDataEditModeClick}
           text='Messdaten'
         >
           <IconCSV></IconCSV>
-        </ButtonIcon>
+        </ButtonIcon> */}
         <ButtonIcon
           cssId='pp-data'
           handleClick={handlePPEditModeClick}

@@ -170,6 +170,7 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
                   case 'measurements': {
                     return (
                       <UploadBox
+                        unboxed={true}
                         fieldNameFile={'measurements'}
                         fieldNameUrl={'measurementsUrl'}
                         props={props}
@@ -182,6 +183,7 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
                   case 'globalIrradiances': {
                     return (
                       <UploadBox
+                        unboxed={true}
                         fieldNameFile={'globalIrradiance'}
                         fieldNameUrl={'globalIrradianceUrl'}
                         props={props}
@@ -194,6 +196,7 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
                   case 'discharges': {
                     return (
                       <UploadBox
+                        unboxed={true}
                         fieldNameFile={'discharges'}
                         fieldNameUrl={'dischargesUrl'}
                         props={props}

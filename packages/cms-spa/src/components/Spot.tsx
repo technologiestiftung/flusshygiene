@@ -46,7 +46,7 @@ import {
   ISpotEditorCollectionWithSubItemsInitialValues,
 } from './spot/SpotEditor-CollectionWithSubitem';
 import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
-import { pplantSchema } from '../lib/utils/spot-validation-schema';
+import { pplantGiSchema } from '../lib/utils/spot-validation-schema';
 import { MeasurementEditor } from './spot/measurement-editor/editor';
 // import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
@@ -727,6 +727,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 handleInfoClick={handleInfoShowModeClick}
                 handeCloseClick={handleDataEditModeClick}
                 spotId={spot.id}
+
                 // schema={measurementsSchema}
                 // postData={(data: any) => {
                 //   console.log(
@@ -746,7 +747,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           return (
             <Container>
               <SpotEditorCollectionWithSubitem
-                validationSchema={pplantSchema}
+                validationSchema={pplantGiSchema}
                 resourceType={ApiResources.purificationPlants}
                 uploadBoxResourceType={'pplantMeasurements'}
                 title={'Klärwerke'}
@@ -766,7 +767,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           return (
             <Container>
               <SpotEditorCollectionWithSubitem
-                validationSchema={pplantSchema}
+                validationSchema={pplantGiSchema}
                 resourceType={ApiResources.genericInputs}
                 uploadBoxResourceType={'gInputMeasurements'}
                 title={'Generische Messwete'}
@@ -895,7 +896,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.measurements);
                       setTableEditMode(true);
                       setTableEditDataType('measurements');
-                      setTableHeaderTitle('E.C./I.C. Messungen');
+                      setTableHeaderTitle(
+                        `E.C./I.C. Messungen || Autom. Datenaggregierung: ${
+                          spot.apiEndpoints?.measurementsUrl !== undefined
+                            ? ' ✓'
+                            : ' ✘'
+                        }`,
+                      );
                       setUploadType('measurements');
                     }}
                   />
