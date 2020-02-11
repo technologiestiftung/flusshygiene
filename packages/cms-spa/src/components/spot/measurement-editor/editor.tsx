@@ -6,7 +6,7 @@ import {
   ApiActionTypes,
 } from '../../../lib/common/interfaces';
 import { ButtonIcon } from '../../Buttons';
-import { IconCloseWin, IconTrash } from '../../fontawesome-icons';
+import { IconCloseWin, IconTrash, IconCSV } from '../../fontawesome-icons';
 import { Container } from '../../Container';
 import { prepareData } from '../../../lib/utils/me-prepare-data';
 import { IndeterminateCheckbox } from './indeterminate-checkbox';
@@ -15,6 +15,7 @@ import { useAuth0 } from '../../../lib/auth/react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../../../lib/config';
 import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
 import { actionCreator } from '../../../lib/utils/pgapi-actionCreator';
+import { apiRequest, useApi } from '../../../contexts/postgres-api';
 
 export const MeasurementEditor: React.FC<{
   handleCloseClick: ClickFunction;
@@ -35,6 +36,9 @@ export const MeasurementEditor: React.FC<{
   subItemId,
   setEditMode,
   setDataEditMode,
+}) => {
+  const [, apiDispatch] = useApi();
+
   const [preparedData, preparedColumns] = prepareData(
     inData,
     resourceType,
@@ -88,7 +92,7 @@ export const MeasurementEditor: React.FC<{
   );
   const { user, getTokenSilently } = useAuth0();
 
-  const callDelete = async () => {
+  const callDelete: (ids: number[]) => Promise<void> = async (ids) => {
     try {
       const token = await getTokenSilently();
       // TODO: Handle genericInputs and PPlants in URL
@@ -118,6 +122,8 @@ export const MeasurementEditor: React.FC<{
       });
 
       console.log(url, action);
+      apiRequest(apiDispatch, action);
+      setEditMode(false);
     } catch (error) {
       console.error(error);
       throw error;
@@ -137,7 +143,7 @@ export const MeasurementEditor: React.FC<{
   const handleConfirmClick = () => {
     const ids = selectedFlatRows.map((elem: any) => elem.original.id);
     console.log(ids); // eslint-disable-line
-    callDelete().catch((err) => {
+    callDelete(ids).catch((err: Error) => {
       console.log(err);
     });
   };
@@ -178,7 +184,7 @@ export const MeasurementEditor: React.FC<{
           })()}
           <ButtonIcon
             text='Auswahl löschen'
-            additionalClassNames='is-primary has-tooltip-bottom'
+            additionalClassNames='is-warning'
             handleClick={handleDeleteClick}
           >
             <IconTrash></IconTrash>
