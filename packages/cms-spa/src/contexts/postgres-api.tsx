@@ -10,6 +10,7 @@ import {
   IGenericInput,
   IPrediction,
   IMeasurement,
+  IModel,
 } from '../lib/common/interfaces';
 
 function matchSpotId(action: IApiAction) {
@@ -99,6 +100,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               spots: [...newSpots],
             };
           }
+          // TODO: unify case bathingspot(s)
           case 'bathingspot': {
             // const spotId = matchSpotId(action);
             // console.log('url in spot request', action.payload.url);
@@ -231,6 +233,18 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               if (spot.id === spotId) {
                 spot.predictions = action.payload.response!
                   .data as IPrediction[];
+              }
+              return spot;
+            });
+
+            return { ...state, spots: [...updatedSpots], loading: false };
+          }
+          case 'models': {
+            // const spotId = matchSpotId(action);
+
+            const updatedSpots = state.spots.map((spot) => {
+              if (spot.id === spotId) {
+                spot.models = action.payload.response!.data as IModel[];
               }
               return spot;
             });
@@ -415,10 +429,18 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           case 'gInputMeasurements':
           case 'pplantMeasurements':
           case 'genericInputs':
+          case 'models':
+          case 'rains':
+          case 'predictions':
           case 'measurements': {
-            // let reloadSubItems = state.reloadSubItems;
-            // let reload = state.reload;
+            let reloadSubItems = state.reloadSubItems;
 
+            if (
+              action.payload.requestType.resource === 'genericInputs' ||
+              action.payload.requestType.resource === 'purificationPlants'
+            ) {
+              reloadSubItems = reloadSubItems + 1;
+            }
             // if (
             //   subItemsList.includes(action.payload.requestType.resource) ===
             //   true
@@ -427,7 +449,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             // } else {
             const reload = state.reload + 1;
             // }
-            return { ...state, loading: false, reload };
+            return { ...state, loading: false, reload, reloadSubItems };
           }
           default: {
             throw new Error('no default DELETE case defined');
@@ -438,7 +460,9 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
       }
     }
     case ApiActionTypes.FAIL_API_REQUEST: {
-      console.error('apiReducer case FAILS', action);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('apiReducer case FAILS', action);
+      }
 
       return { ...state, loading: false, error: action.payload.error };
     }
@@ -590,7 +614,9 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
       try {
         json = await response.json();
       } catch (err) {
-        console.error('Error parsing response from fetch call to json', err);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error parsing response from fetch call to json', err);
+        }
         throw err;
       }
       dispatch({
@@ -601,7 +627,9 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
       throw new Error('Network fetch response not ok');
     }
   } catch (error) {
-    console.error('Error while making fetch call', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error while making fetch call', error);
+    }
     let json: any;
     try {
       json = await response!.json();
