@@ -14,6 +14,7 @@ import {
   deleteCollectionItem,
   deleteSubItemMeasurement,
   deleteColletionItemsList,
+  deleteCollectionSubItemsList,
 } from './request-handlers/bathingspots/collections/delete';
 import {
   getCollection,
@@ -178,6 +179,16 @@ router.get(
   checkUserAndSpot,
   collectionCheck,
   getGenericInputMeasurements,
+);
+
+// delete subitems of collection
+router.delete(
+  '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/',
+  checkJwt,
+  checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
+  deleteCollectionSubItemsList,
 );
 
 // delete subitems of collection
