@@ -28,6 +28,7 @@ import { validURL } from '../../lib/utils/validURL';
 export const SpotEditorMeasurmentsUpload: React.FC<{
   initialValues: IMeasurmentsUploadInitialValues;
   spotId: number;
+  uploadType?: 'measurements' | 'discharges' | 'globalIrradiances';
   handeCloseClick: (e?: React.ChangeEvent<any> | undefined) => void;
   handleInfoClick: (e?: React.ChangeEvent<any> | undefined) => void;
   // postData: (data: any) => void;
@@ -40,7 +41,13 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
   //     }
   //   >
   // >;
-}> = ({ initialValues, handeCloseClick, handleInfoClick, spotId }) => {
+}> = ({
+  initialValues,
+  handeCloseClick,
+  handleInfoClick,
+  spotId,
+  uploadType,
+}) => {
   const [apiState, apiDispatch] = useApi();
   const { user, getTokenSilently } = useAuth0();
   // const [token, setToken] = useState<string | undefined>(undefined);
@@ -158,30 +165,51 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
                 handleCancelClick={handeCloseClick}
                 infoModalClickHandler={handleInfoClick}
               />
-              <UploadBox
-                fieldNameFile={'measurements'}
-                fieldNameUrl={'measurementsUrl'}
-                props={props}
-                schema={measurementsSchema}
-                title={'Messwerte EC/IC'}
-                type={'measurements'}
-              />
-              <UploadBox
-                fieldNameFile={'globalIrradiance'}
-                fieldNameUrl={'globalIrradianceUrl'}
-                props={props}
-                schema={defaultMeasurementsSchema}
-                title={'Messwerte Global Strahlung'}
-                type={'globalIrradiances'}
-              />
-              <UploadBox
-                fieldNameFile={'discharges'}
-                fieldNameUrl={'dischargesUrl'}
-                props={props}
-                schema={defaultMeasurementsSchema}
-                title={'Messwerte Durchfluss'}
-                type={'discharges'}
-              />
+              {(() => {
+                switch (uploadType) {
+                  case 'measurements': {
+                    return (
+                      <UploadBox
+                        fieldNameFile={'measurements'}
+                        fieldNameUrl={'measurementsUrl'}
+                        props={props}
+                        schema={measurementsSchema}
+                        title={'Messwerte EC/IC'}
+                        type={'measurements'}
+                      />
+                    );
+                  }
+                  case 'globalIrradiances': {
+                    return (
+                      <UploadBox
+                        fieldNameFile={'globalIrradiance'}
+                        fieldNameUrl={'globalIrradianceUrl'}
+                        props={props}
+                        schema={defaultMeasurementsSchema}
+                        title={'Messwerte Global Strahlung'}
+                        type={'globalIrradiances'}
+                      />
+                    );
+                  }
+                  case 'discharges': {
+                    return (
+                      <UploadBox
+                        fieldNameFile={'discharges'}
+                        fieldNameUrl={'dischargesUrl'}
+                        props={props}
+                        schema={defaultMeasurementsSchema}
+                        title={'Messwerte Durchfluss'}
+                        type={'discharges'}
+                      />
+                    );
+                  }
+                  default: {
+                    throw new Error(
+                      "Upload type needs to be one of 'measurements' | 'discharges' | 'globalIrradiances'",
+                    );
+                  }
+                }
+              })()}
             </Form>
           );
         }}

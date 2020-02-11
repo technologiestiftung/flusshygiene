@@ -155,6 +155,27 @@ export const MeasurementEditor: React.FC<{
       )}
       <Container>
         <div className='buttons buttons__spot-actions--size'>
+          {(() => {
+            switch (resourceType) {
+              case 'discharges':
+              case 'measurements':
+              case 'globalIrradiances': {
+                return (
+                  <ButtonIcon
+                    text='Daten hochladen'
+                    additionalClassNames='is-primary'
+                    handleClick={() => {
+                      setDataEditMode();
+                    }}
+                  >
+                    <IconCSV></IconCSV>
+                  </ButtonIcon>
+                );
+              }
+              default:
+                return null;
+            }
+          })()}
           <ButtonIcon
             text='Auswahl löschen'
             additionalClassNames='is-primary has-tooltip-bottom'
