@@ -36,7 +36,11 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
             return (
               <TableRowWithButton
                 key={index}
-                th={item.name}
+                th={
+                  item.name.length > 17
+                    ? `${item.name.substring(0, 16)}…`
+                    : item.name
+                }
                 // disabled={
                 //   item.measurements !== undefined &&
                 //   item.measurements.length > 0
@@ -62,7 +66,7 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
                   // console.log('edit table row');
                 }}
                 tds={[
-                  'Datenpunkte',
+                  'Daten',
                   item.measurements ? `${item.measurements.length}` : 'k. A.',
                   `Autom.: ${item.url ? '✓' : '✘'}`,
                 ]}

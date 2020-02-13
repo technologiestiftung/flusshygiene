@@ -287,6 +287,10 @@ export type RequestResourceTypes =
   | 'gInputMeasurements'
   | 'genericInputs';
 
+export type MGDUploaderDataType =
+  | 'globalIrradiances'
+  | 'discharges'
+  | 'measurements';
 export interface IApiActionRequestType {
   type: RequestTypes;
   resource: RequestResourceTypes;
@@ -404,7 +408,13 @@ export interface IModelInfo {
   in95: number;
 }
 
+export interface IWarningsComponentCollection {
+  validation?: () => JSX.Element | undefined;
+  parsing?: () => JSX.Element | undefined;
+  unique?: () => JSX.Element | undefined;
+}
 export interface IMeasurementsUploadBox {
+  existingData?: any[];
   title: string;
   unboxed?: boolean;
   hasNoUrlField?: boolean;
@@ -455,6 +465,10 @@ export interface IInitialGiPPValues {
 //  ║ └┬┘├─┘├┤ └─┐
 //  ╩  ┴ ┴  └─┘└─┘
 
+export type ApiEndpointsLinkTypes =
+  | 'globalIrradianceUrl'
+  | 'dischargesUrl'
+  | 'measurementsUrl';
 export type MeasurementTypes =
   | 'measurements'
   | 'discharges'

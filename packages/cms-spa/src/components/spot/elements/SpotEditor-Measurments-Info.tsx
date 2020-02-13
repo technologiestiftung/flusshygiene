@@ -46,9 +46,10 @@ export const InfoAutoData = () => {
 export const InfoText: React.FC<{
   type: MeasurementTypes;
   showDataAggregationText?: boolean;
-}> = ({ type, showDataAggregationText }) => (
+  title: string;
+}> = ({ type, showDataAggregationText, title }) => (
   <>
-    <h3 className='is-title is-3'>CSV Daten Upload </h3>
+    <h3 className='is-title is-3'>CSV Daten Upload für {title}</h3>
     <div className='content'>
       <p>
         {' '}
@@ -215,7 +216,9 @@ export const SpotEditorMeasurmentInfo: React.FC<{
           der Plattform eingelesen werden zu können.
         </p>
       </div>
-      {infoIsVisible ? <InfoText type={type}></InfoText> : null}
+      {infoIsVisible ? (
+        <InfoText type={type} title={'¯\\_(ツ)_/¯'}></InfoText>
+      ) : null}
     </>
   );
 };

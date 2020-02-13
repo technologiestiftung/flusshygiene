@@ -6,7 +6,7 @@ import {
   IconCalc,
   IconComment,
   // IconCode,
-  IconCSV,
+  // IconCSV,
   IconHelp,
 } from '../../fontawesome-icons';
 import { IOcpuState, ClickFunction } from '../../../lib/common/interfaces';
@@ -52,20 +52,20 @@ export const SpotButtonBar: React.FC<{
         >
           <IconCSV></IconCSV>
         </ButtonIcon> */}
-        <ButtonIcon
+        {/* <ButtonIcon
           cssId='pp-data'
           handleClick={handlePPEditModeClick}
           text='Klärwerke'
         >
           <IconCSV></IconCSV>
-        </ButtonIcon>
-        <ButtonIcon
+        </ButtonIcon> */}
+        {/* <ButtonIcon
           cssId='gi-data'
           handleClick={handleGIEditModeClock}
           text='Generische Werte'
         >
           <IconCSV></IconCSV>
-        </ButtonIcon>
+        </ButtonIcon> */}
       </div>
 
       <div className='buttons buttons__spot-actions--size'>
@@ -76,7 +76,7 @@ export const SpotButtonBar: React.FC<{
         >
          <IconCode></IconCode>
         </ButtonIcon> */}
-        <ButtonIcon
+        {/* <ButtonIcon
           cssId='calibrate'
           additionalClassNames={
             ocpuState.processing === 'calibrate' ? 'is-loading' : ''
@@ -85,9 +85,9 @@ export const SpotButtonBar: React.FC<{
           text='Regen Laden'
         >
           <IconRain></IconRain>
-        </ButtonIcon>
+        </ButtonIcon> */}
 
-        <ButtonIcon
+        {/* <ButtonIcon
           cssId='model'
           additionalClassNames={
             ocpuState.processing === 'model' ? 'is-loading' : ''
@@ -96,8 +96,8 @@ export const SpotButtonBar: React.FC<{
           text='Modellierung'
         >
           <IconCalc></IconCalc>
-        </ButtonIcon>
-        <ButtonIcon
+        </ButtonIcon> */}
+        {/* <ButtonIcon
           cssId='predict'
           additionalClassNames={
             ocpuState.processing === 'predict' ? 'is-loading' : ''
@@ -106,7 +106,7 @@ export const SpotButtonBar: React.FC<{
           text='Vorhersage'
         >
           <IconComment></IconComment>
-        </ButtonIcon>
+        </ButtonIcon> */}
       </div>
     </>
   );

@@ -32,7 +32,7 @@ const ocpuReducer: (
       return {
         ...state,
         processing: undefined,
-        responses: [locAction.payload.response, ...state.responses],
+        responses: [locAction.payload.response],
       };
     }
     case 'FAIL_OCPU_REQUEST': {
@@ -100,7 +100,7 @@ const postOcpu = async (dispatch: Dispatch, action: IOcpuAction) => {
       };
       dispatch(finishPayload);
     } else {
-      console.warn('fetch response not ok');
+      // console.warn('fetch response not ok');
       throw new Error('Network fetch response not ok');
     }
   } catch (error) {

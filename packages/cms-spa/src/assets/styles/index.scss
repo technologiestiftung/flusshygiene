@@ -65,6 +65,7 @@ body {
 
   main {
     padding-top: 2rem;
+    min-height: 85vh;
     // padding: 2em 1em;
   }
 
@@ -243,3 +244,4 @@ $mapHeight: 400px;
 // data view
 
 @import './data-view.scss';
+@import './bulma-overwrites.scss';

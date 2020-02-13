@@ -7,6 +7,9 @@ import {
   IInitialGiPPValues,
   IGenericInput,
   IPurificationPlant,
+  IBathingspotApiEndpoints,
+  ApiEndpointsLinkTypes,
+  MGDUploaderDataType,
 } from '../../../lib/common/interfaces';
 import { ButtonIcon } from '../../Buttons';
 import {
@@ -15,6 +18,9 @@ import {
   IconCSV,
   IconPlus,
   IconEdit,
+  IconRain,
+  IconComment,
+  IconCalc,
 } from '../../fontawesome-icons';
 import { Container } from '../../Container';
 import { prepareData } from '../../../lib/utils/me-prepare-data';
@@ -27,6 +33,9 @@ import { actionCreator } from '../../../lib/utils/pgapi-actionCreator';
 import { apiRequest, useApi } from '../../../contexts/postgres-api';
 import { GIPPEditor } from './gi-pp-editor';
 import { GiPPUploader } from './gi-pp-uploader';
+import { MGDEditor } from './m-g-d-editor';
+import { MGDUploader } from './m-g-d-uploader';
+import { useOcpu } from '../../../contexts/opencpu';
 
 export const MeasurementEditor: React.FC<{
   handleCloseClick: ClickFunction;
@@ -38,6 +47,8 @@ export const MeasurementEditor: React.FC<{
   subItemId?: number;
   setEditMode: (value: React.SetStateAction<boolean>) => void;
   setDataEditMode: () => void;
+  spotApiEndpoints?: IBathingspotApiEndpoints;
+  handleCalibratePredictClick: (event: React.ChangeEvent<any>) => void;
 }> = ({
   handleCloseClick,
   inData,
@@ -47,13 +58,20 @@ export const MeasurementEditor: React.FC<{
   subItemId,
   setEditMode,
   setDataEditMode,
+  spotApiEndpoints,
+  handleCalibratePredictClick,
 }) => {
   const [apiState, apiDispatch] = useApi();
+  const [ocpuState, ocpuDispatch] = useOcpu();
+
   const [giInfos, setGiInfos] = useState<IGenericInput | undefined>(undefined);
   const [ppInfos, setPPInfos] = useState<IPurificationPlant | undefined>(
     undefined,
   );
   const [ppgiReqType, setPpgiReqType] = useState<'PUT' | 'POST' | undefined>(
+    undefined,
+  );
+  const [linkType, setLinkType] = useState<ApiEndpointsLinkTypes | undefined>(
     undefined,
   );
   useEffect(() => {
@@ -103,6 +121,11 @@ export const MeasurementEditor: React.FC<{
   );
   const [showGiPPEditor, setShowGiPPEditor] = useState(false);
   const [showGiPPUploader, setShowGiPPUploader] = useState(false);
+  const [showMGDEditor, setShowMGDEditor] = useState(false);
+  const [showMGDUploader, setShowMGDUploader] = useState(false);
+  const [MGDDataType, setMGDDataType] = useState<
+    MGDUploaderDataType | undefined
+  >(undefined);
   const [gippInitialValues, setGippInitialState] = useState<
     IInitialGiPPValues | undefined
   >(undefined);
@@ -212,6 +235,12 @@ export const MeasurementEditor: React.FC<{
   const handleCancelClick = () => {
     setModalIsActive(false);
   };
+  const handleMGDURLEditorCancelClick = () => {
+    setShowMGDEditor(false);
+  };
+  const handleMGDUlCancelClick = () => {
+    setShowMGDUploader(false);
+  };
   const handleGiPPCancelClick = () => {
     setShowGiPPEditor(false);
   };
@@ -224,7 +253,48 @@ export const MeasurementEditor: React.FC<{
           handleCancelClick={handleCancelClick}
         ></Modal>
       )}
-
+      {showMGDUploader && MGDDataType !== undefined && (
+        <MGDUploader
+          userId={user.pgapiData.id}
+          spotId={spotId}
+          dataType={MGDDataType}
+          resourceType={resourceType}
+          title={(() => {
+            switch (MGDDataType) {
+              case 'discharges':
+                return 'Durchfluss Messungen';
+              case 'globalIrradiances':
+                return 'Globalstrahlung Messungen';
+              case 'measurements':
+                return 'E.C./I.C. Messungen';
+              default:
+                return '¯\\_(ツ)_/¯';
+            }
+          })()}
+          handleSubmitClose={() => {
+            // handleCloseClick();
+            // setShowGiPPEditor(false);
+            setEditMode(false);
+          }}
+          handleCancelClick={handleMGDUlCancelClick}
+        ></MGDUploader>
+      )}
+      {showMGDEditor && (
+        <MGDEditor
+          reqType={'PUT'}
+          userId={user.pgapiData.id}
+          spotId={spotId}
+          resourceType={resourceType}
+          linkType={linkType}
+          initialValues={spotApiEndpoints}
+          handleSubmitClose={() => {
+            // handleCloseClick();
+            // setShowGiPPEditor(false);
+            setEditMode(false);
+          }}
+          handleCancelClick={handleMGDURLEditorCancelClick}
+        ></MGDEditor>
+      )}
       {showGiPPEditor && (
         <GIPPEditor
           userId={user.pgapiData.id}
@@ -262,169 +332,245 @@ export const MeasurementEditor: React.FC<{
             return null;
         }
       })()}
+
       {showGiPPUploader === true && subItemId !== undefined && (
         <GiPPUploader
           userId={user.pgapiData.id}
           spotId={spotId}
           subItemId={subItemId}
           resourceType={resourceType}
+          handleSubmitClose={() => {
+            // handleCloseClick();
+            // setShowGiPPEditor(false);
+            setEditMode(false);
+          }}
           handleCancelClick={() => {
             setShowGiPPUploader(false);
           }}
         ></GiPPUploader>
       )}
-      {showGiPPEditor === false && showGiPPUploader === false && (
-        <>
-          {' '}
-          <Container>
-            <div className='buttons buttons__spot-actions--size'>
-              {(() => {
-                switch (resourceType) {
-                  case 'discharges':
-                  case 'measurements':
-                  case 'globalIrradiances': {
-                    return (
-                      <ButtonIcon
-                        text='Daten hochladen'
-                        additionalClassNames='is-primary'
-                        handleClick={() => {
-                          setDataEditMode();
-                        }}
-                      >
-                        <IconCSV></IconCSV>
-                      </ButtonIcon>
-                    );
-                  }
-                  case 'genericInputs':
-                  case 'purificationPlants': {
-                    return (
-                      <ButtonIcon
-                        text={`${
-                          resourceType === 'genericInputs'
-                            ? 'Gener. Werte'
-                            : 'Klärwerk'
-                        } hinzufügen`}
-                        additionalClassNames='is-primary'
-                        handleClick={() => {
-                          setShowGiPPEditor(true);
-                          setPpgiReqType('POST');
-                          setGippInitialState(undefined);
-                          console.log('klick', resourceType);
-                        }}
-                      >
-                        <IconPlus></IconPlus>
-                      </ButtonIcon>
-                    );
-                  }
-                  case 'gInputMeasurements':
-                  case 'pplantMeasurements': {
-                    return (
-                      <>
+      {showGiPPEditor === false &&
+        showGiPPUploader === false &&
+        showMGDEditor === false &&
+        showMGDUploader === false && (
+          <>
+            {' '}
+            <Container>
+              <div className='buttons buttons__spot-actions--size'>
+                {(() => {
+                  switch (resourceType) {
+                    case 'predictions':
+                    case 'models':
+                    case 'rains': {
+                      let text: string;
+                      let icon: JSX.Element;
+                      let cssId: string;
+                      switch (resourceType) {
+                        case 'rains':
+                          icon = <IconRain></IconRain>;
+                          text = 'Regen Laden';
+                          cssId = 'calibrate';
+                          break;
+                        case 'models':
+                          icon = <IconCalc></IconCalc>;
+                          text = 'Modelierung';
+                          cssId = 'model';
+                          break;
+                        case 'predictions':
+                          icon = <IconComment></IconComment>;
+                          text = 'Vorhersage';
+                          cssId = 'predict';
+                          break;
+                      }
+                      return (
                         <ButtonIcon
-                          text={'Daten hochladen'}
-                          // additionalClassNames='is-primary'
-                          handleClick={() => {
-                            setShowGiPPUploader(true);
-
-                            console.log('daten hochladen für', resourceType);
-                          }}
-                        >
-                          <IconCSV></IconCSV>
-                        </ButtonIcon>
-                        <ButtonIcon
-                          text={'Bearbeiten'}
-                          handleClick={() => {
-                            // console.log('daten bearbeitet für', resourceType);
-                            switch (resourceType) {
-                              case 'gInputMeasurements': {
-                                setGippInitialState({
-                                  name: giInfos
-                                    ? giInfos.name
-                                    : 'Error getting name',
-                                  url: giInfos?.url,
-                                });
-                                break;
-                              }
-                              case 'pplantMeasurements': {
-                                setGippInitialState({
-                                  name: ppInfos
-                                    ? ppInfos.name
-                                    : 'Error getting name',
-                                  url: ppInfos?.url,
-                                });
-                              }
+                          cssId={cssId}
+                          handleClick={handleCalibratePredictClick}
+                          text={text}
+                          additionalClassNames={(() => {
+                            if (
+                              ocpuState.processing === 'model' ||
+                              ocpuState.processing === 'predict' ||
+                              ocpuState.processing === 'calibrate'
+                            ) {
+                              return 'is-loading';
+                            } else {
+                              return '';
                             }
-                            setPpgiReqType('PUT');
+                          })()}
+                        >
+                          {icon}
+                        </ButtonIcon>
+                      );
+                    }
+                    case 'discharges':
+                    case 'measurements':
+                    case 'globalIrradiances': {
+                      return (
+                        <>
+                          <ButtonIcon
+                            text='Daten hochladen'
+                            additionalClassNames='is-primary'
+                            handleClick={() => {
+                              // setDataEditMode();
+                              setMGDDataType(resourceType);
+                              setShowMGDUploader(true);
+                            }}
+                          >
+                            <IconCSV></IconCSV>
+                          </ButtonIcon>
+                          <ButtonIcon
+                            text='URL Bearbeiten'
+                            additionalClassNames=''
+                            handleClick={() => {
+                              setShowMGDEditor(true);
+                              switch (resourceType) {
+                                case 'discharges':
+                                  setLinkType('dischargesUrl');
+                                  break;
+                                case 'measurements':
+                                  setLinkType('measurementsUrl');
+                                  break;
+                                case 'globalIrradiances':
+                                  setLinkType('globalIrradianceUrl');
+                                  break;
+                              }
+                              // console.log('click');
+                              // setDataEditMode();
+                            }}
+                          >
+                            <IconEdit></IconEdit>
+                          </ButtonIcon>
+                        </>
+                      );
+                    }
+                    case 'genericInputs':
+                    case 'purificationPlants': {
+                      return (
+                        <ButtonIcon
+                          text={`${
+                            resourceType === 'genericInputs'
+                              ? 'Gener. Werte'
+                              : 'Klärwerk'
+                          } hinzufügen`}
+                          additionalClassNames='is-primary'
+                          handleClick={() => {
                             setShowGiPPEditor(true);
+                            setPpgiReqType('POST');
+                            setGippInitialState(undefined);
                           }}
                         >
-                          {' '}
-                          <IconEdit></IconEdit>{' '}
+                          <IconPlus></IconPlus>
                         </ButtonIcon>
-                      </>
-                    );
+                      );
+                    }
+                    case 'gInputMeasurements':
+                    case 'pplantMeasurements': {
+                      return (
+                        <>
+                          <ButtonIcon
+                            text={'Daten hochladen'}
+                            // additionalClassNames='is-primary'
+                            handleClick={() => {
+                              setShowGiPPUploader(true);
+                            }}
+                          >
+                            <IconCSV></IconCSV>
+                          </ButtonIcon>
+                          <ButtonIcon
+                            text={'URL/Name Bearbeiten'}
+                            handleClick={() => {
+                              // console.log('daten bearbeitet für', resourceType);
+                              switch (resourceType) {
+                                case 'gInputMeasurements': {
+                                  setGippInitialState({
+                                    name: giInfos
+                                      ? giInfos.name
+                                      : 'Error getting name',
+                                    url: giInfos?.url,
+                                  });
+                                  break;
+                                }
+                                case 'pplantMeasurements': {
+                                  setGippInitialState({
+                                    name: ppInfos
+                                      ? ppInfos.name
+                                      : 'Error getting name',
+                                    url: ppInfos?.url,
+                                  });
+                                }
+                              }
+                              setPpgiReqType('PUT');
+                              setShowGiPPEditor(true);
+                            }}
+                          >
+                            {' '}
+                            <IconEdit></IconEdit>{' '}
+                          </ButtonIcon>
+                        </>
+                      );
+                    }
+                    default:
+                      return null;
                   }
-                  default:
-                    return null;
-                }
-              })()}
-              <ButtonIcon handleClick={handleCloseClick} text='Abbrechen'>
-                <IconCloseWin></IconCloseWin>
-              </ButtonIcon>
-              <ButtonIcon
-                text='Auswahl löschen'
-                additionalClassNames='is-warning'
-                handleClick={handleDeleteClick}
-              >
-                <IconTrash></IconTrash>
-              </ButtonIcon>
-            </div>
-          </Container>
-          <Container columnClassName='is-10 table__data-view--scroll'>
-            <table {...getTableProps()} className='table'>
-              <thead>
-                {/* TODO: react-table types are out of sync https://github.com/tannerlinsley/react-table/issues/1591 */}
-                {headerGroups.map((headerGroup) => (
-                  <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map((column) => (
-                      <th
-                        {...column.getHeaderProps(
-                          (column as any).getSortByToggleProps(),
-                        )}
-                      >
-                        {column.render('Header')}
-                        <span>
-                          {(column as any).isSorted
-                            ? (column as any).isSortedDesc
-                              ? ' ↓'
-                              : ' ↑'
-                            : ''}
-                        </span>
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody {...getTableBodyProps()}>
-                {rows.map((row, i) => {
-                  prepareRow(row);
-                  return (
-                    <tr {...row.getRowProps()}>
-                      {row.cells.map((cell) => {
-                        return (
-                          <td {...cell.getCellProps()}>
-                            {cell.render('Cell')}
-                          </td>
-                        );
-                      })}
+                })()}
+                <ButtonIcon handleClick={handleCloseClick} text='Abbrechen'>
+                  <IconCloseWin></IconCloseWin>
+                </ButtonIcon>
+                <ButtonIcon
+                  text='Auswahl löschen'
+                  additionalClassNames='is-warning'
+                  handleClick={handleDeleteClick}
+                >
+                  <IconTrash></IconTrash>
+                </ButtonIcon>
+              </div>
+            </Container>
+            <Container columnClassName='is-10 table__data-view--scroll'>
+              <table {...getTableProps()} className='table'>
+                <thead>
+                  {/* TODO: react-table types are out of sync https://github.com/tannerlinsley/react-table/issues/1591 */}
+                  {headerGroups.map((headerGroup) => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map((column) => (
+                        <th
+                          {...column.getHeaderProps(
+                            (column as any).getSortByToggleProps(),
+                          )}
+                        >
+                          {column.render('Header')}
+                          <span>
+                            {(column as any).isSorted
+                              ? (column as any).isSortedDesc
+                                ? ' ↓'
+                                : ' ↑'
+                              : ''}
+                          </span>
+                        </th>
+                      ))}
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </Container>
-        </>
-      )}
+                  ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                  {rows.map((row, i) => {
+                    prepareRow(row);
+                    return (
+                      <tr {...row.getRowProps()}>
+                        {row.cells.map((cell) => {
+                          return (
+                            <td {...cell.getCellProps()}>
+                              {cell.render('Cell')}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Container>
+          </>
+        )}
     </>
   );
 };

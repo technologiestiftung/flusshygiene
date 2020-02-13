@@ -28,9 +28,10 @@ const eventSourceReducer: (
   switch (action.type) {
     case 'INCOMING': {
       const parsed = JSON.parse(action.event.data);
+      // console.log(parsed, 'incoming event');
       let nextState: IEventSourceState;
       if (parsed.event === 'response') {
-        nextState = { events: [...state.events, parsed] };
+        nextState = { events: [parsed] };
       } else {
         nextState = state;
       }
@@ -85,7 +86,7 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
       console.error('eventsource error', event);
     });
     eventSource.current.addEventListener('close', (event) => {
-      console.info('eventsource close', event);
+      // console.info('eventsource close', event);
     });
     return () => {
       eventSource.current.close();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ClickFunction } from '../../../lib/common/interfaces';
+import { BannerType } from '../../../contexts/messages';
 
-export type BannerType = 'normal' | 'warning' | 'error';
 export const Banner: React.FC<{
   message: string;
   handleClose: ClickFunction;

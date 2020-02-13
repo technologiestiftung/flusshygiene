@@ -9,10 +9,12 @@ import {
   roundToFloatDigits,
   formatDate,
 } from '../../../lib/utils/formatting-helpers';
+import { hasAutoData } from '../../../lib/utils/has-autodata-url';
 export const DefaultTable: React.FC<{
   measurements?: IDefaultMeasurement[];
   unit: string;
-}> = ({ measurements, unit }) => {
+  hasAutoData?: boolean;
+}> = ({ measurements, unit, hasAutoData: localHasAutoData }) => {
   return (
     <Table>
       <TableBody>
@@ -41,6 +43,15 @@ export const DefaultTable: React.FC<{
               ></TableRow>
             );
           });
+          rows.push(
+            <TableRow
+              key={6}
+              th={'Automatisiert'}
+              tds={[
+                hasAutoData(localHasAutoData !== undefined, undefined, true),
+              ]}
+            ></TableRow>,
+          );
           return rows;
         })()}
       </TableBody>

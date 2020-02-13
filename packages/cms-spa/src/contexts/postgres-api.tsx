@@ -25,7 +25,12 @@ function matchSpotId(action: IApiAction) {
 
 type Dispatch = (action: IApiAction) => void;
 type ApiProviderProps = { children: React.ReactNode };
-const subItemsList = ['genericInputs', 'purificationPlants'];
+const subItemsList = [
+  'genericInputs',
+  'purificationPlants',
+  'gInputMeasurements',
+  'pplantMeasurements',
+];
 
 const ApiStateContext = createContext<IApiState | undefined>(undefined);
 
@@ -344,6 +349,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           case 'bathingspots':
           case 'measurements':
           case 'discharges':
+          case 'gInputMeasurements':
+          case 'pplantMeasurements':
           case 'globalIrradiances': {
             // console.log(`POST data for ${action.payload.requestType.resource}`);
             // console.log(action.payload.response);
