@@ -7,6 +7,9 @@
 INSERT INTO "public"."global_irradiance" ("id", "createdAt", "updatedAt", "dateTime", "date", "value", "comment", "bathingspotId") VALUES (5, Now(), NOW(), '02:03:04', '03/03/2014', '03/03/2014', 'swkk', 18);
 
 
+SELECT email from "user";
+
+
 SELECT * from "bathingspot" WHERE "userId" = 9;
 SELECT id from "bathingspot" WHERE "name" = 'Foo';
 SELECT * from "bathingspot" WHERE "id" = 40;
@@ -75,3 +78,5 @@ INSERT INTO "public"."bathingspot_model" ("bathingspotId", "parameter","comment"
 
 SELECT * from bathingspot_prediction;
 SELECT * from bathingspot_model;
+
+select "apiEndpoints" from bathingspot;
