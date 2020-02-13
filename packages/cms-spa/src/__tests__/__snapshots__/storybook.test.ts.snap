@@ -68,16 +68,12 @@ exports[`Storyshots SpotEditor default 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="buttons"
+    className="buttons  buttons__spot-actions--size"
   >
     <button
       className="button is-primary is-small"
       type="submit"
     >
-      <span>
-        Speichern
-      </span>
-       
       <span
         className="icon is-small"
       >
@@ -99,17 +95,17 @@ exports[`Storyshots SpotEditor default 1`] = `
           />
         </svg>
       </span>
+      <span>
+        Speichern
+      </span>
+       
     </button>
     <button
-      className="button is-light is-small"
+      className="button is-small"
       data-testid="handle-edit-mode-button"
       onClick={[Function]}
       type="button"
     >
-      <span>
-        Abbrechen
-      </span>
-       
       <span
         className="icon is-small"
       >
@@ -131,17 +127,17 @@ exports[`Storyshots SpotEditor default 1`] = `
           />
         </svg>
       </span>
+      <span>
+        Abbrechen
+      </span>
+       
     </button>
     <button
-      className="button is-light is-small"
+      className="button is-small"
       data-testid="handle-info-mode-button"
       onClick={[Function]}
       type="button"
     >
-      <span>
-        Info
-      </span>
-       
       <span
         className="icon is-small"
       >
@@ -163,10 +159,19 @@ exports[`Storyshots SpotEditor default 1`] = `
           />
         </svg>
       </span>
+      <span>
+        Info
+      </span>
+       
     </button>
   </div>
   <div
-    className="box"
+    className=""
+    style={
+      Object {
+        "paddingTop": "2rem",
+      }
+    }
   >
     <fieldset>
       <legend
@@ -253,7 +258,12 @@ exports[`Storyshots SpotEditor default 1`] = `
     </fieldset>
   </div>
   <div
-    className="box"
+    className=""
+    style={
+      Object {
+        "paddingTop": "2rem",
+      }
+    }
   >
     <fieldset>
       <legend
@@ -381,7 +391,12 @@ exports[`Storyshots SpotEditor default 1`] = `
     </fieldset>
   </div>
   <div
-    className="box"
+    className=""
+    style={
+      Object {
+        "paddingTop": "2rem",
+      }
+    }
   >
     <fieldset>
       <legend
@@ -552,7 +567,12 @@ exports[`Storyshots SpotEditor default 1`] = `
     </fieldset>
   </div>
   <div
-    className="box"
+    className=""
+    style={
+      Object {
+        "paddingTop": "2rem",
+      }
+    }
   >
     <fieldset>
       <legend
@@ -1465,7 +1485,12 @@ exports[`Storyshots SpotEditor default 1`] = `
     </fieldset>
   </div>
   <div
-    className="box"
+    className=""
+    style={
+      Object {
+        "paddingTop": "2rem",
+      }
+    }
   >
     <fieldset>
       <legend
