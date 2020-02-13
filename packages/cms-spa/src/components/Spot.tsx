@@ -48,7 +48,7 @@ import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithS
 import { pplantGiSchema } from '../lib/utils/spot-validation-schema';
 import { MeasurementEditor } from './spot/measurement-editor/editor';
 import { hasAutoData } from '../lib/utils/has-autodata-url';
-import { BannerType, useMessages } from '../contexts/messages';
+import { useMessages } from '../contexts/messages';
 // import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
  * This is the component that displays a single spot
@@ -58,7 +58,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const { user, isAuthenticated, getTokenSilently } = useAuth0();
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
-  const [messageState, messageDispatch] = useMessages();
+  const [, messageDispatch] = useMessages();
   const eventSourceState = useEventSource();
 
   const [formReadyToRender, setFormReadyToRender] = useState(false);

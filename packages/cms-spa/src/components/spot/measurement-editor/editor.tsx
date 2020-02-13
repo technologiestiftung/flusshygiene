@@ -62,7 +62,7 @@ export const MeasurementEditor: React.FC<{
   handleCalibratePredictClick,
 }) => {
   const [apiState, apiDispatch] = useApi();
-  const [ocpuState, ocpuDispatch] = useOcpu();
+  const [ocpuState] = useOcpu();
 
   const [giInfos, setGiInfos] = useState<IGenericInput | undefined>(undefined);
   const [ppInfos, setPPInfos] = useState<IPurificationPlant | undefined>(

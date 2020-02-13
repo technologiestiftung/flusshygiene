@@ -1,10 +1,8 @@
 import React from 'react';
 import { ButtonIcon } from '../../Buttons';
 import {
-  IconRain,
   IconEdit,
-  IconCalc,
-  IconComment,
+
   // IconCode,
   // IconCSV,
   IconHelp,

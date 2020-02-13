@@ -4,7 +4,6 @@ import React, {
   useReducer,
   useEffect,
   useCallback,
-  useState,
 } from 'react';
 import { Timer } from '../lib/utils/timeout';
 export type BannerType = 'normal' | 'warning' | 'error';
