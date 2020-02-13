@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.4.0...v2.5.0) (2020-02-13)
+
+
+### Bug Fixes
+
+* **gi and pp:** Adds fi and pp with atachment ([d3eaacb](https://github.com/technologiestiftung/flusshygiene/commit/d3eaacb7c577f25f9840bf9c3fa9820b80485933))
+* **map style:** Make marker bigger ([d31f4c3](https://github.com/technologiestiftung/flusshygiene/commit/d31f4c373a9f4daf9f5a3edbf113114d15113a63))
+
+
+
+
+
 # [2.4.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.3.2...v2.4.0) (2020-02-05)
 
 

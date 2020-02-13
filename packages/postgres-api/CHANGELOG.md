@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.4.0...v2.5.0) (2020-02-13)
+
+
+### Bug Fixes
+
+* **gi and pp:** Adds fi and pp with atachment ([d3eaacb](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/commit/d3eaacb7c577f25f9840bf9c3fa9820b80485933))
+
+
+
+
+
 # [2.4.0](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.3.2...v2.4.0) (2020-02-05)
 
 

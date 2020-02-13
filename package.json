@@ -1,6 +1,6 @@
 {
   "name": "@tsb/flusshygiene",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "private": true,
   "description": "Monorepo for the flusshygiene application",
   "main": " ",
@@ -32,6 +32,5 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
