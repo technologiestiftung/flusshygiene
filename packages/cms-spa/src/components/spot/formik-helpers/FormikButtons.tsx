@@ -7,39 +7,39 @@ export const FormikButtons: React.FC<{
   infoModalClickHandler: () => void;
 }> = ({ props, handleCancelClick, infoModalClickHandler }) => {
   return (
-    <div className='buttons'>
+    <div className='buttons  buttons__spot-actions--size'>
       <button
         className='button is-primary is-small'
         type='submit'
         disabled={props.isSubmitting}
       >
-        <span>Speichern</span>{' '}
         <span className='icon is-small'>
           <IconSave />
         </span>
+        <span>Speichern</span>{' '}
       </button>
       <button
-        className='button is-light is-small'
+        className='button is-small'
         type='button'
         disabled={props.isSubmitting}
         onClick={handleCancelClick}
         data-testid={'handle-edit-mode-button'}
       >
-        <span>Abbrechen</span>{' '}
         <span className='icon is-small'>
           <IconCloseWin />
         </span>
+        <span>Abbrechen</span>{' '}
       </button>
       <button
-        className='button is-light is-small'
+        className='button is-small'
         type='button'
         onClick={infoModalClickHandler}
         data-testid={'handle-info-mode-button'}
       >
-        <span>Info</span>{' '}
         <span className='icon is-small'>
           <IconInfo />
         </span>
+        <span>Info</span>{' '}
       </button>
     </div>
   );

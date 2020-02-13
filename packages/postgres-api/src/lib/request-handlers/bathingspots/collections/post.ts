@@ -14,7 +14,7 @@ import {
   errorResponse,
   responder,
   partialSuccessResponder,
-  buildPayload,
+  // buildPayload,
 } from '../../responders';
 
 import { getSpotWithRelation } from '../../../utils/spot-repo-helpers';
@@ -35,6 +35,8 @@ import {
   ImageFile,
   PurificationPlant,
   Rain,
+  GInputMeasurement,
+  PPlantMeasurement,
   // PPlantMeasurement,
 } from '../../../../orm/entity';
 import { DuplicateError } from '../../../errors/DuplicateError';
@@ -300,7 +302,7 @@ export const postCollection: postResponse = async (request, response) => {
         // console.log(inserted, 'inserted');
         // console.log(responseMessages, 'responseMessages');
 
-        const res = [...inserted, ...responseMessages];
+        let res = [...inserted, ...responseMessages];
         /**
          * WE need to be able to post a GI or PP with measruements in attachedMeasurements
          * This is somekind of an edge case but makes creating those way faster
@@ -316,74 +318,74 @@ export const postCollection: postResponse = async (request, response) => {
           (collectionId === 'genericInputs' ||
             collectionId === 'purificationPlants')
         ) {
-          responder(
-            response,
-            HttpCodes.badRequestConflict,
-            buildPayload(
-              false,
-              'Inserting measurements together with GenericInput or PurificationPlant is deprecated',
-              [],
-            ),
-          );
-          return;
-          // // so we are in single PP or GI
-          // switch (collectionId) {
-          //   case 'genericInputs': {
-          //     const repoGi = getRepository(GenericInput);
-          //     const repoGiM = getRepository(GInputMeasurement);
-          //     const gim = repoGiM.create(attachedMeasurements);
-          //     // const gim = attachedMeasurements.map((elem) => {
-          //     //   const measurement = repoGiM.create(elem);
-          //     //   return measurement;
-          //     // });
-          //     const gi = await repoGi.findOne(res[0].id);
-          //     if (gi === undefined)
-          //       throw new Error(
-          //         'Could not find newly created resource severe!!!',
-          //       );
-          //     gi.measurements = gim;
-          //     await repoGiM.insert(gim);
-          //     res = await repoGi.save(gi);
-          //     break;
-          //   }
-          //   case 'purificationPlants': {
-          //     // console.log('in PPlant measrements');
-          //     const repoPP = getRepository(PurificationPlant);
-          //     const repoPM = getRepository(PPlantMeasurement);
-          //     // const ppm = repoPM.create(attachedMeasurements);
-          //     // const gim = attachedMeasurements.map((elem) => {
-          //     //   const measurement = repoGiM.create(elem);
-          //     //   return measurement;
-          //     // });
-          //     const pp = await repoPP.findOne(res[0].id);
-          //     if (pp === undefined)
-          //       throw new Error(
-          //         'Could not find newly created resource severe!!!',
-          //       );
-          //     const insertRes = await repoPM
-          //       .createQueryBuilder()
-          //       .insert()
-          //       .into(PPlantMeasurement)
-          //       .values(attachedMeasurements)
-          //       .onConflict(`("date") DO NOTHING`)
-          //       .execute();
-          //     // pp.measurements = insertRes;
-          //     // await repoPM.insert(ppm);
-          //     // console.log(insertRes, 'insertRes');
-          //     await repoPP
-          //       .createQueryBuilder()
-          //       .relation(PurificationPlant, 'measurements')
-          //       .of(pp)
-          //       .add(insertRes.identifiers);
-          //     // res = await repoPP.save(pp);
-          //     break;
-          //   }
-          //   default: {
-          //     throw new Error(
-          //       'No default case defined for attachedMeasurements posting. Needs to be PP or GI',
-          //     );
-          //   }
-          // }
+          // responder(
+          //   response,
+          //   HttpCodes.badRequestConflict,
+          //   buildPayload(
+          //     false,
+          //     'Inserting measurements together with GenericInput or PurificationPlant is deprecated',
+          //     [],
+          //   ),
+          // );
+          // return;
+          // so we are in single PP or GI
+          switch (collectionId) {
+            case 'genericInputs': {
+              const repoGi = getRepository(GenericInput);
+              const repoGiM = getRepository(GInputMeasurement);
+              const gim = repoGiM.create(attachedMeasurements);
+              // const gim = attachedMeasurements.map((elem) => {
+              //   const measurement = repoGiM.create(elem);
+              //   return measurement;
+              // });
+              const gi = await repoGi.findOne(res[0].id);
+              if (gi === undefined)
+                throw new Error(
+                  'Could not find newly created resource severe!!!',
+                );
+              gi.measurements = gim;
+              await repoGiM.insert(gim);
+              res = [await repoGi.save(gi)];
+              break;
+            }
+            case 'purificationPlants': {
+              // console.log('in PPlant measrements');
+              const repoPP = getRepository(PurificationPlant);
+              const repoPM = getRepository(PPlantMeasurement);
+              // const ppm = repoPM.create(attachedMeasurements);
+              // const gim = attachedMeasurements.map((elem) => {
+              //   const measurement = repoGiM.create(elem);
+              //   return measurement;
+              // });
+              const pp = await repoPP.findOne(res[0].id);
+              if (pp === undefined)
+                throw new Error(
+                  'Could not find newly created resource severe!!!',
+                );
+              const insertRes = await repoPM
+                .createQueryBuilder()
+                .insert()
+                .into(PPlantMeasurement)
+                .values(attachedMeasurements)
+                .onConflict(`("date") DO NOTHING`)
+                .execute();
+              // pp.measurements = insertRes;
+              // await repoPM.insert(ppm);
+              // console.log(insertRes, 'insertRes');
+              await repoPP
+                .createQueryBuilder()
+                .relation(PurificationPlant, 'measurements')
+                .of(pp)
+                .add(insertRes.identifiers);
+              // res = await repoPP.save(pp);
+              break;
+            }
+            default: {
+              throw new Error(
+                'No default case defined for attachedMeasurements posting. Needs to be PP or GI',
+              );
+            }
+          }
         }
         // console.log('post collection res', res);
         // try {

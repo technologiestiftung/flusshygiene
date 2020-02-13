@@ -1,0 +1,7 @@
+.notification--margin-bottom:not(:last-child) {
+  margin-bottom: 0 !important;
+}
+
+.notification--margin-bottom:last-child {
+  margin-bottom: 1.5rem !important;
+}

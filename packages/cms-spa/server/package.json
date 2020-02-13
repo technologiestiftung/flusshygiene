@@ -1,7 +1,7 @@
 {
   "name": "@technologiestiftung/flusshygiene-cms-spa-server",
   "version": "0.1.0",
-  "description": "Serves the spa in Docker containr",
+  "description": "Serves the spa in Docker container",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

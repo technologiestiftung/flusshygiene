@@ -1,18 +1,19 @@
 import React from 'react';
 import { SpotTableTitle, ISpotTableTitle } from './Spot-TableTitle';
-import { IconCode } from '../../fontawesome-icons';
+// import { IconCode } from '../../fontawesome-icons';
 import { ClickFunction } from '../../../lib/common/interfaces';
 import { ButtonIcon } from '../../Buttons';
+import { IconEdit } from '../../fontawesome-icons';
 
 export const SpotTableBlock: React.FC<{
-  data?: any;
   title: ISpotTableTitle;
   Table: () => React.ReactNode;
   handleEditClick?: ClickFunction;
-}> = ({ title, Table, data, handleEditClick }) => {
+  hasData?: boolean;
+}> = ({ title, Table, handleEditClick, hasData }) => {
   return (
     <div className='column is-5'>
-      {data && (
+      {/* {data && (
         <IconCode
           handleClick={() => {
             // if(data === undefined) return
@@ -27,15 +28,22 @@ export const SpotTableBlock: React.FC<{
             link.click(); // This will download the data file named "my_data.csv".
           }}
         ></IconCode>
-      )}
+       )} */}
       {SpotTableTitle(title)}
       {Table()}
-      {handleEditClick !== undefined && (
+      {/* {hasData ? ( */}
+      <ButtonIcon handleClick={handleEditClick} text={'Daten Editieren'}>
+        <IconEdit />
+      </ButtonIcon>
+      {/* ) : (
         <ButtonIcon
+          isDisabled={true}
           handleClick={handleEditClick}
-          text={'Daten Editieren (exp.)'}
-        ></ButtonIcon>
-      )}
+          text={'Daten Editieren'}
+        >
+          <IconEdit />
+        </ButtonIcon>
+      )} */}
     </div>
   );
 };

@@ -4,7 +4,7 @@ export const SpotEditorBox: React.FC<{
   children?: JSX.Element[] | JSX.Element | undefined | any;
 }> = ({ title, children }) => {
   return (
-    <div className='box'>
+    <div className='' style={{ paddingTop: '2rem' }}>
       <fieldset>
         <legend className='title is-5'>{title}</legend>
         {children}

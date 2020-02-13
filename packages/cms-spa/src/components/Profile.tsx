@@ -22,6 +22,7 @@ import SpotsMap from './spot/elements/Spot-Map';
 import { apiRequest, useApi } from '../contexts/postgres-api';
 import { actionCreator } from '../lib/utils/pgapi-actionCreator';
 import { Spinner } from './util/Spinner';
+import { MessageProvider } from '../contexts/messages';
 const limit = 50; // magic number from the postgres-api
 
 const Profile: React.FC = () => {
@@ -145,112 +146,114 @@ const Profile: React.FC = () => {
   };
   return (
     <>
-      <Container>
-        {(() => {
-          if (loading) {
-            return <div>Loading...</div>;
-          } else {
-            return (
-              <Auth0Context.Consumer>
-                {(value) => (
-                  <div className='card'>
-                    <div className='card-content'>
-                      <div className='media'>
-                        <div className='media-left'>
-                          <figure className='image is-48x48'>
-                            <img src={value.user.picture} alt='Profile' />
-                          </figure>
-                        </div>
-                        <div className='media-content'>
-                          <p className='title is-4'>
-                            <span>{'Benutzer: '}</span>
-                            {value.user.nickname}
-                          </p>
-                          <p className='subtitle is-6'>
-                            <span>{'E-Mail: '}</span>
-                            {value.user.email} <br />
-                            <span>{'API ID: '}</span>
-                            {value.user.pgapiData?.id ?? undefined}
-                          </p>
-                          {/* <pre>
+      <MessageProvider>
+        <Container>
+          {(() => {
+            if (loading) {
+              return <div>Loading...</div>;
+            } else {
+              return (
+                <Auth0Context.Consumer>
+                  {(value) => (
+                    <div className='card'>
+                      <div className='card-content'>
+                        <div className='media'>
+                          <div className='media-left'>
+                            <figure className='image is-48x48'>
+                              <img src={value.user.picture} alt='Profile' />
+                            </figure>
+                          </div>
+                          <div className='media-content'>
+                            <p className='title is-4'>
+                              <span>{'Benutzer: '}</span>
+                              {value.user.nickname}
+                            </p>
+                            <p className='subtitle is-6'>
+                              <span>{'E-Mail: '}</span>
+                              {value.user.email} <br />
+                              <span>{'API ID: '}</span>
+                              {value.user.pgapiData?.id ?? undefined}
+                            </p>
+                            {/* <pre>
                             <code>{JSON.stringify(user, null, 2)}</code>
                           </pre> */}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </Auth0Context.Consumer>
-            );
-          }
-        })()}
-      </Container>
+                  )}
+                </Auth0Context.Consumer>
+              );
+            }
+          })()}
+        </Container>
 
-      {editMode === true && (
-        <Container>
-          <SpotEditorBasisData
-            initialSpot={DEFAULT_SPOT}
-            handleEditModeClick={handleEditModeClick}
-            handleInfoShowModeClick={(e) => {
-              if (e) e.preventDefault();
-            }}
-            newSpot={true}
-          />
-        </Container>
-      )}
-      {editMode === false && (
-        <Container>
-          {isAuthenticated !== undefined && isAuthenticated === true && (
-            <div className='buttons'>
-              <button className='button is-small' onClick={handleNewSpot}>
-                Neue Badestelle
-              </button>
-            </div>
-          )}
-        </Container>
-      )}
-      {editMode === false && (
-        <>
-          <Container containerClassName={'user__spots-map'}>
-            <div ref={mapRef} id='map__container'>
-              {spots === undefined && <Spinner />}
-              {spots !== undefined && (
-                <SpotsMap
-                  width={mapDims.width}
-                  height={mapDims.height}
-                  data={spots}
-                />
-              )}
-            </div>
+        {editMode === true && (
+          <Container>
+            <SpotEditorBasisData
+              initialSpot={DEFAULT_SPOT}
+              handleEditModeClick={handleEditModeClick}
+              handleInfoShowModeClick={(e) => {
+                if (e) e.preventDefault();
+              }}
+              newSpot={true}
+            />
           </Container>
-          <Container containerClassName={'user__spots'}>
-            <div className='tile is-ancestor'>
-              <div style={{ flexWrap: 'wrap' }} className='tile is-parent'>
-                {spots === undefined && <Spinner />}
-                {spots !== undefined &&
-                  spots.map((obj, i) => {
-                    // return <li key={i}s>{obj.name}</li>;
-
-                    return (
-                      <div key={i} className='tile is-child is-3'>
-                        <CardTile
-                          title={obj.name}
-                          water={obj.water}
-                          id={obj.id}
-                          image={obj.image}
-                          hasPrediction={obj.hasPrediction}
-                          isUserLoggedIn={false}
-                          key={i}
-                          spot={obj}
-                        />
-                      </div>
-                    );
-                  })}
+        )}
+        {editMode === false && (
+          <Container>
+            {isAuthenticated !== undefined && isAuthenticated === true && (
+              <div className='buttons'>
+                <button className='button is-small' onClick={handleNewSpot}>
+                  Neue Badestelle
+                </button>
               </div>
-            </div>
+            )}
           </Container>
-        </>
-      )}
+        )}
+        {editMode === false && (
+          <>
+            <Container containerClassName={'user__spots-map'}>
+              <div ref={mapRef} id='map__container'>
+                {spots === undefined && <Spinner />}
+                {spots !== undefined && (
+                  <SpotsMap
+                    width={mapDims.width}
+                    height={mapDims.height}
+                    data={spots}
+                  />
+                )}
+              </div>
+            </Container>
+            <Container containerClassName={'user__spots'}>
+              <div className='tile is-ancestor'>
+                <div style={{ flexWrap: 'wrap' }} className='tile is-parent'>
+                  {spots === undefined && <Spinner />}
+                  {spots !== undefined &&
+                    spots.map((obj, i) => {
+                      // return <li key={i}s>{obj.name}</li>;
+
+                      return (
+                        <div key={i} className='tile is-child is-3'>
+                          <CardTile
+                            title={obj.name}
+                            water={obj.water}
+                            id={obj.id}
+                            image={obj.image}
+                            hasPrediction={obj.hasPrediction}
+                            isUserLoggedIn={false}
+                            key={i}
+                            spot={obj}
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            </Container>
+          </>
+        )}
+      </MessageProvider>
     </>
   );
 };

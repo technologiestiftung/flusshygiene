@@ -8,7 +8,7 @@ export class PurificationPlant extends MeasurementType {
   @OneToMany(
     (_type) => PPlantMeasurement,
     (measurement) => measurement.purificationPlant,
-    { eager: true },
+    { onDelete: 'CASCADE' },
   )
   public measurements!: PPlantMeasurement[];
 

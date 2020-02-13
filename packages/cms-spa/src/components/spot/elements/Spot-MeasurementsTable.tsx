@@ -12,6 +12,7 @@ export function SpotMeasurementsTable(spot: IBathingspot) {
       <Measurement
         measurements={spot.measurements}
         hasPrediction={spot.hasPrediction}
+        hasAutoData={spot.apiEndpoints?.measurementsUrl !== undefined}
       ></Measurement>
     );
   } else {

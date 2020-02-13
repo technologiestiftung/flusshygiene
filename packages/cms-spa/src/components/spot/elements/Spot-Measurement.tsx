@@ -3,12 +3,14 @@ import {
   IObject,
   IBathingspotMeasurement,
 } from '../../../lib/common/interfaces';
+import { hasAutoData } from '../../../lib/utils/has-autodata-url';
 
 const kA = 'k. A.';
-export interface IMeasurement {
+export interface ISpotMeasurement {
   measurements: IObject[];
   hasPrediction?: boolean;
   children?: React.ReactNode;
+  hasAutoData?: boolean;
 }
 
 export interface IMeasurementableRow {
@@ -21,6 +23,7 @@ export interface IMeasurementableRow {
  */
 export interface IMeasurementable {
   measurements: IObject[];
+  hasAutoData?: boolean;
 }
 
 const sortIObjectByDate = (a: IObject, b: IObject) => {
@@ -30,7 +33,7 @@ const sortIObjectByDate = (a: IObject, b: IObject) => {
   );
 };
 
-export const Measurement: React.FC<IMeasurement> = (props) => {
+export const Measurement: React.FC<ISpotMeasurement> = (props) => {
   const sortedMeasurement = props.measurements.sort(sortIObjectByDate);
 
   let lastMeasurment: IBathingspotMeasurement =
@@ -45,7 +48,10 @@ export const Measurement: React.FC<IMeasurement> = (props) => {
     lastMeasurment !== undefined ? lastMeasurment : emptyMeasurment;
   return (
     <>
-      <MeasurementTable measurements={sortedMeasurement} />
+      <MeasurementTable
+        measurements={sortedMeasurement}
+        hasAutoData={props.hasAutoData}
+      />
       {props.children}
     </>
   );
@@ -78,6 +84,7 @@ export const MeasurementTable = (props: IMeasurementable) => {
           rowKey={'Anzahl Datensätze'}
           rowValue={`${sortedMeasurement.length}`}
         ></MeasurementTableRow> */}
+
         <MeasurementTableRow
           rowKey='Datum'
           rowValue={
@@ -148,6 +155,16 @@ export const MeasurementTable = (props: IMeasurementable) => {
                 ? `${lastMeasurment.cb} pro 100 ml`
                 : kA
             }
+          />
+        }
+        {
+          <MeasurementTableRow
+            rowKey='Automatisiert'
+            rowValue={hasAutoData(
+              props.hasAutoData !== undefined,
+              undefined,
+              true,
+            )}
           />
         }
       </tbody>

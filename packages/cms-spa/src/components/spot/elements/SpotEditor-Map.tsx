@@ -175,6 +175,8 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     // },
     pickingRadius: 20,
     pickingDepth: 1,
+    radiusMaxPixels: 20,
+    radiusMinPixels: 5,
   };
 
   const geoLayer = new EditableGeoJsonLayer({

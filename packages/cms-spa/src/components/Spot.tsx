@@ -12,6 +12,7 @@ import {
   IApiAction,
   IPurificationPlant,
   IGenericInput,
+  RequestResourceTypes,
 } from '../lib/common/interfaces';
 
 import { SpotHeader } from './spot/elements/Spot-Header';
@@ -24,7 +25,7 @@ import { Container, ContainerNoColumn } from './Container';
 import { useOcpu, postOcpu } from '../contexts/opencpu';
 import { useEventSource } from '../contexts/eventsource';
 import { useApi, apiRequest } from '../contexts/postgres-api';
-// import { Banner, BannerType } from './spot/elements/Spot-Banner';
+// import { Banner } from './spot/elements/Banner';
 import { SpotButtonBar } from './spot/elements/Spot-ButtonBar';
 import { SpotAdditionalTags } from './spot/elements/Spot-AdditionalTags';
 import { SpotBasicInfos } from './spot/elements/Spot-BasicInfos';
@@ -44,7 +45,10 @@ import {
   ISpotEditorCollectionWithSubItemsInitialValues,
 } from './spot/SpotEditor-CollectionWithSubitem';
 import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
-import { pplantSchema } from '../lib/utils/spot-validation-schema';
+import { pplantGiSchema } from '../lib/utils/spot-validation-schema';
+import { MeasurementEditor } from './spot/measurement-editor/editor';
+import { hasAutoData } from '../lib/utils/has-autodata-url';
+import { useMessages } from '../contexts/messages';
 // import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
  * This is the component that displays a single spot
@@ -54,30 +58,43 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const { user, isAuthenticated, getTokenSilently } = useAuth0();
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
+  const [, messageDispatch] = useMessages();
   const eventSourceState = useEventSource();
 
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [basisEditMode, setBasisEditMode] = useState(false);
   const [dataEditMode, setDataEditMode] = useState(false);
+
+  const [uploadType, setUploadType] = useState<
+    'measurements' | 'discharges' | 'globalIrradiances' | undefined
+  >(undefined);
+
   const [ppDataEditMode, setPPDataEditMode] = useState(false);
   const [giDataEditMode, setGIDataEditMode] = useState(false);
 
-  // const [tableEditMode, setTableEditMode] = useState(true);
-  // const [tableEditData, setTableEditData] = useState<any | undefined>(
-  //   undefined,
-  // );
-
+  const [tableEditMode, setTableEditMode] = useState(true);
+  const [tableEditData, setTableEditData] = useState<any[] | undefined>([]);
+  const [tableHeaderTitle, setTableHeaderTitle] = useState<string | undefined>(
+    undefined,
+  );
   const [infoShowMode, setInfoShowMode] = useState(false);
   const [lastModel, setLastModel] = useState<IObject>();
   const [token, setToken] = useState<string>();
+  const [tableEditDataType, setTableEditDataType] = useState<
+    RequestResourceTypes | undefined
+  >(undefined);
+  const [tableEditSubItemId, setTableEditSubItemId] = useState<
+    number | undefined
+  >(undefined);
 
   // const [message, setMessage] = useState<string>('');
   // const [showNotification, setShowNotification] = useState(false);
   // const [bannerType, setBannerType] = useState<BannerType | undefined>(
-  // undefined,
+  //   undefined,
   // );
 
   const [spot, setSpot] = useState<IBathingspot | undefined>(undefined);
+  // const [models, setModels] = useState<IModel[] | undefined>(undefined);
   const [pplantsNumber, setPPlantsNumber] = useState<number | undefined>(
     undefined,
   );
@@ -119,10 +136,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     setGIDataEditMode(!giDataEditMode);
   };
 
-  // const handleTableEditModeClick = (e?: React.ChangeEvent<any>) => {
-  //   e?.preventDefault?.();
-  //   setTableEditMode(!tableEditMode);
-  // };
+  const handleTableEditModeClick = (e?: React.ChangeEvent<any>) => {
+    e?.preventDefault?.();
+    setTableEditMode(!tableEditMode);
+  };
 
   const handleInfoShowModeClick = (e?: React.ChangeEvent<any>) => {
     if (e) {
@@ -137,6 +154,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    */
   const handleCalibratePredictClick: ClickHandler = (event) => {
     if (spot === undefined) return;
+
     switch (event.currentTarget.id) {
       case 'sleep':
       case 'predict':
@@ -192,6 +210,13 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   //
   //
   //
+
+  // useEffect(() => {
+  //   messageDispatch({
+  //     type: 'SET_MESSAGE',
+  //     payload: { message: 'Hello World', type: 'warning' },
+  //   });
+  // }, [messageDispatch]);
   /**
    * This effect triggers a reload of the page
    */
@@ -239,28 +264,72 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    * this effect sets the content of the banner based on ocpu data
    *
    */
-  // useEffect(() => {
-  //   setMessage(JSON.stringify(ocpuState.responses[0]));
-  //   setBannerType('normal');
-  //   setShowNotification(true);
-  // }, [ocpuState]);
+  useEffect(() => {
+    // console.log(ocpuState.responses);
+    ocpuState.responses.forEach((elem) => {
+      if (elem.success !== undefined && elem.message !== undefined) {
+        messageDispatch({
+          type: 'ADD_MESSAGE',
+          payload: {
+            message: String(elem.message),
+            type: elem.success === true ? 'normal' : 'error',
+          },
+        });
+      }
+    });
+    // setMessage(JSON.stringify(ocpuState.responses[0]));
+    // setBannerType('normal');
+    // setShowNotification(true);
+  }, [ocpuState, messageDispatch]);
 
   /**
    * This effect sets the current content of the Banner based on event souce data
    *
    */
-  // useEffect(() => {
-  //   setMessage(JSON.stringify(eventSourceState));
-  //   setBannerType('normal');
-  //   setShowNotification(true);
-  // }, [eventSourceState]);
+  useEffect(() => {
+    if (eventSourceState.events.length > 0) {
+      const str = JSON.stringify(eventSourceState.events);
+      const message: string[] = eventSourceState.events.map((event) => {
+        if (event.hasOwnProperty('event') && event.event === 'response') {
+          if (event.hasOwnProperty('payload')) {
+            if (event.payload.hasOwnProperty('message')) {
+              if (Array.isArray(event.payload.message)) {
+                return event.payload.message[0];
+              } else {
+                return event.payload.message;
+              }
+            }
+          }
+        }
+        return '';
+      });
 
-  // useEffect(() => {
-  //   if (apiState.error === undefined) return;
-  //   setMessage(JSON.stringify(apiState.error?.error?.message));
-  //   setBannerType('error');
-  //   setShowNotification(true);
-  // }, [apiState.error]);
+      messageDispatch({
+        type: 'ADD_MESSAGE',
+        payload: {
+          message: message.join('\n'),
+          type: /error/gim.test(str) ? 'error' : 'normal',
+        },
+      });
+    }
+    // setMessage(JSON.stringify(eventSourceState));
+    // setBannerType('normal');
+    // setShowNotification(true);
+  }, [eventSourceState, messageDispatch]);
+
+  useEffect(() => {
+    if (apiState.error === undefined) return;
+    messageDispatch({
+      type: 'ADD_MESSAGE',
+      payload: {
+        message: JSON.stringify(apiState.error?.error?.message),
+        type: 'error',
+      },
+    });
+    // setMessage(JSON.stringify(apiState.error?.error?.message));
+    // setBannerType('error');
+    // setShowNotification(true);
+  }, [apiState.error, messageDispatch]);
   /**
    * This effect gets one bathingspot
    * Follow the crumbs to contexts/postgres-api
@@ -363,6 +432,26 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         body: {},
         token,
         method: 'GET',
+        url: `${baseUrl}/${ApiResources.models}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'models',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
+        url: `${baseUrl}/${ApiResources.predictions}`,
+        type: ApiActionTypes.START_API_REQUEST,
+        resource: 'predictions',
+      }),
+    );
+    actions.push(
+      actionCreator({
+        body: {},
+        token,
+        method: 'GET',
         url: `${baseUrl}/${ApiResources.globalIrradiances}`,
         type: ApiActionTypes.START_API_REQUEST,
         resource: 'globalIrradiances',
@@ -428,10 +517,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    */
   useEffect(() => {
     if (spot === undefined) return;
-    if (spot!.purificationPlants === undefined) return;
+    if (spot.purificationPlants === undefined) return;
 
-    setPPlantsNumber(spot!.purificationPlants.length);
-  }, [spot, apiState]);
+    setPPlantsNumber(spot.purificationPlants.length);
+  }, [spot, apiState.reloadSubItems]);
 
   /**
    * This effect takes care of updating the pplants measurements
@@ -447,7 +536,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
     const actions: IApiAction[] = [];
 
-    spot!.purificationPlants.forEach((plant) => {
+    spot.purificationPlants.forEach((plant) => {
       actions.push(
         actionCreator({
           body: {},
@@ -481,10 +570,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    */
   useEffect(() => {
     if (spot === undefined) return;
-    if (spot!.genericInputs === undefined) return;
+    if (spot.genericInputs === undefined) return;
 
-    setGIsNumber(spot!.genericInputs.length);
-  }, [spot, apiState]);
+    setGIsNumber(spot.genericInputs.length);
+  }, [spot, apiState.reloadSubItems]);
 
   /**
    * This effect takes care of updating the genericInputs measurements
@@ -500,7 +589,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
     const actions: IApiAction[] = [];
 
-    spot!.genericInputs.forEach((plant) => {
+    spot.genericInputs.forEach((plant) => {
       actions.push(
         actionCreator({
           body: {},
@@ -556,6 +645,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       setFormReadyToRender(true);
     }
   }, [setFormReadyToRender, spot, match.params.id]);
+
+  /**
+   * Move model into own variable
+   */
+  // useEffect(() => {
+  //   if (spot === undefined) return;
+  //   if (spot.models === undefined) return;
+  //   setModels(spot.models);
+  // }, [spot]);
   /**
    * This effect sorts the models of the spot and get s the last one
    *
@@ -564,13 +662,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    *
    */
   useEffect(() => {
-    if (
-      spot === undefined ||
-      spot.models === undefined ||
-      spot.models.length < 1
-    ) {
+    if (spot === undefined || spot.models === undefined) {
       return;
     }
+
     const sortedModels = spot.models.sort((a: IObject, b: IObject) => {
       return (
         ((new Date(a.updatedAt) as unknown) as number) -
@@ -580,7 +675,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
     const model = sortedModels[sortedModels.length - 1];
     setLastModel(model);
-  }, [spot]);
+  }, [spot, spot?.models]); // eslint-disable-line
   //
   //
   //
@@ -617,23 +712,49 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   //
   //
   //
+  // console.log(spot);
+
   return (
     <>
+      {/* <MessageProvider> */}
       <SpotEditorInfoModal
         isActive={infoShowMode}
         clickHandler={handleInfoShowModeClick}
       />
       {(() => {
-        // if (tableEditMode === true && spot !== undefined) {
-        //   return (
-        //     <MeasurementEditor
-        //       resourceType={'measurements'}
-        //       handleCloseClick={handleTableEditModeClick}
-        //       inData={spot.measurements ? spot.measurements : []}
-        //     />
-        //   );
-        // } else
-        if (basisEditMode === true && spot !== undefined) {
+        if (
+          tableEditMode === true &&
+          spot !== undefined &&
+          tableEditData !== undefined &&
+          tableEditDataType !== undefined
+        ) {
+          // 888888    db    88""Yb 88     888888
+          //   88     dPYb   88__dP 88     88__
+          //   88    dP__Yb  88""Yb 88  .o 88""
+          //   88   dP""""Yb 88oodP 88ood8 888888
+          // 888888 8888b.  88 888888  dP"Yb  88""Yb
+          // 88__    8I  Yb 88   88   dP   Yb 88__dP
+          // 88""    8I  dY 88   88   Yb   dP 88"Yb
+          // 888888 8888Y"  88   88    YbodP  88  Yb
+
+          return (
+            <MeasurementEditor
+              spotApiEndpoints={spot.apiEndpoints}
+              setEditMode={setTableEditMode}
+              spotId={spot.id}
+              resourceType={tableEditDataType}
+              handleCloseClick={handleTableEditModeClick}
+              inData={tableEditData}
+              headerTitle={tableHeaderTitle}
+              subItemId={tableEditSubItemId}
+              handleCalibratePredictClick={handleCalibratePredictClick}
+              setDataEditMode={() => {
+                setTableEditMode(false);
+                setDataEditMode(true);
+              }}
+            />
+          );
+        } else if (basisEditMode === true && spot !== undefined) {
           return (
             <Container>
               {formReadyToRender === true && basisEditMode === true && (
@@ -649,6 +770,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           return (
             <Container>
               <SpotEditorMeasurmentsUpload
+                uploadType={uploadType}
                 initialValues={{
                   // csvFile: undefined,
                   measurements: [],
@@ -662,6 +784,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 handleInfoClick={handleInfoShowModeClick}
                 handeCloseClick={handleDataEditModeClick}
                 spotId={spot.id}
+
                 // schema={measurementsSchema}
                 // postData={(data: any) => {
                 //   console.log(
@@ -681,7 +804,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           return (
             <Container>
               <SpotEditorCollectionWithSubitem
-                validationSchema={pplantSchema}
+                validationSchema={pplantGiSchema}
                 resourceType={ApiResources.purificationPlants}
                 uploadBoxResourceType={'pplantMeasurements'}
                 title={'Klärwerke'}
@@ -701,7 +824,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           return (
             <Container>
               <SpotEditorCollectionWithSubitem
-                validationSchema={pplantSchema}
+                validationSchema={pplantGiSchema}
                 resourceType={ApiResources.genericInputs}
                 uploadBoxResourceType={'gInputMeasurements'}
                 title={'Generische Messwete'}
@@ -795,14 +918,24 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Vorhersage-Modelle',
                       iconType: 'IconCalc',
                     }}
-                    // data={[1, 2, 3]}
+                    hasData={spot.models && spot.models.length > 0}
+                    handleEditClick={() => {
+                      setTableEditData(spot.models);
+                      setTableEditMode(true);
+                      setTableEditDataType('models');
+                      setTableHeaderTitle('Vorhersage-Modelle');
+                    }}
                     Table={() => SpotModelTable(lastModel)}
-                    // handleEditClick={() => {
-                    //   setTableEditMode(true);
-                    // }}
                   />
                   <SpotTableBlock
                     title={{ title: 'Vorhersage', iconType: 'IconComment' }}
+                    hasData={spot.predictions && spot.predictions.length > 0}
+                    handleEditClick={() => {
+                      setTableEditData(spot.predictions);
+                      setTableEditMode(true);
+                      setTableEditDataType('predictions');
+                      setTableHeaderTitle('Vorhersage');
+                    }}
                     Table={() => PredictionTable(spot)}
                   />
                 </ContainerNoColumn>
@@ -814,11 +947,19 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'letzte E.C./I.C. Messung',
                       iconType: 'IconCSV',
                     }}
+                    hasData={spot.measurements && spot.measurements.length > 0}
                     Table={() => SpotMeasurementsTable(spot)}
-                    // handleEditClick={() => {
-                    //   setTableEditData(spot.measurements);
-                    //   setTableEditMode(true);
-                    // }}
+                    handleEditClick={() => {
+                      setTableEditData(spot.measurements);
+                      setTableEditMode(true);
+                      setTableEditDataType('measurements');
+                      setTableHeaderTitle(
+                        `E.C./I.C. Messungen || ${hasAutoData(
+                          spot.apiEndpoints?.measurementsUrl !== undefined,
+                        )}`,
+                      );
+                      setUploadType('measurements');
+                    }}
                   />
                 )}
 
@@ -828,7 +969,14 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Mittlere Regenhöhen',
                       iconType: 'IconRain',
                     }}
+                    hasData={spot.rains && spot.rains.length > 0}
                     Table={() => RainTable(spot)}
+                    handleEditClick={() => {
+                      setTableEditData(spot.rains);
+                      setTableEditMode(true);
+                      setTableEditDataType('rains');
+                      setTableHeaderTitle('Mittlere Regenhöhen');
+                    }}
                   ></SpotTableBlock>
                 )}
               </ContainerNoColumn>
@@ -836,13 +984,31 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 {spot !== undefined && (
                   <SpotTableBlock
                     title={{
-                      title: 'letzte Globalstrahlungs Messungen',
+                      title: `letzte Globalstrahlungs Messungen`,
                       iconType: 'IconCSV',
+                    }}
+                    hasData={
+                      spot.globalIrradiances &&
+                      spot.globalIrradiances.length > 0
+                    }
+                    handleEditClick={() => {
+                      setTableEditData(spot.globalIrradiances);
+                      setTableEditMode(true);
+                      setTableEditDataType('globalIrradiances');
+                      setTableHeaderTitle(
+                        `Globalstrahlungs Messungen || ${hasAutoData(
+                          spot.apiEndpoints?.globalIrradianceUrl !== undefined,
+                        )}`,
+                      );
+                      setUploadType('globalIrradiances');
                     }}
                     Table={() => (
                       <DefaultTable
-                        unit={'PiratenNinjas'}
+                        unit={'W/m²'}
                         measurements={spot.globalIrradiances}
+                        hasAutoData={
+                          spot.apiEndpoints?.globalIrradianceUrl !== undefined
+                        }
                       ></DefaultTable>
                     )}
                   ></SpotTableBlock>
@@ -853,10 +1019,25 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Letzte Abwasser Messungen',
                       iconType: 'IconCSV',
                     }}
+                    hasData={spot.discharges && spot.discharges.length > 0}
+                    handleEditClick={() => {
+                      setTableEditData(spot.discharges);
+                      setTableEditMode(true);
+                      setTableEditDataType('discharges');
+                      setTableHeaderTitle(
+                        `Abwasser Messungen || ${hasAutoData(
+                          spot.apiEndpoints?.dischargesUrl !== undefined,
+                        )}`,
+                      );
+                      setUploadType('discharges');
+                    }}
                     Table={() => (
                       <DefaultTable
-                        unit={'PiratenNinjas'}
+                        unit={' m³/s'}
                         measurements={spot.discharges}
+                        hasAutoData={
+                          spot.apiEndpoints?.dischargesUrl !== undefined
+                        }
                       ></DefaultTable>
                     )}
                   ></SpotTableBlock>
@@ -869,8 +1050,26 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Klärwerke',
                       iconType: 'IconIndustry',
                     }}
+                    hasData={
+                      spot.purificationPlants &&
+                      spot.purificationPlants.length > 0
+                    }
+                    handleEditClick={() => {
+                      setTableEditData(spot.purificationPlants);
+                      setTableEditMode(true);
+                      setTableEditDataType('purificationPlants');
+                      setTableHeaderTitle('Klärwerke');
+                    }}
                     Table={() => (
                       <CollectionWithSubItemTable
+                        setData={setTableEditData}
+                        setTitle={setTableHeaderTitle}
+                        setSubItemId={setTableEditSubItemId}
+                        handleEditClick={(e) => {
+                          e?.preventDefault();
+                          setTableEditMode(true);
+                          setTableEditDataType('pplantMeasurements');
+                        }}
                         items={spot.purificationPlants}
                       />
                     )}
@@ -880,8 +1079,27 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       title: 'Generische Messwerte',
                       iconType: 'IconCSV',
                     }}
+                    hasData={
+                      spot.genericInputs && spot.genericInputs.length > 0
+                    }
+                    handleEditClick={() => {
+                      setTableEditData(spot.genericInputs);
+                      setTableEditMode(true);
+                      setTableEditDataType('genericInputs');
+                      setTableHeaderTitle('Generische Messwerte');
+                    }}
                     Table={() => (
-                      <CollectionWithSubItemTable items={spot.genericInputs} />
+                      <CollectionWithSubItemTable
+                        setData={setTableEditData}
+                        setTitle={setTableHeaderTitle}
+                        setSubItemId={setTableEditSubItemId}
+                        handleEditClick={(e) => {
+                          e?.preventDefault();
+                          setTableEditMode(true);
+                          setTableEditDataType('gInputMeasurements');
+                        }}
+                        items={spot.genericInputs}
+                      />
                     )}
                   ></SpotTableBlock>
                 </ContainerNoColumn>
@@ -910,6 +1128,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           );
         }
       })()}
+      {/* </MessageProvider> */}
     </>
   );
 };

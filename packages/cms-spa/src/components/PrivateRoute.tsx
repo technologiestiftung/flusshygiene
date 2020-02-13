@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
+import { MessageProvider } from '../contexts/messages';
 
 const PrivateRoute = ({ component: Component, path, ...rest }) => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
@@ -21,7 +22,12 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => {
   const render = (props) =>
     isAuthenticated === true ? <Component {...props} /> : null;
 
-  return <Route path={path} render={render} {...rest} />;
+  return (
+    <MessageProvider>
+      {' '}
+      <Route path={path} render={render} {...rest} />
+    </MessageProvider>
+  );
 };
 
 export default PrivateRoute;

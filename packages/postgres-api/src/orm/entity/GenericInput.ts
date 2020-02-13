@@ -23,7 +23,7 @@ export class GenericInput extends MeasurementType {
     (_type) => Bathingspot,
     (bathingspot) => bathingspot.genericInputs,
     {
-      cascade: true,
+      onDelete: 'CASCADE',
     },
   )
   public bathingspot!: Bathingspot;

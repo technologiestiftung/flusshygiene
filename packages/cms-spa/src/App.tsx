@@ -36,7 +36,7 @@ const App: React.FC = () => {
         <title>Flusshygiene</title>
       </Helmet>
       <Router history={history}>
-        <main>
+        <main id='wrapper'>
           <header>
             <NavBar />
           </header>

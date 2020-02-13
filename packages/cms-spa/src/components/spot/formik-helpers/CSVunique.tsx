@@ -21,10 +21,11 @@ export const CSVUnique: React.FC<{ type: MeasurementTypes }> = ({ type }) => {
       <div className='content'>
         <p>
           In Ihrem CSV sind Duplikate enthalten. Für die Zeile{' '}
-          <code>"date"</code> (YYY-MM-DD) dürfen nur eintigeartige Daten
+          <code>"date"</code> (YYY-MM-DD) dürfen nur einzigeartige Daten
           eingetragen sein. Falls sie mehrere Messwerte pro Tag angeben möchten
-          müssen Sie einen Zeitstempel im Format HH:MM:SS enthalten sein. Zum
-          Beispiel:
+          müssen Sie einen Zeitstempel im Format HH:MM:SS enthalten sein.
+          <br />
+          <strong>Zum Beispiel:</strong>
         </p>
         <table className='table'>
           <thead>

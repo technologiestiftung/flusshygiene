@@ -2,14 +2,23 @@ import React from 'react';
 import {
   IPurificationPlant,
   IGenericInput,
+  ClickFunction,
 } from '../../../lib/common/interfaces';
-import { TableBody, Table, TableRow } from './Spot-Table';
+import { TableBody, Table, TableRow, TableRowWithButton } from './Spot-Table';
 
 interface ICollection {
   items?: IPurificationPlant[] | IGenericInput[];
+  setData: (value: React.SetStateAction<any[] | undefined>) => void;
+  setTitle: (value: React.SetStateAction<string | undefined>) => void;
+  setSubItemId: (value: React.SetStateAction<number | undefined>) => void;
+  handleEditClick: ClickFunction;
 }
 export const CollectionWithSubItemTable: React.FC<ICollection> = ({
   items,
+  setData,
+  setTitle,
+  setSubItemId,
+  handleEditClick,
 }) => {
   if (items === undefined) {
     return (
@@ -25,14 +34,43 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
         <TableBody>
           {items.map((item, index) => {
             return (
-              <TableRow
+              <TableRowWithButton
                 key={index}
-                th={item.name}
+                th={
+                  item.name.length > 17
+                    ? `${item.name.substring(0, 16)}…`
+                    : item.name
+                }
+                // disabled={
+                //   item.measurements !== undefined &&
+                //   item.measurements.length > 0
+                //     ? false
+                //     : true
+                // }
+                handleEditClick={(e?: React.ChangeEvent<any>) => {
+                  e?.preventDefault();
+                  setTitle(
+                    `${item.name}${
+                      item.url
+                        ? ' || ' +
+                          item.url
+                            .replace(/http(s)?:\/\//, '')
+                            .substring(0, 13) +
+                          '…'
+                        : ''
+                    }`,
+                  );
+                  setData(item.measurements);
+                  setSubItemId(item.id);
+                  handleEditClick();
+                  // console.log('edit table row');
+                }}
                 tds={[
-                  'Datenpunkte',
+                  'Daten',
                   item.measurements ? `${item.measurements.length}` : 'k. A.',
+                  `Autom.: ${item.url ? '✓' : '✘'}`,
                 ]}
-              ></TableRow>
+              ></TableRowWithButton>
             );
           })}
         </TableBody>

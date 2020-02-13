@@ -1,6 +1,7 @@
 import { HttpCodes, postResponse, deleteResponse } from '../../../common';
 import {
   errorResponse,
+  responderMissingBodyValue,
   responder,
   responderWrongId,
   successResponse,
@@ -93,6 +94,88 @@ export const deleteCollectionItem: postResponse = async (request, response) => {
     } else {
       responderWrongId(response);
     }
+  } catch (error) {
+    responder(response, HttpCodes.internalError, errorResponse(error));
+  }
+};
+
+export const deleteCollectionSubItemsList: deleteResponse = async (
+  request,
+  response,
+) => {
+  try {
+    const collectionId = request.params.collectionName;
+    const repoName = collectionRepoMapping[collectionId];
+    const ids = request.body.ids;
+
+    if (ids === undefined) {
+      responderMissingBodyValue(response, { ids: [1, 2, 3] });
+      return;
+    }
+    switch (repoName) {
+      case 'GenericInput': {
+        const repo: any = getRepository(GInputMeasurement);
+        const entities = await repo
+          .createQueryBuilder('collection')
+          .where('collection.id IN (:...ids)', { ids })
+          .getMany();
+        const delIds = entities.map((e: any) => e.id);
+        await repo.remove(entities);
+        responder(
+          response,
+          HttpCodes.success,
+          successResponse(SUCCESS.successDelete200, delIds),
+        );
+        return;
+      }
+      case 'PurificationPlant': {
+        const repo: any = getRepository(PPlantMeasurement);
+        const entities = await repo
+          .createQueryBuilder('collection')
+          .where('collection.id IN (:...ids)', { ids })
+          .getMany();
+        const delIds = entities.map((e: any) => e.id);
+        await repo.remove(entities);
+        responder(
+          response,
+          HttpCodes.success,
+          successResponse(SUCCESS.successDelete200, delIds),
+        );
+        return;
+      }
+      default:
+        responderWrongRoute(response);
+        return;
+    }
+  } catch (error) {
+    console.error(error);
+    responder(response, HttpCodes.internalError, errorResponse(error));
+  }
+};
+export const deleteColletionItemsList: deleteResponse = async (
+  request,
+  response,
+) => {
+  try {
+    const collectionId = request.params.collectionName;
+    const repoName = collectionRepoMapping[collectionId];
+    const ids = request.body.ids;
+    if (ids === undefined) {
+      responderMissingBodyValue(response, { ids: [1, 2, 3] });
+      return;
+    }
+    const repo: any = getRepository(repoName);
+    const entities = await repo
+      .createQueryBuilder('collection')
+      .where('collection.id IN (:...ids)', { ids })
+      .getMany();
+    const delIds = entities.map((e: any) => e.id);
+    await repo.remove(entities);
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(SUCCESS.successDelete200, delIds),
+    );
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }

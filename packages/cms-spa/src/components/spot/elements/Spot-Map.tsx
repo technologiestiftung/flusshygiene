@@ -125,11 +125,11 @@ const SpotsMap: React.FC<IMapsProps> = ({
                   }
                 }}
                 getRadius={15}
-                lineWidthMinPixels={1}
+                lineWidthMinPixels={2}
                 opacity={0.5}
                 pickable={true}
-                radiusMaxPixels={15}
-                radiusMinPixels={3}
+                radiusMaxPixels={20}
+                radiusMinPixels={5}
                 radiusScale={6}
                 stroked={true}
                 onClick={(info) => {
