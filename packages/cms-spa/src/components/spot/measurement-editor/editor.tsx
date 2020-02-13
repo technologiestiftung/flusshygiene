@@ -10,6 +10,7 @@ import {
   IBathingspotApiEndpoints,
   ApiEndpointsLinkTypes,
   MGDUploaderDataType,
+  IBathingspot,
 } from '../../../lib/common/interfaces';
 import { ButtonIcon } from '../../Buttons';
 import {
@@ -36,7 +37,7 @@ import { GiPPUploader } from './gi-pp-uploader';
 import { MGDEditor } from './m-g-d-editor';
 import { MGDUploader } from './m-g-d-uploader';
 import { useOcpu } from '../../../contexts/opencpu';
-
+import { CSVLink } from 'react-csv';
 export const MeasurementEditor: React.FC<{
   handleCloseClick: ClickFunction;
   inData: any;
@@ -63,7 +64,9 @@ export const MeasurementEditor: React.FC<{
 }) => {
   const [apiState, apiDispatch] = useApi();
   const [ocpuState] = useOcpu();
-
+  const [currentSpot, setCurrentSpot] = useState<IBathingspot | undefined>(
+    undefined,
+  );
   const [giInfos, setGiInfos] = useState<IGenericInput | undefined>(undefined);
   const [ppInfos, setPPInfos] = useState<IPurificationPlant | undefined>(
     undefined,
@@ -80,6 +83,7 @@ export const MeasurementEditor: React.FC<{
     const filteredSpots = apiState.spots.filter((spot) => (spot.id = spotId));
     if (filteredSpots.length === 0) return;
     const curSpot = filteredSpots[0];
+    setCurrentSpot(curSpot);
 
     switch (resourceType) {
       case 'gInputMeasurements': {
@@ -136,6 +140,7 @@ export const MeasurementEditor: React.FC<{
     getTableProps,
     getTableBodyProps,
     headerGroups,
+    headers,
     rows,
     prepareRow,
     //@ts-ignore
@@ -517,6 +522,23 @@ export const MeasurementEditor: React.FC<{
                 <ButtonIcon handleClick={handleCloseClick} text='Abbrechen'>
                   <IconCloseWin></IconCloseWin>
                 </ButtonIcon>
+                <CSVLink
+                  data={inData}
+                  filename={
+                    currentSpot !== undefined
+                      ? `${currentSpot.name}-${resourceType}.csv`
+                      : `${resourceType}.csv`
+                  }
+                  className='button is-small is-badge-small'
+                >
+                  {/* <ButtonIcon text='Export' handleClick={() => {}}> */}
+                  <span className='icon is-small'>
+                    <IconCSV></IconCSV>
+                  </span>
+                  <span>{'Export'}</span>
+                  {/* <CSVDownload data={inData} target='_blank' />; */}
+                  {/* </ButtonIcon> */}
+                </CSVLink>
                 <ButtonIcon
                   text='Auswahl löschen'
                   additionalClassNames='is-warning'
