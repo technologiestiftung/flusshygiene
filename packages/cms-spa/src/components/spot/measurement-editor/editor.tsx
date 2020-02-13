@@ -140,7 +140,6 @@ export const MeasurementEditor: React.FC<{
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    headers,
     rows,
     prepareRow,
     //@ts-ignore
