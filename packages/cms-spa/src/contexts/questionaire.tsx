@@ -33,6 +33,7 @@ let title: string = '';
 
 (async () => {
   const data = await getQuestions();
+  // console.log(data[0]);
   // console.log(data);
   questions = [...data];
   const localAnswerState = loadState(localStateKey);
