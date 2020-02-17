@@ -88,21 +88,23 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
            * This is getting a single spot
            */
           case 'bathingspots': {
-            const newSpots = state.spots;
-            action.payload.response.data.forEach((obj) => {
-              const index = newSpots.findIndex((spot) => spot.id === obj.id);
-              if (index === -1) {
-                newSpots.push(obj as IBathingspot);
-              } else {
-                newSpots[index] = obj as IBathingspot;
-              }
-            });
-            newSpots.sort((a, b) => (a.id > b.id ? -1 : 1));
+            // const newSpots = state.spots;
+            // action.payload.response.data.forEach((obj) => {
+            //   const index = newSpots.findIndex((spot) => spot.id === obj.id);
+            //   if (index === -1) {
+            //     newSpots.push(obj as IBathingspot);
+            //   } else {
+            //     newSpots[index] = obj as IBathingspot;
+            //   }
+            // });
+            const spots = action.payload.response.data as IBathingspot[];
+            // newSpots.sort((a, b) => (a.id > b.id ? -1 : 1));
+            spots.sort((a, b) => (a.id > b.id ? -1 : 1));
             return {
               ...state,
               loading: false,
               truncated: action.payload.response.truncated,
-              spots: [...newSpots],
+              spots: [...spots],
             };
           }
           // TODO: unify case bathingspot(s)
