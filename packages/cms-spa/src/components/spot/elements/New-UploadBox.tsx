@@ -96,9 +96,17 @@ export const NewUploadBox: React.FC<IMeasurementsUploadBox> = ({
           delimiter: '',
           dynamicTyping: true,
           header: true,
+          trimHeaders: true,
           skipEmptyLines: true,
+          transform: function(v): string {
+            return v.trim();
+          },
+          transformHeader: function(h): string {
+            return h.trim();
+          },
         };
         const results = await papaPromise(csvFile, config);
+        console.log(results, 'parsing result');
         setParsingErrors(results.errors);
         let allValid = true;
         for (let i = 0; i < results.data.length; i++) {

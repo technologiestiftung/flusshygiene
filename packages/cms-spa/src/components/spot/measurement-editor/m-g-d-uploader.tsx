@@ -145,6 +145,7 @@ export const MGDUploader: React.FC<{
                   fieldNameUrl={'url'}
                   props={props}
                   schema={(() => {
+                    console.log(dataType);
                     switch (dataType) {
                       case 'measurements':
                         return measurementsSchema;
