@@ -23,7 +23,7 @@ export const CardTile: React.FC<ISpotCard> = ({
   isUserLoggedIn,
   spot,
 }) => {
-  console.log(spot, '<----------');
+  // console.log(spot, '<----------');
   return (
     <div className='card card__profile--pad'>
       <div className='card-image'>
