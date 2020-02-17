@@ -75,7 +75,7 @@ export const MGDEditor: React.FC<{
           initialValues={initialValues}
           onSubmit={(values, bag) => {
             bag.setSubmitting(false);
-            console.log(values);
+            //console.log(values);
             let url = values[linkType];
 
             if (url === undefined) {
