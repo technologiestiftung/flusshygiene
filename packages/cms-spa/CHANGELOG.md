@@ -3,30 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.5.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.4.0...v2.5.0) (2020-02-13)
-
+## [2.5.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.5.0...v2.5.1) (2020-02-17)
 
 ### Bug Fixes
 
-* **map style:** Make marker bigger ([d31f4c3](https://github.com/technologiestiftung/flusshygiene/commit/d31f4c373a9f4daf9f5a3edbf113114d15113a63))
+- **duplicate spots:** GET for Bathingspot does get all the spots ([4edc94e](https://github.com/technologiestiftung/flusshygiene/commit/4edc94e7e027ca4dccac10c08b4faf18e36c92ac)), closes [#182](https://github.com/technologiestiftung/flusshygiene/issues/182)
+- **GIs is not PP:** GI where posted as PP ([64a1bd8](https://github.com/technologiestiftung/flusshygiene/commit/64a1bd8f29a8a8005e50eb171e11cdda05c606d3))
+- **link:** URL was wrong ([12c1af8](https://github.com/technologiestiftung/flusshygiene/commit/12c1af8b6d78f05635f2622a1756e65e8c191aac))
+- **point is not polygon:** PUT was rejected due to wrong type ([d7b1e38](https://github.com/technologiestiftung/flusshygiene/commit/d7b1e38b998ccec913b304dc9219dd2f9ac1f533))
+- **tests:** unused import ([97bd31d](https://github.com/technologiestiftung/flusshygiene/commit/97bd31d0b42314f3ced3cf9d1c51c13f153f1136))
+- **upload:** Had wrong yup validation ([b4ea747](https://github.com/technologiestiftung/flusshygiene/commit/b4ea74737e5895155d43b1d49327b68c4c162973))
 
+# [2.5.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.4.0...v2.5.0) (2020-02-13)
 
+### Bug Fixes
 
-
+- **map style:** Make marker bigger ([d31f4c3](https://github.com/technologiestiftung/flusshygiene/commit/d31f4c373a9f4daf9f5a3edbf113114d15113a63))
 
 # [2.4.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.3.2...v2.4.0) (2020-02-05)
 
-
 ### Bug Fixes
 
-* **auth0id in profile:** Makes id conditinoal ([5624354](https://github.com/technologiestiftung/flusshygiene/commit/562435470fa49e05b2a9d055058980723350fa0b))
-* **buton wording:** Renames button ([44983c4](https://github.com/technologiestiftung/flusshygiene/commit/44983c49cfbb83bfa4c52b6d25a6ff4ca02a87d9))
-* **no location:** Make location display conditional ([28e06f3](https://github.com/technologiestiftung/flusshygiene/commit/28e06f3276472636367cf688e275e256cca9be5e))
-* packages/cms-spa/package.json & packages/cms-spa/package-lock.json to reduce vulnerabilities ([a883281](https://github.com/technologiestiftung/flusshygiene/commit/a88328165398f8c57444ab58178b7aa6fe42cfdc))
-
-
-
-
+- **auth0id in profile:** Makes id conditinoal ([5624354](https://github.com/technologiestiftung/flusshygiene/commit/562435470fa49e05b2a9d055058980723350fa0b))
+- **buton wording:** Renames button ([44983c4](https://github.com/technologiestiftung/flusshygiene/commit/44983c49cfbb83bfa4c52b6d25a6ff4ca02a87d9))
+- **no location:** Make location display conditional ([28e06f3](https://github.com/technologiestiftung/flusshygiene/commit/28e06f3276472636367cf688e275e256cca9be5e))
+- packages/cms-spa/package.json & packages/cms-spa/package-lock.json to reduce vulnerabilities ([a883281](https://github.com/technologiestiftung/flusshygiene/commit/a88328165398f8c57444ab58178b7aa6fe42cfdc))
 
 ## [2.3.2](https://github.com/technologiestiftung/flusshygiene/compare/v2.3.1...v2.3.2) (2019-12-19)
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.5.0...v2.5.1) (2020-02-17)
+
+
+### Bug Fixes
+
+* **duplicate spots:** GET for Bathingspot does get all the spots ([4edc94e](https://github.com/technologiestiftung/flusshygiene/commit/4edc94e7e027ca4dccac10c08b4faf18e36c92ac)), closes [#182](https://github.com/technologiestiftung/flusshygiene/issues/182)
+* **GIs is not PP:** GI where posted as PP ([64a1bd8](https://github.com/technologiestiftung/flusshygiene/commit/64a1bd8f29a8a8005e50eb171e11cdda05c606d3))
+* **link:** URL was wrong ([12c1af8](https://github.com/technologiestiftung/flusshygiene/commit/12c1af8b6d78f05635f2622a1756e65e8c191aac))
+* **point is not polygon:** PUT was rejected due to wrong type ([d7b1e38](https://github.com/technologiestiftung/flusshygiene/commit/d7b1e38b998ccec913b304dc9219dd2f9ac1f533))
+* **tests:** unused import ([97bd31d](https://github.com/technologiestiftung/flusshygiene/commit/97bd31d0b42314f3ced3cf9d1c51c13f153f1136))
+* **upload:** Had wrong yup validation ([b4ea747](https://github.com/technologiestiftung/flusshygiene/commit/b4ea74737e5895155d43b1d49327b68c4c162973))
+
+
+
+
+
 # [2.5.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.4.0...v2.5.0) (2020-02-13)
 
 
