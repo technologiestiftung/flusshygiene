@@ -107,11 +107,13 @@ export const measurementsSchema = Yup.object().shape({
   conc_ie: Yup.number()
     // .integer()
     // .positive()
-    .required('Kein integer >= 0'),
+    .moreThan(-2)
+    .required('Kein integer >= -1'),
   conc_ec: Yup.number()
     // .integer()
     // .positive()
-    .required('Kein integer >= 0'),
+    .moreThan(-2)
+    .required('Kein integer >= -1'),
 });
 
 export const defaultMeasurementsSchema = Yup.object().shape({
@@ -119,7 +121,8 @@ export const defaultMeasurementsSchema = Yup.object().shape({
   value: Yup.number()
     // .integer()
     // .positive()
-    .required('Kein Fließkommawert >= 0'),
+    .moreThan(-2)
+    .required('Kein Fließkommawert >= -1'),
 });
 
 export const singlePPlantGiSchema = Yup.object().shape({

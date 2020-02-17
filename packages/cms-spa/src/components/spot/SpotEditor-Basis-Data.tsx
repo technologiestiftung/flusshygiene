@@ -3,9 +3,10 @@ import { Formik, Form } from 'formik';
 import {
   IBathingspot,
   MapEditModes,
-  IGeoJsonGeometry,
   IBathingspotExtend,
   ApiActionTypes,
+  IGeoJsonPoint,
+  IGeoJsonPolygon,
 } from '../../lib/common/interfaces';
 import { nullValueTransform } from '../../lib/utils/spot-nullvalue-transformer';
 import { APIMountPoints, ApiResources } from '../../lib/common/enums';
@@ -67,6 +68,16 @@ export const SpotEditorBasisData: React.FC<{
       }
     }
 
+    // FIXME: Hotfix for location error
+    if (body.location && body.location.type === 'Polygon') {
+      body.location.type = 'Point';
+    }
+    if (body.location?.coordinates.length === 0) {
+      delete body.location;
+    }
+    if (body.area?.coordinates.length === 0) {
+      delete body.area;
+    }
     {
       let url: string;
 
@@ -113,6 +124,8 @@ export const SpotEditorBasisData: React.FC<{
         enableReinitialize={true}
         initialValues={transformedSpot}
         onSubmit={(values, { setSubmitting }) => {
+          // console.log(values, 'formik submit');
+
           callPutPostSpot(values).catch((err) => {
             console.error(err);
           });
@@ -126,8 +139,8 @@ export const SpotEditorBasisData: React.FC<{
 
           const handleGeoJsonUpdates: (
             e: React.ChangeEvent<any>,
-            location?: IGeoJsonGeometry,
-            area?: IGeoJsonGeometry,
+            location?: IGeoJsonPoint,
+            area?: IGeoJsonPolygon,
           ) => void = (e, location, area) => {
             // console.log('handel geojson update');
             if (area !== undefined) {

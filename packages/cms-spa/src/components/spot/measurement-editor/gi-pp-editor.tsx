@@ -44,15 +44,17 @@ export const GIPPEditor: React.FC<{
   const [, apiDispatch] = useApi();
 
   // const [reqType, setReqType] = useState<'POST' | 'PUT' | undefined>(undefined);
+  //console.log(resourceType, 'in gi-pp-editor');
+
   const { getTokenSilently } = useAuth0();
   const [showInfo, setShowInfo] = useState(true);
   const BASE_URL = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${
     ApiResources.users
   }/${userId}/${ApiResources.bathingspots}/${spotId}/${
-    resourceType === 'gInputMeasurements'
-      ? 'genericInputs'
-      : 'purificationPlants'
+    resourceType === 'genericInputs' ? 'genericInputs' : 'purificationPlants'
   }`;
+  //console.log(BASE_URL);
+
   const postData = async (name: string, url?: string) => {
     try {
       const token = await getTokenSilently();

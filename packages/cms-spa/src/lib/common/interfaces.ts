@@ -217,6 +217,14 @@ export interface IGeoJsonGeometry {
   coordinates: any[];
   type: 'Point' | 'Polygon';
 }
+
+export interface IGeoJsonPoint extends IGeoJsonGeometry {
+  type: 'Point';
+}
+
+export interface IGeoJsonPolygon extends IGeoJsonGeometry {
+  type: 'Polygon';
+}
 export interface IGeoJsonFeature {
   type: 'Feature';
   geometry: IGeoJsonGeometry;
@@ -248,8 +256,8 @@ export interface IMapsEditorProps extends IMapsProps {
   >['setFieldValue'];
   handleUpdates: (
     e: React.ChangeEvent<any>,
-    location?: IGeoJsonGeometry,
-    area?: IGeoJsonGeometry,
+    location?: IGeoJsonPoint,
+    area?: IGeoJsonPolygon,
   ) => void;
 }
 

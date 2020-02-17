@@ -13,7 +13,10 @@ import { FormikButtons } from '../formik-helpers/FormikButtons';
 import { Container } from '../../Container';
 import { InfoText } from '../elements/SpotEditor-Measurments-Info';
 import { NewUploadBox } from '../elements/New-UploadBox';
-import { defaultMeasurementsSchema } from '../../../lib/utils/spot-validation-schema';
+import {
+  defaultMeasurementsSchema,
+  measurementsSchema,
+} from '../../../lib/utils/spot-validation-schema';
 import { actionCreator } from '../../../lib/utils/pgapi-actionCreator';
 
 export const MGDUploader: React.FC<{
@@ -61,7 +64,6 @@ export const MGDUploader: React.FC<{
         token,
         body: data,
       });
-      console.log(action);
       apiRequest(apiDispatch, action);
       handleSubmitClose();
     } catch (error) {
@@ -142,7 +144,15 @@ export const MGDUploader: React.FC<{
                   fieldNameFile={'measurements'}
                   fieldNameUrl={'url'}
                   props={props}
-                  schema={defaultMeasurementsSchema}
+                  schema={(() => {
+                    switch (dataType) {
+                      case 'measurements':
+                        return measurementsSchema;
+                      case 'discharges':
+                      case 'globalIrradiances':
+                        return defaultMeasurementsSchema;
+                    }
+                  })()}
                 ></NewUploadBox>
               </Form>
             );

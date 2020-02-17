@@ -29,7 +29,7 @@ export const postSpotSuccess: (success: boolean, error?: any) => IAction = (
 });
 
 export const postSpotFail: (error: any) => IAction = (error) => {
-  console.log(error);
+  // console.error(error);
   return {
     type: POST_SPOTS_FAIL,
     payload: { error },

@@ -111,7 +111,7 @@ export const GiPPUploader: React.FC<{
         token,
         resource: resourceType,
       });
-      console.log(action);
+      //console.log(action);
       apiRequest(apiDispatch, action);
       handleSubmitClose();
     } catch (error) {
@@ -127,7 +127,7 @@ export const GiPPUploader: React.FC<{
             measurements: [],
           }}
           onSubmit={(values, bag) => {
-            console.log(values);
+            // console.log(values);
             bag.setSubmitting(false);
             postData(values.measurements as ISimpleMeasurement[]).catch(
               (err) => {
