@@ -122,7 +122,7 @@ const Home: React.FC = () => {
             Modellaufbaus und der Validierung wurden auf dieser Webplattform
             automatisiert, sodass die Methodik nun zuständigen Behörden sowie
             Betreibern von Badegewässern zur Verfügung steht. <br />
-            <Link to={`/${'profile'}`}>
+            <Link to={`/${RouteNames.profile}`}>
               zum Badestellen Bearbeiten/Erstellen
             </Link>
           </p>
