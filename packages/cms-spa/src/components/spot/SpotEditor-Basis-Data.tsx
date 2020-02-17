@@ -3,7 +3,6 @@ import { Formik, Form } from 'formik';
 import {
   IBathingspot,
   MapEditModes,
-  IGeoJsonGeometry,
   IBathingspotExtend,
   ApiActionTypes,
   IGeoJsonPoint,
