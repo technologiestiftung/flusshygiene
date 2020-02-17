@@ -231,7 +231,7 @@ export const MeasurementEditor: React.FC<{
   };
   const handleConfirmClick = () => {
     const ids = selectedFlatRows.map((elem: any) => elem.original.id);
-    console.log(ids); // eslint-disable-line
+    // console.log(ids); // eslint-disable-line
     callDelete(ids).catch((err: Error) => {
       console.error(err);
     });

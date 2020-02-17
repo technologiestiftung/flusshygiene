@@ -64,7 +64,6 @@ export const MGDUploader: React.FC<{
         token,
         body: data,
       });
-      // console.log(action);
       apiRequest(apiDispatch, action);
       handleSubmitClose();
     } catch (error) {
