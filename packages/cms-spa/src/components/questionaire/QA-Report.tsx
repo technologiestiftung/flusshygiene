@@ -18,7 +18,7 @@ import FileSaver from 'file-saver';
 import { roundToFloatDigits } from '../../lib/utils/formatting-helpers';
 
 /**
- * @todo missing links in footnote @Urs
+ * TODO: missing links in footnote @Urs
  */
 export const Report: React.FC = () => {
   const [state] = useQuestions();
@@ -111,7 +111,7 @@ export const Report: React.FC = () => {
     const sumWeights = allWeights.reduce((a, b) => a + b, 0);
     const res = sumAnswers / sumWeights;
     // console.log('result of probabilty', res);
-    setProbability(res);
+    setProbability(Math.round(res / 5) * 5);
     return () => {};
   }, [state.answers]);
 

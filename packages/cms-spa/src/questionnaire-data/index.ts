@@ -56,7 +56,6 @@ const filenames = [
   'Frage-10.2.1.-gew2.json',
   'Frage-10.3.1.-gew2.json',
 ];
-console.log(filenames.length);
 
 export const getQuestions = async () => {
   try {

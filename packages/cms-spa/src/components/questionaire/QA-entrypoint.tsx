@@ -10,7 +10,8 @@ export const QA: React.FC<RouteComponentProps<{ id: string }>> = ({
   const id = match.params.id;
   const numId = parseInt(id, 10);
   if (isNaN(numId) === true) {
-    throw new Error('Could not parse number from questions id');
+    const err = new Error('Could not parse number from questions id');
+    console.error(err);
   }
   if (numId === 0) {
     history.push(`/${RouteNames.questionnaire}/1`);

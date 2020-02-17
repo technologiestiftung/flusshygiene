@@ -42,7 +42,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     if (state.questions === undefined) return;
     if (state.questions.length - 1 < qid) return;
     setTitle(state.questions[qid].default[1][1]);
-    setQInfo(state.questions[qid].default[1][3]);
+    setQInfo(createLinks(state.questions[qid].default[1][3]));
     setQuestion(state.questions[qid].default[1][4]);
     setQAddInfo(createLinks(state.questions[qid].default[1][5]));
 
@@ -89,7 +89,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
       localAnswers.push(answer);
     }
     setCurAnswers(localAnswers);
-    setAAddInfo('');
+    setAAddInfo(undefined);
     setFormReadyToRender(true);
     return () => {
       resetStates();
@@ -220,6 +220,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       <Pagination
                         pages={state.questions.length - 1}
                         currentPage={qid}
+                        showNumbers={true}
                         isRounded={false}
                         isSmall={true}
                         isCentered={true}
@@ -262,7 +263,10 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                   <Container>
                     <h1 className='title is-1'>{title}</h1>
                     <div className='content'>
-                      <p>{qInfo}</p>
+                      <p
+                        id='qInfo'
+                        dangerouslySetInnerHTML={{ __html: qInfo }}
+                      />
                     </div>
                     <div className='content'>
                       <p className='title'>Frage:</p>
@@ -270,7 +274,10 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       <p>
                         <strong>{question}</strong>
                       </p>
-                      <p dangerouslySetInnerHTML={{ __html: qAddInfo }} />
+                      <p
+                        id='qAddInfo'
+                        dangerouslySetInnerHTML={{ __html: qAddInfo }}
+                      />
                     </div>
                     <div className='content'>
                       <p className='title'>Antworten:</p>
@@ -333,7 +340,32 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       </div>
                     </div>
 
-                    <div className='content'>
+                    {(() => {
+                      // TODO: Make the message box here
+                      let colIcon;
+                      let qTypeIcon;
+                      let match = false;
+                      if (selectedAnswer !== undefined) {
+                        if (
+                          values.answersIds.includes(selectedAnswer.id) === true
+                        ) {
+                          colIcon = colorNameToIcon(selectedAnswer.colorText);
+                        }
+
+                        if (selectedAnswer.qType !== undefined) {
+                          qTypeIcon = questionTypeToIcon(
+                            selectedAnswer.qType,
+                            selectedAnswer.colorText,
+                          );
+                        }
+                      }
+                      if (aAddInfo && /K\.O\./.test(aAddInfo)) {
+                        match = true;
+                      }
+
+                      return <></>;
+                    })()}
+                    <div className='content' id='answers-info'>
                       <p>
                         <span>
                           {selectedAnswer !== undefined &&
@@ -349,13 +381,41 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                               selectedAnswer.colorText,
                             )}
                         </span>{' '}
+                        {(() => {
+                          if (aAddInfo && /K\.O\./.test(aAddInfo)) {
+                            return <>MATCH</>;
+                          } else {
+                            return null;
+                          }
+                        })()}
                         <span
+                          id='additional-info'
                           dangerouslySetInnerHTML={{
                             __html: aAddInfo !== undefined ? aAddInfo : '',
                           }}
                         ></span>
                       </p>
                     </div>
+                  </Container>
+                  <div style={{ paddingTop: '2rem' }}>
+                    <br />
+                  </div>
+                  <Container>
+                    <Pagination
+                      showNumbers={false}
+                      pages={state.questions.length - 1}
+                      currentPage={qid}
+                      isRounded={false}
+                      isSmall={true}
+                      isCentered={true}
+                      onChange={(
+                        _event: React.ChangeEvent<any>,
+                        _page: number,
+                      ) => {
+                        // console.log(values.answersIds);
+                        answerDispatch();
+                      }}
+                    ></Pagination>
                   </Container>
                 </Form>
               </>
