@@ -7,10 +7,11 @@ import { QToolBar } from './QToolBar';
 import { Pagination } from './Pagination';
 import history from '../../lib/history';
 import { RouteNames } from '../../lib/common/enums';
-import { IAnswer } from '../../lib/common/interfaces';
+import { IAnswer, ClickFunction } from '../../lib/common/interfaces';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
 import { QIntroNew } from './QIntro';
 import { AnswerInfo } from './AnswerInfo';
+import { Modal } from '../util/modal';
 
 export interface IFormikQuestionState {
   answersIds: string[];
@@ -35,6 +36,9 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   const [answersIds, setAnswersIds] = useState<string[]>([]);
   const [questionnaireTitle, setquestionnaireTitle] = useState<string>('');
   const [isModalActive, setIsModalActive] = useState(false);
+  const [isConfirmationModalActive, setIsConfirmationModalActive] = useState(
+    false,
+  );
 
   useEffect(() => {
     // if (state.title === undefined) return;
@@ -99,6 +103,20 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     setAnswersIds([]);
   };
 
+  const handleModalCancelClick: ClickFunction = (e) => {
+    setIsConfirmationModalActive(false);
+  };
+  const handleModalConfirmClick: (
+    event?: React.ChangeEvent<any>,
+    resetForm?: (
+      nextState?: Partial<FormikState<IFormikQuestionState>> | undefined,
+    ) => void,
+  ) => void = (_e, resetForm) => {
+    dispatch({ type: 'REMOVE_ANSWERS' });
+    resetStates();
+    resetForm?.();
+    setIsConfirmationModalActive(false);
+  };
   const handleModalClick: (event: React.ChangeEvent<any>) => void = (
     e: React.ChangeEvent<any>,
   ) => {
@@ -180,6 +198,15 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
           {({ values, isSubmitting, handleChange, resetForm }) => {
             return (
               <>
+                {isConfirmationModalActive && (
+                  <Modal
+                    isActive={isConfirmationModalActive}
+                    handleConfirmClick={(e) => {
+                      handleModalConfirmClick(e, resetForm);
+                    }}
+                    handleCancelClick={handleModalCancelClick}
+                  ></Modal>
+                )}
                 <Form>
                   <Container>
                     <QToolBar
@@ -194,9 +221,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                         history.push(`/${RouteNames.questionnaire}/report`);
                       }}
                       handleResetClick={(e: React.ChangeEvent<any>) => {
-                        dispatch({ type: 'REMOVE_ANSWERS' });
-                        resetStates();
-                        resetForm();
+                        setIsConfirmationModalActive(true);
                       }}
                     ></QToolBar>
                   </Container>
