@@ -205,23 +205,31 @@ export const Report: React.FC = () => {
             <h3 className={'subtitle is 6'}>{state.title}</h3>
           )}
           <div className='content'>
-            {allAnswersGiven === true && (
-              <p>
-                <strong>
-                  Achtung es wurden nicht alle Fragen beantwortet!
-                </strong>
-              </p>
-            )}
-            <p
-              className={`subtitle ${
-                allAnswersGiven === false ? 'has-text-grey-light' : ''
-              }`}
-            >
-              Umsetzungswahrscheinlichkeit:{' '}
-              {isNaN(probability) === false &&
-                roundToFloatDigits(probability, 2)}
-              %
-            </p>
+            {
+              <div
+                className={`message ${
+                  allAnswersGiven === false ? 'is-warning' : 'is-dark'
+                }`}
+              >
+                <div className='message-body'>
+                  <p>
+                    <strong>
+                      Achtung es wurden nicht alle Fragen beantwortet!
+                    </strong>
+                  </p>
+                  <p
+                    className={`subtitle ${
+                      allAnswersGiven === false ? 'has-text-grey-light' : ''
+                    }`}
+                  >
+                    Umsetzungswahrscheinlichkeit:{' '}
+                    {isNaN(probability) === false &&
+                      roundToFloatDigits(probability, 2)}
+                    %
+                  </p>
+                </div>
+              </div>
+            }
           </div>
           <div className='content'>
             <ol>
