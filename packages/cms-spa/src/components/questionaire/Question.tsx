@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useQuestions } from '../../contexts/questionaire';
+import { useQuestions, IQuestionsState } from '../../contexts/questionaire';
 import { useState } from 'react';
 import { Formik, Form, FieldArray, Field, FormikState } from 'formik';
 import { Container } from '../Container';
@@ -12,6 +12,8 @@ import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filt
 import { QIntroNew } from './QIntro';
 import { AnswerInfo } from './AnswerInfo';
 import { Modal } from '../util/modal';
+import { useMessages } from '../../contexts/messages';
+import { UploadError } from '../../errors/questionnaire/upload-errors';
 
 export interface IFormikQuestionState {
   answersIds: string[];
@@ -39,6 +41,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   const [isConfirmationModalActive, setIsConfirmationModalActive] = useState(
     false,
   );
+  const [, messageDispatch] = useMessages();
 
   useEffect(() => {
     // if (state.title === undefined) return;
@@ -101,6 +104,102 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     setSelectedAnswer(undefined);
     setAAddInfo(undefined);
     setAnswersIds([]);
+  };
+
+  /**
+   * Click handlers
+   *
+   *
+   */
+
+  const handleUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (
+      event.currentTarget.files === null ||
+      event.currentTarget.files.length < 1
+    ) {
+      return;
+    }
+    const firstFile = event.currentTarget.files[0];
+
+    if (firstFile.type !== 'application/json') {
+      messageDispatch({
+        type: 'ADD_MESSAGE',
+        payload: {
+          message: `Datei "${firstFile.name}" ist keine .json Datei.`,
+          type: 'error',
+        },
+      });
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsText(firstFile, 'UTF-8');
+    reader.onerror = (e) => {
+      messageDispatch({
+        type: 'ADD_MESSAGE',
+        payload: {
+          message: `Datei "${firstFile.name}" konnte nicht gelesen werden.`,
+          type: 'error',
+        },
+      });
+      return;
+    };
+    reader.onload = (e) => {
+      try {
+        const json = JSON.parse(e.target?.result as string);
+        if (json.contextState === undefined) {
+          throw new UploadError(
+            `Die Eigenschaft "contextState" existiert nicht in ${firstFile.name}.`,
+          );
+        }
+        if (json.contextState.questions === undefined) {
+          throw new UploadError(
+            `Die Eigenschaft "contextState.questions" existiert nicht in ${firstFile.name}.`,
+          );
+        }
+        if (json.contextState.answers === undefined) {
+          throw new UploadError(
+            `Die Eigenschaft "contextState.answers" existiert nicht in ${firstFile.name}.`,
+          );
+        }
+        if (json.contextState.title === undefined) {
+          throw new UploadError(
+            `Die Eigenschaft "contextState.title" existiert nicht in ${firstFile.name}.`,
+          );
+        }
+        const state: IQuestionsState = {
+          questions: [...json.contextState.questions],
+          answers: [...json.contextState.answers],
+          title: json.contextState.title,
+        }; //upload;
+        dispatch({ type: 'SET_STATE', payload: { state } });
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          messageDispatch({
+            type: 'ADD_MESSAGE',
+            payload: {
+              message: 'Kein valides JSON',
+              type: 'error',
+            },
+          });
+        } else if (error instanceof UploadError) {
+          messageDispatch({
+            type: 'ADD_MESSAGE',
+            payload: {
+              message: error.message,
+              type: 'error',
+            },
+          });
+        } else {
+          messageDispatch({
+            type: 'ADD_MESSAGE',
+            payload: {
+              message: error.message,
+              type: 'error',
+            },
+          });
+        }
+      }
+    };
   };
 
   const handleModalCancelClick: ClickFunction = (e) => {
@@ -223,6 +322,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       handleResetClick={(e: React.ChangeEvent<any>) => {
                         setIsConfirmationModalActive(true);
                       }}
+                      handleUploadClick={handleUploadClick}
                     ></QToolBar>
                   </Container>
                   <Container containerClassName={'container__--padding-top'}>

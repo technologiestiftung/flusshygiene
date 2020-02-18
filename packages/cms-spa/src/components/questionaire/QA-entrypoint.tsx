@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { QuestionReportSwitch } from './QuestionReportSwitch';
 import history from '../../lib/history';
 import { RouteNames } from '../../lib/common/enums';
+import { MessageProvider } from '../../contexts/messages';
 export const QA: React.FC<RouteComponentProps<{ id: string }>> = ({
   match,
 }) => {
@@ -19,11 +20,14 @@ export const QA: React.FC<RouteComponentProps<{ id: string }>> = ({
     console.error(err);
   }
   return (
-    <QuestionsProvider>
-      <QuestionReportSwitch
-        numId={numId}
-        matchId={match.params.id}
-      ></QuestionReportSwitch>
-    </QuestionsProvider>
+    <MessageProvider>
+      <br />
+      <QuestionsProvider>
+        <QuestionReportSwitch
+          numId={numId}
+          matchId={match.params.id}
+        ></QuestionReportSwitch>
+      </QuestionsProvider>
+    </MessageProvider>
   );
 };

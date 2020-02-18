@@ -1,0 +1,10 @@
+.input__custom-file-upload--hidden {
+  // moght not work in some browsers
+  // TODO: Check in browser-stack
+  // https://stackoverflow.com/questions/15901030/reset-remove-css-styles-for-element-only
+  all: initial;
+  * {
+    all: unset;
+  }
+  display: 'none' !important;
+}

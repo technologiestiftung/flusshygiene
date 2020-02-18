@@ -7,14 +7,14 @@ import {
 } from '../lib/persist-state/local-storage';
 // see https://kentcdodds.com/blog/how-to-use-react-context-effectively
 //----
-interface IQuestionsState {
+export interface IQuestionsState {
   questions: any[];
   answers: any[];
   title: string;
   // updateAnswer: (i: number, answer: string) => void;
 }
 interface IAction {
-  type: 'SET_ANSWER' | 'REMOVE_ANSWERS' | 'SET_TITLE';
+  type: 'SET_ANSWER' | 'REMOVE_ANSWERS' | 'SET_TITLE' | 'SET_STATE';
   payload?: { [key: string]: any };
 }
 export interface IActionSetAnswer extends IAction {
@@ -22,6 +22,10 @@ export interface IActionSetAnswer extends IAction {
 }
 interface IActionSetTitle extends IAction {
   payload: { title: string };
+}
+
+interface IActionSetState extends IAction {
+  payload: { state: IQuestionsState };
 }
 type Dispatch = (action: IAction | IActionSetAnswer | IActionSetTitle) => void;
 type QuestionsProviderProps = { children: React.ReactNode };
@@ -81,6 +85,12 @@ const answersReducer = (state: IQuestionsState, action: IAction) => {
       });
 
       return { ...state, title: locAction.payload.title };
+    }
+    case 'SET_STATE': {
+      const localAction = action as IActionSetState;
+      const uploadedState = localAction.payload.state;
+
+      return { ...uploadedState };
     }
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
