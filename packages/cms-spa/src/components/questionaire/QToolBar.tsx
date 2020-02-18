@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  IconInfo,
-  IconSave,
-  IconTimes,
-  IconFileAlt,
-} from '../fontawesome-icons';
+import { IconInfo, IconTimes, IconFileAlt } from '../fontawesome-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { ButtonIcon as Button } from '../Buttons';
