@@ -107,12 +107,12 @@ export const measurementsSchema = Yup.object().shape({
   conc_ie: Yup.number()
     // .integer()
     // .positive()
-    .moreThan(-2)
+    // .moreThan(-2)
     .required('Kein integer >= -1'),
   conc_ec: Yup.number()
     // .integer()
     // .positive()
-    .moreThan(-2)
+    // .moreThan(-2)
     .required('Kein integer >= -1'),
 });
 
@@ -121,7 +121,7 @@ export const defaultMeasurementsSchema = Yup.object().shape({
   value: Yup.number()
     // .integer()
     // .positive()
-    .moreThan(-2)
+    // .moreThan(-2)
     .required('Kein Fließkommawert >= -1'),
 });
 
