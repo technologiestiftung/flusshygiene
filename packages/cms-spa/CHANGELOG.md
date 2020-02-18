@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/technologiestiftung/flusshygiene/compare/v2.5.1...v2.5.2) (2020-02-18)
+
+### Bug Fixes
+
+- **santize values:** If upload headers have whitespace we got an error ([7376c6b](https://github.com/technologiestiftung/flusshygiene/commit/7376c6b09b18d6ad82b098b6bbf4ec27b8464b12))
+
 ## [2.5.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.5.0...v2.5.1) (2020-02-17)
 
 ### Bug Fixes
