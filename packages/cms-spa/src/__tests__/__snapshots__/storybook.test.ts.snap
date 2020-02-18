@@ -68,7 +68,7 @@ exports[`Storyshots SpotEditor default 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="buttons  buttons__spot-actions--size"
+    className="buttons  buttons__--size"
   >
     <button
       className="button is-primary is-small"
