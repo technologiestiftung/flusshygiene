@@ -153,11 +153,11 @@ export const Report: React.FC = () => {
                 {' '}
                 <IconPDF />
               </span>{' '}
-              <span>PDF</span>
+              <span>PDF Download</span>
             </Link>
 
             <Button
-              text={'JSON'}
+              text={'JSON Download'}
               handleClick={(e: React.ChangeEvent<any>) => {
                 // console.log('JSON');
                 const blob = new Blob(

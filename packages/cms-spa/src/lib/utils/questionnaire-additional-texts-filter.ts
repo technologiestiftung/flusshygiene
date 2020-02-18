@@ -10,3 +10,13 @@ export const createLinks: (text: string | null) => string = (text) => {
 
   return res;
 };
+
+export const createPDFLinks: (text: string | null) => string = (text) => {
+  if (text === null) {
+    return '';
+  }
+  const res = text.replace(/<(.*?)>/g, '<Link src="$1">[Link]</Link>');
+  // console.log(text, res);
+
+  return res;
+};
