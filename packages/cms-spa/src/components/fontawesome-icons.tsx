@@ -35,6 +35,7 @@ import {
   faPlus,
   faMinus,
   faIndustry,
+  faFileAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { ColorNames, QType } from '../lib/common/interfaces';
 import { colorNamesToClassNames } from '../lib/utils/questionnaire-colornames-conversion';
@@ -72,6 +73,7 @@ library.add(
   faPlus,
   faMinus,
   faIndustry,
+  faFileAlt,
 );
 
 export const colorNameToIcon: (cname: ColorNames) => JSX.Element = (cname) => {
@@ -241,3 +243,7 @@ export const IconMinus: React.FC<{ className?: string }> = ({ className }) => (
 export const IconIndustry: React.FC<{ className?: string }> = ({
   className,
 }) => <FontAwesomeIcon icon={'industry'} className={className} />;
+
+export const IconFileAlt: React.FC<{ className?: string }> = ({
+  className,
+}) => <FontAwesomeIcon icon={'file-alt'} className={className} />;

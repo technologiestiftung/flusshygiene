@@ -3,12 +3,15 @@ import { useQuestions } from '../../contexts/questionaire';
 import { Container } from '../Container';
 import { Link, Redirect } from 'react-router-dom';
 import { RouteNames } from '../../lib/common/enums';
+import history from '../../lib/history';
+
 import {
   IconLink,
   colorNameToIcon,
   questionTypeToIcon,
   IconPDF,
   IconCode,
+  IconPrev,
 } from '../fontawesome-icons';
 import { IAnswer } from '../../lib/common/interfaces';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
@@ -18,7 +21,7 @@ import FileSaver from 'file-saver';
 import { roundToFloatDigits } from '../../lib/utils/formatting-helpers';
 
 /**
- * @todo missing links in footnote @Urs
+ * TODO: missing links in footnote @Urs
  */
 export const Report: React.FC = () => {
   const [state] = useQuestions();
@@ -111,7 +114,7 @@ export const Report: React.FC = () => {
     const sumWeights = allWeights.reduce((a, b) => a + b, 0);
     const res = sumAnswers / sumWeights;
     // console.log('result of probabilty', res);
-    setProbability(res);
+    setProbability(Math.round(res / 5) * 5);
     return () => {};
   }, [state.answers]);
 
@@ -121,7 +124,15 @@ export const Report: React.FC = () => {
     return (
       <>
         <Container columnClassName={'is-8'}>
-          <div className='buttons'>
+          <div className='buttons buttons__--size'>
+            <Button
+              text='Zurück zum Formular'
+              handleClick={() => {
+                history.push(`/${RouteNames.questionnaire}/1`);
+              }}
+            >
+              <IconPrev></IconPrev>
+            </Button>
             <Link
               className='button is-small'
               to={{
@@ -142,10 +153,11 @@ export const Report: React.FC = () => {
                 {' '}
                 <IconPDF />
               </span>{' '}
-              <span>PDF</span>
+              <span>PDF Download</span>
             </Link>
+
             <Button
-              text={'JSON'}
+              text={'JSON Download'}
               handleClick={(e: React.ChangeEvent<any>) => {
                 // console.log('JSON');
                 const blob = new Blob(
@@ -193,23 +205,31 @@ export const Report: React.FC = () => {
             <h3 className={'subtitle is 6'}>{state.title}</h3>
           )}
           <div className='content'>
-            {allAnswersGiven === true && (
-              <p>
-                <strong>
-                  Achtung es wurden nicht alle Fragen beantwortet!
-                </strong>
-              </p>
-            )}
-            <p
-              className={`subtitle ${
-                allAnswersGiven === false ? 'has-text-grey-light' : ''
-              }`}
-            >
-              Umsetzungswahrscheinlichkeit:{' '}
-              {isNaN(probability) === false &&
-                roundToFloatDigits(probability, 2)}
-              %
-            </p>
+            {
+              <div
+                className={`message ${
+                  allAnswersGiven === false ? 'is-warning' : 'is-dark'
+                }`}
+              >
+                <div className='message-body'>
+                  <p>
+                    <strong>
+                      Achtung es wurden nicht alle Fragen beantwortet!
+                    </strong>
+                  </p>
+                  <p
+                    className={`subtitle ${
+                      allAnswersGiven === false ? 'has-text-grey-light' : ''
+                    }`}
+                  >
+                    Umsetzungswahrscheinlichkeit:{' '}
+                    {isNaN(probability) === false &&
+                      roundToFloatDigits(probability, 2)}
+                    %
+                  </p>
+                </div>
+              </div>
+            }
           </div>
           <div className='content'>
             <ol>
@@ -248,23 +268,31 @@ export const Report: React.FC = () => {
                               <strong>Ihre Antwort: </strong>{' '}
                               {localAnswers[i][aId].text}{' '}
                             </p>
-                            <p>
-                              <span>
-                                {colorNameToIcon(
-                                  localAnswers[i][aId].colorText,
-                                )}{' '}
-                                {localAnswers[i][aId].qType !== undefined &&
-                                  questionTypeToIcon(
-                                    localAnswers[i][aId].qType!,
+                            <div
+                              className={
+                                localAnswers[i][aId].colorText === 'rot'
+                                  ? 'is-danger message'
+                                  : 'is-dark message'
+                              }
+                            >
+                              <div className='message-body'>
+                                <span>
+                                  {colorNameToIcon(
                                     localAnswers[i][aId].colorText,
-                                  )}
-                              </span>{' '}
-                              <span
-                                dangerouslySetInnerHTML={{
-                                  __html: localAnswers[i][aId].reportAddInfo,
-                                }}
-                              />
-                            </p>
+                                  )}{' '}
+                                  {localAnswers[i][aId].qType !== undefined &&
+                                    questionTypeToIcon(
+                                      localAnswers[i][aId].qType!,
+                                      localAnswers[i][aId].colorText,
+                                    )}
+                                </span>{' '}
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: localAnswers[i][aId].reportAddInfo,
+                                  }}
+                                />
+                              </div>
+                            </div>
                           </>
                         );
                       })()}

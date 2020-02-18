@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { PDFDownloadLink, PDFViewer, Font } from '@react-pdf/renderer';
+import {
+  PDFDownloadLink,
+  PDFViewer,
+  Font,
+  Page as MasterPage,
+  Text,
+  Link,
+} from '@react-pdf/renderer';
 import styled from '@react-pdf/styled-components';
 import { IAnswer } from '../../lib/common/interfaces';
 import { Container } from '../Container';
@@ -63,7 +70,7 @@ const SubTitle = styled.Text`
 const QuestionText = styled.Text`
   border-top: 1px dashed gray;
   text-align: left;
-  font-size: 12pt;
+  font-size: 13pt;
   font-weight: 600;
   font-family: 'Open Sans Bold';
   padding-bottom: 15pt;
@@ -92,6 +99,33 @@ interface IPDFReportProps {
 interface IPDFReportRendererProps extends IPDFReportProps {
   children?: React.ReactNode;
 }
+
+export const createPDFLinks: (text: string | null | undefined) => any = (
+  text,
+) => {
+  if (text === undefined || text === null) {
+    return <Text></Text>;
+  }
+
+  const reg2 = /<a.*?href="|".*?<\/a>/;
+  const matches = text.split(reg2);
+
+  const arr = matches.map((item) => {
+    if (item.startsWith('http')) {
+      return <Link src={item}>{'Link'}</Link>;
+    } else {
+      return <Text>{item}</Text>;
+    }
+  });
+  return (
+    <Text>
+      {arr.map((item, i) => (
+        <React.Fragment key={i}>{item}</React.Fragment>
+      ))}
+    </Text>
+  );
+};
+
 const ReportPDF: React.FC<IPDFReportProps> = ({
   questions,
   answers,
@@ -107,12 +141,19 @@ const ReportPDF: React.FC<IPDFReportProps> = ({
           <Title>{title}</Title>
           <SubTitle>{probability}</SubTitle>
           {allAnswersGiven === true && (
-            <SubTitle>Achtung! Es wurden nicht all Fragen beantwortet</SubTitle>
+            <SubTitle>
+              Achtung! Es wurden nicht alle Fragen beantwortet
+            </SubTitle>
           )}
-          {questions !== undefined &&
-            questions.length > 0 &&
-            questions.map((ele, i) => (
-              <React.Fragment key={i}>
+        </View>
+      </Page>
+      {questions !== undefined &&
+        questions.length > 0 &&
+        questions.map((ele, i) => {
+          return (
+            <MasterPage size={'A4'} key={i}>
+              <View>
+                {/* <React.Fragment key={i}> */}
                 <QuestionText>
                   {i + 1}
                   {'.'}
@@ -120,7 +161,9 @@ const ReportPDF: React.FC<IPDFReportProps> = ({
                 </QuestionText>
                 {addInfoQuestion[i] !== null ||
                   (addInfoQuestion[i] !== undefined && (
-                    <TextItalic>addInfoQuestion[i]</TextItalic>
+                    <TextItalic>
+                      {createPDFLinks(addInfoQuestion[i])}
+                    </TextItalic>
                   ))}
 
                 {(() => {
@@ -133,27 +176,25 @@ const ReportPDF: React.FC<IPDFReportProps> = ({
                     const split = answer.id.split('-');
                     const aid = parseInt(split[0], 10);
                     if (i + 1 === aid) {
+                      const parsedAnswerAddText = createPDFLinks(
+                        answer.additionalText,
+                      );
+
                       res = (
                         <React.Fragment key={`${i}yes`}>
                           <AnswerText key={answer.id}>{answer.text}</AnswerText>
-                          <TextItalic>{answer.additionalText}</TextItalic>
+                          {/* <TextItalic>{answer.additionalText}</TextItalic> */}
+                          <TextItalic>{parsedAnswerAddText}</TextItalic>
                         </React.Fragment>
                       );
                     }
                   }
                   return res;
                 })()}
-                {/* {answers.map((answer) => {
-                  const split = answer.id.split('-');
-                  const aid = parseInt(split[0], 10);
-                  if (i + 1 === aid) {
-                    return <AnswerText>{answer.text}</AnswerText>;
-                  }
-                })} */}
-              </React.Fragment>
-            ))}
-        </View>
-      </Page>
+              </View>
+            </MasterPage>
+          );
+        })}
     </Document>
   );
 };

@@ -65,7 +65,7 @@ body {
 
   main {
     padding-top: 2rem;
-    min-height: 85vh;
+    min-height: 87.5vh;
     // padding: 2em 1em;
   }
 
@@ -86,7 +86,8 @@ span.asteriks {
 
 //spot
 
-.buttons__spot-actions--size {
+.buttons__spot-actions--size,
+.buttons__--size {
   // flex-basis: 100%;
   .button {
     max-width: 170px;
@@ -94,6 +95,7 @@ span.asteriks {
     text-overflow: ellipsis;
   }
 }
+
 // card
 
 .card__profile--pad {
@@ -245,3 +247,4 @@ $mapHeight: 400px;
 
 @import './data-view.scss';
 @import './bulma-overwrites.scss';
+@import './custom-file-upload.scss';

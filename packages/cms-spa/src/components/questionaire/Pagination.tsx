@@ -90,6 +90,7 @@ export const Pagination: React.FC<{
   nextClassName?: string;
   linkClassName?: string;
   listClassName?: string;
+  showNumbers?: boolean;
   onChange: (event: React.ChangeEvent<any>, page: number) => void;
 }> = ({
   pages,
@@ -107,6 +108,7 @@ export const Pagination: React.FC<{
   linkClassName = '',
   listClassName = '',
   onChange,
+  showNumbers,
 }) => {
   const visiblePages = getVisiblePages(visibleRadius, currentPage, pages);
   const pagesComponents: JSX.Element[] = [];
@@ -205,7 +207,11 @@ export const Pagination: React.FC<{
         {/* Nächste Frage */}
       </Link>
 
-      <ul className={`pagination-list ${listClassName}`}>{pagesComponents}</ul>
+      {showNumbers === true && (
+        <ul className={`pagination-list ${listClassName}`}>
+          {pagesComponents}
+        </ul>
+      )}
     </div>
   );
 };

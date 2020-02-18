@@ -1,17 +1,25 @@
 import React, { useEffect } from 'react';
-import { useQuestions } from '../../contexts/questionaire';
+import { useQuestions, IQuestionsState } from '../../contexts/questionaire';
 import { useState } from 'react';
-import { Formik, Form, FieldArray, Field } from 'formik';
+import { Formik, Form, FieldArray, Field, FormikState } from 'formik';
 import { Container } from '../Container';
 import { QToolBar } from './QToolBar';
 import { Pagination } from './Pagination';
 import history from '../../lib/history';
 import { RouteNames } from '../../lib/common/enums';
-import { IAnswer } from '../../lib/common/interfaces';
-import { colorNameToIcon, questionTypeToIcon } from '../fontawesome-icons';
+import { IAnswer, ClickFunction } from '../../lib/common/interfaces';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
 import { QIntroNew } from './QIntro';
+import { AnswerInfo } from './AnswerInfo';
+import { Modal } from '../util/modal';
+import { useMessages } from '../../contexts/messages';
+import { UploadError } from '../../errors/questionnaire/upload-errors';
 
+export interface IFormikQuestionState {
+  answersIds: string[];
+  answer: any;
+  questionnaireTitle: string;
+}
 /**
  * Component holds all the question logic
  *
@@ -30,6 +38,10 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   const [answersIds, setAnswersIds] = useState<string[]>([]);
   const [questionnaireTitle, setquestionnaireTitle] = useState<string>('');
   const [isModalActive, setIsModalActive] = useState(false);
+  const [isConfirmationModalActive, setIsConfirmationModalActive] = useState(
+    false,
+  );
+  const [, messageDispatch] = useMessages();
 
   useEffect(() => {
     // if (state.title === undefined) return;
@@ -42,22 +54,17 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     if (state.questions === undefined) return;
     if (state.questions.length - 1 < qid) return;
     setTitle(state.questions[qid].default[1][1]);
-    setQInfo(state.questions[qid].default[1][3]);
+    setQInfo(createLinks(state.questions[qid].default[1][3]));
     setQuestion(state.questions[qid].default[1][4]);
     setQAddInfo(createLinks(state.questions[qid].default[1][5]));
 
     const q = state.questions[qid].default;
-    // console.log(q);
     const localAnswers: IAnswer[] = [];
 
     for (let i = 1; i < q.length; i++) {
       if (q[i][6] === null) {
         continue;
       }
-      // if (q[i][11] !== null) {
-      //   setQuestionType(q[i][11].toLowerCase());
-      //   console.log(q[i][11]);
-      // }
       const answer: IAnswer = {
         additionalText: createLinks(q[i][7]),
         colorText: q[i][9],
@@ -68,28 +75,11 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
         qType: q[i][11] !== null ? q[i][11].toLowerCase() : undefined,
         reportAddInfo: createLinks(q[i][8]),
       };
-      // console.log('ids of answers for this view', answer.id);
-      // console.log('all current answers in state', state.answers);
-      // console.log(answersIds);
-      // console.log('qid', qid);
-      // if (state.answers.includes(answer.id)) {
-      //   console.log('got a match from the state');
-      //   console.log(answer.id, state.answers[qid]);
-      //   // setAnswersIds([answer.id]);
-      //   setAnswersIds((prevState) => {
-      //     const nextState: string[] = [state.answers[qid]];
-      //     console.log('setting new answer id', [state.answers[qid]]);
-      //     return nextState;
-      //   });
-      // } else {
-      //   setAnswersIds((_) => {
-      //     return [];
-      //   });
-      // }
+
       localAnswers.push(answer);
     }
     setCurAnswers(localAnswers);
-    setAAddInfo('');
+    setAAddInfo(undefined);
     setFormReadyToRender(true);
     return () => {
       resetStates();
@@ -99,7 +89,6 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   useEffect(() => {
     if (curAnswers.length === 0) return;
     for (const item of curAnswers) {
-      // console.log(item);
       if (state.answers.includes(item.id) === true) {
         setAnswersIds([item.id]);
         setAAddInfo(item.additionalText);
@@ -117,11 +106,143 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     setAnswersIds([]);
   };
 
+  /**
+   * Click handlers
+   *
+   *
+   */
+
+  const handleUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (
+      event.currentTarget.files === null ||
+      event.currentTarget.files.length < 1
+    ) {
+      return;
+    }
+    const firstFile = event.currentTarget.files[0];
+
+    if (firstFile.type !== 'application/json') {
+      messageDispatch({
+        type: 'ADD_MESSAGE',
+        payload: {
+          message: `Datei "${firstFile.name}" ist keine .json Datei.`,
+          type: 'error',
+        },
+      });
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsText(firstFile, 'UTF-8');
+    reader.onerror = (e) => {
+      messageDispatch({
+        type: 'ADD_MESSAGE',
+        payload: {
+          message: `Datei "${firstFile.name}" konnte nicht gelesen werden.`,
+          type: 'error',
+        },
+      });
+      return;
+    };
+    reader.onload = (e) => {
+      try {
+        const json = JSON.parse(e.target?.result as string);
+        if (json.contextState === undefined) {
+          throw new UploadError(
+            `Die Eigenschaft "contextState" existiert nicht in ${firstFile.name}.`,
+          );
+        }
+        if (json.contextState.questions === undefined) {
+          throw new UploadError(
+            `Die Eigenschaft "contextState.questions" existiert nicht in ${firstFile.name}.`,
+          );
+        }
+        if (json.contextState.answers === undefined) {
+          throw new UploadError(
+            `Die Eigenschaft "contextState.answers" existiert nicht in ${firstFile.name}.`,
+          );
+        }
+        if (json.contextState.title === undefined) {
+          throw new UploadError(
+            `Die Eigenschaft "contextState.title" existiert nicht in ${firstFile.name}.`,
+          );
+        }
+        const state: IQuestionsState = {
+          questions: [...json.contextState.questions],
+          answers: [...json.contextState.answers],
+          title: json.contextState.title,
+        }; //upload;
+        dispatch({ type: 'SET_STATE', payload: { state } });
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          messageDispatch({
+            type: 'ADD_MESSAGE',
+            payload: {
+              message: 'Kein valides JSON',
+              type: 'error',
+            },
+          });
+        } else if (error instanceof UploadError) {
+          messageDispatch({
+            type: 'ADD_MESSAGE',
+            payload: {
+              message: error.message,
+              type: 'error',
+            },
+          });
+        } else {
+          messageDispatch({
+            type: 'ADD_MESSAGE',
+            payload: {
+              message: error.message,
+              type: 'error',
+            },
+          });
+        }
+      }
+    };
+  };
+
+  const handleModalCancelClick: ClickFunction = (e) => {
+    setIsConfirmationModalActive(false);
+  };
+  const handleModalConfirmClick: (
+    event?: React.ChangeEvent<any>,
+    resetForm?: (
+      nextState?: Partial<FormikState<IFormikQuestionState>> | undefined,
+    ) => void,
+  ) => void = (_e, resetForm) => {
+    dispatch({ type: 'REMOVE_ANSWERS' });
+    resetStates();
+    resetForm?.();
+    setIsConfirmationModalActive(false);
+  };
   const handleModalClick: (event: React.ChangeEvent<any>) => void = (
     e: React.ChangeEvent<any>,
   ) => {
     e.preventDefault();
     setIsModalActive((prev) => !prev);
+  };
+
+  const answerDispatch = (
+    values: IFormikQuestionState,
+    resetForm: (
+      nextState?: Partial<FormikState<IFormikQuestionState>> | undefined,
+    ) => void,
+  ) => {
+    if (values.answersIds.length > 0) {
+      const answerQid = values.answersIds[0].split('-')[0];
+      if (parseInt(answerQid, 10) === qid) {
+        dispatch({
+          type: 'SET_ANSWER',
+          payload: {
+            index: qid,
+            answer:
+              values.answersIds[0] === undefined ? null : values.answersIds[0],
+          },
+        });
+        resetForm();
+      }
+    }
   };
 
   return (
@@ -132,27 +253,25 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
       >
         <div className='modal-background'></div>
         <div className='modal-content' onClick={handleModalClick}>
+          <button
+            onClick={handleModalClick}
+            className='modal-close is-large'
+            aria-label='close'
+          ></button>
           <div className='box' onClick={handleModalClick}>
             <QIntroNew isModal={true} />
           </div>
         </div>
-        <button
-          onClick={(e) => {
-            // console.log('click x modal');
-            e.preventDefault();
-            setIsModalActive((_) => false);
-          }}
-          className='modal-close is-large'
-          aria-label='close'
-        ></button>
       </div>
       {formReadyToRender === true && (
         <Formik
-          initialValues={{
-            answersIds: answersIds,
-            answer: undefined,
-            questionnaireTitle: questionnaireTitle,
-          }}
+          initialValues={
+            {
+              answersIds: answersIds,
+              answer: undefined,
+              questionnaireTitle: questionnaireTitle,
+            } as IFormikQuestionState
+          }
           enableReinitialize={true}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             // console.log('submitted', values);
@@ -176,28 +295,17 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
           }}
         >
           {({ values, isSubmitting, handleChange, resetForm }) => {
-            // const newState:Partial<FormikState<{ answersIds: string[]; answer: undefined; }>> = {answersIds:[...answersIds], answers: undefined}
-            // resetForm();
-            const answerDispatch = () => {
-              if (values.answersIds.length > 0) {
-                const answerQid = values.answersIds[0].split('-')[0];
-                if (parseInt(answerQid, 10) === qid) {
-                  dispatch({
-                    type: 'SET_ANSWER',
-                    payload: {
-                      index: qid,
-                      answer:
-                        values.answersIds[0] === undefined
-                          ? null
-                          : values.answersIds[0],
-                    },
-                  });
-                  resetForm();
-                }
-              }
-            };
             return (
               <>
+                {isConfirmationModalActive && (
+                  <Modal
+                    isActive={isConfirmationModalActive}
+                    handleConfirmClick={(e) => {
+                      handleModalConfirmClick(e, resetForm);
+                    }}
+                    handleCancelClick={handleModalCancelClick}
+                  ></Modal>
+                )}
                 <Form>
                   <Container>
                     <QToolBar
@@ -208,18 +316,21 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                         handleModalClick(e);
                       }}
                       handleReportClick={(e: React.ChangeEvent<any>) => {
-                        answerDispatch();
+                        answerDispatch(values, resetForm);
                         history.push(`/${RouteNames.questionnaire}/report`);
                       }}
                       handleResetClick={(e: React.ChangeEvent<any>) => {
-                        dispatch({ type: 'REMOVE_ANSWERS' });
-                        resetStates();
-                        resetForm();
+                        setIsConfirmationModalActive(true);
                       }}
-                    >
+                      handleUploadClick={handleUploadClick}
+                    ></QToolBar>
+                  </Container>
+                  <Container containerClassName={'container__--padding-top'}>
+                    <div className='buttons'>
                       <Pagination
                         pages={state.questions.length - 1}
                         currentPage={qid}
+                        showNumbers={true}
                         isRounded={false}
                         isSmall={true}
                         isCentered={true}
@@ -228,12 +339,12 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                           _page: number,
                         ) => {
                           // console.log(values.answersIds);
-                          answerDispatch();
+                          answerDispatch(values, resetForm);
                         }}
                       ></Pagination>
-                    </QToolBar>
+                    </div>
                   </Container>
-                  <Container>
+                  <Container containerClassName={'container__--padding-top'}>
                     <div className='field'>
                       <div className='control'>
                         <input
@@ -259,21 +370,30 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       label='Titel'
                     ></SpotEditorInput> */}
                   </Container>
+                  <div className='hero'>
+                    <div className='hero-body'>
+                      <Container>
+                        <h1 className='is-title'>{title}</h1>
+                        <h2 className='is-subtitle'>{question}</h2>
+                        <div className='content'>
+                          <p
+                            className={'has-text-weight-medium is-size-5'}
+                            id='qInfo'
+                            dangerouslySetInnerHTML={{ __html: qInfo }}
+                          />
+                        </div>
+                        <div className='content'>
+                          <p
+                            className={'is-italic'}
+                            id='qAddInfo'
+                            dangerouslySetInnerHTML={{ __html: qAddInfo }}
+                          />
+                        </div>
+                      </Container>
+                    </div>
+                  </div>
                   <Container>
-                    <h1 className='title is-1'>{title}</h1>
                     <div className='content'>
-                      <p>{qInfo}</p>
-                    </div>
-                    <div className='content'>
-                      <p className='title'>Frage:</p>
-
-                      <p>
-                        <strong>{question}</strong>
-                      </p>
-                      <p dangerouslySetInnerHTML={{ __html: qAddInfo }} />
-                    </div>
-                    <div className='content'>
-                      <p className='title'>Antworten:</p>
                       <div className='control'>
                         <FieldArray
                           name='answersIds'
@@ -281,7 +401,6 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                             return (
                               <>
                                 {curAnswers.map((ele, i) => {
-                                  // colorNameToIcon(ele.colorText)
                                   return (
                                     <div key={i} className='field'>
                                       <Field
@@ -308,20 +427,6 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                                         className={'radio label__answer'}
                                       >
                                         {ele.text}
-                                        {/* <span>
-                                          {values.answersIds.includes(
-                                            ele.id,
-                                          ) === true &&
-                                            colorNameToIcon(ele.colorText)}{' '}
-                                          {values.answersIds.includes(
-                                            ele.id,
-                                          ) === true &&
-                                            ele.qType !== undefined &&
-                                            questionTypeToIcon(
-                                              ele.qType,
-                                              ele.colorText,
-                                            )}
-                                        </span> */}
                                       </label>
                                     </div>
                                   );
@@ -333,29 +438,33 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       </div>
                     </div>
 
-                    <div className='content'>
-                      <p>
-                        <span>
-                          {selectedAnswer !== undefined &&
-                            values.answersIds.includes(selectedAnswer.id) ===
-                              true &&
-                            colorNameToIcon(selectedAnswer.colorText)}{' '}
-                          {selectedAnswer !== undefined &&
-                            values.answersIds.includes(selectedAnswer.id) ===
-                              true &&
-                            selectedAnswer.qType !== undefined &&
-                            questionTypeToIcon(
-                              selectedAnswer.qType,
-                              selectedAnswer.colorText,
-                            )}
-                        </span>{' '}
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: aAddInfo !== undefined ? aAddInfo : '',
-                          }}
-                        ></span>
-                      </p>
-                    </div>
+                    {
+                      <AnswerInfo
+                        selectedAnswer={selectedAnswer}
+                        formikValues={values}
+                        aAddInfo={aAddInfo}
+                      />
+                    }
+                  </Container>
+                  <div style={{ paddingTop: '2rem' }}>
+                    <br />
+                  </div>
+                  <Container>
+                    <Pagination
+                      showNumbers={false}
+                      pages={state.questions.length - 1}
+                      currentPage={qid}
+                      isRounded={false}
+                      isSmall={true}
+                      isCentered={true}
+                      onChange={(
+                        _event: React.ChangeEvent<any>,
+                        _page: number,
+                      ) => {
+                        // console.log(values.answersIds);
+                        answerDispatch(values, resetForm);
+                      }}
+                    ></Pagination>
                   </Container>
                 </Form>
               </>

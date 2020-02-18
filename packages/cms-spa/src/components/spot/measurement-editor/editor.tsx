@@ -26,7 +26,7 @@ import {
 import { Container } from '../../Container';
 import { prepareData } from '../../../lib/utils/me-prepare-data';
 import { IndeterminateCheckbox } from './indeterminate-checkbox';
-import { Modal } from './modal';
+import { Modal } from '../../util/modal';
 import { useAuth0 } from '../../../lib/auth/react-auth0-wrapper';
 import { REACT_APP_API_HOST } from '../../../lib/config';
 import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
@@ -360,7 +360,7 @@ export const MeasurementEditor: React.FC<{
           <>
             {' '}
             <Container>
-              <div className='buttons buttons__spot-actions--size'>
+              <div className='buttons buttons__--size'>
                 {(() => {
                   switch (resourceType) {
                     case 'predictions':

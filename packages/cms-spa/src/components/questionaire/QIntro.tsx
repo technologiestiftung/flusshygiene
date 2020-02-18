@@ -6,7 +6,7 @@ import { RouteNames } from '../../lib/common/enums';
 export const QIntroNew: React.FC<{ isModal?: boolean }> = ({ isModal }) => {
   return (
     <>
-      <Container columnClassName='is-8'>
+      <Container columnClassName='is-10'>
         <h1 className='is-title is-1'>Einleitung</h1>
         <div className='content'>
           <p>

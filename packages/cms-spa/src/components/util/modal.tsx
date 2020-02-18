@@ -1,6 +1,13 @@
 import React from 'react';
+import { FormikState } from 'formik';
+import { IFormikQuestionState } from '../questionaire/Question';
 export const Modal: React.FC<{
-  handleConfirmClick: () => void;
+  handleConfirmClick: (
+    event?: React.ChangeEvent<any>,
+    resetForm?: (
+      nextState?: Partial<FormikState<IFormikQuestionState>> | undefined,
+    ) => void,
+  ) => void;
   handleCancelClick: () => void;
   isActive: boolean;
 }> = ({ handleCancelClick, handleConfirmClick, isActive }) => (

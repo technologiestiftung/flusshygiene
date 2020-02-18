@@ -7,7 +7,7 @@ export const FormikButtons: React.FC<{
   infoModalClickHandler: () => void;
 }> = ({ props, handleCancelClick, infoModalClickHandler }) => {
   return (
-    <div className='buttons  buttons__spot-actions--size'>
+    <div className='buttons  buttons__--size'>
       <button
         className='button is-primary is-small'
         type='submit'
