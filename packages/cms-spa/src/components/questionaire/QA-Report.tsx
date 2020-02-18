@@ -3,12 +3,15 @@ import { useQuestions } from '../../contexts/questionaire';
 import { Container } from '../Container';
 import { Link, Redirect } from 'react-router-dom';
 import { RouteNames } from '../../lib/common/enums';
+import history from '../../lib/history';
+
 import {
   IconLink,
   colorNameToIcon,
   questionTypeToIcon,
   IconPDF,
   IconCode,
+  IconPrev,
 } from '../fontawesome-icons';
 import { IAnswer } from '../../lib/common/interfaces';
 import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
@@ -121,7 +124,15 @@ export const Report: React.FC = () => {
     return (
       <>
         <Container columnClassName={'is-8'}>
-          <div className='buttons'>
+          <div className='buttons buttons__--size'>
+            <Button
+              text='Zurück zum Formular'
+              handleClick={() => {
+                history.push(`/${RouteNames.questionnaire}/1`);
+              }}
+            >
+              <IconPrev></IconPrev>
+            </Button>
             <Link
               className='button is-small'
               to={{
@@ -144,6 +155,7 @@ export const Report: React.FC = () => {
               </span>{' '}
               <span>PDF</span>
             </Link>
+
             <Button
               text={'JSON'}
               handleClick={(e: React.ChangeEvent<any>) => {
@@ -248,23 +260,31 @@ export const Report: React.FC = () => {
                               <strong>Ihre Antwort: </strong>{' '}
                               {localAnswers[i][aId].text}{' '}
                             </p>
-                            <p>
-                              <span>
-                                {colorNameToIcon(
-                                  localAnswers[i][aId].colorText,
-                                )}{' '}
-                                {localAnswers[i][aId].qType !== undefined &&
-                                  questionTypeToIcon(
-                                    localAnswers[i][aId].qType!,
+                            <div
+                              className={
+                                localAnswers[i][aId].colorText === 'rot'
+                                  ? 'is-danger message'
+                                  : 'is-dark message'
+                              }
+                            >
+                              <div className='message-body'>
+                                <span>
+                                  {colorNameToIcon(
                                     localAnswers[i][aId].colorText,
-                                  )}
-                              </span>{' '}
-                              <span
-                                dangerouslySetInnerHTML={{
-                                  __html: localAnswers[i][aId].reportAddInfo,
-                                }}
-                              />
-                            </p>
+                                  )}{' '}
+                                  {localAnswers[i][aId].qType !== undefined &&
+                                    questionTypeToIcon(
+                                      localAnswers[i][aId].qType!,
+                                      localAnswers[i][aId].colorText,
+                                    )}
+                                </span>{' '}
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: localAnswers[i][aId].reportAddInfo,
+                                  }}
+                                />
+                              </div>
+                            </div>
                           </>
                         );
                       })()}
