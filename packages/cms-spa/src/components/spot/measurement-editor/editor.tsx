@@ -360,7 +360,7 @@ export const MeasurementEditor: React.FC<{
           <>
             {' '}
             <Container>
-              <div className='buttons buttons__spot-actions--size'>
+              <div className='buttons buttons__--size'>
                 {(() => {
                   switch (resourceType) {
                     case 'predictions':

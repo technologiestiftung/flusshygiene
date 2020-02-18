@@ -86,7 +86,8 @@ span.asteriks {
 
 //spot
 
-.buttons__spot-actions--size {
+.buttons__spot-actions--size,
+.buttons__--size {
   // flex-basis: 100%;
   .button {
     max-width: 170px;
@@ -94,6 +95,7 @@ span.asteriks {
     text-overflow: ellipsis;
   }
 }
+
 // card
 
 .card__profile--pad {

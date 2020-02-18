@@ -28,7 +28,7 @@ export const SpotButtonBar: React.FC<{
 }) => {
   return (
     <>
-      <div className='buttons buttons__spot-actions--size'>
+      <div className='buttons buttons__--size'>
         <ButtonIcon
           cssId='info'
           handleClick={handleInfoShowModeClick}
@@ -66,7 +66,7 @@ export const SpotButtonBar: React.FC<{
         </ButtonIcon> */}
       </div>
 
-      <div className='buttons buttons__spot-actions--size'>
+      <div className='buttons buttons__--size'>
         {/* <ButtonIcon
           cssId='sleep'
           text='Sleep'
