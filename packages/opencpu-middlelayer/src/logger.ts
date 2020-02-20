@@ -50,4 +50,5 @@ const logStream = {
   },
 };
 
+export default logger;
 export { logStream, logger };

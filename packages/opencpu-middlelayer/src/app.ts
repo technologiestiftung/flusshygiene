@@ -1,5 +1,4 @@
 import { REDIS_HOST, REDIS_PORT, SESSION_SECRET } from './common/constants';
-
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
@@ -10,7 +9,9 @@ import { router } from './http-router';
 import session from 'express-session';
 import uuidv4 from 'uuid/v4';
 import { timeoutMiddleware, sleepFuncCheck } from './middleware';
+import e from 'cors';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const RedisStore = require('connect-redis')(session);
 const client = redis.createClient({ host: REDIS_HOST, port: REDIS_PORT });
 client.on('error', console.error);
@@ -39,19 +40,25 @@ app.use(
     saveUninitialized: true,
   }),
 );
-const origins = [process.env.APP_HOST_1!, process.env.APP_HOST_2!];
+
+const whiteList = [process.env.APP_HOST_1!, process.env.APP_HOST_2!];
 if (process.env.NODE_ENV === 'development') {
-  origins.push(...['http://localhost:3000', 'http://localhost:8888']);
+  whiteList.push(...['http://localhost:3000', 'http://localhost:8888']);
 }
-app.use(
-  cors({
-    origin: origins,
-  }),
-);
+
+const corsOptions: e.CorsOptions = {
+  origin: function(origin: any, callback: any): void {
+    if (whiteList.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
-} else if (process.env.NODE_ENV === 'test') {
 } else {
   app.use(helmet());
   app.use(morgan('combined', { stream: logStream }));

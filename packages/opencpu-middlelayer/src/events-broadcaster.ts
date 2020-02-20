@@ -6,7 +6,7 @@ import { logger } from './logger';
 /**
  * SSE plugged from https://github.com/dpskvn/express-sse/blob/master/index.js
  */
-interface IServerSideEventPayload {
+interface ServerSideEventPayload {
   id?: number;
   event?: string;
   data: IObject;
@@ -14,18 +14,18 @@ interface IServerSideEventPayload {
 declare interface BroadCaster {
   on(event: 'passthrough', listener: (name: any) => void): this;
   on(event: string, listener: Function): this;
-  on(event: 'data', listener: (payload: IServerSideEventPayload) => void): this;
+  on(event: 'data', listener: (payload: ServerSideEventPayload) => void): this;
 }
 
 class BroadCaster extends EventEmitter {
-  public static getInstance() {
+  public static getInstance(): BroadCaster {
     if (!BroadCaster.instance) {
       BroadCaster.instance = new BroadCaster('Singleton');
     }
     return BroadCaster.instance;
   }
-  private id: number = 0;
-  private event: string = 'passthrough';
+  private id = 0;
+  private event = 'passthrough';
   private static instance: BroadCaster;
   private constructor(public readonly name: string) {
     super();
@@ -41,7 +41,7 @@ class BroadCaster extends EventEmitter {
     if (request.httpVersion !== '2.0') {
       response.setHeader('Connection', 'keep-alive');
     }
-    const dataHandler: (payload: IServerSideEventPayload) => void = (
+    const dataHandler: (payload: ServerSideEventPayload) => void = (
       payload,
     ) => {
       response.write(
