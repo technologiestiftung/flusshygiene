@@ -84,6 +84,7 @@ router.get(
   '/users/:userId([0-9]+)/bathingspots',
   checkJwt,
   checkScopes,
+  checkUser,
   getUserBathingspots,
 );
 
@@ -106,6 +107,7 @@ router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)',
   checkJwt,
   checkScopes,
+  checkUserAndSpot,
   getOneUserBathingspotById,
 );
 
@@ -113,6 +115,7 @@ router.post(
   '/users/:userId([0-9]+)/bathingspots',
   checkJwt,
   checkScopes,
+  checkUser,
   addBathingspotToUser,
 );
 
@@ -120,6 +123,7 @@ router.put(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)',
   checkJwt,
   checkScopes,
+  checkUserAndSpot,
   updateBathingspotOfUser,
 );
 
@@ -127,6 +131,7 @@ router.delete(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)',
   checkJwt,
   checkScopes,
+  checkUserAndSpot,
   deleteBathingspotOfUser,
 );
 
@@ -138,6 +143,8 @@ router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
   checkJwt,
   checkScopes,
+  checkUserAndSpot,
+  collectionCheck,
   getCollection,
 );
 
@@ -146,8 +153,8 @@ router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)',
   checkJwt,
   checkScopes,
-  checkUserAndSpot,
   collectionCheck,
+  checkUserAndSpot,
   getCollectionsSubItem,
 );
 
@@ -166,8 +173,8 @@ router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
   checkJwt,
   checkScopes,
-  checkUserAndSpot,
   collectionCheck,
+  checkUserAndSpot,
   getGenericInputMeasurements,
 );
 
@@ -176,8 +183,8 @@ router.get(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9]+)',
   checkJwt,
   checkScopes,
-  checkUserAndSpot,
   collectionCheck,
+  checkUserAndSpot,
   getGenericInputMeasurements,
 );
 
@@ -186,8 +193,8 @@ router.delete(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/',
   checkJwt,
   checkScopes,
-  checkUserAndSpot,
   collectionCheck,
+  checkUserAndSpot,
   deleteCollectionSubItemsList,
 );
 
@@ -196,8 +203,8 @@ router.delete(
   '/users/:userId([0-9]+)/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9]+)',
   checkJwt,
   checkScopes,
-  checkUserAndSpot,
   collectionCheck,
+  checkUserAndSpot,
   deleteSubItemMeasurement,
 );
 

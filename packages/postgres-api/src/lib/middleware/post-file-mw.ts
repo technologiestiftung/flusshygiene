@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { HttpCodes } from '../common';
-import { getSpot } from '../utils/spot-repo-helpers';
+import { getUsersSpot } from '../utils/spot-repo-helpers';
 import {
   errorResponse,
   responder,
@@ -21,7 +21,7 @@ export const postFileMiddleWare = async (
         success: false,
       });
     } else {
-      const spot = await getSpot(userId, spotId);
+      const spot = await getUsersSpot(userId, spotId);
       // console.log(spot);
       if (spot !== undefined) {
         // check user

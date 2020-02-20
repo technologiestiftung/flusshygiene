@@ -5,7 +5,7 @@ import { findByName, getRegionsList } from '../../utils/region-repo-helpers';
 import {
   findByUserAndRegion,
   getAllSpotsFromUser,
-  getSpot,
+  getUsersSpot,
   getSpotCount,
 } from '../../utils/spot-repo-helpers';
 import { getUserById } from '../../utils/user-repo-helpers';
@@ -81,7 +81,7 @@ export const getOneUserBathingspotById: getResponse = async (
   try {
     const userId = parseInt(request.params.userId, 10);
     const spotId = parseInt(request.params.spotId, 10);
-    const spotFromUser = await getSpot(userId, spotId);
+    const spotFromUser = await getUsersSpot(userId, spotId);
     // responderWrongIdOrSuccess(spotFromUser, response);
     if (spotFromUser === undefined) {
       responderWrongId(response);

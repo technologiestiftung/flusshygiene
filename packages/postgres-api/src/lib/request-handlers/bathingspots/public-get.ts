@@ -3,7 +3,10 @@ import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { getResponse, HttpCodes } from '../../common';
 import { SUCCESS } from '../../messages';
 import { findByName, getRegionsList } from '../../utils/region-repo-helpers';
-import { findSpotByRegionId } from '../../utils/spot-repo-helpers';
+import {
+  findSpotByRegionId,
+  getPublicSpotCount,
+} from '../../utils/spot-repo-helpers';
 import {
   errorResponse,
   responder,
@@ -57,19 +60,20 @@ export const getBathingspots: getResponse = async (request, response) => {
     response.status(HttpCodes.internalError).json(errorResponse(e));
   }
 };
-export const getSingleBathingspot: getResponse = async (request, response) => {
+export const getSingleBathingspot: getResponse = async (_request, response) => {
   let spot: Bathingspot | undefined;
   try {
-    spot = await getRepository(Bathingspot).findOne(request.params.id);
+    spot = response.locals.spot; // await getRepository(Bathingspot).findOne(request.params.id);
     if (spot === undefined) {
       responderWrongId(response);
-    } else {
-      responder(
-        response,
-        HttpCodes.success,
-        successResponse(`Bathingspots with id: ${spot.id}`, [spot]),
-      );
+      return;
     }
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(`Bathingspots with id: ${spot.id}`, [spot]),
+    );
+    return;
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));
   }
@@ -124,5 +128,21 @@ export const getBathingspotsByRegion: getResponse = async (
     }
   } catch (e) {
     response.status(HttpCodes.internalError).json(errorResponse(e));
+  }
+};
+
+/**
+ * Gets the count of bathingspots from user
+ */
+export const getPublicSpotsCount: getResponse = async (_request, response) => {
+  try {
+    const count = await getPublicSpotCount();
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(SUCCESS.success200, [count], false),
+    );
+  } catch (e) {
+    responder(response, HttpCodes.internalError, errorResponse(e));
   }
 };

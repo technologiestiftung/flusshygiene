@@ -92,11 +92,13 @@ describe('Testing bathingspot limits', () => {
     // console.log(ures.body.data);
     const user = ures.body.data[0];
 
-    const res500_1 = await request(app)
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const res400_1 = await request(app)
       .post(`/api/v1/users/${user.id}/bathingspots/`)
       .send({ name: 'foo', isPublic: true, influencePurificationPlant: 'foo' })
       .set(headers);
-    const res500_2 = await request(app)
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const res400_2 = await request(app)
       .post(`/api/v1/users/${user.id}/bathingspots/`)
       .send({
         name: 'foo',
@@ -104,11 +106,13 @@ describe('Testing bathingspot limits', () => {
         influenceCombinedSewerSystem: 'foo',
       })
       .set(headers);
-    const res500_3 = await request(app)
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const res400_3 = await request(app)
       .post(`/api/v1/users/${user.id}/bathingspots/`)
       .send({ name: 'foo', isPublic: true, influenceRainwater: 'foo' })
       .set(headers);
-    const res500_4 = await request(app)
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const res400_4 = await request(app)
       .post(`/api/v1/users/${user.id}/bathingspots/`)
       .send({ name: 'foo', isPublic: true, influenceAgriculture: 'foo' })
       .set(headers);
@@ -129,12 +133,11 @@ describe('Testing bathingspot limits', () => {
         influencePurificationPlant: 'unknown',
       })
       .set(headers);
-    // console.log(res500.status);
 
-    expect(res500_1.status).toBe(500);
-    expect(res500_2.status).toBe(500);
-    expect(res500_3.status).toBe(500);
-    expect(res500_4.status).toBe(500);
+    expect(res400_1.status).toBe(400);
+    expect(res400_2.status).toBe(400);
+    expect(res400_3.status).toBe(400);
+    expect(res400_4.status).toBe(400);
     // expect(console.error).toHaveBeenCalledTimes(8);
     expect(res201no.status).toBe(201);
     expect(res201yes.status).toBe(201);

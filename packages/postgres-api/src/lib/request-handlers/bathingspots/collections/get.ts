@@ -14,21 +14,24 @@ import {
   successResponse,
 } from '../../responders';
 
-import { getSpot, getSpotWithRelation } from '../../../utils/spot-repo-helpers';
+import {
+  // getUsersSpot,
+  getSpotWithRelation,
+} from '../../../utils/spot-repo-helpers';
 
 import { GenericInput, PurificationPlant } from '../../../../orm/entity';
-import { collectionNames } from './collections';
+// import { collectionNames } from './collections';
 
 export const getGenericInputMeasurements: getResponse = async (
   request,
   response,
 ) => {
   try {
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
+    // const userId = parseInt(request.params.userId, 10);
+    // const spotId = parseInt(request.params.spotId, 10);
     const itemId = request.params.itemId;
     const subItemId = parseInt(request.params.subItemId, 10);
-    const collectionName = request.params.collectionName;
+    const collectionName = response.locals.collectionName; //request.params.collectionName;
     const allowedRepos = ['genericInputs', 'purificationPlants'];
     const repoName = collectionRepoMapping[collectionName];
 
@@ -39,43 +42,49 @@ export const getGenericInputMeasurements: getResponse = async (
         )}"`,
         success: false,
       });
-    } else {
-      const spot = await getSpot(userId, spotId);
-      if (spot === undefined) {
-        responderWrongId(response);
-      } else {
-        let collection: GenericInput | PurificationPlant | undefined;
-        switch (repoName) {
-          case 'GenericInput':
-            collection = await getGIWithRelations(itemId);
-            break;
-          case 'PurificationPlant':
-            collection = await getPPlantWithRelations(itemId);
-            break;
-        }
-        // console.log('collection', collection);
-        if (collection === undefined) {
-          responderWrongId(response);
-        } else {
-          let res: any = [];
-          if (subItemId !== undefined && isNaN(subItemId) === false) {
-            collection.measurements.forEach((elem: any) => {
-              if (elem.id === subItemId) {
-                res.push(elem);
-              }
-            });
-          } else {
-            res = collection.measurements;
-          }
-
-          responder(
-            response,
-            HttpCodes.success,
-            successResponse(`${repoName} measurements.`, res),
-          );
-        }
-      }
+      return;
     }
+    // else {
+    const spot = response.locals.spot; //await getUsersSpot(userId, spotId);
+    if (spot === undefined) {
+      responderWrongId(response);
+      return;
+    }
+    // else {
+    let collection: GenericInput | PurificationPlant | undefined;
+    switch (repoName) {
+      case 'GenericInput':
+        collection = await getGIWithRelations(itemId);
+        break;
+      case 'PurificationPlant':
+        collection = await getPPlantWithRelations(itemId);
+        break;
+    }
+    // console.log('collection', collection);
+    if (collection === undefined) {
+      responderWrongId(response);
+      return;
+    }
+    // else {
+    let res: any = [];
+    if (subItemId !== undefined && isNaN(subItemId) === false) {
+      collection.measurements.forEach((elem: any) => {
+        if (elem.id === subItemId) {
+          res.push(elem);
+        }
+      });
+    } else {
+      res = collection.measurements;
+    }
+
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(`${repoName} measurements.`, res),
+    );
+    // }
+    // }
+    // }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }
@@ -86,39 +95,37 @@ export const getGenericInputMeasurements: getResponse = async (
  */
 export const getCollectionsSubItem: getResponse = async (request, response) => {
   try {
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
+    // const userId = parseInt(request.params.userId, 10);
+    // const spotId = parseInt(request.params.spotId, 10);
+    const collectionName = response.locals.collectionName;
     const itemId = request.params.itemId;
-    const collectionName = request.params.collectionName;
-    if (collectionNames.includes(collectionName) === false) {
-      responder(response, HttpCodes.badRequest, {
-        message: `"${collectionName}" not included in "${JSON.stringify(
-          collectionNames,
-        )}"`,
-        success: false,
-      });
+    // const collectionName = request.params.collectionName;
+    // if (collectionNames.includes(collectionName) === false) {
+    //   responder(response, HttpCodes.badRequest, {
+    //     message: `"${collectionName}" not included in "${JSON.stringify(
+    //       collectionNames,
+    //     )}"`,
+    //     success: false,
+    //   });
+    //   return;
+    // }
+    const spot = response.locals.spot; //await getUsersSpot(userId, spotId);
+    if (spot === undefined) {
+      responderWrongId(response);
       return;
-    } else {
-      const spot = await getSpot(userId, spotId);
-      if (spot === undefined) {
-        responderWrongId(response);
-        return;
-      } else {
-        const repoName = collectionRepoMapping[request.params.collectionName];
-        const collection = await getColletionItemById(itemId, repoName);
-        if (collection === undefined) {
-          responderWrongId(response);
-          return;
-        } else {
-          responder(
-            response,
-            HttpCodes.success,
-            successResponse(`${itemId} from ${collectionName}`, [collection]),
-          );
-          return;
-        }
-      }
     }
+    const repoName = collectionRepoMapping[request.params.collectionName];
+    const collection = await getColletionItemById(itemId, repoName);
+    if (collection === undefined) {
+      responderWrongId(response);
+      return;
+    }
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(`${itemId} from ${collectionName}`, [collection]),
+    );
+    return;
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
     return;
@@ -132,44 +139,46 @@ export const getCollectionsSubItem: getResponse = async (request, response) => {
  * Not the values though
  *
  */
+// TODO: User is not needed anmore. Check is done by middleware
+// TODO: spot can be found in app.locals.spot
+// TODO: Middleware for publicc spots
 export const getCollection: getResponse = async (request, response) => {
   try {
-    const userId = parseInt(request.params.userId, 10);
-    const spotId = parseInt(request.params.spotId, 10);
+    // const userId = parseInt(request.params.userId, 10);
+    // const spotId = parseInt(request.params.spotId, 10);
     const collectionId = request.params.collectionName;
-    if (collectionNames.includes(collectionId) === false) {
-      responder(response, HttpCodes.badRequest, {
-        message: `"${collectionId}" not included in "${JSON.stringify(
-          collectionNames,
-        )}"`,
-        success: false,
-      });
-    } else {
-      const spot = await getSpot(userId, spotId); // await query.getOne();
-      if (spot === undefined) {
-        responderWrongId(response);
-      } else {
-        const spotWithRelation = await getSpotWithRelation(
-          spot.id,
-          collectionId,
-        ); // await query.getOne();
-        // if (spotWithRelation === undefined) {
-        //   throw new Error(
-        //     `Spot with id ${spot.id} could not be loaded even though it exists`,
-        //   );
-        // } else {
-        const entityObj = JSON.parse(JSON.stringify(spotWithRelation));
-        responder(
-          response,
-          HttpCodes.success,
-          successResponse(
-            `spot ${spotId} with ${collectionId}`,
-            entityObj[collectionId],
-          ),
-        );
-        // }
-      }
+    // if (collectionNames.includes(collectionId) === false) {
+    //   responder(response, HttpCodes.badRequest, {
+    //     message: `"${collectionId}" not included in "${JSON.stringify(
+    //       collectionNames,
+    //     )}"`,
+    //     success: false,
+    //   });
+    //   return;
+    // }
+    const spot = response.locals.spot; // await getUsersSpot(userId, spotId); // await query.getOne();
+
+    if (spot === undefined) {
+      responderWrongId(response);
+      return;
     }
+
+    const spotWithRelation = await getSpotWithRelation(spot.id, collectionId); // await query.getOne();
+    // if (spotWithRelation === undefined) {
+    //   throw new Error(
+    //     `Spot with id ${spot.id} could not be loaded even though it exists`,
+    //   );
+    // } else {
+    const entityObj = JSON.parse(JSON.stringify(spotWithRelation));
+    responder(
+      response,
+      HttpCodes.success,
+      successResponse(
+        `spot ${spot.id} with ${collectionId}`,
+        entityObj[collectionId],
+      ),
+    );
+    // }
   } catch (error) {
     responder(response, HttpCodes.internalError, errorResponse(error));
   }

@@ -66,10 +66,10 @@ export const errorResponse: ErrorResponder = (error) => {
     // console.error(error);
     throw error;
   } else {
-    // console.error(error);
+    const name = error.constructor.name;
     return buildPayload(
       false,
-      `internal server error: "${
+      `${name !== undefined ? name : 'Error'}: "${
         !(error instanceof ValidationError) ? error.message : 'ValidationError'
       }"`,
       undefined,

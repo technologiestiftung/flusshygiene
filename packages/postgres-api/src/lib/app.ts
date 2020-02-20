@@ -15,7 +15,7 @@ import session from 'express-session';
 import uuidv4 from 'uuid/v4';
 import { cookieListing } from './middleware/cookie-listing';
 import { logger } from './logger';
-import publicRoutes from './routes-public';
+import routesPublic from './routes-public';
 import { errorHandler } from './middleware/errorHandler';
 import { User, PurificationPlant, GenericInput } from '../orm/entity';
 
@@ -182,6 +182,7 @@ const corsOptions: CorsOptions = {
   },
 };
 
+// app.use(limiter);
 app.use(cors(corsOptions));
 if (process.env.NODE_ENV === 'development') {
   app.options('*', cors());
@@ -193,7 +194,8 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-app.use('/api/v1/public', publicRoutes);
+app.use('/api/v1/public', routesPublic);
+
 app.use(
   session({
     genid: function(_req: any) {

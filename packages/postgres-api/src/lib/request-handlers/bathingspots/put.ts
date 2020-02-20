@@ -8,7 +8,7 @@ import { getMatchingValues } from '../../utils/get-matching-values-from-request'
 // import { createSpotWithValues } from '../../utils/spot-helpers';
 
 import { findByName } from '../../utils/region-repo-helpers';
-import { getSpot } from '../../utils/spot-repo-helpers';
+import { getUsersSpot } from '../../utils/spot-repo-helpers';
 import {
   errorResponse,
   responder,
@@ -27,7 +27,7 @@ export const updateBathingspotOfUser: putResponse = async (
     const filteredPropNames = await getEntityFields('Bathingspot');
     const userId = parseInt(request.params.userId, 10);
     const spotId = parseInt(request.params.spotId, 10);
-    const spotFromUser = await getSpot(userId, spotId);
+    const spotFromUser = await getUsersSpot(userId, spotId);
     if (spotFromUser instanceof Bathingspot) {
       const providedValues = getMatchingValues(
         request.body,
