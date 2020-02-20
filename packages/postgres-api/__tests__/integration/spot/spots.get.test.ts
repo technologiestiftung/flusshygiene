@@ -1,3 +1,4 @@
+import { UserRole } from './../../../src/lib/common/index';
 import { User } from '../../../src/orm/entity/User';
 jest.useFakeTimers();
 import express, { Application } from 'express';
@@ -13,6 +14,7 @@ import {
   readTokenFromDisc,
   reloadTestingDatabases,
 } from '../../test-utils';
+import { Bathingspot } from '../../../src/orm/entity/Bathingspot';
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -119,17 +121,27 @@ describe('testing users/[:userId]/bathingspots/[:spotId]', () => {
     done();
   });
 
-  test.skip('user should have a bathingspot with id', async (done) => {
+  test('user should have a bathingspot with id', async (done) => {
     const userRepo = getRepository(User);
-    const usersWithRelations = await userRepo.find({
-      relations: ['bathingspots'],
+    const spotRepo = getRepository(Bathingspot);
+    const user = userRepo.create({
+      email: 'foo@foo.com',
+      firstName: 'foo',
+      lastName: 'foo',
+      role: UserRole.creator,
     });
+    const spot = spotRepo.create({ isPublic: true, name: 'foo' });
+    user.bathingspots = [spot];
+    const uRes = await userRepo.save(user);
+    const sRes = await spotRepo.save(spot);
+
+    // const usersWithRelations = await userRepo.find({
+    //   relations: ['bathingspots'],
+    // });
 
     // console.log(usersWithRelations);
     const res = await request(app)
-      .get(
-        `/api/v1/users/${usersWithRelations[0].id}/bathingspots/${usersWithRelations[0].bathingspots[0].id}`,
-      )
+      .get(`/api/v1/users/${uRes.id}/bathingspots/${sRes.id}`)
       .set(headers);
     expect(res.status).toBe(200);
     // console.log(res.body);

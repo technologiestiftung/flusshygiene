@@ -1,4 +1,4 @@
-import { getManager, getRepository } from 'typeorm';
+import { getManager, getRepository, QueryFailedError } from 'typeorm';
 import { Region } from '../../../orm/entity/Region';
 import { User } from '../../../orm/entity/User';
 import { HttpCodes, postResponse, UserRole } from '../../common';
@@ -68,6 +68,10 @@ export const addBathingspotToUser: postResponse = async (request, response) => {
     //   responderMissingBodyValue(response, filteredPropNames);
     // }
   } catch (e) {
-    responder(response, HttpCodes.internalError, errorResponse(e));
+    if (e instanceof QueryFailedError) {
+      responder(response, HttpCodes.badRequest, errorResponse(e));
+    } else {
+      responder(response, HttpCodes.internalError, errorResponse(e));
+    }
   }
 };

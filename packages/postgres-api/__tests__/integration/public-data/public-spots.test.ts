@@ -1,17 +1,21 @@
+/**
+ * Use this layout for creating new integration tests
+ * that use the API auth0 authentification
+ */
 jest.useFakeTimers();
-import express, { Application } from 'express';
-import path from 'path';
+import express from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
-import { Connection } from 'typeorm';
-import { DefaultRegions, UserRole } from '../../../src/lib/common';
-import routes from '../../../src/lib/routes';
+import { Connection, getRepository } from 'typeorm';
+
+import routesPublic from '../../../src/lib/routes-public';
 import {
   closeTestingConnections,
   createTestingConnections,
-  readTokenFromDisc,
   reloadTestingDatabases,
 } from '../../test-utils';
+import { Bathingspot } from '../../../src/orm/entity';
+
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
 // ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -19,16 +23,11 @@ import {
 // ███████║███████╗   ██║   ╚██████╔╝██║
 // ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
 
-const token = readTokenFromDisc(
-  path.resolve(__dirname, '../../.test.token.json'),
-);
-const headers = {
-  authorization: `${token.token_type} ${token.access_token}`,
-  Accept: 'application/json',
-};
+// const token = readTokenFromDisc(
+//   path.resolve(__dirname, '../../.test.token.json'),
+// );
 
-describe('testing put users', () => {
-  let app: Application;
+describe('misc functions that need a DB', () => {
   let connections: Connection[];
 
   beforeAll(async (done) => {
@@ -40,14 +39,7 @@ describe('testing put users', () => {
     connections = await createTestingConnections();
     done();
   });
-  // beforeEach(async (done) => {
-  //   try {
-  //     await reloadTestingDatabases(connections);
-  //     done();
-  //   } catch (err) {
-  //     console.warn(err.message);
-  //   }
-  // });
+
   afterAll(async (done) => {
     try {
       await reloadTestingDatabases(connections);
@@ -59,10 +51,10 @@ describe('testing put users', () => {
     }
   });
 
-  app = express();
+  const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use('/api/v1/', routes);
+  app.use('/api/v1/', routesPublic);
 
   // ███████╗███████╗████████╗██╗   ██╗██████╗
   // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -78,72 +70,31 @@ describe('testing put users', () => {
   // ██████╔╝╚██████╔╝██║ ╚████║███████╗
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
-  test('update user', async (done) => {
-    const usersres = await request(app)
-      .get('/api/v1/users')
-      .set(headers);
-    const id = usersres.body.data[usersres.body.data.length - 1].id;
-    const res = await request(app)
-      .put(`/api/v1/users/${id}`)
-      .send({
-        email: 'foo@test.com',
-      })
-      .set(headers);
-    expect(res.status).toBe(201);
-    expect(res.body.success).toBe(true);
+  test('route get spots should be accesable', async (done) => {
+    const res = await request(app).get('/api/v1/bathingspots/');
+    expect(res.status).toBe(200);
     expect(Array.isArray(res.body.data)).toBe(true);
     done();
   });
 
-  test('update user', async (done) => {
-    const newUserRes = await request(app)
-      .post(`/api/v1/users/`)
-      .send({
-        email: 'boom@test.com',
-        firstName: 'boom',
-        lastName: 'test',
-        region: DefaultRegions.niedersachsen,
-        role: UserRole.creator,
-      })
-      .set(headers);
-
-    await request(app)
-      .post(`/api/v1/users/${newUserRes.body.data[0].id}/bathingspots`)
-      .send({
-        isPublic: false,
-        name: 'intermidiante spot',
-      })
-      .set(headers);
-
-    const res = await request(app)
-      .put(`/api/v1/users/${newUserRes.body.data[0].id}`)
-      .send({
-        email: 'foo@test.com',
-        region: DefaultRegions.niedersachsen,
-      })
-      .set(headers);
-
-    expect(res.status).toBe(201);
-    expect(res.body.success).toBe(true);
-    expect(Array.isArray(res.body.data)).toBe(true);
-    await request(app).delete(`/api/v1/users/${newUserRes.body.data[0].id}`);
-    done();
-  });
-
-  test('user fail due to undefined user id', async (done) => {
-    const res = await request(app)
-      .put(`/api/v1/users/${1000}`)
-      .set(headers);
-    expect(res.status).toBe(404);
-    expect(res.body.success).toBe(false);
-    done();
-  });
-  test('user fail due to wrong route', async (done) => {
-    const res = await request(app)
-      .put(`/api/v1/users/`)
-      .set(headers);
-    expect(res.status).toBe(404);
-
+  test('should get only public spots', async (done) => {
+    const src = [
+      { isPublic: true, name: 'special' },
+      { isPublic: false, name: 'special' },
+      { isPublic: false, name: 'special' },
+      { isPublic: false, name: 'special' },
+    ];
+    const spotRepo = getRepository(Bathingspot);
+    const spots = [];
+    for (const item of src) {
+      const spot = spotRepo.create(item);
+      const res = await spotRepo.save(spot);
+      spots.push(res);
+    }
+    const response = await request(app).get('/api/v1/bathingspots');
+    expect(
+      response.body.data.filter((item: any) => item.name === 'special').length,
+    ).toBe(1);
     done();
   });
 });

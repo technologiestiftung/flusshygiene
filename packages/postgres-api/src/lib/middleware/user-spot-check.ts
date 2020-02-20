@@ -1,4 +1,4 @@
-import { getSpot } from './../utils/spot-repo-helpers';
+import { getUsersSpot } from './../utils/spot-repo-helpers';
 import { NextFunction, Request, Response } from 'express';
 import {
   responderWrongId,
@@ -7,6 +7,8 @@ import {
 } from '../request-handlers/responders';
 import { HttpCodes } from '../common';
 import { getUserById } from '../utils/user-repo-helpers';
+import { Bathingspot } from '../../orm/entity/Bathingspot';
+import { User } from '../../orm/entity/User';
 export const checkUserAndSpot = async (
   request: Request,
   response: Response,
@@ -15,7 +17,12 @@ export const checkUserAndSpot = async (
   try {
     const spotId = parseInt(request.params.spotId, 10);
     const userId = parseInt(request.params.userId, 10);
-    const spot = await getSpot(userId, spotId);
+    const spot = await getUsersSpot(userId, spotId);
+    if (spot instanceof Bathingspot === false) {
+      if (spot instanceof Error) {
+        throw spot;
+      }
+    }
     if (spot !== undefined) {
       response.locals.spot = spot;
       next();
@@ -35,7 +42,13 @@ export const checkUser = async (
   // const userId = parseInt(request.params.userId, 10);
   try {
     const user = await getUserById(request.params.userId);
+
     if (user !== undefined) {
+      if (user instanceof User === false) {
+        if (user instanceof Error) {
+          throw user;
+        }
+      }
       response.locals.user = user;
       next();
     } else {

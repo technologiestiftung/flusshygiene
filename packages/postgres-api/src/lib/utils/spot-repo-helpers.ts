@@ -1,11 +1,24 @@
 import { getRepository, SelectQueryBuilder } from 'typeorm';
 import { Bathingspot } from '../../orm/entity/Bathingspot';
 
+export const getSpot: (
+  spotId: number,
+) => Promise<Bathingspot | undefined> = async (spotId) => {
+  try {
+    const spot = await getRepository(Bathingspot)
+      .createQueryBuilder('bathingspot')
+      .where('bathingspot.id = :spotId', { spotId })
+      .getOne();
+    return spot;
+  } catch (error) {
+    return error;
+  }
+};
 /**
  * Get a bathingspot by userid and spotid
  *
  */
-export const getSpot: (
+export const getUsersSpot: (
   userId: number,
   spotId: number,
 ) => Promise<Bathingspot> = async (userId, spotId) => {
@@ -33,6 +46,20 @@ export const getSpotCount: (userId: number) => Promise<number> = async (
     const query = spotRepo
       .createQueryBuilder('bathingspot')
       .where('"bathingspot"."userId" = :userId', { userId });
+    const count = await query.getCount();
+    return count;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getPublicSpotCount: () => Promise<number> = async () => {
+  try {
+    const spotRepo = getRepository(Bathingspot);
+
+    const query = spotRepo
+      .createQueryBuilder('bathingspot')
+      .where('"bathingspot"."isPublic" = :isPublic', { isPublic: true });
     const count = await query.getCount();
     return count;
   } catch (error) {

@@ -7,17 +7,12 @@ import { Application } from 'express';
 import express = require('express');
 import path from 'path';
 import request from 'supertest';
-import { Connection } from 'typeorm';
 import {
   getBathingspots,
   getSingleBathingspot,
 } from '../src/lib/request-handlers/bathingspots';
 import routes from '../src/lib/routes';
-import {
-  closeTestingConnections,
-  createTestingConnections,
-  readTokenFromDisc,
-} from './test-utils';
+import { readTokenFromDisc } from './test-utils';
 import publicRoutes from '../src/lib/routes-public';
 // let app: Application;
 const token = readTokenFromDisc(path.resolve(__dirname, './.test.token.json'));
@@ -83,23 +78,24 @@ describe('testing missing db connection', () => {
     done();
   });
 
-  it.skip('should return 500 on route getUsers id bathingspots', async (done) => {
+  test('should return 500 on route getUsers id bathingspots', async (done) => {
     const res = await request(app)
       .get('/api/v1/users/1/bathingspots')
       .set(headers);
+
     expect(res.status).toBe(500);
     done();
   });
-  it.skip('should return 500 route getUsers id bathingspot id', async (done) => {
+  test('should return 500 route getUsers id bathingspot id', async (done) => {
     const res = await request(app)
       .get('/api/v1/users/1/bathingspots/1')
       .set(headers);
-    console.log('in test -> res', res);
+    // console.log('in test -> res', res);
     expect(res.status).toBe(500);
     done();
   });
 
-  it.skip('should return 500 route post user id bathingspot', async (done) => {
+  test('should return 500 route post user id bathingspot', async (done) => {
     const res = await request(app)
       .post('/api/v1/users/1/bathingspots')
       .send({ name: 'foo', isPublic: true })
@@ -108,7 +104,7 @@ describe('testing missing db connection', () => {
     done();
   });
 
-  it.skip('should return 500 route put user id bathingspot', async (done) => {
+  test('should return 500 route put user id bathingspot', async (done) => {
     const res = await request(app)
       .put('/api/v1/users/1/bathingspots/1')
       .send({ name: 'foo', isPublic: true })
@@ -116,7 +112,7 @@ describe('testing missing db connection', () => {
     expect(res.status).toBe(500);
     done();
   });
-  it.skip('should return 500 route delete user id bathingspot', async (done) => {
+  test('should return 500 route delete user id bathingspot', async (done) => {
     const res = await request(app)
       .delete('/api/v1/users/1/bathingspots/1')
       .send({ force: true })
@@ -124,7 +120,7 @@ describe('testing missing db connection', () => {
     expect(res.status).toBe(500);
     done();
   });
-  it.skip('should return 500 on route post new user due to missing connection', async (done) => {
+  test('should return 500 on route post new user due to missing connection', async (done) => {
     const res = await request(app)
       .post('/api/v1/users')
       .set(headers);
@@ -188,6 +184,7 @@ describe('testing missing db connection', () => {
     expect(res.status).toBe(500);
     done();
   });
+
   it('should return 500 get bathingspot by id', async (done) => {
     // getBathingspot);
     const res = await request(app)

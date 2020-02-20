@@ -1,5 +1,5 @@
 jest.useFakeTimers();
-import express, { Application } from 'express';
+import express from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
 import { Connection, getRepository } from 'typeorm';
@@ -31,7 +31,6 @@ const headers = {
 };
 
 describe('testing get users', () => {
-  let app: Application;
   let connections: Connection[];
 
   beforeAll(async (done) => {
@@ -62,18 +61,17 @@ describe('testing get users', () => {
     }
   });
 
-  app = express();
+  const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use('/api/v1/', routes);
 
-  test.skip('route should fail due to wrong route', async (done) => {
-    expect.assertions(2);
+  test('default route', async (done) => {
     const res = await request(app)
       .get('/api/v1/')
       .set(headers);
-    expect(res.status).toBe(404);
-    expect(res.body.success).toBe(false);
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
     done();
   });
 

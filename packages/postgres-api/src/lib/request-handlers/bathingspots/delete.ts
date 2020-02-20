@@ -3,7 +3,7 @@ import { Bathingspot } from '../../../orm/entity/Bathingspot';
 import { deleteResponse, HttpCodes } from '../../common';
 import { SUCCESS } from '../../messages';
 import { getPropsValueGeneric } from '../../utils/get-properties-values-generic';
-import { getSpot } from '../../utils/spot-repo-helpers';
+import { getUsersSpot } from '../../utils/spot-repo-helpers';
 import {
   errorResponse,
   responder,
@@ -20,7 +20,7 @@ export const deleteBathingspotOfUser: deleteResponse = async (
   try {
     const userId = parseInt(request.params.userId, 10);
     const spotId = parseInt(request.params.spotId, 10);
-    const spot: Bathingspot | undefined = await getSpot(userId, spotId);
+    const spot: Bathingspot | undefined = await getUsersSpot(userId, spotId);
     if (spot instanceof Bathingspot) {
       if (spot.isPublic === true && hasForce === false) {
         responderMissingBodyValue(response, { force: true });

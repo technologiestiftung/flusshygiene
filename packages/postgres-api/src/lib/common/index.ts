@@ -69,6 +69,12 @@ export type middlewareFunc = (
   next: NextFunction,
 ) => void;
 
+export type AsyncMiddlewareFunction = (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => Promise<void>;
+
 // responder.ts
 export type Responder = (
   response: Response,

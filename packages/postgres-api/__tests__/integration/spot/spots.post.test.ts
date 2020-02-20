@@ -37,7 +37,6 @@ const headers = {
 };
 
 describe('testing bathingspots post for a specific user', () => {
-  let app: Application;
   let connections: Connection[];
 
   beforeAll(async (done) => {
@@ -68,7 +67,7 @@ describe('testing bathingspots post for a specific user', () => {
     }
   });
 
-  app = express();
+  const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use('/api/v1/', routes);
@@ -87,7 +86,7 @@ describe('testing bathingspots post for a specific user', () => {
   // ██████╔╝╚██████╔╝██║ ╚████║███████╗
   // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
-  test.skip('should fail due to missing isPublic values', async (done) => {
+  test('should fail due to missing isPublic values', async (done) => {
     const userRepo = getRepository(User);
     const users: User[] = await userRepo.find({
       relations: ['bathingspots'],
@@ -104,19 +103,18 @@ describe('testing bathingspots post for a specific user', () => {
         elevation: 1,
         /*isPublic: true,*/
         latitude: 13,
-        location: {},
         longitude: 52,
         name: 'Sweetwater',
         state: {},
       })
       .set(headers);
-    expect(res.status).toBe(404);
+    expect(res.status).toBe(400);
     expect(res.body.success).toBe(false);
-    expect(res.body.message).toEqual(SUGGESTIONS.missingFields);
+    expect(res.body.message).toMatch(/ispublic/i);
     done();
   });
 
-  test.skip('should fail due to wrong isPublic type', async () => {
+  test('should fail due to wrong isPublic type', async () => {
     const userRepo = getRepository(User);
     const user: User = await userRepo.findOne({
       where: { role: UserRole.creator },
@@ -127,7 +125,8 @@ describe('testing bathingspots post for a specific user', () => {
       .send({
         isPublic: 'foo',
         name: 'will fail',
-      });
+      })
+      .set(headers);
     expect(res.status).toBe(HttpCodes.badRequest);
     expect(res.body.success).toBe(false);
   });

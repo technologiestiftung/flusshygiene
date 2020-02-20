@@ -127,16 +127,6 @@ describe('misc functions that need a DB', () => {
         });
     });
 
-    // it.skip('should be catch error due to missing db', (done) => {
-    //   getBathingspotById(10000).then(res => {
-    //     expect(res).toBe(undefined);
-    //     done();
-    //   }).catch(err => {
-    //     expect(err.message).toEqual('Connection "default" was not found.');
-    //     done();
-    //   });
-    // });
-
     // it('should be catch error due to missing db', (done) => {
     //   getSpotByUserAndId(10000, 10000).then(res => {
     //     expect(res).toBe(undefined);
