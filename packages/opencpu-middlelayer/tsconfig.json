@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", "__tests__", ".vscode","dist", "ormconfig.js", "src/types","tmp-store","examples","__mocks__"],
+  "exclude": ["node_modules", "__tests__", ".vscode","dist", "ormconfig.js", "src/types","tmp-store","examples","__mocks__", "broken"],
   "compilerOptions": {
     "resolveJsonModule": true,
     /* Basic Options */
