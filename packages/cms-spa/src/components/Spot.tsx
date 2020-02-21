@@ -265,7 +265,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    *
    */
   useEffect(() => {
-    console.log(ocpuState.responses, 'ucpu response');
+    // console.log(ocpuState.responses, 'ucpu response');
 
     ocpuState.responses.forEach((elem) => {
       if (elem.success !== undefined && elem.message !== undefined) {
@@ -284,7 +284,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   }, [ocpuState.responses, messageDispatch]);
 
   useEffect(() => {
-    console.log(apiState.error, 'api errpr');
+    // console.log(apiState.error, 'api errpr');
 
     if (apiState.error === undefined) return;
 
@@ -306,9 +306,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    *
    */
   useEffect(() => {
-    console.log(eventSourceState.events, 'event source');
+    // console.log(eventSourceState.events, 'event source');
     if (eventSourceState.events.length > 0) {
-      const str = JSON.stringify(eventSourceState.events);
+      // const str = JSON.stringify(eventSourceState.events);
       // const message: string[] =
       eventSourceState.events.forEach((event) => {
         if (event.hasOwnProperty('event') && event.event === 'response') {

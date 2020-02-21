@@ -28,7 +28,7 @@ const ocpuReducer: (
     case 'FINISH_OCPU_REQUEST': {
       // console.log('request finished');
       const locAction = action as IOcpuFinishAction;
-      console.log(state, 'finsihed');
+      // console.log(state, 'finsihed');
       return {
         ...state,
         processing: undefined,
