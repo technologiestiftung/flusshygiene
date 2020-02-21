@@ -62,11 +62,14 @@ services:
 
   ocpu:
     container_name: "ocpu"
+    env_file: ./packages/opencpu-fhpredict-api/.env
     build:
       context: ./packages/opencpu-fhpredict-api
       dockerfile: Dockerfile
-    env_file: ./packages/opencpu-fhpredict-api/.env
+      args:
+        - GITHUB_PAT=${GITHUB_PAT}
     environment:
+      - GITHUB_PAT=${GITHUB_PAT}
       - FHPREDICT_PG_API_URL=http://localhost:5004/api/v1
 
 

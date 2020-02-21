@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 IFS=$'\n\t'
+# https://git.io/JewS5
+export $(grep -E -v '^#' .env | xargs -0)
 GITHUB_REPOSITORY="technologiestiftung/flusshygiene"
 GITHUB_REF="test"
 SUFFIX=${PWD##*/}
@@ -26,6 +28,7 @@ done
 # echo "${GITHUB_REF}"
 # echo "${SUFFIX}"
 # echo "${STAGE}"
+# echo "${GITHUB_PAT}"
 
 echo "Your image will be build with this repository/tag: '${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}'"
 read -p "Are you sure?(y/n) " -n 1 -r
@@ -36,5 +39,5 @@ then
   print_usage
   exit 1
 fi
-docker build  --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}" .
+docker build  --build-arg GITHUB_PAT="${GITHUB_PAT}" --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}" .
 docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}"
