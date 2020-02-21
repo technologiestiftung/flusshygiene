@@ -35,7 +35,8 @@ const TableRowWithButton: React.FC<{
   tds: string[];
   handleEditClick: ClickFunction;
   disabled?: boolean;
-}> = ({ th, tds, handleEditClick, disabled }) => {
+  editButtonText: string;
+}> = ({ th, tds, handleEditClick, disabled, editButtonText }) => {
   return (
     <tr>
       <th>{th}</th>
@@ -43,7 +44,11 @@ const TableRowWithButton: React.FC<{
         <td key={i}>{td}</td>
       ))}
       <td>
-        <ButtonIcon isDisabled={disabled} handleClick={handleEditClick}>
+        <ButtonIcon
+          isDisabled={disabled}
+          text={editButtonText}
+          handleClick={handleEditClick}
+        >
           <IconEdit></IconEdit>
         </ButtonIcon>
         {/* <button className='button is-small' onClick={handleEditClick}>
