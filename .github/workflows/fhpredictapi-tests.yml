@@ -2,6 +2,7 @@ name: FHPREDICT API test and build
 env:
   SUFFIX: "opencpu-fhpredict-api"
   COMMIT_FILTER: "[skip-ci]"
+  GITHUB_PAT: secrets.GITHUB_TOKEN
 
 on:
   push:
@@ -31,4 +32,4 @@ jobs:
       - name: image build test
         run: |
           cd packages/opencpu-fhpredict-api/
-          docker build --label version=${GITHUB_REF##*/} --build-arg GITHUB_PAT={{ secrets.GITHUB_TOKEN }} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker build --label version=${GITHUB_REF##*/} --build-arg GITHUB_PAT={{secrets.GITHUB_TOKEN}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
