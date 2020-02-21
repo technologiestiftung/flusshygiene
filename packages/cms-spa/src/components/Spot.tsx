@@ -265,7 +265,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    *
    */
   useEffect(() => {
-    // console.log(ocpuState.responses);
+    console.log(ocpuState.responses, 'ucpu response');
+
     ocpuState.responses.forEach((elem) => {
       if (elem.success !== undefined && elem.message !== undefined) {
         messageDispatch({
@@ -280,13 +281,32 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     // setMessage(JSON.stringify(ocpuState.responses[0]));
     // setBannerType('normal');
     // setShowNotification(true);
-  }, [ocpuState, messageDispatch]);
+  }, [ocpuState.responses, messageDispatch]);
+
+  useEffect(() => {
+    console.log(apiState.error, 'api errpr');
+
+    if (apiState.error === undefined) return;
+
+    messageDispatch({
+      type: 'ADD_MESSAGE',
+      payload: {
+        message: String(apiState.error.message),
+        type: 'error',
+      },
+    });
+
+    // setMessage(JSON.stringify(ocpuState.responses[0]));
+    // setBannerType('normal');
+    // setShowNotification(true);
+  }, [apiState.error, messageDispatch]);
 
   /**
    * This effect sets the current content of the Banner based on event souce data
    *
    */
   useEffect(() => {
+    console.log(eventSourceState.events, 'event source');
     if (eventSourceState.events.length > 0) {
       const str = JSON.stringify(eventSourceState.events);
       // const message: string[] =
@@ -1104,10 +1124,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   ></SpotTableBlock>
                   <SpotTableBlock
                     title={{
-                      title: 'Generische Messwerte',
+                      title: 'Eingangsdaten: Generisch',
                       iconType: 'IconCSV',
                     }}
-                    editButtonText={'Generische Messwerte Anlegen'}
+                    editButtonText={'Generische Daten anlegen'}
                     hasData={
                       spot.genericInputs && spot.genericInputs.length > 0
                     }
