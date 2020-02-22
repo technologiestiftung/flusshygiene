@@ -9,8 +9,9 @@ export const SpotTableBlock: React.FC<{
   title: ISpotTableTitle;
   Table: () => React.ReactNode;
   handleEditClick?: ClickFunction;
+  editButtonText: string;
   hasData?: boolean;
-}> = ({ title, Table, handleEditClick, hasData }) => {
+}> = ({ title, Table, handleEditClick, hasData, editButtonText }) => {
   return (
     <div className='column is-5'>
       {/* {data && (
@@ -32,7 +33,7 @@ export const SpotTableBlock: React.FC<{
       {SpotTableTitle(title)}
       {Table()}
       {/* {hasData ? ( */}
-      <ButtonIcon handleClick={handleEditClick} text={'Daten Editieren'}>
+      <ButtonIcon handleClick={handleEditClick} text={editButtonText}>
         <IconEdit />
       </ButtonIcon>
       {/* ) : (

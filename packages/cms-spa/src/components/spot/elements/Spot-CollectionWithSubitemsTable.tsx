@@ -12,6 +12,7 @@ interface ICollection {
   setTitle: (value: React.SetStateAction<string | undefined>) => void;
   setSubItemId: (value: React.SetStateAction<number | undefined>) => void;
   handleEditClick: ClickFunction;
+  editButtonText: string;
 }
 export const CollectionWithSubItemTable: React.FC<ICollection> = ({
   items,
@@ -19,6 +20,7 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
   setTitle,
   setSubItemId,
   handleEditClick,
+  editButtonText,
 }) => {
   if (items === undefined) {
     return (
@@ -35,6 +37,7 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
           {items.map((item, index) => {
             return (
               <TableRowWithButton
+                editButtonText={editButtonText}
                 key={index}
                 th={
                   item.name.length > 17
