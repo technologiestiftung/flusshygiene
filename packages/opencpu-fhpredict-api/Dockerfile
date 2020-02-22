@@ -26,7 +26,7 @@ COPY build-r-installer.sh ./
 # ENV TOKEN_PROD $TOKEN_PROD
 
 # COPY "./files/.vimrc" "~/"
-RUN ./build-r-installer.sh $GITHUB_PAT 0.10.0 > install.r && R -f install.r && rm install.r
+RUN ./build-r-installer.sh $GITHUB_PAT 0.10.0 > install.r && Rscript install.r && rm install.r
 # RUN GITHUB_PAT=${GITHUB_PAT} R -e "remotes::install_github(\"kwb-r/fhpredict@v0.10.0\", build_vignettes = FALSE, force = TRUE, upgrade = \"never\")"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004
