@@ -12,7 +12,9 @@ const logger = winston.createLogger({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
   format: winston.format.combine(
     winston.format.label({
-      label: path.basename(process.mainModule!.filename),
+      label: path.basename(
+        process.mainModule ? process.mainModule.filename : 'logger',
+      ),
     }),
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     // Format the metadata object
@@ -45,7 +47,7 @@ const logger = winston.createLogger({
 });
 
 const logStream = {
-  write: (text: string) => {
+  write: (text: string): void => {
     logger.info(text);
   },
 };

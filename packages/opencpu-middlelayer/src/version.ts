@@ -6,6 +6,7 @@ interface Ipkg {
 }
 
 const version: () => string = () => {
+  // eslint-disable-next-line no-useless-catch
   try {
     const pkg: Ipkg = JSON.parse(
       fs.readFileSync(path.resolve(process.cwd(), './package.json'), 'utf8'),

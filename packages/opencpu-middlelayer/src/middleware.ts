@@ -10,13 +10,13 @@ export type middlewareFunc = (
 export const timeoutMiddleware: middlewareFunc = (req, res, next) => {
   // Set the timeout for all HTTP requests
   req.setTimeout(apiTimeout, () => {
-    let err = new Error('Request Timeout');
+    const err = new Error('Request Timeout');
     res.statusCode = 408;
     next(err);
   });
   // Set the server response timeout for all HTTP requests
   res.setTimeout(apiTimeout, () => {
-    let err = new Error('Service Unavailable');
+    const err = new Error('Service Unavailable');
     res.statusCode = 503;
     next(err);
   });
@@ -25,7 +25,7 @@ export const timeoutMiddleware: middlewareFunc = (req, res, next) => {
 
 export const sleepFuncCheck: middlewareFunc = (req, res, next) => {
   if (process.env.NODE_ENV === 'production' && req.url === '/sleep') {
-    let err = new Error('forbidden');
+    const err = new Error('forbidden');
     res.statusCode = 403;
     next(err);
   }
