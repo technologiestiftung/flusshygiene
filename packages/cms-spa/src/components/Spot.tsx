@@ -265,7 +265,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    *
    */
   useEffect(() => {
-    // console.log(ocpuState.responses);
+    // console.log(ocpuState.responses, 'ucpu response');
+
     ocpuState.responses.forEach((elem) => {
       if (elem.success !== undefined && elem.message !== undefined) {
         messageDispatch({
@@ -280,37 +281,76 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     // setMessage(JSON.stringify(ocpuState.responses[0]));
     // setBannerType('normal');
     // setShowNotification(true);
-  }, [ocpuState, messageDispatch]);
+  }, [ocpuState.responses, messageDispatch]);
+
+  useEffect(() => {
+    // console.log(apiState.error, 'api errpr');
+
+    if (apiState.error === undefined) return;
+
+    messageDispatch({
+      type: 'ADD_MESSAGE',
+      payload: {
+        message: String(apiState.error.message),
+        type: 'error',
+      },
+    });
+
+    // setMessage(JSON.stringify(ocpuState.responses[0]));
+    // setBannerType('normal');
+    // setShowNotification(true);
+  }, [apiState.error, messageDispatch]);
 
   /**
    * This effect sets the current content of the Banner based on event souce data
    *
    */
   useEffect(() => {
+    // console.log(eventSourceState.events, 'event source');
     if (eventSourceState.events.length > 0) {
-      const str = JSON.stringify(eventSourceState.events);
-      const message: string[] = eventSourceState.events.map((event) => {
+      // const str = JSON.stringify(eventSourceState.events);
+      // const message: string[] =
+      eventSourceState.events.forEach((event) => {
         if (event.hasOwnProperty('event') && event.event === 'response') {
           if (event.hasOwnProperty('payload')) {
             if (event.payload.hasOwnProperty('message')) {
               if (Array.isArray(event.payload.message)) {
-                return event.payload.message[0];
+                const messages = event.payload.message as string[];
+                messages.forEach((message) => {
+                  messageDispatch({
+                    type: 'ADD_MESSAGE',
+                    payload: {
+                      message,
+                      type: /error/gim.test(message) ? 'error' : 'normal',
+                    },
+                  });
+                });
+                // return event.payload.message[0];
               } else {
-                return event.payload.message;
+                // return event.payload.message;
+                messageDispatch({
+                  type: 'ADD_MESSAGE',
+                  payload: {
+                    message: event.payload.message as string,
+                    type: /error/gim.test(event.payload.message)
+                      ? 'error'
+                      : 'normal',
+                  },
+                });
               }
             }
           }
         }
-        return '';
+        // return '';
       });
 
-      messageDispatch({
-        type: 'ADD_MESSAGE',
-        payload: {
-          message: message.join('\n'),
-          type: /error/gim.test(str) ? 'error' : 'normal',
-        },
-      });
+      // messageDispatch({
+      //   type: 'ADD_MESSAGE',
+      //   payload: {
+      //     message: message.join('\n'),
+      //     type: /error/gim.test(str) ? 'error' : 'normal',
+      //   },
+      // });
     }
     // setMessage(JSON.stringify(eventSourceState));
     // setBannerType('normal');
@@ -914,8 +954,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {spot !== undefined && (
                 <ContainerNoColumn>
                   <SpotTableBlock
+                    editButtonText={'Daten bearbeiten'}
                     title={{
-                      title: 'Vorhersage-Modelle',
+                      title: 'Kalibrierung Vorhersagemodelle',
                       iconType: 'IconCalc',
                     }}
                     hasData={spot.models && spot.models.length > 0}
@@ -923,11 +964,12 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.models);
                       setTableEditMode(true);
                       setTableEditDataType('models');
-                      setTableHeaderTitle('Vorhersage-Modelle');
+                      setTableHeaderTitle('Kalibrierung Vorhersagemodelle');
                     }}
                     Table={() => SpotModelTable(lastModel)}
                   />
                   <SpotTableBlock
+                    editButtonText={'Daten bearbeiten'}
                     title={{ title: 'Vorhersage', iconType: 'IconComment' }}
                     hasData={spot.predictions && spot.predictions.length > 0}
                     handleEditClick={() => {
@@ -943,8 +985,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               <ContainerNoColumn>
                 {spot !== undefined && (
                   <SpotTableBlock
+                    editButtonText={'Daten bearbeiten'}
                     title={{
-                      title: 'letzte E.C./I.C. Messung',
+                      title: 'Eingangsdaten: Mikrobiologie',
                       iconType: 'IconCSV',
                     }}
                     hasData={spot.measurements && spot.measurements.length > 0}
@@ -954,7 +997,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditMode(true);
                       setTableEditDataType('measurements');
                       setTableHeaderTitle(
-                        `E.C./I.C. Messungen || ${hasAutoData(
+                        `Eingangsdaten: Mikrobiologie || ${hasAutoData(
                           spot.apiEndpoints?.measurementsUrl !== undefined,
                         )}`,
                       );
@@ -965,8 +1008,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
 
                 {spot !== undefined && (
                   <SpotTableBlock
+                    editButtonText={'Daten bearbeiten'}
                     title={{
-                      title: 'Mittlere Regenhöhen',
+                      title: 'Eingangsdaten: Regenradar',
                       iconType: 'IconRain',
                     }}
                     hasData={spot.rains && spot.rains.length > 0}
@@ -975,7 +1019,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.rains);
                       setTableEditMode(true);
                       setTableEditDataType('rains');
-                      setTableHeaderTitle('Mittlere Regenhöhen');
+                      setTableHeaderTitle('Eingangsdaten: Regenradar');
                     }}
                   ></SpotTableBlock>
                 )}
@@ -983,8 +1027,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               <ContainerNoColumn>
                 {spot !== undefined && (
                   <SpotTableBlock
+                    editButtonText={'Daten bearbeiten'}
                     title={{
-                      title: `letzte Globalstrahlungs Messungen`,
+                      title: `Eingangsdaten: Globalstrahlung`,
                       iconType: 'IconCSV',
                     }}
                     hasData={
@@ -996,7 +1041,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditMode(true);
                       setTableEditDataType('globalIrradiances');
                       setTableHeaderTitle(
-                        `Globalstrahlungs Messungen || ${hasAutoData(
+                        `Eingangsdaten: Globalstrahlung || ${hasAutoData(
                           spot.apiEndpoints?.globalIrradianceUrl !== undefined,
                         )}`,
                       );
@@ -1015,8 +1060,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 )}
                 {spot !== undefined && (
                   <SpotTableBlock
+                    editButtonText={'Daten bearbeiten'}
                     title={{
-                      title: 'Letzte Abwasser Messungen',
+                      title: 'Eingangsdaten: Durchfluss',
                       iconType: 'IconCSV',
                     }}
                     hasData={spot.discharges && spot.discharges.length > 0}
@@ -1025,7 +1071,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditMode(true);
                       setTableEditDataType('discharges');
                       setTableHeaderTitle(
-                        `Abwasser Messungen || ${hasAutoData(
+                        `Eingangsdaten: Durchfluss || ${hasAutoData(
                           spot.apiEndpoints?.dischargesUrl !== undefined,
                         )}`,
                       );
@@ -1046,8 +1092,9 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {spot !== undefined && (
                 <ContainerNoColumn>
                   <SpotTableBlock
+                    editButtonText={'Klärwerke anlegen'}
                     title={{
-                      title: 'Klärwerke',
+                      title: 'Eingangsdaten: Klärwerk',
                       iconType: 'IconIndustry',
                     }}
                     hasData={
@@ -1058,10 +1105,11 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       setTableEditData(spot.purificationPlants);
                       setTableEditMode(true);
                       setTableEditDataType('purificationPlants');
-                      setTableHeaderTitle('Klärwerke');
+                      setTableHeaderTitle('Eingangsdaten: Klärwerk');
                     }}
                     Table={() => (
                       <CollectionWithSubItemTable
+                        editButtonText={'Editieren'}
                         setData={setTableEditData}
                         setTitle={setTableHeaderTitle}
                         setSubItemId={setTableEditSubItemId}
@@ -1076,9 +1124,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   ></SpotTableBlock>
                   <SpotTableBlock
                     title={{
-                      title: 'Generische Messwerte',
+                      title: 'Eingangsdaten: Generisch',
                       iconType: 'IconCSV',
                     }}
+                    editButtonText={'Generische Daten anlegen'}
                     hasData={
                       spot.genericInputs && spot.genericInputs.length > 0
                     }
@@ -1090,6 +1139,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                     }}
                     Table={() => (
                       <CollectionWithSubItemTable
+                        editButtonText={'Editieren'}
                         setData={setTableEditData}
                         setTitle={setTableHeaderTitle}
                         setSubItemId={setTableEditSubItemId}
