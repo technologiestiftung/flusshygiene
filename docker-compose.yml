@@ -62,6 +62,7 @@ services:
 
   ocpu:
     container_name: "ocpu"
+    # image: technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.6.0-dev
     build:
       context: ./packages/opencpu-fhpredict-api
       dockerfile: Dockerfile

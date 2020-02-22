@@ -4,6 +4,7 @@ import React, {
   useReducer,
   useEffect,
   useCallback,
+  useState,
 } from 'react';
 import { Timer } from '../lib/utils/timeout';
 export type BannerType = 'normal' | 'warning' | 'error';
@@ -126,6 +127,7 @@ const Banner: React.FC<{
   time?: number;
 }> = ({ data, dispatch, id, time = 60000 }) => {
   let className: string;
+  const [bannerId, setBannerId] = useState(id);
   switch (data.type) {
     case 'normal': {
       className = 'is-primary';
@@ -148,9 +150,9 @@ const Banner: React.FC<{
   const remove = useCallback(() => {
     dispatch({
       type: 'REMOVE_MESSAGE',
-      payload: id,
+      payload: bannerId,
     });
-  }, [dispatch, id]);
+  }, [dispatch, bannerId]);
 
   const timer = new Timer(function() {
     dispatch({
@@ -160,17 +162,18 @@ const Banner: React.FC<{
   }, time);
 
   useEffect(() => {
+    setBannerId(id);
     timer.start();
-  }, []); // eslint-disable-line
+  }, [setBannerId]); // eslint-disable-line
 
   return (
     <div
-      onMouseEnter={() => {
-        timer.pause();
-      }}
-      onMouseLeave={() => {
-        timer.resume();
-      }}
+      // onMouseEnter={() => {
+      //   timer.pause();
+      // }}
+      // onMouseLeave={() => {
+      //   timer.resume();
+      // }}
       className={`notification notification--margin-bottom ${className}`}
     >
       <button

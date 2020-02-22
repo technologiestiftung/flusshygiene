@@ -41,21 +41,36 @@ app.use(
   }),
 );
 
-const whiteList = [process.env.APP_HOST_1!, process.env.APP_HOST_2!];
-if (process.env.NODE_ENV === 'development') {
-  whiteList.push(...['http://localhost:3000', 'http://localhost:8888']);
+const whiteList = [
+  'http://localhost:3000',
+  'http://localhost:8888',
+  'http://172.23.0.1',
+  'http://127.0.0.1',
+  'http://spa',
+  'http://ocpu',
+];
+if (process.env.APP_HOST_1 !== undefined) {
+  whiteList.push(process.env.APP_HOST_1);
+}
+if (process.env.APP_HOST_2 !== undefined) {
+  whiteList.push(process.env.APP_HOST_2);
 }
 
 const corsOptions: e.CorsOptions = {
   origin: function(origin: any, callback: any): void {
-    if (whiteList.indexOf(origin) !== -1) {
+    if (origin === undefined || whiteList.includes(origin)) {
+      // console.log(origin, 'is allowed');
       callback(null, true);
     } else {
+      // console.log(origin, 'is not allowed');
       callback(new Error('Not allowed by CORS'));
     }
   },
 };
-app.use(cors(corsOptions));
+// if (process.env.NODE_ENV !== 'development') {
+// app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+// }
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
@@ -66,6 +81,6 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(timeoutMiddleware);
-app.use('/middlelayer', sleepFuncCheck, router);
+app.use('/middlelayer', cors(corsOptions), sleepFuncCheck, router);
 
 export { app };
