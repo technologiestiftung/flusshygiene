@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 IFS=$'\n\t'
+
+printf "NOT USED AT THE MOMENT"
+exit 0
 # Creates a R file that we can use to install or packages
 # expects two arguments:
 # $1 is the Personal Access Token

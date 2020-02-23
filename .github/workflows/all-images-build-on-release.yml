@@ -3,7 +3,7 @@ name: Docker Image Builder
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  GITHUB_PAT:  ${{secrets.GITHUB_PAT_KWB}}
+  # GITHUB_PAT:  ${{secrets.GITHUB_PAT_KWB}}
   STAGE: dev
   # COMMIT_FILTER: "[skip-ci]"
 
@@ -102,7 +102,7 @@ jobs:
         run: |
           cd packages/opencpu-fhpredict-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker build  --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
 

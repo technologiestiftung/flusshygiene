@@ -9,7 +9,7 @@ LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"
 
-ARG GITHUB_PAT
+# ARG GITHUB_PAT
 ENV TMP "/tmp"
 ENV TEMP "/tmp"
 
