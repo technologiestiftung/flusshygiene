@@ -2,6 +2,7 @@ name: FHPREDICT API test and build
 env:
   SUFFIX: "opencpu-fhpredict-api"
   COMMIT_FILTER: "[skip-ci]"
+  # GITHUB_PAT: secrets.GITHUB_PAT_KWB
 
 on:
   push:
