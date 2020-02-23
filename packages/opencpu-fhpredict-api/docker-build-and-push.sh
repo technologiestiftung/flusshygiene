@@ -39,5 +39,6 @@ then
   print_usage
   exit 1
 fi
-docker build  --build-arg GITHUB_PAT="${GITHUB_PAT}" --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}" .
+# docker build  --build-arg GITHUB_PAT="${GITHUB_PAT}" --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}" .
+docker build  --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}" .
 docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}"
