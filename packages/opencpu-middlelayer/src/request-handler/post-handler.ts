@@ -1,10 +1,11 @@
 import { FHpredictFunctions } from './../common/enums';
 import { OCPU_API_HOST, VERSION } from '../common/constants';
-import { postPassThrough } from '../post-pass-through';
+import postPassThrough from '../post-pass-through';
 import { logger } from '../logger';
 import { IBroadcastData } from '../common/interfaces';
 import { Request, Response } from 'express';
-import { broadcaster } from '../http-router';
+// import { broadcaster } from '../http-router';
+import broadcaster from '../broadcaster-instance';
 export const postHandler: (
   req: Request,
   res: Response,
