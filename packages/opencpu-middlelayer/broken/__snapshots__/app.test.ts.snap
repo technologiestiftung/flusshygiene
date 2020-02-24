@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`basic app tests should mount 1`] = `
-Object {
-  "message": "Everything OK",
-  "success": true,
-  "version": Any<String>,
-}
-`;

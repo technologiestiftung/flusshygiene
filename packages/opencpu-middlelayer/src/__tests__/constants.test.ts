@@ -6,7 +6,7 @@ describe('testing constants', () => {
   test('should return constants under production', async (done) => {
     const curEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'production';
-    import('../src/common/constants').then((module) => {
+    import('../common/constants').then((module) => {
       expect(module.ENV_SUFFIX).toBe('PROD');
       expect(typeof module.REDIS_PORT).toBe('number');
       expect(module.REDIS_PORT).toBe(6379);

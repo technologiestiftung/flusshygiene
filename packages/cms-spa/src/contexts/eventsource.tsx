@@ -13,7 +13,7 @@ interface IEventSourceState {
   url?: string;
 }
 interface IEventAction {
-  type: 'INCOMING' | 'SET_URL';
+  type: 'INCOMING' | 'SET_URL' | 'INTERNAL_ERROR';
   event: any;
   url?: string;
 }
@@ -45,6 +45,11 @@ const eventSourceReducer: (
         return { ...state, url };
       }
     }
+    case 'INTERNAL_ERROR': {
+      // console.error(action.type);
+      // console.error(action.event);
+      return { ...state, events: ['INTERNAL_ERROR'] };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -66,6 +71,7 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
   const eventSource = useRef(
     new EventSource(state.url === undefined ? url : state.url),
   );
+
   useEffect(() => {
     if (state.url === undefined) return;
     eventSource.current.close();
@@ -83,7 +89,9 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
       dispatch(action);
     });
     eventSource.current.addEventListener('error', (event) => {
-      console.error('eventsource error', event);
+      // console.error('eventsource error', event);
+      const action: IEventAction = { type: 'INTERNAL_ERROR', event };
+      dispatch(action);
     });
     eventSource.current.addEventListener('close', (event) => {
       // console.info('eventsource close', event);

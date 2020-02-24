@@ -1,18 +1,19 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import redis from 'redis';
 import redis_mock from 'redis-mock';
 const mockedRedis = jest
   .spyOn(redis, 'createClient')
   .mockImplementation(redis_mock.createClient);
 
-import * as passThrough from '../src/post-pass-through';
+import * as passThrough from '../post-pass-through';
 
-import { BroadCaster } from '../src/events-broadcaster';
-import { app } from '../src/app';
+import { BroadCaster } from '../events-broadcaster';
+import { app } from '../app';
 import nock from 'nock';
 import request from 'supertest';
 // import { logger } from '../src/logger';
 
-jest.useFakeTimers();
+// jest.useFakeTimers();
 const scope = nock('http://localhost:4444')
   .post('/middlelayer/calibrate')
   .reply(201, {})
@@ -25,14 +26,14 @@ const scope = nock('http://localhost:4444')
 
 afterAll(() => {
   mockedRedis.mockRestore();
-  logger.transports.forEach((elem) => {
-    elem.silent = false;
-  });
+  // logger.transports.forEach((elem) => {
+  //   elem.silent = false;
+  // });
 });
 beforeAll(() => {
-  logger.transports.forEach((elem) => {
-    elem.silent = true;
-  });
+  // logger.transports.forEach((elem) => {
+  //   elem.silent = true;
+  // });
 });
 
 describe.skip('basic route tests', () => {
@@ -89,6 +90,7 @@ describe.skip('basic route tests', () => {
       .post('/middlelayer/sleep')
       .send({ seconds: 10 });
     expect(response.status).toBe(403);
+    // eslint-disable-next-line require-atomic-updates
     process.env.NODE_ENV = oldEnv;
     done();
   });

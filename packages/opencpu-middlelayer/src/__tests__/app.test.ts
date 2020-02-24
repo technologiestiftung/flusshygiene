@@ -5,16 +5,14 @@ import redis from 'redis';
 import redis_mock from 'redis-mock';
 import request from 'supertest';
 
+jest.mock('winston');
 const mockedRedis = jest
   .spyOn(redis, 'createClient')
   .mockImplementation(redis_mock.createClient);
-import logger from '../src/logger';
-jest.mock('../src/logger');
-jest.mock('winston');
 
-import { app } from '../src/app';
+import { app } from '../app';
 
-const mock = jest.mock('../src/post-pass-through', () => {
+const mock = jest.mock('../post-pass-through.ts', () => {
   return (
     new Promise(() => {
       return {};
