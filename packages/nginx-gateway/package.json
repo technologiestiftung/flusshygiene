@@ -1,7 +1,7 @@
 {
   "name": "@tsb/nginx-gateway",
   "private": true,
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "nginx gateway for a multi docker AWS EB setup",
   "main": "index.js",
   "scripts": {

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.6.0...v2.7.0) (2020-02-24)
+
+
+### Bug Fixes
+
+* **[error]src/__mocks__/post-pass-through.ts(4,3:** error TS6133: 'url' is declared but its value is never read.) ([db78784](https://github.com/technologiestiftung/flusshygiene/commit/db787840ed3382ad3e155f220093362dba626933))
+* **[error]src/__mocks__/winston.ts(44,1:** error TS1005: '}' expected.) ([f61d64c](https://github.com/technologiestiftung/flusshygiene/commit/f61d64c4e1d49c0d92c0d2f6ffbd14da1f3ebc6d))
+* **middlelayer:** cors erros ([a29e287](https://github.com/technologiestiftung/flusshygiene/commit/a29e2875ec19c7f7c5957317ec582bc3df505055))
+
+
+
+
+
 # [2.6.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.5.2...v2.6.0) (2020-02-18)
 
 **Note:** Version bump only for package @tsb/opencpu-middleware
