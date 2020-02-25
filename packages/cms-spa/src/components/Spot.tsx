@@ -49,6 +49,7 @@ import { pplantGiSchema } from '../lib/utils/spot-validation-schema';
 import { MeasurementEditor } from './spot/measurement-editor/editor';
 import { hasAutoData } from '../lib/utils/has-autodata-url';
 import { useMessages } from '../contexts/messages';
+import { PublicData } from './spot/elements/Spot-Public-Data';
 // import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
  * This is the component that displays a single spot
@@ -1153,6 +1154,46 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                     )}
                   ></SpotTableBlock>
                 </ContainerNoColumn>
+              )}
+              {spot && SpotHr()}
+              {spot && (
+                <Container>
+                  <h3 className='is-title is-3'>Öffentlicher Zugriff</h3>
+                  {spot.isPublic === false ? (
+                    <div className='content'>
+                      {' '}
+                      <p>
+                        <em>
+                          Der öffentlicher Lesezugriff ist deaktiviert. Um die
+                          Daten öffentlich einsehbar zu machen, aktivieren Sie
+                          diesen in den "Basis Daten".
+                        </em>
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className='content'>
+                        <p>
+                          Für den Zugriff auf diese Daten ist ein limit von 100
+                          Anfragen innerhalb von 5 Minuten gesetzt. Wenn Sie
+                          mehr Zugriffe benötigen, wenden Sie sich an die
+                          Administratoren. Einzelne Datenpunkte können über ihre
+                          entsprechende <code>id</code> abgerufen werden. Zum
+                          Beispiel:
+                        </p>
+                        <pre>
+                          {`${REACT_APP_API_HOST}/${APIMountPoints.v1}/public/${ApiResources.bathingspots}/${spot.id}/${ApiResources.measurements}/1`}
+                          <code></code>
+                        </pre>
+                      </div>
+                      <PublicData
+                        spotId={spot.id}
+                        genericInputs={spot.genericInputs}
+                        purificationPlants={spot.purificationPlants}
+                      ></PublicData>
+                    </>
+                  )}
+                </Container>
               )}
               {lastModel !== undefined && lastModel.plotfiles !== undefined && (
                 <SpotModelPlots

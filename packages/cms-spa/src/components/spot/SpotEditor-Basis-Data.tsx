@@ -159,11 +159,18 @@ export const SpotEditorBasisData: React.FC<{
               label: 'Name',
             },
             {
-              name: 'cyanoPossible',
+              name: 'isPublic',
               type: 'checkbox',
-              label: 'Cyanobakterien möglich',
+              label:
+                'Öffentlich einsehbar (erlaubt Lesezugriff auf alle Informationen der Badestelle ohne Authentifizierung)',
               value: undefined,
             },
+            // {
+            //   name: 'cyanoPossible',
+            //   type: 'checkbox',
+            //   label: 'Cyanobakterien möglich',
+            //   value: undefined,
+            // },
           ]);
           const patchedBasisData = patchValues(
             props.values,
