@@ -236,19 +236,21 @@ exports[`Storyshots SpotEditor default 1`] = `
             >
               <label
                 className="checkbox"
-                htmlFor="cyanoPossible"
+                htmlFor="isPublic"
               >
                 <input
-                  id="cyanoPossible"
-                  name="cyanoPossible"
+                  checked={true}
+                  id="isPublic"
+                  name="isPublic"
                   onBlur={[Function]}
                   onChange={[Function]}
                   type="checkbox"
+                  value={true}
                 />
                 <span
                   className="form__checkbox--distance"
                 >
-                  Cyanobakterien möglich
+                  Öffentlich einsehbar (erlaubt Lesezugriff auf alle Informationen der Badestelle ohne Authentifizierung)
                 </span>
               </label>
             </div>
@@ -601,21 +603,19 @@ exports[`Storyshots SpotEditor default 1`] = `
             >
               <label
                 className="checkbox"
-                htmlFor="isPublic"
+                htmlFor="cyanoPossible"
               >
                 <input
-                  checked={true}
-                  id="isPublic"
-                  name="isPublic"
+                  id="cyanoPossible"
+                  name="cyanoPossible"
                   onBlur={[Function]}
                   onChange={[Function]}
                   type="checkbox"
-                  value={true}
                 />
                 <span
                   className="form__checkbox--distance"
                 >
-                  Öffentlich einsehbar
+                  Cyanobakterien möglich
                 </span>
               </label>
             </div>

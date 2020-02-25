@@ -65,7 +65,16 @@ routesPublic.get('/', isPublicRoute, (request, response) => {
     '',
   ];
   response.json(
-    buildPayload(true, `Server is running. You called ${request.url}`, data),
+    buildPayload(
+      true,
+      `Server is running. You called ${request.url}`,
+      data,
+      false,
+      undefined,
+      undefined,
+      EXPRESS_RATE_LIMIT_MINUTE,
+      EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP,
+    ),
   );
 });
 

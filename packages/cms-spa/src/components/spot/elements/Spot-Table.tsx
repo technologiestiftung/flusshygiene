@@ -30,6 +30,22 @@ const TableRow: React.FC<{ th: string; tds: string[] }> = ({ th, tds }) => {
     </tr>
   );
 };
+const TableRowWithUrl: React.FC<{
+  th: string;
+  url: string;
+  content: string;
+}> = ({ th, url, content }) => {
+  return (
+    <tr>
+      <th>{th}</th>
+      <td>
+        <a href={url} target='_blank' rel='noopener noreferrer'>
+          {content}
+        </a>
+      </td>
+    </tr>
+  );
+};
 const TableRowWithButton: React.FC<{
   th: string;
   tds: string[];
@@ -58,4 +74,4 @@ const TableRowWithButton: React.FC<{
     </tr>
   );
 };
-export { Table, TableRow, TableBody, TableRowWithButton };
+export { Table, TableRow, TableBody, TableRowWithButton, TableRowWithUrl };

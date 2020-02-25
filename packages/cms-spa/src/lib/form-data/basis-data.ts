@@ -27,10 +27,16 @@ export const setupBasisData: (
       //   type: 'text',
       //   label: 'Name *',
       // },
+      // {
+      //   name: 'isPublic',
+      //   type: 'checkbox',
+      //   label: 'Öffentlich einsehbar',
+      //   value: undefined,
+      // },
       {
-        name: 'isPublic',
+        name: 'cyanoPossible',
         type: 'checkbox',
-        label: 'Öffentlich einsehbar',
+        label: 'Cyanobakterien möglich',
         value: undefined,
       },
       { name: 'nameLong', type: 'text', label: 'Langer Name' },
