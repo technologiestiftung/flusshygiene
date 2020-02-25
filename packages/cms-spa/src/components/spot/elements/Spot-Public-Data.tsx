@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableBody, TableRow, TableRowWithUrl } from './Spot-Table';
+import { Table, TableBody, TableRowWithUrl } from './Spot-Table';
 import { REACT_APP_API_HOST } from '../../../lib/config';
 import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
 import {
