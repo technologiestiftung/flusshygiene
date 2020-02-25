@@ -17,20 +17,19 @@ import {
 } from './request-handlers/bathingspots/collections/get';
 import { collectionCheck } from './middleware/collection-check';
 import rateLimit from 'express-rate-limit';
-import { CONSTANTS } from './common/constants';
 
 const routesPublic = Router();
 
-// const EXPRESS_RATE_LIMIT_MINUTE = process.env.EXPRESS_RATE_LIMIT_MINUTE
-// ? parseInt(process.env.EXPRESS_RATE_LIMIT_MINUTE, 10)
-// : 5;
-// const EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP = process.env
-// .EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP
-// ? parseInt(process.env.EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP, 10)
-// : 100;
+const EXPRESS_RATE_LIMIT_MINUTE = process.env.EXPRESS_RATE_LIMIT_MINUTE
+  ? parseInt(process.env.EXPRESS_RATE_LIMIT_MINUTE, 10)
+  : 5;
+const EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP = process.env
+  .EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP
+  ? parseInt(process.env.EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP, 10)
+  : 100;
 const limiter = rateLimit({
-  windowMs: CONSTANTS.EXPRESS_RATE_LIMIT_MINUTE * 60 * 1000, // 5 minutes
-  max: CONSTANTS.EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP, // limit each IP to 100 requests per windowMs
+  windowMs: EXPRESS_RATE_LIMIT_MINUTE * 60 * 1000, // 5 minutes
+  max: EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP, // limit each IP to 100 requests per windowMs
 });
 
 routesPublic.use(limiter);
@@ -73,8 +72,8 @@ routesPublic.get('/', isPublicRoute, (request, response) => {
       false,
       undefined,
       undefined,
-      CONSTANTS.EXPRESS_RATE_LIMIT_MINUTE,
-      CONSTANTS.EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP,
+      EXPRESS_RATE_LIMIT_MINUTE,
+      EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP,
     ),
   );
 });
