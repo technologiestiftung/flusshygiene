@@ -48,6 +48,8 @@ export interface IConstants {
   REDIS_HOST: string;
   REDIS_PORT: number;
   SESSION_SECRET: string;
+  EXPRESS_RATE_LIMIT_MAX_REQUEST_PER_IP: number;
+  EXPRESS_RATE_LIMIT_MINUTE: number;
 }
 
 /**
@@ -115,6 +117,8 @@ export type PayloadBuilder = (
   truncated?: boolean,
   skip?: number,
   limit?: number,
+  rateLimitMinute?: number,
+  rateLimitMaxRequestsPerIp?: number,
 ) => IDefaultResponsePayload;
 
 export type ResponderMissingBodyValue = (

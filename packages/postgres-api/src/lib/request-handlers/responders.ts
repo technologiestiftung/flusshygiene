@@ -28,6 +28,8 @@ export const buildPayload: PayloadBuilder = (
   truncated = false,
   skip = undefined,
   limit = undefined,
+  rateLimitMinute = undefined,
+  rateLimitMaxRequestsPerIp = undefined,
 ) => {
   return {
     apiVersion,
@@ -37,6 +39,8 @@ export const buildPayload: PayloadBuilder = (
     skip,
     success,
     truncated,
+    rateLimitMinute,
+    rateLimitMaxRequestsPerIp,
   };
 };
 /**
