@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { logger } from "./utils/logger";
 import { globals } from "./common/globals";
 // should be able to call the cronbot manually
@@ -10,7 +11,11 @@ const cli = meow(
   `
 Usage
   $ cronbot <input> [flags]
-
+  -p --predict   boolean default false         Runs prediction on spots with models
+  -v --verbose   boolean default false         Turns on verbose logging
+  -a --adminonly boolean default false         Sends mails only to admin mail address
+  -s --skipmail  boolean default false         Skip mail entirely
+     --diskToken string  default undefined     Point the tool to an existing token on disk (for dev purpose)
 `,
   {
     flags: {
@@ -54,7 +59,6 @@ if (cli.flags.diskToken !== undefined) {
       throw new Error("Token path is wrong");
     }
     const token = fs.readFileSync(cli.flags.diskToken, "utf8");
-    // console.log(token); // eslint-disable-line
     if (token.startsWith("Bearer") === false) {
       throw new Error("Token on disk is wrong");
     }
