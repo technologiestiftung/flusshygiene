@@ -107,3 +107,21 @@ variable "flsshygn_calibrate_url" {
   type = "string"
 }
 
+variable "smtp_host" {
+  type = "string"
+}
+variable "smtp_user" {
+  type = "string"
+}
+variable "smtp_pw" {
+  type = "string"
+}
+variable "smtp_port" {
+  type = "string"
+}
+variable "smtp_from" {
+  type = "string"
+}
+variable "smtp_admin_to" {
+  type = "string"
+}

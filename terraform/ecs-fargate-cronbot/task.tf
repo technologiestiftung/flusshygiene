@@ -80,6 +80,30 @@ resource "aws_ecs_task_definition" "task" {
       {
         "name": "FLSSHYGN_CALIBRATE_URL",
         "value": "${var.flsshygn_calibrate_url}"
+      },
+      {
+        "name":"SMTP_HOST",
+        "value": "${var.smtp_host}"
+      },
+      {
+        "name":"SMTP_USER",
+        "value": "${var.smtp_user}"
+      },
+      {
+        "name":"SMTP_PW",
+        "value": "${var.smtp_pw}"
+      },
+      {
+        "name":"SMTP_PORT",
+        "value": "${var.smtp_port}"
+      },
+      {
+        "name":"SMTP_FROM",
+        "value": "${var.smtp_from}"
+      },
+      {
+        "name":"SMTP_ADMIN_TO",
+        "value": "${var.smtp_admin_to}"
       }
     ],
     "name": "${var.prefix}-${var.name}-${var.env}",
