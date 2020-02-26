@@ -1,0 +1,57 @@
+name: RADOLAN RECENT test and build
+env:
+  SUFFIX: radolan-recent-to-s3
+  STAGE: dev
+
+on:
+  push:
+    paths:
+      - 'packages/radolan-recent-to-s3/src/**'
+      - '.github/workflows/radolan-recent-to-s3-tests.yml'
+      - 'packages/radolan-recent-to-s3/Dockerfile'
+      - 'packages/radolan-recent-to-s3/.dockerignore'
+      - 'packages/radolan-recent-to-s3/package*.json'
+  pull_request:
+    paths:
+      - 'packages/radolan-recent-to-s3/src/**'
+      - '.github/workflows/radolan-recent-to-s3-tests.yml'
+      - 'packages/radolan-recent-to-s3/Dockerfile'
+      - 'packages/radolan-recent-to-s3/.dockerignore'
+      - 'packages/radolan-recent-to-s3/package*.json'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+    steps:
+      # - name: Skip based on commit message
+      #   uses: veggiemonk/skip-commit@1.0.0
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: create db.json
+        run: touch packages/${SUFFIX}/db.json
+      - name: npm install and test
+        run: |
+          cd packages/${SUFFIX}
+          npm ci
+          npm test --ci --coverage
+          npm run build
+        env:
+          CI: "true"
+  image:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v1
+      - name: image build test
+        run: |
+          cd packages/${SUFFIX}
+          docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
+        env:
+          CI: "true"
