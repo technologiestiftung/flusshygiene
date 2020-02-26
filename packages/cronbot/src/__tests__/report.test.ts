@@ -29,7 +29,16 @@ jest.mock("nodemailer", () => {
     }),
   };
 });
-
+beforeAll(() => {
+  process.env = Object.assign(process.env, {
+    SMTP_HOST: "foo",
+    SMTP_USER: "foo",
+    SMTP_PW: "foo",
+    SMTP_PORT: "foo",
+    SMTP_FROM: "foo",
+    SMTP_ADMIN_TO: "foo",
+  });
+});
 afterAll(() => {
   jest.resetAllMocks();
   jest.restoreAllMocks();
