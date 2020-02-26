@@ -1,120 +1,179 @@
+import { IObject, IReport } from "./../../dist/common/interfaces.d";
 import { IEndpoints, IGeneric } from "./../common/interfaces";
 import { DB, Schema } from "../lib/DB";
 
+const buildTestReport: (overrides?: IObject) => IReport = (overrides) => {
+  const report: IReport = {
+    id: "foo",
+    email: "foo@bah.com",
+    type: "admin",
+    message: "foo",
+    source: {} as IGeneric,
+    stack: "",
+    specifics: "",
+    ...overrides,
+  };
+  return report;
+};
 const db = DB.getInstance();
 // beforeAll(() => {});
 beforeEach(() => {
-  // db.resetState();
+  db.resetState();
 });
 afterEach(() => {
   db.resetState();
+  jest.resetModules();
 });
 describe("DB", () => {
+  test.skip("layout use for new tests", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+    });
+  });
+
   test("db type", () => {
-    expect(db).toBeInstanceOf(DB);
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      expect(db).toBeInstanceOf(module.DB);
+    });
   });
 
-  test("getReportsSorted", async (done) => {
-    db.addReports({
-      id: "foo",
-      email: "foo@bah.com",
-      type: "dataget",
-      message: "foo",
-      source: {} as IGeneric,
-      stack: "",
-      specifics: "",
+  test("getReportsSorted", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      db.addReports(buildTestReport({ type: "dataget", email: "foo@bah.com" }));
+      db.addReports(buildTestReport({ type: "dataget", email: "foo@bah.de" }));
+      db.addReports(buildTestReport({ type: "dataget", email: "foo@bah.xyz" }));
+
+      const reports = db.getReportsSorted();
+      expect(reports.length).toBe(3);
     });
-    db.addReports({
-      id: "foo",
-      email: "foo@bah.com",
-      type: "admin",
-      message: "foo",
-      source: {} as IGeneric,
-      stack: "",
-      specifics: "",
-    });
-    db.addReports({
-      id: "foo",
-      email: "foo@bah.com",
-      type: "dataget",
-      message: "foo",
-      source: {} as IGeneric,
-      stack: "",
-      specifics: "",
-    });
-    db.addReports({
-      id: "foo",
-      email: "boo@boo.com",
-      type: "dataparse",
-      message: "foo",
-      source: {} as IGeneric,
-      stack: "",
-      specifics: "",
-    });
-    // const reports = db.getReportsSorted();
-    // console.log(reports);
-    db.resetState();
-    done();
   });
 
-  test.skip("getReports/addReports", async (done) => {
-    db.addReports({
-      id: "foo",
-      email: "foo@bah.com",
-      type: "admin",
-      message: "foo",
-      source: {} as IGeneric,
-      stack: "",
-      specifics: "",
-    });
-    // console.log(db.getReports());
-    expect(db.getReports().length).toBe(1);
-    done();
-  });
-  test("getEndpoints/addEndpoints", async (done) => {
-    expect(db).toBeInstanceOf(DB);
-    expect(db.getEndpoints).toBeDefined();
-    expect(db.getEndpoints()).toStrictEqual<IEndpoints[]>([]);
-    const data: IEndpoints[] = [
-      {
+  test("getReports/addReports", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      db.addReports({
         id: "foo",
-        user: { id: 1, email: "foo@bah.com" },
-        spot: { id: 1, name: "foo" },
-        discharges: [],
-        measurements: [],
-        globalIrradiances: [],
-      },
-    ];
-    db.addEndpoints(data);
-    expect(db.getEndpoints()[0]).toStrictEqual(data[0]);
-    db.resetState();
-    done();
+        email: "foo@bah.com",
+        type: "admin",
+        message: "foo",
+        source: {} as IGeneric,
+        stack: "",
+        specifics: "",
+      });
+      // console.log(db.getReports());
+      expect(db.getReports().length).toBe(1);
+    });
   });
 
-  test.skip("getGenerics/addGenerics", async (done) => {
-    expect(db.getGenerics("genericInputs")).toStrictEqual([]);
-    const data: IGeneric[] = [
-      {
-        id: "foo",
-        user: { id: 1, email: "foo@bah.com" },
-        spot: { id: 1, name: "foo" },
-        pgId: 1,
-        name: "foo",
-        type: "Generische Werte",
-        data: [{ date: "2020-10-10", value: 1 }],
-      },
-    ];
-    db.addGenerics("genericInputs", data);
-    expect(db.getGenerics("genericInputs")[0]).toStrictEqual(data[0]);
-    db.resetState();
-    // console.log(db.getState());
-    expect(db.getState()).toStrictEqual<Schema>({
-      endpoints: [],
-      genericInputs: [],
-      purificationPlants: [],
-      reports: [],
-      spots: [],
+  test("getReports/addReports", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      db.addReports([buildTestReport(), buildTestReport()]);
+      expect(db.getReports().length).toBe(2);
     });
-    done();
+  });
+  test("getEndpoints/addEndpoints", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      expect(db.getEndpoints).toBeDefined();
+      expect(db.getEndpoints()).toStrictEqual<IEndpoints[]>([]);
+      const data: IEndpoints[] = [
+        {
+          id: "foo",
+          user: { id: 1, email: "foo@bah.com" },
+          spot: { id: 1, name: "foo" },
+          discharges: [],
+          measurements: [],
+          globalIrradiances: [],
+        },
+      ];
+      db.addEndpoints(data);
+      expect(db.getEndpoints()[0]).toStrictEqual(data[0]);
+    });
+  });
+  test("getEndpoints/addEndpoints", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      const data: IEndpoints[] = [
+        {
+          id: "foo",
+          user: { id: 1, email: "foo@bah.com" },
+          spot: { id: 1, name: "foo" },
+          discharges: [],
+          measurements: [],
+          globalIrradiances: [],
+        },
+      ];
+      db.addEndpoints(data[0]);
+      expect(db.getEndpoints()[0]).toStrictEqual(data[0]);
+    });
+  });
+
+  test("getGenerics/addGenerics", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      expect(db.getGenerics("genericInputs")).toStrictEqual([]);
+      const data: IGeneric[] = [
+        {
+          id: "foo",
+          user: { id: 1, email: "foo@bah.com" },
+          spot: { id: 1, name: "foo" },
+          pgId: 1,
+          name: "foo",
+          type: "Generische Werte",
+          data: [{ date: "2020-10-10", value: 1 }],
+        },
+      ];
+      db.addGenerics("genericInputs", data);
+      expect(db.getGenerics("genericInputs")[0]).toStrictEqual(data[0]);
+      db.resetState();
+      // console.log(db.getState());
+      expect(db.getState()).toStrictEqual<Schema>({
+        endpoints: [],
+        genericInputs: [],
+        purificationPlants: [],
+        reports: [],
+        spots: [],
+      });
+    });
+  });
+  test("addGenerics", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      expect(db.getGenerics("genericInputs")).toStrictEqual([]);
+      const data: IGeneric[] = [
+        {
+          id: "foo",
+          user: { id: 1, email: "foo@bah.com" },
+          spot: { id: 1, name: "foo" },
+          pgId: 1,
+          name: "foo",
+          type: "Generische Werte",
+          data: [{ date: "2020-10-10", value: 1 }],
+        },
+      ];
+      db.addGenerics("genericInputs", data[0]);
+      expect(db.getGenerics("genericInputs")[0]).toStrictEqual(data[0]);
+    });
+  });
+  test("updateSpot", () => {
+    import("../lib/DB").then((module) => {
+      const db = module.DB.getInstance();
+      const sourceSpot = {
+        spotId: 1,
+        userId: 1,
+        spotName: "foo",
+        email: "foo@bah.com",
+        apiEndpoints: {},
+      };
+      db.setSpots([sourceSpot]);
+      let spots = db.getSpots();
+      expect(spots).toEqual([sourceSpot]);
+      db.updateSpot(spots[0].spotId, true);
+      spots = db.getSpots();
+      expect(spots[0].hasModel).toBe(true);
+    });
   });
 });
