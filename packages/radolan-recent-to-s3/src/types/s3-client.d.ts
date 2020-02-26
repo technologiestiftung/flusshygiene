@@ -1,1 +1,1 @@
-declare module 's3-client';
+declare module "s3-client";

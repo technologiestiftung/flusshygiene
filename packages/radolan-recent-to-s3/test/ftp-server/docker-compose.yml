@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./data:/home/files/data
+      - ./weather:/home/files/weather
     ports:
       - '3021:21'
       - '3022:22'

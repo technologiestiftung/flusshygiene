@@ -1,7 +1,7 @@
-
 export interface IMainOptions {
   // fileList: ITarFileEntry[];
   // silent?: boolean;
+  [key: string]: any;
 }
 
 export interface ITarFileEntry {
