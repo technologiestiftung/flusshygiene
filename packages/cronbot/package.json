@@ -19,6 +19,9 @@
   "files": [
     "dist"
   ],
+  "bin": {
+    "cronbot": "./dist/cli.js"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -28,6 +31,7 @@
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
+    "prepare": "npm run build",
     "build": "tsc -p .",
     "just": "just",
     "jest": "jest",
@@ -39,7 +43,7 @@
     "test": "jest",
     "change": "beachball change",
     "plop": "plop",
-    "ts-node": "ts-node src/index.ts",
+    "ts-node": "ts-node src/cli.ts",
     "test:watch": "jest --watch",
     "prettier": "prettier \"**/*.+(js|json|yml|yaml|ts)\"",
     "prettier:list": "npm run prettier -- --list-different",
@@ -60,6 +64,7 @@
     "@types/meow": "^5.0.0",
     "@types/mock-fs": "^4.10.0",
     "@types/node": "^12.12.21",
+    "@types/nodemailer": "^6.4.0",
     "@types/shortid": "0.0.29",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
     "@typescript-eslint/parser": "^2.12.0",
@@ -95,6 +100,7 @@
     "lodash.uniqby": "^4.7.0",
     "lowdb": "^1.0.0",
     "meow": "^6.0.0",
+    "nodemailer": "^6.4.3",
     "shortid": "^2.2.15"
   },
   "config": {

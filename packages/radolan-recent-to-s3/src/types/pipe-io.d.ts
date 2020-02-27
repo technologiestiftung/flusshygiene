@@ -1,1 +1,1 @@
-declare module 'pipe-io';
+declare module "pipe-io";

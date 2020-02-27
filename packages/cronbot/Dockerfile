@@ -34,6 +34,7 @@ RUN npm ci --quiet
 COPY --from=builder /usr/app/dist /home/node/dist
 
 USER node
+RUN touch db.json
 EXPOSE 5004
 ENTRYPOINT [ "node", "./dist/cli.js" ]
 CMD ["--adminonly", "--predict", "--verbose"]

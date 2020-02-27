@@ -1,3 +1,5 @@
+import path from "path";
+import fs from "fs";
 // https://github.com/typicode/lowdb/tree/master/examples#in-memory
 // https://github.com/typicode/lowdb/issues/349
 // const lowdb = require("lowdb"); // eslint-disable-line
@@ -8,6 +10,7 @@ import FileSync from "lowdb/adapters/FileSync";
 import Memory from "lowdb/adapters/Memory";
 import { IEndpoints, IGeneric, IReport, Spot } from "../common/interfaces";
 import { GenericType } from "../common/types";
+import { logger } from "../utils/logger";
 
 export type Schema = {
   spots: Spot[];
@@ -35,6 +38,15 @@ export class DB {
   private db!: lowdb.LowdbSync<Schema>;
   private init(): void {
     // console.log("init db"); // eslint-disable-line
+    const dbFilePath = path.resolve(process.cwd(), "db.json");
+    try {
+      if (fs.existsSync(dbFilePath)) {
+        logger.info("db.json exists");
+      }
+    } catch (err) {
+      const fd = fs.openSync(dbFilePath, "w");
+      logger.info(fd);
+    }
     const adapter = new FileSync<Schema>("db.json");
 
     this.db = lowdb(

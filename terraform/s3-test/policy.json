@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Id": "ACCESSOLICY",
+  "Statement": [
+      {
+          "Sid": "AllowPublicRead",
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": "*"
+          },
+          "Action": "s3:GetObject",
+          "Resource": "arn:aws:s3:::${prefix}-radolan-recent-${env}/*"
+      }
+  ]
+}

@@ -1,21 +1,21 @@
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 // import { config } from 'dotenv';
-import fs from 'fs';
-import mailgun from 'mailgun-js';
-import mkdirp from 'mkdirp';
-import path from 'path';
-import pipe from 'pipe-io';
-import ftp from 'promise-ftp';
-import rimraf from 'rimraf';
-import s3 from 's3-client';
-import util from 'util';
+import fs from "fs";
+import mkdirp from "mkdirp";
+import path from "path";
+import pipe from "pipe-io";
+import ftp from "promise-ftp";
+import rimraf from "rimraf";
+import s3 from "s3-client";
+import util from "util";
 // import zlib from 'zlib'; // files on the FTP are not gz anymore
-import { allBucketKeys } from './all-bucket-keys';
-import { IObject } from './interfaces';
-import { logger } from './logger';
-import { radolanFilenameParser } from './radolan-file-name-parser';
-import { shutDownEC2 } from './shutdown-ec2';
-import { stringArrayDiff } from './string-array-diff';
+import { allBucketKeys } from "./all-bucket-keys";
+import { IObject } from "./interfaces";
+import { logger } from "./logger";
+import { radolanFilenameParser } from "./radolan-file-name-parser";
+// import { shutDownEC2 } from "./shutdown-ec2";
+import { stringArrayDiff } from "./string-array-diff";
+import { mail, IMailOpts } from "./mail";
 
 const mkdirpAsync = util.promisify(mkdirp);
 
@@ -44,8 +44,6 @@ const options = {
 const s3Client = s3.createClient(options);
 const radolanRootPath = process.env.FTP_RADOLAN_PATH;
 
-const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY!, domain: process.env.MAILGUN_DOMAIN! });
-
 const errorLogger = (error: Error, obj?: any) => {
   if (obj !== undefined) {
     logger.error(`${JSON.stringify(obj)}\n`);
@@ -63,9 +61,18 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
 
     // extract the last two digits from the year.
     // This is Y3K save :D
-    const year = (new Date()).getFullYear().toString().substr(2);
-    const s3List = await allBucketKeys(awsS3Client, process.env.AWS_BUCKET_NAME!, year);
-    const s3DiffList4Diff = s3List.map(ele => ele.split('/')[ele.split('/').length - 1]);
+    const year = new Date()
+      .getFullYear()
+      .toString()
+      .substr(2);
+    const s3List = await allBucketKeys(
+      awsS3Client,
+      process.env.AWS_BUCKET_NAME!,
+      year,
+    );
+    const s3DiffList4Diff = s3List.map(
+      (ele) => ele.split("/")[ele.split("/").length - 1],
+    );
     const ftpResponse = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
     logger.info(`FTP connection response ${ftpResponse}`);
     const rawFtpList = await ftpClient.list(radolanRootPath);
@@ -79,7 +86,8 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
     //   .map((ele => ele.name.replace('.gz', '')));
 
     const ftpList4Diff = rawFtpList
-      .map((ele => ele.name)).filter(ele => ele.indexOf('-latest-dwd---bin') === -1);
+      .map((ele) => ele.name)
+      .filter((ele) => ele.indexOf("-latest-dwd---bin") === -1);
 
     // diffing is from here https://stackoverflow.com/a/33034768
     // const ftpDiffList = ftpList4Diff.filter(ele => !s3DiffList4Diff.includes(ele));
@@ -94,88 +102,120 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
     logger.info(`Preparing transfer for the following files:,
     ${ftpList} on ${process.env.FTP_HOST} to ${process.env.AWS_BUCKET_NAME}`);
 
-    const transferTasks = ftpList.map((file: string) => new Promise(async (resolve, reject) => {
-      // const ftprestask = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
-      // logger.info(ftprestask);
-      const fileInfo = radolanFilenameParser(file);
-      logger.info(`radolan file infos ${JSON.stringify(fileInfo)}`);
-      const { year, month, day, hour, minute } = fileInfo.groups;
-      const tmpFolderPath = path.resolve(process.cwd(), `./tmp/${year}${month}${day}${hour}${minute}`);
-      await mkdirpAsync(tmpFolderPath);
-      const outfile = file.replace('.gz', '');
-      const ftprstream = await ftpClient.get(`${radolanRootPath}/${file}`);
-      const fswstream = fs.createWriteStream(`${tmpFolderPath}/${outfile}`);
-      // logger.info(`Gunzip to fs ${JSON.stringify(file)}`);
-      pipe(
-        [
-          ftprstream,
-          /*
+    const transferTasks = ftpList.map(
+      (file: string) =>
+        new Promise(async (resolve, reject) => {
+          // const ftprestask = await ftpClient.connect(ftpOpts); // tslint:disable-line: await-promise
+          // logger.info(ftprestask);
+          const fileInfo = radolanFilenameParser(file);
+          logger.info(`radolan file infos ${JSON.stringify(fileInfo)}`);
+          const { year, month, day, hour, minute } = fileInfo.groups;
+          const tmpFolderPath = path.resolve(
+            process.cwd(),
+            `./tmp/${year}${month}${day}${hour}${minute}`,
+          );
+          await mkdirpAsync(tmpFolderPath);
+          const outfile = file.replace(".gz", "");
+          const ftprstream = await ftpClient.get(`${radolanRootPath}/${file}`);
+          const fswstream = fs.createWriteStream(`${tmpFolderPath}/${outfile}`);
+          // logger.info(`Gunzip to fs ${JSON.stringify(file)}`);
+          pipe(
+            [
+              ftprstream,
+              /*
           also here. Files are not zipped anymore
           zlib.createGunzip()
            */
-          fswstream,
-        ], (err: Error) => {
-          if (err) {
-            errorLogger(err, 'Error piping from ftp > gunzip > fs');
-            reject();
-          } else {
-            const key = `${fileInfo.groups.year}/${fileInfo.groups.month}/${fileInfo.groups.day}/${outfile}`;
-            const params = {
-              localFile: `${tmpFolderPath}/${outfile}`,
-              // deleteRemoved: true, // default false, whether to remove s3 objects
-              // that have no corresponding local file.
-              s3Params: {
-                Bucket: process.env.AWS_BUCKET_NAME,
-                Key: `${key}`,
-                // other options supported by putObject, except Body and ContentLength.
-                // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-              },
-            };
-            logger.info(`Preparing upload for: ${params.localFile} to ${key}`);
+              fswstream,
+            ],
+            (err: Error) => {
+              if (err) {
+                errorLogger(err, "Error piping from ftp > gunzip > fs");
+                reject();
+              } else {
+                const key = `${fileInfo.groups.year}/${fileInfo.groups.month}/${fileInfo.groups.day}/${outfile}`;
+                const params = {
+                  localFile: `${tmpFolderPath}/${outfile}`,
+                  // deleteRemoved: true, // default false, whether to remove s3 objects
+                  // that have no corresponding local file.
+                  s3Params: {
+                    Bucket: process.env.AWS_BUCKET_NAME,
+                    Key: `${key}`,
+                    // other options supported by putObject, except Body and ContentLength.
+                    // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
+                  },
+                };
+                logger.info(
+                  `Preparing upload for: ${params.localFile} to ${key}`,
+                );
 
-            const uploader = s3Client.uploadFile(params);
+                const uploader = s3Client.uploadFile(params);
 
-            uploader.on('error', (errul: Error) => {
-              errorLogger(errul);
-              reject();
-            });
-            uploader.once('progress', () => {
-              logger.info(`Uploading: ${params.localFile}`);
-            });
-            uploader.on('end', () => {
-              logger.info(`\ndone uploading: ${params.localFile}`);
-              // fs.unlinkSync(params.localFile);
-              rimraf.sync(tmpFolderPath);
-              resolve();
-            });
-          }
-        });
-    }));
-    await Promise.all(transferTasks).catch(err => {
-      errorLogger(err, 'Error in promise all transferTask');
+                uploader.on("error", (errul: Error) => {
+                  errorLogger(errul);
+                  reject();
+                });
+                uploader.once("progress", () => {
+                  logger.info(`Uploading: ${params.localFile}`);
+                });
+                uploader.on("end", () => {
+                  logger.info(`\ndone uploading: ${params.localFile}`);
+                  // fs.unlinkSync(params.localFile);
+                  rimraf.sync(tmpFolderPath);
+                  resolve();
+                });
+              }
+            },
+          );
+        }),
+    );
+    await Promise.all(transferTasks).catch((err) => {
+      errorLogger(err, "Error in promise all transferTask");
     });
     await ftpClient.end();
-    await rimrafAsync(path.resolve(process.cwd(), './tmp'));
-    const clog = fs.readFileSync(path.resolve(process.cwd(), './combined.log'), 'utf8');
-    const elog = fs.readFileSync(path.resolve(process.cwd(), './error.log'), 'utf8');
+    await ftpClient.destroy();
 
-    const mailData = {
-      from: `Mailgun Sandbox <${process.env.MAILGUN_FROM}>`,
-      subject: `Radoloan recent `,
-      text: `${clog}\n${elog}`,
-      to: `${process.env.MAILGUN_TO}`,
+    await rimrafAsync(path.resolve(process.cwd(), "./tmp"));
+    const clog = fs.readFileSync(
+      path.resolve(process.cwd(), "./combined.log"),
+      "utf8",
+    );
+    const elog = fs.readFileSync(
+      path.resolve(process.cwd(), "./error.log"),
+      "utf8",
+    );
+
+    // const mailData = {
+    //   from: `Mailgun Sandbox <${process.env.MAILGUN_FROM}>`,
+    //   subject: `Radoloan recent `,
+    //   text: `${clog}\n${elog}`,
+    //   to: `${process.env.MAILGUN_TO}`,
+    // };
+
+    const opts: IMailOpts = {
+      // from: process.env.SMTP_FROM!,
+      to: process.env.SMTP_ADMIN_TO!,
+      port: parseInt(process.env.SMTP_PORT!, 10),
+      host: process.env.SMTP_HOST!,
+      user: process.env.SMTP_USER!,
+      pass: process.env.SMTP_PW!,
+      text: `${
+        elog.length === 0 ? "Everything OK." : "ERRORLOG:\n" + elog
+      }\n${clog}`,
+      subject: "[Flusshygiene] radolan recent",
     };
-    mg.messages().send(mailData, (merror, body) => {
-      if (merror) {
-        logger.error(merror);
-      }
-      logger.info(`Mailgun ${JSON.stringify(body)}`);
-    });
-    logger.info('Done. Shutting down?');
-    shutDownEC2(process.env.AWS_EC2_INSTANCE_ID);
+    await mail(opts);
+    // mg.messages().send(mailData, (merror, body) => {
+    //   if (merror) {
+    //     logger.error(merror);
+    //   }
+    //   logger.info(`Mailgun ${JSON.stringify(body)}`);
+    // });
+    logger.info("Done. Shutting down?");
+    // shutDownEC2(process.env.AWS_EC2_INSTANCE_ID);
   } catch (error) {
     await ftpClient.end();
-    errorLogger(error, 'Default error');
+    errorLogger(error, "Default error");
     await ftpClient.destroy();
   }
 };

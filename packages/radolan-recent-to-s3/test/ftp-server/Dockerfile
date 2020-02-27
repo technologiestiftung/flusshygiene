@@ -9,7 +9,7 @@ ADD vsftpd.conf /etc/vsftpd/vsftpd.conf
 ADD entrypoint.sh /
 
 VOLUME /home/files
-VOLUME /home/files/data
+VOLUME /home/files/weather
 
 EXPOSE 20 21 10090-10100
 

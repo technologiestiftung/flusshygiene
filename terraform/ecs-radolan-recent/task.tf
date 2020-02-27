@@ -1,3 +1,10 @@
+resource "aws_cloudwatch_log_group" "recent" {
+  name = "${var.prefix}-${var.name}-${var.env}"
+  tags = {
+    name    = "${var.prefix}-${var.name}-${var.env}"
+    project = "flusshygiene"
+  }
+}
 
 resource "aws_ecs_task_definition" "task" {
 
@@ -12,6 +19,14 @@ resource "aws_ecs_task_definition" "task" {
   container_definitions = <<JSON
  [
   {
+    "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "${aws_cloudwatch_log_group.recent.name}",
+                    "awslogs-region": "${var.region}",
+                    "awslogs-stream-prefix": "${var.prefix}"
+                }
+            },
   "environment" : [
     {
        "name": "MAILGUN_FROM",
@@ -46,7 +61,31 @@ resource "aws_ecs_task_definition" "task" {
      }  , {
        "name": "FTP_RADOLAN_PATH",
        "value": "${var.ftp_radolan_path}"
-     }
+     },
+           {
+        "name":"SMTP_HOST",
+        "value": "${var.smtp_host}"
+      },
+      {
+        "name":"SMTP_USER",
+        "value": "${var.smtp_user}"
+      },
+      {
+        "name":"SMTP_PW",
+        "value": "${var.smtp_pw}"
+      },
+      {
+        "name":"SMTP_PORT",
+        "value": "${var.smtp_port}"
+      },
+      {
+        "name":"SMTP_FROM",
+        "value": "${var.smtp_from}"
+      },
+      {
+        "name":"SMTP_ADMIN_TO",
+        "value": "${var.smtp_admin_to}"
+      }
     ],
     "name": "${var.prefix}-${var.name}-${var.env}",
     "image": "${var.image}",

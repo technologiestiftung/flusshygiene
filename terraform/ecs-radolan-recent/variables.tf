@@ -45,7 +45,7 @@ variable "image" {
 
 variable "schedule_expression" {
   description = "The schedule to run in. Could also be cron(*/5 * * * *) see https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html"
-  default     = "rate(24 hours)"
+  default     = "cron(0 7 * * ? *)"
 }
 
 
@@ -83,6 +83,24 @@ variable "aws_secret_access_key" {
 
 }
 
+variable "smtp_host" {
+  type = "string"
+}
+variable "smtp_user" {
+  type = "string"
+}
+variable "smtp_pw" {
+  type = "string"
+}
+variable "smtp_port" {
+  type = "string"
+}
+variable "smtp_from" {
+  type = "string"
+}
+variable "smtp_admin_to" {
+  type = "string"
+}
 # is taken from data
 # variable "aws_bucket_name" {
 #   description = "The bucket to store the radolan sf data in"

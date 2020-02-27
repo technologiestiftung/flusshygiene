@@ -49,7 +49,9 @@ const app = express();
       const connection = await createConnection(connectionOptions);
       const manager = connection.createEntityManager();
       const user = new User();
-      user.email = 'foo@bah.com';
+      user.email = process.env.DIFFERENT_EMAIL
+        ? process.env.DIFFERENT_EMAIL
+        : 'foo@bah.com';
       user.firstName = 'foo';
       user.lastName = 'bah';
       user.auth0Id = process.env.DEFAULT_AUTH0ID || '';

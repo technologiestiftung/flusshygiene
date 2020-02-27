@@ -11,7 +11,3 @@ This is a terraform recipe for provisioning a Fargate ECS Cluster that runs a do
 - [ ] use `task_role_arn` on `aws_ecs_task_definition` to not pass credentials into the container as ENV variable [see this](https://www.terraform.io/docs/providers/aws/r/ecs_task_definition.html#task_role_arn)
 - [ ] Logging to somewhere
 
-
-
-
-
