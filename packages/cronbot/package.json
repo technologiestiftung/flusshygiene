@@ -60,7 +60,6 @@
     "@types/jest": "^24.0.24",
     "@types/lodash": "^4.14.149",
     "@types/lowdb": "1.0.9",
-    "@types/mailgun-js": "^0.22.3",
     "@types/meow": "^5.0.0",
     "@types/mock-fs": "^4.10.0",
     "@types/node": "^12.12.21",
