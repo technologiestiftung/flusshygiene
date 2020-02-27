@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.7.0...v2.7.1) (2020-02-27)
+
+### Bug Fixes
+
+- **test:** (⌐■_■) ([a390518](https://github.com/technologiestiftung/flusshygiene/commit/a390518a0b439d271a8b5fb42f2339d5b6a39454))
+
+### Features
+
+- **spot:** adds component that shows publicly accessable links ([88aec73](https://github.com/technologiestiftung/flusshygiene/commit/88aec7325d7aee27fa50210b7b962feea9fe013a))
+
 # [2.7.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.6.0...v2.7.0) (2020-02-24)
 
 ### Bug Fixes

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.1](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.7.0...v2.7.1) (2020-02-27)
+
+
+### Bug Fixes
+
+* **test:** (⌐■_■) ([a390518](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/commit/a390518a0b439d271a8b5fb42f2339d5b6a39454))
+
+
+### Features
+
+* **rate limits:** show rate limits in public default request ([7a75311](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/commit/7a753114b10621d65baf9f6c827a65909f2b331c))
+
+
+
+
+
 # [2.7.0](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.6.0...v2.7.0) (2020-02-24)
 
 **Note:** Version bump only for package @tsb/postgres-api
