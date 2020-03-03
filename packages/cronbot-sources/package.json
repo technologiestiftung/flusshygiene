@@ -1,6 +1,6 @@
 {
   "name": "@tsb/cronbot-sources",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "private": true,
   "description": "Files on the web the cronbot can access",
   "author": "fabianmoronzirfas <fabianmoronzirfas@protonmail.ch>",
