@@ -4,7 +4,7 @@
 # change opencpu Password
 ######## https://hub.docker.com/r/opencpu/base/dockerfile #
 # FROM opencpu/base:v2.1.3
-FROM technologiestiftung/flusshygiene-opencpu-base:v2.5.0-dev as base
+FROM technologiestiftung/flusshygiene-opencpu-base:v2.7.1-dev as base
 LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"
