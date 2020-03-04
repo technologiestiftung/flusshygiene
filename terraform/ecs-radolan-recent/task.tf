@@ -13,7 +13,7 @@ resource "aws_ecs_task_definition" "task" {
   requires_compatibilities = ["FARGATE"]
   cpu                   = "256"
   memory                = "512"
-  execution_role_arn    = "${aws_iam_role.task_execution_role.arn}"
+  execution_role_arn    = aws_iam_role.task_execution_role.arn
   # the difinition could also be located in a file
   # container_definitions = "${file("task-definitions/service.json")}"
   container_definitions = <<JSON
@@ -29,18 +29,6 @@ resource "aws_ecs_task_definition" "task" {
             },
   "environment" : [
     {
-       "name": "MAILGUN_FROM",
-       "value": "${var.mailgun_from}"
-       }, {
-       "name": "MAILGUN_TO",
-       "value": "${var.mailgun_to}"
-       }, {
-       "name": "MAILGUN_DOMAIN",
-       "value": "${var.mailgun_domain}"
-       }, {
-       "name": "MAILGUN_APIKEY",
-       "value": "${var.mailgun_api_key}"
-     }, {
        "name": "AWS_ACCESS_KEY_ID",
        "value": "${var.aws_access_key_id}"
      }, {

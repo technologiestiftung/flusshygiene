@@ -2,7 +2,7 @@ FROM node:12.2.0-alpine as builder
 WORKDIR /usr/app
 COPY package*.json ./
 ENV NODE_ENV=development
-RUN mkdir dist && npm i
+RUN mkdir dist && npm ci --quiet
 COPY ./ ./
 RUN npm run build
 FROM node:12.2.0-alpine as production

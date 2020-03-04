@@ -36,7 +36,7 @@ variable "vpc_id" {
 
 variable "image" {
   description = "the image to use for your task"
-  default     = "technologiestiftung/flusshygiene-radolan-recent:latest"
+  default     = "technologiestiftung/flusshygiene-radolan-recent-to-s3:v2.7.4-dev"
 }
 
 # variable "cluster_arn" {
@@ -57,22 +57,22 @@ variable "schedule_expression" {
 # └┐┌┘├─┤├┬┘│├─┤├┴┐│  ├┤ └─┐
 #  └┘ ┴ ┴┴└─┴┴ ┴└─┘┴─┘└─┘└─┘
 # Mailgun
-variable "mailgun_domain" {
-  type = "string"
+# variable "mailgun_domain" {
+#   type = "string"
 
-}
+# }
 
-variable "mailgun_from" {
-  type = "string"
-}
+# variable "mailgun_from" {
+#   type = "string"
+# }
 
-variable "mailgun_to" {
-  type = "string"
-}
+# variable "mailgun_to" {
+#   type = "string"
+# }
 
-variable "mailgun_api_key" {
-  type = "string"
-}
+# variable "mailgun_api_key" {
+#   type = "string"
+# }
 
 variable "aws_access_key_id" {
   description = "The aws access key for your profile. Todo? Make the task use task_role_arn instead of passing the keys in env"
@@ -84,22 +84,22 @@ variable "aws_secret_access_key" {
 }
 
 variable "smtp_host" {
-  type = "string"
+  type = string
 }
 variable "smtp_user" {
-  type = "string"
+  type = string
 }
 variable "smtp_pw" {
-  type = "string"
+  type = string
 }
 variable "smtp_port" {
-  type = "string"
+  type = string
 }
 variable "smtp_from" {
-  type = "string"
+  type = string
 }
 variable "smtp_admin_to" {
-  type = "string"
+  type = string
 }
 # is taken from data
 # variable "aws_bucket_name" {

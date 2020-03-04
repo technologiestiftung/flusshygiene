@@ -1,5 +1,5 @@
 import AWS from "aws-sdk";
-// import { config } from 'dotenv';
+import { config } from "dotenv";
 import fs from "fs";
 import mkdirp from "mkdirp";
 import path from "path";
@@ -21,7 +21,7 @@ const mkdirpAsync = util.promisify(mkdirp);
 
 const rimrafAsync = util.promisify(rimraf);
 
-// config({ path: path.resolve(__dirname, '../../.env') });
+config({ path: path.resolve(__dirname, "../../.env") });
 const ftpOpts: ftp.Options = {
   host: process.env.FTP_HOST,
   port: parseInt(process.env.FTP_PORT!, 10),
@@ -199,10 +199,13 @@ export const main: (options: IObject) => Promise<void> = async (_options) => {
       host: process.env.SMTP_HOST!,
       user: process.env.SMTP_USER!,
       pass: process.env.SMTP_PW!,
+      subject:
+        elog.length === 0
+          ? "[Flusshygiene] Radolan Recent - {OK}"
+          : "[Flusshygiene] Radolan Recent - {ERROR}",
       text: `${
         elog.length === 0 ? "Everything OK." : "ERRORLOG:\n" + elog
       }\n${clog}`,
-      subject: "[Flusshygiene] radolan recent",
     };
     await mail(opts);
     // mg.messages().send(mailData, (merror, body) => {
