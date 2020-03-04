@@ -30,7 +30,7 @@ COPY ./package*.json ./
 RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
-FROM node:10.16.3-alpine as app
+FROM node:10.19.0-alpine as app
 WORKDIR  /usr/app
 ENV NODE_ENV=production
 COPY --from=builder /usr/app/build ./build
