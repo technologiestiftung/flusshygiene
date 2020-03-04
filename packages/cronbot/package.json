@@ -62,7 +62,7 @@
     "@types/lowdb": "1.0.9",
     "@types/meow": "5.0.0",
     "@types/mock-fs": "4.10.0",
-    "@types/node": "12.12.21",
+    "@types/node": "12.12.29",
     "@types/nodemailer": "6.4.0",
     "@types/shortid": "0.0.29",
     "@typescript-eslint/eslint-plugin": "2.12.0",
