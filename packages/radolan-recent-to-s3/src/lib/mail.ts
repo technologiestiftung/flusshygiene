@@ -28,7 +28,7 @@ export interface IMailOpts {
 const buildMessage: (options: IBuildMessage) => any = ({
   text,
   html,
-  subject = `[Flusshygiene] radolan recent`,
+  subject,
   from,
   to,
   attachments,
