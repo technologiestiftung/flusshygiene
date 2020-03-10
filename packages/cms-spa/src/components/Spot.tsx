@@ -168,7 +168,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             user_id: user.pgapiData.id,
           };
           if (event.currentTarget.id === 'sleep') {
-            body = { seconds: 10 };
+            body = { seconds: 600 };
           }
           const action: IOcpuStartAction = {
             type: 'START_OCPU_REQUEST',
