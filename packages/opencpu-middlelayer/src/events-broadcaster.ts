@@ -38,6 +38,7 @@ class BroadCaster extends EventEmitter {
     response.statusCode = 200;
     response.setHeader('Content-Type', 'text/event-stream');
     response.setHeader('Cache-Control', 'no-cache');
+    response.setHeader('X-Accel-Buffering', 'no');
     if (request.httpVersion !== '2.0') {
       response.setHeader('Connection', 'keep-alive');
     }
@@ -62,9 +63,17 @@ class BroadCaster extends EventEmitter {
     };
 
     BroadCaster.instance.on('data', dataHandler);
+
+    const pingHandler = (): void => {
+      response.write(`id: ${-1}\n`);
+      response.write(`event: ping\n`);
+      response.write(`data: ${JSON.stringify({ data: 'ping' })}\n\n`);
+    };
+    const pingInterval = setInterval(pingHandler, 60000);
     // response.setHeader('Content-Encoding', 'deflate');
     // Remove listeners and reduce the number of max listeners on client disconnect
     request.on('close', () => {
+      clearInterval(pingInterval);
       BroadCaster.instance.removeListener('data', dataHandler);
     });
   }

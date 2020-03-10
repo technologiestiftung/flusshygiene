@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { actionCreator } from '../lib/utils/pgapi-actionCreator';
 import { APIMountPoints, ApiResources } from '../lib/common/enums';
-
+import Cookies from 'js-cookie';
 import {
   IOcpuStartAction,
   IObject,
@@ -168,7 +168,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
             user_id: user.pgapiData.id,
           };
           if (event.currentTarget.id === 'sleep') {
-            body = { seconds: 10 };
+            body = { seconds: 5 };
           }
           const action: IOcpuStartAction = {
             type: 'START_OCPU_REQUEST',
@@ -308,11 +308,28 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    */
   useEffect(() => {
     // console.log(eventSourceState.events, 'event source');
+    const cookieContent = Cookies.get('flusshygiene');
+    let sessionId = '';
+    if (cookieContent !== undefined) {
+      const decodedCookie = decodeURI(cookieContent);
+      // const id = decodedCookies
+      // eslint-disable-next-line no-console
+      // console.log(decodedCookie);
+      const regres = /:(.*?)\./.exec(decodedCookie);
+      // console.log(regres);
+      if (regres !== null) {
+        sessionId = regres[1];
+      }
+    }
     if (eventSourceState.events.length > 0) {
       // const str = JSON.stringify(eventSourceState.events);
       // const message: string[] =
       eventSourceState.events.forEach((event) => {
+        if (sessionId !== event.sessionID) {
+          return;
+        }
         if (event.hasOwnProperty('event') && event.event === 'response') {
+          // console.log(event);
           if (event.hasOwnProperty('payload')) {
             if (event.payload.hasOwnProperty('message')) {
               if (Array.isArray(event.payload.message)) {

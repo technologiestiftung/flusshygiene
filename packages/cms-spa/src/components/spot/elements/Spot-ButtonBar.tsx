@@ -65,16 +65,16 @@ export const SpotButtonBar: React.FC<{
           <IconCSV></IconCSV>
         </ButtonIcon> */}
       </div>
+      <ButtonIcon
+        cssId='sleep'
+        text='Sleep'
+        handleClick={handleCalibratePredictClick}
+      >
+        <IconEdit></IconEdit>
+      </ButtonIcon>
 
-      <div className='buttons buttons__--size'>
-        {/* <ButtonIcon
-          cssId='sleep'
-          text='Sleep'
-          handleClick={handleCalibratePredictClick}
-        >
-         <IconCode></IconCode>
-        </ButtonIcon> */}
-        {/* <ButtonIcon
+      {/* <div className='buttons buttons__--size'>
+        <ButtonIcon
           cssId='calibrate'
           additionalClassNames={
             ocpuState.processing === 'calibrate' ? 'is-loading' : ''
@@ -82,10 +82,10 @@ export const SpotButtonBar: React.FC<{
           handleClick={handleCalibratePredictClick}
           text='Regen Laden'
         >
-          <IconRain></IconRain>
-        </ButtonIcon> */}
+          <IconEdit></IconEdit>
+        </ButtonIcon>
 
-        {/* <ButtonIcon
+        <ButtonIcon
           cssId='model'
           additionalClassNames={
             ocpuState.processing === 'model' ? 'is-loading' : ''
@@ -93,9 +93,9 @@ export const SpotButtonBar: React.FC<{
           handleClick={handleCalibratePredictClick}
           text='Modellierung'
         >
-          <IconCalc></IconCalc>
-        </ButtonIcon> */}
-        {/* <ButtonIcon
+          <IconEdit></IconEdit>
+        </ButtonIcon>
+        <ButtonIcon
           cssId='predict'
           additionalClassNames={
             ocpuState.processing === 'predict' ? 'is-loading' : ''
@@ -103,9 +103,9 @@ export const SpotButtonBar: React.FC<{
           handleClick={handleCalibratePredictClick}
           text='Vorhersage'
         >
-          <IconComment></IconComment>
-        </ButtonIcon> */}
-      </div>
+          <IconEdit></IconEdit>
+        </ButtonIcon>
+      </div> */}
     </>
   );
 };

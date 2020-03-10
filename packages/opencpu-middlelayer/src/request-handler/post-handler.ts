@@ -4,7 +4,6 @@ import postPassThrough from '../post-pass-through';
 import { logger } from '../logger';
 import { IBroadcastData } from '../common/interfaces';
 import { Request, Response } from 'express';
-// import { broadcaster } from '../http-router';
 import broadcaster from '../broadcaster-instance';
 export const postHandler: (
   req: Request,
@@ -14,17 +13,7 @@ export const postHandler: (
     `Passing through at ${new Date()} for ${req.sessionID}`,
     req.body,
   );
-  // console.log(req.sessionID);
-  // if (req.body.payload === undefined) {
-  //   res.status(400).json({
-  //     success: false,
-  //     message:
-  //       'You need to pass the "payload" [Object] in the body of your POST request. The payload will be the body this module passes through',
-  //     version: VERSION,
-  //     sessionID: req.sessionID,
-  //   });
-  //   return;
-  // }
+
   logger.info(`request body ${JSON.stringify(req.body)}`);
   let url = '';
   switch (req.url) {
@@ -51,10 +40,8 @@ export const postHandler: (
     event: 'start',
     sessionID: req.sessionID,
   });
-  // const passThroughBody = { ...req.body };
   postPassThrough(url, req.body)
     .then((body) => {
-      // console.log(body);
       broadcaster.emit('passthrough', {
         event: 'response',
         payload: body,
@@ -75,12 +62,5 @@ export const postHandler: (
         event: 'end',
         sessionID: req.sessionID,
       } as IBroadcastData);
-      // console.error(error);
-      // throw error;
     });
-  // const gres = await got.post('http://localhost:4444/process/300000', {
-  //   json: true,
-  //   body: passThroughBody,
-  // });
-  // console.log('response body', gres.body);
 };
