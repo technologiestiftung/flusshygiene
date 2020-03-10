@@ -31,6 +31,7 @@ app.use(
     genid: function(_req) {
       return uuidv4(); // use UUIDs for session IDs
     },
+    name: 'flusshygiene',
     store: new RedisStore({ client }),
     secret:
       SESSION_SECRET !== undefined
@@ -38,6 +39,11 @@ app.use(
         : '45364f84-f39c-449d-b997-27f20da7e8ec',
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      sameSite: true,
+      httpOnly: false,
+      secure: false,
+    },
   }),
 );
 
