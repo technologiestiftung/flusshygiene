@@ -63,10 +63,10 @@ services:
   ocpu:
     container_name: "ocpu"
     env_file: ./packages/opencpu-fhpredict-api/.env
-    # image: technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.6.0-dev
-    build:
-      context: ./packages/opencpu-fhpredict-api
-      dockerfile: Dockerfile
+    image: technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.4-dev
+    # build:
+      # context: ./packages/opencpu-fhpredict-api
+      # dockerfile: Dockerfile
       # args:
       #   - GITHUB_PAT=${GITHUB_PAT}
     environment:
