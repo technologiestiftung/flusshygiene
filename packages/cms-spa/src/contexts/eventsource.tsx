@@ -11,9 +11,10 @@ type EventSourceProviderProps = { children: React.ReactNode; url?: string };
 interface IEventSourceState {
   events: any[];
   url?: string;
+  pings?: number;
 }
 interface IEventAction {
-  type: 'INCOMING' | 'SET_URL' | 'INTERNAL_ERROR';
+  type: 'INCOMING' | 'SET_URL' | 'INTERNAL_ERROR' | 'PING_RECEIVED';
   event: any;
   url?: string;
 }
@@ -44,6 +45,14 @@ const eventSourceReducer: (
       } else {
         return { ...state, url };
       }
+    }
+    case 'PING_RECEIVED': {
+      let pings = 0;
+      if (state.pings !== undefined) {
+        pings = state.pings;
+      }
+      pings += 1;
+      return { ...state, pings };
     }
     case 'INTERNAL_ERROR': {
       // console.error(action.type);
@@ -86,6 +95,12 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
     eventSource.current.addEventListener('passthrough', (event) => {
       // console.log('passthrough', event);
       const action: IEventAction = { type: 'INCOMING', event };
+      dispatch(action);
+    });
+    eventSource.current.addEventListener('ping', (event) => {
+      // eslint-disable-next-line no-console
+      // console.log('ping', event);
+      const action: IEventAction = { type: 'PING_RECEIVED', event };
       dispatch(action);
     });
     eventSource.current.addEventListener('error', (event) => {
