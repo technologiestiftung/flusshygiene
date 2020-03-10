@@ -1,6 +1,6 @@
 {
   "name": "@tsb/opencpu-fhpredict-api",
-  "version": "2.7.4",
+  "version": "2.7.5",
   "private": true,
   "description": "This is a docker setup to run an opencpu API serving the kwb-r/fhpredict package for the Flusshygiene project.",
   "main": "index.js",

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.5](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/compare/v2.7.4...v2.7.5) (2020-03-10)
+
+
+### Bug Fixes
+
+* **radolan recet:** Allow logging so we can see it in cloudwatch ([cba6292](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/commit/cba629261c5033eec825073ac82202b95fbb2114))
+* **SMTP subject:** remove default value ([6a96359](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/commit/6a9635942f6d16112f321d5433ee3464c1f7def6))
+
+
+
+
+
 ## [2.7.4](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/compare/v2.7.3...v2.7.4) (2020-03-04)
 
 **Note:** Version bump only for package @tsb/radolan-recent-to-s3

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.5](https://github.com/technologiestiftung/flusshygiene/compare/v2.7.4...v2.7.5) (2020-03-10)
+
+
+### Bug Fixes
+
+* **predictions:** New version of fhpedict 0.10.1 ([6003ded](https://github.com/technologiestiftung/flusshygiene/commit/6003dedffa99e17cc35d8a05c8a6aded6324bddb)), closes [#224](https://github.com/technologiestiftung/flusshygiene/issues/224)
+* **radolan recet:** Allow logging so we can see it in cloudwatch ([cba6292](https://github.com/technologiestiftung/flusshygiene/commit/cba629261c5033eec825073ac82202b95fbb2114))
+* **SMTP subject:** remove default value ([6a96359](https://github.com/technologiestiftung/flusshygiene/commit/6a9635942f6d16112f321d5433ee3464c1f7def6))
+* **SSE:** Fix long running process ([8023f1a](https://github.com/technologiestiftung/flusshygiene/commit/8023f1a0bf78aa8460d5c5910ab750a19331f284))
+
+
+
+
+
 ## [2.7.4](https://github.com/technologiestiftung/flusshygiene/compare/v2.7.3...v2.7.4) (2020-03-04)
 
 **Note:** Version bump only for package @tsb/flusshygiene

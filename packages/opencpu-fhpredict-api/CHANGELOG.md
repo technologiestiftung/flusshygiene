@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.5](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api/compare/v2.7.4...v2.7.5) (2020-03-10)
+
+
+### Bug Fixes
+
+* **predictions:** New version of fhpedict 0.10.1 ([6003ded](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api/commit/6003dedffa99e17cc35d8a05c8a6aded6324bddb)), closes [#224](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api/issues/224)
+
+
+
+
+
 ## [2.7.4](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api/compare/v2.7.3...v2.7.4) (2020-03-04)
 
 **Note:** Version bump only for package @tsb/opencpu-fhpredict-api
