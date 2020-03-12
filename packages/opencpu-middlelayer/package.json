@@ -20,7 +20,7 @@
   "author": "Fabian Morón Zirfas",
   "license": "MIT",
   "devDependencies": {
-    "@types/connect-redis": "0.0.11",
+    "@types/connect-redis": "0.0.13",
     "@types/cors": "2.8.6",
     "@types/dotenv": "6.1.1",
     "@types/express-session": "1.15.14",
