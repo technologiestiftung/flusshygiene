@@ -65,13 +65,13 @@ export const SpotButtonBar: React.FC<{
           <IconCSV></IconCSV>
         </ButtonIcon> */}
       </div>
-      <ButtonIcon
+      {/* <ButtonIcon
         cssId='sleep'
         text='Sleep'
         handleClick={handleCalibratePredictClick}
       >
         <IconEdit></IconEdit>
-      </ButtonIcon>
+      </ButtonIcon> */}
 
       {/* <div className='buttons buttons__--size'>
         <ButtonIcon
