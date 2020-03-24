@@ -30,7 +30,7 @@
     },
     {
       "name": "ocpu",
-      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.5-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.5-fix-dev",
       "hostname": "ocpu",
       "essential": false,
       "memory": 3072,
