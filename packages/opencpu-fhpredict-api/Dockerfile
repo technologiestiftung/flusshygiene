@@ -4,7 +4,7 @@
 # change opencpu Password
 ######## https://hub.docker.com/r/opencpu/base/dockerfile #
 # FROM opencpu/base:v2.1.3
-FROM technologiestiftung/flusshygiene-opencpu-base:v2.7.4-dev as base
+FROM technologiestiftung/flusshygiene-opencpu-base:v2.7.5-fix-dev as base
 LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"
@@ -29,7 +29,11 @@ COPY ./files/.vimrc ~/
 #
 # RUN echo "GITHUB_PAT=${GITHUB_PAT}" >> .Renviron && echo "" >> .Renviron
 # RUN ./build-r-installer.sh $GITHUB_PAT 0.9.1 > install.r && Rscript install.r && rm install.r
-RUN  R -e "remotes::install_github(\"kwb-r/fhpredict@v0.10.1\", build_vignettes = FALSE, force = TRUE, upgrade = \"never\")"
+RUN  R -e "remotes::install_github('kwb-r/kwb.utils@v0.5.0', upgrade = 'never')"
+RUN  R -e "remotes::install_github('kwb-r/kwb.dwd@v0.1.0', upgrade = 'never')"
+RUN  R -e "remotes::install_github('kwb-r/kwb.flusshygiene@v0.3.0', upgrade = 'never')"
+RUN  R -e "remotes::install_github('kwb-r/fhpredict@v0.11.1', upgrade = 'never')"
+# RUN  R -e "remotes::install_github(\"kwb-r/fhpredict@v0.11.0\", build_vignettes = FALSE, force = TRUE, upgrade = \"never\")"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004
 EXPOSE 80

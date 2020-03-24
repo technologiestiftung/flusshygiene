@@ -6,7 +6,7 @@
       "image": "technologiestiftung/flusshygiene-postgres-api:v2.7.5-dev",
       "hostname": "api",
       "essential": false,
-      "memory": 3072,
+      "memory": 2048,
       "mountPoints": [
         {
           "sourceVolume": "awseb-logs-api",
@@ -30,10 +30,10 @@
     },
     {
       "name": "ocpu",
-      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.5-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.5-fix-dev",
       "hostname": "ocpu",
       "essential": false,
-      "memory": 2048,
+      "memory": 3072,
       "mountPoints": [
         {
           "sourceVolume": "awseb-logs-ocpu",
