@@ -65,6 +65,6 @@ then
 fi
 
 # echo "${VERSION}"
-npm run lerna:version -- "${VERSION}" && git add . && git ci -m "'v${VERSION}'" && npm version "${VERSION}" --no-git-tag-version && git add . && git ci -m "'v${VERSION}'"
+npm run lerna:version -- "${VERSION}" && git add . && git ci -m "v${VERSION}" && npm version "${VERSION}" --no-git-tag-version && git add . && git ci -m "v${VERSION}"
 
 
