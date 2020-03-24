@@ -14,6 +14,7 @@ jobs:
 
   nginx:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       # - name: Skip based on commit message
       #   uses: veggiemonk/skip-commit@1.0.0
