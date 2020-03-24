@@ -24,8 +24,8 @@ client.on('end', () => {
 });
 
 const app = express();
-// const ewss = expressWs(app);
-// const wss = expressWs.getWss();
+
+app.set('trust proxy', 1); // trust first proxy
 app.use(
   session({
     genid: function(_req) {
@@ -40,7 +40,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      sameSite: true,
+      // sameSite: true,
       httpOnly: false,
       secure: false,
     },

@@ -5,3 +5,5 @@ services:
     image: technologiestiftung/flusshygiene-opencpu-fhpredict-api:test-dev
     container_name: flusshygiene-opencpu-fhpredict-api
     env_file: ./.env
+
+
