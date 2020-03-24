@@ -24,7 +24,8 @@ COPY build-r-installer.sh ./
 # ENV ENDPOINT_PROD $ENDPOINT_PROD
 # ENV TOKEN_PROD $TOKEN_PROD
 
-# COPY "./files/.vimrc" "~/"
+COPY ./opencpu-config/ /etc/opencpu/server.conf.d/
+COPY ./files/.vimrc ~/
 #
 # RUN echo "GITHUB_PAT=${GITHUB_PAT}" >> .Renviron && echo "" >> .Renviron
 # RUN ./build-r-installer.sh $GITHUB_PAT 0.9.1 > install.r && Rscript install.r && rm install.r
