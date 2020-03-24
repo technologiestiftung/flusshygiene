@@ -56,7 +56,7 @@ const eventSourceReducer: (
     }
     case 'INTERNAL_ERROR': {
       // console.error(action.type);
-      // console.error(action.event);
+      console.error(action.event);
       return { ...state, events: ['INTERNAL_ERROR'] };
     }
     default: {
