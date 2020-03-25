@@ -34,6 +34,7 @@ jobs:
 
   cronbot:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       - name: Get the source
         uses: actions/checkout@v1
@@ -48,6 +49,7 @@ jobs:
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
   radolan:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       - name: Get the source
         uses: actions/checkout@v1
@@ -62,6 +64,7 @@ jobs:
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
   cms-spa:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       # - name: Skip based on commit message
       #   uses: veggiemonk/skip-commit@1.0.0
@@ -81,6 +84,7 @@ jobs:
 
   ocpu-base:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       # - name: Skip based on commit message
       #   uses: veggiemonk/skip-commit@1.0.0
@@ -102,6 +106,7 @@ jobs:
 
   fhpredict:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     needs: ocpu-base
     steps:
       # - name: Skip based on commit message
@@ -117,12 +122,13 @@ jobs:
         run: |
           cd packages/opencpu-fhpredict-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build  --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
 
 
   middlelayer:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       # - name: Skip based on commit message
       #   uses: veggiemonk/skip-commit@1.0.0
@@ -143,6 +149,7 @@ jobs:
 
   postgres-api:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       # - name: Skip based on commit message
       #   uses: veggiemonk/skip-commit@1.0.0
