@@ -111,6 +111,7 @@
         }
       ]
     },
+
     {
       "name": "nginx",
       "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.7.6-dev",
