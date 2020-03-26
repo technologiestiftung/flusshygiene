@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "api",
-      "image": "technologiestiftung/flusshygiene-postgres-api:v2.7.6-dev",
+      "image": "technologiestiftung/flusshygiene-postgres-api:v2.7.6-fix-dev",
       "hostname": "api",
       "essential": false,
       "memory": 2048,
