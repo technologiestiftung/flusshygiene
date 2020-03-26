@@ -21,6 +21,6 @@ describe('Testing spot image', () => {
     const { container } = render(
       <SpotImage name={'n'} nameLong={'nn'} image={null}></SpotImage>,
     );
-    expect(container.querySelector('img')!.src).toContain('placekitten');
+    expect(container.querySelector('img')!.src).toContain('placeholder');
   });
 });
