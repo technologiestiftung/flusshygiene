@@ -20,7 +20,7 @@ storiesOf('CardTile', module)
         updatedAt: new Date(),
       }}
       id={1}
-      image={'http://placekitten.com/1080/540'}
+      image={'/placeholder2-1.svg'}
       hasPrediction={true}
     />
   ));

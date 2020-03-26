@@ -28,10 +28,7 @@ export const CardTile: React.FC<ISpotCard> = ({
     <div className='card card__profile--pad'>
       <div className='card-image'>
         <figure className='image is-16by9'>
-          <img
-            src={image === null ? 'http://placekitten.com/270/135' : image}
-            alt={''}
-          />
+          <img src={image === null ? '/placeholder16-9.svg' : image} alt={''} />
         </figure>
       </div>
 
