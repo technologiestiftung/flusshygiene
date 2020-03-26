@@ -171,6 +171,8 @@ const app = express();
 
 const whitelist = [
   'https://www.flusshygiene.xyz',
+  'https://www.flussbaden.org',
+  'https://flussbaden.org',
   'http://localhost:3000',
   'http://localhost:8888',
 ];
@@ -179,6 +181,7 @@ const corsOptions: CorsOptions = {
     if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.error(origin, 'Not allowed by CORS');
       callback(new Error('Not allowed by CORS'));
     }
   },

@@ -61,7 +61,9 @@ if (process.env.APP_HOST_1 !== undefined) {
 if (process.env.APP_HOST_2 !== undefined) {
   whiteList.push(process.env.APP_HOST_2);
 }
-
+if (process.env.APP_HOST_3 !== undefined) {
+  whiteList.push(process.env.APP_HOST_3);
+}
 const corsOptions: e.CorsOptions = {
   origin: function(origin: any, callback: any): void {
     if (origin === undefined || whiteList.includes(origin)) {
