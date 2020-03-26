@@ -260,7 +260,6 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   //   //   clearTimeout(timeout);
   //   // };
   // }, [showNotification]);
-
   /**
    * this effect sets the content of the banner based on ocpu data
    *

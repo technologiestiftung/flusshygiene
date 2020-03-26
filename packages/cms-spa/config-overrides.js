@@ -28,5 +28,6 @@ module.exports = override(
   addWebpackAlias({
     'mapbox-gl$': path.resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js'),
   }),
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useBabelRc(),
 );

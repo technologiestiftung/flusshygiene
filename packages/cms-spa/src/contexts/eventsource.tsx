@@ -99,12 +99,12 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
     });
     eventSource.current.addEventListener('ping', (event) => {
       // eslint-disable-next-line no-console
-      // console.log('ping', event);
+      console.log('ping', event);
       const action: IEventAction = { type: 'PING_RECEIVED', event };
       dispatch(action);
     });
     eventSource.current.addEventListener('error', (event) => {
-      // console.error('eventsource error', event);
+      console.error('eventsource error', event);
       const action: IEventAction = { type: 'INTERNAL_ERROR', event };
       dispatch(action);
     });
