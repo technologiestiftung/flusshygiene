@@ -23,7 +23,7 @@ import { Discharge } from './Discharge';
 import { GenericInput } from './GenericInput';
 import { GlobalIrradiance } from './GlobalIrradiance';
 import { ImageFile } from './ImageFile';
-import { Influences, IMetaData } from '../../lib/common';
+import { Influences, IMetaData, IObject } from '../../lib/common';
 import { IsEnum } from 'class-validator';
 import { PurificationPlant } from './PurificationPlant';
 import { Rain } from './Rain';
@@ -288,14 +288,14 @@ export class Bathingspot {
     srid: 4326,
     type: 'geometry',
   })
-  public location!: object;
+  public location!: IObject;
   @Column({
     nullable: true,
     spatialFeatureType: 'Polygon',
     srid: 4326,
     type: 'geometry',
   })
-  public area!: object;
+  public area!: IObject;
 
   @Column({ type: 'float8', nullable: true })
   public latitude!: number;
@@ -432,12 +432,23 @@ export class Bathingspot {
           type: 'Feature',
         };
         const area = buffer(geojson as GeometryObject, 5, {
-          steps: 8,
+          steps: 5,
           units: 'kilometers',
         });
         this.area = area.geometry as Polygon;
         // console.log(this.area);
       }
+    }
+  }
+
+  @BeforeInsert()
+  public calcAreaFromLoction() {
+    if (this.location && !this.area) {
+      const area = buffer(this.location.geometry as GeometryObject, 5, {
+        steps: 5,
+        units: 'kilometers',
+      });
+      this.area = area.geometry as Polygon;
     }
   }
 }

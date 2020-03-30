@@ -173,9 +173,15 @@ const whitelist = [
   'https://www.flusshygiene.xyz',
   'https://www.flussbaden.org',
   'https://flussbaden.org',
-  'http://localhost:3000',
-  'http://localhost:8888',
 ];
+if (process.env.NODE_ENV === 'development') {
+  const locals = [
+    'http://localhost:3000',
+    'http://localhost:8888',
+    'http://localhost:5004',
+  ];
+  whitelist.push(...locals);
+}
 const corsOptions: CorsOptions = {
   origin: function(origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {

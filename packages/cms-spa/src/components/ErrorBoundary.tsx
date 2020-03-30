@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container } from './Container';
-import { Link } from 'react-router-dom';
 
 export default class ErrorBoundary extends React.Component<
   {},
@@ -46,7 +45,7 @@ export default class ErrorBoundary extends React.Component<
           <Container>
             <div className='content'>
               <p>
-                Zurück <Link to='/'>zum Anfang </Link>
+                Zurück <a href='/'>zum Anfang </a>
               </p>
             </div>
           </Container>
