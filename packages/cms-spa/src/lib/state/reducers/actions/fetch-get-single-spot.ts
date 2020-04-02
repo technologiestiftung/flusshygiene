@@ -2,9 +2,9 @@ import {
   fetchSingleSpotBegin,
   fetchSingleSpotSuccess,
   fetchSingleSpotFail,
-} from '../single-spot-reducer';
-import { IFetchSpotOptions } from '../../../common/interfaces';
-import { handleErrors } from './fetch-common';
+} from "../single-spot-reducer";
+import { IFetchSpotOptions } from "../../../common/interfaces";
+import { handleErrors } from "./fetch-common";
 
 export const fetchSingleSpot: (opts: IFetchSpotOptions) => void = ({
   url,

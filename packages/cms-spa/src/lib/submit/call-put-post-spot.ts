@@ -2,16 +2,16 @@ import {
   IBathingspot,
   IBathingspotMeasurement,
   IFetchSpotOptions,
-} from '../common/interfaces';
+} from "../common/interfaces";
 
-import { REACT_APP_API_HOST } from '../config';
+import { REACT_APP_API_HOST } from "../config";
 
-import { APIMountPoints, ApiResources } from '../common/enums';
+import { APIMountPoints, ApiResources } from "../common/enums";
 
-import { putSpot } from '../state/reducers/actions/fetch-post-spot';
-import { useAuth0 } from '../auth/react-auth0-wrapper';
-import { nullValueTransform } from '../utils/spot-nullvalue-transformer';
-import { useDispatch } from 'react-redux';
+import { putSpot } from "../state/reducers/actions/fetch-post-spot";
+import { useAuth0 } from "../auth/react-auth0-wrapper";
+import { nullValueTransform } from "../utils/spot-nullvalue-transformer";
+import { useDispatch } from "react-redux";
 const { user, getTokenSilently } = useAuth0();
 
 // ╦═╗┌─┐┌┬┐┬ ┬─┐ ┬
@@ -36,13 +36,13 @@ export const callPutPostSpot = async (
     //     delete body[key];
     //   }
     // }
-    if (key === 'csvFile') {
+    if (key === "csvFile") {
       delete body[key];
     }
-    if (key === 'isPublic') {
+    if (key === "isPublic") {
       continue;
     }
-    if (key === 'location' || key === 'area') {
+    if (key === "location" || key === "area") {
       continue;
     }
     if (body[key] === null || body[key] === undefined) {
@@ -63,10 +63,10 @@ export const callPutPostSpot = async (
     url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}`;
   }
   const postSpotOpts: IFetchSpotOptions = {
-    method: isNewSpot === true ? 'POST' : 'PUT',
+    method: isNewSpot === true ? "POST" : "PUT",
     url,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(body),
@@ -84,10 +84,10 @@ export const callPutPostSpot = async (
   ) {
     //     console.log('posting measurements');
     const postMeasurmentsOpts: IFetchSpotOptions = {
-      method: 'POST',
+      method: "POST",
       url: `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spot.id}/${ApiResources.measurements}`,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(measurmentData),

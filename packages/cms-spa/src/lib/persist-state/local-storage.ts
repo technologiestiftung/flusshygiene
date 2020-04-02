@@ -1,4 +1,4 @@
-import { IObject } from '../common/interfaces';
+import { IObject } from "../common/interfaces";
 
 /**
  * Loads the stored data from local storage

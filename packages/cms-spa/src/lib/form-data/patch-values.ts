@@ -1,4 +1,4 @@
-import { IFormBuildData, IBathingspot } from '../common/interfaces';
+import { IFormBuildData, IBathingspot } from "../common/interfaces";
 
 export const patchValues: (
   values: IBathingspot,
@@ -6,17 +6,17 @@ export const patchValues: (
   defaultSelect?: string,
 ) => IFormBuildData[] = (values, data, defaultSelect) => {
   data.forEach((ele, i, arr) => {
-    if (ele.type === 'checkbox') {
+    if (ele.type === "checkbox") {
       if (values.hasOwnProperty(ele.name) === true) {
         arr[i].value =
           values[ele.name] === undefined ? false : values[ele.name];
       }
     }
-    if (ele.type === 'select') {
+    if (ele.type === "select") {
       if (values.hasOwnProperty(ele.name) === true) {
         if (defaultSelect === undefined) {
           throw new Error(
-            'You need to define a defaultSelect value for the patch function ',
+            "You need to define a defaultSelect value for the patch function ",
           );
         }
         arr[i].value =

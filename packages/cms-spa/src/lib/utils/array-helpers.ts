@@ -1,4 +1,4 @@
-import { IObject } from './../common/interfaces';
+import { IObject } from "./../common/interfaces";
 
 const arrayGetlastElements: (arr: any[], num: number) => any[] = (arr, num) => {
   const res = arr.slice(Math.max(arr.length - num, 0));

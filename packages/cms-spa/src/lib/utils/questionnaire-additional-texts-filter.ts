@@ -1,6 +1,6 @@
 export const createLinks: (text: string | null) => string = (text) => {
   if (text === null) {
-    return '';
+    return "";
   }
   const res = text.replace(
     /<(.*?)>/g,
@@ -13,7 +13,7 @@ export const createLinks: (text: string | null) => string = (text) => {
 
 export const createPDFLinks: (text: string | null) => string = (text) => {
   if (text === null) {
-    return '';
+    return "";
   }
   const res = text.replace(/<(.*?)>/g, '<Link src="$1">[Link]</Link>');
   // console.log(text, res);

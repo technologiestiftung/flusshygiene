@@ -4,10 +4,10 @@ export function hasAutoData(
   solo?: boolean,
 ): string {
   if (solo === true) {
-    return auto ? ' ✓' : ' ✘';
+    return auto ? " ✓" : " ✘";
   } else {
-    return `${truncate ? 'Autom.' : 'Automatisierte Datenagregation'}:${
-      auto ? ' ✓' : ' ✘'
+    return `${truncate ? "Autom." : "Automatisierte Datenagregation"}:${
+      auto ? " ✓" : " ✘"
     }`;
   }
 }
