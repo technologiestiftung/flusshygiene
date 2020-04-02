@@ -1,28 +1,28 @@
 // src/components/Profile.js
 
-import React, { useEffect, useState, useRef } from 'react';
-import { useAuth0, Auth0Context } from '../lib/auth/react-auth0-wrapper';
-import { Container } from './Container';
-import { SpotEditorBasisData } from './spot/SpotEditor-Basis-Data';
-import { DEFAULT_SPOT } from '../lib/common/constants';
-import { useMapResizeEffect } from '../hooks/map-hooks';
+import React, { useEffect, useState, useRef } from "react";
+import { useAuth0, Auth0Context } from "../lib/auth/react-auth0-wrapper";
+import { Container } from "./Container";
+import { SpotEditorBasisData } from "./spot/SpotEditor-Basis-Data";
+import { DEFAULT_SPOT } from "../lib/common/constants";
+import { useMapResizeEffect } from "../hooks/map-hooks";
 // import { RootState } from '../lib/state/reducers/root-reducer';
 // import { useSelector, useDispatch } from 'react-redux';
-import { REACT_APP_API_HOST } from '../lib/config';
-import { APIMountPoints, ApiResources } from '../lib/common/enums';
+import { REACT_APP_API_HOST } from "../lib/config";
+import { APIMountPoints, ApiResources } from "../lib/common/enums";
 import {
   // IFetchSpotOptions,
   ApiActionTypes,
   IApiAction,
   IBathingspot,
-} from '../lib/common/interfaces';
+} from "../lib/common/interfaces";
 // import { fetchSpots } from '../lib/state/reducers/actions/fetch-get-spots';
-import { CardTile } from './spot/elements/Spot-CardTile';
-import SpotsMap from './spot/elements/Spot-Map';
-import { apiRequest, useApi } from '../contexts/postgres-api';
-import { actionCreator } from '../lib/utils/pgapi-actionCreator';
-import { Spinner } from './util/Spinner';
-import { MessageProvider } from '../contexts/messages';
+import { CardTile } from "./spot/elements/Spot-CardTile";
+import SpotsMap from "./spot/elements/Spot-Map";
+import { apiRequest, useApi } from "../contexts/postgres-api";
+import { actionCreator } from "../lib/utils/pgapi-actionCreator";
+import { Spinner } from "./util/Spinner";
+import { MessageProvider } from "../contexts/messages";
 const limit = 50; // magic number from the postgres-api
 
 const Profile: React.FC = () => {
@@ -84,12 +84,12 @@ const Profile: React.FC = () => {
          * We first get the count of spots
          */
         const res = await fetch(`${url}/count`, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'content-type': 'application/json',
+            "content-type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          credentials: 'include',
+          credentials: "include",
         });
 
         if (res.ok) {
@@ -107,9 +107,9 @@ const Profile: React.FC = () => {
                 body: {},
                 token,
                 url: `${url}?skip=${skip}&limit=${limit}`,
-                method: 'GET',
+                method: "GET",
                 type: ApiActionTypes.START_API_REQUEST,
-                resource: 'bathingspots',
+                resource: "bathingspots",
               });
               actions.push(action);
             }
@@ -121,15 +121,15 @@ const Profile: React.FC = () => {
               body: {},
               token,
               url,
-              method: 'GET',
+              method: "GET",
               type: ApiActionTypes.START_API_REQUEST,
-              resource: 'bathingspots',
+              resource: "bathingspots",
             });
 
             apiRequest(apiDispatch, action);
           }
         } else {
-          throw new Error('Could not get count of spots');
+          throw new Error("Could not get count of spots");
         }
       } catch (error) {
         throw error;
@@ -147,6 +147,7 @@ const Profile: React.FC = () => {
   const handleNewSpot = () => {
     setEditMode(true);
   };
+
   return (
     <>
       <MessageProvider>
@@ -158,23 +159,23 @@ const Profile: React.FC = () => {
               return (
                 <Auth0Context.Consumer>
                   {(value) => (
-                    <div className='card'>
-                      <div className='card-content'>
-                        <div className='media'>
-                          <div className='media-left'>
-                            <figure className='image is-48x48'>
-                              <img src={value.user.picture} alt='Profile' />
+                    <div className="card">
+                      <div className="card-content">
+                        <div className="media">
+                          <div className="media-left">
+                            <figure className="image is-48x48">
+                              <img src={value.user.picture} alt="Profile" />
                             </figure>
                           </div>
-                          <div className='media-content'>
-                            <p className='title is-4'>
-                              <span>{'Benutzer: '}</span>
+                          <div className="media-content">
+                            <p className="title is-4">
+                              <span>{"Benutzer: "}</span>
                               {value.user.nickname}
                             </p>
-                            <p className='subtitle is-6'>
-                              <span>{'E-Mail: '}</span>
+                            <p className="subtitle is-6">
+                              <span>{"E-Mail: "}</span>
                               {value.user.email} <br />
-                              <span>{'API ID: '}</span>
+                              <span>{"API ID: "}</span>
                               {value.user.pgapiData?.id ?? undefined}
                             </p>
                             {/* <pre>
@@ -206,8 +207,8 @@ const Profile: React.FC = () => {
         {editMode === false && (
           <Container>
             {isAuthenticated !== undefined && isAuthenticated === true && (
-              <div className='buttons'>
-                <button className='button is-small' onClick={handleNewSpot}>
+              <div className="buttons">
+                <button className="button is-small" onClick={handleNewSpot}>
                   Neue Badestelle
                 </button>
               </div>
@@ -216,8 +217,8 @@ const Profile: React.FC = () => {
         )}
         {editMode === false && (
           <>
-            <Container containerClassName={'user__spots-map'}>
-              <div ref={mapRef} id='map__container'>
+            <Container containerClassName={"user__spots-map"}>
+              <div ref={mapRef} id="map__container">
                 {spots === undefined && <Spinner />}
                 {spots !== undefined && (
                   <SpotsMap
@@ -228,16 +229,16 @@ const Profile: React.FC = () => {
                 )}
               </div>
             </Container>
-            <Container containerClassName={'user__spots'}>
-              <div className='tile is-ancestor'>
-                <div style={{ flexWrap: 'wrap' }} className='tile is-parent'>
+            <Container containerClassName={"user__spots"}>
+              <div className="tile is-ancestor">
+                <div style={{ flexWrap: "wrap" }} className="tile is-parent">
                   {spots === undefined && <Spinner />}
                   {spots !== undefined &&
                     spots.map((obj, i) => {
                       // return <li key={i}s>{obj.name}</li>;
 
                       return (
-                        <div key={i} className='tile is-child is-3'>
+                        <div key={i} className="tile is-child is-3">
                           <CardTile
                             title={obj.name}
                             water={obj.water}

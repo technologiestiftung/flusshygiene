@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Container } from '../../Container';
-import { actionCreator } from '../../../lib/utils/pgapi-actionCreator';
-import { useAuth0 } from '../../../lib/auth/react-auth0-wrapper';
-import { apiRequest, useApi } from '../../../contexts/postgres-api';
-import { REACT_APP_API_HOST } from '../../../lib/config';
-import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
+import React, { useState, useEffect } from "react";
+import { Container } from "../../Container";
+import { actionCreator } from "../../../lib/utils/pgapi-actionCreator";
+import { useAuth0 } from "../../../lib/auth/react-auth0-wrapper";
+import { apiRequest, useApi } from "../../../contexts/postgres-api";
+import { REACT_APP_API_HOST } from "../../../lib/config";
+import { APIMountPoints, ApiResources } from "../../../lib/common/enums";
 import {
   RequestResourceTypes,
   ClickFunction,
   IGenericInput,
-} from '../../../lib/common/interfaces';
-import { Formik, Form } from 'formik';
-import { FormikButtons } from '../formik-helpers/FormikButtons';
-import { defaultMeasurementsSchema } from '../../../lib/utils/spot-validation-schema';
-import { NewUploadBox } from '../elements/New-UploadBox';
-import { InfoText } from '../elements/SpotEditor-Measurments-Info';
+} from "../../../lib/common/interfaces";
+import { Formik, Form } from "formik";
+import { FormikButtons } from "../formik-helpers/FormikButtons";
+import { defaultMeasurementsSchema } from "../../../lib/utils/spot-validation-schema";
+import { NewUploadBox } from "../elements/New-UploadBox";
+import { InfoText } from "../elements/SpotEditor-Measurments-Info";
 interface ISimpleMeasurement {
   date: string;
   value: number;
@@ -39,18 +39,18 @@ export const GiPPUploader: React.FC<{
   handleSubmitClose,
 }) => {
   if (subItemId === undefined) {
-    throw new Error('subItemId needs to be defined');
+    throw new Error("subItemId needs to be defined");
   }
   const BASE_URL = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${userId}/${ApiResources.bathingspots}/${spotId}`;
 
   const title =
-    resourceType === 'gInputMeasurements'
-      ? 'Genrische Messungen'
-      : 'Klärwerk Messungen';
+    resourceType === "gInputMeasurements"
+      ? "Genrische Messungen"
+      : "Klärwerk Messungen";
   const POST_URL = `${BASE_URL}/${
-    resourceType === 'gInputMeasurements'
-      ? 'genericInputs'
-      : 'purificationPlants'
+    resourceType === "gInputMeasurements"
+      ? "genericInputs"
+      : "purificationPlants"
   }/${subItemId}/${ApiResources.measurements}`;
   /**
    *
@@ -82,12 +82,12 @@ export const GiPPUploader: React.FC<{
     const spot = filteredSpots[0];
     let entities: IGenericInput[] | undefined;
     switch (resourceType) {
-      case 'gInputMeasurements': {
+      case "gInputMeasurements": {
         entities = spot.genericInputs?.filter((item) => item.id === subItemId);
         if (entities === undefined || entities.length === 0) return;
         break;
       }
-      case 'pplantMeasurements': {
+      case "pplantMeasurements": {
         entities = spot.purificationPlants?.filter(
           (item) => item.id === subItemId,
         );
@@ -106,7 +106,7 @@ export const GiPPUploader: React.FC<{
       const token = await getTokenSilently();
       const action = actionCreator({
         url: POST_URL,
-        method: 'POST',
+        method: "POST",
         body: data,
         token,
         resource: resourceType,
@@ -149,15 +149,15 @@ export const GiPPUploader: React.FC<{
                 {showInfo ? (
                   <InfoText
                     type={
-                      resourceType === 'gInputMeasurements'
-                        ? 'gInputMeasurements'
-                        : 'pplantMeasurements'
+                      resourceType === "gInputMeasurements"
+                        ? "gInputMeasurements"
+                        : "pplantMeasurements"
                     }
                     title={title}
                     showDataAggregationText={false}
                   ></InfoText>
                 ) : (
-                  <h3 className='is-title is-3'>
+                  <h3 className="is-title is-3">
                     CSV Daten Upload für {title}
                   </h3>
                 )}
@@ -165,13 +165,13 @@ export const GiPPUploader: React.FC<{
                   existingData={existingData}
                   unboxed={true}
                   type={
-                    resourceType === 'gInputMeasurements'
-                      ? 'gInputMeasurements'
-                      : 'pplantMeasurements'
+                    resourceType === "gInputMeasurements"
+                      ? "gInputMeasurements"
+                      : "pplantMeasurements"
                   }
-                  title={'Messwerte'}
-                  fieldNameFile={'measurements'}
-                  fieldNameUrl={'url'}
+                  title={"Messwerte"}
+                  fieldNameFile={"measurements"}
+                  fieldNameUrl={"url"}
                   props={props}
                   schema={defaultMeasurementsSchema}
                 ></NewUploadBox>

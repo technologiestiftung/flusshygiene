@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const ButtonIcon: React.FC<{
   isActive?: boolean;
@@ -8,7 +8,7 @@ export const ButtonIcon: React.FC<{
   dataTestId?: string;
   additionalClassNames?: string;
   isSubmitting?: boolean;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   text?: string;
   isDisabled?: boolean;
   dataTooltipText?: string;
@@ -20,7 +20,7 @@ export const ButtonIcon: React.FC<{
   dataTestId,
   additionalClassNames,
   isSubmitting = false,
-  type = 'button',
+  type = "button",
   text,
   isDisabled,
   dataTooltipText,
@@ -31,13 +31,13 @@ export const ButtonIcon: React.FC<{
       data-testid={dataTestId}
       data-tooltip={dataTooltipText}
       className={`button is-small is-badge-small ${
-        isActive ? 'is-active' : ''
-      } ${additionalClassNames !== undefined ? additionalClassNames : ''}`}
+        isActive ? "is-active" : ""
+      } ${additionalClassNames !== undefined ? additionalClassNames : ""}`}
       onClick={handleClick}
       id={cssId}
       disabled={isSubmitting || isDisabled}
     >
-      <span className='icon is-small'>{children}</span>
+      <span className="icon is-small">{children}</span>
       {text !== undefined && <span>{text}</span>}
     </button>
   );

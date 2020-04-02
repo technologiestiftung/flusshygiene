@@ -41,8 +41,8 @@
     "bulma-extensions": "6.2.7",
     "deep-diff": "1.0.2",
     "file-saver": "2.0.2",
-    "formik": "2.0.6",
-    "http-proxy-middleware": "0.20.0",
+    "formik": "^2.1.4",
+    "http-proxy-middleware": "1.0.3",
     "js-cookie": "2.2.1",
     "lodash.differenceby": "4.8.0",
     "lodash.throttle": "4.1.1",
@@ -80,7 +80,8 @@
     "lint-staged": "lint-staged",
     "test:coverage": "CI=true npm t -- --coverage --watchAll=false --color",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "prettier": "prettier"
   },
   "eslintConfig": {
     "extends": "react-app"

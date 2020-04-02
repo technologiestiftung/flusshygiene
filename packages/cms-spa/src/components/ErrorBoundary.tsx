@@ -1,5 +1,6 @@
-import React from 'react';
-import { Container } from './Container';
+import React from "react";
+import { Container } from "./Container";
+import { HelpDesk } from "./HelpDesk";
 
 export default class ErrorBoundary extends React.Component<
   {},
@@ -31,21 +32,38 @@ export default class ErrorBoundary extends React.Component<
             <h1>Something went terribly wrong.</h1>
           </Container>
           <Container>
-            <h2 className='is-2 is-title'>Error Stack</h2>
+            <HelpDesk
+              hdData={() => {
+                const result: { stack?: any; error?: any } = {
+                  stack: undefined,
+                  error: undefined,
+                };
+                if (this.state.errorInfo) {
+                  result.stack = this.state.errorInfo.componentStack;
+                }
+                if (this.state.error) {
+                  result.error = this.state.error;
+                }
+                return result;
+              }}
+            ></HelpDesk>
+          </Container>
+          <Container>
+            <h2 className="is-2 is-title">Error Stack</h2>
             <pre>
               <code>
                 {this.state.errorInfo && this.state.errorInfo.componentStack}
               </code>
             </pre>
-            <h2 className='is-2 is-title'>Error</h2>
+            <h2 className="is-2 is-title">Error</h2>
             <pre>
               <code>{this.state.error && this.state.error.toString()}</code>
             </pre>
           </Container>
           <Container>
-            <div className='content'>
+            <div className="content">
               <p>
-                Zurück <a href='/'>zum Anfang </a>
+                Zurück <a href="/">zum Anfang </a>
               </p>
             </div>
           </Container>
