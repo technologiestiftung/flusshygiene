@@ -1,0 +1,55 @@
+name: HELPDESK test and build
+env:
+  SUFFIX: helpdesk-mailer
+  STAGE: dev
+
+on:
+  push:
+    paths:
+      - 'packages/helpdesk-mailer/src/**'
+      - '.github/workflows/helpdesk-mailer-tests.yml'
+      - 'packages/helpdesk-mailer/Dockerfile'
+      - 'packages/helpdesk-mailer/.dockerignore'
+      - 'packages/helpdesk-mailer/package*.json'
+  pull_request:
+    paths:
+      - 'packages/helpdesk-mailer/src/**'
+      - '.github/workflows/helpdesk-mailer-tests.yml'
+      - 'packages/helpdesk-mailer/Dockerfile'
+      - 'packages/helpdesk-mailer/.dockerignore'
+      - 'packages/helpdesk-mailer/package*.json'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and test
+        run: |
+          cd packages/${SUFFIX}
+          npm ci
+          npm test --ci --coverage
+          npm run build
+        env:
+          CI: "true"
+  image:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v1
+      - name: image build test
+        run: |
+          cd packages/${SUFFIX}
+          docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
+        env:
+          CI: "true"
