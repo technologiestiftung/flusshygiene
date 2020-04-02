@@ -1,0 +1,180 @@
+{
+  "name": "@tsb/helpdesk-mailer",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "2.8.0",
+  "description": "rest api for sending error reports and support questions from cms-spa",
+  "homepage": "https://github.com/technologiestiftung/flusshygiene/tree/master/packages/helpdesk-mailer#readme",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc -p .",
+    "start": "nodemon",
+    "lint-staged": "lint-staged"
+  },
+  "author": "Fabian Morón Zirfas",
+  "contributors": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/cors": "2.8.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "4.17.4",
+    "@types/helmet": "0.0.45",
+    "@types/jest": "25.1.4",
+    "@types/morgan": "1.9.0",
+    "@types/node": "^13.9.8",
+    "@types/nodemailer": "6.4.0",
+    "@typescript-eslint/eslint-plugin": "2.26.0",
+    "@typescript-eslint/parser": "2.26.0",
+    "cz-conventional-changelog": "3.1.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.10.1",
+    "eslint-plugin-jest": "23.8.2",
+    "jest": "25.2.4",
+    "nodemon": "2.0.2",
+    "prettier": "2.0.2",
+    "ts-jest": "25.3.0",
+    "typescript": "3.8.3"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "4.17.1",
+    "express-jwt": "5.3.1",
+    "express-jwt-authz": "2.3.1",
+    "helmet": "^3.22.0",
+    "jwks-rsa": "1.7.0",
+    "morgan": "1.10.0",
+    "nodemailer": "6.4.6"
+  },
+  "jest": {
+    "testRegex": "/__tests__/.*\\.(test|spec)?\\.(ts|tsx)$",
+    "preset": "ts-jest",
+    "testEnvironment": "jest-environment-node",
+    "testPathIgnorePatterns": [
+      "node_modules/",
+      "<rootDir>/dist",
+      "<rootDir>/src/__tests__/utils/"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/__tests__/utlis**",
+      "!**/node_modules/**",
+      "!**/build/**",
+      "!src/lib/app.ts",
+      "!src/lib/router.ts",
+      "!src/index.ts",
+      "!src/__tests__/utlis/factories.ts",
+      "!**/coverage/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 60,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    }
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules/**/node_modules"
+    ],
+    "watch": [
+      "./src"
+    ],
+    "exec": "./node_modules/.bin/tsc -p . && node -r dotenv/config --inspect dist/index.js",
+    "ext": "ts,json",
+    "restartable": "rs",
+    "verbose": true,
+    "env": {
+      "NODE_ENV": "development",
+      "NODE_DOCKER_ENV": "0"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": false
+  },
+  "renovate": {
+    "extends": [
+      "config:base"
+    ],
+    "packageRules": [
+      {
+        "updateTypes": [
+          "minor",
+          "patch",
+          "pin",
+          "digest"
+        ],
+        "automerge": true
+      }
+    ]
+  },
+  "eslintConfig": {
+    "ignorePatterns": [
+      "node_modules",
+      "dist",
+      "coverage"
+    ],
+    "env": {
+      "jest/globals": true
+    },
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "jest"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier/@typescript-eslint",
+      "plugin:jest/recommended"
+    ],
+    "rules": {
+      "quotes": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          "args": "after-used",
+          "varsIgnorePattern": "^_",
+          "argsIgnorePattern": "^_"
+        }
+      ]
+    }
+  },
+  "lint-staged": {
+    "**/*.+(js|jsx|ts|tsx)": [
+      "eslint --fix"
+    ],
+    "**/*.+(js|jsx|json|yml|yaml|css|scss|ts|tsx|md)": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm t && npm run lint-staged"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technologiestiftung/flusshygiene.git"
+  },
+  "bugs": {
+    "url": "https://github.com/technologiestiftung/flusshygiene/issues"
+  }
+}
