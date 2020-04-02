@@ -1,6 +1,6 @@
 {
   "name": "@tsb/opencpu-middleware",
-  "version": "2.7.5",
+  "version": "2.8.0",
   "private": true,
   "description": "middlelayer between opencpu api and spa-cms",
   "main": "dist/index.js",
@@ -24,8 +24,8 @@
     "@types/cors": "2.8.6",
     "@types/dotenv": "6.1.1",
     "@types/express-session": "1.15.14",
-    "@types/got": "9.6.7",
-    "@types/helmet": "0.0.44",
+    "@types/got": "9.6.9",
+    "@types/helmet": "0.0.45",
     "@types/jest": "24.0.18",
     "@types/mkdirp": "0.5.2",
     "@types/morgan": "1.7.37",

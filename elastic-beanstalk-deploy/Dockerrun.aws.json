@@ -3,10 +3,10 @@
   "containerDefinitions": [
     {
       "name": "api",
-      "image": "technologiestiftung/flusshygiene-postgres-api:v2.7.1-dev",
+      "image": "technologiestiftung/flusshygiene-postgres-api:v2.8.0-dev",
       "hostname": "api",
       "essential": false,
-      "memory": 3072,
+      "memory": 2048,
       "mountPoints": [
         {
           "sourceVolume": "awseb-logs-api",
@@ -30,10 +30,10 @@
     },
     {
       "name": "ocpu",
-      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.1-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.6-fix-dev",
       "hostname": "ocpu",
       "essential": false,
-      "memory": 2048,
+      "memory": 3072,
       "mountPoints": [
         {
           "sourceVolume": "awseb-logs-ocpu",
@@ -57,7 +57,7 @@
     },
     {
       "name": "spa",
-      "image": "technologiestiftung/flusshygiene-cms-spa:v2.7.1-dev",
+      "image": "technologiestiftung/flusshygiene-cms-spa:v2.8.0-dev",
       "hostname": "spa",
       "essential": false,
       "memory": 512,
@@ -85,7 +85,7 @@
 
     {
       "name": "middlelayer",
-      "image": "technologiestiftung/flusshygiene-opencpu-middlelayer:v2.7.1-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-middlelayer:v2.8.0-dev",
       "hostname": "middlelayer",
       "essential": false,
       "memory": 256,
@@ -111,9 +111,10 @@
         }
       ]
     },
+
     {
       "name": "nginx",
-      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.7.1-dev",
+      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.8.0-dev",
       "hostname": "nginx",
       "essential": true,
       "memory": 512,
@@ -145,3 +146,7 @@
     }
   ]
 }
+
+
+
+

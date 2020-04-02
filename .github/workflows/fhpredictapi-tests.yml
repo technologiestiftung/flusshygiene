@@ -2,7 +2,7 @@ name: FHPREDICT API test and build
 env:
   SUFFIX: "opencpu-fhpredict-api"
   COMMIT_FILTER: "[skip-ci]"
-  # GITHUB_PAT: secrets.GITHUB_PAT_KWB
+  # GITHUB_PAT: ${{secrets.GITHUB_PAT_KWB}}
 
 on:
   push:
@@ -24,6 +24,7 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       # - name: Skip based on commit message
       #   uses: veggiemonk/skip-commit@1.0.0
@@ -32,4 +33,4 @@ jobs:
       - name: image build test
         run: |
           cd packages/opencpu-fhpredict-api/
-          docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .
+          docker build --label version=${GITHUB_REF##*/} --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-dev" .

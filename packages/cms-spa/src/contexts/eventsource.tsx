@@ -56,7 +56,7 @@ const eventSourceReducer: (
     }
     case 'INTERNAL_ERROR': {
       // console.error(action.type);
-      // console.error(action.event);
+      console.error(action.event);
       return { ...state, events: ['INTERNAL_ERROR'] };
     }
     default: {
@@ -99,12 +99,12 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
     });
     eventSource.current.addEventListener('ping', (event) => {
       // eslint-disable-next-line no-console
-      // console.log('ping', event);
+      console.log('ping', event);
       const action: IEventAction = { type: 'PING_RECEIVED', event };
       dispatch(action);
     });
     eventSource.current.addEventListener('error', (event) => {
-      // console.error('eventsource error', event);
+      console.error('eventsource error', event);
       const action: IEventAction = { type: 'INTERNAL_ERROR', event };
       dispatch(action);
     });

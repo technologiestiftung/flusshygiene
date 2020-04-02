@@ -171,14 +171,23 @@ const app = express();
 
 const whitelist = [
   'https://www.flusshygiene.xyz',
-  'http://localhost:3000',
-  'http://localhost:8888',
+  'https://www.flussbaden.org',
+  'https://flussbaden.org',
 ];
+if (process.env.NODE_ENV === 'development') {
+  const locals = [
+    'http://localhost:3000',
+    'http://localhost:8888',
+    'http://localhost:5004',
+  ];
+  whitelist.push(...locals);
+}
 const corsOptions: CorsOptions = {
   origin: function(origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.error(origin, 'Not allowed by CORS');
       callback(new Error('Not allowed by CORS'));
     }
   },

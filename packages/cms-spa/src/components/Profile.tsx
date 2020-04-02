@@ -71,12 +71,15 @@ const Profile: React.FC = () => {
   useEffect(() => {
     if (token === undefined) return;
     if (user.pgapiData === undefined) return;
+    if (user.pgapiData.id === undefined) return;
     /**
      * local async call
      */
     const getSpots = async () => {
       try {
         let url = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}`;
+        // eslint-disable-next-line no-console
+        console.log(url);
         /**
          * We first get the count of spots
          */

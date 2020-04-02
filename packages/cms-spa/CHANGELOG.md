@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.7.6...v2.8.0) (2020-03-30)
+
+### Features
+
+- **coordinates as test:** adds fields for addig coords as text ([db8be55](https://github.com/technologiestiftung/flusshygiene/commit/db8be556cda0a62af8ffb1d331b4a2f5a2f61c2c)), closes [#6](https://github.com/technologiestiftung/flusshygiene/issues/6)
+
+## [2.7.6](https://github.com/technologiestiftung/flusshygiene/compare/v2.7.5...v2.7.6) (2020-03-24)
+
+**Note:** Version bump only for package @tsb/cms-spa
+
 ## [2.7.5](https://github.com/technologiestiftung/flusshygiene/compare/v2.7.4...v2.7.5) (2020-03-10)
 
 ### Bug Fixes

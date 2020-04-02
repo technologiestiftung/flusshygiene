@@ -46,8 +46,9 @@ export const MGDEditor: React.FC<{
   const [showInfo, setShowInfo] = useState(true);
   const BASE_URL = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${userId}/${ApiResources.bathingspots}/${spotId}`;
 
-  initialValues = initialValues !== undefined ? initialValues : {};
+  initialValues = initialValues ? initialValues : {};
   const postData = async (url: string) => {
+    // throw Error('hello boundary');
     let apiEndpoints = { ...initialValues };
     apiEndpoints[linkType] = url;
 

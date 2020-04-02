@@ -24,8 +24,8 @@ client.on('end', () => {
 });
 
 const app = express();
-// const ewss = expressWs(app);
-// const wss = expressWs.getWss();
+
+app.set('trust proxy', 1); // trust first proxy
 app.use(
   session({
     genid: function(_req) {
@@ -40,7 +40,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      sameSite: true,
+      // sameSite: true,
       httpOnly: false,
       secure: false,
     },
@@ -61,7 +61,9 @@ if (process.env.APP_HOST_1 !== undefined) {
 if (process.env.APP_HOST_2 !== undefined) {
   whiteList.push(process.env.APP_HOST_2);
 }
-
+if (process.env.APP_HOST_3 !== undefined) {
+  whiteList.push(process.env.APP_HOST_3);
+}
 const corsOptions: e.CorsOptions = {
   origin: function(origin: any, callback: any): void {
     if (origin === undefined || whiteList.includes(origin)) {

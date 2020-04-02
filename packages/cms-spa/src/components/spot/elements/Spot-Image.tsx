@@ -11,9 +11,9 @@ export const SpotImage: React.FC<ISpotImage> = (props) => (
     <img
       src={(() => {
         if (props.image === null) {
-          return 'http://placekitten.com/1080/540';
+          return '/placeholder16-9.svg';
         } else if (props.image === undefined || props.image.length === 0) {
-          return 'http://placekitten.com/1080/540';
+          return '/placeholder16-9.svg';
         } else {
           return props.image;
         }

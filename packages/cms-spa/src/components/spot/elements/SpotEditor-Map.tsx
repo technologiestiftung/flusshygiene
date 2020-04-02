@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useFormikContext } from 'formik';
+import { useFormikContext, Field } from 'formik';
 import DeckGL from '@deck.gl/react';
 import { MapController } from '@deck.gl/core';
 import {
@@ -43,7 +43,9 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
   defaultFormikSetFieldValues,
   handleUpdates,
 }) => {
-  const { setFieldValue } = useFormikContext<IBathingspotExtend>();
+  const { values, setFieldValue, handleChange } = useFormikContext<
+    IBathingspotExtend
+  >();
   const mapRef = useRef<HTMLDivElement>(null);
   const mapDims = useMapResizeEffect(mapRef);
   const [editMode, setEditMode] = useState<MapEditModes>('view');
@@ -65,22 +67,40 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
         break;
     }
   };
-  // console.log(formik);
-  // const { values /*, setValues*/ } = useFormikContext<IBathingspot>();
-  // const [location, setLocation] = useState<IGeoJson>();
-  // const [area, setArea] = useState<IGeoJson>();
-  const [geoData, setGeoData] = useState<IGeoJson>();
-  // useEffect(() => {
-  //   console.log(values);
-  //   return () => {};
-  // }, [values]);
-  const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
-  // const [locationMode, setLocationMode] = useState<MapEditModes>('view');
-  // const [areaMode, setAreaMode] = useState<MapEditModes>('view');
 
+  const [geoData, setGeoData] = useState<IGeoJson>();
+  // const [latitude, setLatitude] = useState<number | undefined>(undefined);
+  // const [longitude, setLongitude] = useState<number | undefined>(undefined);
+  const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
+
+  const setLocationValues: (opts: { lat: number; lon: number }) => void = ({
+    lat,
+    lon,
+  }) => {
+    if (geoData === undefined) return;
+    // eslint-disable-next-line array-callback-return
+    const newfeatures = geoData.features.map((feature, i, arr) => {
+      switch (feature.geometry.type) {
+        case 'Polygon':
+          return feature;
+        case 'Point':
+          arr[i].geometry.coordinates = [lon, lat];
+          return arr[i];
+      }
+    });
+    setGeoData({
+      ...geoData,
+      features: newfeatures,
+    });
+  };
+
+  // useEffect(() => {
+  //   if (data === undefined) return;
+  //   if (data[0] === undefined) return;
+  //   if (data && data[0].latitude === null) data[0].latitude = '';
+  //   if (data && data[0].longitude === null) data[0].longitude = '';
+  // });
   useEffect(() => {
-    // if (data === undefined) return;
-    // if (data[0] === undefined) return;
     if (geoData === undefined) return;
     if (geoData.features === undefined) return;
     const points = geoData.features.filter((ele) => {
@@ -104,9 +124,25 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     if (points.length > 0) {
       // data[0].location = points[0].geometry; // geoData.features[0].geometry;
       setFieldValue('location', points[0].geometry);
+      setFieldValue('latitude', points[0].geometry.coordinates[1]);
+      setFieldValue('longitude', points[0].geometry.coordinates[0]);
       // defaultFormikSetFieldValues('location', points[0].geometry);
     }
   }, [geoData, setFieldValue]);
+
+  // useEffect(() => {
+  //   if (geoData === undefined) return;
+  //   console.log('before', geoData);
+  //   geoData.features.forEach((ele, i, arr) => {
+  //     if (ele.geometry.type === 'Point') {
+  //       console.log('update coords');
+  //       arr[i].geometry.coordinates[1] = values.latitude;
+  //       arr[i].geometry.coordinates[0] = values.longitude;
+  //     }
+  //   });
+  //   console.log('after', geoData);
+  //   setGeoData(geoData);
+  // }, [geoData, values.latitude, values.longitude]);
 
   useEffect(() => {
     if (data === undefined) return;
@@ -114,7 +150,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
 
     const features: IGeoJsonFeature[] = [];
 
-    if (data[0].location !== undefined) {
+    if (data[0].location) {
       // console.log('location in second hook', data[0].location);
       const loc: IGeoJsonFeature = {
         type: 'Feature',
@@ -143,8 +179,6 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
       type: 'FeatureCollection',
       features: features,
     };
-
-    // setSelectedIndex([]);
     setGeoData(geo);
     //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setGeoData]);
@@ -187,19 +221,12 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     mode: editMode,
     onStopDragging: () => {},
     onEdit: ({ updatedData, editContext }) => {
-      // console.log('updated data from nebula');
-      // console.log(editContext);
-
-      // console.log(updatedData);
       const pointFeatures = updatedData.features.filter(
         (ele: IGeoJsonFeature) => ele.geometry.type === 'Point',
       );
       const polyFeatures = updatedData.features.filter(
         (ele: IGeoJsonFeature) => ele.geometry.type === 'Polygon',
       );
-      // console.log('point', pointFeatures);
-      // console.log('poly', polyFeatures);
-
       const geo: IGeoJson = {
         type: 'FeatureCollection',
         features: [
@@ -213,7 +240,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     ...commonProps,
   });
   const [isActive, setIsActive] = useState(false);
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<any>) => {
     mapToolbarEditModeHandler(event);
     setIsActive(false);
   };
@@ -221,7 +248,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     editMode === mode ? 'is-active' : '';
   return (
     <>
-      <div className='buttons'>
+      <div className='buttons formik__buttons--size'>
         <div className={`dropdown ${isActive ? 'is-active' : ''} is-small`}>
           <div
             className='dropdown-trigger'
@@ -301,7 +328,82 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
             </div>
           </div>
         </div>
+        <div className='formik__field--wrapper'>
+          <label
+            className='button is-small'
+            htmlFor='latitude'
+            style={{ border: 'none' }}
+          >
+            {' '}
+            Latitude
+          </label>
+          <Field name='latitude' value={values.latitude}>
+            {({ field }) => {
+              return (
+                <input
+                  type='number'
+                  step='any'
+                  min='-90'
+                  max='90'
+                  className='button is-small'
+                  {...field}
+                  onChange={(e: React.ChangeEvent<any>) => {
+                    handleChange(e);
+                    const geom = values.location;
+                    if (geom && values.latitude && values.longitude) {
+                      const lat = parseFloat(e.target.value);
+                      geom.coordinates[1] = lat; // parseFloat(e.target.value);
+                      setFieldValue('location', { ...geom });
+                      setLocationValues({
+                        lat: lat,
+                        lon: values.longitude,
+                      });
+                    }
+                  }}
+                />
+              );
+            }}
+          </Field>
+        </div>
+        <div className='formik__field--wrapper'>
+          <label
+            className='button is-small'
+            htmlFor='longitude'
+            style={{ border: 'none' }}
+          >
+            {' '}
+            Longitude
+          </label>
+          <Field name='longitude' value={values.longitude}>
+            {({ field }) => {
+              return (
+                <input
+                  type='number'
+                  step='any'
+                  min='-180'
+                  max='180'
+                  className='button is-small'
+                  {...field}
+                  onChange={(e: React.ChangeEvent<any>) => {
+                    handleChange(e);
+                    const geom = values.location;
+                    if (geom && values.latitude && values.longitude) {
+                      const lon = parseFloat(e.target.value);
+                      geom.coordinates[0] = lon; // parseFloat(e.target.value);
+                      setFieldValue('location', { ...geom });
+                      setLocationValues({
+                        lat: values.latitude,
+                        lon: lon,
+                      });
+                    }
+                  }}
+                />
+              );
+            }}
+          </Field>
+        </div>
       </div>
+
       <div ref={mapRef} id='map__container'>
         {
           <DeckGL

@@ -12,7 +12,7 @@ exports[`Storyshots CardTile default 1`] = `
     >
       <img
         alt=""
-        src="http://placekitten.com/1080/540"
+        src="/placeholder2-1.svg"
       />
     </figure>
   </div>
@@ -274,7 +274,7 @@ exports[`Storyshots SpotEditor default 1`] = `
         Geo Daten *
       </legend>
       <div
-        className="buttons"
+        className="buttons formik__buttons--size"
       >
         <div
           className="dropdown  is-small"
@@ -370,6 +370,58 @@ exports[`Storyshots SpotEditor default 1`] = `
               </a>
             </div>
           </div>
+        </div>
+        <div
+          className="formik__field--wrapper"
+        >
+          <label
+            className="button is-small"
+            htmlFor="latitude"
+            style={
+              Object {
+                "border": "none",
+              }
+            }
+          >
+             
+            Latitude
+          </label>
+          <input
+            className="button is-small"
+            max="90"
+            min="-90"
+            name="latitude"
+            onBlur={[Function]}
+            onChange={[Function]}
+            step="any"
+            type="number"
+          />
+        </div>
+        <div
+          className="formik__field--wrapper"
+        >
+          <label
+            className="button is-small"
+            htmlFor="longitude"
+            style={
+              Object {
+                "border": "none",
+              }
+            }
+          >
+             
+            Longitude
+          </label>
+          <input
+            className="button is-small"
+            max="180"
+            min="-180"
+            name="longitude"
+            onBlur={[Function]}
+            onChange={[Function]}
+            step="any"
+            type="number"
+          />
         </div>
       </div>
       <div
