@@ -7,7 +7,9 @@ import {
   optionsTokenRequest,
   readTokenFromDisc,
 } from './test-utils';
-config({ path: path.resolve(__dirname, './.env.test') });
+if (!process.env.CI) {
+  config({ path: path.resolve(__dirname, './.env.test') });
+}
 
 // const buildRequestOptions = (token: IDiskToken) => {
 //   const optionsTokenTest: rq.OptionsWithUrl = {
