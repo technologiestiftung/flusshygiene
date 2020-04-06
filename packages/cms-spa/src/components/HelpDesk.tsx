@@ -10,7 +10,7 @@ export const HelpDesk: React.FC<{ hdData?: any; hdText?: string }> = ({
   hdData,
   hdText,
 }) => {
-  const { loading, user, isAuthenticated, getTokenSilently } = useAuth0();
+  const { user, getTokenSilently } = useAuth0();
   const [token, setToken] = useState<string>();
   useEffect(() => {
     async function getToken() {
@@ -33,6 +33,7 @@ export const HelpDesk: React.FC<{ hdData?: any; hdText?: string }> = ({
     text: string;
   }) => Promise<void> = async ({ token, data, email, name, text }) => {
     try {
+      // eslint-disable-next-line no-console
       console.log(data, email, name, text);
     } catch (error) {
       console.error(error);
