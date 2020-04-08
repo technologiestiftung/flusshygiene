@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.8.0...v2.9.0) (2020-04-08)
+
+
+### Bug Fixes
+
+* **renovate:** remove renovate config from helpdesk ([25e4471](https://github.com/technologiestiftung/flusshygiene/commit/25e4471efeedd59f63ccef03fa50524108c9c77a)), closes [#258](https://github.com/technologiestiftung/flusshygiene/issues/258)
+* **test:** dont look for env on ci ([c697d02](https://github.com/technologiestiftung/flusshygiene/commit/c697d02d3704b241fc1effd3b1a45d0c5173d67a))
+* **test:** missing .env ([9fbd891](https://github.com/technologiestiftung/flusshygiene/commit/9fbd8918a23e980648742b4ce6d991ded84d667a))
+* **tests:** remove ununsed vars ([00a905d](https://github.com/technologiestiftung/flusshygiene/commit/00a905dd561b266fa9f3fa18e4d2af3aed07b4df))
+
+
+
+
+
 # [2.8.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.7.6...v2.8.0) (2020-03-30)
 
 

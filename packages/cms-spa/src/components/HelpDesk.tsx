@@ -276,7 +276,9 @@ export const HelpDesk: React.FC<{ hdData?: any; hdText?: string }> = ({
                   <Field name="text">
                     {({ field, meta }) => (
                       <div className="field">
-                        <label htmlFor="text">Freier Text *</label>
+                        <label htmlFor="text">
+                          Freier Text *<em>(Mindestens 15 Zeichen)</em>
+                        </label>
                         <div className="control">
                           <textarea
                             className={`textarea ${

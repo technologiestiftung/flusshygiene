@@ -1,5 +1,5 @@
-import React from 'react';
-import { IconMapPin } from '../../fontawesome-icons';
+import React from "react";
+import { IconMapPin } from "../../fontawesome-icons";
 export interface ISpotBodyLocation {
   children?: React.ReactNode;
   nameLong?: string;
@@ -14,13 +14,13 @@ export interface ISpotBodyLocation {
 export const SpotLocation: React.FC<ISpotBodyLocation> = (props) => {
   return (
     <>
-      <h3 className='is-title is-3'>
+      <h3 className="is-title is-3">
         <span>
           <IconMapPin></IconMapPin>
-        </span>{' '}
+        </span>{" "}
         <span>Anschrift</span>
       </h3>
-      <div className='content'>
+      <div className="content">
         <p>{props.nameLong !== undefined ? props.nameLong : props.name}</p>
         <p>{props.street}</p>
         <p>
@@ -37,8 +37,8 @@ export const SpotLocation: React.FC<ISpotBodyLocation> = (props) => {
               <p>
                 <a href={`${props.website}`}>
                   {props.website
-                    .replace(/^https?:\/\//g, '')
-                    .replace(/\/$/, '')}
+                    .replace(/^https?:\/\//g, "")
+                    .replace(/\/$/, "")}
                 </a>
               </p>
             );
@@ -48,10 +48,10 @@ export const SpotLocation: React.FC<ISpotBodyLocation> = (props) => {
         {props.location?.coordinates !== undefined && (
           <p>
             <a
-              data-testid='google-link'
+              data-testid="google-link"
               href={`https://maps.google.com/maps?daddr=${props.location.coordinates[1]},${props.location.coordinates[0]}`}
-              target='_blank'
-              rel='noopener noreferrer'
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Route Berechnen mit Google Maps ->
             </a>

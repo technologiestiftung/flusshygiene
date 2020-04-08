@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.8.0...v2.9.0) (2020-04-08)
+
+
+### Bug Fixes
+
+* **test:** dont look for env on ci ([c697d02](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/commit/c697d02d3704b241fc1effd3b1a45d0c5173d67a))
+* **test:** missing .env ([9fbd891](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/commit/9fbd8918a23e980648742b4ce6d991ded84d667a))
+
+
+
+
+
 # [2.8.0](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.7.6...v2.8.0) (2020-03-30)
 
 

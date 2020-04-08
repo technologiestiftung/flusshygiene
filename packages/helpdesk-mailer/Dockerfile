@@ -17,6 +17,6 @@ COPY ./package*.json ./
 RUN npm ci --quiet --no-optional && npm cache clean --force
 COPY --from=builder /usr/app/dist /home/node/dist
 USER node
-EXPOSE 4004
+EXPOSE 6004
 ENTRYPOINT [ "node" ]
 CMD ["dist/index.js"]

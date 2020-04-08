@@ -2,8 +2,36 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
+      "name": "helpdesk",
+      "image": "technologiestiftung/flusshygiene-helpdesk-mailer:v2.9.0-dev",
+      "hostname": "helpdesk",
+      "essential": false,
+      "memory": 256,
+      "links": ["spa:spa"],
+      "mountPoints": [
+        {
+          "sourceVolume": "awseb-logs-helpdesk",
+          "containerPath": "/var/log/helpdesk"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "flsshygn",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "helpdesk"
+        }
+      },
+      "environment": [
+        {
+          "name": "ECS_AVAILABLE_LOGGING_DRIVERS",
+          "value": "'[\"json-file\",\"awslogs\"]'"
+        }
+      ]
+    },
+    {
       "name": "api",
-      "image": "technologiestiftung/flusshygiene-postgres-api:v2.8.0-dev",
+      "image": "technologiestiftung/flusshygiene-postgres-api:v2.9.0-dev",
       "hostname": "api",
       "essential": false,
       "memory": 2048,
@@ -30,10 +58,10 @@
     },
     {
       "name": "ocpu",
-      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.6-fix-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.9.0-dev",
       "hostname": "ocpu",
       "essential": false,
-      "memory": 3072,
+      "memory": 2716,
       "mountPoints": [
         {
           "sourceVolume": "awseb-logs-ocpu",
@@ -57,7 +85,7 @@
     },
     {
       "name": "spa",
-      "image": "technologiestiftung/flusshygiene-cms-spa:v2.8.0-dev",
+      "image": "technologiestiftung/flusshygiene-cms-spa:v2.9.1-dev",
       "hostname": "spa",
       "essential": false,
       "memory": 512,
@@ -85,7 +113,7 @@
 
     {
       "name": "middlelayer",
-      "image": "technologiestiftung/flusshygiene-opencpu-middlelayer:v2.8.0-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-middlelayer:v2.9.0-dev",
       "hostname": "middlelayer",
       "essential": false,
       "memory": 256,
@@ -114,7 +142,7 @@
 
     {
       "name": "nginx",
-      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.8.0-dev",
+      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.9.0-dev",
       "hostname": "nginx",
       "essential": true,
       "memory": 512,
@@ -128,7 +156,7 @@
           "containerPort": 80
         }
       ],
-      "links": ["api:api", "spa:spa", "ocpu:ocpu", "middlelayer:middlelayer"],
+      "links": ["api:api", "spa:spa", "ocpu:ocpu", "middlelayer:middlelayer", "helpdesk:helpdesk"],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
