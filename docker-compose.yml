@@ -34,8 +34,6 @@ services:
       - redis
       - postgres
 
-
-
   api:
     container_name: "api"
     build:

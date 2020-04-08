@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useReducer } from 'react';
-import { getQuestions } from '../questionnaire-data';
+import React, { createContext, useContext, useReducer } from "react";
+import { getQuestions } from "../questionnaire-data";
 import {
   loadState,
   saveState,
   clearState,
-} from '../lib/persist-state/local-storage';
+} from "../lib/persist-state/local-storage";
 // see https://kentcdodds.com/blog/how-to-use-react-context-effectively
 //----
 export interface IQuestionsState {
@@ -14,7 +14,7 @@ export interface IQuestionsState {
   // updateAnswer: (i: number, answer: string) => void;
 }
 interface IAction {
-  type: 'SET_ANSWER' | 'REMOVE_ANSWERS' | 'SET_TITLE' | 'SET_STATE';
+  type: "SET_ANSWER" | "REMOVE_ANSWERS" | "SET_TITLE" | "SET_STATE";
   payload?: { [key: string]: any };
 }
 export interface IActionSetAnswer extends IAction {
@@ -30,10 +30,10 @@ interface IActionSetState extends IAction {
 type Dispatch = (action: IAction | IActionSetAnswer | IActionSetTitle) => void;
 type QuestionsProviderProps = { children: React.ReactNode };
 
-const localStateKey = 'standortbewertung';
+const localStateKey = "standortbewertung";
 let questions: any[] = [];
 let answers: string[] = [];
-let title: string = '';
+let title: string = "";
 
 (async () => {
   const data = await getQuestions();
@@ -43,13 +43,13 @@ let title: string = '';
   const localAnswerState = loadState(localStateKey);
   if (localAnswerState === undefined) {
     answers = new Array(questions.length);
-    title = '';
+    title = "";
   } else {
     answers =
       localAnswerState.answers === undefined
         ? new Array(questions.length)
         : localAnswerState.answers;
-    title = localAnswerState.title === undefined ? '' : localAnswerState.title;
+    title = localAnswerState.title === undefined ? "" : localAnswerState.title;
   }
   // setQuestions((prevState) => {
   //   const newState = [...prevState, ...data];
@@ -64,7 +64,7 @@ const QuestionsDispatchContext = createContext<Dispatch | undefined>(undefined);
 
 const answersReducer = (state: IQuestionsState, action: IAction) => {
   switch (action.type) {
-    case 'SET_ANSWER': {
+    case "SET_ANSWER": {
       const locAction = action as IActionSetAnswer;
       const index = locAction.payload.index;
       const answer = locAction.payload.answer;
@@ -73,11 +73,11 @@ const answersReducer = (state: IQuestionsState, action: IAction) => {
       saveState(localStateKey, { answers: tmp });
       return { ...state, answers: tmp };
     }
-    case 'REMOVE_ANSWERS': {
+    case "REMOVE_ANSWERS": {
       clearState(localStateKey);
       return { ...state, answers: [new Array(state.questions)] };
     }
-    case 'SET_TITLE': {
+    case "SET_TITLE": {
       const locAction = action as IActionSetTitle;
       saveState(localStateKey, {
         answers: state.answers,
@@ -86,7 +86,7 @@ const answersReducer = (state: IQuestionsState, action: IAction) => {
 
       return { ...state, title: locAction.payload.title };
     }
-    case 'SET_STATE': {
+    case "SET_STATE": {
       const localAction = action as IActionSetState;
       const uploadedState = localAction.payload.state;
 
@@ -116,7 +116,7 @@ const useQuestionsState = () => {
   const stateContext = useContext(QuestionsStateContext);
   if (stateContext === undefined) {
     throw new Error(
-      'useQuestionsState must be used within a QuestionsProvider',
+      "useQuestionsState must be used within a QuestionsProvider",
     );
   }
 
@@ -127,7 +127,7 @@ const useQuestionsDispatch = () => {
   const dispatchContext = useContext(QuestionsDispatchContext);
   if (dispatchContext === undefined) {
     throw new Error(
-      'useQuestionsDispatch must be used within a QuestionsProvider',
+      "useQuestionsDispatch must be used within a QuestionsProvider",
     );
   }
   return dispatchContext;

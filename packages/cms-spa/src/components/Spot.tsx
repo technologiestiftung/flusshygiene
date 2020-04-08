@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { actionCreator } from '../lib/utils/pgapi-actionCreator';
-import { APIMountPoints, ApiResources } from '../lib/common/enums';
-import Cookies from 'js-cookie';
+import React, { useRef, useEffect, useState } from "react";
+import { actionCreator } from "../lib/utils/pgapi-actionCreator";
+import { APIMountPoints, ApiResources } from "../lib/common/enums";
+import Cookies from "js-cookie";
 import {
   IOcpuStartAction,
   IObject,
@@ -13,43 +13,44 @@ import {
   IPurificationPlant,
   IGenericInput,
   RequestResourceTypes,
-} from '../lib/common/interfaces';
+} from "../lib/common/interfaces";
 
-import { SpotHeader } from './spot/elements/Spot-Header';
-import { useMapResizeEffect } from '../hooks/map-hooks';
-import { SpotEditorBasisData } from './spot/SpotEditor-Basis-Data';
-import { SpotModelPlots } from './spot/elements/Spot-Model-Plots';
-import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
-import { REACT_APP_API_HOST } from '../lib/config';
-import { Container, ContainerNoColumn } from './Container';
-import { useOcpu, postOcpu } from '../contexts/opencpu';
-import { useEventSource } from '../contexts/eventsource';
-import { useApi, apiRequest } from '../contexts/postgres-api';
+import { SpotHeader } from "./spot/elements/Spot-Header";
+import { useMapResizeEffect } from "../hooks/map-hooks";
+import { SpotEditorBasisData } from "./spot/SpotEditor-Basis-Data";
+import { SpotModelPlots } from "./spot/elements/Spot-Model-Plots";
+import { useAuth0 } from "../lib/auth/react-auth0-wrapper";
+import { REACT_APP_API_HOST } from "../lib/config";
+import { Container, ContainerNoColumn } from "./Container";
+import { useOcpu, postOcpu } from "../contexts/opencpu";
+import { useEventSource } from "../contexts/eventsource";
+import { useApi, apiRequest } from "../contexts/postgres-api";
+import { useMessages } from "../contexts/messages";
+import { useHelpDesk } from "../contexts/helpdesk";
 // import { Banner } from './spot/elements/Banner';
-import { SpotButtonBar } from './spot/elements/Spot-ButtonBar';
-import { SpotAdditionalTags } from './spot/elements/Spot-AdditionalTags';
-import { SpotBasicInfos } from './spot/elements/Spot-BasicInfos';
-import { MapWrapper } from './spot/elements/Spot-Map-Wrapper';
-import { PredictionTable } from './spot/elements/Spot-PredictionTable';
-import { RainTable } from './spot/elements/Spot-RainTable';
-import { SpotMeasurementsTable } from './spot/elements/Spot-MeasurementsTable';
-import { SpotModelTable } from './spot/elements/Spot-ModelTable';
-import { SpotTableBlock } from './spot/elements/Spot-TableBlock';
-import { SpotHr } from './spot/elements/Spot-Hr';
-import { Spinner } from './util/Spinner';
-import { SpotEditorMeasurmentsUpload } from './spot/SpotEditor-Measurements';
-import { SpotEditorInfoModal } from './spot/elements/SpotEditor-InfoModal';
-import { DefaultTable } from './spot/elements/Spot-DefaultMeasurementsTable';
+import { SpotButtonBar } from "./spot/elements/Spot-ButtonBar";
+import { SpotAdditionalTags } from "./spot/elements/Spot-AdditionalTags";
+import { SpotBasicInfos } from "./spot/elements/Spot-BasicInfos";
+import { MapWrapper } from "./spot/elements/Spot-Map-Wrapper";
+import { PredictionTable } from "./spot/elements/Spot-PredictionTable";
+import { RainTable } from "./spot/elements/Spot-RainTable";
+import { SpotMeasurementsTable } from "./spot/elements/Spot-MeasurementsTable";
+import { SpotModelTable } from "./spot/elements/Spot-ModelTable";
+import { SpotTableBlock } from "./spot/elements/Spot-TableBlock";
+import { SpotHr } from "./spot/elements/Spot-Hr";
+import { Spinner } from "./util/Spinner";
+import { SpotEditorMeasurmentsUpload } from "./spot/SpotEditor-Measurements";
+import { SpotEditorInfoModal } from "./spot/elements/SpotEditor-InfoModal";
+import { DefaultTable } from "./spot/elements/Spot-DefaultMeasurementsTable";
 import {
   SpotEditorCollectionWithSubitem,
   ISpotEditorCollectionWithSubItemsInitialValues,
-} from './spot/SpotEditor-CollectionWithSubitem';
-import { CollectionWithSubItemTable } from './spot/elements/Spot-CollectionWithSubitemsTable';
-import { pplantGiSchema } from '../lib/utils/spot-validation-schema';
-import { MeasurementEditor } from './spot/measurement-editor/editor';
-import { hasAutoData } from '../lib/utils/has-autodata-url';
-import { useMessages } from '../contexts/messages';
-import { PublicData } from './spot/elements/Spot-Public-Data';
+} from "./spot/SpotEditor-CollectionWithSubitem";
+import { CollectionWithSubItemTable } from "./spot/elements/Spot-CollectionWithSubitemsTable";
+import { pplantGiSchema } from "../lib/utils/spot-validation-schema";
+import { MeasurementEditor } from "./spot/measurement-editor/editor";
+import { hasAutoData } from "../lib/utils/has-autodata-url";
+import { PublicData } from "./spot/elements/Spot-Public-Data";
 // import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
  * This is the component that displays a single spot
@@ -60,6 +61,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
   const [, messageDispatch] = useMessages();
+  const [, helpDeskDispatch] = useHelpDesk();
   const eventSourceState = useEventSource();
 
   const [formReadyToRender, setFormReadyToRender] = useState(false);
@@ -67,7 +69,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [dataEditMode, setDataEditMode] = useState(false);
 
   const [uploadType, setUploadType] = useState<
-    'measurements' | 'discharges' | 'globalIrradiances' | undefined
+    "measurements" | "discharges" | "globalIrradiances" | undefined
   >(undefined);
 
   const [ppDataEditMode, setPPDataEditMode] = useState(false);
@@ -157,31 +159,31 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     if (spot === undefined) return;
 
     switch (event.currentTarget.id) {
-      case 'sleep':
-      case 'predict':
-      case 'model':
-      case 'calibrate':
+      case "sleep":
+      case "predict":
+      case "model":
+      case "calibrate":
         {
           let body: { spot_id?: number; user_id?: any; seconds?: number };
           body = {
             spot_id: spot.id,
             user_id: user.pgapiData.id,
           };
-          if (event.currentTarget.id === 'sleep') {
+          if (event.currentTarget.id === "sleep") {
             body = { seconds: 5 };
           }
           const action: IOcpuStartAction = {
-            type: 'START_OCPU_REQUEST',
+            type: "START_OCPU_REQUEST",
             payload: {
               url: `/middlelayer/${event.currentTarget.id}`,
               processingType: event.currentTarget.id,
               config: {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
                 },
-                credentials: 'include',
+                credentials: "include",
                 body: JSON.stringify(body),
               },
             },
@@ -190,7 +192,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         }
         break;
       default:
-        throw new Error('Target for button not defined');
+        throw new Error("Target for button not defined");
     }
     // setShowNotification((prevState) => !prevState);
   };
@@ -247,6 +249,12 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     getToken();
   }, [getTokenSilently, setToken]);
 
+  useEffect(() => {
+    if (!spot) return;
+    // eslint-disable-next-line no-console
+    console.log(spot);
+    helpDeskDispatch({ type: "SET_SPOT", payload: spot });
+  }, [spot, helpDeskDispatch]);
   /**
    * Timing effect for the banner display time
    */
@@ -270,10 +278,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     ocpuState.responses.forEach((elem) => {
       if (elem.success !== undefined && elem.message !== undefined) {
         messageDispatch({
-          type: 'ADD_MESSAGE',
+          type: "ADD_MESSAGE",
           payload: {
             message: String(elem.message),
-            type: elem.success === true ? 'normal' : 'error',
+            type: elem.success === true ? "normal" : "error",
           },
         });
       }
@@ -289,10 +297,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     if (apiState.error === undefined) return;
 
     messageDispatch({
-      type: 'ADD_MESSAGE',
+      type: "ADD_MESSAGE",
       payload: {
         message: String(apiState.error.message),
-        type: 'error',
+        type: "error",
       },
     });
 
@@ -307,8 +315,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
    */
   useEffect(() => {
     // console.log(eventSourceState.events, 'event source');
-    const cookieContent = Cookies.get('flusshygiene');
-    let sessionId = '';
+    const cookieContent = Cookies.get("flusshygiene");
+    let sessionId = "";
     if (cookieContent !== undefined) {
       const decodedCookie = decodeURI(cookieContent);
       // const id = decodedCookies
@@ -327,18 +335,18 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         if (sessionId !== event.sessionID) {
           return;
         }
-        if (event.hasOwnProperty('event') && event.event === 'response') {
+        if (event.hasOwnProperty("event") && event.event === "response") {
           // console.log(event);
-          if (event.hasOwnProperty('payload')) {
-            if (event.payload.hasOwnProperty('message')) {
+          if (event.hasOwnProperty("payload")) {
+            if (event.payload.hasOwnProperty("message")) {
               if (Array.isArray(event.payload.message)) {
                 const messages = event.payload.message as string[];
                 messages.forEach((message) => {
                   messageDispatch({
-                    type: 'ADD_MESSAGE',
+                    type: "ADD_MESSAGE",
                     payload: {
                       message,
-                      type: /error/gim.test(message) ? 'error' : 'normal',
+                      type: /error/gim.test(message) ? "error" : "normal",
                     },
                   });
                 });
@@ -346,12 +354,12 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               } else {
                 // return event.payload.message;
                 messageDispatch({
-                  type: 'ADD_MESSAGE',
+                  type: "ADD_MESSAGE",
                   payload: {
                     message: event.payload.message as string,
                     type: /error/gim.test(event.payload.message)
-                      ? 'error'
-                      : 'normal',
+                      ? "error"
+                      : "normal",
                   },
                 });
               }
@@ -377,10 +385,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   useEffect(() => {
     if (apiState.error === undefined) return;
     messageDispatch({
-      type: 'ADD_MESSAGE',
+      type: "ADD_MESSAGE",
       payload: {
         message: JSON.stringify(apiState.error?.error?.message),
-        type: 'error',
+        type: "error",
       },
     });
     // setMessage(JSON.stringify(apiState.error?.error?.message));
@@ -403,10 +411,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: baseUrl,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'bathingspot',
+        resource: "bathingspot",
       }),
     );
 
@@ -478,80 +486,80 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: `${baseUrl}/${ApiResources.measurements}`,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'measurements',
+        resource: "measurements",
       }),
     );
     actions.push(
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: `${baseUrl}/${ApiResources.models}`,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'models',
+        resource: "models",
       }),
     );
     actions.push(
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: `${baseUrl}/${ApiResources.predictions}`,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'predictions',
+        resource: "predictions",
       }),
     );
     actions.push(
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: `${baseUrl}/${ApiResources.globalIrradiances}`,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'globalIrradiances',
+        resource: "globalIrradiances",
       }),
     );
     actions.push(
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: `${baseUrl}/${ApiResources.discharges}`,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'discharges',
+        resource: "discharges",
       }),
     );
     actions.push(
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: `${baseUrl}/${ApiResources.rains}`,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'rains',
+        resource: "rains",
       }),
     );
     actions.push(
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: `${baseUrl}/${ApiResources.purificationPlants}`,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'purificationPlants',
+        resource: "purificationPlants",
       }),
     );
     actions.push(
       actionCreator({
         body: {},
         token,
-        method: 'GET',
+        method: "GET",
         url: `${baseUrl}/${ApiResources.genericInputs}`,
         type: ApiActionTypes.START_API_REQUEST,
-        resource: 'genericInputs',
+        resource: "genericInputs",
       }),
     );
 
@@ -598,10 +606,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         actionCreator({
           body: {},
           token,
-          method: 'GET',
+          method: "GET",
           url: `${baseUrl}/${ApiResources.purificationPlants}/${plant.id}/${ApiResources.measurements}`,
           type: ApiActionTypes.START_API_REQUEST,
-          resource: 'pplantMeasurements',
+          resource: "pplantMeasurements",
         }),
       );
     });
@@ -651,10 +659,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
         actionCreator({
           body: {},
           token,
-          method: 'GET',
+          method: "GET",
           url: `${baseUrl}/${ApiResources.genericInputs}/${plant.id}/${ApiResources.measurements}`,
           type: ApiActionTypes.START_API_REQUEST,
-          resource: 'gInputMeasurements',
+          resource: "gInputMeasurements",
         }),
       );
     });
@@ -831,12 +839,12 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 initialValues={{
                   // csvFile: undefined,
                   measurements: [],
-                  measurementsUrl: spot.apiEndpoints?.measurementsUrl ?? '',
+                  measurementsUrl: spot.apiEndpoints?.measurementsUrl ?? "",
                   globalIrradiance: [],
                   globalIrradianceUrl:
-                    spot.apiEndpoints?.globalIrradianceUrl ?? '',
+                    spot.apiEndpoints?.globalIrradianceUrl ?? "",
                   discharges: [],
-                  dischargesUrl: spot.apiEndpoints?.dischargesUrl ?? '',
+                  dischargesUrl: spot.apiEndpoints?.dischargesUrl ?? "",
                 }}
                 handleInfoClick={handleInfoShowModeClick}
                 handeCloseClick={handleDataEditModeClick}
@@ -856,15 +864,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           const initialValues: ISpotEditorCollectionWithSubItemsInitialValues = {
             collection: spot.purificationPlants
               ? spot.purificationPlants
-              : ([{ name: '', url: '' }] as IPurificationPlant[]),
+              : ([{ name: "", url: "" }] as IPurificationPlant[]),
           };
           return (
             <Container>
               <SpotEditorCollectionWithSubitem
                 validationSchema={pplantGiSchema}
                 resourceType={ApiResources.purificationPlants}
-                uploadBoxResourceType={'pplantMeasurements'}
-                title={'Klärwerke'}
+                uploadBoxResourceType={"pplantMeasurements"}
+                title={"Klärwerke"}
                 initialValues={initialValues}
                 handeCloseClick={handlePPDataEditModeClick}
                 handleInfoClick={handleInfoShowModeClick}
@@ -876,15 +884,15 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
           const initialValues: ISpotEditorCollectionWithSubItemsInitialValues = {
             collection: spot.genericInputs
               ? spot.genericInputs
-              : ([{ name: '', url: '' }] as IGenericInput[]),
+              : ([{ name: "", url: "" }] as IGenericInput[]),
           };
           return (
             <Container>
               <SpotEditorCollectionWithSubitem
                 validationSchema={pplantGiSchema}
                 resourceType={ApiResources.genericInputs}
-                uploadBoxResourceType={'gInputMeasurements'}
-                title={'Generische Messwete'}
+                uploadBoxResourceType={"gInputMeasurements"}
+                title={"Generische Messwete"}
                 initialValues={initialValues}
                 handeCloseClick={handleGIDataEditModeClick}
                 handleInfoClick={handleInfoShowModeClick}
@@ -898,8 +906,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {apiState.loading === true && spot === undefined && (
                 <Container>
                   <h1>
-                    {' '}
-                    {'Aktualisiere Badestellen Daten'}
+                    {" "}
+                    {"Aktualisiere Badestellen Daten"}
                     <Spinner />
                   </h1>
                 </Container>
@@ -971,29 +979,29 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {spot !== undefined && (
                 <ContainerNoColumn>
                   <SpotTableBlock
-                    editButtonText={'Daten bearbeiten'}
+                    editButtonText={"Daten bearbeiten"}
                     title={{
-                      title: 'Kalibrierung Vorhersagemodelle',
-                      iconType: 'IconCalc',
+                      title: "Kalibrierung Vorhersagemodelle",
+                      iconType: "IconCalc",
                     }}
                     hasData={spot.models && spot.models.length > 0}
                     handleEditClick={() => {
                       setTableEditData(spot.models);
                       setTableEditMode(true);
-                      setTableEditDataType('models');
-                      setTableHeaderTitle('Kalibrierung Vorhersagemodelle');
+                      setTableEditDataType("models");
+                      setTableHeaderTitle("Kalibrierung Vorhersagemodelle");
                     }}
                     Table={() => SpotModelTable(lastModel)}
                   />
                   <SpotTableBlock
-                    editButtonText={'Daten bearbeiten'}
-                    title={{ title: 'Vorhersage', iconType: 'IconComment' }}
+                    editButtonText={"Daten bearbeiten"}
+                    title={{ title: "Vorhersage", iconType: "IconComment" }}
                     hasData={spot.predictions && spot.predictions.length > 0}
                     handleEditClick={() => {
                       setTableEditData(spot.predictions);
                       setTableEditMode(true);
-                      setTableEditDataType('predictions');
-                      setTableHeaderTitle('Vorhersage');
+                      setTableEditDataType("predictions");
+                      setTableHeaderTitle("Vorhersage");
                     }}
                     Table={() => PredictionTable(spot)}
                   />
@@ -1002,41 +1010,41 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               <ContainerNoColumn>
                 {spot !== undefined && (
                   <SpotTableBlock
-                    editButtonText={'Daten bearbeiten'}
+                    editButtonText={"Daten bearbeiten"}
                     title={{
-                      title: 'Eingangsdaten: Mikrobiologie',
-                      iconType: 'IconCSV',
+                      title: "Eingangsdaten: Mikrobiologie",
+                      iconType: "IconCSV",
                     }}
                     hasData={spot.measurements && spot.measurements.length > 0}
                     Table={() => SpotMeasurementsTable(spot)}
                     handleEditClick={() => {
                       setTableEditData(spot.measurements);
                       setTableEditMode(true);
-                      setTableEditDataType('measurements');
+                      setTableEditDataType("measurements");
                       setTableHeaderTitle(
                         `Eingangsdaten: Mikrobiologie || ${hasAutoData(
                           spot.apiEndpoints?.measurementsUrl !== undefined,
                         )}`,
                       );
-                      setUploadType('measurements');
+                      setUploadType("measurements");
                     }}
                   />
                 )}
 
                 {spot !== undefined && (
                   <SpotTableBlock
-                    editButtonText={'Daten bearbeiten'}
+                    editButtonText={"Daten bearbeiten"}
                     title={{
-                      title: 'Eingangsdaten: Regenradar',
-                      iconType: 'IconRain',
+                      title: "Eingangsdaten: Regenradar",
+                      iconType: "IconRain",
                     }}
                     hasData={spot.rains && spot.rains.length > 0}
                     Table={() => RainTable(spot)}
                     handleEditClick={() => {
                       setTableEditData(spot.rains);
                       setTableEditMode(true);
-                      setTableEditDataType('rains');
-                      setTableHeaderTitle('Eingangsdaten: Regenradar');
+                      setTableEditDataType("rains");
+                      setTableHeaderTitle("Eingangsdaten: Regenradar");
                     }}
                   ></SpotTableBlock>
                 )}
@@ -1044,10 +1052,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               <ContainerNoColumn>
                 {spot !== undefined && (
                   <SpotTableBlock
-                    editButtonText={'Daten bearbeiten'}
+                    editButtonText={"Daten bearbeiten"}
                     title={{
                       title: `Eingangsdaten: Globalstrahlung`,
-                      iconType: 'IconCSV',
+                      iconType: "IconCSV",
                     }}
                     hasData={
                       spot.globalIrradiances &&
@@ -1056,17 +1064,17 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                     handleEditClick={() => {
                       setTableEditData(spot.globalIrradiances);
                       setTableEditMode(true);
-                      setTableEditDataType('globalIrradiances');
+                      setTableEditDataType("globalIrradiances");
                       setTableHeaderTitle(
                         `Eingangsdaten: Globalstrahlung || ${hasAutoData(
                           spot.apiEndpoints?.globalIrradianceUrl !== undefined,
                         )}`,
                       );
-                      setUploadType('globalIrradiances');
+                      setUploadType("globalIrradiances");
                     }}
                     Table={() => (
                       <DefaultTable
-                        unit={'W/m²'}
+                        unit={"W/m²"}
                         measurements={spot.globalIrradiances}
                         hasAutoData={
                           spot.apiEndpoints?.globalIrradianceUrl !== undefined
@@ -1077,26 +1085,26 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 )}
                 {spot !== undefined && (
                   <SpotTableBlock
-                    editButtonText={'Daten bearbeiten'}
+                    editButtonText={"Daten bearbeiten"}
                     title={{
-                      title: 'Eingangsdaten: Durchfluss',
-                      iconType: 'IconCSV',
+                      title: "Eingangsdaten: Durchfluss",
+                      iconType: "IconCSV",
                     }}
                     hasData={spot.discharges && spot.discharges.length > 0}
                     handleEditClick={() => {
                       setTableEditData(spot.discharges);
                       setTableEditMode(true);
-                      setTableEditDataType('discharges');
+                      setTableEditDataType("discharges");
                       setTableHeaderTitle(
                         `Eingangsdaten: Durchfluss || ${hasAutoData(
                           spot.apiEndpoints?.dischargesUrl !== undefined,
                         )}`,
                       );
-                      setUploadType('discharges');
+                      setUploadType("discharges");
                     }}
                     Table={() => (
                       <DefaultTable
-                        unit={' m³/s'}
+                        unit={" m³/s"}
                         measurements={spot.discharges}
                         hasAutoData={
                           spot.apiEndpoints?.dischargesUrl !== undefined
@@ -1109,10 +1117,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {spot !== undefined && (
                 <ContainerNoColumn>
                   <SpotTableBlock
-                    editButtonText={'Klärwerke anlegen'}
+                    editButtonText={"Klärwerke anlegen"}
                     title={{
-                      title: 'Eingangsdaten: Klärwerk',
-                      iconType: 'IconIndustry',
+                      title: "Eingangsdaten: Klärwerk",
+                      iconType: "IconIndustry",
                     }}
                     hasData={
                       spot.purificationPlants &&
@@ -1121,19 +1129,19 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                     handleEditClick={() => {
                       setTableEditData(spot.purificationPlants);
                       setTableEditMode(true);
-                      setTableEditDataType('purificationPlants');
-                      setTableHeaderTitle('Eingangsdaten: Klärwerk');
+                      setTableEditDataType("purificationPlants");
+                      setTableHeaderTitle("Eingangsdaten: Klärwerk");
                     }}
                     Table={() => (
                       <CollectionWithSubItemTable
-                        editButtonText={'Editieren'}
+                        editButtonText={"Editieren"}
                         setData={setTableEditData}
                         setTitle={setTableHeaderTitle}
                         setSubItemId={setTableEditSubItemId}
                         handleEditClick={(e) => {
                           e?.preventDefault();
                           setTableEditMode(true);
-                          setTableEditDataType('pplantMeasurements');
+                          setTableEditDataType("pplantMeasurements");
                         }}
                         items={spot.purificationPlants}
                       />
@@ -1141,29 +1149,29 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                   ></SpotTableBlock>
                   <SpotTableBlock
                     title={{
-                      title: 'Eingangsdaten: Generisch',
-                      iconType: 'IconCSV',
+                      title: "Eingangsdaten: Generisch",
+                      iconType: "IconCSV",
                     }}
-                    editButtonText={'Generische Daten anlegen'}
+                    editButtonText={"Generische Daten anlegen"}
                     hasData={
                       spot.genericInputs && spot.genericInputs.length > 0
                     }
                     handleEditClick={() => {
                       setTableEditData(spot.genericInputs);
                       setTableEditMode(true);
-                      setTableEditDataType('genericInputs');
-                      setTableHeaderTitle('Generische Messwerte');
+                      setTableEditDataType("genericInputs");
+                      setTableHeaderTitle("Generische Messwerte");
                     }}
                     Table={() => (
                       <CollectionWithSubItemTable
-                        editButtonText={'Editieren'}
+                        editButtonText={"Editieren"}
                         setData={setTableEditData}
                         setTitle={setTableHeaderTitle}
                         setSubItemId={setTableEditSubItemId}
                         handleEditClick={(e) => {
                           e?.preventDefault();
                           setTableEditMode(true);
-                          setTableEditDataType('gInputMeasurements');
+                          setTableEditDataType("gInputMeasurements");
                         }}
                         items={spot.genericInputs}
                       />
@@ -1174,10 +1182,10 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
               {spot && SpotHr()}
               {spot && (
                 <Container>
-                  <h3 className='is-title is-3'>Öffentlicher Zugriff</h3>
+                  <h3 className="is-title is-3">Öffentlicher Zugriff</h3>
                   {spot.isPublic === false ? (
-                    <div className='content'>
-                      {' '}
+                    <div className="content">
+                      {" "}
                       <p>
                         <em>
                           Der öffentlicher Lesezugriff ist deaktiviert. Um die
@@ -1188,7 +1196,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                     </div>
                   ) : (
                     <>
-                      <div className='content'>
+                      <div className="content">
                         <p>
                           Für den Zugriff auf diese Daten ist ein limit von 100
                           Anfragen innerhalb von 5 Minuten gesetzt. Wenn Sie
@@ -1217,7 +1225,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                 ></SpotModelPlots>
               )}
               <Container>
-                <div ref={mapRef} id='map__container'>
+                <div ref={mapRef} id="map__container">
                   {spot !== undefined &&
                     apiState.loading === false &&
                     mapRef !== null && (

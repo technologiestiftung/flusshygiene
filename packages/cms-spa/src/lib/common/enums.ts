@@ -1,18 +1,18 @@
 export const WaterqualityStateText = {
-  1: 'Zum Baden geeignet',
-  2: 'Zum Baden geeignet',
-  11: 'Zum Baden geeignet',
-  12: 'Zum Baden geeignet',
-  3: 'Vom Baden wird abgeraten',
-  4: 'Vom Baden wird abgeraten',
-  13: 'Vom Baden wird abgeraten',
-  14: 'Vom Baden wird abgeraten',
-  10: 'Vom Baden wird abgeraten',
-  9: 'Keine Angabe',
-  5: 'Badeverbot',
-  6: 'Badeverbot',
-  15: 'Badeverbot',
-  16: 'Badeverbot',
+  1: "Zum Baden geeignet",
+  2: "Zum Baden geeignet",
+  11: "Zum Baden geeignet",
+  12: "Zum Baden geeignet",
+  3: "Vom Baden wird abgeraten",
+  4: "Vom Baden wird abgeraten",
+  13: "Vom Baden wird abgeraten",
+  14: "Vom Baden wird abgeraten",
+  10: "Vom Baden wird abgeraten",
+  9: "Keine Angabe",
+  5: "Badeverbot",
+  6: "Badeverbot",
+  15: "Badeverbot",
+  16: "Badeverbot",
 };
 
 /**
@@ -23,31 +23,32 @@ export const WaterqualityStateText = {
  * @property {string} questionnaire  'standortbewertung',
  */
 export enum RouteNames {
-  bathingspot = 'badestellen',
-  editor = 'bearbeiten',
-  index = '',
-  info = 'info',
-  questionnaire = 'standortbewertung',
-  report = 'standortbewertung/auswertung',
-  login = 'login',
-  logout = 'logout',
-  user = 'user',
-  passwordreset = 'user/password-reset',
-  callback = 'callback',
-  imprint = 'impressum',
-  profile = 'profil',
-  privacy = 'datenschutz',
+  bathingspot = "badestellen",
+  editor = "bearbeiten",
+  index = "",
+  info = "info",
+  questionnaire = "standortbewertung",
+  report = "standortbewertung/auswertung",
+  login = "login",
+  logout = "logout",
+  user = "user",
+  passwordreset = "user/password-reset",
+  callback = "callback",
+  imprint = "impressum",
+  profile = "profil",
+  privacy = "datenschutz",
+  helpdesk = "support",
 }
 
 export enum RouteParams {
-  bathingspotId = ':spotId([0-9]+)',
-  questionId = ':qId([0-9]+)',
+  bathingspotId = ":spotId([0-9]+)",
+  questionId = ":qId([0-9]+)",
 }
 
 export enum TrafficLightColorNames {
-  red = 'rot',
-  green = 'grün',
-  orange = 'orange',
+  red = "rot",
+  green = "grün",
+  orange = "orange",
 }
 
 /**
@@ -56,27 +57,27 @@ export enum TrafficLightColorNames {
  * @property reset = 'reset',
  */
 export enum ButtonPropsType {
-  button = 'button',
-  submit = 'submit',
-  reset = 'reset',
+  button = "button",
+  submit = "submit",
+  reset = "reset",
 }
 
 export enum EnvSuffixes {
-  dev = 'DEV',
-  prod = 'PROD',
+  dev = "DEV",
+  prod = "PROD",
 }
 export enum ApiResources {
-  bathingspots = 'bathingspots',
-  users = 'users',
-  measurements = 'measurements',
-  discharges = 'discharges',
-  globalIrradiances = 'globalIrradiances',
-  rains = 'rains',
-  purificationPlants = 'purificationPlants',
-  genericInputs = 'genericInputs',
-  models = 'models',
-  predictions = 'predictions',
+  bathingspots = "bathingspots",
+  users = "users",
+  measurements = "measurements",
+  discharges = "discharges",
+  globalIrradiances = "globalIrradiances",
+  rains = "rains",
+  purificationPlants = "purificationPlants",
+  genericInputs = "genericInputs",
+  models = "models",
+  predictions = "predictions",
 }
 export enum APIMountPoints {
-  v1 = 'api/v1',
+  v1 = "api/v1",
 }

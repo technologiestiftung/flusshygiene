@@ -1,1 +1,59 @@
-[["gewichtung","ueberschrift","adminInfo","allgemeineInfo","frage","zusatzinfosZurFrage","antwortoption","zusatzinfosZuAntwortoption","reportWeiter","ampelcodierung","umsetzungswahrscheinlichkeit","infrastrukturOderVerhandlung"],[2,"Gefahrenstellen am Gewässergrund ","Ortsbegehung",null,"Sind Gefahrenquellen wie z.B. Müll, Altlasten, scharfkantige Steine, Muscheln oder Unebenheiten am Gewässergrund vorhanden? ","Örtliche Tauchvereine können bei der Bewertung des Gewässergrundes und eventuell auch bei der Beseitigung der Gefahrenquellen helfen. Behörden und Dienstleister, die für den Gewässerunterhalt zuständig sind, können als Infomationsquelle dienen. Für weitere Informationen siehe: Unfallgefahren und andere Gefährdungen: Kapitel 3.5, DWA-M 624: Risiken an Badestellen und Freizeitgewässern aus gewässerhygienischer Sicht.","Gefahrenquellen sind nicht vorhanden.","Perfekt.","Keine weiteren Aktionen notwendig.","grün",1,null],[null,null,null,null,null,null,"Gefahrenquellen sind in geringem Maße vorhanden.","Der Gewässergrund sollte vor und nach der Eröffnung eines Badegewässers in regelmäßigen Abständen von gefährlichen Gegenständen befreit werden. Die Vereinbarkeit mit den Anforderungen des Wasserstraßen- und Schifffahrtsamts und des Naturschutzes ist zu prüfen.","Maßnahmen zur Beseitigung oder Reduzierung von Gefahrenquellen am Gewässergrund sollten evaluiert werden. Hierbei ist  die Vereinbarkeit mit den Anforderungen des Wasserstraßen- und Schifffahrtsamts und des Naturschutzes zu prüfen.","gelb",0.6,"Infrastruktur"],[null,null,null,null,null,null,"Gefahrenquellen sind in großem Maße vorhanden und auch wiederkehrend.","Um der Verkehrssicherungspflicht genüge zu tun, müssen sichere Land- und Wasserflächen gewährleistet werden. Gefahren am Gewässergrund müssen also auf ein vertretbares Maß reduziert werden. (vgl. DGfdB R 94.13 <www.baederportal.com/fileadmin/user.../Richtlinien_mit_Deckblatt_11_3_15.pdf>\r\nHierfür müssen geeignete Maßnahmen gefunden werden und ihre Vereinbarkeit mit z.B. dem Naturschutz geprüft werden.","Maßnahmen zur Beseitigung oder Reduzierung von Gefahrenquellen am Gewässergrund sollten evaluiert werden. Hierbei ist die Vereinbarkeit mit den Anforderungen des Wasserstraßen- und Schifffahrtsamts und des Naturschutzes zu prüfen.","orange",0.3,"Infrastruktur"],[null,null,null,null,null,null,null,null,null,null,null,null]]
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung"
+  ],
+  [
+    2,
+    "Gefahrenstellen am Gewässergrund ",
+    "Ortsbegehung",
+    null,
+    "Sind Gefahrenquellen wie z.B. Müll, Altlasten, scharfkantige Steine, Muscheln oder Unebenheiten am Gewässergrund vorhanden? ",
+    "Örtliche Tauchvereine können bei der Bewertung des Gewässergrundes und eventuell auch bei der Beseitigung der Gefahrenquellen helfen. Behörden und Dienstleister, die für den Gewässerunterhalt zuständig sind, können als Infomationsquelle dienen. Für weitere Informationen siehe: Unfallgefahren und andere Gefährdungen: Kapitel 3.5, DWA-M 624: Risiken an Badestellen und Freizeitgewässern aus gewässerhygienischer Sicht.",
+    "Gefahrenquellen sind nicht vorhanden.",
+    "Perfekt.",
+    "Keine weiteren Aktionen notwendig.",
+    "grün",
+    1,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Gefahrenquellen sind in geringem Maße vorhanden.",
+    "Der Gewässergrund sollte vor und nach der Eröffnung eines Badegewässers in regelmäßigen Abständen von gefährlichen Gegenständen befreit werden. Die Vereinbarkeit mit den Anforderungen des Wasserstraßen- und Schifffahrtsamts und des Naturschutzes ist zu prüfen.",
+    "Maßnahmen zur Beseitigung oder Reduzierung von Gefahrenquellen am Gewässergrund sollten evaluiert werden. Hierbei ist  die Vereinbarkeit mit den Anforderungen des Wasserstraßen- und Schifffahrtsamts und des Naturschutzes zu prüfen.",
+    "gelb",
+    0.6,
+    "Infrastruktur"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Gefahrenquellen sind in großem Maße vorhanden und auch wiederkehrend.",
+    "Um der Verkehrssicherungspflicht genüge zu tun, müssen sichere Land- und Wasserflächen gewährleistet werden. Gefahren am Gewässergrund müssen also auf ein vertretbares Maß reduziert werden. (vgl. DGfdB R 94.13 <www.baederportal.com/fileadmin/user.../Richtlinien_mit_Deckblatt_11_3_15.pdf>\r\nHierfür müssen geeignete Maßnahmen gefunden werden und ihre Vereinbarkeit mit z.B. dem Naturschutz geprüft werden.",
+    "Maßnahmen zur Beseitigung oder Reduzierung von Gefahrenquellen am Gewässergrund sollten evaluiert werden. Hierbei ist die Vereinbarkeit mit den Anforderungen des Wasserstraßen- und Schifffahrtsamts und des Naturschutzes zu prüfen.",
+    "orange",
+    0.3,
+    "Infrastruktur"
+  ],
+  [null, null, null, null, null, null, null, null, null, null, null, null]
+]

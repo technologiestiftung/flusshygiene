@@ -6,7 +6,7 @@ export const REACT_APP_MAPBOX_API_TOKEN =
 export const REACT_APP_DOMAIN_URL = process.env.REACT_APP_DOMAIN_URL;
 export const REACT_APP_DOMAIN_NICE_NAME =
   process.env.REACT_APP_DOMAIN_NICE_NAME;
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   // eslint-disable-next-line
   console.info(
     `Connecting to REACT_APP_API_HOST "${process.env.REACT_APP_API_HOST}"`,

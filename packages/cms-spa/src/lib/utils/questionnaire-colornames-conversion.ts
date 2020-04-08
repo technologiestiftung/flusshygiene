@@ -1,24 +1,24 @@
-import { ColorNames } from '../common/interfaces';
+import { ColorNames } from "../common/interfaces";
 
-const classBaseName = 'questionnaire__color';
+const classBaseName = "questionnaire__color";
 export const colorNamesToClassNames: (cname: ColorNames) => string = (
   cname,
 ) => {
   const colName = cname.toLowerCase();
 
   switch (colName) {
-    case 'grün':
+    case "grün":
       return `${classBaseName}--green`;
-    case 'türkis':
+    case "türkis":
       return `${classBaseName}--turquoise`;
-    case 'gelb':
+    case "gelb":
       return `${classBaseName}--yellow`;
-    case 'orange':
+    case "orange":
       return `${classBaseName}--orange`;
-    case 'rot':
+    case "rot":
       return `${classBaseName}--red`;
     default:
-      return '';
+      return "";
   }
 };
 
@@ -26,15 +26,15 @@ export const colorNamesToRotation: (cname: ColorNames) => number = (cname) => {
   const colName = cname.toLowerCase();
 
   switch (colName) {
-    case 'grün':
+    case "grün":
       return 0;
-    case 'türkis':
+    case "türkis":
       return 135;
-    case 'gelb':
+    case "gelb":
       return 45;
-    case 'orange':
+    case "orange":
       return 90;
-    case 'rot':
+    case "rot":
       return 180;
     default:
       return 0;

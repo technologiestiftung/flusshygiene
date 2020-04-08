@@ -4,14 +4,14 @@ import {
   // IGeoJsonGeometry,
   MapEditModes,
   MapActiveEditor,
-} from '../common/interfaces';
-import { FormikHandlers, FormikHelpers } from 'formik';
+} from "../common/interfaces";
+import { FormikHandlers, FormikHelpers } from "formik";
 export const setupBasisData: (
   values: IBathingspotExtend,
   defaultFormikSetFieldValue?: FormikHelpers<
     IBathingspotExtend
-  >['setFieldValue'],
-  defaultFormikHandleChange?: FormikHandlers['handleChange'],
+  >["setFieldValue"],
+  defaultFormikHandleChange?: FormikHandlers["handleChange"],
   editMode?: MapEditModes,
   activeEditor?: MapActiveEditor,
 ) => IFormBuildData[] = () =>
@@ -34,28 +34,28 @@ export const setupBasisData: (
       //   value: undefined,
       // },
       {
-        name: 'cyanoPossible',
-        type: 'checkbox',
-        label: 'Cyanobakterien möglich',
+        name: "cyanoPossible",
+        type: "checkbox",
+        label: "Cyanobakterien möglich",
         value: undefined,
       },
-      { name: 'nameLong', type: 'text', label: 'Langer Name' },
+      { name: "nameLong", type: "text", label: "Langer Name" },
       {
-        name: 'water',
-        type: 'text',
-        label: 'Gewässer',
+        name: "water",
+        type: "text",
+        label: "Gewässer",
       },
-      { name: 'district', type: 'text', label: 'Distrikt' },
-      { name: 'street', type: 'text', label: 'Straße' },
-      { name: 'postalCode', type: 'number', label: 'Postleitzahl' },
-      { name: 'city', type: 'text', label: 'Stadt' },
-      { name: 'website', type: 'text', label: 'Website URL' },
+      { name: "district", type: "text", label: "Distrikt" },
+      { name: "street", type: "text", label: "Straße" },
+      { name: "postalCode", type: "number", label: "Postleitzahl" },
+      { name: "city", type: "text", label: "Stadt" },
+      { name: "website", type: "text", label: "Website URL" },
       {
-        name: 'lastClassification',
-        type: 'text',
-        label: 'Letzte Klassifizierung',
+        name: "lastClassification",
+        type: "text",
+        label: "Letzte Klassifizierung",
       },
-      { name: 'image', type: 'text', label: 'Bild URL' },
+      { name: "image", type: "text", label: "Bild URL" },
       // {
       //   name: 'latitude',
       //   type: 'number',
@@ -87,8 +87,8 @@ export const setupBasisData: (
       //   //   defaultFormikHandleChange(event);
       //   // },
       // },
-      { name: 'elevation', type: 'number', label: 'Höhe über NN' },
-      { name: 'apiEndpoints', type: 'text', label: 'API Endpoints' },
+      { name: "elevation", type: "number", label: "Höhe über NN" },
+      { name: "apiEndpoints", type: "text", label: "API Endpoints" },
       // {
       //   name: 'cyanoPossible',
       //   type: 'checkbox',

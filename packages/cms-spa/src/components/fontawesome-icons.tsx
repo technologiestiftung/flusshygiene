@@ -1,6 +1,6 @@
-import React from 'react';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInfo,
   faEdit,
@@ -36,9 +36,9 @@ import {
   faMinus,
   faIndustry,
   faFileAlt,
-} from '@fortawesome/free-solid-svg-icons';
-import { ColorNames, QType } from '../lib/common/interfaces';
-import { colorNamesToClassNames } from '../lib/utils/questionnaire-colornames-conversion';
+} from "@fortawesome/free-solid-svg-icons";
+import { ColorNames, QType } from "../lib/common/interfaces";
+import { colorNamesToClassNames } from "../lib/utils/questionnaire-colornames-conversion";
 library.add(
   faInfo,
   faEdit,
@@ -79,30 +79,30 @@ library.add(
 export const colorNameToIcon: (cname: ColorNames) => JSX.Element = (cname) => {
   const colName = cname.toLowerCase();
   switch (colName) {
-    case 'grün':
+    case "grün":
       return <IconCheckCircle className={colorNamesToClassNames(colName)} />;
-    case 'türkis':
+    case "türkis":
       return (
         <IconArrowCircleRight
           className={colorNamesToClassNames(colName)}
           rotate={-45}
         />
       );
-    case 'gelb':
+    case "gelb":
       return (
         <IconArrowCircleRight className={colorNamesToClassNames(colName)} />
       );
-    case 'orange':
+    case "orange":
       return (
         <IconArrowCircleRight
           className={colorNamesToClassNames(colName)}
           rotate={45}
         />
       );
-    case 'rot':
+    case "rot":
       return <IconTimes className={colorNamesToClassNames(colName)} />;
     default:
-      throw new Error('Unhandled colorname for icons');
+      throw new Error("Unhandled colorname for icons");
   }
 };
 
@@ -111,38 +111,38 @@ export const questionTypeToIcon: (
   cname: ColorNames,
 ) => JSX.Element = (type, cname) => {
   switch (type) {
-    case 'infrastruktur':
+    case "infrastruktur":
       return <Icontools className={colorNamesToClassNames(cname)} />;
-    case 'verhandlung':
+    case "verhandlung":
       return <IconUsersCog className={colorNamesToClassNames(cname)} />;
     default:
-      throw new Error('not defined questionType');
+      throw new Error("not defined questionType");
   }
 };
 
 export const IconCheckCircle: React.FC<{ className?: string }> = ({
   className,
-}) => <FontAwesomeIcon icon={'check-circle'} className={className} />;
+}) => <FontAwesomeIcon icon={"check-circle"} className={className} />;
 export const IconArrowCircleRight: React.FC<{
   className?: string;
   rotate?: number;
 }> = ({ className, rotate }) => (
   <FontAwesomeIcon
-    icon={'arrow-circle-right'}
+    icon={"arrow-circle-right"}
     className={className}
     transform={{ rotate }}
   />
 );
 
 export const IconPDF: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'file-pdf'} className={className} />
+  <FontAwesomeIcon icon={"file-pdf"} className={className} />
 );
 export const IconCode: React.FC<{
   className?: string;
   handleClick?: (e?: React.ChangeEvent<any>) => void;
 }> = ({ className, handleClick }) => (
   <FontAwesomeIcon
-    icon={'file-code'}
+    icon={"file-code"}
     className={className}
     onClick={(e) => {
       e.preventDefault();
@@ -151,99 +151,99 @@ export const IconCode: React.FC<{
   />
 );
 export const IconTimes: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'times'} className={className} />
+  <FontAwesomeIcon icon={"times"} className={className} />
 );
 
-export const IconInfo: React.FC = () => <FontAwesomeIcon icon={'info'} />;
+export const IconInfo: React.FC = () => <FontAwesomeIcon icon={"info"} />;
 export const IconCloseWin: React.FC = () => (
-  <FontAwesomeIcon icon={'window-close'} />
+  <FontAwesomeIcon icon={"window-close"} />
 );
 export const IconAngleDown: React.FC = () => (
-  <FontAwesomeIcon icon={'angle-down'} />
+  <FontAwesomeIcon icon={"angle-down"} />
 );
-export const IconEdit: React.FC = () => <FontAwesomeIcon icon={'edit'} />;
+export const IconEdit: React.FC = () => <FontAwesomeIcon icon={"edit"} />;
 export const IconMapMarker: React.FC = () => (
-  <FontAwesomeIcon icon={'map-marker'} />
+  <FontAwesomeIcon icon={"map-marker"} />
 );
 export const IconPolygon: React.FC = () => (
-  <FontAwesomeIcon icon={'draw-polygon'} />
+  <FontAwesomeIcon icon={"draw-polygon"} />
 );
 
-export const IconCSV: React.FC = () => <FontAwesomeIcon icon={'file-csv'} />;
+export const IconCSV: React.FC = () => <FontAwesomeIcon icon={"file-csv"} />;
 export const IconFileUplad: React.FC = () => (
-  <FontAwesomeIcon icon={'file-upload'} />
+  <FontAwesomeIcon icon={"file-upload"} />
 );
 
-export const IconPrev: React.FC = () => <FontAwesomeIcon icon={'backward'} />;
-export const IconNext: React.FC = () => <FontAwesomeIcon icon={'forward'} />;
-export const IconSave: React.FC = () => <FontAwesomeIcon icon={'save'} />;
+export const IconPrev: React.FC = () => <FontAwesomeIcon icon={"backward"} />;
+export const IconNext: React.FC = () => <FontAwesomeIcon icon={"forward"} />;
+export const IconSave: React.FC = () => <FontAwesomeIcon icon={"save"} />;
 
 export const IconArrowRight: React.FC = () => (
-  <FontAwesomeIcon icon={'arrow-right'} />
+  <FontAwesomeIcon icon={"arrow-right"} />
 );
 
-export const IconLink: React.FC = () => <FontAwesomeIcon icon={'link'} />;
+export const IconLink: React.FC = () => <FontAwesomeIcon icon={"link"} />;
 
 export const IconExclamation: React.FC<{
   className?: string;
 }> = ({ className }) => (
-  <FontAwesomeIcon icon={'exclamation'} className={className} />
+  <FontAwesomeIcon icon={"exclamation"} className={className} />
 );
 
 export const IconUsersCog: React.FC<{ className?: string }> = ({
   className,
-}) => <FontAwesomeIcon icon={'users-cog'} className={className} />;
+}) => <FontAwesomeIcon icon={"users-cog"} className={className} />;
 
 export const Icontools: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'tools'} className={className} />
+  <FontAwesomeIcon icon={"tools"} className={className} />
 );
 
 export const IconRain: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'cloud-rain'} className={className} />
+  <FontAwesomeIcon icon={"cloud-rain"} className={className} />
 );
 
 export const IconCalc: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'calculator'} className={className} />
+  <FontAwesomeIcon icon={"calculator"} className={className} />
 );
 
 export const IconComment: React.FC<{ className?: string }> = ({
   className,
-}) => <FontAwesomeIcon icon={'comment-alt'} className={className} />;
+}) => <FontAwesomeIcon icon={"comment-alt"} className={className} />;
 
 export const IconMapPin: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'map-pin'} className={className} />
+  <FontAwesomeIcon icon={"map-pin"} className={className} />
 );
 
 export const IconChart: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'chart-bar'} className={className} />
+  <FontAwesomeIcon icon={"chart-bar"} className={className} />
 );
 
 export const IconThumbsUp: React.FC<{ className?: string }> = ({
   className,
-}) => <FontAwesomeIcon icon={'thumbs-up'} className={className} />;
+}) => <FontAwesomeIcon icon={"thumbs-up"} className={className} />;
 
 export const IconBug: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'bug'} className={className} />
+  <FontAwesomeIcon icon={"bug"} className={className} />
 );
 
 export const IconTrash: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'trash'} className={className} />
+  <FontAwesomeIcon icon={"trash"} className={className} />
 );
 
 export const IconHelp: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'question'} className={className} />
+  <FontAwesomeIcon icon={"question"} className={className} />
 );
 
 export const IconPlus: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'plus'} className={className} />
+  <FontAwesomeIcon icon={"plus"} className={className} />
 );
 export const IconMinus: React.FC<{ className?: string }> = ({ className }) => (
-  <FontAwesomeIcon icon={'minus'} className={className} />
+  <FontAwesomeIcon icon={"minus"} className={className} />
 );
 export const IconIndustry: React.FC<{ className?: string }> = ({
   className,
-}) => <FontAwesomeIcon icon={'industry'} className={className} />;
+}) => <FontAwesomeIcon icon={"industry"} className={className} />;
 
 export const IconFileAlt: React.FC<{ className?: string }> = ({
   className,
-}) => <FontAwesomeIcon icon={'file-alt'} className={className} />;
+}) => <FontAwesomeIcon icon={"file-alt"} className={className} />;

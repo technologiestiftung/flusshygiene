@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import createAuth0Client from '@auth0/auth0-spa-js';
-import { APIMountPoints, ApiResources } from '../common/enums';
-import { IFetchOptions, IFetchHeaders } from '../common/interfaces';
-import { REACT_APP_API_HOST } from '../config';
+import React, { useState, useEffect, useContext } from "react";
+import createAuth0Client from "@auth0/auth0-spa-js";
+import { APIMountPoints, ApiResources } from "../common/enums";
+import { IFetchOptions, IFetchHeaders } from "../common/interfaces";
+import { REACT_APP_API_HOST } from "../config";
 
 const DEFAULT_REDIRECT_CALLBACK = (appState?: any) =>
   window.history.replaceState({}, document.title, window.location.pathname);
@@ -41,7 +41,7 @@ export const Auth0Provider = ({
       );
       setAuth0(auth0FromHook);
 
-      if (window.location.search.includes('code=')) {
+      if (window.location.search.includes("code=")) {
         const { appState } = await auth0FromHook.handleRedirectCallback();
         onRedirectCallback(appState);
       }
@@ -54,14 +54,14 @@ export const Auth0Provider = ({
         const user = await auth0FromHook.getUser();
         const token = await auth0FromHook.getTokenSilently();
         const headers: IFetchHeaders = {
-          'content-type': 'application/json',
+          "content-type": "application/json",
           Authorization: `Bearer ${token}`,
         };
 
         const signal = abortController.signal;
 
         const opts: IFetchOptions = {
-          method: 'GET',
+          method: "GET",
           headers: headers,
           signal: signal,
         };

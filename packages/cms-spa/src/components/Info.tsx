@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 // interface IInfo {
 //   [key:string]: any;
 // }
 const Info: React.FC<{}> = () => {
   return (
-    <div className='container info'>
-      <div className='columns  is-centered'>
-        <div className='column is-10'>
-          <h1 className='title is-1'>Beschreibung Vorhersagemodell</h1>
+    <div className="container info">
+      <div className="columns  is-centered">
+        <div className="column is-10">
+          <h1 className="title is-1">Beschreibung Vorhersagemodell</h1>
           {/* tslint:disable-next-line: max-line-length */}
           <p>
             Die Badegewässerqualität wird regelmäßig durch das Landesamt für
@@ -46,7 +46,7 @@ const Info: React.FC<{}> = () => {
             statistischen Modells ausgewertet. Am Ende steht jeden Morgen eine
             Prognose über die Wasserqualität, die an diesem Tag zu erwarten ist.
           </p>
-          <h2 className='title is-2'>Hinweise:</h2>
+          <h2 className="title is-2">Hinweise:</h2>
           {/* tslint:disable-next-line: max-line-length */}
           <p>
             Das Baden in natürlichen Gewässern ist nie zu 100% risikofrei. Auch

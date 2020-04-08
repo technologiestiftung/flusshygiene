@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   RequestResourceTypes,
   ClickFunction,
   MGDUploaderDataType,
-} from '../../../lib/common/interfaces';
-import { REACT_APP_API_HOST } from '../../../lib/config';
-import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
-import { useAuth0 } from '../../../lib/auth/react-auth0-wrapper';
-import { useApi, apiRequest } from '../../../contexts/postgres-api';
-import { Formik, Form } from 'formik';
-import { FormikButtons } from '../formik-helpers/FormikButtons';
-import { Container } from '../../Container';
-import { InfoText } from '../elements/SpotEditor-Measurments-Info';
-import { NewUploadBox } from '../elements/New-UploadBox';
+} from "../../../lib/common/interfaces";
+import { REACT_APP_API_HOST } from "../../../lib/config";
+import { APIMountPoints, ApiResources } from "../../../lib/common/enums";
+import { useAuth0 } from "../../../lib/auth/react-auth0-wrapper";
+import { useApi, apiRequest } from "../../../contexts/postgres-api";
+import { Formik, Form } from "formik";
+import { FormikButtons } from "../formik-helpers/FormikButtons";
+import { Container } from "../../Container";
+import { InfoText } from "../elements/SpotEditor-Measurments-Info";
+import { NewUploadBox } from "../elements/New-UploadBox";
 import {
   defaultMeasurementsSchema,
   measurementsSchema,
-} from '../../../lib/utils/spot-validation-schema';
-import { actionCreator } from '../../../lib/utils/pgapi-actionCreator';
+} from "../../../lib/utils/spot-validation-schema";
+import { actionCreator } from "../../../lib/utils/pgapi-actionCreator";
 
 export const MGDUploader: React.FC<{
   userId: number;
@@ -47,19 +47,19 @@ export const MGDUploader: React.FC<{
   const postData = async (data: any[]) => {
     try {
       switch (dataType) {
-        case 'discharges':
+        case "discharges":
           POST_URL = `${BASE_URL}/${ApiResources.discharges}`;
           break;
-        case 'globalIrradiances':
+        case "globalIrradiances":
           POST_URL = `${BASE_URL}/${ApiResources.globalIrradiances}`;
           break;
-        case 'measurements':
+        case "measurements":
           POST_URL = `${BASE_URL}/${ApiResources.measurements}`;
       }
       const token = await getTokenSilently();
       const action = actionCreator({
         url: POST_URL,
-        method: 'POST',
+        method: "POST",
         resource: dataType,
         token,
         body: data,
@@ -82,17 +82,17 @@ export const MGDUploader: React.FC<{
     const spot = filteredSpots[0];
     let data: any[] | undefined;
     switch (dataType) {
-      case 'discharges': {
+      case "discharges": {
         data = spot.discharges;
         if (data === undefined || data.length === 0) return;
         break;
       }
-      case 'globalIrradiances': {
+      case "globalIrradiances": {
         data = spot.globalIrradiances;
         if (data === undefined || data.length === 0) return;
         break;
       }
-      case 'measurements': {
+      case "measurements": {
         data = spot.measurements;
         if (data === undefined || data.length === 0) return;
         break;
@@ -132,7 +132,7 @@ export const MGDUploader: React.FC<{
                     title={title}
                   ></InfoText>
                 ) : (
-                  <h3 className='is-title is-3'>
+                  <h3 className="is-title is-3">
                     CSV Daten Upload für {title}
                   </h3>
                 )}
@@ -141,16 +141,16 @@ export const MGDUploader: React.FC<{
                   unboxed={true}
                   type={dataType}
                   title={title}
-                  fieldNameFile={'measurements'}
-                  fieldNameUrl={'url'}
+                  fieldNameFile={"measurements"}
+                  fieldNameUrl={"url"}
                   props={props}
                   schema={(() => {
-                    console.log(dataType);
+                    // console.log(dataType);
                     switch (dataType) {
-                      case 'measurements':
+                      case "measurements":
                         return measurementsSchema;
-                      case 'discharges':
-                      case 'globalIrradiances':
+                      case "discharges":
+                      case "globalIrradiances":
                         return defaultMeasurementsSchema;
                     }
                   })()}

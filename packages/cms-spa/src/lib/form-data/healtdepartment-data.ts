@@ -1,39 +1,39 @@
-import { IFormBuildData } from '../common/interfaces';
+import { IFormBuildData } from "../common/interfaces";
 
 export const healthDepartmentData: IFormBuildData[] = [
   {
-    name: 'healthDepartment',
-    type: 'text',
-    label: 'Name',
+    name: "healthDepartment",
+    type: "text",
+    label: "Name",
   },
   {
-    name: 'healthDepartmentAddition',
-    type: 'text',
-    label: 'Zusatz',
+    name: "healthDepartmentAddition",
+    type: "text",
+    label: "Zusatz",
   },
   {
-    name: 'healthDepartmentStreet',
-    type: 'text',
-    label: 'Straße',
+    name: "healthDepartmentStreet",
+    type: "text",
+    label: "Straße",
   },
   {
-    name: 'healthDepartmentPostalCode',
-    type: 'number',
-    label: 'Postleitzahl',
+    name: "healthDepartmentPostalCode",
+    type: "number",
+    label: "Postleitzahl",
   },
   {
-    name: 'healthDepartmentCity',
-    type: 'text',
-    label: 'Stadt',
+    name: "healthDepartmentCity",
+    type: "text",
+    label: "Stadt",
   },
   {
-    name: 'healthDepartmentMail',
-    type: 'email',
-    label: 'E-Mail',
+    name: "healthDepartmentMail",
+    type: "email",
+    label: "E-Mail",
   },
   {
-    name: 'healthDepartmentPhone',
-    type: 'text',
-    label: 'Telefonnummer',
+    name: "healthDepartmentPhone",
+    type: "text",
+    label: "Telefonnummer",
   },
 ];

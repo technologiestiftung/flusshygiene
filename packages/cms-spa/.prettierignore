@@ -10,3 +10,4 @@ token.json
 design-files
 examples/r
 .test.token.json
+*.zip

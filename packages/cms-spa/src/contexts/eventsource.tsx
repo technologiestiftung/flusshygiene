@@ -4,7 +4,7 @@ import React, {
   useReducer,
   useContext,
   useRef,
-} from 'react';
+} from "react";
 
 type EventSourceProviderProps = { children: React.ReactNode; url?: string };
 
@@ -14,7 +14,7 @@ interface IEventSourceState {
   pings?: number;
 }
 interface IEventAction {
-  type: 'INCOMING' | 'SET_URL' | 'INTERNAL_ERROR' | 'PING_RECEIVED';
+  type: "INCOMING" | "SET_URL" | "INTERNAL_ERROR" | "PING_RECEIVED";
   event: any;
   url?: string;
 }
@@ -27,18 +27,18 @@ const eventSourceReducer: (
   action: IEventAction,
 ) => IEventSourceState = (state, action) => {
   switch (action.type) {
-    case 'INCOMING': {
+    case "INCOMING": {
       const parsed = JSON.parse(action.event.data);
       // console.log(parsed, 'incoming event');
       let nextState: IEventSourceState;
-      if (parsed.event === 'response') {
+      if (parsed.event === "response") {
         nextState = { events: [parsed] };
       } else {
         nextState = state;
       }
       return nextState;
     }
-    case 'SET_URL': {
+    case "SET_URL": {
       const url = action.url;
       if (url === undefined) {
         return state;
@@ -46,7 +46,7 @@ const eventSourceReducer: (
         return { ...state, url };
       }
     }
-    case 'PING_RECEIVED': {
+    case "PING_RECEIVED": {
       let pings = 0;
       if (state.pings !== undefined) {
         pings = state.pings;
@@ -54,10 +54,10 @@ const eventSourceReducer: (
       pings += 1;
       return { ...state, pings };
     }
-    case 'INTERNAL_ERROR': {
+    case "INTERNAL_ERROR": {
       // console.error(action.type);
       console.error(action.event);
-      return { ...state, events: ['INTERNAL_ERROR'] };
+      return { ...state, events: ["INTERNAL_ERROR"] };
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -69,7 +69,7 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
   url =
     url === undefined
       ? process.env.REACT_APP_EVENT_SOURCE_URL === undefined
-        ? 'http://localhost:8888/middlelayer/stream'
+        ? "http://localhost:8888/middlelayer/stream"
         : process.env.REACT_APP_EVENT_SOURCE_URL
       : url;
   const [state, dispatch] = useReducer(eventSourceReducer, {
@@ -92,23 +92,23 @@ const EventSourceProvider = ({ children, url }: EventSourceProviderProps) => {
     // if (eventSource.readyState !== EventSource.OPEN) {
     //   return;
     // }
-    eventSource.current.addEventListener('passthrough', (event) => {
+    eventSource.current.addEventListener("passthrough", (event) => {
       // console.log('passthrough', event);
-      const action: IEventAction = { type: 'INCOMING', event };
+      const action: IEventAction = { type: "INCOMING", event };
       dispatch(action);
     });
-    eventSource.current.addEventListener('ping', (event) => {
+    eventSource.current.addEventListener("ping", (event) => {
       // eslint-disable-next-line no-console
-      console.log('ping', event);
-      const action: IEventAction = { type: 'PING_RECEIVED', event };
+      console.log("ping", event);
+      const action: IEventAction = { type: "PING_RECEIVED", event };
       dispatch(action);
     });
-    eventSource.current.addEventListener('error', (event) => {
-      console.error('eventsource error', event);
-      const action: IEventAction = { type: 'INTERNAL_ERROR', event };
+    eventSource.current.addEventListener("error", (event) => {
+      console.error("eventsource error", event);
+      const action: IEventAction = { type: "INTERNAL_ERROR", event };
       dispatch(action);
     });
-    eventSource.current.addEventListener('close', (event) => {
+    eventSource.current.addEventListener("close", (event) => {
       // console.info('eventsource close', event);
     });
     return () => {
@@ -125,7 +125,7 @@ const useEventSourceState = () => {
   const stateContext = useContext(EventSourceContext);
   if (stateContext === undefined) {
     throw new Error(
-      'useEventSourceState must be used within a EventSource Provider',
+      "useEventSourceState must be used within a EventSource Provider",
     );
   }
   return stateContext;

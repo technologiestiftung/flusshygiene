@@ -1,10 +1,10 @@
-import { IBathingspot, IAction } from '../../common/interfaces';
-import { DEFAULT_SPOT_ID } from '../../common/constants';
+import { IBathingspot, IAction } from "../../common/interfaces";
+import { DEFAULT_SPOT_ID } from "../../common/constants";
 
-export const FETCH_SINGLESPOT_BEGIN = 'FETCH_SINGLESPOT_BEGIN';
-export const FETCH_SINGLESPOT_SUCCESS = 'FETCH_SINGLESPOT_SUCCESS';
-export const FETCH_SINGLESPOT_FAIL = 'FETCH_SINGLESPOT_FAIL';
-export const FETCH_SINGLESPOT_RESET = 'FETCH_SINGLESPOT_RESET';
+export const FETCH_SINGLESPOT_BEGIN = "FETCH_SINGLESPOT_BEGIN";
+export const FETCH_SINGLESPOT_SUCCESS = "FETCH_SINGLESPOT_SUCCESS";
+export const FETCH_SINGLESPOT_FAIL = "FETCH_SINGLESPOT_FAIL";
+export const FETCH_SINGLESPOT_RESET = "FETCH_SINGLESPOT_RESET";
 
 interface IState {
   spot: IBathingspot;
@@ -18,7 +18,7 @@ const initialState: IState = {
     id: DEFAULT_SPOT_ID,
     createdAt: new Date(2525),
     updatedAt: new Date(2525),
-    name: 'Lade Badestellendaten',
+    name: "Lade Badestellendaten",
     isPublic: false,
   },
   loading: false,

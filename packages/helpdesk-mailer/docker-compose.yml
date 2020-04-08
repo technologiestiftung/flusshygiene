@@ -1,0 +1,10 @@
+version: '3.4'
+services:
+  mailer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - 4004:4004
+

@@ -2,10 +2,10 @@
 // see https://facebook.github.io/create-react-app/docs/adding-a-sass-stylesheet
 // docs for bulma
 // https://bulma.io/
-@import './variables.scss';
-@import './fonts.scss';
-@import 'bulma/sass/utilities/initial-variables';
-@import 'bulma/sass/utilities/functions';
+@import "./variables.scss";
+@import "./fonts.scss";
+@import "bulma/sass/utilities/initial-variables";
+@import "bulma/sass/utilities/functions";
 
 //
 $primary: hsl(231, 52%, 31%);
@@ -23,11 +23,12 @@ $radius-rounded: 0px;
 // $dark: $grey-darker
 // $text: $grey-dark
 // $family-primary: $family-sans-serif;
-@import '~bulma/bulma.sass';
-@import '~bulma-extensions/bulma-pageloader/src/sass/index.sass';
-@import './bulma-css-burger.scss';
-@import './type-scale.scss';
-@import './spinner.scss';
+@import "~bulma/bulma.sass";
+@import "~bulma-extensions/bulma-pageloader/src/sass/index.sass";
+@import "./bulma-css-burger.scss";
+@import "./type-scale.scss";
+@import "./spinner.scss";
+@import "./help-desk.scss";
 
 html,
 body {
@@ -36,7 +37,7 @@ body {
   border: 0;
   width: 100%;
   height: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   background-color: $background-color;
   font-weight: 400;
 }
@@ -90,9 +91,12 @@ span.asteriks {
 .buttons__--size {
   // flex-basis: 100%;
   .button {
+    min-width: 70px;
     max-width: 170px;
     flex: 1 1 0;
     text-overflow: ellipsis;
+    padding-left: 1em;
+    padding-right: 1em;
   }
 }
 
@@ -133,7 +137,7 @@ $mapHeight: 400px;
   width: 100%;
   height: $mapHeight;
 }
-@import '~mapbox-gl/dist/mapbox-gl.css';
+@import "~mapbox-gl/dist/mapbox-gl.css";
 #map__container > * {
   position: absolute;
   top: 0;
@@ -245,7 +249,7 @@ $mapHeight: 400px;
 
 // data view
 
-@import './data-view.scss';
-@import './bulma-overwrites.scss';
-@import './custom-file-upload.scss';
-@import './form-overrides.scss';
+@import "./data-view.scss";
+@import "./bulma-overwrites.scss";
+@import "./custom-file-upload.scss";
+@import "./form-overrides.scss";

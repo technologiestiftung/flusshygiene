@@ -6,7 +6,7 @@ import {
   RequestTypes,
   RequestResourceTypes,
   IObject,
-} from '../common/interfaces';
+} from "../common/interfaces";
 
 export function actionCreator({
   url,
@@ -30,16 +30,16 @@ export function actionCreator({
         body: JSON.stringify(body),
         method,
         headers: {
-          'content-type': 'application/json',
+          "content-type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        credentials: 'include',
+        credentials: "include",
       },
       url,
       requestType: { type: method, resource },
     },
   };
-  if (method === 'GET') {
+  if (method === "GET") {
     delete action.payload.config!.body;
   }
   return action;

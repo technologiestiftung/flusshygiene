@@ -1,17 +1,17 @@
-import { FormikHelpers } from 'formik';
-import { RouteComponentProps } from 'react-router';
-import * as Yup from 'yup';
+import { FormikHelpers } from "formik";
+import { RouteComponentProps } from "react-router";
+import * as Yup from "yup";
 export interface IObject {
   [key: string]: any;
 }
 
 export interface IFetchHeaders {
-  'content-type': 'application/json';
+  "content-type": "application/json";
   Authorization: string;
 }
 export interface IFetchOptions {
   headers: IObject;
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method: "GET" | "POST" | "PUT" | "DELETE";
   body?: string;
   signal?: AbortSignal;
 }
@@ -87,10 +87,10 @@ export interface IBathingspot {
   purificationPlants?: IPurificationPlant[];
   discharges?: IDefaultMeasurement[];
   genericInputs?: IGenericInput[];
-  influencePurificationPlant?: 'yes' | 'no' | 'unknown';
-  influenceCombinedSewerSystem?: 'yes' | 'no' | 'unknown';
-  influenceRainwater?: 'yes' | 'no' | 'unknown';
-  influenceAgriculture?: 'yes' | 'no' | 'unknown';
+  influencePurificationPlant?: "yes" | "no" | "unknown";
+  influenceCombinedSewerSystem?: "yes" | "no" | "unknown";
+  influenceRainwater?: "yes" | "no" | "unknown";
+  influenceAgriculture?: "yes" | "no" | "unknown";
 }
 
 export interface IDefaultResource {
@@ -100,7 +100,7 @@ export interface IDefaultResource {
 }
 export interface IModel extends IDefaultResource {
   rmodel?: string;
-  parameter: 'conc_ie' | 'conc_ec';
+  parameter: "conc_ie" | "conc_ec";
   rmodelfiles?: IObject[];
   plotfiles?: IObject[];
   comment?: string;
@@ -200,7 +200,7 @@ export interface IAction {
 // Forms
 
 export interface IFormBuildData {
-  type: 'text' | 'number' | 'checkbox' | 'select' | 'email';
+  type: "text" | "number" | "checkbox" | "select" | "email";
   name: string;
   label: string;
   value?: boolean | string;
@@ -215,25 +215,25 @@ export interface IFormOptions {
 
 export interface IGeoJsonGeometry {
   coordinates: any[];
-  type: 'Point' | 'Polygon';
+  type: "Point" | "Polygon";
 }
 
 export interface IGeoJsonPoint extends IGeoJsonGeometry {
-  type: 'Point';
+  type: "Point";
 }
 
 export interface IGeoJsonPolygon extends IGeoJsonGeometry {
-  type: 'Polygon';
+  type: "Polygon";
 }
 export interface IGeoJsonFeature {
-  type: 'Feature';
+  type: "Feature";
   geometry: IGeoJsonGeometry;
   properties?: {
     [key: string]: any;
   };
 }
 export interface IGeoJson {
-  type: 'FeatureCollection';
+  type: "FeatureCollection";
   features: IGeoJsonFeature[];
 }
 
@@ -253,7 +253,7 @@ export interface IMapsEditorProps extends IMapsProps {
   newSpot?: boolean;
   defaultFormikSetFieldValues: FormikHelpers<
     IBathingspotExtend
-  >['setFieldValue'];
+  >["setFieldValue"];
   handleUpdates: (
     e: React.ChangeEvent<any>,
     location?: IGeoJsonPoint,
@@ -261,10 +261,10 @@ export interface IMapsEditorProps extends IMapsProps {
   ) => void;
 }
 
-export type QType = 'verhandlung' | 'infrastruktur';
+export type QType = "verhandlung" | "infrastruktur";
 export interface IAnswer {
   text: string;
-  colorText: 'grün' | 'gelb' | 'orange' | 'türkis' | 'rot';
+  colorText: "grün" | "gelb" | "orange" | "türkis" | "rot";
   additionalText: string;
   id: string;
   weight: number;
@@ -277,28 +277,28 @@ export interface IAnswer {
 
 // postgres api
 
-export type RequestTypes = 'POST' | 'GET' | 'PUT' | 'DELETE';
+export type RequestTypes = "POST" | "GET" | "PUT" | "DELETE";
 export type RequestResourceTypes =
-  | 'bathingspot'
-  | 'bathingspots'
-  | 'rains'
-  | 'measurements'
-  | 'globalIrradiances'
-  | 'discharges'
-  | 'predictions'
-  | 'user'
-  | 'users'
-  | 'models'
-  | 'ping'
-  | 'purificationPlants'
-  | 'pplantMeasurements'
-  | 'gInputMeasurements'
-  | 'genericInputs';
+  | "bathingspot"
+  | "bathingspots"
+  | "rains"
+  | "measurements"
+  | "globalIrradiances"
+  | "discharges"
+  | "predictions"
+  | "user"
+  | "users"
+  | "models"
+  | "ping"
+  | "purificationPlants"
+  | "pplantMeasurements"
+  | "gInputMeasurements"
+  | "genericInputs";
 
 export type MGDUploaderDataType =
-  | 'globalIrradiances'
-  | 'discharges'
-  | 'measurements';
+  | "globalIrradiances"
+  | "discharges"
+  | "measurements";
 export interface IApiActionRequestType {
   type: RequestTypes;
   resource: RequestResourceTypes;
@@ -325,9 +325,9 @@ export interface IApiFinishedActionPayload extends IApiActionPayload {
 }
 
 export enum ApiActionTypes {
-  START_API_REQUEST = 'START_API_REQUEST',
-  FINISH_API_REQUEST = 'FINISH_API_REQUEST',
-  FAIL_API_REQUEST = 'FAIL_API_REQUEST',
+  START_API_REQUEST = "START_API_REQUEST",
+  FINISH_API_REQUEST = "FINISH_API_REQUEST",
+  FAIL_API_REQUEST = "FAIL_API_REQUEST",
 }
 export interface IApiAction {
   type: ApiActionTypes;
@@ -354,9 +354,9 @@ export interface IApiState {
 // ocpe context interfaces
 
 export type OcpuDispatchTypes =
-  | 'START_OCPU_REQUEST'
-  | 'FINISH_OCPU_REQUEST'
-  | 'FAIL_OCPU_REQUEST';
+  | "START_OCPU_REQUEST"
+  | "FINISH_OCPU_REQUEST"
+  | "FAIL_OCPU_REQUEST";
 
 export interface IOcpuAction {
   type: OcpuDispatchTypes;
@@ -391,7 +391,7 @@ export interface IOcpuFailAction extends IOcpuAction {
   };
 }
 
-type OCpuProcessing = 'predict' | 'model' | 'calibrate' | undefined;
+type OCpuProcessing = "predict" | "model" | "calibrate" | undefined;
 export interface IOcpuState {
   [key: string]: any;
   processing: OCpuProcessing;
@@ -474,26 +474,26 @@ export interface IInitialGiPPValues {
 //  ╩  ┴ ┴  └─┘└─┘
 
 export type ApiEndpointsLinkTypes =
-  | 'globalIrradianceUrl'
-  | 'dischargesUrl'
-  | 'measurementsUrl';
+  | "globalIrradianceUrl"
+  | "dischargesUrl"
+  | "measurementsUrl";
 export type MeasurementTypes =
-  | 'measurements'
-  | 'discharges'
-  | 'globalIrradiances'
-  | 'pplantMeasurements'
-  | 'gInputMeasurements';
+  | "measurements"
+  | "discharges"
+  | "globalIrradiances"
+  | "pplantMeasurements"
+  | "gInputMeasurements";
 export type ClickHandler = (event: React.ChangeEvent<any>) => void;
-export type MapEditors = 'area' | 'location';
+export type MapEditors = "area" | "location";
 export type MapEditModes =
-  | 'modify'
-  | 'view'
-  | 'drawPoint'
-  | 'drawPolygon'
-  | 'translate';
-export type MapActiveEditor = 'area' | 'location' | undefined;
+  | "modify"
+  | "view"
+  | "drawPoint"
+  | "drawPolygon"
+  | "translate";
+export type MapActiveEditor = "area" | "location" | undefined;
 
-export type ColorNames = 'grün' | 'gelb' | 'orange' | 'türkis' | 'rot';
+export type ColorNames = "grün" | "gelb" | "orange" | "türkis" | "rot";
 
 /**
  * Properties of route

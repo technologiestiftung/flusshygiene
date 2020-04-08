@@ -1,1 +1,58 @@
-[["gewichtung","ueberschrift","adminInfo","allgemeineInfo","frage","zusatzinfosZurFrage","antwortoption","zusatzinfosZuAntwortoption","reportWeiter","ampelcodierung","umsetzungswahrscheinlichkeit","infrastrukturOderVerhandlung"],[4,"Gefahren durch die Schifffahrt","Ortsbegehung","Hier empfiehlt sich zunächst eine Ortsbegehung. Für Binnenwasserstraßen gilt: Die Vereinbarkeit eines Badegewässers mit der Schifffahrt muss in jedem Fall mit dem Wasserstraßen- und Schifffahrtsamt des Landes geklärt werden. Eine Strom- & Schifffahrtspolizeiliche Genehmigung ist notwendig.","Wie groß ist der Abstand des potenziellen Badebereichs zu Anlegestellen motorisierter Schiffe?\r\n ","Unter Anlegestellen werden hier alle Anlegestellen verstanden, die von motorisierten Wasserfahrzeugen genutzt werden. Es empfiehlt sich, mit den Eignern der Anlegestelle Kontakt aufzunehmen.","Der Abstand zu Anlegestellen beträgt mehr als 100 Meter.","Perfekt.","Keine weiteren Aktionen notwendig.","grün",1,null],[null,null,null,null,null,null,"Der Abstand zu Anlegestellen beträgt 50 bis 100 Meter.","Laut Binnenschifffahrtsstraßen-Ordnung <https://www.elwis.de/DE/Schifffahrtsrecht/Binnenschifffahrtsrecht/BinSchStrO/Erster-Teil/Kapitel-08/08-10/08-10-node.html> ist das Schwimmen allgemein 100 m unterhalb und oberhalb von Wasserbauwerken verboten. Hierzu zählen auch Anlegestellen.\r\nFür einige Flüsse (siehe vorherige Frage) gibt es spezielle Verordnungen mit teilweise abweichenden Mindestabständen und Ausnahmen.\r\nVerhandlungen mit dem zuständigen WSA sind notwendig.","Auf Grund des angegeben\r\nAbstands zu einer Anlegestelle ist es zwingend erforderlich, sich frühzeitig mit dem Wasserstraßen- und Schifffahrtsamt des Landes in Verbindung zu setzen. Hierfür empfiehlt es sich den geplanten Badegewässerbereich, möglichst auf Kartenmaterial des Wasserstraßen- und Schifffahrtsamt, zu skizzieren und eine grobe Anfrage zur Vereibarkeit zustellen. ","orange",0.3,"Verhandlung"],[null,null,null,null,null,null,"Der Abstand zu Anlegestellen beträgt weniger als 50 Meter.","K.O.-Kriterium: Auf Grundlage der Binnenschifffahrtsstraßen-Ordnung <https://www.elwis.de/DE/Schifffahrtsrecht/Binnenschifffahrtsrecht/BinSchStrO/Erster-Teil/Kapitel-08/08-10/08-10-node.html> ist ein Badegewässer an der angestrebten Stelle voraussichtlich nicht genehmigungsfähig. Von einer weiteren Bearbeitung der Checkliste wird vorbehaltlich abgeraten.","K.O.-Kriterium: Auf Grundlage der Binnenschifffahrtsstraßen-Ordnung <https://www.elwis.de/DE/Schifffahrtsrecht/Binnenschifffahrtsrecht/BinSchStrO/Erster-Teil/Kapitel-08/08-10/08-10-node.html> ist ein Badegewässer an der angestrebten Stelle voraussichtlich nicht genehmigungsfähig.","rot",0,null]]
+[
+  [
+    "gewichtung",
+    "ueberschrift",
+    "adminInfo",
+    "allgemeineInfo",
+    "frage",
+    "zusatzinfosZurFrage",
+    "antwortoption",
+    "zusatzinfosZuAntwortoption",
+    "reportWeiter",
+    "ampelcodierung",
+    "umsetzungswahrscheinlichkeit",
+    "infrastrukturOderVerhandlung"
+  ],
+  [
+    4,
+    "Gefahren durch die Schifffahrt",
+    "Ortsbegehung",
+    "Hier empfiehlt sich zunächst eine Ortsbegehung. Für Binnenwasserstraßen gilt: Die Vereinbarkeit eines Badegewässers mit der Schifffahrt muss in jedem Fall mit dem Wasserstraßen- und Schifffahrtsamt des Landes geklärt werden. Eine Strom- & Schifffahrtspolizeiliche Genehmigung ist notwendig.",
+    "Wie groß ist der Abstand des potenziellen Badebereichs zu Anlegestellen motorisierter Schiffe?\r\n ",
+    "Unter Anlegestellen werden hier alle Anlegestellen verstanden, die von motorisierten Wasserfahrzeugen genutzt werden. Es empfiehlt sich, mit den Eignern der Anlegestelle Kontakt aufzunehmen.",
+    "Der Abstand zu Anlegestellen beträgt mehr als 100 Meter.",
+    "Perfekt.",
+    "Keine weiteren Aktionen notwendig.",
+    "grün",
+    1,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Der Abstand zu Anlegestellen beträgt 50 bis 100 Meter.",
+    "Laut Binnenschifffahrtsstraßen-Ordnung <https://www.elwis.de/DE/Schifffahrtsrecht/Binnenschifffahrtsrecht/BinSchStrO/Erster-Teil/Kapitel-08/08-10/08-10-node.html> ist das Schwimmen allgemein 100 m unterhalb und oberhalb von Wasserbauwerken verboten. Hierzu zählen auch Anlegestellen.\r\nFür einige Flüsse (siehe vorherige Frage) gibt es spezielle Verordnungen mit teilweise abweichenden Mindestabständen und Ausnahmen.\r\nVerhandlungen mit dem zuständigen WSA sind notwendig.",
+    "Auf Grund des angegeben\r\nAbstands zu einer Anlegestelle ist es zwingend erforderlich, sich frühzeitig mit dem Wasserstraßen- und Schifffahrtsamt des Landes in Verbindung zu setzen. Hierfür empfiehlt es sich den geplanten Badegewässerbereich, möglichst auf Kartenmaterial des Wasserstraßen- und Schifffahrtsamt, zu skizzieren und eine grobe Anfrage zur Vereibarkeit zustellen. ",
+    "orange",
+    0.3,
+    "Verhandlung"
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Der Abstand zu Anlegestellen beträgt weniger als 50 Meter.",
+    "K.O.-Kriterium: Auf Grundlage der Binnenschifffahrtsstraßen-Ordnung <https://www.elwis.de/DE/Schifffahrtsrecht/Binnenschifffahrtsrecht/BinSchStrO/Erster-Teil/Kapitel-08/08-10/08-10-node.html> ist ein Badegewässer an der angestrebten Stelle voraussichtlich nicht genehmigungsfähig. Von einer weiteren Bearbeitung der Checkliste wird vorbehaltlich abgeraten.",
+    "K.O.-Kriterium: Auf Grundlage der Binnenschifffahrtsstraßen-Ordnung <https://www.elwis.de/DE/Schifffahrtsrecht/Binnenschifffahrtsrecht/BinSchStrO/Erster-Teil/Kapitel-08/08-10/08-10-node.html> ist ein Badegewässer an der angestrebten Stelle voraussichtlich nicht genehmigungsfähig.",
+    "rot",
+    0,
+    null
+  ]
+]

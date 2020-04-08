@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from "react";
 import {
   IOcpuAction,
   IOcpuState,
   IOcpuStartAction,
   IOcpuFinishAction,
   IOcpuFailAction,
-} from '../lib/common/interfaces';
+} from "../lib/common/interfaces";
 
 type Dispatch = (action: IOcpuAction) => void;
 type OcpuProviderProps = { children: React.ReactNode };
@@ -19,13 +19,13 @@ const ocpuReducer: (
   action: IOcpuAction | IOcpuStartAction | IOcpuFinishAction | IOcpuFailAction,
 ) => IOcpuState = (state, action) => {
   switch (action.type) {
-    case 'START_OCPU_REQUEST': {
+    case "START_OCPU_REQUEST": {
       const locAction = action as IOcpuStartAction;
       // console.log('request started');
 
       return { ...state, processing: locAction.payload.processingType };
     }
-    case 'FINISH_OCPU_REQUEST': {
+    case "FINISH_OCPU_REQUEST": {
       // console.log('request finished');
       const locAction = action as IOcpuFinishAction;
       // console.log(state, 'finsihed');
@@ -35,7 +35,7 @@ const ocpuReducer: (
         responses: [locAction.payload.response],
       };
     }
-    case 'FAIL_OCPU_REQUEST': {
+    case "FAIL_OCPU_REQUEST": {
       //       console.log('request failed');
       const locAction = action as IOcpuFailAction;
 
@@ -53,7 +53,7 @@ const ocpuReducer: (
 
 const OcpuProvider = ({ children }: OcpuProviderProps) => {
   const [state, dispatch] = useReducer(ocpuReducer, {
-    sessionId: '',
+    sessionId: "",
     responses: [],
     errors: [],
     processing: undefined,
@@ -70,7 +70,7 @@ const OcpuProvider = ({ children }: OcpuProviderProps) => {
 const useOcpuState = () => {
   const stateContext = useContext(OcpuStateContext);
   if (stateContext === undefined) {
-    throw new Error('useOcpuState must be used within a OcpuProvider');
+    throw new Error("useOcpuState must be used within a OcpuProvider");
   }
 
   return stateContext;
@@ -90,23 +90,23 @@ const postOcpu = async (dispatch: Dispatch, action: IOcpuAction) => {
       try {
         json = await response.json();
       } catch (err) {
-        console.error('Error parsing response from fetch call to json', err);
+        console.error("Error parsing response from fetch call to json", err);
         throw err;
       }
       // console.log('Response json from postOcpu', json);
       const finishPayload: IOcpuFinishAction = {
-        type: 'FINISH_OCPU_REQUEST',
+        type: "FINISH_OCPU_REQUEST",
         payload: { response: json },
       };
       dispatch(finishPayload);
     } else {
       // console.warn('fetch response not ok');
-      throw new Error('Network fetch response not ok');
+      throw new Error("Network fetch response not ok");
     }
   } catch (error) {
-    console.error('Error while making fetch call', error);
+    console.error("Error while making fetch call", error);
     const failPayload: IOcpuFailAction = {
-      type: 'FAIL_OCPU_REQUEST',
+      type: "FAIL_OCPU_REQUEST",
       payload: { error: response! },
     };
     dispatch(failPayload);
@@ -115,7 +115,7 @@ const postOcpu = async (dispatch: Dispatch, action: IOcpuAction) => {
 const useOcpuDispatch = () => {
   const dispatchContext = useContext(OcpuDispatchContext);
   if (dispatchContext === undefined) {
-    throw new Error('useOcpuDispatch must be used within a OcpuProvider');
+    throw new Error("useOcpuDispatch must be used within a OcpuProvider");
   }
   return dispatchContext;
 };

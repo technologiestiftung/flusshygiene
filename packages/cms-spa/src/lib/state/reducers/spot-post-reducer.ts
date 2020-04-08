@@ -1,8 +1,8 @@
-import { IAction } from '../../common/interfaces';
+import { IAction } from "../../common/interfaces";
 
-export const POST_SPOTS_BEGIN = 'POST_SPOTS_BEGIN';
-export const POST_SPOTS_SUCCESS = 'POST_SPOTS_SUCCESS';
-export const POST_SPOTS_FAIL = 'POST_SPOTS_FAIL';
+export const POST_SPOTS_BEGIN = "POST_SPOTS_BEGIN";
+export const POST_SPOTS_SUCCESS = "POST_SPOTS_SUCCESS";
+export const POST_SPOTS_FAIL = "POST_SPOTS_FAIL";
 
 interface IState {
   loading: boolean;

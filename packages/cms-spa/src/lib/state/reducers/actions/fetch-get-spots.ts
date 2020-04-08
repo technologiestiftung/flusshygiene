@@ -7,9 +7,9 @@ import {
   fetchSpotsBegin,
   fetchSpotsSuccess,
   fetchSpotsFail,
-} from '../spots-reducer';
-import { IFetchSpotOptions } from '../../../common/interfaces';
-import { handleErrors } from './fetch-common';
+} from "../spots-reducer";
+import { IFetchSpotOptions } from "../../../common/interfaces";
+import { handleErrors } from "./fetch-common";
 
 let skip = 0;
 const limit = 50;

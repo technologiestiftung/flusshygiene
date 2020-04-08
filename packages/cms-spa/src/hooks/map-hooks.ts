@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect } from "react";
 
 export function useMapResizeEffect(mapRef: React.RefObject<HTMLDivElement>) {
   const [mapDimensions, setMapDimensions] = useState<{
@@ -23,9 +23,9 @@ export function useMapResizeEffect(mapRef: React.RefObject<HTMLDivElement>) {
         setMapDimensions(dim);
       }
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [mapRef]);
   return mapDimensions;

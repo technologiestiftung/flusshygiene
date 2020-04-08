@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Container: React.FC<{
   containerClassName?: string;
@@ -10,13 +10,13 @@ const Container: React.FC<{
       className={
         containerClassName !== undefined
           ? `container ${containerClassName}`
-          : 'container'
+          : "container"
       }
     >
-      <div className='columns is-centered'>
+      <div className="columns is-centered">
         <div
           className={`column ${
-            columnClassName !== undefined ? columnClassName : 'is-10'
+            columnClassName !== undefined ? columnClassName : "is-10"
           }`}
         >
           {children}
@@ -29,8 +29,8 @@ const Container: React.FC<{
 const ContainerNoColumn: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
-  <div className='container'>
-    <div className='columns is-centered'>{children}</div>
+  <div className="container">
+    <div className="columns is-centered">{children}</div>
   </div>
 );
 export { Container, ContainerNoColumn };

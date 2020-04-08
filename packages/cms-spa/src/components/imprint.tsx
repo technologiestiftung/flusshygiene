@@ -1,22 +1,22 @@
-import React from 'react';
-import { Container } from './Container';
+import React from "react";
+import { Container } from "./Container";
 import {
   REACT_APP_DOMAIN_URL,
   REACT_APP_DOMAIN_NICE_NAME,
-} from '../lib/config';
-type ImprintType = 'imprint' | 'privacy';
+} from "../lib/config";
+type ImprintType = "imprint" | "privacy";
 export const Imprint: React.FC<{ imprintType: ImprintType }> = ({
   imprintType: type,
 }) => {
   return (
-    <Container columnClassName='is-8'>
-      <div className='content'>
-        {type === 'imprint' && (
+    <Container columnClassName="is-8">
+      <div className="content">
+        {type === "imprint" && (
           <>
-            <h1 className='is-title is-1'>IMPRESSUM</h1>
+            <h1 className="is-title is-1">IMPRESSUM</h1>
             <p>
-              Impressum des Webauftritts{' '}
-              <a href={REACT_APP_DOMAIN_URL}>{REACT_APP_DOMAIN_NICE_NAME}</a>{' '}
+              Impressum des Webauftritts{" "}
+              <a href={REACT_APP_DOMAIN_URL}>{REACT_APP_DOMAIN_NICE_NAME}</a>{" "}
               gemäß dem Gesetz über rechtliche Rahmenbedingungen für den
               elektronischen Geschäftsverkehr (EGG) und dem Teledienstgesetz
               (TDG).
@@ -33,16 +33,16 @@ export const Imprint: React.FC<{ imprintType: ImprintType }> = ({
               <br />
               Fax: +49 (0) 30 - 53 653 - 888
               <br />
-              E-Mail:{' '}
-              <a href='mailto:info@kompetenz-wasser.de'>
+              E-Mail:{" "}
+              <a href="mailto:info@kompetenz-wasser.de">
                 info@kompetenz-wasser.de
               </a>
               <br />
-              Web:{' '}
+              Web:{" "}
               <a
-                href='https://www.kompetenz-wasser.de'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="https://www.kompetenz-wasser.de"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 www.kompetenz-wasser.de
               </a>
@@ -153,10 +153,10 @@ export const Imprint: React.FC<{ imprintType: ImprintType }> = ({
                 <br />
               </strong>
               Das Layout der Website, die verwendeten Grafiken sowie die
-              sonstigen Inhalte der Internetpräsenz{' '}
+              sonstigen Inhalte der Internetpräsenz{" "}
               <a href={REACT_APP_DOMAIN_URL}>
                 {REACT_APP_DOMAIN_NICE_NAME}
-              </a>{' '}
+              </a>{" "}
               sind urheberrechtlich geschützt. Alle Rechte vorbehalten.
             </p>
             <p>Bildrechte:</p>
@@ -164,9 +164,9 @@ export const Imprint: React.FC<{ imprintType: ImprintType }> = ({
           </>
         )}
 
-        {type === 'privacy' && (
+        {type === "privacy" && (
           <>
-            <h1 className={'is-title is-1'}>DATENSCHUTZ</h1>
+            <h1 className={"is-title is-1"}>DATENSCHUTZ</h1>
 
             <p>
               Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und
@@ -186,7 +186,7 @@ export const Imprint: React.FC<{ imprintType: ImprintType }> = ({
               besuchen, ohne Angaben zu Ihrer Person zu machen. Personenbezogene
               Daten werden nur erhoben, wenn Sie uns diese im Rahmen Ihrer
               Veranstaltungsanmeldung oder Registrierung für unseren Newsletter
-              freiwillig mitteilen.{' '}
+              freiwillig mitteilen.{" "}
             </p>
             <p>
               Weitere Hinweise nach Artikel 13/14 DSGVO zur Verarbeitung Ihrer
