@@ -2,6 +2,34 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
+      "name": "helpdesk",
+      "image": "technologiestiftung/flusshygiene-helpdesk-mailer:test-dev",
+      "hostname": "helpdesk",
+      "essential": false,
+      "memory": 256,
+      "links": ["spa:spa"],
+      "mountPoints": [
+        {
+          "sourceVolume": "awseb-logs-helpdesk",
+          "containerPath": "/var/log/helpdesk"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "flsshygn",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "helpdesk"
+        }
+      },
+      "environment": [
+        {
+          "name": "ECS_AVAILABLE_LOGGING_DRIVERS",
+          "value": "'[\"json-file\",\"awslogs\"]'"
+        }
+      ]
+    },
+    {
       "name": "api",
       "image": "technologiestiftung/flusshygiene-postgres-api:v2.8.0-dev",
       "hostname": "api",
@@ -33,7 +61,7 @@
       "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.6-fix-dev",
       "hostname": "ocpu",
       "essential": false,
-      "memory": 3072,
+      "memory": 2716,
       "mountPoints": [
         {
           "sourceVolume": "awseb-logs-ocpu",
@@ -128,7 +156,7 @@
           "containerPort": 80
         }
       ],
-      "links": ["api:api", "spa:spa", "ocpu:ocpu", "middlelayer:middlelayer"],
+      "links": ["api:api", "spa:spa", "ocpu:ocpu", "middlelayer:middlelayer", "helpesk:helpdesk"],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
