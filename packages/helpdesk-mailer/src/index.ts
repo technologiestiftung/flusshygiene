@@ -1,5 +1,5 @@
 import { server } from "./lib/app";
-const PORT = process.env.HELPDESK_EXPRESS_PORT || 4444;
+const PORT = process.env.HELPDESK_EXPRESS_PORT || 6004;
 
 //  BretFisher / node-docker-good-defaults
 // see https://github.com/BretFisher/node-docker-good-defaults/blob/master/bin/www
