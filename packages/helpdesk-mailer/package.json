@@ -10,6 +10,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch --coverage",
+    "test:ci": "jest  --coverage",
     "build": "tsc -p .",
     "start": "cross-env NODE_ENV=development nodemon",
     "dev": "cross-env NODE_ENV=development nodemon",
@@ -57,7 +59,8 @@
     "testEnvironment": "jest-environment-node",
     "testPathIgnorePatterns": [
       "node_modules/",
-      "<rootDir>/dist",
+      "<rootDir>/dist/*",
+      "<rootDir>/dist/__mocks__/*",
       "<rootDir>/src/__tests__/utils/"
     ],
     "collectCoverageFrom": [
