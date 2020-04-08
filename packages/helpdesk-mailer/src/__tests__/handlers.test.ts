@@ -30,4 +30,18 @@ describe("request handlers", () => {
     expect(mailerLib.mailer).toHaveBeenCalledTimes(1);
     expect(mailerLib.mailer).toHaveBeenCalledWith(req.body);
   });
+  test("post handler error", () => {
+    const res = buildRes({ statusCode: 500 });
+    const req = buildReq();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    //@ts-ignore
+    mailerLib.mailer = jest.fn().mockImplementation(function (): void {
+      throw Error();
+    });
+    postHandler(req, res);
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.statusCode).toBe(500);
+    expect(mailerLib.mailer).toHaveBeenCalledTimes(1);
+    expect(mailerLib.mailer).toHaveBeenCalledWith(req.body);
+  });
 });
