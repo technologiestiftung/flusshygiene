@@ -9,7 +9,7 @@ import React from "react";
 // import { DEFAULT_SPOT } from '../lib/common/constants';
 // import { APIMountPoints, ApiResources } from '../lib/common/enums';
 // import { IFetchSpotOptions } from '../lib/common/interfaces';
-import { Container } from "./Container";
+import { Container, ContainerNoColumn } from "./Container";
 import { Link } from "react-router-dom";
 import { RouteNames } from "../lib/common/enums";
 // import { SpotEditor } from './spot/SpotEditor';
@@ -74,14 +74,17 @@ const Home: React.FC = () => {
             <div className="content">
               <p>
                 auf dieser Webplattform stehen dem Nutzer zwei wesentliche
-                Erzeugnisse des Forschungsprojekts FLUSSHYGIENE zu Verfügung.
-                Das Projekt FLUSSHYGIENE befasste sich drei Jahre mit der
-                Thematik des Flussbadens in Deutschland. Das Flussbaden wird im
-                Allgemeinen immer beliebter und vielerorts werden Flüsse bereits
-                heute zum Baden genutzt. Dennoch gibt es an Flüssen spezielle
-                Gefahren, wie starke Strömungen, die Schifffahrt sowie eine oft
-                schwankende Wasserqualität, die beim Flussbaden berücksichtigt
-                werden müssen, damit die Gesundheit von Badenden nicht übermäßig
+                Erzeugnisse des Forschungsprojekts{" "}
+                <strong style={{ color: "white" }}>Flusshygiene</strong> zu
+                Verfügung. Das Projekt{" "}
+                <strong style={{ color: "white" }}>Flusshygiene</strong>{" "}
+                befasste sich drei Jahre mit der Thematik des Flussbadens in
+                Deutschland. Das Flussbaden wird im Allgemeinen immer beliebter
+                und vielerorts werden Flüsse bereits heute zum Baden genutzt.
+                Dennoch gibt es an Flüssen spezielle Gefahren, wie starke
+                Strömungen, die Schifffahrt sowie eine oft schwankende
+                Wasserqualität, die beim Flussbaden berücksichtigt werden
+                müssen, damit die Gesundheit von Badenden nicht übermäßig
                 gefährdet wird.
               </p>
             </div>
@@ -95,11 +98,12 @@ const Home: React.FC = () => {
         <div className="content">
           <p>
             Um eine Einschätzung über die Eignung eines neuen
-            Badegewässerstandortes durchführen zu können, wurde im Projekt
-            FLUSSHYGIENE ein checklistenbasiertes Bewertungsinstrument neuer,
-            potenzieller Badegewässerstandorte entwickelt. Dieser soll dem
-            Nutzer eine erste Einschätzung ermöglichen, ob die Eröffnung eines
-            Badegewässer an einem bestimmten Standort wahrscheinlich ist. <br />
+            Badegewässerstandortes durchführen zu können, wurde im Projekt{" "}
+            <strong>Flusshygiene</strong> ein checklistenbasiertes
+            Bewertungsinstrument neuer, potenzieller Badegewässerstandorte
+            entwickelt. Dieser soll dem Nutzer eine erste Einschätzung
+            ermöglichen, ob die Eröffnung eines Badegewässer an einem bestimmten
+            Standort wahrscheinlich ist. <br />
             <Link to={`/${RouteNames.questionnaire}`}>
               zur Standortbewertung
             </Link>
@@ -108,12 +112,13 @@ const Home: React.FC = () => {
         <h3 className="is-title is-3">Tool zum Aufbau von Frühwarnsystem</h3>
         <div className="content">
           <p>
-            Im Projekt FLUSSHYGIENE wurde ein neuer Ansatz zum Aufbau von
-            Frühwarnsystemen entwickelt, der den Ansatz der Langzeitbewertung
-            der EG-Badegewässerrichtlinie auf tägliche Vorhersagen überträgt.
-            Ein solcher Ansatz fehlte bisher und eine Bewertung der
-            Badegewässerqualität fand bisher ausschließlich rückblickend statt.
-            Der Ansatz kann an allen Typen von Badegewässer angewendet werden.
+            Im Projekt <strong>Flusshygiene</strong> wurde ein neuer Ansatz zum
+            Aufbau von Frühwarnsystemen entwickelt, der den Ansatz der
+            Langzeitbewertung der EG-Badegewässerrichtlinie auf tägliche
+            Vorhersagen überträgt. Ein solcher Ansatz fehlte bisher und eine
+            Bewertung der Badegewässerqualität fand bisher ausschließlich
+            rückblickend statt. Der Ansatz kann an allen Typen von Badegewässer
+            angewendet werden.
           </p>
           <p>
             Die im Projekt entwickelte Methodik, basiert auf statistischen
@@ -137,6 +142,52 @@ const Home: React.FC = () => {
           </p>
         </div>
       </Container>
+      <Container>
+        <h3 className="is-title is-3">Gefördert Durch</h3>
+      </Container>
+      <ContainerNoColumn>
+        <div className="column is-4">
+          <figure className="image is-16by9">
+            <a
+              href="https://bmbf.nawam-rewam.de/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="/nawam.png" alt="logo Nachhaltiges Wassermanagement" />
+            </a>
+          </figure>
+        </div>
+        <div className="column is-4">
+          <figure className="image is-16by9">
+            <a
+              href="https://www.bmbf.de/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/bmbf.png"
+                alt="logo Bundesministerium für Bildung und Forschung"
+              />
+            </a>
+          </figure>
+        </div>
+      </ContainerNoColumn>
+      <Container>
+        <h3 className="is-title is-3">Entwickelt im Projekt</h3>
+      </Container>
+      <ContainerNoColumn>
+        <div className="column is-4">
+          <figure className="image is-16by9">
+            <a
+              href="https://www.kompetenz-wasser.de/de/project/flusshygiene/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="/flusshygiene.png" alt="logo Flusshygiene" />
+            </a>
+          </figure>
+        </div>
+      </ContainerNoColumn>
     </div>
   );
 };
