@@ -1,13 +1,13 @@
-import React from 'react';
-import { ButtonIcon } from '../../Buttons';
+import React from "react";
+import { ButtonIcon } from "../../Buttons";
 import {
   IconEdit,
 
   // IconCode,
   // IconCSV,
   IconHelp,
-} from '../../fontawesome-icons';
-import { IOcpuState, ClickFunction } from '../../../lib/common/interfaces';
+} from "../../fontawesome-icons";
+import { IOcpuState, ClickFunction } from "../../../lib/common/interfaces";
 
 export const SpotButtonBar: React.FC<{
   handleBasisEditModeClick: ClickFunction;
@@ -28,18 +28,18 @@ export const SpotButtonBar: React.FC<{
 }) => {
   return (
     <>
-      <div className='buttons buttons__--size'>
+      <div className="buttons buttons__--size">
         <ButtonIcon
-          cssId='info'
+          cssId="info"
           handleClick={handleInfoShowModeClick}
-          text='Hilfe'
+          text="Hilfe"
         >
           <IconHelp></IconHelp>
         </ButtonIcon>
         <ButtonIcon
-          cssId='edit'
+          cssId="edit"
           handleClick={handleBasisEditModeClick}
-          text='Basisdaten'
+          text="Basisdaten"
         >
           <IconEdit></IconEdit>
         </ButtonIcon>

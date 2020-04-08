@@ -8,11 +8,6 @@ import { APP_STAGE } from "../lib/common/constants";
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-  // useEffect(() => {
-  //   // console.log(window.location);
-  //   return () => {};
-  // }, []);
-
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -94,21 +89,13 @@ const NavBar = () => {
           )}
           {isAuthenticated && (
             <div className="navbar-item">
-              <div className="buttons">
+              <div className="buttons buttons__--size">
                 <NavLink
                   to={`/${RouteNames.helpdesk}`}
                   className="button is-small"
                 >
                   Support
                 </NavLink>
-                <button
-                  className="button is-small"
-                  onClick={() => {
-                    throw new Error();
-                  }}
-                >
-                  trigger
-                </button>
                 <NavLink
                   to={`/${RouteNames.profile}`}
                   className="button is-small"

@@ -11,14 +11,20 @@ module.exports = function(app) {
   //   ),
   // );
   app.use(
-    createProxyMiddleware("/api/*", {
-      target: "http://localhost:5004",
+    createProxyMiddleware("/helpdesk/v1/messages", {
+      target: "http://localhost:6004",
       changeOrigin: true,
     }),
   );
   app.use(
-    createProxyMiddleware("/helpdesk/*", {
+    createProxyMiddleware("/middlelayer/stream", {
       target: "http://localhost:4004",
+      changeOrigin: true,
+    }),
+  );
+  app.use(
+    createProxyMiddleware("/api/*", {
+      target: "http://localhost:5004",
       changeOrigin: true,
     }),
   );

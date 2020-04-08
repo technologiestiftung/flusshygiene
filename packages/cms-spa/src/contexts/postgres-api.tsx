@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useReducer, useContext } from "react";
 import {
   IApiAction,
   IApiState,
@@ -11,7 +11,7 @@ import {
   IPrediction,
   IMeasurement,
   IModel,
-} from '../lib/common/interfaces';
+} from "../lib/common/interfaces";
 
 function matchSpotId(action: IApiAction) {
   const reg = /bathingspots\/(?<spotId>\d+)/;
@@ -26,10 +26,10 @@ function matchSpotId(action: IApiAction) {
 type Dispatch = (action: IApiAction) => void;
 type ApiProviderProps = { children: React.ReactNode };
 const subItemsList = [
-  'genericInputs',
-  'purificationPlants',
-  'gInputMeasurements',
-  'pplantMeasurements',
+  "genericInputs",
+  "purificationPlants",
+  "gInputMeasurements",
+  "pplantMeasurements",
 ];
 
 const ApiStateContext = createContext<IApiState | undefined>(undefined);
@@ -59,7 +59,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
         throw new Error(missingRequestTypeErrorMsg);
       }
       if (action.payload.response === undefined) {
-        throw new Error('The action.payload.response from the API is missing');
+        throw new Error("The action.payload.response from the API is missing");
       }
 
       //    ********  ******** **********
@@ -75,10 +75,10 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
        * If it is a PUT, POST, DELETE we only need to trigger another GET call
        */
       let spotId: number;
-      if (action.payload.requestType.resource !== 'bathingspots') {
+      if (action.payload.requestType.resource !== "bathingspots") {
         spotId = matchSpotId(action);
       }
-      if (action.payload.requestType.type === 'GET') {
+      if (action.payload.requestType.type === "GET") {
         /**
          * Now we switch based on the resource type we are getting
          *
@@ -87,7 +87,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           /**
            * This is getting a single spot
            */
-          case 'bathingspots': {
+          case "bathingspots": {
             // const newSpots = state.spots;
             // action.payload.response.data.forEach((obj) => {
             //   const index = newSpots.findIndex((spot) => spot.id === obj.id);
@@ -108,7 +108,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             };
           }
           // TODO: unify case bathingspot(s)
-          case 'bathingspot': {
+          case "bathingspot": {
             // const spotId = matchSpotId(action);
             // console.log('url in spot request', action.payload.url);
 
@@ -141,7 +141,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               };
             }
           }
-          case 'genericInputs': {
+          case "genericInputs": {
             // console.log('update gi');
 
             let reloadSubItems = state.reloadSubItems;
@@ -161,7 +161,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               loading: false,
             };
           }
-          case 'gInputMeasurements': {
+          case "gInputMeasurements": {
             // console.log('genericInputs update in postgres-api.tsx');
             const reg = /genericInputs\/(?<pplantId>\d+)/;
             const matchRes = action.payload.url.match(reg);
@@ -187,7 +187,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             });
             return { ...state, spots: [...updatedSpots], loading: false };
           }
-          case 'purificationPlants': {
+          case "purificationPlants": {
             // console.log('Updating pplants');
             let reloadSubItems = state.reloadSubItems;
 
@@ -207,7 +207,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               loading: false,
             };
           }
-          case 'pplantMeasurements': {
+          case "pplantMeasurements": {
             // console.log('pplantMeasurements update in postgres-api.tsx');
             const reg = /purificationPlants\/(?<pplantId>\d+)/;
             const matchRes = action.payload.url.match(reg);
@@ -233,7 +233,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             });
             return { ...state, spots: [...updatedSpots], loading: false };
           }
-          case 'predictions': {
+          case "predictions": {
             // const spotId = matchSpotId(action);
 
             const updatedSpots = state.spots.map((spot) => {
@@ -246,7 +246,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
 
             return { ...state, spots: [...updatedSpots], loading: false };
           }
-          case 'models': {
+          case "models": {
             // const spotId = matchSpotId(action);
 
             const updatedSpots = state.spots.map((spot) => {
@@ -258,7 +258,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
 
             return { ...state, spots: [...updatedSpots], loading: false };
           }
-          case 'measurements': {
+          case "measurements": {
             const spotId = matchSpotId(action);
 
             const updatedSpots = state.spots.map((spot) => {
@@ -271,7 +271,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
 
             return { ...state, spots: [...updatedSpots], loading: false };
           }
-          case 'discharges': {
+          case "discharges": {
             // const spotId = matchSpotId(action);
 
             const updatedSpots = state.spots.map((spot) => {
@@ -288,7 +288,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               loading: false,
             };
           }
-          case 'globalIrradiances': {
+          case "globalIrradiances": {
             // const spotId = matchSpotId(action);
 
             const updatedSpots = state.spots.map((spot) => {
@@ -305,7 +305,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
               loading: false,
             };
           }
-          case 'rains': {
+          case "rains": {
             // const spotId = matchSpotId(action);
 
             const updatedSpots = state.spots.map((spot) => {
@@ -323,7 +323,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             };
           }
           default: {
-            throw new Error('no default GET case defined');
+            throw new Error("no default GET case defined");
           }
         }
 
@@ -343,17 +343,17 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
          *
          *
          */
-      } else if (action.payload.requestType.type === 'POST') {
+      } else if (action.payload.requestType.type === "POST") {
         // console.log('called POST');
         switch (action.payload.requestType.resource) {
-          case 'purificationPlants':
-          case 'genericInputs':
-          case 'bathingspots':
-          case 'measurements':
-          case 'discharges':
-          case 'gInputMeasurements':
-          case 'pplantMeasurements':
-          case 'globalIrradiances': {
+          case "purificationPlants":
+          case "genericInputs":
+          case "bathingspots":
+          case "measurements":
+          case "discharges":
+          case "gInputMeasurements":
+          case "pplantMeasurements":
+          case "globalIrradiances": {
             // console.log(`POST data for ${action.payload.requestType.resource}`);
             // console.log(action.payload.response);
 
@@ -369,7 +369,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
           }
 
           default: {
-            throw new Error('no default POST case defined');
+            throw new Error("no default POST case defined");
           }
         }
 
@@ -388,7 +388,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
          *
          *
          */
-      } else if (action.payload.requestType.type === 'PUT') {
+      } else if (action.payload.requestType.type === "PUT") {
         // console.log('called PUT');
 
         // console.log(
@@ -396,13 +396,13 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
         //   action.payload.requestType.resource,
         // );
         switch (action.payload.requestType.resource) {
-          case 'bathingspot':
-          case 'bathingspots':
-          case 'discharges':
-          case 'globalIrradiances':
-          case 'purificationPlants':
-          case 'genericInputs':
-          case 'measurements': {
+          case "bathingspot":
+          case "bathingspots":
+          case "discharges":
+          case "globalIrradiances":
+          case "purificationPlants":
+          case "genericInputs":
+          case "measurements": {
             // console.log('PUT bathingspot or measurements');
             // console.log(action.payload.response);
             const reload = state.reload + 1;
@@ -417,7 +417,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             return { ...state, reload, reloadSubItems, loading: false };
           }
           default: {
-            throw new Error('no default PUT case defined');
+            throw new Error("no default PUT case defined");
           }
         }
 
@@ -428,25 +428,25 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
         //   \ \  \_\\ \ \  \_|\ \ \  \____
         //    \ \_______\ \_______\ \_______\
         //     \|_______|\|_______|\|_______|
-      } else if (action.payload.requestType.type === 'DELETE') {
+      } else if (action.payload.requestType.type === "DELETE") {
         switch (action.payload.requestType.resource) {
-          case 'bathingspot':
-          case 'bathingspots':
-          case 'discharges':
-          case 'globalIrradiances':
-          case 'purificationPlants':
-          case 'gInputMeasurements':
-          case 'pplantMeasurements':
-          case 'genericInputs':
-          case 'models':
-          case 'rains':
-          case 'predictions':
-          case 'measurements': {
+          case "bathingspot":
+          case "bathingspots":
+          case "discharges":
+          case "globalIrradiances":
+          case "purificationPlants":
+          case "gInputMeasurements":
+          case "pplantMeasurements":
+          case "genericInputs":
+          case "models":
+          case "rains":
+          case "predictions":
+          case "measurements": {
             let reloadSubItems = state.reloadSubItems;
 
             if (
-              action.payload.requestType.resource === 'genericInputs' ||
-              action.payload.requestType.resource === 'purificationPlants'
+              action.payload.requestType.resource === "genericInputs" ||
+              action.payload.requestType.resource === "purificationPlants"
             ) {
               reloadSubItems = reloadSubItems + 1;
             }
@@ -461,7 +461,7 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
             return { ...state, loading: false, reload, reloadSubItems };
           }
           default: {
-            throw new Error('no default DELETE case defined');
+            throw new Error("no default DELETE case defined");
           }
         }
       } else {
@@ -469,8 +469,8 @@ const apiReducer: (state: IApiState, action: IApiAction) => IApiState = (
       }
     }
     case ApiActionTypes.FAIL_API_REQUEST: {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('apiReducer case FAILS', action);
+      if (process.env.NODE_ENV === "development") {
+        console.error("apiReducer case FAILS", action);
       }
 
       return { ...state, loading: false, error: action.payload.error };
@@ -531,7 +531,7 @@ const ApiProvider: (children: ApiProviderProps) => JSX.Element = ({
 const useApiState: () => IApiState = () => {
   const stateContext = useContext(ApiStateContext);
   if (stateContext === undefined) {
-    throw new Error('useApiState must be used within a QuestionsProvider');
+    throw new Error("useApiState must be used within a QuestionsProvider");
   }
 
   return stateContext;
@@ -539,7 +539,7 @@ const useApiState: () => IApiState = () => {
 const useApiDispatch: () => Dispatch = () => {
   const dispatchContext = useContext(ApiDispatchContext);
   if (dispatchContext === undefined) {
-    throw new Error('useApiDispatch must be used within a ApiProvider');
+    throw new Error("useApiDispatch must be used within a ApiProvider");
   }
   return dispatchContext;
 };
@@ -623,8 +623,8 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
       try {
         json = await response.json();
       } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error parsing response from fetch call to json', err);
+        if (process.env.NODE_ENV === "development") {
+          console.error("Error parsing response from fetch call to json", err);
         }
         throw err;
       }
@@ -633,17 +633,17 @@ const apiRequest: (dispatch: Dispatch, action: IApiAction) => void = async (
         payload: { response: json, url: action.payload.url, requestType },
       } as IApiActionFinished);
     } else {
-      throw new Error('Network fetch response not ok');
+      throw new Error("Network fetch response not ok");
     }
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Error while making fetch call', error);
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error while making fetch call", error);
     }
     let json: any;
     try {
       json = await response!.json();
     } catch (e) {
-      json = { message: 'error in parsing response from error ' };
+      json = { message: "error in parsing response from error " };
     }
     dispatch({
       type: ApiActionTypes.FAIL_API_REQUEST,

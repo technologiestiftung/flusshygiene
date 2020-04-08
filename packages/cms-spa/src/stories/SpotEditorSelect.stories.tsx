@@ -1,37 +1,37 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { SpotEditorSelect } from '../components/spot/elements/SpotEditor-Select';
-import { SpotEditorButtons } from '../components/spot/elements/SpotEditor-Buttons';
-import { MemoryRouter } from 'react-router';
-import { Formik } from 'formik';
+import React from "react";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import { SpotEditorSelect } from "../components/spot/elements/SpotEditor-Select";
+import { SpotEditorButtons } from "../components/spot/elements/SpotEditor-Buttons";
+import { MemoryRouter } from "react-router";
+import { Formik } from "formik";
 
-storiesOf('SpotEditor/Select', module)
+storiesOf("SpotEditor/Select", module)
   .addDecorator((story) => (
-    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
+    <MemoryRouter initialEntries={["/"]}>{story()}</MemoryRouter>
   ))
-  .add('default', () => (
+  .add("default", () => (
     <Formik
-      initialValues={{ name: 'foo' }}
+      initialValues={{ name: "foo" }}
       onSubmit={() => {
-        action('submit');
+        action("submit");
       }}
     >
       {({ values, isSubmitting }) => {
         return (
           <div>
             <SpotEditorSelect
-              name={'name'}
-              label={'The Checkbox'}
+              name={"name"}
+              label={"The Checkbox"}
               options={[
-                { text: 'YES', value: 'yes' },
-                { text: 'NO', value: 'no' },
+                { text: "YES", value: "yes" },
+                { text: "NO", value: "no" },
               ]}
-              value={'yes'}
+              value={"yes"}
             />
             <SpotEditorButtons
               isSubmitting={isSubmitting}
-              handleEditModeClick={action('handle Editmode Click')}
+              handleEditModeClick={action("handle Editmode Click")}
             />
           </div>
         );

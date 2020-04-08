@@ -1,26 +1,26 @@
-import React, { useState, createRef, useEffect } from 'react';
+import React, { useState, createRef, useEffect } from "react";
 // import { Field, ErrorMessage } from 'formik';
 // import { SpotEditorBox } from './SpotEditor-Box';
-import { SpotEditorFile } from './SpotEditor-File';
-import { ParseError } from 'papaparse';
+import { SpotEditorFile } from "./SpotEditor-File";
+import { ParseError } from "papaparse";
 import {
   ICSVValidationErrorRes,
   IMeasurementsUploadBox,
   IMeasurement,
-} from '../../../lib/common/interfaces';
-import { NewCSVValidation } from '../formik-helpers/CSVvalidation';
-import { NewCSVparsing } from '../formik-helpers/CSVparsing';
-import { papaPromise } from '../../../lib/utils/papaPromise';
+} from "../../../lib/common/interfaces";
+import { NewCSVValidation } from "../formik-helpers/CSVvalidation";
+import { NewCSVparsing } from "../formik-helpers/CSVparsing";
+import { papaPromise } from "../../../lib/utils/papaPromise";
 // import {
 //   SpotEditorMeasurmentInfo,
 //   InfoText,
 // } from './SpotEditor-Measurments-Info';
-import { DataValidationInfoBox } from './DataValidationInfoBox';
-import { validURL } from '../../../lib/utils/validURL';
-import { unique } from '../../../lib/utils/unique-values';
-import { CSVUnique } from '../formik-helpers/CSVunique';
+import { DataValidationInfoBox } from "./DataValidationInfoBox";
+import { validURL } from "../../../lib/utils/validURL";
+import { unique } from "../../../lib/utils/unique-values";
+import { CSVUnique } from "../formik-helpers/CSVunique";
 // import { InfoDataAggregation } from '../../infos/data-aggregation';
-import { Container } from '../../Container';
+import { Container } from "../../Container";
 
 export const NewUploadBox: React.FC<IMeasurementsUploadBox> = ({
   title,
@@ -93,7 +93,7 @@ export const NewUploadBox: React.FC<IMeasurementsUploadBox> = ({
     const runValidation = async () => {
       try {
         const config: Papa.ParseConfig = {
-          delimiter: '',
+          delimiter: "",
           dynamicTyping: true,
           header: true,
           trimHeaders: true,
@@ -106,7 +106,7 @@ export const NewUploadBox: React.FC<IMeasurementsUploadBox> = ({
           },
         };
         const results = await papaPromise(csvFile, config);
-        console.log(results, 'parsing result');
+        console.log(results, "parsing result");
         setParsingErrors(results.errors);
         let allValid = true;
         for (let i = 0; i < results.data.length; i++) {
@@ -133,7 +133,7 @@ export const NewUploadBox: React.FC<IMeasurementsUploadBox> = ({
         // setDataIsValid(allValid);
         setDataIsValid(results.errors.length === 0 ? true : false);
 
-        const uniqueData = unique(results.data, 'date');
+        const uniqueData = unique(results.data, "date");
         if (uniqueData.length < results.data.length) {
           setUniqueDataError(false);
           setDataIsValid(false);
@@ -143,14 +143,14 @@ export const NewUploadBox: React.FC<IMeasurementsUploadBox> = ({
           if (existingData !== undefined) {
             existingData.forEach((elem, i, arr) => {
               arr[i].date = elem.date
-                .replace('T', ' ')
-                .replace(/\.\d\d\dZ$/, '');
+                .replace("T", " ")
+                .replace(/\.\d\d\dZ$/, "");
             });
-            console.log(existingData, 'existingData');
+            // console.log(existingData, "existingData");
             const combinedData = [...results.data, ...existingData];
-            const uniqueCombined = unique(combinedData, 'date');
+            const uniqueCombined = unique(combinedData, "date");
             if (uniqueCombined.length < combinedData.length) {
-              console.log('not unique');
+              // console.log("not unique");
               setUniqueDataError(false);
               setDataIsValid(false);
             }
@@ -168,21 +168,21 @@ export const NewUploadBox: React.FC<IMeasurementsUploadBox> = ({
   return (
     <>
       {dataIsValid !== undefined && (
-        <Container columnClassName=''>
+        <Container columnClassName="">
           <DataValidationInfoBox
-            title={''}
+            title={""}
             dataIsValid={dataIsValid}
             unboxed={true}
           />
         </Container>
       )}
-      <Container columnClassName=''>
+      <Container columnClassName="">
         {/* <div className={`${addionalClassNames ? addionalClassNames : ''}`}> */}
         {/* <SpotEditorMeasurmentInfo type={type} /> */}
         <SpotEditorFile
           name={fieldNameFile}
-          type={'file'}
-          label={'Datei auswählen…'}
+          type={"file"}
+          label={"Datei auswählen…"}
           disabled={false}
           handleClearClick={(e) => {
             e.preventDefault();
@@ -205,7 +205,7 @@ export const NewUploadBox: React.FC<IMeasurementsUploadBox> = ({
         ></SpotEditorFile>
         {/* </div> */}
       </Container>
-      <Container columnClassName=''>
+      <Container columnClassName="">
         {csvValidationErrors !== undefined &&
           csvValidationErrors.length > 0 && (
             <NewCSVValidation

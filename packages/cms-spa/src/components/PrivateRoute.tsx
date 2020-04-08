@@ -1,9 +1,9 @@
 // src/components/PrivateRoute.js
 
-import React, { useEffect } from 'react';
-import { Route } from 'react-router-dom';
-import { useAuth0 } from '../lib/auth/react-auth0-wrapper';
-import { MessageProvider } from '../contexts/messages';
+import React, { useEffect } from "react";
+import { Route } from "react-router-dom";
+import { useAuth0 } from "../lib/auth/react-auth0-wrapper";
+import { MessageProvider } from "../contexts/messages";
 
 const PrivateRoute = ({ component: Component, path, ...rest }) => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
@@ -24,7 +24,6 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => {
 
   return (
     <MessageProvider>
-      {' '}
       <Route path={path} render={render} {...rest} />
     </MessageProvider>
   );

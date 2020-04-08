@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // import App from '../App';
 // import { createStore } from 'redux';
 // import { reducer } from '../../__test-utils/empty-reducer';
@@ -6,7 +6,7 @@ import React from 'react';
 // import { render, act } from '../../__test-utils/render-with-providers';
 // import { createMemoryHistory } from 'history';
 
-it.skip('renders App without crashing', () => {
+it.skip("renders App without crashing", () => {
   // const history = createMemoryHistory();
   // const store = createStore(reducer, initialState);
   // const div = document.createElement('div');

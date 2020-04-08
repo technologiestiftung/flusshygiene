@@ -5,9 +5,9 @@ import React, {
   useEffect,
   useCallback,
   useState,
-} from 'react';
-import { Timer } from '../lib/utils/timeout';
-export type BannerType = 'normal' | 'warning' | 'error';
+} from "react";
+import { Timer } from "../lib/utils/timeout";
+export type BannerType = "normal" | "warning" | "error";
 
 interface IMessage {
   message: string;
@@ -18,7 +18,7 @@ interface IMessagesState {
 }
 
 interface IMessageAction {
-  type: 'ADD_MESSAGE' | 'REMOVE_MESSAGE';
+  type: "ADD_MESSAGE" | "REMOVE_MESSAGE";
   payload: IMessage | number;
 }
 
@@ -37,17 +37,17 @@ const MessageDispatchContext = createContext<MessageDispatch | undefined>(
 
 const messageReducer = (state: IMessagesState, action: IMessageAction) => {
   switch (action.type) {
-    case 'ADD_MESSAGE':
-      if (typeof action.payload === 'number') {
-        throw new Error('ADD_MESSAGE action needs message and type on payload');
+    case "ADD_MESSAGE":
+      if (typeof action.payload === "number") {
+        throw new Error("ADD_MESSAGE action needs message and type on payload");
       }
       return {
         messages: [...state.messages, action.payload as IMessage],
       };
 
-    case 'REMOVE_MESSAGE':
-      if (typeof action.payload !== 'number') {
-        throw new Error('REMOVE_MESSAGE action needs number as payload');
+    case "REMOVE_MESSAGE":
+      if (typeof action.payload !== "number") {
+        throw new Error("REMOVE_MESSAGE action needs number as payload");
       }
       return {
         messages: state.messages.filter(
@@ -55,7 +55,7 @@ const messageReducer = (state: IMessagesState, action: IMessageAction) => {
         ),
       };
     default:
-      throw new Error('No default action defined');
+      throw new Error("No default action defined");
   }
 };
 
@@ -129,34 +129,34 @@ const Banner: React.FC<{
   let className: string;
   const [bannerId, setBannerId] = useState(id);
   switch (data.type) {
-    case 'normal': {
-      className = 'is-primary';
+    case "normal": {
+      className = "is-primary";
       break;
     }
-    case 'warning': {
-      className = 'is-warning';
+    case "warning": {
+      className = "is-warning";
       break;
     }
-    case 'error': {
-      className = 'is-danger';
+    case "error": {
+      className = "is-danger";
       break;
     }
     default: {
-      className = '';
+      className = "";
       break;
     }
   }
 
   const remove = useCallback(() => {
     dispatch({
-      type: 'REMOVE_MESSAGE',
+      type: "REMOVE_MESSAGE",
       payload: bannerId,
     });
   }, [dispatch, bannerId]);
 
   const timer = new Timer(function() {
     dispatch({
-      type: 'REMOVE_MESSAGE',
+      type: "REMOVE_MESSAGE",
       payload: id,
     });
   }, time);
@@ -177,7 +177,7 @@ const Banner: React.FC<{
       className={`notification notification--margin-bottom ${className}`}
     >
       <button
-        className='delete'
+        className="delete"
         onClick={() => {
           remove();
         }}
@@ -189,7 +189,7 @@ const Banner: React.FC<{
 const useMessageState = () => {
   const stateContext = useContext(MessageStateContext);
   if (stateContext === undefined) {
-    throw new Error('useMessageState must be used within a MessageProvider');
+    throw new Error("useMessageState must be used within a MessageProvider");
   }
   return stateContext;
 };
@@ -197,7 +197,7 @@ const useMessageState = () => {
 const useMessageDispatch = () => {
   const dispatchContext = useContext(MessageDispatchContext);
   if (dispatchContext === undefined) {
-    throw new Error('useMessageDispatch must be used within a MessageProvider');
+    throw new Error("useMessageDispatch must be used within a MessageProvider");
   }
   return dispatchContext;
 };

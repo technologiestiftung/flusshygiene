@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useQuestions } from '../../contexts/questionaire';
-import { Container } from '../Container';
-import { Link, Redirect } from 'react-router-dom';
-import { RouteNames } from '../../lib/common/enums';
-import history from '../../lib/history';
+import React, { useState, useEffect } from "react";
+import { useQuestions } from "../../contexts/questionaire";
+import { Container } from "../Container";
+import { Link, Redirect } from "react-router-dom";
+import { RouteNames } from "../../lib/common/enums";
+import history from "../../lib/history";
 
 import {
   IconLink,
@@ -12,13 +12,13 @@ import {
   IconPDF,
   IconCode,
   IconPrev,
-} from '../fontawesome-icons';
-import { IAnswer } from '../../lib/common/interfaces';
-import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
-import { ButtonIcon as Button } from '../Buttons';
+} from "../fontawesome-icons";
+import { IAnswer } from "../../lib/common/interfaces";
+import { createLinks } from "../../lib/utils/questionnaire-additional-texts-filter";
+import { ButtonIcon as Button } from "../Buttons";
 
-import FileSaver from 'file-saver';
-import { roundToFloatDigits } from '../../lib/utils/formatting-helpers';
+import FileSaver from "file-saver";
+import { roundToFloatDigits } from "../../lib/utils/formatting-helpers";
 
 /**
  * TODO: missing links in footnote @Urs
@@ -100,9 +100,9 @@ export const Report: React.FC = () => {
     for (const item of answers) {
       if (item === undefined) continue;
       if (item === null) continue;
-      if (typeof item !== 'string') continue;
+      if (typeof item !== "string") continue;
 
-      const split = item.split('-');
+      const split = item.split("-");
       const weight = parseInt(split[2].substring(1), 10);
       const possibility = parseFloat(split[3].substring(1));
       // console.log(weight * (possibility * 100));
@@ -123,10 +123,10 @@ export const Report: React.FC = () => {
   } else {
     return (
       <>
-        <Container columnClassName={'is-8'}>
-          <div className='buttons buttons__--size'>
+        <Container columnClassName={"is-8"}>
+          <div className="buttons buttons__--size">
             <Button
-              text='Zurück zum Formular'
+              text="Zurück zum Formular"
               handleClick={() => {
                 history.push(`/${RouteNames.questionnaire}/1`);
               }}
@@ -134,7 +134,7 @@ export const Report: React.FC = () => {
               <IconPrev></IconPrev>
             </Button>
             <Link
-              className='button is-small'
+              className="button is-small"
               to={{
                 pathname: `/${RouteNames.questionnaire}-pdfviewer`,
                 state: {
@@ -149,15 +149,15 @@ export const Report: React.FC = () => {
                 },
               }}
             >
-              <span className='icon is-small'>
-                {' '}
+              <span className="icon is-small">
+                {" "}
                 <IconPDF />
-              </span>{' '}
+              </span>{" "}
               <span>PDF Download</span>
             </Link>
 
             <Button
-              text={'JSON Download'}
+              text={"JSON Download"}
               handleClick={(e: React.ChangeEvent<any>) => {
                 // console.log('JSON');
                 const blob = new Blob(
@@ -169,7 +169,7 @@ export const Report: React.FC = () => {
                     }),
                   ],
                   {
-                    type: 'text/plain;charset=utf-8',
+                    type: "text/plain;charset=utf-8",
                   },
                 );
                 FileSaver.saveAs(blob, `standortbewertung-${state.title}.json`);
@@ -180,10 +180,10 @@ export const Report: React.FC = () => {
             </Button>
           </div>
         </Container>
-        <Container columnClassName={'is-8'}>
-          <h1 className='title is-1'>Report</h1>
-          <h2 className='subtitle is-4'>der aktuellen Standortbewertung</h2>
-          <div className='content'>
+        <Container columnClassName={"is-8"}>
+          <h1 className="title is-1">Report</h1>
+          <h2 className="subtitle is-4">der aktuellen Standortbewertung</h2>
+          <div className="content">
             <p>
               Mit der Beantwortung der Fragen zur Einschätzung über die Eignung
               eines neuen Badegewässerstandortes haben Sie einen wichtigen
@@ -202,16 +202,16 @@ export const Report: React.FC = () => {
             </p>
           </div>
           {state.title !== undefined && state.title.length > 0 && (
-            <h3 className={'subtitle is 6'}>{state.title}</h3>
+            <h3 className={"subtitle is 6"}>{state.title}</h3>
           )}
-          <div className='content'>
+          <div className="content">
             {
               <div
                 className={`message ${
-                  allAnswersGiven === false ? 'is-warning' : 'is-dark'
+                  allAnswersGiven === false ? "is-warning" : "is-dark"
                 }`}
               >
-                <div className='message-body'>
+                <div className="message-body">
                   <p>
                     <strong>
                       Achtung es wurden nicht alle Fragen beantwortet!
@@ -219,10 +219,10 @@ export const Report: React.FC = () => {
                   </p>
                   <p
                     className={`subtitle ${
-                      allAnswersGiven === false ? 'has-text-grey-light' : ''
+                      allAnswersGiven === false ? "has-text-grey-light" : ""
                     }`}
                   >
-                    Umsetzungswahrscheinlichkeit:{' '}
+                    Umsetzungswahrscheinlichkeit:{" "}
                     {isNaN(probability) === false &&
                       roundToFloatDigits(probability, 2)}
                     %
@@ -231,18 +231,18 @@ export const Report: React.FC = () => {
               </div>
             }
           </div>
-          <div className='content'>
+          <div className="content">
             <ol>
               {localQuestions.map((ele, i) => {
                 return (
                   <li key={i}>
-                    <div className='content report__answer'>
-                      <p className=''>
+                    <div className="content report__answer">
+                      <p className="">
                         <strong>
-                          {ele}{' '}
+                          {ele}{" "}
                           <Link
                             to={`/${RouteNames.questionnaire}/${i + 1}`}
-                            title={'Zurück zur Frage'}
+                            title={"Zurück zur Frage"}
                           >
                             <IconLink />
                           </Link>
@@ -259,33 +259,33 @@ export const Report: React.FC = () => {
                             </p>
                           );
                         }
-                        const split = state.answers[i + 1].split('-');
+                        const split = state.answers[i + 1].split("-");
                         const aId = parseInt(split[1].substring(1), 10);
 
                         return (
                           <>
                             <p>
-                              <strong>Ihre Antwort: </strong>{' '}
-                              {localAnswers[i][aId].text}{' '}
+                              <strong>Ihre Antwort: </strong>{" "}
+                              {localAnswers[i][aId].text}{" "}
                             </p>
                             <div
                               className={
-                                localAnswers[i][aId].colorText === 'rot'
-                                  ? 'is-danger message'
-                                  : 'is-dark message'
+                                localAnswers[i][aId].colorText === "rot"
+                                  ? "is-danger message"
+                                  : "is-dark message"
                               }
                             >
-                              <div className='message-body'>
+                              <div className="message-body">
                                 <span>
                                   {colorNameToIcon(
                                     localAnswers[i][aId].colorText,
-                                  )}{' '}
+                                  )}{" "}
                                   {localAnswers[i][aId].qType !== undefined &&
                                     questionTypeToIcon(
                                       localAnswers[i][aId].qType!,
                                       localAnswers[i][aId].colorText,
                                     )}
-                                </span>{' '}
+                                </span>{" "}
                                 <span
                                   dangerouslySetInnerHTML={{
                                     __html: localAnswers[i][aId].reportAddInfo,
@@ -302,24 +302,24 @@ export const Report: React.FC = () => {
               })}
             </ol>
           </div>
-          <div className='content'>
+          <div className="content">
             <p>
               Unabhängig von den von ihnen gegeben Antworten und den hieraus
               resultierenden Arbeitsanregungen, ist das Verfassen einer
               Projektskizze ein wesentlicher erster Schritt, um die Idee eines
               neuen Badegewässers zu konkretisieren und für andere anschaulich
-              zu machen. Hierbei kann der Leitfaden:{' '}
+              zu machen. Hierbei kann der Leitfaden:{" "}
               <em>
                 Eröffnung neuer Flussbadestellen – Praxisleitfaden am Beispiel
                 der Berliner Vorstadtspree
               </em>
               <sup>
-                <a href='#footnote-1' id='footnote-ref-1'>
+                <a href="#footnote-1" id="footnote-ref-1">
                   [1]
                 </a>
               </sup>
               , hervorgegangen aus dem BMBF Forschungsprojekt FLUSSHYGIENE, eine
-              gute Hilfestellung bieten.{' '}
+              gute Hilfestellung bieten.{" "}
             </p>
             <p>
               Neben der Erstellung einer Projektskizze, sollte möglichst
@@ -331,68 +331,68 @@ export const Report: React.FC = () => {
               politischer Unterstützung begonnen werden.
             </p>
             <p>
-              Darüber hinaus liefert das kurze{' '}
+              Darüber hinaus liefert das kurze{" "}
               <em>Merkblatt zur Einrichtung neuer Flussbadegewässer </em>einen
               bündigen Überblick über die wesentlichen Themen und Schritte hin
               zur Einrichtung eines Badegewässers.
               <sup>
-                <a href='#footnote-2' id='footnote-ref-2'>
+                <a href="#footnote-2" id="footnote-ref-2">
                   [2]
                 </a>
-              </sup>{' '}
+              </sup>{" "}
             </p>
             <p>
               Um eine Vorstellung von der Anwendung des Merkblattes zu bekommen
               wurde dieses beispielhaft auf einen Standort an der Berliner Spree
-              angewandt. Das Ergebnis, die{' '}
+              angewandt. Das Ergebnis, die{" "}
               <em>
                 Anwendung des Merkblattes zur Einrichtung neuer
                 Flussbadegewässer - Anwendungsbeispiel Insel der Jugend Berlin
                 <sup>
-                  <a href='#footnote-3' id='footnote-ref-3'>
+                  <a href="#footnote-3" id="footnote-ref-3">
                     [3]
                   </a>
                 </sup>
-                ,{' '}
+                ,{" "}
               </em>
-              kann als Anregung dienen.{' '}
+              kann als Anregung dienen.{" "}
             </p>
             <p>
               Wir wünschen ihnen viel Erfolg bei der Initiierung eines neuen
               Badegewässers!
             </p>
             <ol>
-              <li id='footnote-1'>
+              <li id="footnote-1">
                 <p>
-                  {' '}
+                  {" "}
                   Raber, W., Bösche, U., Schön, S, (2018): Eröffnung neuer
                   Flussbadestellen – Praxisleitfaden am Beispiel der Berliner
                   Vorstadtspree, BMBF Forschungsprojekt FLUSSHYGIENE
-                  <a href='https://www.inter3.de/fileadmin/user_upload/Downloads/Flyer_usw/Praxisleitfaden_Eroeffnung_neuer_Flussbadestellen-Januar_2019.pdf'>
+                  <a href="https://www.inter3.de/fileadmin/user_upload/Downloads/Flyer_usw/Praxisleitfaden_Eroeffnung_neuer_Flussbadestellen-Januar_2019.pdf">
                     <IconPDF />
                     <span> </span>Praxisleitfaden Eröffnung neuer
                     Flussbadestellen
-                  </a>{' '}
-                  <a href='#footnote-ref-1'>↑</a>
+                  </a>{" "}
+                  <a href="#footnote-ref-1">↑</a>
                 </p>
               </li>
-              <li id='footnote-2'>
+              <li id="footnote-2">
                 <p>
-                  {' '}
+                  {" "}
                   Raber, W., Bösche, U., Selinka, H.-C., Szewzyk, R. (Hrsg.)
                   (2018): Merkblatt zur Einrichtung neuer Flussbadegewässer,
-                  BMBF-Forschungsprojekt FLUSSHYGIENE {/*(LINK)*/}{' '}
-                  <a href='#footnote-ref-2'>↑</a>
+                  BMBF-Forschungsprojekt FLUSSHYGIENE {/*(LINK)*/}{" "}
+                  <a href="#footnote-ref-2">↑</a>
                 </p>
               </li>
-              <li id='footnote-3'>
+              <li id="footnote-3">
                 <p>
-                  {' '}
+                  {" "}
                   Raber, W., Bösche, U., Seis, W. (Hrsg.) (2019): Anwendung des
                   Merkblattes zur Einrichtung neuer Flussbadegewässer:
                   Anwendungsbeispiel Insel der Jugend Berlin,
-                  BMBF-Forschungsprojekt FLUSSHYGIENE {/*(LINK)*/}{' '}
-                  <a href='#footnote-ref-3'>↑</a>
+                  BMBF-Forschungsprojekt FLUSSHYGIENE {/*(LINK)*/}{" "}
+                  <a href="#footnote-ref-3">↑</a>
                 </p>
               </li>
             </ol>

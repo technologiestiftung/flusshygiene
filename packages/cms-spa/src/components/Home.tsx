@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // import { useSelector, useDispatch } from 'react-redux';
 // import { fetchSpots } from '../lib/state/reducers/actions/fetch-get-spots';
 // import { CardTile } from './spot/CardTile';
@@ -9,9 +9,9 @@ import React from 'react';
 // import { DEFAULT_SPOT } from '../lib/common/constants';
 // import { APIMountPoints, ApiResources } from '../lib/common/enums';
 // import { IFetchSpotOptions } from '../lib/common/interfaces';
-import { Container } from './Container';
-import { Link } from 'react-router-dom';
-import { RouteNames } from '../lib/common/enums';
+import { Container } from "./Container";
+import { Link } from "react-router-dom";
+import { RouteNames } from "../lib/common/enums";
 // import { SpotEditor } from './spot/SpotEditor';
 // import { REACT_APP_API_HOST } from '../lib/config';
 // import { useAuth0 } from '../react-auth0-wrapper';
@@ -64,14 +64,14 @@ const Home: React.FC = () => {
           />
         </Container>
       )} */}
-      <div className='hero is-primary'>
-        <div className='hero-body'>
+      <div className="hero is-primary">
+        <div className="hero-body">
           <Container>
             {/* <div className='columns is-centered'> */}
             {/* <div className='column is-10'> */}
             {/* <h1 className='is-title is-1'>Flusshygiene</h1> */}
-            <h1 className='is-title is-1'>Herzlich Willkommen,</h1>
-            <div className='content'>
+            <h1 className="is-title is-1">Herzlich Willkommen,</h1>
+            <div className="content">
               <p>
                 auf dieser Webplattform stehen dem Nutzer zwei wesentliche
                 Erzeugnisse des Forschungsprojekts FLUSSHYGIENE zu Verfügung.
@@ -89,10 +89,10 @@ const Home: React.FC = () => {
         </div>
       </div>
       <Container>
-        <h3 className='is-title is-3'>
+        <h3 className="is-title is-3">
           Tool zur Erstbewertung neuer Badegewässer
         </h3>
-        <div className='content'>
+        <div className="content">
           <p>
             Um eine Einschätzung über die Eignung eines neuen
             Badegewässerstandortes durchführen zu können, wurde im Projekt
@@ -105,8 +105,8 @@ const Home: React.FC = () => {
             </Link>
           </p>
         </div>
-        <h3 className='is-title is-3'>Tool zum Aufbau von Frühwarnsystem</h3>
-        <div className='content'>
+        <h3 className="is-title is-3">Tool zum Aufbau von Frühwarnsystem</h3>
+        <div className="content">
           <p>
             Im Projekt FLUSSHYGIENE wurde ein neuer Ansatz zum Aufbau von
             Frühwarnsystemen entwickelt, der den Ansatz der Langzeitbewertung
@@ -129,8 +129,8 @@ const Home: React.FC = () => {
         </div>
       </Container>
       <Container>
-        <h3 className='is-title is-3'>Zugang zur Plattform</h3>
-        <div className='content'>
+        <h3 className="is-title is-3">Zugang zur Plattform</h3>
+        <div className="content">
           <p>
             Um Zugang zu unserer Plattform zu erhalten schreiben Sie eine E-Mail
             an "flusshygiene [at] technologiestiftung-berlin [Punkt] de"

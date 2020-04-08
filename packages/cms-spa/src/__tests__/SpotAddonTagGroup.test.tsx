@@ -1,9 +1,9 @@
-import React from 'react';
-import { render } from '../../__test-utils/render-with-providers';
-import { SpotBodyAddonTagGroup } from '../components/spot/elements/Spot-AddonTag-Group';
+import React from "react";
+import { render } from "../../__test-utils/render-with-providers";
+import { SpotBodyAddonTagGroup } from "../components/spot/elements/Spot-AddonTag-Group";
 
-describe('SpotAddontags', () => {
-  test('Should render with yes and no', () => {
+describe("SpotAddontags", () => {
+  test("Should render with yes and no", () => {
     const { getAllByText, getByText } = render(
       <SpotBodyAddonTagGroup
         cyanoPossible={true}

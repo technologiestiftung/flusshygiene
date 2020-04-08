@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, fireEvent } from '../../__test-utils/render-with-providers';
-import { QToolBar } from '../components/questionaire/QToolBar';
+import React from "react";
+import { render, fireEvent } from "../../__test-utils/render-with-providers";
+import { QToolBar } from "../components/questionaire/QToolBar";
 const handleClick = jest.fn((e: React.ChangeEvent<any>) => {});
-describe('Testing Toolbar', () => {
-  test('icon info click', () => {
+describe("Testing Toolbar", () => {
+  test("icon info click", () => {
     const { getByTestId } = render(
       <QToolBar
         isSubmitting={false}

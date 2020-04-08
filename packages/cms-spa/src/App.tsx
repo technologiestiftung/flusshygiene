@@ -18,6 +18,7 @@ import { PDFPage } from "./components/questionaire/ReportPDF";
 import { Page404 } from "./components/Page404";
 import { Imprint } from "./components/imprint";
 import { HelpDesk } from "./components/HelpDesk";
+import ExternalApi from "./components/ExternalApi";
 
 const App: React.FC = () => {
   const { loading } = useAuth0();
@@ -67,7 +68,10 @@ const App: React.FC = () => {
               path={`/${RouteNames.helpdesk}`}
               component={HelpDesk}
             />
-            {/* <PrivateRoute path='/external-api' component={ExternalApi} /> */}
+            {process.env.NODE_ENV === "development" && (
+              <PrivateRoute path="/test" component={ExternalApi} />
+            )}
+
             <Route
               path={`/${RouteNames.imprint}`}
               render={(props) => <Imprint {...props} imprintType="imprint" />}

@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 // ┌┬┐┌─┐┌─┐┬┌─
 // ││││ ││  ├┴┐
 // ┴ ┴└─┘└─┘┴ ┴
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
 type ContextProps = {
   isAuthenticated: boolean;
@@ -35,22 +36,22 @@ export const Auth0Provider = ({
         popupOpen: false,
         loginWithPopup: false,
         handleRedirectCallback: () => {
-          console.log('handleRedirectCallback');
+          console.info("handleRedirectCallback");
         },
         getIdTokenClaims: () => {
-          console.log('getIdTokenClaims');
+          console.info("getIdTokenClaims");
         },
         loginWithRedirect: () => {
-          console.log('loginWithRedirect');
+          console.info("loginWithRedirect");
         },
         getTokenSilently: () => {
-          console.log('getTokenSilently');
+          console.info("getTokenSilently");
         },
         getTokenWithPopup: () => {
-          console.log('getTokenWithPopup');
+          console.log("getTokenWithPopup");
         },
         logout: () => {
-          console.log('logout');
+          console.log("logout");
         },
       }}
     >

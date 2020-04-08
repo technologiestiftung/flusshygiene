@@ -25,6 +25,8 @@ import { Container, ContainerNoColumn } from "./Container";
 import { useOcpu, postOcpu } from "../contexts/opencpu";
 import { useEventSource } from "../contexts/eventsource";
 import { useApi, apiRequest } from "../contexts/postgres-api";
+import { useMessages } from "../contexts/messages";
+import { useHelpDesk } from "../contexts/helpdesk";
 // import { Banner } from './spot/elements/Banner';
 import { SpotButtonBar } from "./spot/elements/Spot-ButtonBar";
 import { SpotAdditionalTags } from "./spot/elements/Spot-AdditionalTags";
@@ -48,7 +50,6 @@ import { CollectionWithSubItemTable } from "./spot/elements/Spot-CollectionWithS
 import { pplantGiSchema } from "../lib/utils/spot-validation-schema";
 import { MeasurementEditor } from "./spot/measurement-editor/editor";
 import { hasAutoData } from "../lib/utils/has-autodata-url";
-import { useMessages } from "../contexts/messages";
 import { PublicData } from "./spot/elements/Spot-Public-Data";
 // import { MeasurementEditor } from './spot/MeasurementEditor';
 /**
@@ -60,6 +61,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   const [ocpuState, ocpuDispatch] = useOcpu();
   const [apiState, apiDispatch] = useApi();
   const [, messageDispatch] = useMessages();
+  const [, helpDeskDispatch] = useHelpDesk();
   const eventSourceState = useEventSource();
 
   const [formReadyToRender, setFormReadyToRender] = useState(false);
@@ -247,6 +249,12 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
     getToken();
   }, [getTokenSilently, setToken]);
 
+  useEffect(() => {
+    if (!spot) return;
+    // eslint-disable-next-line no-console
+    console.log(spot);
+    helpDeskDispatch({ type: "SET_SPOT", payload: spot });
+  }, [spot, helpDeskDispatch]);
   /**
    * Timing effect for the banner display time
    */

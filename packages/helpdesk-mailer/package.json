@@ -11,7 +11,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc -p .",
-    "start": "nodemon",
+    "start": "cross-env NODE_ENV=development nodemon",
+    "dev": "cross-env NODE_ENV=development nodemon",
     "lint-staged": "lint-staged"
   },
   "author": "Fabian Morón Zirfas",
@@ -28,6 +29,7 @@
     "@types/nodemailer": "6.4.0",
     "@typescript-eslint/eslint-plugin": "2.26.0",
     "@typescript-eslint/parser": "2.26.0",
+    "cross-env": "^7.0.2",
     "cz-conventional-changelog": "3.1.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.1",
@@ -88,7 +90,7 @@
     "watch": [
       "./src"
     ],
-    "exec": "./node_modules/.bin/tsc -p . && node -r dotenv/config --inspect dist/index.js",
+    "exec": "./node_modules/.bin/tsc -p . && node -r dotenv/config --inspect=127.0.0.1:9228  dist/index.js",
     "ext": "ts,json",
     "restartable": "rs",
     "verbose": true,
