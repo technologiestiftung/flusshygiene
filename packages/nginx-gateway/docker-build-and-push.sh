@@ -8,6 +8,7 @@ SUFFIX=${PWD##*/}
 STAGE="dev"
 OCPU_PW="test"
 OCPU_USER="test"
+# PUSHIT=FALSE
 
 print_usage() {
   printf "\n\nUsage:------------------------------\n"
@@ -16,6 +17,8 @@ print_usage() {
   printf "       If -p flag is not specified it will use '%s'\n" $OCPU_PW
   printf "       If -t flag is not specified it will use '%s'\n" $GITHUB_REF
   printf "       If -s flag is not specified it will use '%s'\n\n\n" $STAGE
+    # printf "       If -r flag is not specified it will not push to the remote '%s'\n\n\n" $PUSHIT
+
 }
 
 while getopts 't:s:p:u:' flag; do

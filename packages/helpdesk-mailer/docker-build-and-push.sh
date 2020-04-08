@@ -12,7 +12,7 @@ print_usage() {
   printf "Usage: %s -t yourtag -s stage\n" "${0}"
   printf "       If -t flag is not specified it will use '%s'\n" $GITHUB_REF
   printf "       If -s flag is not specified it will use '%s'\n\n\n" $STAGE
-  printf "       If -p flag is not specified it will not push to the remote '%s'\n\n\n" $STAGE
+  printf "       If -p flag is not specified it will not push to the remote '%s'\n\n\n" $PUSHIT
 
 }
 while getopts 'pt:s:' flag; do
