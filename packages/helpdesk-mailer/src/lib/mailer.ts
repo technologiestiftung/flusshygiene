@@ -33,16 +33,28 @@ export async function mailer(body: GenericObject): Promise<void> {
     if (!transporter) throw new Error("transporter is undefined");
     await transporter.verify();
     const adminText = `
-    ${JSON.stringify(body, null, 2)}
+    E-Mail: ${body.email}
+    Name: ${body.name}
+    Text: ${body.text}
+${JSON.stringify(body, null, 2)}
 `;
-    const adminHtml = wrapInCodeTags(JSON.stringify(body, null, 2));
+    const adminHtml = `<p><ul><li>Name ${body.name}</li><li>Name ${
+      body.email
+    }</li></ul> ${body.text}</p>${wrapInCodeTags(
+      JSON.stringify(body, null, 2)
+    )}`;
     const message: Options = buildMessage({
       to: adminTo,
       text: adminText,
       html: adminHtml,
     });
+    if (body.email) {
+      message.replyTo = body.email as string;
+    }
     const res = await transporter.sendMail(message);
-    console.log(res);
+    if (process.env.NODE_ENV === "developemnt") {
+      console.log(res);
+    }
     transporter.close();
   } catch (error) {
     console.error(error);
