@@ -41,7 +41,7 @@
     "bulma-extensions": "6.2.7",
     "deep-diff": "1.0.2",
     "file-saver": "2.0.2",
-    "formik": "^2.1.4",
+    "formik": "2.1.4",
     "http-proxy-middleware": "1.0.3",
     "js-cookie": "2.2.1",
     "lodash.differenceby": "4.8.0",
