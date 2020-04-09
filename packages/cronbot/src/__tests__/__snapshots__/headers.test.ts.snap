@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing headers should build a header with the default value and some additional ones 1`] = `
+Object {
+  "user-agent": "cronbot 2.9.0",
+}
+`;

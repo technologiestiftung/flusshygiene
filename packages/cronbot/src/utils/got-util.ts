@@ -1,4 +1,5 @@
 import { API_URL, getApiToken } from "../common/env";
+import { buildHeaders } from "../common/headers";
 
 export interface IGotOptionsOverrides {
   url?: string;
@@ -20,9 +21,10 @@ export const gotOptionsFactory: (
       throw new Error("gotOptionsFactory could not find a token");
     }
 
+    const headers = buildHeaders({ authorization: token ? token : "" });
     const opts: IGotOptionsOverrides = {
       url: `${API_URL}`,
-      headers: { authorization: token },
+      headers,
       ...overrides,
     };
     return opts;
