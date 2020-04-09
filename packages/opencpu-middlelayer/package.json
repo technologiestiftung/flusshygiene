@@ -30,7 +30,7 @@
     "@types/mkdirp": "0.5.2",
     "@types/morgan": "1.7.37",
     "@types/node": "12.12.29",
-    "@types/redis": "2.8.14",
+    "@types/redis": "2.8.17",
     "@types/redis-mock": "0.17.0",
     "@types/supertest": "2.0.8",
     "@types/uuid": "3.4.5",
