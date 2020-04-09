@@ -1,5 +1,6 @@
 resource "aws_cloudwatch_log_group" "cronbot" {
   name = "${var.prefix}-${var.name}-${var.env}"
+  retention_in_days = 7
   tags = {
     name    = "${var.prefix}-${var.name}-${var.env}"
     project = "flusshygiene"
