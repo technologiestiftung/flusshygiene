@@ -65,63 +65,63 @@ variable "schedule_expression" {
 # └┐┌┘├─┤├┬┘│├─┤├┴┐│  ├┤ └─┐
 #  └┘ ┴ ┴┴└─┴┴ ┴└─┘┴─┘└─┘└─┘
 # Mailgun
-variable "mailgun_domain" {
-  type = "string"
+# variable "mailgun_domain" {
+#   type = string
 
-}
+# }
 
-variable "mailgun_from" {
-  type = "string"
-}
+# variable "mailgun_from" {
+#   type = string
+# }
 
-variable "mailgun_to" {
-  type = "string"
-}
+# variable "mailgun_to" {
+#   type = string
+# }
 
-variable "mailgun_api_key" {
-  type = "string"
-}
+# variable "mailgun_api_key" {
+#   type = string
+# }
 
 variable "auth0_token_issuer" {
-  type = "string"
+  type = string
 }
 variable "auth0_audience" {
-  type = "string"
+  type = string
 }
 variable "auth0_client_id" {
-  type = "string"
+  type = string
 }
 variable "auth0_client_secret" {
-  type = "string"
+  type = string
 }
 variable "api_host" {
-  type = "string"
+  type = string
 }
 variable "api_version" {
-  type = "string"
+  type = string
 }
 variable "flsshygn_predict_url" {
-  type = "string"
+  type = string
 }
 variable "flsshygn_calibrate_url" {
-  type = "string"
+  type = string
 }
 
 variable "smtp_host" {
-  type = "string"
+  type = string
 }
 variable "smtp_user" {
-  type = "string"
+  type = string
 }
 variable "smtp_pw" {
-  type = "string"
+  type = string
 }
 variable "smtp_port" {
-  type = "string"
+  type = string
 }
 variable "smtp_from" {
-  type = "string"
+  type = string
 }
 variable "smtp_admin_to" {
-  type = "string"
+  type = string
 }

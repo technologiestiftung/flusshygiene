@@ -1,7 +1,7 @@
 # cloudwatch.tf
 
 resource "random_id" "rand" {
- keepers = {
+  keepers = {
     # Generate a new id each time we switch to a new AMI id
     target_id = "${var.rand_id}"
   }
@@ -9,20 +9,20 @@ resource "random_id" "rand" {
 }
 
 resource "aws_cloudwatch_event_target" "cw-target" {
-  count     = "${var.az_count}"
-  rule      = "${aws_cloudwatch_event_rule.cw_rule.name}"
+  count     = var.az_count
+  rule      = aws_cloudwatch_event_rule.cw_rule.name
   target_id = "${var.prefix}-${var.name}-${var.env}-every-day-at-9-${random_id.rand.dec}"
   # arn       = "${var.cluster_arn}"
-  arn      = "${aws_ecs_cluster.cronbot_cluster.arn}"
-  role_arn = "${aws_iam_role.ecs_events.arn}"
+  arn      = aws_ecs_cluster.cronbot_cluster.arn
+  role_arn = aws_iam_role.ecs_events.arn
 
   ecs_target {
     launch_type         = "FARGATE"
     task_count          = 1
-    task_definition_arn = "${aws_ecs_task_definition.task.arn}"
+    task_definition_arn = aws_ecs_task_definition.task.arn
     # needs network access
     network_configuration {
-      subnets          =  var.subnets
+      subnets = var.subnets
       #subnets = ["${aws_subnet.public[count.index].id}"]
       security_groups  = ["${aws_security_group.public-group.id}"]
       assign_public_ip = true
@@ -35,13 +35,13 @@ resource "aws_cloudwatch_event_target" "cw-target" {
     aws_iam_role.ecs_events,
     aws_ecs_cluster.cronbot_cluster,
     aws_security_group.public-group
-    ]
+  ]
 }
 
 
 resource "aws_cloudwatch_event_rule" "cw_rule" {
   name                = "${var.prefix}-${var.name}-${var.env}-rule"
-  schedule_expression = "${var.schedule_expression}"
+  schedule_expression = var.schedule_expression
   is_enabled          = true
   tags = {
     name    = "${var.prefix}-${var.name}-${var.env}"
