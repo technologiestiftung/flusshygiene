@@ -163,3 +163,4 @@ $RECYCLE.BIN/
 *.code-workspace
 /sources/packages/radolan-api/serverless.yml
 /sources/packages/radolan-api/.env
+terraform/ecs-fargate-cronbot/terraform-state-backup
