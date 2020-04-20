@@ -25,3 +25,43 @@ export const collectionCheck: middlewareFunc = async (
   response.locals.collectionName = collectionName;
   next();
 };
+
+export const collectionCheckPublic: middlewareFunc = async (
+  request,
+  response,
+  next,
+) => {
+  const collectionName = request.params.collectionName;
+  if (collectionName === undefined) {
+    responder(response, HttpCodes.badRequest, {
+      message: 'missing collectionName',
+      success: false,
+    });
+    return;
+  }
+  if (collectionNames.includes(collectionName) === false) {
+    responder(response, HttpCodes.badRequest, {
+      message: `"${collectionName}" not included in "${JSON.stringify(
+        collectionNames,
+      )}"`,
+      success: false,
+    });
+    return;
+  }
+
+  // eslint-disable-next-line no-console
+  console.log('Collection Name Public Check', collectionName);
+  if (
+    collectionName === 'genericInputs' ||
+    collectionName === 'purificationPlants'
+  ) {
+    responder(response, HttpCodes.badRequest, {
+      message: `"${collectionName}" data is not public`,
+      success: false,
+    });
+    return;
+  }
+
+  response.locals.collectionName = collectionName;
+  next();
+};

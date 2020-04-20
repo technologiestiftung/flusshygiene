@@ -15,7 +15,7 @@ import {
   getCollectionsSubItem,
   getGenericInputMeasurements,
 } from './request-handlers/bathingspots/collections/get';
-import { collectionCheck } from './middleware/collection-check';
+import { collectionCheckPublic } from './middleware/collection-check';
 import rateLimit from 'express-rate-limit';
 
 const routesPublic = Router();
@@ -80,7 +80,7 @@ routesPublic.get('/', isPublicRoute, (request, response) => {
 
 routesPublic.get(
   '/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)',
-  collectionCheck,
+  collectionCheckPublic,
   isPublicRoute,
   checkPublicSpot,
   getCollection,
@@ -89,7 +89,7 @@ routesPublic.get(
 // FIXME: Check if images work
 routesPublic.get(
   '/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)',
-  collectionCheck,
+  collectionCheckPublic,
   isPublicRoute,
   checkPublicSpot,
   getCollectionsSubItem,
@@ -97,17 +97,17 @@ routesPublic.get(
 
 routesPublic.get(
   '/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements',
-  collectionCheck,
+  collectionCheckPublic,
   isPublicRoute,
   checkPublicSpot,
   getGenericInputMeasurements,
 );
 
-routesPublic.get(
-  '/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9]+)',
-  collectionCheck,
-  isPublicRoute,
-  checkPublicSpot,
-  getGenericInputMeasurements,
-);
+// routesPublic.get(
+//   '/bathingspots/:spotId([0-9]+)/:collectionName([A-Za-z]+)/:itemId([0-9]+)/measurements/:subItemId([0-9]+)',
+//   collectionCheck,
+//   isPublicRoute,
+//   checkPublicSpot,
+//   getGenericInputMeasurements,
+// );
 export default routesPublic;
