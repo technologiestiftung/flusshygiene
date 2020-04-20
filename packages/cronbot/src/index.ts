@@ -1,3 +1,4 @@
+import { logger } from "./utils/logger";
 import shortid from "shortid";
 import { globals } from "./common/globals";
 // import { sendReports } from "./lib/report";
@@ -20,6 +21,7 @@ import { sendReports } from "./lib/report";
 import got, { HTTPError } from "got/dist/source";
 import { getSpotModelInfo } from "./lib/requests/get-spot-model-info";
 import { IReport } from "./common/interfaces";
+import { buildHeaders } from "./common/headers";
 // import { DB } from "./DB";
 
 /**
@@ -94,10 +96,13 @@ export async function main() {
       for (const spot of spots) {
         try {
           if (spot.hasModel === true) {
+            logger.info(`Starting prediction for spot ${spot.spotId}`);
             const url = FLSSHYGN_PREDICT_URL;
             try {
+              const headers = buildHeaders();
               await got.post({
-                url: url,
+                url,
+                headers,
                 json: {
                   spot_id: spot.spotId,
                   user_id: spot.userId,

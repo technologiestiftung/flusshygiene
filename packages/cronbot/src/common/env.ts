@@ -5,10 +5,10 @@ const AUTH0_AUDIENCE: string | undefined = process.env.AUTH0_AUDIENCE;
 const AUTH0_CLIENT_ID: string | undefined = process.env.AUTH0_CLIENT_ID;
 const AUTH0_CLIENT_SECRET: string | undefined = process.env.AUTH0_CLIENT_SECRET;
 const AUTH0_TOKEN_ISSUER: string | undefined = process.env.AUTH0_TOKEN_ISSUER;
-const MAILGUN_DOMAIN: string | undefined = process.env.MAILGUN_DOMAIN;
-const MAILGUN_APIKEY: string | undefined = process.env.MAILGUN_APIKEY;
-const MAILGUN_FROM: string | undefined = process.env.MAILGUN_FROM;
-const MAILGUN_TO: string | undefined = process.env.MAILGUN_TO;
+// const MAILGUN_DOMAIN: string | undefined = process.env.MAILGUN_DOMAIN;
+// const MAILGUN_APIKEY: string | undefined = process.env.MAILGUN_APIKEY;
+// const MAILGUN_FROM: string | undefined = process.env.MAILGUN_FROM;
+// const MAILGUN_TO: string | undefined = process.env.MAILGUN_TO;
 const FLSSHYGN_PREDICT_URL: string | undefined =
   process.env.FLSSHYGN_PREDICT_URL;
 // dereived
@@ -24,18 +24,18 @@ export const getApiToken: () => string | undefined = () => {
 };
 
 // #########
-if (MAILGUN_DOMAIN === undefined && process.env.NODE_ENV !== "test") {
-  throw new Error("MAILGUN_DOMAIN is not defined");
-}
-if (MAILGUN_APIKEY === undefined && process.env.NODE_ENV !== "test") {
-  throw new Error("MAILGUN_APIKEY is not defined");
-}
-if (MAILGUN_FROM === undefined && process.env.NODE_ENV !== "test") {
-  throw new Error("MAILGUN_FROM is not defined");
-}
-if (MAILGUN_TO === undefined && process.env.NODE_ENV !== "test") {
-  throw new Error("MAILGUN_TO is not defined");
-}
+// if (MAILGUN_DOMAIN === undefined && process.env.NODE_ENV !== "test") {
+//   throw new Error("MAILGUN_DOMAIN is not defined");
+// }
+// if (MAILGUN_APIKEY === undefined && process.env.NODE_ENV !== "test") {
+//   throw new Error("MAILGUN_APIKEY is not defined");
+// }
+// if (MAILGUN_FROM === undefined && process.env.NODE_ENV !== "test") {
+//   throw new Error("MAILGUN_FROM is not defined");
+// }
+// if (MAILGUN_TO === undefined && process.env.NODE_ENV !== "test") {
+//   throw new Error("MAILGUN_TO is not defined");
+// }
 if (AUTH0_AUDIENCE === undefined && process.env.NODE_ENV !== "test") {
   throw new Error("AUTH0_AUDIENCE is not defined");
 }
@@ -75,9 +75,9 @@ export {
   AUTH0_TOKEN_ISSUER,
   AUTH0_AUDIENCE,
   CRONBOT_API_TOKEN,
-  MAILGUN_DOMAIN,
-  MAILGUN_APIKEY,
-  MAILGUN_FROM,
-  MAILGUN_TO,
+  // MAILGUN_DOMAIN,
+  // MAILGUN_APIKEY,
+  // MAILGUN_FROM,
+  // MAILGUN_TO,
   FLSSHYGN_PREDICT_URL,
 };

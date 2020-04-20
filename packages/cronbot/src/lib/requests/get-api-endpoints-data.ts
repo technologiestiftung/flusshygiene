@@ -8,6 +8,8 @@ import {
 import { DB } from "../DB";
 import shortid from "shortid";
 import { unique } from "../../utils/unique-values";
+import { buildHeaders } from "../../common/headers";
+const headers = buildHeaders();
 
 const db = DB.getInstance();
 
@@ -31,13 +33,18 @@ export const getApiEndpointsData: () => Promise<void> = async () => {
       email: spot.email,
       specifics: `spot: ${spot.spotId} user: ${spot.userId} mail: ${spot.email} type:`,
     });
-    if (spot.apiEndpoints.hasOwnProperty("measurementsUrl")) {
+    if (
+      spot.apiEndpoints.hasOwnProperty("measurementsUrl") &&
+      spot.apiEndpoints.measurementsUrl!.length > 0
+    ) {
       data.measurementsUrl = spot.apiEndpoints.measurementsUrl;
       let m: IMeasurementConc[] = [];
       let measurements: Response<string>;
 
       try {
-        measurements = await got(spot.apiEndpoints.measurementsUrl!);
+        measurements = await got(spot.apiEndpoints.measurementsUrl!, {
+          headers,
+        });
         try {
           m = JSON.parse(measurements.body).data;
         } catch (eParse) {
@@ -66,13 +73,18 @@ export const getApiEndpointsData: () => Promise<void> = async () => {
         "date",
       );
     }
-    if (spot.apiEndpoints.hasOwnProperty("globalIrradianceUrl")) {
+    if (
+      spot.apiEndpoints.hasOwnProperty("globalIrradianceUrl") &&
+      spot.apiEndpoints.globalIrradianceUrl!.length > 0
+    ) {
       let measurements: Response<string>;
 
       data.globalIrradianceUrl = spot.apiEndpoints.globalIrradianceUrl;
       let g: IMeasurement[] = [];
       try {
-        measurements = await got(spot.apiEndpoints.globalIrradianceUrl!); // TODO: Could throw
+        measurements = await got(spot.apiEndpoints.globalIrradianceUrl!, {
+          headers,
+        }); // TODO: Could throw
         try {
           g = JSON.parse(measurements!.body).data; // TODO: Could throw
         } catch (eParse) {
@@ -96,13 +108,16 @@ export const getApiEndpointsData: () => Promise<void> = async () => {
         "date",
       );
     }
-    if (spot.apiEndpoints.hasOwnProperty("dischargesUrl")) {
+    if (
+      spot.apiEndpoints.hasOwnProperty("dischargesUrl") &&
+      spot.apiEndpoints.dischargesUrl!.length > 0
+    ) {
       let measurements: Response<string>;
 
       data.dischargesUrl = spot.apiEndpoints.dischargesUrl;
       let d: IMeasurement[] = [];
       try {
-        measurements = await got(spot.apiEndpoints.dischargesUrl!); // TODO: Could throw
+        measurements = await got(spot.apiEndpoints.dischargesUrl!, { headers }); // TODO: Could throw
         try {
           d = JSON.parse(measurements.body).data; // TODO: Could throw
         } catch (eParse) {

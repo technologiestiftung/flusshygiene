@@ -9,7 +9,7 @@
     "dist/**/*.d.ts"
   ],
   "watch": ["./dist"],
-  "exec": "node -r dotenv/config --inspect dist/index.js",
+  "exec": "node -r dotenv-flow/config --inspect dist/index.js",
   "ext": "ts,json",
   "restartable": "rs",
   "verbose": true,

@@ -1,11 +1,11 @@
 # `@tsb/cronbot`
 
-> TODO: description
+A bot for automating tasks like
 
-## Usage
+- fetching user data
+- making predictions
 
-```
-const cronbot = require('@tsb/cronbot');
+It runs as an AWS ECS Fargate service on a daily schedule.
 
-// TODO: DEMONSTRATE API
-```
+The
+

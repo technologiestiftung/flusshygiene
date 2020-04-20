@@ -9,7 +9,8 @@ import shortid from "shortid";
 import { GenericType } from "../../common/types";
 import { unique } from "../../utils/unique-values";
 import { isURL } from "../../utils/is-url";
-
+import { buildHeaders } from "../../common/headers";
+const headers = buildHeaders();
 const db = DB.getInstance();
 export const getGenericData: (type: GenericType) => Promise<void> = async (
   type,
@@ -42,7 +43,7 @@ export const getGenericData: (type: GenericType) => Promise<void> = async (
             };
             try {
               logger.info("item url", JSON.stringify(item.url));
-              const response = await got(item.url);
+              const response = await got(item.url, { headers });
 
               try {
                 const jdata = JSON.parse(response.body);

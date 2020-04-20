@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import path from "path";
 import { logger } from "./utils/logger";
 import { globals } from "./common/globals";
 // should be able to call the cronbot manually
@@ -50,15 +51,20 @@ globals.setAdminOnly(cli.flags.adminonly);
 globals.setVerbose(cli.flags.verbose);
 globals.setSkipMail(cli.flags.skipmail);
 globals.setPredict(cli.flags.predict);
-// console.log(cli.flags);
+console.log(cli.flags);
 // process.exit();
 
-if (cli.flags.diskToken !== undefined) {
+if (cli.flags.hasOwnProperty("diskToken") === true) {
   try {
-    if (fs.existsSync(cli.flags.diskToken) === false) {
+    if (
+      fs.existsSync(path.resolve(process.cwd(), cli.flags.diskToken)) === false
+    ) {
       throw new Error("Token path is wrong");
     }
-    const token = fs.readFileSync(cli.flags.diskToken, "utf8");
+    const token = fs.readFileSync(
+      path.resolve(process.cwd(), cli.flags.diskToken),
+      "utf8",
+    );
     if (token.startsWith("Bearer") === false) {
       throw new Error("Token on disk is wrong");
     }

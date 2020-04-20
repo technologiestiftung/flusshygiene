@@ -1,5 +1,6 @@
 resource "aws_cloudwatch_log_group" "cronbot" {
   name = "${var.prefix}-${var.name}-${var.env}"
+  retention_in_days = 7
   tags = {
     name    = "${var.prefix}-${var.name}-${var.env}"
     project = "flusshygiene"
@@ -14,7 +15,7 @@ resource "aws_ecs_task_definition" "task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
-  execution_role_arn       = "${aws_iam_role.task_execution_role.arn}"
+  execution_role_arn       = aws_iam_role.task_execution_role.arn
   # the difinition could also be located in a file
   # container_definitions = "${file("task-definitions/service.json")}"
   container_definitions = <<JSON
@@ -32,22 +33,6 @@ resource "aws_ecs_task_definition" "task" {
     "environment": [
       {"name":"ECS_AVAILABLE_LOGGING_DRIVERS",
       "value":"'[\"json-file\",\"awslogs\"]'"
-      },
-      {
-        "name": "MAILGUN_FROM",
-        "value": "${var.mailgun_from}"
-      },
-      {
-        "name": "MAILGUN_TO",
-        "value": "${var.mailgun_to}"
-      },
-      {
-        "name": "MAILGUN_DOMAIN",
-        "value": "${var.mailgun_domain}"
-      },
-      {
-        "name": "MAILGUN_APIKEY",
-        "value": "${var.mailgun_api_key}"
       },
       {
         "name": "AUTH0_TOKEN_ISSUER",
