@@ -1,5 +1,5 @@
-import React from 'react';
-import { SpotAddonTag } from './Spot-AddonTag';
+import React from "react";
+import { SpotAddonTag } from "./Spot-AddonTag";
 
 export interface ISpotBodyAddon {
   cyanoPossible?: boolean;
@@ -16,23 +16,23 @@ export interface ISpotBodyAddon {
 }
 
 const keyTextMapping = {
-  bathrooms: 'Waschräume',
-  bathroomsMobile: 'Mobile Waschräume',
-  cyanoPossible: 'Cyanobakterien möglich',
-  disabilityAccess: 'Barrierefrei',
-  disabilityAccessBathrooms: 'Barrierefreie Waschräume',
-  dogban: 'Hundeverbot',
-  hasDisabilityAccesableEntrence: 'Barrierefreier Eingang',
-  lifeguard: 'Rettungschwimmer',
-  parkingSpots: 'Parkplätze',
-  restaurant: 'Restaurant',
-  snack: 'Imbiss',
-  waterRescue: 'Wasserrettung',
+  bathrooms: "Waschräume",
+  bathroomsMobile: "Mobile Waschräume",
+  cyanoPossible: "Cyanobakterien möglich",
+  disabilityAccess: "Barrierefrei",
+  disabilityAccessBathrooms: "Barrierefreie Waschräume",
+  dogban: "Hundeverbot",
+  hasDisabilityAccesableEntrence: "Barrierefreier Eingang",
+  lifeguard: "Rettungschwimmer",
+  parkingSpots: "Parkplätze",
+  restaurant: "Restaurant",
+  snack: "Imbiss",
+  waterRescue: "Wasserrettung",
 };
 
 export const SpotBodyAddonTagGroup: React.FC<ISpotBodyAddon> = (props) => {
   return (
-    <div className='field is-grouped is-grouped-multiline'>
+    <div className="field is-grouped is-grouped-multiline">
       {Object.keys(props).map((key: string, i: number) => {
         // console.log(key);
         if (props.hasOwnProperty(key) === true) {

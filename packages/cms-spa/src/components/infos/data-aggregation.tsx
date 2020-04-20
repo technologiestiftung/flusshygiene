@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 export const InfoDataAggregation = () => {
   return (
-    <div className='content' style={{ paddingTop: '1rem' }}>
+    <div className="content" style={{ paddingTop: "1rem" }}>
       <p>
         Automatisierte Datenaggregation <br />
         Um Daten automatisiert für ihre Badestelle bereit zu stellen, müssen sie

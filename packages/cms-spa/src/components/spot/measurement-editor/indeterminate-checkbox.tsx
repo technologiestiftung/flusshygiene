@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // TODO: Types ae not in sync with repo react-table
 export const IndeterminateCheckbox: any = React.forwardRef(
   // @ts-ignore
@@ -11,7 +11,7 @@ export const IndeterminateCheckbox: any = React.forwardRef(
     }, [resolvedRef, indeterminate]);
     return (
       <>
-        <input type='checkbox' ref={resolvedRef} {...rest} />
+        <input type="checkbox" ref={resolvedRef} {...rest} />
       </>
     );
   },

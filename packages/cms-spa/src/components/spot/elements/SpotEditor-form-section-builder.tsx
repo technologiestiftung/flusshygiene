@@ -1,8 +1,8 @@
-import React from 'react';
-import { SpotEditorInput } from './SpotEditor-Input';
-import { SpotEditorCheckbox } from './SpotEditor-Checkbox';
-import { SpotEditorSelect } from './SpotEditor-Select';
-import { IFormBuildData } from '../../../lib/common/interfaces';
+import React from "react";
+import { SpotEditorInput } from "./SpotEditor-Input";
+import { SpotEditorCheckbox } from "./SpotEditor-Checkbox";
+import { SpotEditorSelect } from "./SpotEditor-Select";
+import { IFormBuildData } from "../../../lib/common/interfaces";
 
 export const formSectionBuilder: (
   data: IFormBuildData[],
@@ -10,9 +10,9 @@ export const formSectionBuilder: (
 ) => (JSX.Element | undefined)[] = (data, handleChange) => {
   const res = data.map((datum, i) => {
     switch (datum.type) {
-      case 'text':
-      case 'number':
-      case 'email':
+      case "text":
+      case "number":
+      case "email":
         return (
           <SpotEditorInput
             key={i}
@@ -26,7 +26,7 @@ export const formSectionBuilder: (
             // }
           />
         );
-      case 'checkbox':
+      case "checkbox":
         return (
           <SpotEditorCheckbox
             key={i}
@@ -36,7 +36,7 @@ export const formSectionBuilder: (
             value={datum.value! as boolean}
           />
         );
-      case 'select':
+      case "select":
         return (
           <SpotEditorSelect
             key={i}

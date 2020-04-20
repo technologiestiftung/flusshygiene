@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 export interface ISpotImage {
   image?: string | null;
   nameLong?: string;
@@ -7,13 +7,13 @@ export interface ISpotImage {
 }
 
 export const SpotImage: React.FC<ISpotImage> = (props) => (
-  <figure className='image is-16by9'>
+  <figure className="image is-16by9">
     <img
       src={(() => {
         if (props.image === null) {
-          return '/placeholder16-9.svg';
+          return "/placeholder16-9.svg";
         } else if (props.image === undefined || props.image.length === 0) {
-          return '/placeholder16-9.svg';
+          return "/placeholder16-9.svg";
         } else {
           return props.image;
         }
@@ -22,11 +22,11 @@ export const SpotImage: React.FC<ISpotImage> = (props) => (
       title={`${props.name}`}
     />
     <figcaption>
-      Bildquelle:{' '}
+      Bildquelle:{" "}
       {(() => {
         return props.imageAuthor !== undefined
           ? `${props.imageAuthor}`
-          : 'Unbekannt';
+          : "Unbekannt";
       })()}
     </figcaption>
   </figure>

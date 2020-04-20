@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container } from '../../Container';
+import React from "react";
+import { Container } from "../../Container";
 export function SpotHr() {
   return (
     <Container>

@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { Container } from '../../Container';
-import { Formik, Form } from 'formik';
-import { FormikButtons } from '../formik-helpers/FormikButtons';
-import { SpotEditorInput } from '../elements/SpotEditor-Input';
+import React, { useState } from "react";
+import { Container } from "../../Container";
+import { Formik, Form } from "formik";
+import { FormikButtons } from "../formik-helpers/FormikButtons";
+import { SpotEditorInput } from "../elements/SpotEditor-Input";
 import {
   ClickFunction,
   IInitialGiPPValues,
   RequestResourceTypes,
-} from '../../../lib/common/interfaces';
-import { singlePPlantGiSchema } from '../../../lib/utils/spot-validation-schema';
-import { actionCreator } from '../../../lib/utils/pgapi-actionCreator';
-import { useAuth0 } from '../../../lib/auth/react-auth0-wrapper';
-import { REACT_APP_API_HOST } from '../../../lib/config';
-import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
-import { apiRequest, useApi } from '../../../contexts/postgres-api';
-import { InfoAutoData } from '../elements/SpotEditor-Measurments-Info';
+} from "../../../lib/common/interfaces";
+import { singlePPlantGiSchema } from "../../../lib/utils/spot-validation-schema";
+import { actionCreator } from "../../../lib/utils/pgapi-actionCreator";
+import { useAuth0 } from "../../../lib/auth/react-auth0-wrapper";
+import { REACT_APP_API_HOST } from "../../../lib/config";
+import { APIMountPoints, ApiResources } from "../../../lib/common/enums";
+import { apiRequest, useApi } from "../../../contexts/postgres-api";
+import { InfoAutoData } from "../elements/SpotEditor-Measurments-Info";
 
 export const GIPPEditor: React.FC<{
   handleCancelClick: ClickFunction;
   intitalValues?: IInitialGiPPValues;
-  reqType?: 'POST' | 'PUT';
+  reqType?: "POST" | "PUT";
   resourceType: RequestResourceTypes;
   userId: number;
   spotId: number;
@@ -36,10 +36,10 @@ export const GIPPEditor: React.FC<{
   handleSubmitClose,
 }) => {
   if (reqType === undefined) {
-    throw new Error('Request type needs to be POST or PUT');
+    throw new Error("Request type needs to be POST or PUT");
   }
-  if (subItemId === undefined && reqType === 'PUT') {
-    throw new Error('subItemId needs to be defined');
+  if (subItemId === undefined && reqType === "PUT") {
+    throw new Error("subItemId needs to be defined");
   }
   const [, apiDispatch] = useApi();
 
@@ -51,7 +51,7 @@ export const GIPPEditor: React.FC<{
   const BASE_URL = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${
     ApiResources.users
   }/${userId}/${ApiResources.bathingspots}/${spotId}/${
-    resourceType === 'genericInputs' ? 'genericInputs' : 'purificationPlants'
+    resourceType === "genericInputs" ? "genericInputs" : "purificationPlants"
   }`;
   //console.log(BASE_URL);
 
@@ -81,9 +81,9 @@ export const GIPPEditor: React.FC<{
         url: `${BASE_URL}/${subItemId}`,
         method: reqType,
         resource:
-          resourceType === 'gInputMeasurements'
-            ? 'genericInputs'
-            : 'purificationPlants',
+          resourceType === "gInputMeasurements"
+            ? "genericInputs"
+            : "purificationPlants",
         body: { url, name },
         token,
       });
@@ -94,7 +94,7 @@ export const GIPPEditor: React.FC<{
       throw error;
     }
   };
-  const initValues = intitalValues ? intitalValues : { url: '', name: '' };
+  const initValues = intitalValues ? intitalValues : { url: "", name: "" };
   // useEffect(() => {
   //   setReqType(intitalValues ? 'POST' : 'PUT');
   // }, [setReqType, intitalValues]);
@@ -110,7 +110,7 @@ export const GIPPEditor: React.FC<{
             // bag.setSubmitting(false);
             //
             bag.setSubmitting(false);
-            if (reqType === 'POST') {
+            if (reqType === "POST") {
               postData(values.name, values.url)
                 .then(() => {})
                 .catch((err) => {
@@ -118,7 +118,7 @@ export const GIPPEditor: React.FC<{
                   // bag.setSubmitting(false);
                 });
             }
-            if (reqType === 'PUT') {
+            if (reqType === "PUT") {
               putData(values.name, values.url)
                 .then(() => {
                   // bag.setSubmitting(false);
@@ -140,8 +140,8 @@ export const GIPPEditor: React.FC<{
                     setShowInfo((value) => !value);
                   }}
                 ></FormikButtons>
-                <SpotEditorInput label='Name' type='text' name='name' />
-                <SpotEditorInput label='http(s) URL' type='text' name='url' />
+                <SpotEditorInput label="Name" type="text" name="name" />
+                <SpotEditorInput label="http(s) URL" type="text" name="url" />
               </Form>
             );
           }}

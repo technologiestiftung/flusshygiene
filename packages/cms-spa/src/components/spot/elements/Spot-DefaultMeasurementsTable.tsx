@@ -1,15 +1,15 @@
-import React from 'react';
-import { IDefaultMeasurement } from '../../../lib/common/interfaces';
-import { Table, TableBody, TableRow } from './Spot-Table';
+import React from "react";
+import { IDefaultMeasurement } from "../../../lib/common/interfaces";
+import { Table, TableBody, TableRow } from "./Spot-Table";
 import {
   arraySortByDateField,
   genericLastElements,
-} from '../../../lib/utils/array-helpers';
+} from "../../../lib/utils/array-helpers";
 import {
   roundToFloatDigits,
   formatDate,
-} from '../../../lib/utils/formatting-helpers';
-import { hasAutoData } from '../../../lib/utils/has-autodata-url';
+} from "../../../lib/utils/formatting-helpers";
+import { hasAutoData } from "../../../lib/utils/has-autodata-url";
 export const DefaultTable: React.FC<{
   measurements?: IDefaultMeasurement[];
   unit: string;
@@ -20,13 +20,13 @@ export const DefaultTable: React.FC<{
       <TableBody>
         {(() => {
           if (measurements === undefined || measurements.length === 0) {
-            return <TableRow th={'k. A.'} tds={['']}></TableRow>;
+            return <TableRow th={"k. A."} tds={[""]}></TableRow>;
           }
           const dateOpts: Intl.DateTimeFormatOptions = {
-            day: 'numeric',
-            month: 'short',
-            weekday: 'short',
-            year: 'numeric',
+            day: "numeric",
+            month: "short",
+            weekday: "short",
+            year: "numeric",
           };
           const sortedMeasurement = measurements.sort(arraySortByDateField);
           const lastFive = genericLastElements<IDefaultMeasurement>(
@@ -46,7 +46,7 @@ export const DefaultTable: React.FC<{
           rows.push(
             <TableRow
               key={6}
-              th={'Automatisiert'}
+              th={"Automatisiert"}
               tds={[
                 hasAutoData(localHasAutoData !== undefined, undefined, true),
               ]}

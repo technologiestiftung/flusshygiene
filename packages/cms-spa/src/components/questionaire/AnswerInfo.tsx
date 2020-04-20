@@ -1,7 +1,7 @@
-import React from 'react';
-import { IAnswer } from '../../lib/common/interfaces';
-import { colorNameToIcon, questionTypeToIcon } from '../fontawesome-icons';
-import { IFormikQuestionState } from './Question';
+import React from "react";
+import { IAnswer } from "../../lib/common/interfaces";
+import { colorNameToIcon, questionTypeToIcon } from "../fontawesome-icons";
+import { IFormikQuestionState } from "./Question";
 export const AnswerInfo: React.FC<{
   selectedAnswer: IAnswer | undefined;
   formikValues: IFormikQuestionState;
@@ -26,31 +26,31 @@ export const AnswerInfo: React.FC<{
   }
   if (aAddInfo && koMatch === true) {
     return (
-      <div className='message is-danger'>
-        <div className='message-header'>
-          <div className='content'>
+      <div className="message is-danger">
+        <div className="message-header">
+          <div className="content">
             <span>{colIcon}</span>
             <span> </span>
             <span>{qTypeIcon}</span>
             <span> </span>
-            {'K.O.-Kriterium'}
+            {"K.O.-Kriterium"}
           </div>
         </div>
         <div
-          className='message-body'
+          className="message-body"
           dangerouslySetInnerHTML={{
             __html:
               aAddInfo !== undefined
-                ? aAddInfo.replace(/k.o.-kriterium:\s/i, '')
-                : '',
+                ? aAddInfo.replace(/k.o.-kriterium:\s/i, "")
+                : "",
           }}
         ></div>
       </div>
     );
   } else if (aAddInfo) {
     return (
-      <div className='message'>
-        <div className='message-body is-dark'>
+      <div className="message">
+        <div className="message-body is-dark">
           <p>
             <span>{colIcon}</span>
             <span> </span>
@@ -58,7 +58,7 @@ export const AnswerInfo: React.FC<{
             <span> </span>
             <span
               dangerouslySetInnerHTML={{
-                __html: aAddInfo !== undefined ? aAddInfo : '',
+                __html: aAddInfo !== undefined ? aAddInfo : "",
               }}
             ></span>
           </p>

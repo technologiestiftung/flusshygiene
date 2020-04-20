@@ -1,13 +1,13 @@
-import React from 'react';
-import { ClickFunction } from '../../../lib/common/interfaces';
-import { IconEdit } from '../../fontawesome-icons';
-import { ButtonIcon } from '../../Buttons';
+import React from "react";
+import { ClickFunction } from "../../../lib/common/interfaces";
+import { IconEdit } from "../../fontawesome-icons";
+import { ButtonIcon } from "../../Buttons";
 
 type TableProps = { children: React.ReactNode; className?: string };
 
 const Table: React.FC<TableProps> = ({ children, className }) => {
   return (
-    <table className={`${className !== undefined ? className : ''} table`}>
+    <table className={`${className !== undefined ? className : ""} table`}>
       {children}
     </table>
   );
@@ -15,7 +15,7 @@ const Table: React.FC<TableProps> = ({ children, className }) => {
 
 const TableBody: React.FC<TableProps> = ({ children, className }) => {
   return (
-    <tbody className={`${className !== undefined ? className : ''}`}>
+    <tbody className={`${className !== undefined ? className : ""}`}>
       {children}
     </tbody>
   );
@@ -39,7 +39,7 @@ const TableRowWithUrl: React.FC<{
     <tr>
       <th>{th}</th>
       <td>
-        <a href={url} target='_blank' rel='noopener noreferrer'>
+        <a href={url} target="_blank" rel="noopener noreferrer">
           {content}
         </a>
       </td>

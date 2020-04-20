@@ -1,9 +1,9 @@
-import { IBathingspot } from '../../../lib/common/interfaces';
-import { SpotBodyAddonTagGroup } from './Spot-AddonTag-Group';
-import React from 'react';
+import { IBathingspot } from "../../../lib/common/interfaces";
+import { SpotBodyAddonTagGroup } from "./Spot-AddonTag-Group";
+import React from "react";
 export function SpotAdditionalTags(spot: IBathingspot): React.ReactNode {
   return (
-    <div className='bathingspot__body-addon'>
+    <div className="bathingspot__body-addon">
       <h3>Weitere Angaben zur Badesstelle</h3>
       <SpotBodyAddonTagGroup
         cyanoPossible={spot.cyanoPossible}

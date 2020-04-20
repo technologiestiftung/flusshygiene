@@ -1,8 +1,8 @@
-import React from 'react';
-import { RouteNames } from '../../../lib/common/enums';
-import { IBathingspot } from '../../../lib/common/interfaces';
+import React from "react";
+import { RouteNames } from "../../../lib/common/enums";
+import { IBathingspot } from "../../../lib/common/interfaces";
 // import '../../assets/styles/card.scss';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export interface ISpotCard {
   title: string;
@@ -25,21 +25,21 @@ export const CardTile: React.FC<ISpotCard> = ({
 }) => {
   // console.log(spot, '<----------');
   return (
-    <div className='card card__profile--pad'>
-      <div className='card-image'>
-        <figure className='image is-16by9'>
-          <img src={image === null ? '/placeholder16-9.svg' : image} alt={''} />
+    <div className="card card__profile--pad">
+      <div className="card-image">
+        <figure className="image is-16by9">
+          <img src={image === null ? "/placeholder16-9.svg" : image} alt={""} />
         </figure>
       </div>
 
-      <div className='card-content'>
-        <div className='media'>
-          <div className='media-content'>
-            <p className='title is-6'>
-              {title}{' '}
+      <div className="card-content">
+        <div className="media">
+          <div className="media-content">
+            <p className="title is-6">
+              {title}{" "}
               {(() => {
                 if (hasPrediction === true) {
-                  return <span className='asteriks'> * </span>;
+                  return <span className="asteriks"> * </span>;
                 }
                 return null;
               })()}
@@ -57,7 +57,7 @@ export const CardTile: React.FC<ISpotCard> = ({
             })()} */}
           </div>
         </div>
-        <div className='content'>
+        <div className="content">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -75,9 +75,9 @@ export const CardTile: React.FC<ISpotCard> = ({
           <br />
         </div>
       </div>
-      <footer className='card-footer'>
+      <footer className="card-footer">
         <Link
-          className='card-footer-item'
+          className="card-footer-item"
           to={`/${RouteNames.bathingspot}/${id}`}
         >
           Detail
@@ -86,7 +86,7 @@ export const CardTile: React.FC<ISpotCard> = ({
           if (isUserLoggedIn !== undefined && isUserLoggedIn === true) {
             return (
               <Link
-                className='card-footer-item'
+                className="card-footer-item"
                 to={`/${RouteNames.bathingspot}/${id}`}
               >
                 Bearbeiten

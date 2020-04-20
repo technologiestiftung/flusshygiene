@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import { useQuestions, IQuestionsState } from '../../contexts/questionaire';
-import { useState } from 'react';
-import { Formik, Form, FieldArray, Field, FormikState } from 'formik';
-import { Container } from '../Container';
-import { QToolBar } from './QToolBar';
-import { Pagination } from './Pagination';
-import history from '../../lib/history';
-import { RouteNames } from '../../lib/common/enums';
-import { IAnswer, ClickFunction } from '../../lib/common/interfaces';
-import { createLinks } from '../../lib/utils/questionnaire-additional-texts-filter';
-import { QIntroNew } from './QIntro';
-import { AnswerInfo } from './AnswerInfo';
-import { Modal } from '../util/modal';
-import { useMessages } from '../../contexts/messages';
-import { UploadError } from '../../errors/questionnaire/upload-errors';
+import React, { useEffect } from "react";
+import { useQuestions, IQuestionsState } from "../../contexts/questionaire";
+import { useState } from "react";
+import { Formik, Form, FieldArray, Field, FormikState } from "formik";
+import { Container } from "../Container";
+import { QToolBar } from "./QToolBar";
+import { Pagination } from "./Pagination";
+import history from "../../lib/history";
+import { RouteNames } from "../../lib/common/enums";
+import { IAnswer, ClickFunction } from "../../lib/common/interfaces";
+import { createLinks } from "../../lib/utils/questionnaire-additional-texts-filter";
+import { QIntroNew } from "./QIntro";
+import { AnswerInfo } from "./AnswerInfo";
+import { Modal } from "../util/modal";
+import { useMessages } from "../../contexts/messages";
+import { UploadError } from "../../errors/questionnaire/upload-errors";
 
 export interface IFormikQuestionState {
   answersIds: string[];
@@ -25,10 +25,10 @@ export interface IFormikQuestionState {
  *
  */
 export const Question: React.FC<{ qid: number }> = ({ qid }) => {
-  const [title, setTitle] = useState('');
-  const [qInfo, setQInfo] = useState('');
-  const [question, setQuestion] = useState('');
-  const [qAddInfo, setQAddInfo] = useState('');
+  const [title, setTitle] = useState("");
+  const [qInfo, setQInfo] = useState("");
+  const [question, setQuestion] = useState("");
+  const [qAddInfo, setQAddInfo] = useState("");
   const [curAnswers, setCurAnswers] = useState<IAnswer[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<IAnswer>();
   const [aAddInfo, setAAddInfo] = useState<string>();
@@ -36,7 +36,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   const [state, dispatch] = useQuestions();
   const [formReadyToRender, setFormReadyToRender] = useState(false);
   const [answersIds, setAnswersIds] = useState<string[]>([]);
-  const [questionnaireTitle, setquestionnaireTitle] = useState<string>('');
+  const [questionnaireTitle, setquestionnaireTitle] = useState<string>("");
   const [isModalActive, setIsModalActive] = useState(false);
   const [isConfirmationModalActive, setIsConfirmationModalActive] = useState(
     false,
@@ -46,7 +46,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   useEffect(() => {
     // if (state.title === undefined) return;
     setquestionnaireTitle((_) => {
-      const res = state.title !== undefined ? state.title : '';
+      const res = state.title !== undefined ? state.title : "";
       return res;
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -121,24 +121,24 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     }
     const firstFile = event.currentTarget.files[0];
 
-    if (firstFile.type !== 'application/json') {
+    if (firstFile.type !== "application/json") {
       messageDispatch({
-        type: 'ADD_MESSAGE',
+        type: "ADD_MESSAGE",
         payload: {
           message: `Datei "${firstFile.name}" ist keine .json Datei.`,
-          type: 'error',
+          type: "error",
         },
       });
       return;
     }
     const reader = new FileReader();
-    reader.readAsText(firstFile, 'UTF-8');
+    reader.readAsText(firstFile, "UTF-8");
     reader.onerror = (e) => {
       messageDispatch({
-        type: 'ADD_MESSAGE',
+        type: "ADD_MESSAGE",
         payload: {
           message: `Datei "${firstFile.name}" konnte nicht gelesen werden.`,
-          type: 'error',
+          type: "error",
         },
       });
       return;
@@ -171,30 +171,30 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
           answers: [...json.contextState.answers],
           title: json.contextState.title,
         }; //upload;
-        dispatch({ type: 'SET_STATE', payload: { state } });
+        dispatch({ type: "SET_STATE", payload: { state } });
       } catch (error) {
         if (error instanceof SyntaxError) {
           messageDispatch({
-            type: 'ADD_MESSAGE',
+            type: "ADD_MESSAGE",
             payload: {
-              message: 'Kein valides JSON',
-              type: 'error',
+              message: "Kein valides JSON",
+              type: "error",
             },
           });
         } else if (error instanceof UploadError) {
           messageDispatch({
-            type: 'ADD_MESSAGE',
+            type: "ADD_MESSAGE",
             payload: {
               message: error.message,
-              type: 'error',
+              type: "error",
             },
           });
         } else {
           messageDispatch({
-            type: 'ADD_MESSAGE',
+            type: "ADD_MESSAGE",
             payload: {
               message: error.message,
-              type: 'error',
+              type: "error",
             },
           });
         }
@@ -211,7 +211,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
       nextState?: Partial<FormikState<IFormikQuestionState>> | undefined,
     ) => void,
   ) => void = (_e, resetForm) => {
-    dispatch({ type: 'REMOVE_ANSWERS' });
+    dispatch({ type: "REMOVE_ANSWERS" });
     resetStates();
     resetForm?.();
     setIsConfirmationModalActive(false);
@@ -230,10 +230,10 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
     ) => void,
   ) => {
     if (values.answersIds.length > 0) {
-      const answerQid = values.answersIds[0].split('-')[0];
+      const answerQid = values.answersIds[0].split("-")[0];
       if (parseInt(answerQid, 10) === qid) {
         dispatch({
-          type: 'SET_ANSWER',
+          type: "SET_ANSWER",
           payload: {
             index: qid,
             answer:
@@ -248,17 +248,17 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
   return (
     <>
       <div
-        className={`modal ${isModalActive ? 'is-active' : ''}`}
+        className={`modal ${isModalActive ? "is-active" : ""}`}
         onClick={handleModalClick}
       >
-        <div className='modal-background'></div>
-        <div className='modal-content' onClick={handleModalClick}>
+        <div className="modal-background"></div>
+        <div className="modal-content" onClick={handleModalClick}>
           <button
             onClick={handleModalClick}
-            className='modal-close is-large'
-            aria-label='close'
+            className="modal-close is-large"
+            aria-label="close"
           ></button>
-          <div className='box' onClick={handleModalClick}>
+          <div className="box" onClick={handleModalClick}>
             <QIntroNew isModal={true} />
           </div>
         </div>
@@ -276,11 +276,11 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
           onSubmit={(values, { setSubmitting, resetForm }) => {
             // console.log('submitted', values);
             dispatch({
-              type: 'SET_TITLE',
+              type: "SET_TITLE",
               payload: { title: values.questionnaireTitle },
             });
             dispatch({
-              type: 'SET_ANSWER',
+              type: "SET_ANSWER",
               payload: {
                 index: qid,
                 answer:
@@ -325,8 +325,8 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       handleUploadClick={handleUploadClick}
                     ></QToolBar>
                   </Container>
-                  <Container containerClassName={'container__--padding-top'}>
-                    <div className='buttons'>
+                  <Container containerClassName={"container__--padding-top"}>
+                    <div className="buttons">
                       <Pagination
                         pages={state.questions.length - 1}
                         currentPage={qid}
@@ -344,20 +344,20 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       ></Pagination>
                     </div>
                   </Container>
-                  <Container containerClassName={'container__--padding-top'}>
-                    <div className='field'>
-                      <div className='control'>
+                  <Container containerClassName={"container__--padding-top"}>
+                    <div className="field">
+                      <div className="control">
                         <input
-                          className='input is-small'
-                          type='text'
-                          placeholder='Geben Sie einen Title ein'
-                          name='title'
+                          className="input is-small"
+                          type="text"
+                          placeholder="Geben Sie einen Title ein"
+                          name="title"
                           value={questionnaireTitle}
                           onChange={(e: React.ChangeEvent<any>) => {
                             handleChange(e);
                             setquestionnaireTitle(e.currentTarget.value);
                             dispatch({
-                              type: 'SET_TITLE',
+                              type: "SET_TITLE",
                               payload: { title: questionnaireTitle },
                             });
                           }}
@@ -370,22 +370,22 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       label='Titel'
                     ></SpotEditorInput> */}
                   </Container>
-                  <div className='hero'>
-                    <div className='hero-body'>
+                  <div className="hero">
+                    <div className="hero-body">
                       <Container>
-                        <h1 className='is-title'>{title}</h1>
-                        <h2 className='is-subtitle'>{question}</h2>
-                        <div className='content'>
+                        <h1 className="is-title">{title}</h1>
+                        <h2 className="is-subtitle">{question}</h2>
+                        <div className="content">
                           <p
-                            className={'has-text-weight-medium is-size-5'}
-                            id='qInfo'
+                            className={"has-text-weight-medium is-size-5"}
+                            id="qInfo"
                             dangerouslySetInnerHTML={{ __html: qInfo }}
                           />
                         </div>
-                        <div className='content'>
+                        <div className="content">
                           <p
-                            className={'is-italic'}
-                            id='qAddInfo'
+                            className={"is-italic"}
+                            id="qAddInfo"
                             dangerouslySetInnerHTML={{ __html: qAddInfo }}
                           />
                         </div>
@@ -393,21 +393,21 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                     </div>
                   </div>
                   <Container>
-                    <div className='content'>
-                      <div className='control'>
+                    <div className="content">
+                      <div className="control">
                         <FieldArray
-                          name='answersIds'
+                          name="answersIds"
                           render={(arrayHelpers) => {
                             return (
                               <>
                                 {curAnswers.map((ele, i) => {
                                   return (
-                                    <div key={i} className='field'>
+                                    <div key={i} className="field">
                                       <Field
-                                        type='radio'
+                                        type="radio"
                                         id={`answer--${i}`}
                                         name={`answers`}
-                                        className={'answer'}
+                                        className={"answer"}
                                         onChange={(
                                           e: React.ChangeEvent<any>,
                                         ) => {
@@ -424,7 +424,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                                       />
                                       <label
                                         htmlFor={`answer--${i}`}
-                                        className={'radio label__answer'}
+                                        className={"radio label__answer"}
                                       >
                                         {ele.text}
                                       </label>
@@ -446,7 +446,7 @@ export const Question: React.FC<{ qid: number }> = ({ qid }) => {
                       />
                     }
                   </Container>
-                  <div style={{ paddingTop: '2rem' }}>
+                  <div style={{ paddingTop: "2rem" }}>
                     <br />
                   </div>
                   <Container>

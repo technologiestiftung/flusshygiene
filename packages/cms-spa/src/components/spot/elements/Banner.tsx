@@ -1,6 +1,6 @@
-import React from 'react';
-import { ClickFunction } from '../../../lib/common/interfaces';
-import { BannerType } from '../../../contexts/messages';
+import React from "react";
+import { ClickFunction } from "../../../lib/common/interfaces";
+import { BannerType } from "../../../contexts/messages";
 
 export const Banner: React.FC<{
   message: string;
@@ -9,20 +9,20 @@ export const Banner: React.FC<{
 }> = ({ message, handleClose, bannerType }) => {
   let typeClassname: string;
   switch (bannerType) {
-    case 'normal': {
-      typeClassname = 'is-primary';
+    case "normal": {
+      typeClassname = "is-primary";
       break;
     }
-    case 'warning': {
-      typeClassname = 'is-warning';
+    case "warning": {
+      typeClassname = "is-warning";
       break;
     }
-    case 'error': {
-      typeClassname = 'is-danger';
+    case "error": {
+      typeClassname = "is-danger";
       break;
     }
     default: {
-      typeClassname = '';
+      typeClassname = "";
       break;
     }
   }
@@ -30,7 +30,7 @@ export const Banner: React.FC<{
     <div
       className={`notification spot__calib-notification--on-top ${typeClassname}`}
     >
-      <button className='delete' onClick={handleClose}></button>
+      <button className="delete" onClick={handleClose}></button>
       {message}
     </div>
   );

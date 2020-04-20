@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useTable, useSortBy, useRowSelect } from 'react-table';
+import React, { useState, useEffect } from "react";
+import { useTable, useSortBy, useRowSelect } from "react-table";
 import {
   ClickFunction,
   RequestResourceTypes,
@@ -11,8 +11,8 @@ import {
   ApiEndpointsLinkTypes,
   MGDUploaderDataType,
   IBathingspot,
-} from '../../../lib/common/interfaces';
-import { ButtonIcon } from '../../Buttons';
+} from "../../../lib/common/interfaces";
+import { ButtonIcon } from "../../Buttons";
 import {
   IconCloseWin,
   IconTrash,
@@ -22,22 +22,22 @@ import {
   IconRain,
   IconComment,
   IconCalc,
-} from '../../fontawesome-icons';
-import { Container } from '../../Container';
-import { prepareData } from '../../../lib/utils/me-prepare-data';
-import { IndeterminateCheckbox } from './indeterminate-checkbox';
-import { Modal } from '../../util/modal';
-import { useAuth0 } from '../../../lib/auth/react-auth0-wrapper';
-import { REACT_APP_API_HOST } from '../../../lib/config';
-import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
-import { actionCreator } from '../../../lib/utils/pgapi-actionCreator';
-import { apiRequest, useApi } from '../../../contexts/postgres-api';
-import { GIPPEditor } from './gi-pp-editor';
-import { GiPPUploader } from './gi-pp-uploader';
-import { MGDEditor } from './m-g-d-editor';
-import { MGDUploader } from './m-g-d-uploader';
-import { useOcpu } from '../../../contexts/opencpu';
-import { CSVLink } from 'react-csv';
+} from "../../fontawesome-icons";
+import { Container } from "../../Container";
+import { prepareData } from "../../../lib/utils/me-prepare-data";
+import { IndeterminateCheckbox } from "./indeterminate-checkbox";
+import { Modal } from "../../util/modal";
+import { useAuth0 } from "../../../lib/auth/react-auth0-wrapper";
+import { REACT_APP_API_HOST } from "../../../lib/config";
+import { APIMountPoints, ApiResources } from "../../../lib/common/enums";
+import { actionCreator } from "../../../lib/utils/pgapi-actionCreator";
+import { apiRequest, useApi } from "../../../contexts/postgres-api";
+import { GIPPEditor } from "./gi-pp-editor";
+import { GiPPUploader } from "./gi-pp-uploader";
+import { MGDEditor } from "./m-g-d-editor";
+import { MGDUploader } from "./m-g-d-uploader";
+import { useOcpu } from "../../../contexts/opencpu";
+import { CSVLink } from "react-csv";
 export const MeasurementEditor: React.FC<{
   handleCloseClick: ClickFunction;
   inData: any;
@@ -71,7 +71,7 @@ export const MeasurementEditor: React.FC<{
   const [ppInfos, setPPInfos] = useState<IPurificationPlant | undefined>(
     undefined,
   );
-  const [ppgiReqType, setPpgiReqType] = useState<'PUT' | 'POST' | undefined>(
+  const [ppgiReqType, setPpgiReqType] = useState<"PUT" | "POST" | undefined>(
     undefined,
   );
   const [linkType, setLinkType] = useState<ApiEndpointsLinkTypes | undefined>(
@@ -86,7 +86,7 @@ export const MeasurementEditor: React.FC<{
     setCurrentSpot(curSpot);
 
     switch (resourceType) {
-      case 'gInputMeasurements': {
+      case "gInputMeasurements": {
         if (
           curSpot.genericInputs === undefined ||
           curSpot.genericInputs.length === 0
@@ -101,7 +101,7 @@ export const MeasurementEditor: React.FC<{
         setGiInfos(item);
         break;
       }
-      case 'pplantMeasurements': {
+      case "pplantMeasurements": {
         if (
           curSpot.purificationPlants === undefined ||
           curSpot.purificationPlants.length === 0
@@ -157,7 +157,7 @@ export const MeasurementEditor: React.FC<{
       hooks.flatColumns.push((columns) => [
         // Let's make a column for selection
         {
-          id: 'selection',
+          id: "selection",
           // The header can use the table's getToggleAllRowsSelectedProps method
           // to render a checkbox
           Header: ({ getToggleAllRowsSelectedProps }) => (
@@ -188,13 +188,13 @@ export const MeasurementEditor: React.FC<{
       // TODO: Test deletion!! 2020-02-06 18:09:41
       const BASE_URL = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${user.pgapiData.id}/${ApiResources.bathingspots}/${spotId}`;
 
-      let url = '';
+      let url = "";
       // console.log(resourceType);
       switch (resourceType) {
-        case 'gInputMeasurements':
+        case "gInputMeasurements":
           url = `${BASE_URL}/${ApiResources.genericInputs}/${subItemId}/${ApiResources.measurements}`;
           break;
-        case 'pplantMeasurements':
+        case "pplantMeasurements":
           url = `${BASE_URL}/${ApiResources.purificationPlants}/${subItemId}/${ApiResources.measurements}`;
           break;
         default:
@@ -202,7 +202,7 @@ export const MeasurementEditor: React.FC<{
           break;
       }
       const action = actionCreator({
-        method: 'DELETE',
+        method: "DELETE",
         type: ApiActionTypes.START_API_REQUEST,
         token,
         url,
@@ -224,7 +224,7 @@ export const MeasurementEditor: React.FC<{
     // TODO: Remove me
     // console.log('click');
     if (Object.keys(selectedRowIds).length === 0) {
-      alert('Es ist nichts zum löschen ausgewählt');
+      alert("Es ist nichts zum löschen ausgewählt");
       return;
     }
     setModalIsActive(true);
@@ -265,14 +265,14 @@ export const MeasurementEditor: React.FC<{
           resourceType={resourceType}
           title={(() => {
             switch (MGDDataType) {
-              case 'discharges':
-                return 'Durchfluss Messungen';
-              case 'globalIrradiances':
-                return 'Globalstrahlung Messungen';
-              case 'measurements':
-                return 'E.C./I.C. Messungen';
+              case "discharges":
+                return "Durchfluss Messungen";
+              case "globalIrradiances":
+                return "Globalstrahlung Messungen";
+              case "measurements":
+                return "E.C./I.C. Messungen";
               default:
-                return '¯\\_(ツ)_/¯';
+                return "¯\\_(ツ)_/¯";
             }
           })()}
           handleSubmitClose={() => {
@@ -285,7 +285,7 @@ export const MeasurementEditor: React.FC<{
       )}
       {showMGDEditor && (
         <MGDEditor
-          reqType={'PUT'}
+          reqType={"PUT"}
           userId={user.pgapiData.id}
           spotId={spotId}
           resourceType={resourceType}
@@ -318,13 +318,13 @@ export const MeasurementEditor: React.FC<{
 
       {(() => {
         switch (resourceType) {
-          case 'rains':
-          case 'models':
-          case 'predictions': {
+          case "rains":
+          case "models":
+          case "predictions": {
             return (
               <Container>
-                <div className='content'>
-                  <p className='is-warning'>
+                <div className="content">
+                  <p className="is-warning">
                     Diese Werte werden vom Vorhersage System generiert und
                     sollten nicht manuell bearbeitet werden.
                   </p>
@@ -358,32 +358,32 @@ export const MeasurementEditor: React.FC<{
         showMGDEditor === false &&
         showMGDUploader === false && (
           <>
-            {' '}
+            {" "}
             <Container>
-              <div className='buttons buttons__--size'>
+              <div className="buttons buttons__--size">
                 {(() => {
                   switch (resourceType) {
-                    case 'predictions':
-                    case 'models':
-                    case 'rains': {
+                    case "predictions":
+                    case "models":
+                    case "rains": {
                       let text: string;
                       let icon: JSX.Element;
                       let cssId: string;
                       switch (resourceType) {
-                        case 'rains':
+                        case "rains":
                           icon = <IconRain></IconRain>;
-                          text = 'Regen Laden';
-                          cssId = 'calibrate';
+                          text = "Regen Laden";
+                          cssId = "calibrate";
                           break;
-                        case 'models':
+                        case "models":
                           icon = <IconCalc></IconCalc>;
-                          text = 'Modelierung';
-                          cssId = 'model';
+                          text = "Modelierung";
+                          cssId = "model";
                           break;
-                        case 'predictions':
+                        case "predictions":
                           icon = <IconComment></IconComment>;
-                          text = 'Vorhersage';
-                          cssId = 'predict';
+                          text = "Vorhersage";
+                          cssId = "predict";
                           break;
                       }
                       return (
@@ -393,13 +393,13 @@ export const MeasurementEditor: React.FC<{
                           text={text}
                           additionalClassNames={(() => {
                             if (
-                              ocpuState.processing === 'model' ||
-                              ocpuState.processing === 'predict' ||
-                              ocpuState.processing === 'calibrate'
+                              ocpuState.processing === "model" ||
+                              ocpuState.processing === "predict" ||
+                              ocpuState.processing === "calibrate"
                             ) {
-                              return 'is-loading';
+                              return "is-loading";
                             } else {
-                              return '';
+                              return "";
                             }
                           })()}
                         >
@@ -407,14 +407,14 @@ export const MeasurementEditor: React.FC<{
                         </ButtonIcon>
                       );
                     }
-                    case 'discharges':
-                    case 'measurements':
-                    case 'globalIrradiances': {
+                    case "discharges":
+                    case "measurements":
+                    case "globalIrradiances": {
                       return (
                         <>
                           <ButtonIcon
-                            text='Daten hochladen'
-                            additionalClassNames='is-primary'
+                            text="Daten hochladen"
+                            additionalClassNames="is-primary"
                             handleClick={() => {
                               // setDataEditMode();
                               setMGDDataType(resourceType);
@@ -424,19 +424,19 @@ export const MeasurementEditor: React.FC<{
                             <IconCSV></IconCSV>
                           </ButtonIcon>
                           <ButtonIcon
-                            text='URL Bearbeiten'
-                            additionalClassNames=''
+                            text="URL Bearbeiten"
+                            additionalClassNames=""
                             handleClick={() => {
                               setShowMGDEditor(true);
                               switch (resourceType) {
-                                case 'discharges':
-                                  setLinkType('dischargesUrl');
+                                case "discharges":
+                                  setLinkType("dischargesUrl");
                                   break;
-                                case 'measurements':
-                                  setLinkType('measurementsUrl');
+                                case "measurements":
+                                  setLinkType("measurementsUrl");
                                   break;
-                                case 'globalIrradiances':
-                                  setLinkType('globalIrradianceUrl');
+                                case "globalIrradiances":
+                                  setLinkType("globalIrradianceUrl");
                                   break;
                               }
                               // console.log('click');
@@ -448,19 +448,19 @@ export const MeasurementEditor: React.FC<{
                         </>
                       );
                     }
-                    case 'genericInputs':
-                    case 'purificationPlants': {
+                    case "genericInputs":
+                    case "purificationPlants": {
                       return (
                         <ButtonIcon
                           text={`${
-                            resourceType === 'genericInputs'
-                              ? 'Gener. Werte'
-                              : 'Klärwerk'
+                            resourceType === "genericInputs"
+                              ? "Gener. Werte"
+                              : "Klärwerk"
                           } hinzufügen`}
-                          additionalClassNames='is-primary'
+                          additionalClassNames="is-primary"
                           handleClick={() => {
                             setShowGiPPEditor(true);
-                            setPpgiReqType('POST');
+                            setPpgiReqType("POST");
                             setGippInitialState(undefined);
                           }}
                         >
@@ -468,12 +468,12 @@ export const MeasurementEditor: React.FC<{
                         </ButtonIcon>
                       );
                     }
-                    case 'gInputMeasurements':
-                    case 'pplantMeasurements': {
+                    case "gInputMeasurements":
+                    case "pplantMeasurements": {
                       return (
                         <>
                           <ButtonIcon
-                            text={'Daten hochladen'}
+                            text={"Daten hochladen"}
                             // additionalClassNames='is-primary'
                             handleClick={() => {
                               setShowGiPPUploader(true);
@@ -482,34 +482,34 @@ export const MeasurementEditor: React.FC<{
                             <IconCSV></IconCSV>
                           </ButtonIcon>
                           <ButtonIcon
-                            text={'URL/Name Bearbeiten'}
+                            text={"URL/Name Bearbeiten"}
                             handleClick={() => {
                               // console.log('daten bearbeitet für', resourceType);
                               switch (resourceType) {
-                                case 'gInputMeasurements': {
+                                case "gInputMeasurements": {
                                   setGippInitialState({
                                     name: giInfos
                                       ? giInfos.name
-                                      : 'Error getting name',
+                                      : "Error getting name",
                                     url: giInfos?.url,
                                   });
                                   break;
                                 }
-                                case 'pplantMeasurements': {
+                                case "pplantMeasurements": {
                                   setGippInitialState({
                                     name: ppInfos
                                       ? ppInfos.name
-                                      : 'Error getting name',
+                                      : "Error getting name",
                                     url: ppInfos?.url,
                                   });
                                 }
                               }
-                              setPpgiReqType('PUT');
+                              setPpgiReqType("PUT");
                               setShowGiPPEditor(true);
                             }}
                           >
-                            {' '}
-                            <IconEdit></IconEdit>{' '}
+                            {" "}
+                            <IconEdit></IconEdit>{" "}
                           </ButtonIcon>
                         </>
                       );
@@ -518,7 +518,7 @@ export const MeasurementEditor: React.FC<{
                       return null;
                   }
                 })()}
-                <ButtonIcon handleClick={handleCloseClick} text='Abbrechen'>
+                <ButtonIcon handleClick={handleCloseClick} text="Abbrechen">
                   <IconCloseWin></IconCloseWin>
                 </ButtonIcon>
                 <CSVLink
@@ -528,27 +528,27 @@ export const MeasurementEditor: React.FC<{
                       ? `${currentSpot.name}-${resourceType}.csv`
                       : `${resourceType}.csv`
                   }
-                  className='button is-small is-badge-small'
+                  className="button is-small is-badge-small"
                 >
                   {/* <ButtonIcon text='Export' handleClick={() => {}}> */}
-                  <span className='icon is-small'>
+                  <span className="icon is-small">
                     <IconCSV></IconCSV>
                   </span>
-                  <span>{'Export'}</span>
+                  <span>{"Export"}</span>
                   {/* <CSVDownload data={inData} target='_blank' />; */}
                   {/* </ButtonIcon> */}
                 </CSVLink>
                 <ButtonIcon
-                  text='Auswahl löschen'
-                  additionalClassNames='is-warning'
+                  text="Auswahl löschen"
+                  additionalClassNames="is-warning"
                   handleClick={handleDeleteClick}
                 >
                   <IconTrash></IconTrash>
                 </ButtonIcon>
               </div>
             </Container>
-            <Container columnClassName='is-10 table__data-view--scroll'>
-              <table {...getTableProps()} className='table'>
+            <Container columnClassName="is-10 table__data-view--scroll">
+              <table {...getTableProps()} className="table">
                 <thead>
                   {/* TODO: react-table types are out of sync https://github.com/tannerlinsley/react-table/issues/1591 */}
                   {headerGroups.map((headerGroup) => (
@@ -559,13 +559,13 @@ export const MeasurementEditor: React.FC<{
                             (column as any).getSortByToggleProps(),
                           )}
                         >
-                          {column.render('Header')}
+                          {column.render("Header")}
                           <span>
                             {(column as any).isSorted
                               ? (column as any).isSortedDesc
-                                ? ' ↓'
-                                : ' ↑'
-                              : ''}
+                                ? " ↓"
+                                : " ↑"
+                              : ""}
                           </span>
                         </th>
                       ))}
@@ -580,7 +580,7 @@ export const MeasurementEditor: React.FC<{
                         {row.cells.map((cell) => {
                           return (
                             <td {...cell.getCellProps()}>
-                              {cell.render('Cell')}
+                              {cell.render("Cell")}
                             </td>
                           );
                         })}

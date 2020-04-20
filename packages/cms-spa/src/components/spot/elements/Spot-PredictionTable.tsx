@@ -1,7 +1,7 @@
-import { IObject, IBathingspot } from '../../../lib/common/interfaces';
-import React from 'react';
-import { lastElements } from '../../../lib/utils/array-helpers';
-import { Table, TableBody, TableRow } from './Spot-Table';
+import { IObject, IBathingspot } from "../../../lib/common/interfaces";
+import React from "react";
+import { lastElements } from "../../../lib/utils/array-helpers";
+import { Table, TableBody, TableRow } from "./Spot-Table";
 export function PredictionTable(spot: IBathingspot): React.ReactNode {
   return (
     <Table>
@@ -10,10 +10,10 @@ export function PredictionTable(spot: IBathingspot): React.ReactNode {
           spot.predictions !== undefined &&
           (() => {
             const dateOpts = {
-              day: 'numeric',
-              month: 'short',
-              weekday: 'short',
-              year: 'numeric',
+              day: "numeric",
+              month: "short",
+              weekday: "short",
+              year: "numeric",
             };
             const sortedPredictions = spot.predictions.sort(
               (a: IObject, b: IObject) => {
@@ -29,13 +29,13 @@ export function PredictionTable(spot: IBathingspot): React.ReactNode {
               return (
                 <TableRow
                   key={i}
-                  th={new Date(ele.date).toLocaleDateString('de-DE', dateOpts)}
+                  th={new Date(ele.date).toLocaleDateString("de-DE", dateOpts)}
                   tds={tds}
                 />
               );
             });
             if (rows.length === 0) {
-              return <TableRow th='k. A.' tds={['']} />;
+              return <TableRow th="k. A." tds={[""]} />;
             }
             return rows;
           })()}

@@ -1,7 +1,7 @@
-import React from 'react';
-import { IconCSV, IconTrash } from '../../fontawesome-icons';
-import { ButtonIcon } from '../../Buttons';
-import { ClickHandler } from '../../../lib/common/interfaces';
+import React from "react";
+import { IconCSV, IconTrash } from "../../fontawesome-icons";
+import { ButtonIcon } from "../../Buttons";
+import { ClickHandler } from "../../../lib/common/interfaces";
 export const SpotEditorFile: React.FC<{
   name: string;
   type: string;
@@ -12,25 +12,25 @@ export const SpotEditorFile: React.FC<{
 }> = ({ name, label, type, onChange, disabled, handleClearClick }) => {
   return (
     <>
-      <div className='file is-small'>
-        <label className='file-label'>
+      <div className="file is-small">
+        <label className="file-label">
           <input
-            className='file-input'
-            type='file'
+            className="file-input"
+            type="file"
             name={name}
             onChange={onChange}
             disabled={disabled}
           />
-          <span className='file-cta'>
-            <span className='file-icon'>
+          <span className="file-cta">
+            <span className="file-icon">
               <IconCSV />
             </span>
-            <span className='file-label'>{label}</span>
+            <span className="file-label">{label}</span>
           </span>
         </label>
-        <div className='buttons'>
+        <div className="buttons">
           <ButtonIcon
-            text={'Zwischenspeicher löschen'}
+            text={"Zwischenspeicher löschen"}
             handleClick={handleClearClick}
           >
             <IconTrash></IconTrash>

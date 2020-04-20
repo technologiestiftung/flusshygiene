@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import {
   IPurificationPlant,
   IGenericInput,
   ClickFunction,
-} from '../../../lib/common/interfaces';
-import { TableBody, Table, TableRow, TableRowWithButton } from './Spot-Table';
+} from "../../../lib/common/interfaces";
+import { TableBody, Table, TableRow, TableRowWithButton } from "./Spot-Table";
 
 interface ICollection {
   items?: IPurificationPlant[] | IGenericInput[];
@@ -26,7 +26,7 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
     return (
       <Table>
         <TableBody>
-          <TableRow th={'k. A.'} tds={['']}></TableRow>
+          <TableRow th={"k. A."} tds={[""]}></TableRow>
         </TableBody>
       </Table>
     );
@@ -55,12 +55,12 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
                   setTitle(
                     `${item.name}${
                       item.url
-                        ? ' || ' +
+                        ? " || " +
                           item.url
-                            .replace(/http(s)?:\/\//, '')
+                            .replace(/http(s)?:\/\//, "")
                             .substring(0, 13) +
-                          '…'
-                        : ''
+                          "…"
+                        : ""
                     }`,
                   );
                   setData(item.measurements);
@@ -69,9 +69,9 @@ export const CollectionWithSubItemTable: React.FC<ICollection> = ({
                   // console.log('edit table row');
                 }}
                 tds={[
-                  'Daten',
-                  item.measurements ? `${item.measurements.length}` : 'k. A.',
-                  `Autom.: ${item.url ? '✓' : '✘'}`,
+                  "Daten",
+                  item.measurements ? `${item.measurements.length}` : "k. A.",
+                  `Autom.: ${item.url ? "✓" : "✘"}`,
                 ]}
               ></TableRowWithButton>
             );

@@ -11,3 +11,6 @@ design-files
 examples/r
 .test.token.json
 *.zip
+src/assets/fonts/**
+src/__tests__/__snapshots__/**
+.DS_Store

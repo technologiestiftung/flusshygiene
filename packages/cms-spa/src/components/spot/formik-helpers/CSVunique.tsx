@@ -1,5 +1,5 @@
-import React from 'react';
-import { MeasurementTypes } from '../../../lib/common/interfaces';
+import React from "react";
+import { MeasurementTypes } from "../../../lib/common/interfaces";
 
 const d = new Date();
 const year = d.getFullYear();
@@ -9,35 +9,35 @@ const h = d.getHours();
 const m = d.getMinutes();
 const s = d.getSeconds();
 const getDate = (incr: number) =>
-  `${year}-${month.toString().padStart(2, '0')}-${day
+  `${year}-${month.toString().padStart(2, "0")}-${day
     .toString()
-    .padStart(2, '0')} ${h.toString().padStart(2, '0')}:${m
+    .padStart(2, "0")} ${h.toString().padStart(2, "0")}:${m
     .toString()
-    .padStart(2, '0')}:${((s + incr) % 60).toString().padStart(2, '0')}`;
+    .padStart(2, "0")}:${((s + incr) % 60).toString().padStart(2, "0")}`;
 export const CSVUnique: React.FC<{ type: MeasurementTypes }> = ({ type }) => {
   return (
     <>
       <h3>CSV Einzigartige Werte Report</h3>
-      <div className='content'>
+      <div className="content">
         <p>
-          In Ihrem CSV sind Duplikate enthalten. Für die Zeile{' '}
+          In Ihrem CSV sind Duplikate enthalten. Für die Zeile{" "}
           <code>"date"</code> (YYY-MM-DD) dürfen nur einzigeartige Daten
           eingetragen sein. Falls sie mehrere Messwerte pro Tag angeben möchten
           müssen Sie einen Zeitstempel im Format HH:MM:SS enthalten sein.
           <br />
           <strong>Zum Beispiel:</strong>
         </p>
-        <table className='table'>
+        <table className="table">
           <thead>
             <tr>
-              <th>{'date'}</th>
-              {type === 'measurements' ? (
+              <th>{"date"}</th>
+              {type === "measurements" ? (
                 <>
-                  <th>{'conc_ec'}</th>
-                  <th>{'conc_ie'}</th>
+                  <th>{"conc_ec"}</th>
+                  <th>{"conc_ie"}</th>
                 </>
               ) : (
-                <th>{'value'}</th>
+                <th>{"value"}</th>
               )}
             </tr>
           </thead>
@@ -46,7 +46,7 @@ export const CSVUnique: React.FC<{ type: MeasurementTypes }> = ({ type }) => {
               return (
                 <tr key={incr}>
                   <td>{getDate(incr)}</td>
-                  {type === 'measurements' ? (
+                  {type === "measurements" ? (
                     <>
                       <td>{Math.floor(Math.random() * 1000)}</td>
                       <td>{Math.floor(Math.random() * 1000)}</td>

@@ -1,6 +1,6 @@
-import { IBathingspot } from '../../../lib/common/interfaces';
-import React from 'react';
-import SpotsMap from './Spot-Map';
+import { IBathingspot } from "../../../lib/common/interfaces";
+import React from "react";
+import SpotsMap from "./Spot-Map";
 export const MapWrapper: React.FC<{
   mapDims: {
     width: number;

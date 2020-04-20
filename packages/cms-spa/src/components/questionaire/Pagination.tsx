@@ -1,7 +1,7 @@
-import React from 'react';
-import { IconNext, IconPrev } from '../fontawesome-icons';
-import { Link } from 'react-router-dom';
-import { RouteNames } from '../../lib/common/enums';
+import React from "react";
+import { IconNext, IconPrev } from "../fontawesome-icons";
+import { Link } from "react-router-dom";
+import { RouteNames } from "../../lib/common/enums";
 
 // Shamelessly plugged from
 // https://github.com/hipstersmoothie/bulma-pagination-react
@@ -20,16 +20,16 @@ export const Page: React.FC<{
   className?: string;
   cssId: string;
   onChange: (event: React.ChangeEvent<any>, index: number) => void;
-}> = ({ currentPage, index, onChange, className = '', cssId }) => (
+}> = ({ currentPage, index, onChange, className = "", cssId }) => (
   <li>
     <Link
       to={`/${RouteNames.questionnaire}/${index}`}
       className={`pagination-link ${className} ${(currentPage === index ||
         (index === 1 && !currentPage)) &&
-        'is-current'}`}
+        "is-current"}`}
       id={cssId}
       aria-label={`Goto page ${index}`}
-      aria-current={index === currentPage && 'page'}
+      aria-current={index === currentPage && "page"}
       onClick={(event) => onChange(event, index)}
     >
       {index}
@@ -39,7 +39,7 @@ export const Page: React.FC<{
 
 const Ellipses: React.FC = () => (
   <li>
-    <span className='pagination-ellipsis'>&hellip;</span>
+    <span className="pagination-ellipsis">&hellip;</span>
   </li>
 );
 
@@ -96,17 +96,17 @@ export const Pagination: React.FC<{
   pages,
   currentPage = 0,
   visibleRadius = 1,
-  className = '',
+  className = "",
   isRounded = false,
   isSmall = false,
   isMedium = false,
   isLarge = false,
   isCentered = false,
   isRight = true,
-  prevClassName = '',
-  nextClassName = '',
-  linkClassName = '',
-  listClassName = '',
+  prevClassName = "",
+  nextClassName = "",
+  linkClassName = "",
+  listClassName = "",
   onChange,
   showNumbers,
 }) => {
@@ -114,27 +114,27 @@ export const Pagination: React.FC<{
   const pagesComponents: JSX.Element[] = [];
 
   const classes = [
-    isRounded && 'is-rounded',
-    isSmall && 'is-small',
-    isMedium && 'is-medium',
-    isLarge && 'is-large',
-    isCentered && 'is-centered',
-    isRight && 'is-right',
+    isRounded && "is-rounded",
+    isSmall && "is-small",
+    isMedium && "is-medium",
+    isLarge && "is-large",
+    isCentered && "is-centered",
+    isRight && "is-right",
   ].filter(Boolean);
 
   if (visiblePages[0] >= 2) {
     pagesComponents.push(
       <Page
-        key='page-1'
+        key="page-1"
         index={1}
-        cssId={'page-1'}
+        cssId={"page-1"}
         currentPage={currentPage}
         onChange={onChange}
       />,
     );
 
     if (visiblePages[0] !== 2) {
-      pagesComponents.push(<Ellipses key='ellipses-1' />);
+      pagesComponents.push(<Ellipses key="ellipses-1" />);
     }
   }
 
@@ -151,7 +151,7 @@ export const Pagination: React.FC<{
   );
   if (currentPage <= pages - visibleRadius - 1 && visiblePages.length < pages) {
     if (currentPage < pages - visibleRadius - 1) {
-      pagesComponents.push(<Ellipses key='ellipses-2' />);
+      pagesComponents.push(<Ellipses key="ellipses-2" />);
     }
 
     pagesComponents.push(
@@ -169,10 +169,10 @@ export const Pagination: React.FC<{
   return (
     <div
       className={`pagination-container pagination ${classes.join(
-        ' ',
+        " ",
       )} ${className}`}
-      role='navigation'
-      aria-label='pagination'
+      role="navigation"
+      aria-label="pagination"
     >
       <Link
         to={(() => {
@@ -183,7 +183,7 @@ export const Pagination: React.FC<{
           }
         })()}
         // disabled={currentPage === 1}
-        id={'bwd'}
+        id={"bwd"}
         className={`pagination-previous nav ${prevClassName}`}
         onClick={(event) => onChange(event, currentPage - 1)}
       >
@@ -198,7 +198,7 @@ export const Pagination: React.FC<{
             return `/${RouteNames.questionnaire}/${currentPage + 1}`;
           }
         })()}
-        id={'fwd'}
+        id={"fwd"}
         // disabled={currentPage === pages}
         className={`pagination-next nav ${nextClassName}`}
         onClick={(event) => onChange(event, currentPage + 1)}

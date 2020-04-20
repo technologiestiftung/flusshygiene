@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   RequestResourceTypes,
   ClickFunction,
   IBathingspotApiEndpoints,
   ApiEndpointsLinkTypes,
-} from '../../../lib/common/interfaces';
-import { useApi, apiRequest } from '../../../contexts/postgres-api';
-import { useAuth0 } from '../../../lib/auth/react-auth0-wrapper';
-import { APIMountPoints, ApiResources } from '../../../lib/common/enums';
-import { REACT_APP_API_HOST } from '../../../lib/config';
-import { actionCreator } from '../../../lib/utils/pgapi-actionCreator';
-import { Container } from '../../Container';
-import { Formik, Form } from 'formik';
-import { FormikButtons } from '../formik-helpers/FormikButtons';
-import { SpotEditorInput } from '../elements/SpotEditor-Input';
-import { InfoAutoData } from '../elements/SpotEditor-Measurments-Info';
+} from "../../../lib/common/interfaces";
+import { useApi, apiRequest } from "../../../contexts/postgres-api";
+import { useAuth0 } from "../../../lib/auth/react-auth0-wrapper";
+import { APIMountPoints, ApiResources } from "../../../lib/common/enums";
+import { REACT_APP_API_HOST } from "../../../lib/config";
+import { actionCreator } from "../../../lib/utils/pgapi-actionCreator";
+import { Container } from "../../Container";
+import { Formik, Form } from "formik";
+import { FormikButtons } from "../formik-helpers/FormikButtons";
+import { SpotEditorInput } from "../elements/SpotEditor-Input";
+import { InfoAutoData } from "../elements/SpotEditor-Measurments-Info";
 
 /**
  * An Editor for global irradiances, discharges and measurements
  *
  */
 export const MGDEditor: React.FC<{
-  reqType: 'PUT';
+  reqType: "PUT";
   resourceType: RequestResourceTypes;
   linkType?: ApiEndpointsLinkTypes;
   userId: number;
@@ -39,7 +39,7 @@ export const MGDEditor: React.FC<{
   handleSubmitClose,
 }) => {
   if (linkType === undefined) {
-    throw new Error('linktype in MGDEditor is undefiend');
+    throw new Error("linktype in MGDEditor is undefiend");
   }
   const [, apiDispatch] = useApi();
   const { getTokenSilently } = useAuth0();
@@ -56,7 +56,7 @@ export const MGDEditor: React.FC<{
       const token = await getTokenSilently();
       const action = actionCreator({
         url: BASE_URL,
-        method: 'PUT',
+        method: "PUT",
         resource: resourceType,
         body: { apiEndpoints },
         token,
@@ -80,7 +80,7 @@ export const MGDEditor: React.FC<{
             let url = values[linkType];
 
             if (url === undefined) {
-              console.error('url not defiend in m-g-d-editor');
+              console.error("url not defiend in m-g-d-editor");
               return;
             } else {
               postData(url);
@@ -98,8 +98,8 @@ export const MGDEditor: React.FC<{
                   }}
                 ></FormikButtons>
                 <SpotEditorInput
-                  label='http(s) URL'
-                  type='text'
+                  label="http(s) URL"
+                  type="text"
                   name={linkType}
                 />
               </Form>

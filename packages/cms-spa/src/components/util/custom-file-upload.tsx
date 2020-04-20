@@ -1,5 +1,5 @@
-import React from 'react';
-import { IconFileUplad } from '../fontawesome-icons';
+import React from "react";
+import { IconFileUplad } from "../fontawesome-icons";
 
 export const CustomFileUpload: React.FC<{
   handleChangeEvent: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -8,17 +8,17 @@ export const CustomFileUpload: React.FC<{
 }> = ({ children, text, handleChangeEvent }) => {
   return (
     <>
-      <label className='button is-small'>
+      <label className="button is-small">
         <input
-          id='custom-file-upload'
-          type='file'
-          style={{ display: 'none' }}
+          id="custom-file-upload"
+          type="file"
+          style={{ display: "none" }}
           onChange={handleChangeEvent}
-          className={'input__custom-file-upload--hidden'}
+          className={"input__custom-file-upload--hidden"}
         />
-        <span className='icon is-small'>
+        <span className="icon is-small">
           <IconFileUplad></IconFileUplad>
-        </span>{' '}
+        </span>{" "}
         {text && <span>{text}</span>}
         {children}
       </label>

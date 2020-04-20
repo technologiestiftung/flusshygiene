@@ -1,9 +1,9 @@
-import React from 'react';
-import { SpotTableTitle, ISpotTableTitle } from './Spot-TableTitle';
+import React from "react";
+import { SpotTableTitle, ISpotTableTitle } from "./Spot-TableTitle";
 // import { IconCode } from '../../fontawesome-icons';
-import { ClickFunction } from '../../../lib/common/interfaces';
-import { ButtonIcon } from '../../Buttons';
-import { IconEdit } from '../../fontawesome-icons';
+import { ClickFunction } from "../../../lib/common/interfaces";
+import { ButtonIcon } from "../../Buttons";
+import { IconEdit } from "../../fontawesome-icons";
 
 export const SpotTableBlock: React.FC<{
   title: ISpotTableTitle;
@@ -13,7 +13,7 @@ export const SpotTableBlock: React.FC<{
   hasData?: boolean;
 }> = ({ title, Table, handleEditClick, hasData, editButtonText }) => {
   return (
-    <div className='column is-5'>
+    <div className="column is-5">
       {/* {data && (
         <IconCode
           handleClick={() => {

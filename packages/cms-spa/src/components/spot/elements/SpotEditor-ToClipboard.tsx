@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import TurndownService from 'turndown';
-import * as turndownPluginGfm from 'turndown-plugin-gfm';
+import React, { useState, useEffect } from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
+import TurndownService from "turndown";
+import * as turndownPluginGfm from "turndown-plugin-gfm";
 const turndownService = new TurndownService();
 const gfm = turndownPluginGfm.gfm;
 turndownService.use(gfm);
@@ -10,7 +10,7 @@ export const SpotEditorToClipboard: React.FC<{
   csvValidationRef: React.RefObject<HTMLTableElement>;
   buttonId: string;
 }> = ({ csvValidationRef, buttonId }) => {
-  const [clipBoardText, setClipBoardText] = useState('');
+  const [clipBoardText, setClipBoardText] = useState("");
   const [copiedToClipboard, setCopiedToClipboard] = useState(false);
   useEffect(() => {
     if (copiedToClipboard === false) return;
@@ -37,12 +37,12 @@ export const SpotEditorToClipboard: React.FC<{
       }}
     >
       <button
-        className={'button is-small is-light'}
-        type='button'
+        className={"button is-small is-light"}
+        type="button"
         id={buttonId}
       >
         In die Zwischenablage
-        {copiedToClipboard === true ? '!' : ''}
+        {copiedToClipboard === true ? "!" : ""}
       </button>
     </CopyToClipboard>
   );

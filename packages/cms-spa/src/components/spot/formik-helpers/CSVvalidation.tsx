@@ -1,6 +1,6 @@
-import React from 'react';
-import { ICSVValidationErrorRes } from '../../../lib/common/interfaces';
-import { SpotEditorToClipboard } from '../elements/SpotEditor-ToClipboard';
+import React from "react";
+import { ICSVValidationErrorRes } from "../../../lib/common/interfaces";
+import { SpotEditorToClipboard } from "../elements/SpotEditor-ToClipboard";
 
 export const NewCSVValidation: React.FC<{
   csvValidationRef: React.RefObject<HTMLTableElement>;
@@ -10,15 +10,15 @@ export const NewCSVValidation: React.FC<{
     <>
       <h3>CSV Daten Report</h3>
       <SpotEditorToClipboard
-        buttonId={'csv-data-clip'}
+        buttonId={"csv-data-clip"}
         csvValidationRef={csvValidationRef}
       />
-      <table className='table' ref={csvValidationRef}>
+      <table className="table" ref={csvValidationRef}>
         <thead>
           <tr>
-            <th>{'Fehler Nummer'}</th>
-            <th>{'In Zeile'}</th>
-            <th>{'Beschreibung'}</th>
+            <th>{"Fehler Nummer"}</th>
+            <th>{"In Zeile"}</th>
+            <th>{"Beschreibung"}</th>
           </tr>
         </thead>
         <tbody>
@@ -40,22 +40,22 @@ export function CSVvalidation(
   csvValidationRef: React.RefObject<HTMLTableElement>,
   csvValidationErrors: ICSVValidationErrorRes[],
 ): any {
-  if (process.env.NODE_ENV === 'development') {
-    console.warn('This function CSVvalidation is DEPRECATED'); // eslint-disable-line
+  if (process.env.NODE_ENV === "development") {
+    console.warn("This function CSVvalidation is DEPRECATED"); // eslint-disable-line
   }
   return (
     <>
       <h3>CSV Daten Report</h3>
       <SpotEditorToClipboard
-        buttonId={'csv-data-clip'}
+        buttonId={"csv-data-clip"}
         csvValidationRef={csvValidationRef}
       />
-      <table className='table' ref={csvValidationRef}>
+      <table className="table" ref={csvValidationRef}>
         <thead>
           <tr>
-            <th>{'Fehler Nummer'}</th>
-            <th>{'In Zeile'}</th>
-            <th>{'Beschreibung'}</th>
+            <th>{"Fehler Nummer"}</th>
+            <th>{"In Zeile"}</th>
+            <th>{"Beschreibung"}</th>
           </tr>
         </thead>
         <tbody>

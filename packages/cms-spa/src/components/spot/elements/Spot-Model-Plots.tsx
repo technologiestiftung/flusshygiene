@@ -1,6 +1,6 @@
-import React from 'react';
-import { ContainerNoColumn } from '../../Container';
-import { IconChart } from '../../fontawesome-icons';
+import React from "react";
+import { ContainerNoColumn } from "../../Container";
+import { IconChart } from "../../fontawesome-icons";
 
 const Plot: React.FC<{
   imageUrl: string;
@@ -10,19 +10,19 @@ const Plot: React.FC<{
 }> = ({ imageUrl, title, description, id }) => {
   return (
     <>
-      <div className='column is-5'>
-        <h3 className='is-title is-3' id={`plotfile-${id}`}>
+      <div className="column is-5">
+        <h3 className="is-title is-3" id={`plotfile-${id}`}>
           <span>
             <IconChart></IconChart>
-          </span>{' '}
+          </span>{" "}
           <span>{title}</span>
         </h3>
         <div>
-          <figure className='image is-4by3'>
+          <figure className="image is-4by3">
             <img src={imageUrl} alt={title} />
           </figure>
         </div>
-        <div className='content'>
+        <div className="content">
           <p>{description}</p>
         </div>
       </div>

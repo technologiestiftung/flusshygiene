@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import DeckGL from '@deck.gl/react';
-import { ScatterplotLayer } from '@deck.gl/layers';
-import { IMapsProps, IBathingspot } from '../../../lib/common/interfaces';
-import { DEFAULT_SPOT_ID } from '../../../lib/common/constants';
-import { StaticMap } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { REACT_APP_MAPBOX_API_TOKEN } from '../../../lib/config';
-import history from '../../../lib/history';
-import { RouteNames } from '../../../lib/common/enums';
+import React, { useState } from "react";
+import DeckGL from "@deck.gl/react";
+import { ScatterplotLayer } from "@deck.gl/layers";
+import { IMapsProps, IBathingspot } from "../../../lib/common/interfaces";
+import { DEFAULT_SPOT_ID } from "../../../lib/common/constants";
+import { StaticMap } from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { REACT_APP_MAPBOX_API_TOKEN } from "../../../lib/config";
+import history from "../../../lib/history";
+import { RouteNames } from "../../../lib/common/enums";
 
 const initialViewState = {
   bearing: 0,
@@ -23,11 +23,11 @@ const HoverObject: React.FC<{
 }> = ({ message, pointer }) => {
   return (
     <div
-      className='is-size-7'
+      className="is-size-7"
       style={{
-        position: 'absolute',
+        position: "absolute",
         zIndex: 10,
-        pointerEvents: 'none',
+        pointerEvents: "none",
         left: pointer[0],
         top: pointer[1],
 
@@ -36,9 +36,9 @@ const HoverObject: React.FC<{
     >
       <span
         style={{
-          backgroundColor: '#ffffff',
-          padding: '0.2rem 1rem 0.2rem 1rem',
-          boxShadow: '1px 2px 1px rgba(51,51,102, .5)',
+          backgroundColor: "#ffffff",
+          padding: "0.2rem 1rem 0.2rem 1rem",
+          boxShadow: "1px 2px 1px rgba(51,51,102, .5)",
           // display: 'inline-block',
         }}
       >
@@ -59,7 +59,7 @@ const SpotsMap: React.FC<IMapsProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   // const [hoverObject, setHoverObject] = useState<React.ReactNode>(undefined);
   const [hoverObjectPointer, setHoverObjectPointer] = useState<number[]>([]);
-  const [hoverObjectMessage, setHoverObjectMessage] = useState('');
+  const [hoverObjectMessage, setHoverObjectMessage] = useState("");
   if (zoom !== undefined) {
     initialViewState.zoom = zoom;
     if (
@@ -105,7 +105,7 @@ const SpotsMap: React.FC<IMapsProps> = ({
 
             return (
               <ScatterplotLayer
-                id={'scatterplot'}
+                id={"scatterplot"}
                 data={filteredSpots}
                 filled={true}
                 getFillColor={(_d: IBathingspot) => [51, 51, 102]}
@@ -155,7 +155,7 @@ const SpotsMap: React.FC<IMapsProps> = ({
           width={width}
           height={height}
           mapboxApiAccessToken={REACT_APP_MAPBOX_API_TOKEN}
-          mapStyle='mapbox://styles/fmoronzirfas/ck21m3k446h8g1cp9zj67nw4m'
+          mapStyle="mapbox://styles/fmoronzirfas/ck21m3k446h8g1cp9zj67nw4m"
         />
       </DeckGL>
     </>

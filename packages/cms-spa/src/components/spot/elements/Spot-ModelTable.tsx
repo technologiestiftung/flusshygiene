@@ -1,12 +1,12 @@
-import React from 'react';
-import { IObject, IModelInfo } from '../../../lib/common/interfaces';
-import { Table, TableBody, TableRow } from './Spot-Table';
+import React from "react";
+import { IObject, IModelInfo } from "../../../lib/common/interfaces";
+import { Table, TableBody, TableRow } from "./Spot-Table";
 export function SpotModelTable(lastModel?: IObject) {
   const dateOpts = {
-    day: 'numeric',
-    month: 'short',
-    weekday: 'short',
-    year: 'numeric',
+    day: "numeric",
+    month: "short",
+    weekday: "short",
+    year: "numeric",
   };
   let jsonData: IModelInfo;
 
@@ -14,14 +14,14 @@ export function SpotModelTable(lastModel?: IObject) {
     return (
       <Table>
         <TableBody>
-          <TableRow th={'k. A.'} tds={['']}></TableRow>
+          <TableRow th={"k. A."} tds={[""]}></TableRow>
         </TableBody>
       </Table>
     );
   } else {
     try {
       jsonData = JSON.parse(
-        lastModel.comment !== undefined ? lastModel.comment : '',
+        lastModel.comment !== undefined ? lastModel.comment : "",
       );
     } catch (error) {
       jsonData = {} as IModelInfo;
@@ -29,31 +29,31 @@ export function SpotModelTable(lastModel?: IObject) {
     return (
       <Table>
         <TableBody>
-          <TableRow th={'ID:'} tds={[lastModel.id]} />
+          <TableRow th={"ID:"} tds={[lastModel.id]} />
           <TableRow
-            th={'Generiert am:'}
+            th={"Generiert am:"}
             tds={[
               `${new Date(lastModel.updatedAt).toLocaleDateString(
-                'de-DE',
+                "de-DE",
                 dateOpts,
               )}`,
             ]}
           />
           <TableRow
-            th={'Formel'}
+            th={"Formel"}
             tds={[
               jsonData.formula === undefined || jsonData.formula.length === 0
-                ? 'k. A.'
+                ? "k. A."
                 : jsonData.formula,
             ]}
           />
           <TableRow
-            th={'Anzahl der Datenpunkte'}
-            tds={[`${jsonData.n_obs ? jsonData.n_obs : 'k. A.'}`]}
+            th={"Anzahl der Datenpunkte"}
+            tds={[`${jsonData.n_obs ? jsonData.n_obs : "k. A."}`]}
           />
           <TableRow
-            th={'Bestimmtheitsmaß (R\u00B2)'}
-            tds={[`${jsonData.R2 ? jsonData.R2 : 'k. A.'}`]}
+            th={"Bestimmtheitsmaß (R\u00B2)"}
+            tds={[`${jsonData.R2 ? jsonData.R2 : "k. A."}`]}
           />
         </TableBody>
       </Table>

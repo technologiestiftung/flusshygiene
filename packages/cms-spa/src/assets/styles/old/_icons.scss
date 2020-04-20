@@ -1,4 +1,4 @@
-@import 'mixins';
+@import "mixins";
 
 $number: 16;
 $size: 16px;
@@ -19,17 +19,17 @@ $size: 16px;
 
       &--red {
         // background-color: red;
-        @include placeholderBackgroundImage($number + '/ff0000');
+        @include placeholderBackgroundImage($number + "/ff0000");
       }
 
       &--green {
         // background-color: green;
-        @include placeholderBackgroundImage($number + '/008000');
+        @include placeholderBackgroundImage($number + "/008000");
       }
 
       &--orange {
         // background-color: orange;
-        @include placeholderBackgroundImage($number + '/ffa500');
+        @include placeholderBackgroundImage($number + "/ffa500");
       }
     }
   }

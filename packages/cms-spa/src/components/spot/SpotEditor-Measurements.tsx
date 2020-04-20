@@ -1,22 +1,22 @@
-import React from 'react';
-import { Formik, Form } from 'formik';
-import { useApi, apiRequest } from '../../contexts/postgres-api';
-import { FormikButtons } from './formik-helpers/FormikButtons';
-import { UploadBox } from './elements/SpotEditor-UploadBox';
+import React from "react";
+import { Formik, Form } from "formik";
+import { useApi, apiRequest } from "../../contexts/postgres-api";
+import { FormikButtons } from "./formik-helpers/FormikButtons";
+import { UploadBox } from "./elements/SpotEditor-UploadBox";
 import {
   IMeasurmentsUploadInitialValues,
   IApiAction,
   IBathingspotApiEndpoints,
-} from '../../lib/common/interfaces';
-import { useAuth0 } from '../../lib/auth/react-auth0-wrapper';
+} from "../../lib/common/interfaces";
+import { useAuth0 } from "../../lib/auth/react-auth0-wrapper";
 import {
   measurementsSchema,
   defaultMeasurementsSchema,
-} from '../../lib/utils/spot-validation-schema';
-import { REACT_APP_API_HOST } from '../../lib/config';
-import { APIMountPoints, ApiResources } from '../../lib/common/enums';
-import { actionCreator } from '../../lib/utils/pgapi-actionCreator';
-import { validURL } from '../../lib/utils/validURL';
+} from "../../lib/utils/spot-validation-schema";
+import { REACT_APP_API_HOST } from "../../lib/config";
+import { APIMountPoints, ApiResources } from "../../lib/common/enums";
+import { actionCreator } from "../../lib/utils/pgapi-actionCreator";
+import { validURL } from "../../lib/utils/validURL";
 
 // import { measurementsSchema } from '../../lib/utils/spot-validation-schema';
 
@@ -28,7 +28,7 @@ import { validURL } from '../../lib/utils/validURL';
 export const SpotEditorMeasurmentsUpload: React.FC<{
   initialValues: IMeasurmentsUploadInitialValues;
   spotId: number;
-  uploadType?: 'measurements' | 'discharges' | 'globalIrradiances';
+  uploadType?: "measurements" | "discharges" | "globalIrradiances";
   handeCloseClick: (e?: React.ChangeEvent<any> | undefined) => void;
   handleInfoClick: (e?: React.ChangeEvent<any> | undefined) => void;
   // postData: (data: any) => void;
@@ -76,8 +76,8 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
             body: measurements,
             token,
             url: reqUrlMeasurements,
-            method: 'POST',
-            resource: 'measurements',
+            method: "POST",
+            resource: "measurements",
           }),
         );
       }
@@ -87,8 +87,8 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
             body: globalIrradiance,
             token,
             url: reqUrlGlobalIrradiance,
-            method: 'POST',
-            resource: 'globalIrradiances',
+            method: "POST",
+            resource: "globalIrradiances",
           }),
         );
       }
@@ -98,8 +98,8 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
             body: discharges,
             token,
             url: reqUrlDischarges,
-            method: 'POST',
-            resource: 'discharges',
+            method: "POST",
+            resource: "discharges",
           }),
         );
       }
@@ -123,8 +123,8 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
             body: { apiEndpoints },
             url: baseUrl,
             token,
-            method: 'PUT',
-            resource: 'bathingspot',
+            method: "PUT",
+            resource: "bathingspot",
           }),
         );
       }
@@ -167,42 +167,42 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
               />
               {(() => {
                 switch (uploadType) {
-                  case 'measurements': {
+                  case "measurements": {
                     return (
                       <UploadBox
                         unboxed={true}
-                        fieldNameFile={'measurements'}
-                        fieldNameUrl={'measurementsUrl'}
+                        fieldNameFile={"measurements"}
+                        fieldNameUrl={"measurementsUrl"}
                         props={props}
                         schema={measurementsSchema}
-                        title={'Messwerte EC/IC'}
-                        type={'measurements'}
+                        title={"Messwerte EC/IC"}
+                        type={"measurements"}
                       />
                     );
                   }
-                  case 'globalIrradiances': {
+                  case "globalIrradiances": {
                     return (
                       <UploadBox
                         unboxed={true}
-                        fieldNameFile={'globalIrradiance'}
-                        fieldNameUrl={'globalIrradianceUrl'}
+                        fieldNameFile={"globalIrradiance"}
+                        fieldNameUrl={"globalIrradianceUrl"}
                         props={props}
                         schema={defaultMeasurementsSchema}
-                        title={'Messwerte Global Strahlung'}
-                        type={'globalIrradiances'}
+                        title={"Messwerte Global Strahlung"}
+                        type={"globalIrradiances"}
                       />
                     );
                   }
-                  case 'discharges': {
+                  case "discharges": {
                     return (
                       <UploadBox
                         unboxed={true}
-                        fieldNameFile={'discharges'}
-                        fieldNameUrl={'dischargesUrl'}
+                        fieldNameFile={"discharges"}
+                        fieldNameUrl={"dischargesUrl"}
                         props={props}
                         schema={defaultMeasurementsSchema}
-                        title={'Messwerte Durchfluss'}
-                        type={'discharges'}
+                        title={"Messwerte Durchfluss"}
+                        type={"discharges"}
                       />
                     );
                   }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Spinner } from '../../util/Spinner';
+import React from "react";
+import { Spinner } from "../../util/Spinner";
 export interface ISpotHeader {
   nameLong?: string;
   district?: string;
@@ -14,16 +14,16 @@ export const SpotHeader = (props: ISpotHeader) => {
   } else {
     return (
       <>
-        <h1 className='is-title is-1'>
+        <h1 className="is-title is-1">
           {props.name} {props.isLoading === true && <Spinner />}
         </h1>
         {(() => {
           if (props.nameLong) {
             return (
-              <div className='content'>
-                <p className='subtitle'>
-                  {props.nameLong}{' '}
-                  <span className='district'>{props.district}</span>
+              <div className="content">
+                <p className="subtitle">
+                  {props.nameLong}{" "}
+                  <span className="district">{props.district}</span>
                 </p>
               </div>
             );
@@ -33,8 +33,8 @@ export const SpotHeader = (props: ISpotHeader) => {
         {(() => {
           if (props.water) {
             return (
-              <h3 className='is-subtitle is-3'>
-                {'Gewässer: '}
+              <h3 className="is-subtitle is-3">
+                {"Gewässer: "}
                 {props.water}
               </h3>
             );

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import {
   IObject,
   IBathingspotMeasurement,
-} from '../../../lib/common/interfaces';
-import { hasAutoData } from '../../../lib/utils/has-autodata-url';
+} from "../../../lib/common/interfaces";
+import { hasAutoData } from "../../../lib/utils/has-autodata-url";
 
-const kA = 'k. A.';
+const kA = "k. A.";
 export interface ISpotMeasurement {
   measurements: IObject[];
   hasPrediction?: boolean;
@@ -72,13 +72,13 @@ export const MeasurementTable = (props: IMeasurementable) => {
   lastMeasurment =
     lastMeasurment !== undefined ? lastMeasurment : emptyMeasurment;
   const dateOpts = {
-    day: 'numeric',
-    month: 'long',
-    weekday: 'long',
-    year: 'numeric',
+    day: "numeric",
+    month: "long",
+    weekday: "long",
+    year: "numeric",
   };
   return (
-    <table className='table bathingspot__measurement-table'>
+    <table className="table bathingspot__measurement-table">
       <tbody>
         {/* <MeasurementTableRow
           rowKey={'Anzahl Datensätze'}
@@ -86,11 +86,11 @@ export const MeasurementTable = (props: IMeasurementable) => {
         ></MeasurementTableRow> */}
 
         <MeasurementTableRow
-          rowKey='Datum'
+          rowKey="Datum"
           rowValue={
             lastMeasurment.date !== undefined
               ? new Date(lastMeasurment.date).toLocaleDateString(
-                  'de-DE',
+                  "de-DE",
                   dateOpts,
                 )
               : kA
@@ -109,7 +109,7 @@ export const MeasurementTable = (props: IMeasurementable) => {
         } */}
         {
           <MeasurementTableRow
-            rowKey='Sichttiefe'
+            rowKey="Sichttiefe"
             rowValue={
               lastMeasurment.sichtTxt !== undefined
                 ? `${lastMeasurment.sichtTxt} cm`
@@ -119,7 +119,7 @@ export const MeasurementTable = (props: IMeasurementable) => {
         }
         {
           <MeasurementTableRow
-            rowKey='Escherichia coli'
+            rowKey="Escherichia coli"
             rowValue={
               lastMeasurment.conc_ec !== undefined
                 ? `${lastMeasurment.conc_ec} pro 100 ml`
@@ -129,7 +129,7 @@ export const MeasurementTable = (props: IMeasurementable) => {
         }
         {
           <MeasurementTableRow
-            rowKey='Intestinale Enterokokken'
+            rowKey="Intestinale Enterokokken"
             rowValue={
               lastMeasurment.conc_ie !== undefined
                 ? `${lastMeasurment.conc_ie} pro 100 ml`
@@ -139,17 +139,17 @@ export const MeasurementTable = (props: IMeasurementable) => {
         }
         {
           <MeasurementTableRow
-            rowKey='Wassertemperatur'
+            rowKey="Wassertemperatur"
             rowValue={
               lastMeasurment.tempTxt !== undefined
-                ? `${lastMeasurment.tempTxt.replace('.', ',')} ℃`
+                ? `${lastMeasurment.tempTxt.replace(".", ",")} ℃`
                 : kA
             }
           />
         }
         {
           <MeasurementTableRow
-            rowKey='Coliforme Bakterien'
+            rowKey="Coliforme Bakterien"
             rowValue={
               lastMeasurment.cb !== undefined
                 ? `${lastMeasurment.cb} pro 100 ml`
@@ -159,7 +159,7 @@ export const MeasurementTable = (props: IMeasurementable) => {
         }
         {
           <MeasurementTableRow
-            rowKey='Automatisiert'
+            rowKey="Automatisiert"
             rowValue={hasAutoData(
               props.hasAutoData !== undefined,
               undefined,

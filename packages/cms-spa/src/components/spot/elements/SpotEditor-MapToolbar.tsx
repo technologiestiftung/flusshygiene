@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { ButtonIcon as Button } from '../../Buttons';
+import React, { useState } from "react";
+import { ButtonIcon as Button } from "../../Buttons";
 
-import { MapEditModes } from '../../../lib/common/interfaces';
+import { MapEditModes } from "../../../lib/common/interfaces";
 import {
   IconAngleDown,
   IconInfo,
   IconPolygon,
   IconMapMarker,
-} from '../../fontawesome-icons';
+} from "../../fontawesome-icons";
 
 const dropdownTexts = {
-  view: { text: ' Anzeige' },
-  modify: { text: 'Modifizieren' },
-  translate: { text: 'Bewegen' },
-  drawPoint: { text: 'Position Zeichnen' },
-  drawPolygon: { text: 'Regeneinzugsgebiet Zeichnen' },
+  view: { text: " Anzeige" },
+  modify: { text: "Modifizieren" },
+  translate: { text: "Bewegen" },
+  drawPoint: { text: "Position Zeichnen" },
+  drawPolygon: { text: "Regeneinzugsgebiet Zeichnen" },
 };
 
 const DropDown: React.FC<{
@@ -46,78 +46,78 @@ const DropDown: React.FC<{
   };
 
   const setActiveMode = (mode: string) =>
-    activeMode === mode ? 'is-active' : '';
+    activeMode === mode ? "is-active" : "";
 
   return (
-    <div className={`dropdown ${isActive ? 'is-active' : ''} is-small`}>
+    <div className={`dropdown ${isActive ? "is-active" : ""} is-small`}>
       <div
-        className='dropdown-trigger'
-        aria-haspopup='true'
-        aria-controls='dropdown-menu'
+        className="dropdown-trigger"
+        aria-haspopup="true"
+        aria-controls="dropdown-menu"
       >
         <button
-          className='button is-small'
-          aria-haspopup='true'
-          aria-controls='dropdown-menu'
+          className="button is-small"
+          aria-haspopup="true"
+          aria-controls="dropdown-menu"
           // disabled={isDisabled}
           onClick={(event) => {
             event.preventDefault();
             setIsActive(!isActive);
           }}
         >
-          <span style={{ paddingRight: '0.5em' }}>{`Bearbeitungs Modus: ${
+          <span style={{ paddingRight: "0.5em" }}>{`Bearbeitungs Modus: ${
             dropdownTexts[activeMode] !== undefined
               ? dropdownTexts[activeMode].text
-              : ''
+              : ""
           }`}</span>
           <span>
             <IconAngleDown />
           </span>
         </button>
       </div>
-      <div className='dropdown-menu' id='dropdown-menu' role='menu'>
-        <div className='dropdown-content'>
+      <div className="dropdown-menu" id="dropdown-menu" role="menu">
+        <div className="dropdown-content">
           <a
-            href='#/'
-            className={`dropdown-item ${setActiveMode('view')}`}
+            href="#/"
+            className={`dropdown-item ${setActiveMode("view")}`}
             onClick={handleClick}
-            id={'view'}
+            id={"view"}
           >
             anzeigen
           </a>
 
           <a
-            href='#/'
-            className={`dropdown-item ${setActiveMode('modify')}`}
+            href="#/"
+            className={`dropdown-item ${setActiveMode("modify")}`}
             onClick={handleClick}
-            id={'modify'}
+            id={"modify"}
           >
             modifizieren
           </a>
           <a
             // dirty hack to keep bulma working
-            href='#/'
-            className={`dropdown-item ${setActiveMode('translate')}`}
+            href="#/"
+            className={`dropdown-item ${setActiveMode("translate")}`}
             onClick={handleClick}
-            id={'translate'}
+            id={"translate"}
           >
             bewegen
           </a>
           <a
             // dirty hack to keep bulma working
-            href='#/'
-            className={`dropdown-item ${setActiveMode('drawPoint')}`}
+            href="#/"
+            className={`dropdown-item ${setActiveMode("drawPoint")}`}
             onClick={handleClick}
-            id={'drawPoint'}
+            id={"drawPoint"}
           >
             Punkt zeichnen
           </a>
           <a
             // dirty hack to keep bulma working
-            href='#/'
-            className={`dropdown-item ${setActiveMode('drawPolygon')}`}
+            href="#/"
+            className={`dropdown-item ${setActiveMode("drawPolygon")}`}
             onClick={handleClick}
-            id={'drawPolygon'}
+            id={"drawPolygon"}
           >
             Polygon zeichnen
           </a>
@@ -140,8 +140,8 @@ export const SpotEditorMapToolbar: React.FC<{
   const [pointIsActive, setPointIsActive] = useState(true);
 
   return (
-    <div className='buttons'>
-      <Button handleClick={handleClick} cssId={'info'} isActive={false}>
+    <div className="buttons">
+      <Button handleClick={handleClick} cssId={"info"} isActive={false}>
         <IconInfo />
       </Button>
       <Button
@@ -155,7 +155,7 @@ export const SpotEditorMapToolbar: React.FC<{
           // setPointIsActive(polyIsActive === true ? false : true);
           handleClick(event);
         }}
-        cssId={'area'}
+        cssId={"area"}
         isActive={polyIsActive}
       >
         <IconPolygon />
@@ -171,7 +171,7 @@ export const SpotEditorMapToolbar: React.FC<{
           // setPolyIsActive(pointIsActive === true ? false : true);
           handleClick(event);
         }}
-        cssId={'location'}
+        cssId={"location"}
         isActive={pointIsActive}
       >
         <IconMapMarker />

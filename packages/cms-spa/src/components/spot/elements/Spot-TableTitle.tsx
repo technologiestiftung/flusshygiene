@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 import {
   IconRain,
   IconCalc,
   IconComment,
   IconCSV,
   IconIndustry,
-} from '../../fontawesome-icons';
+} from "../../fontawesome-icons";
 export type TableTitleIconType =
-  | 'IconCalc'
-  | 'IconRain'
-  | 'IconCSV'
-  | 'IconComment'
-  | 'IconIndustry';
+  | "IconCalc"
+  | "IconRain"
+  | "IconCSV"
+  | "IconComment"
+  | "IconIndustry";
 export interface ISpotTableTitle {
   title: string;
   iconType: TableTitleIconType;
@@ -21,31 +21,31 @@ export function SpotTableTitle({
   iconType,
 }: ISpotTableTitle): React.ReactNode {
   return (
-    <h3 className='is-title is-3'>
+    <h3 className="is-title is-3">
       <span>
         {(() => {
           switch (iconType) {
-            case 'IconComment': {
+            case "IconComment": {
               return <IconComment></IconComment>;
             }
-            case 'IconCSV': {
+            case "IconCSV": {
               return <IconCSV></IconCSV>;
             }
-            case 'IconRain': {
+            case "IconRain": {
               return <IconRain></IconRain>;
             }
-            case 'IconCalc': {
+            case "IconCalc": {
               return <IconCalc></IconCalc>;
             }
-            case 'IconIndustry': {
+            case "IconIndustry": {
               return <IconIndustry></IconIndustry>;
             }
             default: {
-              throw new Error('No default icon defiend');
+              throw new Error("No default icon defiend");
             }
           }
         })()}
-      </span>{' '}
+      </span>{" "}
       <span>{title}</span>
     </h3>
   );

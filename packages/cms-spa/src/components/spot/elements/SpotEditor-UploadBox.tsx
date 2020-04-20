@@ -1,22 +1,22 @@
-import React, { useState, createRef, useEffect } from 'react';
-import { Field, ErrorMessage } from 'formik';
-import { SpotEditorBox } from './SpotEditor-Box';
-import { SpotEditorFile } from './SpotEditor-File';
-import { ParseError } from 'papaparse';
+import React, { useState, createRef, useEffect } from "react";
+import { Field, ErrorMessage } from "formik";
+import { SpotEditorBox } from "./SpotEditor-Box";
+import { SpotEditorFile } from "./SpotEditor-File";
+import { ParseError } from "papaparse";
 import {
   ICSVValidationErrorRes,
   IMeasurementsUploadBox,
   IMeasurement,
-} from '../../../lib/common/interfaces';
-import { CSVvalidation } from '../formik-helpers/CSVvalidation';
-import { CSVparsing } from '../formik-helpers/CSVparsing';
-import { papaPromise } from '../../../lib/utils/papaPromise';
-import { SpotEditorMeasurmentInfo } from './SpotEditor-Measurments-Info';
-import { DataValidationInfoBox } from './DataValidationInfoBox';
-import { validURL } from '../../../lib/utils/validURL';
-import { unique } from '../../../lib/utils/unique-values';
-import { CSVUnique } from '../formik-helpers/CSVunique';
-import { InfoDataAggregation } from '../../infos/data-aggregation';
+} from "../../../lib/common/interfaces";
+import { CSVvalidation } from "../formik-helpers/CSVvalidation";
+import { CSVparsing } from "../formik-helpers/CSVparsing";
+import { papaPromise } from "../../../lib/utils/papaPromise";
+import { SpotEditorMeasurmentInfo } from "./SpotEditor-Measurments-Info";
+import { DataValidationInfoBox } from "./DataValidationInfoBox";
+import { validURL } from "../../../lib/utils/validURL";
+import { unique } from "../../../lib/utils/unique-values";
+import { CSVUnique } from "../formik-helpers/CSVunique";
+import { InfoDataAggregation } from "../../infos/data-aggregation";
 
 export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   title,
@@ -60,7 +60,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   };
   const resetDataUrl = () => {
     setDataUrl(undefined);
-    setFieldValue(fieldNameUrl, '');
+    setFieldValue(fieldNameUrl, "");
   };
 
   /**
@@ -88,7 +88,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
     const runValidation = async () => {
       try {
         const config: Papa.ParseConfig = {
-          delimiter: '',
+          delimiter: "",
           dynamicTyping: true,
           header: true,
           skipEmptyLines: true,
@@ -118,7 +118,7 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
           }
         }
         setDataIsValid(allValid);
-        const uniqueData = unique(results.data, 'date');
+        const uniqueData = unique(results.data, "date");
         // console.log(results.data);
         if (uniqueData.length < results.data.length) {
           setUniqueDataError(false);
@@ -137,12 +137,12 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
   }, [csvFile, schema]);
 
   const box = (
-    <div className={`${addionalClassNames ? addionalClassNames : ''}`}>
+    <div className={`${addionalClassNames ? addionalClassNames : ""}`}>
       <SpotEditorMeasurmentInfo type={type} />
       <SpotEditorFile
         name={fieldNameFile}
-        type={'file'}
-        label={'Datei auswählen…'}
+        type={"file"}
+        label={"Datei auswählen…"}
         disabled={false}
         handleClearClick={(e) => {
           e.preventDefault();
@@ -186,19 +186,19 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
                   täglich um 09:00 abgeholt werden kann.
                 </p>
               </div> */}
-              <div className='field is-horizontal'>
-                <div className='field-label is-normal'>
-                  <label htmlFor={fieldNameUrl} className='label'>
-                    {'http(s) url:'}
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label htmlFor={fieldNameUrl} className="label">
+                    {"http(s) url:"}
                   </label>
                 </div>
-                <div className='field-body'>
-                  <div className='field has-addons'>
-                    <div className='control is-expanded'>
+                <div className="field-body">
+                  <div className="field has-addons">
+                    <div className="control is-expanded">
                       <Field
-                        type={'input'}
+                        type={"input"}
                         name={fieldNameUrl}
-                        className='input is-small'
+                        className="input is-small"
                         id={fieldNameUrl}
                         data-testid={`test-input-${fieldNameUrl}`}
                         onChange={(event: React.ChangeEvent<any>) => {
@@ -212,11 +212,11 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
                       />
                       <ErrorMessage
                         name={fieldNameUrl}
-                        component='div'
-                        className='help is-danger'
+                        component="div"
+                        className="help is-danger"
                       />
                     </div>
-                    <div className='control'>
+                    <div className="control">
                       {/* <button
                         className='button is-small'
                         onClick={(e) => {
@@ -227,9 +227,9 @@ export const UploadBox: React.FC<IMeasurementsUploadBox> = ({
                         testen
                       </button> */}
                     </div>
-                    <div className='control'>
+                    <div className="control">
                       <button
-                        className='button is-small'
+                        className="button is-small"
                         onClick={(e) => {
                           e.preventDefault();
                           resetDataUrl();

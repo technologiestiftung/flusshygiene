@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Formik, Form, FieldArray } from 'formik';
-import { FormikButtons } from './formik-helpers/FormikButtons';
+import React, { useState, useEffect } from "react";
+import { Formik, Form, FieldArray } from "formik";
+import { FormikButtons } from "./formik-helpers/FormikButtons";
 import {
   IPurificationPlant,
   IApiAction,
   ICollectionWithSubitem,
-} from '../../lib/common/interfaces';
-import { SpotEditorInput } from './elements/SpotEditor-Input';
-import { SpotEditorBox } from './elements/SpotEditor-Box';
-import { ButtonIcon as Button } from '../Buttons';
-import { IconPlus, IconMinus } from '../fontawesome-icons';
-import { UploadBox } from './elements/SpotEditor-UploadBox';
-import { useAuth0 } from '../../lib/auth/react-auth0-wrapper';
+} from "../../lib/common/interfaces";
+import { SpotEditorInput } from "./elements/SpotEditor-Input";
+import { SpotEditorBox } from "./elements/SpotEditor-Box";
+import { ButtonIcon as Button } from "../Buttons";
+import { IconPlus, IconMinus } from "../fontawesome-icons";
+import { UploadBox } from "./elements/SpotEditor-UploadBox";
+import { useAuth0 } from "../../lib/auth/react-auth0-wrapper";
 
-import { defaultMeasurementsSchema } from '../../lib/utils/spot-validation-schema';
-import { REACT_APP_API_HOST } from '../../lib/config';
-import { ApiResources, APIMountPoints } from '../../lib/common/enums';
-import { actionCreator } from '../../lib/utils/pgapi-actionCreator';
-import { apiRequest, useApi } from '../../contexts/postgres-api';
-import { applyChange, observableDiff } from 'deep-diff';
+import { defaultMeasurementsSchema } from "../../lib/utils/spot-validation-schema";
+import { REACT_APP_API_HOST } from "../../lib/config";
+import { ApiResources, APIMountPoints } from "../../lib/common/enums";
+import { actionCreator } from "../../lib/utils/pgapi-actionCreator";
+import { apiRequest, useApi } from "../../contexts/postgres-api";
+import { applyChange, observableDiff } from "deep-diff";
 
 export interface ISpotEditorCollectionWithSubItemsInitialValues {
   collection: IPurificationPlant[] | ICollectionWithSubitem[];
@@ -26,7 +26,7 @@ export interface ISpotEditorCollectionWithSubItemsInitialValues {
 export const SpotEditorCollectionWithSubitem: React.FC<{
   initialValues: ISpotEditorCollectionWithSubItemsInitialValues;
   spotId: number;
-  uploadBoxResourceType: 'pplantMeasurements' | 'gInputMeasurements';
+  uploadBoxResourceType: "pplantMeasurements" | "gInputMeasurements";
   resourceType: ApiResources.purificationPlants | ApiResources.genericInputs;
   title: string;
   validationSchema: any;
@@ -102,7 +102,7 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
           body: {},
           token,
           url: `${baseUrl}/${delItem.id}`,
-          method: 'DELETE',
+          method: "DELETE",
           resource: resourceType,
         }),
       );
@@ -129,7 +129,7 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
                 body: target,
                 token,
                 url: `${baseUrl}/${item.id}`,
-                method: 'PUT',
+                method: "PUT",
                 resource: resourceType,
               }),
             );
@@ -149,7 +149,7 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
           body: item,
           token,
           url: baseUrl,
-          method: 'POST',
+          method: "POST",
           resource: resourceType,
         }),
       );
@@ -190,7 +190,7 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
                 infoModalClickHandler={handleInfoClick}
               ></FormikButtons>
               <FieldArray
-                name={'collection'}
+                name={"collection"}
                 render={(arrayHelpers) => {
                   if (
                     props.values.collection &&
@@ -199,13 +199,13 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
                     const fields = props.values.collection.map(
                       (pplant, index) => {
                         if (pplant.url === null) {
-                          pplant.url = '';
+                          pplant.url = "";
                         }
                         return (
                           <div key={index}>
                             <SpotEditorInput
-                              label={'Name'}
-                              type={'text'}
+                              label={"Name"}
+                              type={"text"}
                               name={`collection[${index}].name`}
                             >
                               <Button
@@ -219,25 +219,25 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
                               name={`collection[${index}].name`}
                             ></Field>{' '} */}
                             <SpotEditorInput
-                              label={'http (s) url'}
-                              type={'text'}
+                              label={"http (s) url"}
+                              type={"text"}
                               name={`collection[${index}].url`}
                             >
                               <Button
                                 text={`${title} entfernen`}
-                                additionalClassNames={'is-invisible'}
+                                additionalClassNames={"is-invisible"}
                               >
-                                {' '}
+                                {" "}
                                 <IconMinus />
                               </Button>
                             </SpotEditorInput>
                             <UploadBox
-                              addionalClassNames={'add-padding-top'}
+                              addionalClassNames={"add-padding-top"}
                               hasNoUrlField={true}
                               unboxed={true}
-                              title={'Messdaten hochladen'}
+                              title={"Messdaten hochladen"}
                               fieldNameFile={`collection[${index}].measurements`}
-                              fieldNameUrl={'url'}
+                              fieldNameUrl={"url"}
                               type={uploadBoxType}
                               props={props}
                               schema={defaultMeasurementsSchema}
@@ -257,16 +257,16 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
                     );
                     return (
                       <SpotEditorBox title={title}>
-                        <div className='buttons'>
-                          {' '}
+                        <div className="buttons">
+                          {" "}
                           <Button
                             text={`${title} hinzufügen`}
                             handleClick={() =>
                               arrayHelpers.insert(
                                 props.values.collection.length,
                                 {
-                                  name: '',
-                                  url: '',
+                                  name: "",
+                                  url: "",
                                 },
                               )
                             }
@@ -283,12 +283,12 @@ export const SpotEditorCollectionWithSubitem: React.FC<{
                     return (
                       <>
                         <SpotEditorBox title={title}>
-                          <div className='buttons'>
+                          <div className="buttons">
                             <Button
                               text={`${title} hinzufügen`}
-                              type='button'
+                              type="button"
                               handleClick={() =>
-                                arrayHelpers.push({ name: '', url: '' })
+                                arrayHelpers.push({ name: "", url: "" })
                               }
                             >
                               <IconPlus></IconPlus>

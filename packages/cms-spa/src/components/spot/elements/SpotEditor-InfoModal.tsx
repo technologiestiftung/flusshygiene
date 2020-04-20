@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
 export const SpotEditorInfoModal: React.FC<{
   isActive: boolean;
   clickHandler: () => void;
 }> = ({ isActive, clickHandler }) => {
   return (
-    <div className={`modal ${isActive === true ? 'is-active' : ''}`}>
-      <div className='modal-background' onClick={clickHandler}></div>
-      <div className='modal-content'>
-        <div className='box'>
-          <div className='content'>
+    <div className={`modal ${isActive === true ? "is-active" : ""}`}>
+      <div className="modal-background" onClick={clickHandler}></div>
+      <div className="modal-content">
+        <div className="box">
+          <div className="content">
             <h1>Informationen zum Anlegen von Badestellen</h1>
             <p>
               Liebe Nutzer*innen, dieses Tool soll die Nutzer*innen dabei
@@ -34,9 +34,9 @@ export const SpotEditorInfoModal: React.FC<{
               gestalten.
             </p>
             <p>
-              Das Minimum an Information, das{' '}
-              <span style={{ textDecoration: 'underline' }}>
-                von den Nutzer*innen{' '}
+              Das Minimum an Information, das{" "}
+              <span style={{ textDecoration: "underline" }}>
+                von den Nutzer*innen{" "}
               </span>
               bereitgestellt werden muss, ist:
             </p>
@@ -174,8 +174,8 @@ export const SpotEditorInfoModal: React.FC<{
           </div>
         </div>
         <button
-          className='modal-close is-large'
-          aria-label='close'
+          className="modal-close is-large"
+          aria-label="close"
           onClick={clickHandler}
         ></button>
       </div>

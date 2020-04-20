@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Formik, Form } from 'formik';
+import React, { useState } from "react";
+import { Formik, Form } from "formik";
 import {
   IBathingspot,
   MapEditModes,
@@ -7,22 +7,22 @@ import {
   ApiActionTypes,
   IGeoJsonPoint,
   IGeoJsonPolygon,
-} from '../../lib/common/interfaces';
-import { nullValueTransform } from '../../lib/utils/spot-nullvalue-transformer';
-import { APIMountPoints, ApiResources } from '../../lib/common/enums';
-import { useAuth0 } from '../../lib/auth/react-auth0-wrapper';
-import { SpotEditorBox } from './elements/SpotEditor-Box';
-import { formSectionBuilder } from './elements/SpotEditor-form-section-builder';
-import { patchValues } from '../../lib/form-data/patch-values';
-import { setupBasisData } from '../../lib/form-data/basis-data';
-import { influenceData } from '../../lib/form-data/influence-data';
-import { additionalData } from '../../lib/form-data/additional-data';
-import { healthDepartmentData } from '../../lib/form-data/healtdepartment-data';
-import FormikSpotEditorMap from './elements/SpotEditor-Map';
-import { REACT_APP_API_HOST } from '../../lib/config';
-import { useApi, apiRequest } from '../../contexts/postgres-api';
-import { actionCreator } from '../../lib/utils/pgapi-actionCreator';
-import { FormikButtons } from './formik-helpers/FormikButtons';
+} from "../../lib/common/interfaces";
+import { nullValueTransform } from "../../lib/utils/spot-nullvalue-transformer";
+import { APIMountPoints, ApiResources } from "../../lib/common/enums";
+import { useAuth0 } from "../../lib/auth/react-auth0-wrapper";
+import { SpotEditorBox } from "./elements/SpotEditor-Box";
+import { formSectionBuilder } from "./elements/SpotEditor-form-section-builder";
+import { patchValues } from "../../lib/form-data/patch-values";
+import { setupBasisData } from "../../lib/form-data/basis-data";
+import { influenceData } from "../../lib/form-data/influence-data";
+import { additionalData } from "../../lib/form-data/additional-data";
+import { healthDepartmentData } from "../../lib/form-data/healtdepartment-data";
+import FormikSpotEditorMap from "./elements/SpotEditor-Map";
+import { REACT_APP_API_HOST } from "../../lib/config";
+import { useApi, apiRequest } from "../../contexts/postgres-api";
+import { actionCreator } from "../../lib/utils/pgapi-actionCreator";
+import { FormikButtons } from "./formik-helpers/FormikButtons";
 
 export const SpotEditorBasisData: React.FC<{
   initialSpot: IBathingspotExtend;
@@ -40,7 +40,7 @@ export const SpotEditorBasisData: React.FC<{
   // └─┘ ┴ ┴ ┴ ┴ └─┘
   const [apiState, apiDispatch] = useApi();
 
-  const [editMode /*setEditMode*/] = useState<MapEditModes>('view');
+  const [editMode /*setEditMode*/] = useState<MapEditModes>("view");
   const { user, getTokenSilently } = useAuth0();
 
   const transformedSpot = nullValueTransform(initialSpot);
@@ -51,13 +51,13 @@ export const SpotEditorBasisData: React.FC<{
     const { id, createdAt, version, updatedAt, ...body } = spot;
 
     for (const key in body) {
-      if (key === 'csvFile') {
+      if (key === "csvFile") {
         delete body[key];
       }
-      if (key === 'isPublic') {
+      if (key === "isPublic") {
         continue;
       }
-      if (key === 'location' || key === 'area') {
+      if (key === "location" || key === "area") {
         continue;
       }
       if (body[key] === null || body[key] === undefined) {
@@ -69,8 +69,8 @@ export const SpotEditorBasisData: React.FC<{
     }
 
     // FIXME: Hotfix for location error
-    if (body.location && body.location.type === 'Polygon') {
-      body.location.type = 'Point';
+    if (body.location && body.location.type === "Polygon") {
+      body.location.type = "Point";
     }
     if (body.location?.coordinates.length === 0) {
       delete body.location;
@@ -88,11 +88,11 @@ export const SpotEditorBasisData: React.FC<{
       }
 
       const action = actionCreator({
-        method: newSpot === true ? 'POST' : 'PUT',
+        method: newSpot === true ? "POST" : "PUT",
         type: ApiActionTypes.START_API_REQUEST,
         token,
         url,
-        resource: newSpot === true ? 'bathingspots' : 'bathingspot',
+        resource: newSpot === true ? "bathingspots" : "bathingspot",
         body,
       });
       // console.log('post options', postSpotOpts);
@@ -134,8 +134,8 @@ export const SpotEditorBasisData: React.FC<{
         }}
       >
         {(props) => {
-          props.registerField('location', {});
-          props.registerField('area', {});
+          props.registerField("location", {});
+          props.registerField("area", {});
 
           const handleGeoJsonUpdates: (
             e: React.ChangeEvent<any>,
@@ -145,24 +145,24 @@ export const SpotEditorBasisData: React.FC<{
             // console.log('handel geojson update');
             if (area !== undefined) {
               // console.log('the area', area);
-              props.setFieldValue('area', area);
+              props.setFieldValue("area", area);
             }
             if (location !== undefined) {
-              props.setFieldValue('location', location);
+              props.setFieldValue("location", location);
             }
             props.handleChange(e);
           };
           const requiredData = patchValues(props.values, [
             {
-              name: 'name',
-              type: 'text',
-              label: 'Name',
+              name: "name",
+              type: "text",
+              label: "Name",
             },
             {
-              name: 'isPublic',
-              type: 'checkbox',
+              name: "isPublic",
+              type: "checkbox",
               label:
-                'Öffentlich einsehbar (erlaubt Lesezugriff auf alle Informationen der Badestelle ohne Authentifizierung)',
+                "Öffentlich einsehbar (erlaubt Lesezugriff auf alle Informationen der Badestelle ohne Authentifizierung)",
               value: undefined,
             },
             // {
@@ -185,7 +185,7 @@ export const SpotEditorBasisData: React.FC<{
           const patchedInfluenceData = patchValues(
             props.values,
             influenceData,
-            'unknown',
+            "unknown",
           );
 
           return (
@@ -196,11 +196,11 @@ export const SpotEditorBasisData: React.FC<{
                   handleCancelClick={handleEditModeClick}
                   infoModalClickHandler={handleInfoShowModeClick}
                 />
-                <SpotEditorBox title={'Basis Daten*'}>
+                <SpotEditorBox title={"Basis Daten*"}>
                   {formSectionBuilder(requiredData, props.handleChange)}
                 </SpotEditorBox>
                 {props.values !== undefined && (
-                  <SpotEditorBox title={'Geo Daten *'}>
+                  <SpotEditorBox title={"Geo Daten *"}>
                     <FormikSpotEditorMap
                       width={800}
                       height={600}
@@ -217,21 +217,21 @@ export const SpotEditorBasisData: React.FC<{
                   (newSpot === undefined && (
                     <>
                       <SpotEditorBox
-                        title={'Hygienische Beeinträchtigung durch:'}
+                        title={"Hygienische Beeinträchtigung durch:"}
                       >
                         {formSectionBuilder(
                           patchedInfluenceData,
                           props.handleChange,
                         )}
                       </SpotEditorBox>
-                      <SpotEditorBox title={'Zusatz Daten'}>
+                      <SpotEditorBox title={"Zusatz Daten"}>
                         {formSectionBuilder(
                           [...patchedBasisData, ...patchedAdditionalData],
                           props.handleChange,
                         )}
                       </SpotEditorBox>
 
-                      <SpotEditorBox title={'Zuständiges Gesundheitsamt'}>
+                      <SpotEditorBox title={"Zuständiges Gesundheitsamt"}>
                         {formSectionBuilder(
                           healthDepartmentData,
                           props.handleChange,
