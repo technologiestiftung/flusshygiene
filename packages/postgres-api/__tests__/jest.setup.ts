@@ -20,6 +20,7 @@ config({ path: path.resolve(__dirname, './.env.test') });
 
 module.exports = async () => {
   const tokenFilePath = path.resolve(__dirname, './.test.token.json');
+  // eslint-disable-next-line no-console
   console.log('Setup jest for all tests');
   const token = readTokenFromDisc(tokenFilePath);
   // console.log(token);

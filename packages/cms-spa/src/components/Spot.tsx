@@ -1212,8 +1212,8 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
                       </div>
                       <PublicData
                         spotId={spot.id}
-                        genericInputs={spot.genericInputs}
-                        purificationPlants={spot.purificationPlants}
+                        // genericInputs={spot.genericInputs}
+                        // purificationPlants={spot.purificationPlants}
                       ></PublicData>
                     </>
                   )}
