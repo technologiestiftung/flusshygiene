@@ -35,15 +35,14 @@ export const CardTile: React.FC<ISpotCard> = ({
       <div className="card-content">
         <div className="media">
           <div className="media-content">
+            <p className="title is-6">ID: {id}</p>
             <p className="title is-6">
-              {title}{" "}
-              {(() => {
-                if (hasPrediction === true) {
-                  return <span className="asteriks"> * </span>;
-                }
-                return null;
-              })()}
+              Name: {title}{" "}
+              {hasPrediction === true ? (
+                <span className="asteriks"> * </span>
+              ) : null}
             </p>
+            <p className="title is-6">Gewässer: {water ? water : "n.a."}</p>
             {/* {(() => {
               if (water) {
                 if (water.length >= 0) {
@@ -57,7 +56,7 @@ export const CardTile: React.FC<ISpotCard> = ({
             })()} */}
           </div>
         </div>
-        <div className="content">
+        {/* <div className="content">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -73,7 +72,7 @@ export const CardTile: React.FC<ISpotCard> = ({
             </>
           )}
           <br />
-        </div>
+        </div> */}
       </div>
       <footer className="card-footer">
         <Link
