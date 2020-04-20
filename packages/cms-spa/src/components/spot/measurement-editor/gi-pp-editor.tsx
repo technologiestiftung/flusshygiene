@@ -140,8 +140,13 @@ export const GIPPEditor: React.FC<{
                     setShowInfo((value) => !value);
                   }}
                 ></FormikButtons>
-                <SpotEditorInput label="Name" type="text" name="name" />
+                <SpotEditorInput label="Name *" type="text" name="name" />
                 <SpotEditorInput label="http(s) URL" type="text" name="url" />
+                <div className="content">
+                  <p>
+                    <em>* Ist benötigt</em>
+                  </p>
+                </div>
               </Form>
             );
           }}
