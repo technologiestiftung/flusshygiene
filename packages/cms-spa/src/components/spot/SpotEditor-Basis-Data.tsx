@@ -23,6 +23,7 @@ import { REACT_APP_API_HOST } from "../../lib/config";
 import { useApi, apiRequest } from "../../contexts/postgres-api";
 import { actionCreator } from "../../lib/utils/pgapi-actionCreator";
 import { FormikButtons } from "./formik-helpers/FormikButtons";
+import { SpotEditorInfoModal } from "./elements/SpotEditor-InfoModal";
 
 export const SpotEditorBasisData: React.FC<{
   initialSpot: IBathingspotExtend;
@@ -39,13 +40,16 @@ export const SpotEditorBasisData: React.FC<{
   // └─┐ │ ├─┤ │ ├┤
   // └─┘ ┴ ┴ ┴ ┴ └─┘
   const [apiState, apiDispatch] = useApi();
-
+  const [infoShowMode, setInfoShowMode] = useState<boolean>(false);
   const [editMode /*setEditMode*/] = useState<MapEditModes>("view");
   const { user, getTokenSilently } = useAuth0();
 
   const transformedSpot = nullValueTransform(initialSpot);
   // console.log(transformedSpot);
 
+  const handleInfoShowModeClickOverwrite = (e?: React.ChangeEvent<any>) => {
+    setInfoShowMode((prev) => !prev);
+  };
   const callPutPostSpot = async (spot: IBathingspot) => {
     const token = await getTokenSilently();
     const { id, createdAt, version, updatedAt, ...body } = spot;
@@ -120,6 +124,10 @@ export const SpotEditorBasisData: React.FC<{
 
   return (
     <>
+      <SpotEditorInfoModal
+        isActive={infoShowMode}
+        clickHandler={handleInfoShowModeClickOverwrite}
+      />
       <Formik
         enableReinitialize={true}
         initialValues={transformedSpot}
@@ -194,7 +202,7 @@ export const SpotEditorBasisData: React.FC<{
                 <FormikButtons
                   props
                   handleCancelClick={handleEditModeClick}
-                  infoModalClickHandler={handleInfoShowModeClick}
+                  infoModalClickHandler={handleInfoShowModeClickOverwrite}
                 />
                 <SpotEditorBox title={"Basis Daten*"}>
                   {formSectionBuilder(requiredData, props.handleChange)}

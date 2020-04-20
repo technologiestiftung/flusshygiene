@@ -2,7 +2,7 @@ import React from "react";
 
 export const SpotEditorInfoModal: React.FC<{
   isActive: boolean;
-  clickHandler: () => void;
+  clickHandler: (e?: React.ChangeEvent<any>) => void;
 }> = ({ isActive, clickHandler }) => {
   return (
     <div className={`modal ${isActive === true ? "is-active" : ""}`}>
