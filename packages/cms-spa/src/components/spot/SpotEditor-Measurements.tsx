@@ -29,6 +29,7 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
   initialValues: IMeasurmentsUploadInitialValues;
   spotId: number;
   uploadType?: "measurements" | "discharges" | "globalIrradiances";
+  resourceTitle?: string;
   handeCloseClick: (e?: React.ChangeEvent<any> | undefined) => void;
   handleInfoClick: (e?: React.ChangeEvent<any> | undefined) => void;
   // postData: (data: any) => void;
@@ -47,6 +48,7 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
   handleInfoClick,
   spotId,
   uploadType,
+  resourceTitle,
 }) => {
   const [apiState, apiDispatch] = useApi();
   const { user, getTokenSilently } = useAuth0();
@@ -142,6 +144,8 @@ export const SpotEditorMeasurmentsUpload: React.FC<{
   };
   return (
     <>
+      {resourceTitle && <h1>{resourceTitle}</h1>}
+
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}

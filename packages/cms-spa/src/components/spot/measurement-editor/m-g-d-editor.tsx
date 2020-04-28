@@ -29,6 +29,7 @@ export const MGDEditor: React.FC<{
   handleCancelClick: ClickFunction;
   handleSubmitClose: ClickFunction;
   initialValues?: IBathingspotApiEndpoints;
+  resourceTitle?: string;
 }> = ({
   userId,
   spotId,
@@ -37,6 +38,7 @@ export const MGDEditor: React.FC<{
   initialValues,
   handleCancelClick,
   handleSubmitClose,
+  resourceTitle,
 }) => {
   if (linkType === undefined) {
     throw new Error("linktype in MGDEditor is undefiend");
@@ -72,6 +74,8 @@ export const MGDEditor: React.FC<{
   return (
     <>
       <Container>
+        {resourceTitle && <h1>{resourceTitle}</h1>}
+
         <Formik
           initialValues={initialValues}
           onSubmit={(values, bag) => {

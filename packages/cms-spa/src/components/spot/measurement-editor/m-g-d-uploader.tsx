@@ -27,6 +27,7 @@ export const MGDUploader: React.FC<{
   handleCancelClick: ClickFunction;
   handleSubmitClose: ClickFunction;
   title: string;
+  resourceTitle?: string;
 }> = ({
   userId,
   spotId,
@@ -35,6 +36,7 @@ export const MGDUploader: React.FC<{
   handleCancelClick,
   handleSubmitClose,
   title,
+  resourceTitle,
 }) => {
   const BASE_URL = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${ApiResources.users}/${userId}/${ApiResources.bathingspots}/${spotId}`;
   const [showInfo, setShowInfo] = useState(true);
@@ -104,6 +106,8 @@ export const MGDUploader: React.FC<{
   return (
     <>
       <Container>
+        {resourceTitle && <h1>{resourceTitle}</h1>}
+
         <Formik
           initialValues={{
             measurements: [],

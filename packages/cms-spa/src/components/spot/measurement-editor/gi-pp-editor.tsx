@@ -25,6 +25,7 @@ export const GIPPEditor: React.FC<{
   spotId: number;
   subItemId?: number;
   handleSubmitClose: ClickFunction;
+  resourceTitle?: string;
 }> = ({
   handleCancelClick,
   intitalValues,
@@ -34,6 +35,7 @@ export const GIPPEditor: React.FC<{
   userId,
   subItemId,
   handleSubmitClose,
+  resourceTitle,
 }) => {
   if (reqType === undefined) {
     throw new Error("Request type needs to be POST or PUT");
@@ -51,9 +53,11 @@ export const GIPPEditor: React.FC<{
   const BASE_URL = `${REACT_APP_API_HOST}/${APIMountPoints.v1}/${
     ApiResources.users
   }/${userId}/${ApiResources.bathingspots}/${spotId}/${
-    resourceType === "genericInputs" ? "genericInputs" : "purificationPlants"
+    resourceType === "genericInputs" || resourceType === "gInputMeasurements"
+      ? "genericInputs"
+      : "purificationPlants"
   }`;
-  //console.log(BASE_URL);
+  // console.log(BASE_URL, "base url");
 
   const postData = async (name: string, url?: string) => {
     try {
@@ -76,7 +80,8 @@ export const GIPPEditor: React.FC<{
   const putData = async (name: string, url?: string) => {
     try {
       const token = await getTokenSilently();
-      // console.log('PUT');
+      // console.log(resourceType, "res type");
+
       const action = actionCreator({
         url: `${BASE_URL}/${subItemId}`,
         method: reqType,
@@ -87,6 +92,7 @@ export const GIPPEditor: React.FC<{
         body: { url, name },
         token,
       });
+      // console.log(action, "action");
       apiRequest(apiDispatch, action);
       handleSubmitClose();
       // console.log(action);
@@ -102,6 +108,7 @@ export const GIPPEditor: React.FC<{
   return (
     <>
       <Container>
+        {resourceTitle && <h1>{resourceTitle}</h1>}
         <Formik
           initialValues={initValues}
           validationSchema={singlePPlantGiSchema}
