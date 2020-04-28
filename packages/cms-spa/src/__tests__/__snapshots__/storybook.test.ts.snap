@@ -85,81 +85,26 @@ Array [
           className="content"
         >
           <h1>
-            Informationen zum Anlegen von Badestellen
+            Hilfe zur Plattform
           </h1>
           <p>
-            Liebe Nutzer*innen, dieses Tool soll die Nutzer*innen dabei unterstützen, vorhersagebasierte Einschätzungen der Badegewässerqualität vorzunehmen, soweit sich diese mit frei verfügbaren oder vom Nutzer bereitgestellten Datensätzen vorhersagen lässt. Wichtig ist, dass es sich bei diesen Datensätzen um solche handelt, die kontinuierlich gemessen werden und automatisch abfragbar sind. Die Daten der wichtigsten Vorhersagevariable, des Regens, kann das aufgebaute Tool selbstständig über das Angebot des Deutschen Wetterdienstes beziehen. Hier ist kein User-Input notwendig.
-          </p>
-          <p>
-            Anzumerken ist, dass es sich bei diesem Tool um ein Expertentool handelt. Es wird davon ausgegangen, dass grundsätzliche Kenntnisse und Begrifflichkeiten der Badegewässerbewirtschaftung und zu potentiellen Belastungsquellen vorausgesetzt werden. Unterstützt werden vor allem der Aufbau, die Bewertung und die Nutzung statistischer Modelle zur Vorhersage der Badegewässerqualität. Dennoch wird versucht die Nutzung so einfach wie möglich zu gestalten.
-          </p>
-          <p>
-            Das Minimum an Information, das
+            Eine ausführliche Dokumentation finden Sie in diesem
              
-            <span
-              style={
-                Object {
-                  "textDecoration": "underline",
-                }
-              }
+            <a
+              href="https://docs.google.com/document/d/1-_5ObrwQGtX03ZrIyXCgoDTpG-JEK216MaAeLZbwRWE/edit?usp=sharing"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              von den Nutzer*innen
-               
-            </span>
-            bereitgestellt werden muss, ist:
-          </p>
-          <ol>
-            <li>
-              Der Name und Ort der Badestelle (als Längen und Breitengrad, Koordinatensystem WGS84)
-            </li>
-            <li>
-              Datum und Messwerte der Badegewässerüberwachung (optional kann zusätzlich der Zeitpunkt der Probennahme angegeben werden)
-            </li>
-            <li>
-              Die Definition einer Niederschlagsfläche, von der davon ausgegangen wird, dass der gefallene Regen die Badegewässerqualität negativ beeinflussen kann.
-            </li>
-          </ol>
-          <p>
-            Darüber hinaus werden Basisinformationen zu Charakteristiken, des Einzugsgebiets abgefragt. Falls diese Informationen nicht vorliegen können diese Information mit „unbekannt“ angegeben werden.
-          </p>
-          <h2>
-            Dateineingabe
-          </h2>
-          <p>
-            Die Dateneingabe muss über eine csv.-Datei erfolgen, dass wiederum einem bestimmten Format genügen muss, um von der Plattform eingelesen werden zu können. Genauere Information zu der Form der Daten finden Sie bei den einzelnen Upload Modulen.
-          </p>
-          <h2>
-            Definition der Niederschlagsfläche
-          </h2>
-          <p>
-            Unter einer „relevanten Niederschlagsfläche“ wird die Grundfläche verstanden, über der der Regen eine bestimmte Badestelle beeinflusst. Dies bedeutet, dass Niederschläge, die über dieser Fläche fallen zu Einleitungen von hygienischen Belastungen führen, die letztendlich, das Badegewässer beeinflussen. Aufgrund der vielfältigen, verschiedenen Standortbedingungen ist es nicht möglich eine allgemeingültige Schätzung der für ein Badegewässer relevanten Regenfläche zu definieren. Von daher ist ortsspezifisches Wissen über den Standort des Badegewässers notwendig. Über eine interaktive Karte kann die relevante Regenfläche definiert werden. Es ist zu erwähnen, dass das Raster des Regenradars eine Auflösung von 1km x 1km hat. Diese Auflösung ist zwar bereits sehr hoch, jedoch können teilweise zu detaillierte Kurvenverläufe unter Umständen nicht perfekt abgebildet werden.
-          </p>
-          <p>
-            Anbei einige Faktoren, die bei der Auswahl der Fläche bedacht werden sollten:
-          </p>
-          <ol>
-            <li>
-              An Flüssen sollte die Fließrichtung bedacht werden, da nur Einleitungen im Oberlauf die Badestelle beeinträchtigen.
-            </li>
-            <li>
-              An Flüssen können auch Einleitungen die kilometerweit im Oberlauf der Badestelle liegen, die Badegewässerqualität negativ beeinflussen.
-            </li>
-            <li>
-              Urbane Gebiete sollten als Ganzes mit einbezogen werden, da Niederschläge dort zu Einleitungen aus der Misch - und Trennkanalisation führen können.
-            </li>
-            <li>
-              Informationen über das Relief können wichtig sein, für die Beeinflussung des Niederschlags zu bewerten.
-            </li>
-            <li>
-              Einleitungen sind nicht nur aus urbanen sondern auch aus landwirtschaftlichen Flächen zu erwarten.
-            </li>
-          </ol>
-          <p>
-            Mit einem 
-            <strong>
-              *
-            </strong>
-             gekennzeichnete Felder sind Pflichtfelder
+              Google Doc.
+            </a>
+             
+            Dort haben Sie auch die Möglichkeit zu kommentieren. Oder schreiben Sie eine E-Mail an:
+             
+            <a
+              href="mailto:flusshygiene@technologiestiftung-berlin.de?subject=[Flussbaden]"
+            >
+              flusshygiene@technologiestiftung-berlin.de
+            </a>
           </p>
         </div>
       </div>
