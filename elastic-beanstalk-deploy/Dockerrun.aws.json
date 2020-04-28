@@ -156,7 +156,13 @@
           "containerPort": 80
         }
       ],
-      "links": ["api:api", "spa:spa", "ocpu:ocpu", "middlelayer:middlelayer", "helpdesk:helpdesk"],
+      "links": [
+        "api:api",
+        "spa:spa",
+        "ocpu:ocpu",
+        "middlelayer:middlelayer",
+        "helpdesk:helpdesk"
+      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -174,7 +180,3 @@
     }
   ]
 }
-
-
-
-
