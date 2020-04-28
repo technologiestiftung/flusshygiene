@@ -252,7 +252,7 @@ const Spot: React.FC<RouteProps> = ({ match }) => {
   useEffect(() => {
     if (!spot) return;
     // eslint-disable-next-line no-console
-    console.log(spot);
+    // console.log(spot);
     helpDeskDispatch({ type: "SET_SPOT", payload: spot });
   }, [spot, helpDeskDispatch]);
   /**

@@ -30,6 +30,7 @@ export const GiPPUploader: React.FC<{
   resourceType: RequestResourceTypes;
   handleCancelClick: ClickFunction;
   handleSubmitClose: ClickFunction;
+  resourceTitle?: string;
 }> = ({
   userId,
   spotId,
@@ -37,6 +38,7 @@ export const GiPPUploader: React.FC<{
   resourceType,
   handleCancelClick,
   handleSubmitClose,
+  resourceTitle,
 }) => {
   if (subItemId === undefined) {
     throw new Error("subItemId needs to be defined");
@@ -122,6 +124,8 @@ export const GiPPUploader: React.FC<{
   return (
     <>
       <Container>
+        {resourceTitle && <h1>{resourceTitle}</h1>}
+
         <Formik
           initialValues={{
             measurements: [],
