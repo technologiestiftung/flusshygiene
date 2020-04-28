@@ -8,6 +8,7 @@ import { useHelpDesk } from "../contexts/helpdesk";
 import * as Yup from "yup";
 import { MessageProvider, useMessages } from "../contexts/messages";
 import history from "../lib/history";
+import { HelpText } from "./HelpText";
 
 interface InitialValues {
   data?: string;
@@ -154,178 +155,184 @@ export const HelpDesk: React.FC<{ hdData?: any; hdText?: string }> = ({
       <MessageProvider>
         <Container>
           {isAuthenticated && user ? (
-            <Formik
-              enableReinitialize={true}
-              validationSchema={schema}
-              initialValues={initialValues}
-              onSubmit={(values, { setSubmitting, resetForm }) => {
-                if (!token) return;
-                const opts = {
-                  token,
-                  data: values.data,
-                  email: values.email ? values.email : "",
-                  name: values.name ? values.name : "",
-                  text: values.text ? values.text : "",
-                  spotId: values.spotId,
-                  spotName: values.spotName,
-                  userId: values.userId,
-                  callBack: (success?: boolean) => {
-                    setSubmitting(false);
-                    if (success) {
-                      resetForm();
-                    }
-                  },
-                };
-                postData(opts).catch((err) => {
-                  throw err;
-                });
-              }}
-            >
-              {({ isValid, isSubmitting }) => (
-                <Form>
-                  <Field name="email">
-                    {({ field, meta }) => (
-                      <div className="field">
-                        <label htmlFor="email">E-Mail *</label>
-                        <div className="control">
-                          <input
-                            type="email"
-                            className={`input ${
-                              meta.touched && meta.error ? "is-danger" : ""
-                            }`}
-                            placeholder="E-Mail"
-                            {...field}
-                          />
-                          {meta.touched && meta.error && (
-                            <div className="helpdesk__field--error">
-                              {meta.error}
-                            </div>
-                          )}
+            <>
+              <HelpText />
+              <div className="content">
+                <p>Oder benutzen Sie das unten stehende Formular.</p>
+              </div>
+              <Formik
+                enableReinitialize={true}
+                validationSchema={schema}
+                initialValues={initialValues}
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                  if (!token) return;
+                  const opts = {
+                    token,
+                    data: values.data,
+                    email: values.email ? values.email : "",
+                    name: values.name ? values.name : "",
+                    text: values.text ? values.text : "",
+                    spotId: values.spotId,
+                    spotName: values.spotName,
+                    userId: values.userId,
+                    callBack: (success?: boolean) => {
+                      setSubmitting(false);
+                      if (success) {
+                        resetForm();
+                      }
+                    },
+                  };
+                  postData(opts).catch((err) => {
+                    throw err;
+                  });
+                }}
+              >
+                {({ isValid, isSubmitting }) => (
+                  <Form>
+                    <Field name="email">
+                      {({ field, meta }) => (
+                        <div className="field">
+                          <label htmlFor="email">E-Mail *</label>
+                          <div className="control">
+                            <input
+                              type="email"
+                              className={`input ${
+                                meta.touched && meta.error ? "is-danger" : ""
+                              }`}
+                              placeholder="E-Mail"
+                              {...field}
+                            />
+                            {meta.touched && meta.error && (
+                              <div className="helpdesk__field--error">
+                                {meta.error}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Field>
+                      )}
+                    </Field>
 
-                  <Field name="name">
-                    {({ field, meta }) => (
-                      <div className="field">
-                        <label htmlFor="name">Ihr Name *</label>
-                        <div className="control">
-                          <input
-                            type="text"
-                            className={`input ${
-                              meta.touched && meta.error ? "is-danger" : ""
-                            }`}
-                            placeholder="Ihr Name"
-                            {...field}
-                          />
-                          {meta.touched && meta.error && (
-                            <div className="helpdesk__field--error">
-                              {meta.error}
-                            </div>
-                          )}
+                    <Field name="name">
+                      {({ field, meta }) => (
+                        <div className="field">
+                          <label htmlFor="name">Ihr Name *</label>
+                          <div className="control">
+                            <input
+                              type="text"
+                              className={`input ${
+                                meta.touched && meta.error ? "is-danger" : ""
+                              }`}
+                              placeholder="Ihr Name"
+                              {...field}
+                            />
+                            {meta.touched && meta.error && (
+                              <div className="helpdesk__field--error">
+                                {meta.error}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Field>
-                  <Field name="userId">
-                    {({ field }) => (
-                      <div className="field">
-                        <label htmlFor="userId">Ihre Benutzer ID</label>
-                        <div className="control">
-                          <input
-                            type="number"
-                            className="input"
-                            placeholder="Ihre UserID"
-                            {...field}
-                          />
+                      )}
+                    </Field>
+                    <Field name="userId">
+                      {({ field }) => (
+                        <div className="field">
+                          <label htmlFor="userId">Ihre Benutzer ID</label>
+                          <div className="control">
+                            <input
+                              type="number"
+                              className="input"
+                              placeholder="Ihre UserID"
+                              {...field}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Field>
-                  <Field name="spotName">
-                    {({ field }) => (
-                      <div className="field">
-                        <label htmlFor="spotName">Name der Badestelle</label>
-                        <div className="control">
-                          <input
-                            type="text"
-                            className="input"
-                            placeholder="Name der Badestelle"
-                            {...field}
-                          />
+                      )}
+                    </Field>
+                    <Field name="spotName">
+                      {({ field }) => (
+                        <div className="field">
+                          <label htmlFor="spotName">Name der Badestelle</label>
+                          <div className="control">
+                            <input
+                              type="text"
+                              className="input"
+                              placeholder="Name der Badestelle"
+                              {...field}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Field>
-                  <Field name="spotId">
-                    {({ field }) => (
-                      <div className="field">
-                        <label htmlFor="spotId">ID der Badestelle</label>
-                        <div className="control">
-                          <input
-                            type="number"
-                            className="input"
-                            placeholder="Badestellen ID"
-                            {...field}
-                          />
+                      )}
+                    </Field>
+                    <Field name="spotId">
+                      {({ field }) => (
+                        <div className="field">
+                          <label htmlFor="spotId">ID der Badestelle</label>
+                          <div className="control">
+                            <input
+                              type="number"
+                              className="input"
+                              placeholder="Badestellen ID"
+                              {...field}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Field>
-                  <Field name="text">
-                    {({ field, meta }) => (
-                      <div className="field">
-                        <label htmlFor="text">
-                          Freier Text *<em>(Mindestens 15 Zeichen)</em>
-                        </label>
-                        <div className="control">
-                          <textarea
-                            className={`textarea ${
-                              meta.touched && meta.error ? "is-danger" : ""
-                            }`}
-                            placeholder="Freier Text"
-                            {...field}
-                          ></textarea>
-                          {meta.touched && meta.error && (
-                            <div className="helpdesk__field--error">
-                              {meta.error}
-                            </div>
-                          )}
+                      )}
+                    </Field>
+                    <Field name="text">
+                      {({ field, meta }) => (
+                        <div className="field">
+                          <label htmlFor="text">
+                            Freier Text *<em>(Mindestens 15 Zeichen)</em>
+                          </label>
+                          <div className="control">
+                            <textarea
+                              className={`textarea ${
+                                meta.touched && meta.error ? "is-danger" : ""
+                              }`}
+                              placeholder="Freier Text"
+                              {...field}
+                            ></textarea>
+                            {meta.touched && meta.error && (
+                              <div className="helpdesk__field--error">
+                                {meta.error}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Field>
-                  <Field name="data">
-                    {({ field }) => (
-                      <div className="field">
-                        <label htmlFor="text">Systemgenerierte Daten</label>
-                        <div className="control">
-                          <textarea
-                            className="textarea"
-                            placeholder="System Daten"
-                            {...field}
-                          ></textarea>
+                      )}
+                    </Field>
+                    <Field name="data">
+                      {({ field }) => (
+                        <div className="field">
+                          <label htmlFor="text">Systemgenerierte Daten</label>
+                          <div className="control">
+                            <textarea
+                              className="textarea"
+                              placeholder="System Daten"
+                              {...field}
+                            ></textarea>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Field>
-                  {/* <Field type="input" name="name" placeholder="Name" /> */}
-                  <div className="buttons">
-                    <ButtonIcon
-                      additionalClassNames={`${
-                        isValid ? "is-primary" : "is-outlined"
-                      } ${isSubmitting ? "is-loading" : ""}`}
-                      type="submit"
-                      text="Senden"
-                      isDisabled={!isValid}
-                    >
-                      <IconSave></IconSave>
-                    </ButtonIcon>
-                  </div>
-                </Form>
-              )}
-            </Formik>
+                      )}
+                    </Field>
+                    {/* <Field type="input" name="name" placeholder="Name" /> */}
+                    <div className="buttons">
+                      <ButtonIcon
+                        additionalClassNames={`${
+                          isValid ? "is-primary" : "is-outlined"
+                        } ${isSubmitting ? "is-loading" : ""}`}
+                        type="submit"
+                        text="Senden"
+                        isDisabled={!isValid}
+                      >
+                        <IconSave></IconSave>
+                      </ButtonIcon>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </>
           ) : (
             <>
               <div className="content">
