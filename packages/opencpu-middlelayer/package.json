@@ -10,7 +10,9 @@
     "start": "node dist/index",
     "dev": "nodemon",
     "build": "tsc -p .",
-    "wscat": "wscat"
+    "wscat": "wscat",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "keywords": [
     "redis",
@@ -68,11 +70,13 @@
     "ts-jest": "24.1.0",
     "tsconfig-paths": "3.9.0",
     "uuid": "3.3.3",
-    "winston": "3.2.1"
+    "winston": "3.2.1",
+    "snyk": "^1.316.1"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "snyk": true
 }
