@@ -13,7 +13,9 @@
     "dev": "tsc -p . -w",
     "build": "tsc -p .",
     "prestart": "npm run build",
-    "start": "node -r dotenv/config dist/cli.js"
+    "start": "node -r dotenv/config dist/cli.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "keywords": [],
   "author": "",
@@ -55,7 +57,8 @@
     "rimraf": "2.6.3",
     "s3-client": "4.4.2",
     "tar-stream": "2.0.1",
-    "winston": "3.2.1"
+    "winston": "3.2.1",
+    "snyk": "^1.316.1"
   },
   "config": {
     "commitizen": {
@@ -72,5 +75,6 @@
   "bugs": {
     "url": "https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/issues"
   },
-  "homepage": "https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3#readme"
+  "homepage": "https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3#readme",
+  "snyk": true
 }
