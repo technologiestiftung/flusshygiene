@@ -25,7 +25,9 @@
     "validate": "npm run build",
     "lint-staged": "lint-staged",
     "lint": "eslint './src/**/*.ts'",
-    "playground": "npm run build && node -r dotenv/config"
+    "playground": "npm run build && node -r dotenv/config",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -130,7 +132,8 @@
     "reflect-metadata": "0.1.13",
     "typeorm": "0.2.20",
     "uuid": "3.3.3",
-    "winston": "3.2.1"
+    "winston": "3.2.1",
+    "snyk": "^1.316.1"
   },
   "config": {
     "commitizen": {
@@ -146,5 +149,6 @@
     "hooks": {
       "pre-commit": "npm run validate && npm run lint-staged"
     }
-  }
+  },
+  "snyk": true
 }
