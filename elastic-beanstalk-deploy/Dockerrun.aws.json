@@ -85,7 +85,7 @@
     },
     {
       "name": "spa",
-      "image": "technologiestiftung/flusshygiene-cms-spa:v2.10.2-test-dev",
+      "image": "technologiestiftung/flusshygiene-cms-spa:v2.10.3-test-dev",
       "hostname": "spa",
       "essential": false,
       "memory": 512,
