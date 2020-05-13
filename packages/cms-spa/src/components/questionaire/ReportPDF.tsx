@@ -88,12 +88,12 @@ const TextItalic = styled.Text`
 `;
 
 interface IPDFReportProps {
-  questions: string[];
-  answers: IAnswer[];
-  addInfoQuestion: string[];
-  title: string;
-  probability: string;
-  allAnswersGiven: boolean;
+  questions?: string[];
+  answers?: IAnswer[];
+  addInfoQuestion?: string[];
+  title?: string;
+  probability?: string;
+  allAnswersGiven?: boolean;
 }
 
 interface IPDFReportRendererProps extends IPDFReportProps {
@@ -159,8 +159,8 @@ const ReportPDF: React.FC<IPDFReportProps> = ({
                   {"."}
                   {ele}
                 </QuestionText>
-                {addInfoQuestion[i] !== null ||
-                  (addInfoQuestion[i] !== undefined && (
+                {(addInfoQuestion && addInfoQuestion[i] !== null) ||
+                  (addInfoQuestion && addInfoQuestion[i] !== undefined && (
                     <TextItalic>
                       {createPDFLinks(addInfoQuestion[i])}
                     </TextItalic>
@@ -172,21 +172,25 @@ const ReportPDF: React.FC<IPDFReportProps> = ({
                       Noch nicht beantwortet
                     </AnswerText>
                   );
-                  for (const answer of answers) {
-                    const split = answer.id.split("-");
-                    const aid = parseInt(split[0], 10);
-                    if (i + 1 === aid) {
-                      const parsedAnswerAddText = createPDFLinks(
-                        answer.additionalText,
-                      );
+                  if (answers) {
+                    for (const answer of answers) {
+                      const split = answer.id.split("-");
+                      const aid = parseInt(split[0], 10);
+                      if (i + 1 === aid) {
+                        const parsedAnswerAddText = createPDFLinks(
+                          answer.additionalText,
+                        );
 
-                      res = (
-                        <React.Fragment key={`${i}yes`}>
-                          <AnswerText key={answer.id}>{answer.text}</AnswerText>
-                          {/* <TextItalic>{answer.additionalText}</TextItalic> */}
-                          <TextItalic>{parsedAnswerAddText}</TextItalic>
-                        </React.Fragment>
-                      );
+                        res = (
+                          <React.Fragment key={`${i}yes`}>
+                            <AnswerText key={answer.id}>
+                              {answer.text}
+                            </AnswerText>
+                            {/* <TextItalic>{answer.additionalText}</TextItalic> */}
+                            <TextItalic>{parsedAnswerAddText}</TextItalic>
+                          </React.Fragment>
+                        );
+                      }
                     }
                   }
                   return res;

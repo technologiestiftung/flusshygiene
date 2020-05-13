@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import createAuth0Client from "@auth0/auth0-spa-js";
+import createAuth0Client, {
+  Auth0ClientOptions,
+  Auth0Client,
+} from "@auth0/auth0-spa-js";
 import { APIMountPoints, ApiResources } from "../common/enums";
 import { IFetchOptions, IFetchHeaders } from "../common/interfaces";
 import { REACT_APP_API_HOST } from "../config";
@@ -27,9 +30,9 @@ export const Auth0Provider = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   ...initOptions
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
   const [user, setUser] = useState();
-  const [auth0Client, setAuth0] = useState();
+  const [auth0Client, setAuth0] = useState<Auth0Client | undefined>();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
 
@@ -92,22 +95,24 @@ export const Auth0Provider = ({
 
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);
+    // if (!auth0Client) return;
     try {
-      await auth0Client.loginWithPopup(params);
+      await auth0Client?.loginWithPopup(params);
     } catch (error) {
       console.error(error);
     } finally {
       setPopupOpen(false);
     }
-    const user = await auth0Client.getUser();
+    const user = await auth0Client?.getUser();
     setUser(user);
     setIsAuthenticated(true);
   };
 
   const handleRedirectCallback = async () => {
+    // if (!auth0Client) return;
     setLoading(true);
-    await auth0Client.handleRedirectCallback();
-    const user = await auth0Client.getUser();
+    await auth0Client?.handleRedirectCallback();
+    const user = await auth0Client?.getUser();
     setLoading(false);
     setIsAuthenticated(true);
     setUser(user);
@@ -121,11 +126,11 @@ export const Auth0Provider = ({
         popupOpen,
         loginWithPopup,
         handleRedirectCallback,
-        getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
-        loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
-        getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
-        getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
-        logout: (...p) => auth0Client.logout(...p),
+        getIdTokenClaims: (...p) => auth0Client?.getIdTokenClaims(...p),
+        loginWithRedirect: (...p) => auth0Client?.loginWithRedirect(...p),
+        getTokenSilently: (...p) => auth0Client?.getTokenSilently(...p),
+        getTokenWithPopup: (...p) => auth0Client?.getTokenWithPopup(...p),
+        logout: (...p) => auth0Client?.logout(...p),
       }}
     >
       {children}
