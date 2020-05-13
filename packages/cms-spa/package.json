@@ -102,6 +102,7 @@
     "@types/react-table": "7.0.4",
     "@types/turndown": "5.0.0",
     "@types/yup": "0.26.26",
+    "babel-plugin-add-react-displayname": "0.0.5",
     "babel-plugin-macros": "2.8.0",
     "customize-cra": "0.9.1",
     "cz-conventional-changelog": "3.0.2",

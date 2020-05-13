@@ -1,7 +1,4 @@
 import React from "react";
-import { createStore } from "redux";
-import { reducer } from "../../__test-utils/empty-reducer";
-import { initialState } from "../../__test-utils/initial-state";
 import { render, fireEvent } from "../../__test-utils/render-with-providers";
 import { createMemoryHistory } from "history";
 import { SpotEditorBasisData } from "../components/spot/SpotEditor-Basis-Data";
@@ -28,7 +25,6 @@ const handleEditModeClickMock = jest.fn(() => {
   // console.log('click');
 });
 it.skip("renders Spoteditor without crashing", () => {
-  const store = createStore(reducer, initialState);
   const history = createMemoryHistory({ initialEntries: ["/"] });
   const spot: IBathingspot = {
     name: "Sweetwater",
@@ -46,11 +42,12 @@ it.skip("renders Spoteditor without crashing", () => {
     debug,
   } = render(
     <SpotEditorBasisData
+      handleInfoShowModeClick={() => {}}
       initialSpot={spot}
       handleEditModeClick={handleEditModeClickMock}
       newSpot={true}
     />,
-    store,
+
     history,
   );
   debug();
