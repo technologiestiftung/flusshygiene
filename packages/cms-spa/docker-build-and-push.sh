@@ -5,6 +5,7 @@ IFS=$'\n\t'
 #
 # https://git.io/JewS5
 export $(grep -E -v '^#' .env | xargs -0)
+export $(grep -E -v '^#' .env.local | xargs -0)
 GITHUB_REPOSITORY="technologiestiftung/flusshygiene"
 GITHUB_REF="test"
 SUFFIX=${PWD##*/}
