@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.4](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.0...v2.10.4) (2020-05-28)
+
+
+### Bug Fixes
+
+* packages/opencpu-middlelayer/package.json & packages/opencpu-middlelayer/package-lock.json to reduce vulnerabilities ([e1581cd](https://github.com/technologiestiftung/flusshygiene/commit/e1581cdaf9c90d2fd799ee746451668473d102cf))
+
+
+
+
+
 # [2.10.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.9.0...v2.10.0) (2020-04-20)
 
 **Note:** Version bump only for package @tsb/opencpu-middleware

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.4](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.0...v2.10.4) (2020-05-28)
+
+
+### Bug Fixes
+
+* **CardTile:** add useful info on tile ([bc6109f](https://github.com/technologiestiftung/flusshygiene/commit/bc6109f79d734c64a571462070e7c0a2179182b8))
+* **gi put:** fixes an issue where a PUT request to change the name of an generic input did not work ([df514e9](https://github.com/technologiestiftung/flusshygiene/commit/df514e9b62794e5c2bb222bed0e61d52771c4797)), closes [#281](https://github.com/technologiestiftung/flusshygiene/issues/281)
+* **Modal:** Add modal ([953a8be](https://github.com/technologiestiftung/flusshygiene/commit/953a8bee5a4a04da6e9702420713ca0867570728))
+* **required values:** Show required ([e846ebd](https://github.com/technologiestiftung/flusshygiene/commit/e846ebd616555467a749e0798254900c6d7a087a))
+* packages/opencpu-middlelayer/package.json & packages/opencpu-middlelayer/package-lock.json to reduce vulnerabilities ([e1581cd](https://github.com/technologiestiftung/flusshygiene/commit/e1581cdaf9c90d2fd799ee746451668473d102cf))
+* packages/radolan-recent-to-s3/package.json & packages/radolan-recent-to-s3/package-lock.json to reduce vulnerabilities ([ab4bf8b](https://github.com/technologiestiftung/flusshygiene/commit/ab4bf8bcff514545387d5a0f588ac7a60e8e6989))
+
+
+
+
+
 # [2.10.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.9.0...v2.10.0) (2020-04-20)
 
 **Note:** Version bump only for package @tsb/flusshygiene

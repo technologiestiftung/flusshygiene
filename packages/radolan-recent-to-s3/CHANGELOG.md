@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.4](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/compare/v2.10.0...v2.10.4) (2020-05-28)
+
+
+### Bug Fixes
+
+* packages/radolan-recent-to-s3/package.json & packages/radolan-recent-to-s3/package-lock.json to reduce vulnerabilities ([ab4bf8b](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/commit/ab4bf8bcff514545387d5a0f588ac7a60e8e6989))
+
+
+
+
+
 # [2.10.0](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3/compare/v2.9.0...v2.10.0) (2020-04-20)
 
 **Note:** Version bump only for package @tsb/radolan-recent-to-s3

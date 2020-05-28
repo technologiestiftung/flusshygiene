@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.10.0",
+  "version": "2.10.4",
   "description": "rest api for sending error reports and support questions from cms-spa",
   "homepage": "https://github.com/technologiestiftung/flusshygiene/tree/master/packages/helpdesk-mailer#readme",
   "main": "dist/index.js",
