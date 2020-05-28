@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useFormikContext, Field } from "formik";
 // import DeckGL from "deck.gl";
+import "fast-text-encoding";
 import DeckGL from "deck.gl";
 import {
   IMapsEditorProps,
@@ -215,6 +216,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     radiusMinPixels: 5,
   };
 
+  //@ts-ignore
   const geoLayer = new EditableGeoJsonLayer({
     ...commonProps,
     selectedFeatureIndexes: selectedIndex,
