@@ -53,7 +53,7 @@ export const SpotLocation: React.FC<ISpotBodyLocation> = (props) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Route Berechnen mit Google Maps ->
+              Route Berechnen mit Google Maps {"->"}
             </a>
           </p>
         )}
