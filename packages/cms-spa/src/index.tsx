@@ -1,6 +1,7 @@
 import "react-app-polyfill/ie9";
 import "react-app-polyfill/stable";
 import "abortcontroller-polyfill/dist/polyfill-patch-fetch";
+import "fast-text-encoding"; // TODO: to fix https://github.com/auth0/auth0-spa-js/issues/316
 import React from "react";
 import ReactDOM from "react-dom";
 import "./assets/styles/index.scss";
