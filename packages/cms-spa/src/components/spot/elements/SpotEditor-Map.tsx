@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useFormikContext, Field } from "formik";
-import DeckGL from "@deck.gl/react";
-import { MapController } from "@deck.gl/core";
+// import DeckGL from "deck.gl";
+import DeckGL from "deck.gl";
 import {
   IMapsEditorProps,
   IGeoJson,
@@ -9,12 +9,13 @@ import {
   IGeoJsonFeature,
   IBathingspotExtend,
 } from "../../../lib/common/interfaces";
-import { EditableGeoJsonLayer } from "@nebula.gl/layers";
+import { EditableGeoJsonLayer } from "nebula.gl";
 import { useMapResizeEffect } from "../../../hooks/map-hooks";
 
 import { StaticMap } from "react-map-gl";
 import { REACT_APP_MAPBOX_API_TOKEN } from "../../../lib/config";
 import { IconAngleDown } from "../../fontawesome-icons";
+// import { SpotMapController } from "./Spot-Map-Controller";
 const initialViewState = {
   bearing: 0,
   latitude: 52,
@@ -23,6 +24,7 @@ const initialViewState = {
   zoom: 4,
 };
 
+// const controller = new SpotMapController();
 const dropdownTexts = {
   view: { text: " Anzeige" },
   modify: { text: "Modifizieren" },
@@ -217,6 +219,7 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
     ...commonProps,
     selectedFeatureIndexes: selectedIndex,
     id: "location",
+    //@ts-ignore
     data: geoData,
     mode: editMode,
     onStopDragging: () => {},
@@ -409,8 +412,15 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
           <DeckGL
             width={mapDims.width}
             height={mapDims.height}
-            initialViewState={initialViewState}
-            // controller={true}
+            effects={[]}
+            initialViewState={{
+              bearing: 0,
+              latitude: 52,
+              longitude: 13,
+              pitch: 0,
+              zoom: 4,
+            }}
+            controller={true}
             layers={[geoLayer]}
             getCursor={(() => {
               if (activeEditor === "location") {
@@ -433,7 +443,6 @@ const FormikSpotEditorMap: React.FC<IMapsEditorProps> = ({
                 setSelectedIndex([]);
               }
             }}
-            controller={{ type: MapController, doubleClickZoom: false }}
           >
             <StaticMap
               width={width}

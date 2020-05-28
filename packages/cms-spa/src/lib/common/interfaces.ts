@@ -233,6 +233,7 @@ export interface IGeoJsonFeature {
   };
 }
 export interface IGeoJson {
+  [key: string]: any;
   type: "FeatureCollection";
   features: IGeoJsonFeature[];
 }
