@@ -19,7 +19,7 @@ function waitForSocketsToClose(counter: number): any {
   if (counter > 0) {
     console.log(
       `Waiting ${counter} more ${
-        counter === 1 ? "seconds" : "second"
+        counter !== 1 ? "seconds" : "second"
       } for all connections to close...`
     );
     return setTimeout(waitForSocketsToClose, 1000, counter - 1);
