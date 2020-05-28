@@ -8,6 +8,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { REACT_APP_MAPBOX_API_TOKEN } from "../../../lib/config";
 import history from "../../../lib/history";
 import { RouteNames } from "../../../lib/common/enums";
+import { Layer } from "@deck.gl/core";
 
 const initialViewState = {
   bearing: 0,
@@ -72,7 +73,64 @@ const SpotsMap: React.FC<IMapsProps> = ({
       initialViewState.longitude = data[0].longitude;
     }
   }
+  const layers: Layer<any>[] = [];
+  if (
+    data !== undefined &&
+    data[0] !== undefined &&
+    data[0].id !== DEFAULT_SPOT_ID
+  ) {
+    const spots: IBathingspot[] = data as IBathingspot[];
+    const filteredSpots = spots.filter((d) => {
+      if (d.location === null || d.location === undefined) {
+        // console.log(d);
+        return null;
+      } else {
+        return d;
+      }
+    });
 
+    const layer = new ScatterplotLayer({
+      id: "scatterplot",
+      data: filteredSpots,
+      filled: true,
+      getFillColor: (_d: IBathingspot) => [51, 51, 102],
+      getLineColor: (_d: IBathingspot) => [255, 255, 255],
+      // @ts-ignore
+      getPosition: (d: IBathingspot) => {
+        if (d.location === null) {
+          return;
+        }
+        if (d.location !== undefined && d.location.coordinates !== undefined) {
+          return [d.location.coordinates[0], d.location.coordinates[1]];
+        }
+      },
+      getRadius: 15,
+      lineWidthMinPixels: 2,
+      opacity: 0.5,
+      pickable: true,
+      radiusMaxPixels: 20,
+      radiusMinPixels: 5,
+      radiusScale: 6,
+      stroked: true,
+      onClick: (info) => {
+        // console.log(info.object);
+        // @ts-ignore
+        history.push(`${RouteNames.bathingspot}/${info.object.id}`);
+      },
+      onHover: (info) => {
+        if (info.object === undefined) {
+          setIsHovered(false);
+          return;
+        }
+        setIsHovered(true);
+        //@ts-ignore
+        setHoverObjectMessage(info.object.name);
+        setHoverObjectPointer([info.x, info.y]);
+        // console.log(info.object);
+      },
+    });
+    layers.push(layer);
+  }
   return (
     <>
       {isHovered && (
@@ -86,8 +144,10 @@ const SpotsMap: React.FC<IMapsProps> = ({
         height={height}
         initialViewState={initialViewState}
         controller={true}
+        layers={layers}
+        effects={[]}
       >
-        {(() => {
+        {/* {(() => {
           if (
             data !== undefined &&
             data[0] !== undefined &&
@@ -149,7 +209,7 @@ const SpotsMap: React.FC<IMapsProps> = ({
               />
             );
           }
-        })()}
+        })()} */}
 
         <StaticMap
           width={width}
