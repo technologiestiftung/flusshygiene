@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/fabianmoronzirfas/flusshygiene-postgres-api#readme",
   "devDependencies": {
-    "@types/connect-redis": "0.0.13",
+    "@types/connect-redis": "0.0.14",
     "@types/cors": "2.8.6",
     "@types/errorhandler": "0.0.32",
     "@types/express": "4.17.1",
