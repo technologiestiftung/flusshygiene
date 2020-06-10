@@ -24,7 +24,7 @@
     "serverless-dotenv-plugin": "2.1.1"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.27",
+    "@types/aws-lambda": "8.10.55",
     "@types/moment-range": "3.1.2",
     "@types/node": "12.12.29",
     "cz-conventional-changelog": "2.1.0",
