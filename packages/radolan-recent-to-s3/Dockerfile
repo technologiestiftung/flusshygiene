@@ -1,11 +1,11 @@
-FROM node:12.16.1-alpine as builder
+FROM node:12.18.1-alpine as builder
 WORKDIR /usr/app
 COPY package*.json ./
 ENV NODE_ENV=development
 RUN mkdir dist && npm ci --quiet
 COPY ./ ./
 RUN npm run build
-FROM node:12.16.1-alpine as production
+FROM node:12.18.1-alpine as production
 WORKDIR /usr/app
 ENV NODE_ENV=production
 COPY package*.json ./

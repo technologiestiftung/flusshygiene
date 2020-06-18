@@ -1,5 +1,5 @@
 # Production Dockerfile
-FROM node:12.16.1-alpine as builder
+FROM node:12.18.1-alpine as builder
 
 LABEL maintainer="Fabian Morón Zirfas"
 LABEL version="1.0.0"
