@@ -1,5 +1,5 @@
 # Production Dockerfile
-FROM node:12.16.1-alpine as builder
+FROM node:12.18.1-alpine as builder
 
 LABEL maintainer="Fabian Morón Zirfas"
 LABEL description="An middle layer between cms-spa and opencpu-api"
@@ -10,7 +10,7 @@ COPY ./package*.json ./
 RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
-FROM node:12.16.1-alpine as app
+FROM node:12.18.1-alpine as app
 WORKDIR  /home/node
 ENV NODE_ENV=production
 COPY ./package*.json ./

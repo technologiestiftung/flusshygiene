@@ -1,4 +1,4 @@
-FROM node:12.16.1-alpine as builder
+FROM node:12.18.1-alpine as builder
 LABEL maintainer="Fabian Morón Zirfas"
 # LABEL version="1.0.0"
 LABEL description="A frontend for a the  postgres/postgis api used in the project flusshygiene"
@@ -32,7 +32,7 @@ COPY ./package*.json ./
 RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
-FROM node:12.16.1-alpine as app
+FROM node:12.18.1-alpine as app
 WORKDIR  /usr/app
 ENV NODE_ENV=production
 COPY --from=builder /usr/app/build ./build
