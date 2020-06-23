@@ -2,12 +2,17 @@
 
 [![Build Status](https://travis-ci.org/technologiestiftung/flusshygiene-postgres-api.svg?branch=master)](https://travis-ci.org/technologiestiftung/flusshygiene-postgres-api) [![Greenkeeper badge](https://badges.greenkeeper.io/technologiestiftung/flusshygiene-postgres-api.svg)](https://greenkeeper.io/) [![Maintainability](https://api.codeclimate.com/v1/badges/a0d196f19ac975156593/maintainability)](https://codeclimate.com/github/technologiestiftung/flusshygiene-postgres-api/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/a0d196f19ac975156593/test_coverage)](https://codeclimate.com/github/technologiestiftung/flusshygiene-postgres-api/test_coverage) [![Known Vulnerabilities](https://snyk.io/test/github/technologiestiftung/flusshygiene-postgres-api/badge.svg)](https://snyk.io/test/github/technologiestiftung/flusshygiene-postgres-api)
 
+A express REST api to interact with the postgres database for the flusshygiene project. Uses TypeORM
+
+## Development
+
 needs a running Postgres db for testing and for development.
 
 Run:
 
 ```bash
-docker run -p 5432:5432 mdillon/postgis:10
+cd packages/postgres-api
+docker-compose up
 ```
 
 Needs also a a lot of `.env` variables:
@@ -50,6 +55,22 @@ AUTH0_ISSUER=https://you.eu.auth0.com/
 
 ```
 
+Then run
+
+```bash
+cd packages/postgres-api
+POPULATE=true NODE_ENV=development npm run dev
+```
+
+### Testing
+
+```bash
+npm test
+```
+
+
+----
+
 build with docker:
 
 ```bash
@@ -63,38 +84,19 @@ docker run --name shortname --env-file ./path/to/.env -p=5004:5004 username/cont
 
 ```
 
-## Github Actions
-
-Currently only one action is available:
-
-### Release to docker Hub
-
-When a new release is created this action will build the image and push it to docker hub.
-
-Creating tags+release from the command line and trigger action (use [hub](https://hub.github.com/) `brew install hub`)
-
-```bash
-git tag -a "v0.1.4" -m "from commandline"
-git push --tags
-hub release create -m "from command line" v0.1.4
-```
-
-more infos coming soon(-ish).
-
 ## DB
 
 ### Migrations
 
 See the [typeorm migration guide](https://typeorm.io/#/migrations) for further explanation. In short:
 
-```fish
-# this is fish shell. Remove the `env` for bash
+```bash
 
 # generate latest state
 npm run build
-env NODE_DOCKER_ENV=0 env NODE_ENV=production npm run typeorm migration:generate -- --name NewMigrationFile
+NODE_DOCKER_ENV=0 NODE_ENV=production npm run typeorm migration:generate -- --name NewMigrationFile
 # generate js from ts
 npm run build
-env NODE_DOCKER_ENV=0 env NODE_ENV=production npm run typeorm migration:run
-env NODE_DOCKER_ENV=0 env NODE_ENV=production npm run typeorm migration:revert
+NODE_DOCKER_ENV=0 NODE_ENV=production npm run typeorm migration:run
+NODE_DOCKER_ENV=0 NODE_ENV=production npm run typeorm migration:revert
 ```
