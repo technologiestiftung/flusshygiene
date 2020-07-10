@@ -1,4 +1,4 @@
-FROM nginx:1.17.0-alpine as gateway
+FROM nginx:1.19.1-alpine as gateway
 # FROM openresty/openresty::stretch-fat
 ARG OCPU_USER
 ARG OCPU_PW
