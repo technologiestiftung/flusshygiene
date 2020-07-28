@@ -26,11 +26,11 @@
   },
   "devDependencies": {
     "@now/build-utils": "1.3.9",
-    "@now/node": "1.5.1",
+    "@now/node": "1.7.3",
     "@types/micro": "7.3.3",
-    "@types/node": "13.1.8",
+    "@types/node": "13.13.15",
     "eslint": "6.8.0",
-    "typescript": "3.7.5"
+    "typescript": "3.9.7"
   },
   "dependencies": {
     "micro": "9.3.4"
