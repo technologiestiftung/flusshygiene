@@ -1,4 +1,4 @@
-FROM opencpu/base:2.1.6
+FROM opencpu/base:2.2.0
 # FROM opencpu/rstudio as base
 LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
@@ -15,7 +15,7 @@ RUN mkdir -p ~/.R/ \
   && echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
 
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update \
-  && apt-get -y install libudunits2-dev libgdal-dev libspatialite-dev g++-7 libxml2 libxml2-dev  \
+  && apt-get -y install libudunits2-dev libgdal-dev libspatialite-dev g++-7 libxml2 libxml2-dev libv8-dev  \
   && rm -rf /var/lib/apt/lists/*
 
 # RUN echo https://mran.microsoft.com/snapshot/${BUILD_DATE}
@@ -23,7 +23,7 @@ RUN add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update \
 
 
 RUN MRAN=https://mran.microsoft.com/snapshot/2019-12-18 && \
- R -e "install.packages(pkgs = c('askpass' ,'assertthat' ,'aws.s3' ,'backports' ,'base64enc' ,'bayesplot' ,'BH' ,'bitops' ,'callr' ,'caret' ,'checkmate' ,'classInt' ,'cli' ,'colorspace' ,'colourpicker' ,'crayon' ,'crosstalk' ,'curl' ,'DBI' , 'devtools', 'desc' ,'digest' ,'dplyr' ,'DT' ,'dygraphs' ,'e1071' ,'ellipsis' ,'fansi' ,'fs' ,'ggplot2' ,'ggridges' ,'glue' ,'gridExtra' ,'gtable' ,'gtools' ,'htmltools' ,'htmlwidgets' ,'httpuv' ,'httr' ,'igraph' ,'inline' ,'isoband','jsonlite' ,'labeling' ,'later' ,'lazyeval' ,'lme4' ,'lmtest' ,'loo' ,'lubridate' ,'magrittr' ,'markdown' ,'matrixStats' ,'mime' ,'miniUI' ,'minqa' ,'munsell' ,'nloptr' ,'openssl' ,'packrat' ,'pillar' ,'pkgbuild' ,'pkgconfig' , 'pROC' ,'pkgload','plogr' ,'plyr' ,'praise','prettyunits' ,'processx' ,'promises' ,'ps' ,'purrr' ,'R6' ,'raster' ,'RColorBrewer' ,'Rcpp' ,'RcppEigen' ,'RcppParallel','RCurl' ,'reshape2' ,'rlang' ,'rprojroot' ,'rsconnect' ,'rstan' ,'rstanarm' ,'rstantools' ,'rstudioapi' ,'scales' ,'sf' ,'shiny' ,'shinyjs' ,'shinystan' ,'shinythemes' ,'sourcetools' ,'sp' ,'StanHeaders' ,'stringi' ,'stringr' ,'svglite','sys' ,'testthat','threejs' ,'tibble' ,'tidyr' ,'tidyselect' ,'units' ,'utf8' ,'vctrs' ,'viridisLite' ,'withr' ,'xfun' ,'xml2' ,'xtable' ,'xts' ,'yaml' ,'zeallot' ,'zoo'), repo ='$MRAN');"
+  R -e "install.packages(pkgs = c('askpass' ,'assertthat' ,'aws.s3' ,'backports' ,'base64enc' ,'bayesplot' ,'BH' ,'bitops' ,'callr' ,'caret' ,'checkmate' ,'classInt' ,'cli' ,'colorspace' ,'colourpicker' ,'crayon' ,'crosstalk' ,'curl' ,'DBI' , 'devtools', 'desc' ,'digest' ,'dplyr' ,'DT' ,'dygraphs' ,'e1071' ,'ellipsis' ,'fansi' ,'fs' ,'ggplot2' ,'ggridges' ,'glue' ,'gridExtra' ,'gtable' ,'gtools' ,'htmltools' ,'htmlwidgets' ,'httpuv' ,'httr' ,'igraph' ,'inline' ,'isoband','jsonlite' ,'labeling' ,'later' ,'lazyeval' ,'lme4' ,'lmtest' ,'loo' ,'lubridate' ,'magrittr' ,'markdown' ,'matrixStats' ,'mime' ,'miniUI' ,'minqa' ,'munsell' ,'nloptr' ,'openssl' ,'packrat' ,'pillar' ,'pkgbuild' ,'pkgconfig' , 'pROC' ,'pkgload','plogr' ,'plyr' ,'praise','prettyunits' ,'processx' ,'promises' ,'ps' ,'purrr' ,'R6' ,'raster' ,'RColorBrewer' ,'Rcpp' ,'RcppEigen' ,'RcppParallel','RCurl' ,'reshape2' ,'rlang' ,'rprojroot' ,'rsconnect' ,'rstan' ,'rstanarm' ,'rstantools' ,'rstudioapi' ,'scales' ,'sf' ,'shiny' ,'shinyjs' ,'shinystan' ,'shinythemes' ,'sourcetools' ,'sp' ,'StanHeaders' ,'stringi' ,'stringr' ,'svglite','sys' ,'testthat','threejs' ,'tibble' ,'tidyr' ,'tidyselect' ,'units' ,'utf8' ,'vctrs' ,'viridisLite' ,'withr' ,'xfun' ,'xml2' ,'xtable' ,'xts' ,'yaml' ,'zeallot' ,'zoo'), repo ='$MRAN');"
 
 # RUN R -e "install.packages(\"remotes\");  remotes::install_version(\"rstanarm\", version = \"2.18.2\"); remotes::install_version(\"sf\", version = \"0.7-4\"); remotes::install_version('fs', version = '1.3.1'); remotes::install_version(\"raster\", version = \"2.8-19\"); remotes::install_version(\"sp\", version = \"1.3-1\"); remotes::install_version(\"lubridate\", version = \"1.7.4\"); remotes::install_version(\"httr\", version = \"1.4.1\"); remotes::install_version(\"Rcpp\", version = \"1.0.2\"); remotes::install_version(\"curl\", version = \"4.0\");"
 EXPOSE 8004
