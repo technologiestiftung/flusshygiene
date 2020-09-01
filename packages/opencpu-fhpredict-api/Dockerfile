@@ -1,4 +1,4 @@
-FROM technologiestiftung/flusshygiene-opencpu-base:v2.10.0-dev as base
+FROM technologiestiftung/flusshygiene-opencpu-base:v2.10.4-dev as base
 LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"
