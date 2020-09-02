@@ -23,11 +23,11 @@ jobs:
       - name: Docker login, build and push
         env:
           # build date is currently not used
-          BUILD_DATE: '2019-09-19'
+          # BUILD_DATE: '2019-09-19'
           SUFFIX: 'opencpu-base'
           CI: 'true'
         run: |
           cd packages/opencpu-base/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build --label version=${{ github.event.inputs.dockertag }} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}-${STAGE}" .
-          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}-${STAGE}
+          docker build --label version=${{ github.event.inputs.dockertag }} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}"
