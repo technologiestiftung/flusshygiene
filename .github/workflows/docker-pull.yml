@@ -36,7 +36,7 @@ jobs:
             "technologiestiftung/flusshygiene-opencpu-middlelayer:${TAG}-dev"
             "technologiestiftung/flusshygiene-postgres-api:${TAG}-dev"
             "technologiestiftung/flusshygiene-radolan-recent-to-s3:${TAG}-dev"
-            "technologiestiftung/flusshygiene-radolan-recent:v2.0.1-dev"
+            "technologiestiftung/flusshygiene-radolan-recent:v2.0.1"
           )
           for i in "${images[@]}"; do
             echo "pulling $i"
