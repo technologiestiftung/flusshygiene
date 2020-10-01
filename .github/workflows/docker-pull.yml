@@ -16,25 +16,26 @@ jobs:
     steps:
       - uses: oprypin/find-latest-tag@v1
         with:
-          repository: technologiestiftung/flusshygiene  # The repository to scan.
-          releases-only: true  # We know that all relevant tags have a GitHub release for them.
-          id: tags  # The step ID to refer to later.
+          repository: $GITHUB_REPOSITORY # The repository to scan.
+          releases-only: true # We know that all relevant tags have a GitHub release for them.
+          id: tags # The step ID to refer to later.
       - name: Checkout
         uses: actions/checkout@v2
       - name: Pull them
+        env:
+          TAG: ${{ steps.tags.outputs.tag }}
         run: |
-          tag="${{ steps.tags.outputs.tag }}"
           images=(
-            "technologiestiftung/flusshygiene-cms-spa:${tag}-dev"
-            "technologiestiftung/flusshygiene-cronbot:${tag}-dev"
-            "technologiestiftung/flusshygiene-helpdesk-mailer:${tag}-dev"
-            "technologiestiftung/flusshygiene-nginx-gateway:${tag}-dev"
-            "technologiestiftung/flusshygiene-opencpu-base:${tag}-dev"
-            "technologiestiftung/flusshygiene-opencpu-fhpredict-api:${tag}-dev"
-            "technologiestiftung/flusshygiene-opencpu-middlelayer:${tag}-dev"
-            "technologiestiftung/flusshygiene-postgres-api:${tag}-dev"
-            "technologiestiftung/flusshygiene-radolan-recent:${tag}-dev"
-            "technologiestiftung/flusshygiene-radolan-recent-to-s3:${tag}-dev"
+            "technologiestiftung/flusshygiene-cms-spa:${TAG}-dev"
+            "technologiestiftung/flusshygiene-cronbot:${TAG}-dev"
+            "technologiestiftung/flusshygiene-helpdesk-mailer:${TAG}-dev"
+            "technologiestiftung/flusshygiene-nginx-gateway:${TAG}-dev"
+            "technologiestiftung/flusshygiene-opencpu-base:${TAG}-dev"
+            "technologiestiftung/flusshygiene-opencpu-fhpredict-api:${TAG}-dev"
+            "technologiestiftung/flusshygiene-opencpu-middlelayer:${TAG}-dev"
+            "technologiestiftung/flusshygiene-postgres-api:${TAG}-dev"
+            "technologiestiftung/flusshygiene-radolan-recent:${TAG}-dev"
+            "technologiestiftung/flusshygiene-radolan-recent-to-s3:${TAG}-dev"
           )
           for i in "${images[@]}"; do
             docker pull "$i"
