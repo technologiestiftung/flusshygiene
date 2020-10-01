@@ -18,12 +18,12 @@ jobs:
         with:
           repository: technologiestiftung/flusshygiene # The repository to scan.
           releases-only: true # We know that all relevant tags have a GitHub release for them.
-          id: tags # The step ID to refer to later.
+        id: tags # The step ID to refer to later.
       # - name: Checkout
       #   uses: actions/checkout@v2
       - name: Pull them
         env:
-          TAG: "${{ steps.tags.outputs.tag }}"
+          TAG: '${{ steps.tags.outputs.tag }}'
         run: |
           echo "${{ steps.tags.outputs.tag }}"
           images=(
