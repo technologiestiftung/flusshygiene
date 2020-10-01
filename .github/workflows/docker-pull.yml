@@ -4,7 +4,7 @@
 # for future images
 
 name: Docker Pull Perdiodically
-   
+
 on:
   workflow_dispatch:
   # https://crontab.guru/#0_8_1_*_*
@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Pull them
         run: |
-          tag=${{ steps.tags.outputs.tag }}
+          tag="${{ steps.tags.outputs.tag }}"
           images=(
             "technologiestiftung/flusshygiene-cms-spa:${tag}-dev"
             "technologiestiftung/flusshygiene-cronbot:${tag}-dev"
