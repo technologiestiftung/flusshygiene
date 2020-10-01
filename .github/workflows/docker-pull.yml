@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: oprypin/find-latest-tag@v1
         with:
-          repository: $GITHUB_REPOSITORY # The repository to scan.
+          repository: technologiestiftung/flusshygiene # The repository to scan.
           releases-only: true # We know that all relevant tags have a GitHub release for them.
           id: tags # The step ID to refer to later.
       - name: Checkout
