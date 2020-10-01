@@ -35,10 +35,10 @@ jobs:
             "technologiestiftung/flusshygiene-opencpu-fhpredict-api:${TAG}-dev"
             "technologiestiftung/flusshygiene-opencpu-middlelayer:${TAG}-dev"
             "technologiestiftung/flusshygiene-postgres-api:${TAG}-dev"
-            "technologiestiftung/flusshygiene-radolan-recent:${TAG}-dev"
             "technologiestiftung/flusshygiene-radolan-recent-to-s3:${TAG}-dev"
+            "technologiestiftung/flusshygiene-radolan-recent:v2.0.1-dev"
           )
           for i in "${images[@]}"; do
             echo "pulling $i"
-            docker pull "$i"
+            docker pull --quiet "$i"
           done
