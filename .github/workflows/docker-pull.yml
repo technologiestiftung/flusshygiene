@@ -3,7 +3,7 @@
 # We wont migrate this application to github packages but might use it
 # for future images
 
-name: Docker Pull Perdiodically
+name: Docker Pull Periodically
 
 on:
   workflow_dispatch:
@@ -38,5 +38,6 @@ jobs:
             "technologiestiftung/flusshygiene-radolan-recent-to-s3:${TAG}-dev"
           )
           for i in "${images[@]}"; do
+            echo "pulling $i"
             docker pull "$i"
           done
