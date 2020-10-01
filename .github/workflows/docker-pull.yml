@@ -4,7 +4,9 @@
 # for future images
 
 name: Docker Pull Perdiodically
+   
 on:
+  workflow_dispatch:
   # https://crontab.guru/#0_8_1_*_*
   schedule:
     - cron: '0 12 1 * *'
@@ -12,11 +14,16 @@ jobs:
   pull:
     runs-on: ubuntu-latest
     steps:
+      - uses: oprypin/find-latest-tag@v1
+        with:
+          repository: technologiestiftung/flusshygiene  # The repository to scan.
+          releases-only: true  # We know that all relevant tags have a GitHub release for them.
+          id: tags  # The step ID to refer to later.
       - name: Checkout
         uses: actions/checkout@v2
       - name: Pull them
         run: |
-          tag=$(git describe --abbrev=0 --tags)
+          tag=${{ steps.tags.outputs.tag }}
           images=(
             "technologiestiftung/flusshygiene-cms-spa:${tag}-dev"
             "technologiestiftung/flusshygiene-cronbot:${tag}-dev"
