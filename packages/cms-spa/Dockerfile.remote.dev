@@ -1,4 +1,4 @@
-FROM node:12.18.1-alpine as builder
+FROM node:12.18.4-alpine as builder
 LABEL maintainer="Fabian Morón Zirfas"
 LABEL description="A frontend for a the  postgres/postgis api used in the project flusshygiene"
 ARG PORT
