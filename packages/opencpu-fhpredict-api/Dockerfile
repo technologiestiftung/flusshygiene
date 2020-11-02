@@ -25,10 +25,10 @@ COPY ./files/.vimrc ~/
 # RUN ./build-r-installer.sh $GITHUB_PAT 0.9.1 > install.r && Rscript install.r && rm install.r
 
 RUN R -e "install.packages('devtools')" && echo "remove this when upgraded to next version of ocpu-base"
-RUN  R -e "remotes::install_github('kwb-r/kwb.utils@v0.5.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
-RUN  R -e "remotes::install_github('kwb-r/kwb.dwd@v0.1.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
+RUN  R -e "remotes::install_github('kwb-r/kwb.utils@v0.7.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
+RUN  R -e "remotes::install_github('kwb-r/kwb.dwd@v0.1.1', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
 RUN  R -e "remotes::install_github('kwb-r/kwb.flusshygiene@v0.3.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
-RUN  R -e "remotes::install_github('kwb-r/fhpredict@v0.15.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
+RUN  R -e "remotes::install_github('kwb-r/fhpredict@v0.16.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
 # RUN  R -e "remotes::install_github(\"kwb-r/fhpredict@v0.11.0\", build_vignettes = FALSE, force = TRUE, upgrade = \"never\")"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004

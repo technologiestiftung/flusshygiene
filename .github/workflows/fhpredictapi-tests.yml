@@ -1,10 +1,11 @@
 name: FHPREDICT API test and build
 env:
-  SUFFIX: "opencpu-fhpredict-api"
-  COMMIT_FILTER: "[skip-ci]"
+  SUFFIX: 'opencpu-fhpredict-api'
+  COMMIT_FILTER: '[skip-ci]'
   # GITHUB_PAT: ${{secrets.GITHUB_PAT_KWB}}
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '.github/workflows/fhpredictapi-tests.yml'
