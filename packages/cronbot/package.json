@@ -30,7 +30,6 @@
     "url": "git+https://github.com/technologiestiftung/flusshygiene.git"
   },
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "prepare": "npm run build",
     "build": "tsc -p .",
     "just": "just",
@@ -107,8 +106,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "resolutions": {
-    "https-proxy-agent": "^4.0.0"
   }
 }
