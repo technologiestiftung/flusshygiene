@@ -64,9 +64,6 @@ import { buildHeaders } from "./common/headers";
 
 export async function main() {
   try {
-    // console.log("ADMIN", globals.ADMIN_ONLY);
-    // console.log("VERBOSE", globals.VERBOSE);
-    // console.log("SKIP", globals.SKIP_MAIL);
     const db = DB.getInstance();
     await getTokenOnce(path.resolve(process.cwd(), ".token"));
 
@@ -121,7 +118,6 @@ export async function main() {
                 db.addReports(report);
               }
             }
-            // console.log(response.body);
           }
         } catch (error) {
           console.error(error);

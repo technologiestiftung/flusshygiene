@@ -112,7 +112,7 @@ export const sendReports: () => Promise<void> = async () => {
     if (globals.ADMIN_ONLY === false) {
       // send reports to all users
       const sortedReports = db.getReportsSorted();
-      logger.info(sortedReports);
+      // logger.info(sortedReports);
       const messages = sortedReports.map((usersReports) => {
         const to = usersReports[0].email;
         const texts = usersReports.map((item) => {
@@ -131,8 +131,8 @@ export const sendReports: () => Promise<void> = async () => {
 
       for (const message of messages) {
         try {
-          const info = await transporter.sendMail(message);
-          logger.info(info);
+          await transporter.sendMail(message);
+          // logger.info(info);
         } catch (sendMailError) {
           logger.error(sendMailError);
         }
