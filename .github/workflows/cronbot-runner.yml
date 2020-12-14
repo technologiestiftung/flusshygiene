@@ -31,7 +31,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Exec Cronbot
-        uses: technologiestiftung/flusshygiene-cronbot-action@main
+        uses: docker://technologiestiftung/flusshygiene-cronbot:v2.10.5-dev
+        # uses: technologiestiftung/flusshygiene-cronbot-action@main
       # - name: Use Node.js from nvm
       # shell: bash -l {0}
       # run: nvm install
