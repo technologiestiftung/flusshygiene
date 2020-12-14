@@ -30,8 +30,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Show content
-        run: cd ./packages/cronbot && ls
       - name: Exec Cronbot
         uses: ./packages/cronbot
       # - name: Use Node.js from nvm
