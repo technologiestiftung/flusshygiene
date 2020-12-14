@@ -31,9 +31,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Show content
-        run: cd packages/cronbot && ls
+        run: cd ./packages/cronbot && ls
       - name: Exec Cronbot
-        uses: packages/cronbot
+        uses: ./packages/cronbot
       # - name: Use Node.js from nvm
       # shell: bash -l {0}
       # run: nvm install
