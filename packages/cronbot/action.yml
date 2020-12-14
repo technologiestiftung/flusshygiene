@@ -11,5 +11,5 @@ description: "harvest data for all the bathingspots"
 #     description: 'The time we greeted you'
 runs:
   using: "docker"
-  image: "Dockerfile"
+  image: "Dockerfile.GithubActions"
   # image: technologiestiftung/flusshygiene-cronbot:v2.10.5-dev

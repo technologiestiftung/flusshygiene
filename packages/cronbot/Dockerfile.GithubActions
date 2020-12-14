@@ -1,17 +1,17 @@
 # Production Dockerfile
-FROM node:12.18.4-alpine as builder
+FROM node:12.18.4-slim as builder
 
-LABEL maintainer="Fabian Morón Zirfas"
-LABEL description="a cronbot for the flusshygiene project that does jobs every day"
+# LABEL maintainer="Fabian Morón Zirfas"
+# LABEL description="a cronbot for the flusshygiene project that does jobs every day"
 
 ENV NODE_ENV=development
-WORKDIR /usr/app
+# WORKDIR /usr/app
 COPY ./package*.json ./
 RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
-FROM node:12.18.4-alpine as app
-WORKDIR  /home/node
+# FROM node:12.18.4-alpine as app
+# WORKDIR  /home/node
 ENV NODE_ENV=production
 # all of the below need to be set on the env
 #ENV AUTH0_TOKEN_ISSUER
@@ -29,11 +29,11 @@ ENV NODE_ENV=production
 #ENV FLSSHYGN_CALIBRATE_URL
 
 
-COPY ./package*.json ./
-RUN npm ci --quiet
-COPY --from=builder /usr/app/dist /home/node/dist
+# COPY ./package*.json ./
+# RUN npm ci --quiet
+# COPY --from=builder /usr/app/dist /home/node/dist
 
-USER node
+# USER node
 RUN touch db.json
 EXPOSE 5004
 ENTRYPOINT [ "node", "./dist/cli.js" ]
