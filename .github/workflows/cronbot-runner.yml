@@ -28,8 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     name: harvesting data for all bathingspots
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      # uses: actions/checkout@v2
       - name: Exec Cronbot
         uses: docker://technologiestiftung/flusshygiene-cronbot:v2.10.5-dev
         # uses: technologiestiftung/flusshygiene-cronbot-action@main
