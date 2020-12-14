@@ -1,5 +1,5 @@
 # Production Dockerfile
-FROM node:12.18.4-alpine as builder
+FROM node:12.18.4-slim as builder
 
 LABEL maintainer="Fabian Morón Zirfas"
 LABEL description="a cronbot for the flusshygiene project that does jobs every day"
@@ -10,7 +10,7 @@ COPY ./package*.json ./
 RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
-FROM node:12.18.4-alpine as app
+FROM node:12.18.4-slim as app
 # WORKDIR  /home/node
 ENV NODE_ENV=production
 # all of the below need to be set on the env
