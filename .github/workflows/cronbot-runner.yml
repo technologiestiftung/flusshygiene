@@ -27,16 +27,17 @@ jobs:
   collect_data:
     runs-on: ubuntu-latest
     name: harvesting data for all bathingspots
+    defaults:
+      run:
+        shell: bash
+        working-directory: packages/cronbot
     steps:
-      # - name: Checkout
-      # uses: actions/checkout@v2
-      - name: Exec Cronbot
-        uses: docker://technologiestiftung/flusshygiene-cronbot:v2.10.5-dev
-        # uses: technologiestiftung/flusshygiene-cronbot-action@main
-      # - name: Use Node.js from nvm
-      # shell: bash -l {0}
-      # run: nvm install
-      # - name: install deps
-      # run: npm ci
-      # - name: exec
-      # run: node index.js
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js from nvm
+        shell: bash -l {0}
+        run: nvm install
+      - name: install dependencies
+        run: npm ci
+      - name: exec cronbot
+        run: NODE_ENV=production node ./dist/cli.js --adminonly --predict --verbose
