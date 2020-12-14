@@ -5,13 +5,13 @@ LABEL maintainer="Fabian Morón Zirfas"
 LABEL description="a cronbot for the flusshygiene project that does jobs every day"
 
 ENV NODE_ENV=development
-WORKDIR /usr/app
+# WORKDIR /usr/app
 COPY ./package*.json ./
 RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
 FROM node:12.18.4-alpine as app
-WORKDIR  /home/node
+# WORKDIR  /home/node
 ENV NODE_ENV=production
 # all of the below need to be set on the env
 #ENV AUTH0_TOKEN_ISSUER
@@ -33,7 +33,7 @@ COPY ./package*.json ./
 RUN npm ci --quiet
 COPY --from=builder /usr/app/dist /home/node/dist
 
-USER node
+# USER node
 RUN touch db.json
 EXPOSE 5004
 ENTRYPOINT [ "node", "./dist/cli.js" ]
