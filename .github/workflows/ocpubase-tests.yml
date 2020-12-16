@@ -1,10 +1,11 @@
 name: OPENCPU BASE test and build
 env:
   SUFFIX: "opencpu-base"
-  BUILD_DATE: "2019-09-19"
+  BUILD_DATE: "2020-08-01"
   COMMIT_FILTER: "[skip-ci]"
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '.github/workflows/ocpubase-tests.yml'
