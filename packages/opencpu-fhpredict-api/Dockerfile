@@ -24,7 +24,7 @@ COPY ./files/.vimrc ~/
 # RUN echo "GITHUB_PAT=${GITHUB_PAT}" >> $HOME/.Renviron && echo "" >> $HOME/.Renviron
 # RUN ./build-r-installer.sh $GITHUB_PAT 0.9.1 > install.r && Rscript install.r && rm install.r
 
-RUN R -e "install.packages('devtools')" && echo "remove this when upgraded to next version of ocpu-base"
+# RUN R -e "install.packages('devtools')" && echo "remove this when upgraded to next version of ocpu-base"
 RUN  R -e "remotes::install_github('kwb-r/kwb.utils@v0.7.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
 RUN  R -e "remotes::install_github('kwb-r/kwb.dwd@v0.1.1', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
 RUN  R -e "remotes::install_github('kwb-r/kwb.flusshygiene@v0.3.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
