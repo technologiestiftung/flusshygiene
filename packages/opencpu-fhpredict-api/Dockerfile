@@ -4,11 +4,15 @@ LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"
 
 ARG GITHUB_PAT
+ARG OCPU_PW
 ENV TMP "/tmp"
 ENV TEMP "/tmp"
 
+# Set opencpu password so that we can login
+# User or own PW
+RUN echo "opencpu:${OCPU_PW}" | chpasswd
 COPY opencpu-config/user.conf /etc/opencpu/server.conf.d/
-COPY build-r-installer.sh ./
+# COPY build-r-installer.sh ./
 # theese are needed and need to be provided in the environment
 # ENV AUTH0_REQ_URL $AUTH0_REQ_URL
 # ENV AUTH0_CLIENT_ID $AUTH0_CLIENT_ID
@@ -20,10 +24,19 @@ COPY build-r-installer.sh ./
 
 COPY ./opencpu-config/ /etc/opencpu/server.conf.d/
 COPY ./files/.vimrc ~/
-#
-# RUN echo "GITHUB_PAT=${GITHUB_PAT}" >> $HOME/.Renviron && echo "" >> $HOME/.Renviron
-# RUN ./build-r-installer.sh $GITHUB_PAT 0.9.1 > install.r && Rscript install.r && rm install.r
 
+# -----------
+# taken from https://github.com/opencpu/opencpu-server/blob/b3ad9ec2d94ca4142ffbc9c0aafaca0885a4caba/docker/rstudio/Dockerfile
+# to enable rstudio for better customizastion of packages
+# Install development tools
+RUN \
+  apt-get update && \
+  apt-get install -y rstudio-server r-base-dev sudo curl git libcurl4-openssl-dev libssl-dev libxml2-dev libssh2-1-dev
+
+# Workaround for rstudio apparmor bug
+RUN echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf
+
+# ----------
 # RUN R -e "install.packages('devtools')" && echo "remove this when upgraded to next version of ocpu-base"
 RUN  R -e "remotes::install_github('kwb-r/kwb.utils@v0.7.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
 RUN  R -e "remotes::install_github('kwb-r/kwb.dwd@v0.1.1', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
@@ -33,3 +46,5 @@ RUN  R -e "remotes::install_github('kwb-r/fhpredict@v0.16.0', upgrade = 'never',
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004
 EXPOSE 80
+
+CMD service cron start && /usr/lib/rstudio-server/bin/rserver && apachectl -DFOREGROUND
