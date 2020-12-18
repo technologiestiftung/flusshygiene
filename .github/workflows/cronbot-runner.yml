@@ -1,4 +1,4 @@
-name: Cronjob
+name: Cronjob (cronbot runner)
 
 env:
   AUTH0_TOKEN_ISSUER: ${{ secrets.AUTH0_TOKEN_ISSUER }}
