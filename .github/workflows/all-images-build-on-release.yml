@@ -11,7 +11,6 @@ on:
   release:
     types: [published]
 jobs:
-
   nginx:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'ci skip')"
@@ -23,10 +22,9 @@ jobs:
       - name: Docker login, build and push
         # uses: actions/docker/login@master
         env:
-
-          SUFFIX: "nginx-gateway"
-          CI: "true"
-        run:  |
+          SUFFIX: 'nginx-gateway'
+          CI: 'true'
+        run: |
           cd packages/nginx-gateway/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --build-arg OCPU_USER=${{secrets.OCPU_USER}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
@@ -39,9 +37,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Docker login, build and push
         env:
-          SUFFIX: "helpdesk-mailer"
-          CI: "true"
-        run:  |
+          SUFFIX: 'helpdesk-mailer'
+          CI: 'true'
+        run: |
           cd packages/helpdesk-mailer/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
@@ -54,9 +52,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Docker login, build and push
         env:
-          SUFFIX: "cronbot"
-          CI: "true"
-        run:  |
+          SUFFIX: 'cronbot'
+          CI: 'true'
+        run: |
           cd packages/cronbot/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
@@ -69,9 +67,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Docker login, build and push
         env:
-          SUFFIX: "radolan-recent-to-s3"
-          CI: "true"
-        run:  |
+          SUFFIX: 'radolan-recent-to-s3'
+          CI: 'true'
+        run: |
           cd packages/radolan-recent-to-s3/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
@@ -87,14 +85,13 @@ jobs:
       - name: Docker login, build and push
         # uses: actions/docker/login@master
         env:
-          SUFFIX: "cms-spa"
-          CI: "true"
-        run:  |
+          SUFFIX: 'cms-spa'
+          CI: 'true'
+        run: |
           cd packages/cms-spa/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/}  --build-arg REACT_APP_ADMIN_MAIL=${{secrets.REACT_APP_ADMIN_MAIL}} --build-arg REACT_APP_EVENT_SOURCE_URL=${{secrets.REACT_APP_EVENT_SOURCE_URL}} --build-arg REACT_APP_MAPBOX_API_TOKEN=${{secrets.REACT_APP_MAPBOX_API_TOKEN}} --build-arg REACT_APP_AUTH0_DOMAIN=${{secrets.REACT_APP_AUTH0_DOMAIN}} --build-arg REACT_APP_AUTH0_CLIENTID=${{secrets.REACT_APP_AUTH0_CLIENTID}} --build-arg REACT_APP_AUTH0_AUDIENCE=${{secrets.REACT_APP_AUTH0_AUDIENCE}} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
-
 
   ocpu-base:
     runs-on: ubuntu-latest
@@ -109,14 +106,13 @@ jobs:
         env:
           BUILD_DATE: '2019-09-19'
 
-          SUFFIX: "opencpu-base"
-          CI: "true"
-        run:  |
+          SUFFIX: 'opencpu-base'
+          CI: 'true'
+        run: |
           cd packages/opencpu-base/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
-
 
   fhpredict:
     runs-on: ubuntu-latest
@@ -130,15 +126,13 @@ jobs:
       - name: Docker login and build and push
         # uses: actions/docker/login@master
         env:
-
-          SUFFIX: "opencpu-fhpredict-api"
-          CI: "true"
+          SUFFIX: 'opencpu-fhpredict-api'
+          CI: 'true'
         run: |
           cd packages/opencpu-fhpredict-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
-
 
   middlelayer:
     runs-on: ubuntu-latest
@@ -152,10 +146,9 @@ jobs:
       - name: Docker login, build and push
         # uses: actions/docker/login@master
         env:
-
-          SUFFIX: "opencpu-middlelayer"
-          CI: "true"
-        run:  |
+          SUFFIX: 'opencpu-middlelayer'
+          CI: 'true'
+        run: |
           cd packages/opencpu-middlelayer/
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           docker build --label version=${GITHUB_REF##*/} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
@@ -172,9 +165,8 @@ jobs:
 
       - name: Docker login, build and push
         env:
-
-          SUFFIX: "postgres-api"
-          CI: "true"
+          SUFFIX: 'postgres-api'
+          CI: 'true'
         run: |
           cd packages/postgres-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin

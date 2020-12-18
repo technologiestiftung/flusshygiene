@@ -1,0 +1,35 @@
+name: Manual opencpu-fhpredict image build and push
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  # GITHUB_PAT:  ${{secrets.GITHUB_PAT_KWB}}
+  STAGE: dev
+  # COMMIT_FILTER: "[skip-ci]"
+on:
+  workflow_dispatch:
+    inputs:
+      dockertag:
+        description: 'The tag to add to the image. Should be somthing like v2.10.4-dev. This image has a special standing. It should match the upcoming version of the rest of the application. Take a look at the past images on docker hub https://hub.docker.com/repository/docker/technologiestiftung/flusshygiene-opencpu-base'
+        required: true
+        default: 'latest'
+
+jobs:
+  fhpredict:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    needs: ocpu-base
+    steps:
+      # - name: Skip based on commit message
+      #   uses: veggiemonk/skip-commit@1.0.0
+      - name: Get the source
+        uses: actions/checkout@v2
+      - name: Docker login and build and push
+        # uses: actions/docker/login@master
+        env:
+          SUFFIX: 'opencpu-fhpredict-api'
+          CI: 'true'
+        run: |
+          cd packages/opencpu-fhpredict-api/
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
