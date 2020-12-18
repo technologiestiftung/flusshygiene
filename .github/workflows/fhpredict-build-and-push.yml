@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       dockertag:
-        description: 'The tag to add to the image. Should be somthing like v2.10.4-dev. This image has a special standing. It should match the upcoming version of the rest of the application. Take a look at the past images on docker hub https://hub.docker.com/repository/docker/technologiestiftung/flusshygiene-opencpu-base'
+        description: 'The tag to add to the image. Should be somthing like "v2.10.4-dev" or maybe "rstudio". This image has a special standing. It should match the upcoming version of the rest of the application. Take a look at the past images on docker hub https://hub.docker.com/repository/docker/technologiestiftung/flusshygiene-opencpu-base'
         required: true
         default: 'latest'
 
@@ -29,5 +29,5 @@ jobs:
         run: |
           cd packages/opencpu-fhpredict-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}" .
-          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE}"
+          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}"
