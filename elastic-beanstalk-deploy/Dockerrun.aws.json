@@ -41,6 +41,7 @@
           "containerPath": "/var/log/api"
         }
       ],
+
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
