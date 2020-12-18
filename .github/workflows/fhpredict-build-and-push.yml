@@ -2,7 +2,6 @@ name: Manual opencpu-fhpredict image build and push
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  # GITHUB_PAT:  ${{secrets.GITHUB_PAT_KWB}}
   STAGE: dev
   # COMMIT_FILTER: "[skip-ci]"
 on:
@@ -29,5 +28,5 @@ jobs:
         run: |
           cd packages/opencpu-fhpredict-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --build-arg OCPU_PW=${{secrets.OCPU_PW}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}" .
+          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}"

@@ -4,13 +4,9 @@ LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"
 
 ARG GITHUB_PAT
-ARG OCPU_PW
 ENV TMP "/tmp"
 ENV TEMP "/tmp"
 
-# Set opencpu password so that we can login
-# User or own PW
-RUN echo "opencpu:${OCPU_PW}" | chpasswd
 COPY opencpu-config/user.conf /etc/opencpu/server.conf.d/
 # COPY build-r-installer.sh ./
 # theese are needed and need to be provided in the environment
