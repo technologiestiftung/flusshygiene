@@ -31,6 +31,7 @@ RUN \
 
 # Workaround for rstudio apparmor bug
 RUN echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf
+RUN echo "www-address=127.0.0.1" >> /etc/rstudio/rserver.conf
 
 # ----------
 # RUN R -e "install.packages('devtools')" && echo "remove this when upgraded to next version of ocpu-base"
