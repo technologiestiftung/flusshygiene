@@ -13,7 +13,8 @@ COPY default.conf timeout.conf /etc/nginx/conf.d/
 RUN USERNAME=opencpu && \
   PASSWORD=$(date +%s | sha256sum | base64 | head -c 43) && \
   htpasswd -bc /etc/nginx/.htpasswd $USERNAME "$PASSWORD" && \
-  echo "$PASSWORD" > PASSWORD.txt
+  echo "$PASSWORD" > PASSWORD.txt && \
+  echo "the password generated here will be replaced by elastic benastalk postdeploy hooks"
 # ↗ this line persists the password in a file inside the docker image.
 # Depending on your security threat model, this may be insecure. You can remove that line.
 # only do this in development
