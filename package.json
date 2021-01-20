@@ -6,7 +6,8 @@
   "main": " ",
   "scripts": {
     "lerna:version": "lerna version --no-git-tag-version --conventional-commits",
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "new-version": "./tools/version.sh"
   },
   "repository": {
     "type": "git",

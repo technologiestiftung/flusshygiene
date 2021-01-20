@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene-opencpu-base/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+**Note:** Version bump only for package @fsb/opencpu-base
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene-opencpu-base/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+**Note:** Version bump only for package @fsb/opencpu-base
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene-opencpu-base/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+**Note:** Version bump only for package @fsb/opencpu-base
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene-opencpu-base/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+**Note:** Version bump only for package @fsb/opencpu-base
+
+
+
+
+
 ## [2.10.6](https://github.com/technologiestiftung/flusshygiene-opencpu-base/compare/v2.10.5...v2.10.6) (2020-12-17)
 
 **Note:** Version bump only for package @fsb/opencpu-base

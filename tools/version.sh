@@ -69,4 +69,4 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # echo "${VERSION}"
-npm run lerna:version -- "${VERSION}" && lerna run --scope cms-spa add:version && git add . && git ci -m "v${VERSION}" && npm version "${VERSION}" --no-git-tag-version && git add . && git ci -m "v${VERSION}"
+npm run lerna:version -- "${VERSION}" && lerna run --scope "@tsb/cms-spa" add:version && git add . && git ci -m "v${VERSION}" && npm version "${VERSION}" --no-git-tag-version && git add . && git ci -m "v${VERSION}"
