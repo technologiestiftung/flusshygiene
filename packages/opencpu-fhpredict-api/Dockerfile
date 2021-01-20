@@ -3,7 +3,6 @@ LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"
 
-ARG GITHUB_PAT
 ENV TMP "/tmp"
 ENV TEMP "/tmp"
 
@@ -19,7 +18,7 @@ COPY opencpu-config/user.conf /etc/opencpu/server.conf.d/
 # ENV TOKEN_PROD $TOKEN_PROD
 
 COPY ./opencpu-config/ /etc/opencpu/server.conf.d/
-COPY ./files/.vimrc ~/
+COPY ./dotfiles/.vimrc ~/
 
 # -----------
 # taken from https://github.com/opencpu/opencpu-server/blob/b3ad9ec2d94ca4142ffbc9c0aafaca0885a4caba/docker/rstudio/Dockerfile
@@ -31,13 +30,14 @@ RUN \
 
 # Workaround for rstudio apparmor bug
 RUN echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf
+RUN echo "www-address=127.0.0.1" >> /etc/rstudio/rserver.conf
 
 # ----------
 # RUN R -e "install.packages('devtools')" && echo "remove this when upgraded to next version of ocpu-base"
-RUN  R -e "remotes::install_github('kwb-r/kwb.utils@v0.7.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
-RUN  R -e "remotes::install_github('kwb-r/kwb.dwd@v0.1.1', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
-RUN  R -e "remotes::install_github('kwb-r/kwb.flusshygiene@v0.3.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
-RUN  R -e "remotes::install_github('kwb-r/fhpredict@v0.16.0', upgrade = 'never', auth_token = devtools::github_pat(quiet = TRUE))"
+RUN  R -e "remotes::install_github('kwb-r/kwb.utils@v0.7.0', upgrade = 'never')"
+RUN  R -e "remotes::install_github('kwb-r/kwb.dwd@v0.1.1', upgrade = 'never')"
+RUN  R -e "remotes::install_github('kwb-r/kwb.flusshygiene@v0.3.0', upgrade = 'never')"
+RUN  R -e "remotes::install_github('kwb-r/fhpredict@v0.16.0', upgrade = 'never')"
 # RUN  R -e "remotes::install_github(\"kwb-r/fhpredict@v0.11.0\", build_vignettes = FALSE, force = TRUE, upgrade = \"never\")"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004

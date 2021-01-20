@@ -41,6 +41,7 @@
           "containerPath": "/var/log/api"
         }
       ],
+
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -58,7 +59,7 @@
     },
     {
       "name": "ocpu",
-      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.10.6-dev",
+      "image": "technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.10.6-rstudio",
       "hostname": "ocpu",
       "essential": false,
       "memory": 2716,
@@ -142,7 +143,7 @@
 
     {
       "name": "nginx",
-      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.10.6-dev",
+      "image": "technologiestiftung/flusshygiene-nginx-gateway:v2.11.0-dev",
       "hostname": "nginx",
       "essential": true,
       "memory": 512,
