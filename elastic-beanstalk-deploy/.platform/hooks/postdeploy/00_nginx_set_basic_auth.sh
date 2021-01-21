@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sudo docker ps >/home/ec2-user/platform-hooks-postdeploy.txt
+docker ps >~/platform-hooks-postdeploy.txt
