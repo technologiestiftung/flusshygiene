@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-echo "foo" >~/platform-hooks-postdeploy.txt
+echo "foo" >/tmp/platform-hooks-postdeploy.txt
