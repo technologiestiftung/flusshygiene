@@ -1,3 +1,3 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-echo "foo" >/tmp/platform-hooks-postdeploy.txt
+sudo docker ps | tee /tmp/platform-hooks-postdeploy.txt >/dev/null
