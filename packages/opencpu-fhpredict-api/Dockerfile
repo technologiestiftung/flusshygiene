@@ -41,6 +41,7 @@ RUN  R -e "remotes::install_github('kwb-r/fhpredict@v0.16.0', upgrade = 'never')
 # RUN  R -e "remotes::install_github(\"kwb-r/fhpredict@v0.11.0\", build_vignettes = FALSE, force = TRUE, upgrade = \"never\")"
 # RUN R -e "remotes::install_github(\"fabianmoronzirfas/rtestlib@master\", force = TRUE)"
 EXPOSE 8004
+EXPOSE 8787
 EXPOSE 80
 
 CMD service cron start && /usr/lib/rstudio-server/bin/rserver && apachectl -DFOREGROUND
