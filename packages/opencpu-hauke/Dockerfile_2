@@ -1,0 +1,29 @@
+FROM hauke/step-1:v0.1.0
+
+# Install R packages from GitHub -----------------------------------------------
+
+# The environment variable GITHUB_PAT needs to be set 
+# Set it when building the container: --build-arg GITHUB_PAT=...
+ARG GITHUB_PAT
+
+# At the very end, remove the "BH" package. It is very big in size and number of 
+# files and only required for package installation (I am assuming).
+RUN R -e " \
+  install <- function(x) remotes::install_github(x, upgrade = 'never') \
+  ; install('KWB-R/kwb.utils@v0.5.0') \
+  ; install('cloudyr/aws.s3@v0.3.12') \
+  ; install('KWB-R/kwb.dwd@v0.1.0') \
+  ; install('KWB-R/kwb.flusshygiene@v0.3.0') \
+  ; install('KWB-R/fhpredict@v0.16.0') \
+  ; remove.packages('BH', lib = './usr/lib/R/site-library') \
+"
+
+EXPOSE 8004
+EXPOSE 80
+
+ENV TMP "/tmp"
+ENV TEMP "/tmp"
+
+CMD service cron start \
+  && /usr/lib/rstudio-server/bin/rserver \
+  && apachectl -DFOREGROUND
