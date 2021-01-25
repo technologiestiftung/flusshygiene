@@ -25,5 +25,4 @@ ENV TMP "/tmp"
 ENV TEMP "/tmp"
 
 CMD service cron start \
-  && /usr/lib/rstudio-server/bin/rserver \
   && apachectl -DFOREGROUND
