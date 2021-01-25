@@ -21,8 +21,6 @@ COPY ./files/.vimrc ~/
 RUN add-apt-repository ppa:c2d4u.team/c2d4u4.0+ \
   && apt-get update \
   && apt-get install -y \
-    #r-base-dev sudo curl git libcurl4-openssl-dev libssl-dev \
-    #libxml2-dev libssh2-1-dev \
    r-cran-rstanarm=2.21.1-1cran1.2004.0 \
    r-cran-units=0.6-7-1cran1.2004.0 \
    r-cran-raster=3.4-5-1cran1.2004.0 \
