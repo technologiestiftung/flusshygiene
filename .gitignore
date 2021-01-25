@@ -168,3 +168,4 @@ terraform/ecs-fargate-cronbot/terraform-state-backup
 docs/**/*.png
 docs/images/flsshygn_bathingspot_measurement.csv
 docs/images/flsshygn_discharge.csv
+.Rproj.user
