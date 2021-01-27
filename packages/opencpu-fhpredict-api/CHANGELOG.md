@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0-rc.1](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api/compare/v2.11.0-rc...v2.11.0-rc.1) (2021-01-27)
+
+
+### Bug Fixes
+
+* **versions:** use fixed versions for all dependencies ([9bc449d](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api/commit/9bc449d73a42668da43552f0562b8987aed5a8fd))
+
+
+
+
+
 # [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene-opencpu-fhpredict-api/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
 
 

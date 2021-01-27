@@ -1,7 +1,7 @@
 {
   "name": "@tsb/radolan-api",
   "private": true,
-  "version": "2.11.0-rc",
+  "version": "2.11.0-rc.1",
   "description": "",
   "main": "index.js",
   "engines": {
