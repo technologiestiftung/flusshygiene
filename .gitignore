@@ -169,3 +169,10 @@ docs/**/*.png
 docs/images/flsshygn_bathingspot_measurement.csv
 docs/images/flsshygn_discharge.csv
 .Rproj.user
+packages/cms-spa/.idea/.gitignore
+packages/cms-spa/.idea/cms-spa.iml
+packages/cms-spa/.idea/misc.xml
+packages/cms-spa/.idea/modules.xml
+packages/cms-spa/.idea/vcs.xml
+packages/cms-spa/.idea/inspectionProfiles/Project_Default.xml
+packages/cms-spa/.idea/libraries/questionnaire_data.xml
