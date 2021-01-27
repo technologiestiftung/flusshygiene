@@ -34,10 +34,10 @@ echo "${GITHUB_REPOSITORY}"
 echo "${GITHUB_REF}"
 echo "${SUFFIX}"
 echo "${STAGE}"
-echo "${GITHUB_PAT}"
 echo "${PUSHIT}"
 
 echo "Your image will be build with this repository/tag: '${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}'"
+
 if [[ $PUSHIT == TRUE ]]; then
   echo "Your image will be pushed to docker hub"
 fi
@@ -48,6 +48,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   print_usage
   exit 1
 fi
+
 docker build --build-arg GITHUB_PAT="${GITHUB_PAT}" --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}" .
 
 if [[ $PUSHIT == TRUE ]]; then

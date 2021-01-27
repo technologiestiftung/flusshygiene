@@ -28,5 +28,5 @@ jobs:
         run: |
           cd packages/opencpu-fhpredict-api/
           echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker build  --build-arg GITHUB_PAT=${{secrets.GITHUB_PAT_KWB}} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}" .
+          docker build  --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}" .
           docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}"
