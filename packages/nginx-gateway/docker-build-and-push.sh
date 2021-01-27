@@ -12,7 +12,6 @@ PUSHIT=FALSE
 print_usage() {
   printf "\n\nUsage:------------------------------\n"
   printf "Usage: %s -t yourtag -s stage\n" "${0}"
-  printf "       If -u flag is not specified it will use '%s'\n" $OCPU_USER
   printf "       If -t flag is not specified it will use '%s'\n" $GITHUB_REF
   printf "       If -s flag is not specified it will use '%s'\n\n\n" $STAGE
   printf "       If -p flag is not specified it will not push to the remote '%s'\n\n\n" $PUSHIT
@@ -21,13 +20,11 @@ print_usage() {
 
 }
 
-while getopts 'pt:s:u:' flag; do
+while getopts 'pt:s:' flag; do
   case "${flag}" in
   t) GITHUB_REF="${OPTARG}" ;;
   s) STAGE="${OPTARG}" ;;
-  u) OCPU_USER="${OPTARG}" ;;
   p) PUSHIT=TRUE ;;
-
   *)
     print_usage
     exit 1
@@ -39,7 +36,6 @@ echo "${GITHUB_REPOSITORY}"
 echo "${GITHUB_REF}"
 echo "${SUFFIX}"
 echo "${STAGE}"
-echo "${OCPU_USER}"
 echo "${PUSHIT}"
 echo "Your image will be build with this repository/tag: '${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF}-${STAGE}'"
 echo "Your user for the ocpu/test will be ${OCPU_USER}. Your pw will not be shown here"

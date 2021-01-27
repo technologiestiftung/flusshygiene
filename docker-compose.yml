@@ -60,9 +60,7 @@ services:
     # context: ./packages/opencpu-fhpredict-api
     # dockerfile: Dockerfile
     # args:
-    #   - GITHUB_PAT=${GITHUB_PAT}
     environment:
-      # - GITHUB_PAT=${GITHUB_PAT}
       - FHPREDICT_PG_API_URL=http://localhost:5004/api/v1
 
   middlelayer:
