@@ -1,6 +1,6 @@
 # TODO: [BADEN-9] use fixed version if all test work
-# FROM technologiestiftung/flusshygiene-opencpu-base:v2.10.6-dev
-FROM technologiestiftung/flusshygiene-opencpu-base:test-dev
+FROM technologiestiftung/flusshygiene-opencpu-base:v2.11.0-dev
+# FROM technologiestiftung/flusshygiene-opencpu-base:test-dev
 LABEL maintainer="moron-zirfas@technologiestiftung-berlin.de"
 LABEL "de.technologiestiftung-berlin"="Technologiestiftung Berlin"
 LABEL description="This runs our package kwb-r/fhpredict package on a opencpu api"

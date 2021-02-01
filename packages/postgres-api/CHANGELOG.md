@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.11.0-rc.1...v2.11.0) (2021-02-01)
+
+**Note:** Version bump only for package @tsb/postgres-api
+
+
+
+
+
 # [2.11.0-rc.1](https://github.com/fabianmoronzirfas/flusshygiene-postgres-api/compare/v2.11.0-rc...v2.11.0-rc.1) (2021-01-27)
 
 **Note:** Version bump only for package @tsb/postgres-api
