@@ -2,6 +2,6 @@ version: "3"
 
 services:
   flusshygiene-opencpu-base:
-    image: technologiestiftung/flusshygiene-opencpu-base:v2.10.4-dev
+    image: technologiestiftung/flusshygiene-opencpu-base:v2.11.0-dev
     container_name: flusshygiene-opencpu-base
     env_file: ./.env
