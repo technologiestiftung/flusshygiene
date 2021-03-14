@@ -1,4 +1,4 @@
-FROM nginx:1.19.3-alpine as gateway
+FROM nginx:1.19.8-alpine as gateway
 RUN apk update && apk upgrade && \
   apk add apache2-utils && \
   rm -rf /var/cache/apk/* /tmp/*
