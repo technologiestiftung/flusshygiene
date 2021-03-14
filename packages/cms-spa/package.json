@@ -30,7 +30,7 @@
     "react": "16.12.0",
     "react-app-polyfill": "1.0.5",
     "react-copy-to-clipboard": "5.0.2",
-    "react-csv": "1.1.2",
+    "react-csv": "2.0.3",
     "react-dom": "16.12.0",
     "react-helmet": "6.1.0",
     "react-map-gl": "5.2.5",
