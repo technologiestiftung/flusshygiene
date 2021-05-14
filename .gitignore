@@ -179,3 +179,9 @@ packages/cms-spa/.idea/libraries/questionnaire_data.xml
 packages/radolan-recent-to-s3/src/lib/directory-listing.ts
 packages/radolan-recent-to-s3/playground/out
 packages/radolan-recent-to-s3/playground/streaming.ts
+snippets/insert-some-area/index.mjs
+snippets/insert-some-area/package-lock.json
+snippets/insert-some-area/package.json
+snippets/insert-some-area/rain_area_havel.json
+snippets/insert-some-area/rain-area-havel-fixed.json
+snippets/insert-some-area/.vscode/settings.json
