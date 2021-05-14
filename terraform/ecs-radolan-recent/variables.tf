@@ -106,15 +106,7 @@ variable "smtp_admin_to" {
 #   description = "The bucket to store the radolan sf data in"
 # }
 
-variable "ftp_host" {
-  description = "the ftp host of the DWD"
-}
 
-variable "ftp_port" {
-  description = "the FTP port of the dwd"
+variable "dwd_http_host"{
+  description = "The path where we can find the DWD data on their http server with directory listing"
 }
-
-variable "ftp_radolan_path" {
-  description = "the path on the DWD FTP where the SF data is located"
-}
-

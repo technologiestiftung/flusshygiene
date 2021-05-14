@@ -24,7 +24,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x, 14.x, 16.x]
     steps:
       # - name: Skip based on commit message
       #   uses: veggiemonk/skip-commit@1.0.0
@@ -42,7 +42,7 @@ jobs:
           npm test --ci --coverage
           npm run build
         env:
-          CI: "true"
+          CI: 'true'
   image:
     runs-on: ubuntu-latest
     needs: test
@@ -55,4 +55,4 @@ jobs:
           cd packages/${SUFFIX}
           docker build --label version=${GITHUB_REF##*/} --tag ${GITHUB_REPOSITORY}-${SUFFIX}:${GITHUB_REF##*/}-${STAGE} .
         env:
-          CI: "true"
+          CI: 'true'

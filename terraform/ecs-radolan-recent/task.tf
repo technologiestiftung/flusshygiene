@@ -40,17 +40,11 @@ resource "aws_ecs_task_definition" "task" {
      } , {
        "name": "AWS_REGION",
        "value": "${var.region}"
-     }  , {
-       "name": "FTP_HOST",
-       "value": "${var.ftp_host}"
-     }  , {
-       "name": "FTP_PORT",
-       "value": "${var.ftp_port}"
-     }  , {
-       "name": "FTP_RADOLAN_PATH",
-       "value": "${var.ftp_radolan_path}"
-     },
-           {
+     }   , {
+       "name": "DWD_HTTP_HOST",
+       "value": "${var.dwd_http_host}"
+     }  ,
+          {
         "name":"SMTP_HOST",
         "value": "${var.smtp_host}"
       },

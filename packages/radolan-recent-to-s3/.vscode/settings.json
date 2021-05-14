@@ -12,7 +12,8 @@
     "titleBar.inactiveForeground": "#e7e7e799",
     "statusBar.background": "#8147aa",
     "statusBarItem.hoverBackground": "#9a65bf",
-    "statusBar.foreground": "#e7e7e7"
+    "statusBar.foreground": "#e7e7e7",
+    "activityBar.activeBackground": "#9a65bf"
   },
   "peacock.color": "#8147aa",
   "typescript.tsdk": "node_modules/typescript/lib"

@@ -18,15 +18,15 @@ Rename `example.env` to `.env` (`mv example.env .env`)  or create a new one (`to
 AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxx
 AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 AWS_BUCKET_NAME=xxxxxx-bucket
-MAILGUN_DOMAIN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org
-MAILGUN_APIKEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-MAILGUN_FROM=postmaster@xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org
-MAILGUN_TO=you@foo.dev
-FTP_HOST=ftp-cdc.dwd.de
-FTP_PORT=21
+SMTP_HOST=
+SMTP_USER=
+SMTP_PW=
+SMTP_PORT=
+SMTP_FROM=
+SMTP_ADMIN_TO=
+DWD_HTTP_HOST=https://opendata.dwd.de/climate_environment/CDC/grids_germany/daily/radolan/recent/bin/
 ```
 
-The settings for the FTP_PORT and FTP_HOST can stay as is.
 
 ```bash
 docker pull technologiestiftung/flusshygiene-radolan-recent
@@ -39,10 +39,10 @@ In fish-shell
 docker run --env-file "$PWD/.env" --name radolan-recent technologiestiftung/flusshygiene-radolan-recent
 ```
 
-## Development  
+## Development
 
 
-Install and build:  
+Install and build:
 
 
 ```bash
@@ -64,17 +64,17 @@ Docker build:
 docker build -t technologiestiftung/flusshygiene-radolan-recent .
 ```
 
-Docker run: 
+Docker run:
 
 ```bash
 run --env-file $(pwd)/.env --name radolan-recent technologiestiftung/flusshygiene-radolan-recent
 ```
 
-## License 
+## License
 
 MIT License
 
-Copyright (c) 2019 Technologiestiftung Berlin & Fabian Morón Zirfas
+Copyright (c) 2019 - 2021 Technologiestiftung Berlin & Fabian Morón Zirfas
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
