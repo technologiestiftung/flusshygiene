@@ -24,18 +24,18 @@
     "serverless-dotenv-plugin": "2.1.1"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.27",
+    "@types/aws-lambda": "8.10.76",
     "@types/moment-range": "3.1.2",
-    "@types/node": "12.12.29",
+    "@types/node": "12.20.13",
     "cz-conventional-changelog": "2.1.0",
-    "serverless": "1.45.1",
+    "serverless": "1.83.3",
     "serverless-export-env": "github:arabold/serverless-export-env",
-    "serverless-offline": "5.3.3",
-    "serverless-plugin-typescript": "1.1.7",
-    "tap": "14.2.5",
-    "ts-node": "8.3.0",
-    "tslint": "5.17.0",
-    "typescript": "3.5.2"
+    "serverless-offline": "5.12.1",
+    "serverless-plugin-typescript": "1.1.9",
+    "tap": "14.11.0",
+    "ts-node": "8.10.2",
+    "tslint": "5.20.1",
+    "typescript": "3.9.9"
   },
   "config": {
     "commitizen": {
