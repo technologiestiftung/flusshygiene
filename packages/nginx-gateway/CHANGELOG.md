@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/technologiestiftung/flusshygiene-nginx-gateway/compare/v2.11.0...v2.12.0) (2021-05-14)
+
+**Note:** Version bump only for package @tsb/nginx-gateway
+
+
+
+
+
 # [2.11.0](https://github.com/technologiestiftung/flusshygiene-nginx-gateway/compare/v2.11.0-rc.1...v2.11.0) (2021-02-01)
 
 **Note:** Version bump only for package @tsb/nginx-gateway

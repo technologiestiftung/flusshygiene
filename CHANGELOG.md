@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.11.0...v2.12.0) (2021-05-14)
+
+
+### Bug Fixes
+
+* **DWD:** Add HTTP links ([4b6746a](https://github.com/technologiestiftung/flusshygiene/commit/4b6746a8a5195580658a77cab8d7ae8ce92abe7b))
+* **radolan recent:** Pull files from http ([ccfb860](https://github.com/technologiestiftung/flusshygiene/commit/ccfb860a1071b219e691f0cae1f2fe323edf1dcd))
+
+
+
+
+
 # [2.11.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.11.0-rc.1...v2.11.0) (2021-02-01)
 
 **Note:** Version bump only for package @tsb/flusshygiene
