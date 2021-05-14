@@ -1,5 +1,5 @@
 # Production Dockerfile
-FROM node:12.18.4-alpine as builder
+FROM node:12.22.1-alpine as builder
 
 LABEL maintainer="Fabian Morón Zirfas"
 LABEL description="An API for a postgres/postgis db used in the project flusshygiene"
@@ -10,7 +10,7 @@ COPY ./package*.json ./
 RUN npm ci --quiet
 COPY ./ ./
 RUN npm run build
-FROM node:12.18.4-alpine as app
+FROM node:12.22.1-alpine as app
 WORKDIR  /home/node
 ENV NODE_ENV=production
 ENV NODE_DOCKER_ENV=1
