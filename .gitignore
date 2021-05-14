@@ -176,3 +176,6 @@ packages/cms-spa/.idea/modules.xml
 packages/cms-spa/.idea/vcs.xml
 packages/cms-spa/.idea/inspectionProfiles/Project_Default.xml
 packages/cms-spa/.idea/libraries/questionnaire_data.xml
+packages/radolan-recent-to-s3/src/lib/directory-listing.ts
+packages/radolan-recent-to-s3/playground/out
+packages/radolan-recent-to-s3/playground/streaming.ts
