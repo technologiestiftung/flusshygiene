@@ -121,7 +121,7 @@
     "typescript": "3.9.3"
   },
   "resolutions": {
-    "react-helmet/react-side-effect": "2.1.0"
+    "react-helmet/react-side-effect": "2.1.1"
   },
   "jest": {
     "coverageReporters": [
