@@ -10,7 +10,7 @@ import s3 from "s3-client";
 import util from "util";
 import got from "got";
 import stream from "stream";
-
+import zlib from "zlib";
 import { allBucketKeys } from "./all-bucket-keys";
 import { IObject } from "./interfaces";
 import { logger } from "./logger";
@@ -107,10 +107,8 @@ export const main: (options: IObject) => Promise<void> = async _options => {
           const fswstream = fs.createWriteStream(`${tmpFolderPath}/${outfile}`);
           stream.pipeline(
             rstream,
-            /*
-          also here. Files are not zipped anymore
-          zlib.createGunzip()
-           */
+
+            zlib.createGunzip(),
             fswstream,
 
             err => {
