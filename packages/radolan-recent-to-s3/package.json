@@ -50,9 +50,11 @@
   "dependencies": {
     "aws-sdk": "2.463.0",
     "dotenv": "8.0.0",
+    "got": "^11.8.2",
     "htmlparser2": "6.1.0",
     "meow": "5.0.0",
     "mkdirp": "1.0.0",
+    "node-fetch": "^2.6.1",
     "nodemailer": "6.4.3",
     "rimraf": "2.6.3",
     "s3-client": "4.4.2",
