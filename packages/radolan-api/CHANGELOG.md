@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.12.0...v2.13.0) (2021-05-18)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+## [2.12.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.12.0...v2.12.1) (2021-05-17)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+# [2.12.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.11.0...v2.12.0) (2021-05-14)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+# [2.11.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.11.0-rc.1...v2.11.0) (2021-02-01)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+# [2.11.0-rc.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.11.0-rc...v2.11.0-rc.1) (2021-01-27)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+## [2.10.6](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.5...v2.10.6) (2020-12-17)
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
+
+
+**Note:** Version bump only for package @tsb/radolan-api
+
+
+
+
+
 ## [2.10.4](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.0...v2.10.4) (2020-05-28)
 
 **Note:** Version bump only for package @tsb/radolan-api

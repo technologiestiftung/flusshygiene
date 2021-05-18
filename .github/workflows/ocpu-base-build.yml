@@ -1,0 +1,31 @@
+name: Manual opencpu-base container build and push
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  STAGE: dev
+  # COMMIT_FILTER: "[skip-ci]"
+on:
+  workflow_dispatch:
+    inputs:
+      dockertag:
+        description: 'The tag to add to the image. Should be somthing like v2.10.4-dev. This image has a special standing. It should match the upcoming version of the rest of the application. Take a look at the past images on docker hub https://hub.docker.com/repository/docker/technologiestiftung/flusshygiene-opencpu-base'
+        required: true
+        default: 'latest'
+
+jobs:
+  ocpu-base:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the source
+        uses: actions/checkout@v2
+      - name: Docker login, build and push
+        env:
+          # build date is currently not used
+          # BUILD_DATE: '2019-09-19'
+          SUFFIX: 'opencpu-base'
+          CI: 'true'
+        run: |
+          cd packages/opencpu-base/
+          echo "$DOCKER_PASSWORD" |  docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build --label version=${{ github.event.inputs.dockertag }} --build-arg BUILD_DATE=${BUILD_DATE} --tag "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}" .
+          docker push "${GITHUB_REPOSITORY}-${SUFFIX}:${{github.event.inputs.dockertag}}"

@@ -1,0 +1,44 @@
+# Yes this sucks. We need to pull all the images once every six month
+# so we dont loose them to the new docker rentention period
+# We wont migrate this application to github packages but might use it
+# for future images
+
+name: Docker Pull Periodically
+
+on:
+  workflow_dispatch:
+  # https://crontab.guru/#0_8_1_*_*
+  schedule:
+    - cron: '0 12 1 * *'
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: oprypin/find-latest-tag@v1
+        with:
+          repository: technologiestiftung/flusshygiene # The repository to scan.
+          releases-only: true # We know that all relevant tags have a GitHub release for them.
+        id: tags # The step ID to refer to later.
+      # - name: Checkout
+      #   uses: actions/checkout@v2
+      - name: Pull them
+        env:
+          TAG: '${{ steps.tags.outputs.tag }}'
+        run: |
+          echo "${{ steps.tags.outputs.tag }}"
+          images=(
+            "technologiestiftung/flusshygiene-cms-spa:${TAG}-dev"
+            "technologiestiftung/flusshygiene-cronbot:${TAG}-dev"
+            "technologiestiftung/flusshygiene-helpdesk-mailer:${TAG}-dev"
+            "technologiestiftung/flusshygiene-nginx-gateway:${TAG}-dev"
+            "technologiestiftung/flusshygiene-opencpu-base:${TAG}-dev"
+            "technologiestiftung/flusshygiene-opencpu-fhpredict-api:${TAG}-dev"
+            "technologiestiftung/flusshygiene-opencpu-middlelayer:${TAG}-dev"
+            "technologiestiftung/flusshygiene-postgres-api:${TAG}-dev"
+            "technologiestiftung/flusshygiene-radolan-recent-to-s3:${TAG}-dev"
+            "technologiestiftung/flusshygiene-radolan-recent:v2.0.1"
+          )
+          for i in "${images[@]}"; do
+            echo "pulling $i"
+            docker pull --quiet "$i"
+          done

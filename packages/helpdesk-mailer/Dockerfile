@@ -1,4 +1,4 @@
-FROM node:12.18.1-alpine as builder
+FROM node:12.18.4-alpine as builder
 LABEL maintainer="Fabian Morón Zirfas"
 LABEL description="An API for a the helpdesk to send mails"
 ENV NODE_ENV=development
@@ -7,7 +7,7 @@ COPY ./package*.json ./
 RUN npm ci --quiet --no-optional && npm cache clean --force
 COPY ./ ./
 RUN npm run build
-FROM node:12.18.1-alpine as app
+FROM node:12.18.4-alpine as app
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
 ARG NODE_ENV=production

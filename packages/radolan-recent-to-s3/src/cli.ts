@@ -9,7 +9,7 @@ const cli = meow(`Usage`, { flags: {} });
 
 const options = { inputs: cli.input, flags: cli.flags };
 logger.info("CLI Options", options);
-main(options).catch((err) => {
+main(options).catch(err => {
   logger.error(err);
   // process.stderr.write(`${JSON.stringify(err)}\n`);
 });

@@ -1,12 +1,13 @@
 {
   "name": "@tsb/flusshygiene",
-  "version": "2.10.4",
+  "version": "2.13.0",
   "private": true,
   "description": "Monorepo for the flusshygiene application",
   "main": " ",
   "scripts": {
     "lerna:version": "lerna version --no-git-tag-version --conventional-commits",
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "new-version": "./tools/version.sh"
   },
   "repository": {
     "type": "git",

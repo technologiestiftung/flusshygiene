@@ -1,29 +1,24 @@
-version: "3.7"
+version: '3.7'
 
 services:
   postgres:
-    container_name: "postgres-db"
-    image: "mdillon/postgis:10"
+    container_name: 'postgres-db'
+    image: 'mdillon/postgis:10'
     ports:
-      - "5432:5432"
+      - '5432:5432'
   redis:
-    container_name: "redis"
-    image: "redis:5.0.6"
+    container_name: 'redis'
+    image: 'redis:5.0.6'
     ports:
-      - "6379:6379"
-
-
+      - '6379:6379'
 
   nginx:
-    container_name: "nginx"
+    container_name: 'nginx'
     build:
       context: ./packages/nginx-gateway
       dockerfile: Dockerfile.dev
-      args:
-        - OCPU_USER=test
-        - OCPU_PW=test
     ports:
-      - "8888:80"
+      - '8888:80'
       # - "35729:35729"
       # - "8888:35729"
     depends_on:
@@ -35,7 +30,7 @@ services:
       - postgres
 
   api:
-    container_name: "api"
+    container_name: 'api'
     build:
       context: ./packages/postgres-api
       dockerfile: Dockerfile.dev
@@ -52,29 +47,24 @@ services:
       - POPULATE=true
       - NODE_ENV=development
     ports:
-      - "5004:5004"
+      - '5004:5004'
     depends_on:
       - postgres
       - redis
 
-
   ocpu:
-    container_name: "ocpu"
+    container_name: 'ocpu'
     env_file: ./packages/opencpu-fhpredict-api/.env
     image: technologiestiftung/flusshygiene-opencpu-fhpredict-api:v2.7.6-fix-dev
     # build:
-      # context: ./packages/opencpu-fhpredict-api
-      # dockerfile: Dockerfile
-      # args:
-      #   - GITHUB_PAT=${GITHUB_PAT}
+    # context: ./packages/opencpu-fhpredict-api
+    # dockerfile: Dockerfile
+    # args:
     environment:
-      # - GITHUB_PAT=${GITHUB_PAT}
       - FHPREDICT_PG_API_URL=http://localhost:5004/api/v1
 
-
-
   middlelayer:
-    container_name: "middlelayer"
+    container_name: 'middlelayer'
     build:
       context: ./packages/opencpu-middlelayer
       dockerfile: Dockerfile.dev
@@ -92,14 +82,14 @@ services:
       - ocpu
       - redis
   spa:
-    container_name: "spa"
+    container_name: 'spa'
     # env_file: ./packages/cms-spa/.env
     build:
       context: ./packages/cms-spa
       dockerfile: Dockerfile.dev
     # ports:
-      # - "35729:35729"
-      # - "35729:80"
+    # - "35729:35729"
+    # - "35729:80"
     volumes:
       - /usr/app/node_modules
       - ./packages/cms-spa:/usr/app
@@ -109,6 +99,3 @@ services:
       - REACT_APP_AUTH0_DOMAIN=${REACT_APP_AUTH0_DOMAIN}
       - REACT_APP_AUTH0_CLIENTID=${REACT_APP_AUTH0_CLIENTID}
       - REACT_APP_AUTH0_AUDIENCE=${REACT_APP_AUTH0_AUDIENCE}
-
-
-

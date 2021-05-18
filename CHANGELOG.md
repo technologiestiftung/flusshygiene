@@ -3,6 +3,120 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.12.0...v2.13.0) (2021-05-18)
+
+
+### Bug Fixes
+
+* **radolan:** files on http where gziped ([b0d4205](https://github.com/technologiestiftung/flusshygiene/commit/b0d4205a25a8ce02e5ceb62835c510d0fbb1cf61))
+* **radolan recent:** Missed some packages ([a14b3aa](https://github.com/technologiestiftung/flusshygiene/commit/a14b3aafe56d091f71361c8097d36ecdc787b5cf))
+
+
+
+
+
+## [2.12.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.12.0...v2.12.1) (2021-05-17)
+
+
+### Bug Fixes
+
+* **radolan recent:** Missed some packages ([a14b3aa](https://github.com/technologiestiftung/flusshygiene/commit/a14b3aafe56d091f71361c8097d36ecdc787b5cf))
+
+
+
+
+
+# [2.12.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.11.0...v2.12.0) (2021-05-14)
+
+
+### Bug Fixes
+
+* **DWD:** Add HTTP links ([4b6746a](https://github.com/technologiestiftung/flusshygiene/commit/4b6746a8a5195580658a77cab8d7ae8ce92abe7b))
+* **radolan recent:** Pull files from http ([ccfb860](https://github.com/technologiestiftung/flusshygiene/commit/ccfb860a1071b219e691f0cae1f2fe323edf1dcd))
+
+
+
+
+
+# [2.11.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.11.0-rc.1...v2.11.0) (2021-02-01)
+
+**Note:** Version bump only for package @tsb/flusshygiene
+
+
+
+
+
+# [2.11.0-rc.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.11.0-rc...v2.11.0-rc.1) (2021-01-27)
+
+
+### Bug Fixes
+
+* **versions:** use fixed versions for all dependencies ([9bc449d](https://github.com/technologiestiftung/flusshygiene/commit/9bc449d73a42668da43552f0562b8987aed5a8fd))
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+
+### Bug Fixes
+
+* **leak:** remove usage of github_pat ([4d29a44](https://github.com/technologiestiftung/flusshygiene/commit/4d29a443f1cfb23075404bb249209fe47971748f))
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+
+### Bug Fixes
+
+* **leak:** remove usage of github_pat ([4d29a44](https://github.com/technologiestiftung/flusshygiene/commit/4d29a443f1cfb23075404bb249209fe47971748f))
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+
+### Bug Fixes
+
+* **leak:** remove usage of github_pat ([4d29a44](https://github.com/technologiestiftung/flusshygiene/commit/4d29a443f1cfb23075404bb249209fe47971748f))
+
+
+
+
+
+# [2.11.0-rc](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.6...v2.11.0-rc) (2021-01-20)
+
+
+### Bug Fixes
+
+* **leak:** remove usage of github_pat ([4d29a44](https://github.com/technologiestiftung/flusshygiene/commit/4d29a443f1cfb23075404bb249209fe47971748f))
+
+
+
+
+
+## [2.10.6](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.5...v2.10.6) (2020-12-17)
+
+**Note:** Version bump only for package @tsb/flusshygiene
+
+
+
+
+
+
+
+**Note:** Version bump only for package @tsb/flusshygiene
+
+
+
+
+
 ## [2.10.4](https://github.com/technologiestiftung/flusshygiene/compare/v2.10.0...v2.10.4) (2020-05-28)
 
 
