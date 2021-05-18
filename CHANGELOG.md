@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/technologiestiftung/flusshygiene/compare/v2.12.0...v2.13.0) (2021-05-18)
+
+
+### Bug Fixes
+
+* **radolan:** files on http where gziped ([b0d4205](https://github.com/technologiestiftung/flusshygiene/commit/b0d4205a25a8ce02e5ceb62835c510d0fbb1cf61))
+* **radolan recent:** Missed some packages ([a14b3aa](https://github.com/technologiestiftung/flusshygiene/commit/a14b3aafe56d091f71361c8097d36ecdc787b5cf))
+
+
+
+
+
 ## [2.12.1](https://github.com/technologiestiftung/flusshygiene/compare/v2.12.0...v2.12.1) (2021-05-17)
 
 
