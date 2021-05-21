@@ -36,7 +36,7 @@ variable "vpc_id" {
 
 variable "image" {
   description = "the image to use for your task"
-  default     = "technologiestiftung/flusshygiene-radolan-recent-to-s3:v2.7.4-dev"
+  default     = "technologiestiftung/flusshygiene-radolan-recent-to-s3:v2.13.0-dev"
 }
 
 # variable "cluster_arn" {
