@@ -17,4 +17,8 @@ export const globals: IGlobals = {
   setSkipMail: function(value) {
     this.SKIP_MAIL = value;
   },
+  DELAY: 0,
+  setDelay: function(value) {
+    this.DELAY = value;
+  },
 };
