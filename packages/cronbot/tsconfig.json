@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", ".vscode","dist", "src/types", "src/__tests__"],
+  "exclude": ["node_modules", ".vscode","dist", "src/types", "src/__tests__","src/quokka-playground"],
   "compilerOptions": {
     "resolveJsonModule": true,
     /* Basic Options */
