@@ -40,4 +40,4 @@ jobs:
       - name: install dependencies
         run: npm ci
       - name: exec cronbot
-        run: NODE_ENV=production node ./dist/cli.js --adminonly --predict --verbose
+        run: NODE_ENV=production node ./dist/cli.js --adminonly --predict --verbose --delay 120000

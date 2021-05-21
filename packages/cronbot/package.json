@@ -42,7 +42,7 @@
     "test": "jest",
     "change": "beachball change",
     "plop": "plop",
-    "ts-node": "ts-node src/cli.ts",
+    "dev:ts": "ts-node -r dotenv/config src/cli.ts --adminonly --predict  --verbose --delay 120000",
     "test:watch": "jest --watch",
     "prettier": "prettier \"**/*.+(js|json|yml|yaml|ts)\"",
     "prettier:list": "npm run prettier -- --list-different",

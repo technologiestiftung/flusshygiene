@@ -89,8 +89,10 @@ export interface IGlobals {
   VERBOSE?: boolean;
   SKIP_MAIL?: boolean;
   PREDICT?: boolean;
+  DELAY: number;
   setAdminOnly: (value: boolean) => void;
   setVerbose: (value: boolean) => void;
   setSkipMail: (value: boolean) => void;
   setPredict: (value: boolean) => void;
+  setDelay: (value: number) => void;
 }
