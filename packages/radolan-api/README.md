@@ -1,6 +1,6 @@
 # Radolan API Lambda
 
-This is a Lambda function to access all the radolan data stored in an S3 Bucket. It allows to query the bucket for download urls. You can define a date range as [URL query parameters](https://en.wikipedia.org/wiki/Query_string) with the keys `from` and `to`
+This is a Lambda function, using [serverless framework](https://www.serverless.com/), to access all the radolan data stored in an S3 Bucket. It allows to query the bucket for download urls. You can define a date range as [URL query parameters](https://en.wikipedia.org/wiki/Query_string) with the keys `from` and `to`
 The dates provided need to be in the following pattern: `YYYYMMDD`. This translates to 20190131 to set a parameter for the 31st of January in 2019.
 
 ## Prerequisites
@@ -25,7 +25,6 @@ The dates provided need to be in the following pattern: `YYYYMMDD`. This transla
 These files ([historical](ftp://ftp-cdc.dwd.de/pub/CDC/grids_germany/hourly/radolan/historical/bin/) and [recent](ftp://ftp-cdc.dwd.de/pub/CDC/grids_germany/hourly/radolan/recent/bin/)) can be found on the FTP of the Deutsche Wetterdienst (DWD) and are scraped to a S3 bucket using these tools [technologiestiftung/flusshygiene-radolan-recent-to-s3](https://github.com/technologiestiftung/flusshygiene-radolan-recent-to-s3), [technologiestiftung/flusshygiene-radolan-historical-to-s3](https://github.com/technologiestiftung/flusshygiene-radolan-historical-to-s3) and [technologiestiftung/flusshygiene-radolan-scraper](https://github.com/technologiestiftung/flusshygiene-radolan-scrap). 
 
 ## Setup
-
 
 - Follow the instructions on [serverless.com/framework/docs/providers/aws/guide/quick-start/](https://serverless.com/framework/docs/providers/aws/guide/quick-start/) to setup your AWS account, install the CLI and run a first test.
 - Change the [`example-serverless.yml`](./example-serverless.yml) to match your name, bucket name and so on and rename it to `serverless.yml`
@@ -128,28 +127,3 @@ You can add a time URL parameter to filter the files be the time value coded ont
 ```bash
 curl "https://xxxxxx.some-name.some-region.amazonaws.com/stage?from=20190101&to=20190103&time=2250" -H 'x-api-key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 ```
-
-
-
-## MIT License
-
-
-Copyright (c) 2019 Technologiestiftung Berlin & Fabian Morón Zirfas
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
