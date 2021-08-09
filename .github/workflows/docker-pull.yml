@@ -7,7 +7,7 @@ name: Docker Pull Periodically
 
 on:
   repository_dispatch:
-    types: [pipedream]
+    types: [docker_pull]
   workflow_dispatch: {}
   # https://crontab.guru/#0_8_1_*_*
   # schedule:

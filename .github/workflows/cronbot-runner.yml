@@ -24,7 +24,7 @@ on:
     #   # https://crontab.guru/#0_4_*_*_*
     #   - cron: '0 4 * * *'
   repository_dispatch:
-    types: [pipedream]
+    types: [cronbot]
 jobs:
   collect_data:
     runs-on: ubuntu-latest
