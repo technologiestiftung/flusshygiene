@@ -34,10 +34,10 @@ jobs:
         shell: bash
         working-directory: packages/cronbot
     steps:
-      - name: Dispatcher
-        run: echo "${{ github.event.client_payload.source }}"
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Dispatcher
+        run: echo "${{ github.event.client_payload.source }}"
       - name: Use Node.js from nvm
         shell: bash -l {0}
         run: nvm install
