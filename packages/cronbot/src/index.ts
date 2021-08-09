@@ -22,6 +22,7 @@ import got, { HTTPError } from "got/dist/source";
 import { getSpotModelInfo } from "./lib/requests/get-spot-model-info";
 import { IReport } from "./common/interfaces";
 import { buildHeaders } from "./common/headers";
+import { sleep } from "./utils/sleep";
 // import { DB } from "./DB";
 
 /**
@@ -97,7 +98,8 @@ export async function main() {
             const url = FLSSHYGN_PREDICT_URL;
             try {
               const headers = buildHeaders();
-              await got.post({
+
+              const p = got.post({
                 url,
                 headers,
                 json: {
@@ -105,6 +107,9 @@ export async function main() {
                   user_id: spot.userId,
                 },
               });
+
+              const res = await Promise.all([p, sleep(globals.DELAY)]);
+              logger.info(res[0].body);
             } catch (error) {
               if (error instanceof HTTPError) {
                 const report: IReport = {

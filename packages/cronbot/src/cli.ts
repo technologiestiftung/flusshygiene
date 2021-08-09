@@ -40,6 +40,11 @@ Usage
         alias: "s",
         default: false,
       },
+      delay: {
+        type: "number",
+        alias: "d",
+        default: 0,
+      },
       diskToken: {
         type: "string",
       },
@@ -51,7 +56,8 @@ globals.setAdminOnly(cli.flags.adminonly);
 globals.setVerbose(cli.flags.verbose);
 globals.setSkipMail(cli.flags.skipmail);
 globals.setPredict(cli.flags.predict);
-console.log(cli.flags);
+globals.setDelay(cli.flags.delay);
+logger.info(cli.flags);
 // process.exit();
 
 if (cli.flags.hasOwnProperty("diskToken") === true) {
