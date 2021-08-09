@@ -6,10 +6,12 @@
 name: Docker Pull Periodically
 
 on:
-  workflow_dispatch:
+  repository_dispatch:
+    types: [pipedream]
+  workflow_dispatch: {}
   # https://crontab.guru/#0_8_1_*_*
-  schedule:
-    - cron: '0 12 1 * *'
+  # schedule:
+  #   - cron: '0 12 1 * *'
 jobs:
   pull:
     runs-on: ubuntu-latest
@@ -21,6 +23,8 @@ jobs:
         id: tags # The step ID to refer to later.
       # - name: Checkout
       #   uses: actions/checkout@v2
+      - name: Dispatcher
+        run: echo "${{ github.event.client_payload.source }}"
       - name: Pull them
         env:
           TAG: '${{ steps.tags.outputs.tag }}'
