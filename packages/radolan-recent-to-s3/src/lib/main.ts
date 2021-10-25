@@ -165,7 +165,10 @@ export const main: (options: IObject) => Promise<void> = async _options => {
       path.resolve(process.cwd(), "./error.log"),
       "utf8",
     );
-
+    // silence
+    if (elog.length === 0) {
+      return;
+    }
     const opts: IMailOpts = {
       // from: process.env.SMTP_FROM!,
       to: process.env.SMTP_ADMIN_TO!,
@@ -181,6 +184,7 @@ export const main: (options: IObject) => Promise<void> = async _options => {
         elog.length === 0 ? "Everything OK." : "ERRORLOG:\n" + elog
       }\n${clog}`,
     };
+
     await mail(opts);
 
     logger.info("Done. Shutting down?");
