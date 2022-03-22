@@ -95,7 +95,7 @@
     "typescript": "3.6.4"
   },
   "dependencies": {
-    "@mapbox/geojsonhint": "3.0.0",
+    "@mapbox/geojsonhint": "3.0.1",
     "@turf/buffer": "5.1.5",
     "@turf/nearest-point-to-line": "6.0.0",
     "@turf/point-to-line-distance": "6.0.0",
