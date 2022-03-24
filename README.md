@@ -29,6 +29,7 @@ This is the the source for the web application of the project Flusshygiene.
   - [Folder `elastic-beanstalk-deply`](#folder-elastic-beanstalk-deply)
     - [Setup EB](#setup-eb)
     - [Deploy EB](#deploy-eb)
+  - [Contributors](#contributors)
 
 <!-- /code_chunk_output -->
 
@@ -121,5 +122,23 @@ npm run build && NODE_DOCKER_ENV=0 NODE_ENV=production FAST=true npm run populat
 
 - deploy `eb deploy --profile flsshygn`
 
+## Contributors
 
-<!-- touch 2021.05.18 -->
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://fabianmoronzirfas.me/"><img src="https://avatars.githubusercontent.com/u/315106?v=4?s=64" width="64px;" alt=""/><br /><sub><b>Fabian Morón Zirfas</b></sub></a><br /><a href="https://github.com/technologiestiftung/CityLAB Slides/commits?author=ff6347" title="Code">💻</a> <a href="https://github.com/technologiestiftung/CityLAB Slides/commits?author=ff6347" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/hsonne"><img src="https://avatars.githubusercontent.com/u/11964315?v=4?s=64" width="64px;" alt=""/><br /><sub><b>Hauke Sonnenberg</b></sub></a><br /><a href="https://github.com/technologiestiftung/CityLAB Slides/commits?author=hsonne" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
