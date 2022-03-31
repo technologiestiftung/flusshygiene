@@ -143,3 +143,57 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## Credits
+
+### Partners network
+<table>
+  <tr>
+    <td>
+      <a src="https://www.berlin.de/lageso/">
+        <img width="150" src="https://logos.citylab-berlin.org/logo-lageso.svg" />
+      </a>
+    </td>
+    <td>
+      <a src="https://www.bwb.de/de/index.php">
+        <img width="120" src="https://logos.citylab-berlin.org/logo-berliner-wasserbetriebe.svg" />
+      </a>
+    </td>
+    <td>
+      <a src="https://www.kompetenz-wasser.de/en">
+        <img width="120" src="https://logos.citylab-berlin.org/logo-kwb.svg" />
+      </a>
+    </td>
+    <td>
+      <a src="https://www.technologiestiftung-berlin.de/en/">
+        <img width="120" src="https://logos.citylab-berlin.org/logo-technologiestiftung-berlin-en.svg" />
+      </a>
+    </td>
+  </tr>
+</table>
+
+### Developed in the project
+<table>
+  <tr>
+    <td>
+      <a src="https://www.kompetenz-wasser.de/en">
+        <img width="150" src="https://logos.citylab-berlin.org/logo-flusshygiene.png" />
+      </a>
+    </td>
+</table>
+
+### Supported by
+<table>
+  <tr>
+    <td>
+      <a src="https://www.bmbf.de/bmbf/en/home/home_node.html">
+        <img width="120" src="https://logos.citylab-berlin.org/logo-bbf.svg" />
+      </a>
+    </td>
+    <td>
+      <a src="https://bmbf.nawam-rewam.de/en/">
+        <img width="160" src="https://logos.citylab-berlin.org/logo-nawam.jpg" />
+      </a>
+    </td>
+  </tr>
+</table>
