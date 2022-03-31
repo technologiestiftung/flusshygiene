@@ -131,9 +131,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://fabianmoronzirfas.me/"><img src="https://avatars.githubusercontent.com/u/315106?v=4?s=64" width="64px;" alt=""/><br /><sub><b>Fabian Morón Zirfas</b></sub></a><br /><a href="https://github.com/technologiestiftung/CityLAB Slides/commits?author=ff6347" title="Code">💻</a> <a href="https://github.com/technologiestiftung/CityLAB Slides/commits?author=ff6347" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/hsonne"><img src="https://avatars.githubusercontent.com/u/11964315?v=4?s=64" width="64px;" alt=""/><br /><sub><b>Hauke Sonnenberg</b></sub></a><br /><a href="https://github.com/technologiestiftung/CityLAB Slides/commits?author=hsonne" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/vogelino"><img src="https://avatars.githubusercontent.com/u/2759340?v=4?s=64" width="64px;" alt=""/><br /><sub><b>Lucas Vogel</b></sub></a><br /><a href="https://github.com/technologiestiftung/CityLAB Slides/commits?author=vogelino" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://fabianmoronzirfas.me/"><img src="https://avatars.githubusercontent.com/u/315106?v=4?s=64" width="64px;" alt=""/><br /><sub><b>Fabian Morón Zirfas</b></sub></a><br /><a href="https://github.com/technologiestiftung/flusshygiene/commits?author=ff6347" title="Code">💻</a> <a href="https://github.com/technologiestiftung/flusshygiene/commits?author=ff6347" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/hsonne"><img src="https://avatars.githubusercontent.com/u/11964315?v=4?s=64" width="64px;" alt=""/><br /><sub><b>Hauke Sonnenberg</b></sub></a><br /><a href="https://github.com/technologiestiftung/flusshygiene/commits?author=hsonne" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/vogelino"><img src="https://avatars.githubusercontent.com/u/2759340?v=4?s=64" width="64px;" alt=""/><br /><sub><b>Lucas Vogel</b></sub></a><br /><a href="https://github.com/technologiestiftung/flusshygiene/commits?author=vogelino" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/wseis"><img src="https://avatars.githubusercontent.com/u/31789484?v=4?s=64" width="64px;" alt=""/><br /><sub><b>wseis</b></sub></a><br /><a href="#data-wseis" title="Data">🔣</a> <a href="https://github.com/technologiestiftung/flusshygiene/pulls?q=is%3Apr+reviewed-by%3Awseis" title="Reviewed Pull Requests">👀</a> <a href="#design-wseis" title="Design">🎨</a></td>
   </tr>
 </table>
 
