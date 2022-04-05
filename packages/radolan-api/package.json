@@ -19,7 +19,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "moment": "2.24.0",
+    "moment": "2.29.2",
     "moment-range": "4.0.2",
     "serverless-dotenv-plugin": "2.1.1"
   },
