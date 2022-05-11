@@ -1,12 +1,12 @@
-![](https://img.shields.io/badge/Build%20with%20%E2%9D%A4%EF%B8%8F-at%20Technologiesitftung%20Berlin-blue)
+![](https://img.shields.io/badge/Built%20with%20%E2%9D%A4%EF%B8%8F-at%20Technologiestiftung%20Berlin-blue)
 
 # Flusshygiene
 
-This is the the source for the web application of the project Flusshygiene.  
+This is the the source for the web application of the project Flusshygiene.
 
 ## CI Status
 
-[![Docker Image Builder Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/Docker%20Image%20Builder/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22Docker+Image+Builder%22) [![FHPREDICT Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/FHPREDICT%20API%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22FHPREDICT+API+test+and+build%22)  [![MIDDLELAYER Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/MIDDLELAYER%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22MIDDLELAYER+test+and+build%22) [![NGINX Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/NGINX%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22NGINX+test+and+build%22) [![OPENCPU BASE Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/OPENCPU%20BASE%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22OPENCPU+BASE+test+and+build%22) [![POSTGRES API Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/POSTGRES%20API%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22POSTGRES+API+test+and+build%22) [![CMS SPA Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/CMS%20SPA%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22CMS+SPA+test+and+build%22) [![Coverage Status](https://coveralls.io/repos/github/technologiestiftung/flusshygiene/badge.svg?branch=master)](https://coveralls.io/github/technologiestiftung/flusshygiene?branch=master)
+[![Docker Image Builder Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/Docker%20Image%20Builder/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22Docker+Image+Builder%22) [![FHPREDICT Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/FHPREDICT%20API%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22FHPREDICT+API+test+and+build%22) [![MIDDLELAYER Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/MIDDLELAYER%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22MIDDLELAYER+test+and+build%22) [![NGINX Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/NGINX%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22NGINX+test+and+build%22) [![OPENCPU BASE Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/OPENCPU%20BASE%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22OPENCPU+BASE+test+and+build%22) [![POSTGRES API Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/POSTGRES%20API%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22POSTGRES+API+test+and+build%22) [![CMS SPA Test Workflow badge](https://github.com/technologiestiftung/flusshygiene/workflows/CMS%20SPA%20test%20and%20build/badge.svg)](https://github.com/technologiestiftung/flusshygiene/actions?query=workflow%3A%22CMS+SPA+test+and+build%22) [![Coverage Status](https://coveralls.io/repos/github/technologiestiftung/flusshygiene/badge.svg?branch=master)](https://coveralls.io/github/technologiestiftung/flusshygiene?branch=master)
 
 <!-- https://github.com/<OWNER>/<REPOSITORY>/workflows/<WORKFLOW_FILE_PATH>/badge.svg -->
 
@@ -48,7 +48,6 @@ This is the the source for the web application of the project Flusshygiene.
 - serverless installed
 - blackbox installed (optional)
 
-
 ### blackbox
 
 encrypt decrypt secrets
@@ -62,7 +61,6 @@ encrypt decrypt secrets
 ### Docker
 
 ## Folder `terraform`
-
 
 ### Setup Terraform
 
@@ -111,7 +109,7 @@ npm run build && NODE_DOCKER_ENV=0 NODE_ENV=production FAST=true npm run populat
 ### Setup EB
 
 - Install `eb-cli`
-- setup your env 
+- setup your env
   - credentials?
   - `eb init --profile flsshygn`
   - `eb status` to see what is going on
@@ -148,6 +146,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 ## Credits
 
 ### Partners network
+
 <table>
   <tr>
     <td>
@@ -174,6 +173,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 </table>
 
 ### Developed in the project
+
 <table>
   <tr>
     <td>
@@ -184,6 +184,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 </table>
 
 ### Supported by
+
 <table>
   <tr>
     <td>
