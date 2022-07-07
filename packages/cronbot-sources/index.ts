@@ -1,5 +1,4 @@
-// import { IncomingMessage, ServerResponse } from "http";
-import { NowRequest, NowResponse } from '@now/node';
+import { VercelRequest, VercelResponse } from "@vercel/node";
 
 const getRandomValue = () => Math.floor(Math.random() * 1000);
 
@@ -11,13 +10,14 @@ const h = d.getHours();
 const m = d.getMinutes();
 const s = d.getSeconds();
 const getDate = (incr: number) =>
-  `${year}-${month.toString().padStart(2, '0')}-${day
-    .toString()
-    .padStart(2, '0')} ${h.toString().padStart(2, '0')}:${m
-    .toString()
-    .padStart(2, '0')}:${((s + incr) % 60).toString().padStart(2, '0')}`;
+  `${year}-${month.toString().padStart(2, "0")}-${day
 
-export default async (req: NowRequest, res: NowResponse) => {
+    .toString()
+    .padStart(2, "0")} ${h.toString().padStart(2, "0")}:${m
+      .toString()
+      .padStart(2, "0")}:${((s + incr) % 60).toString().padStart(2, "0")}`;
+
+export default async (req: VercelRequest, res: VercelResponse) => {
   let errMsg = '';
   try {
     const { type, count, err } = req.query;
@@ -29,18 +29,18 @@ export default async (req: NowRequest, res: NowResponse) => {
     ) {
       errMsg =
         "Needs 'count' param e.g. '?count=100&type=conc' or '?count=100'";
-      throw new Error();
+      throw new Error(errMsg);
     }
-    if (type !== 'conc' && type !== undefined && err === undefined) {
+    if (type !== "conc" && type !== undefined && err === undefined) {
       errMsg =
         "Only type 'conc' and no type are supported e.g. '?count=100&type=conc' or '?count=100'";
-      throw new Error();
+      throw new Error(errMsg);
     }
 
-    const data: any[] = [];
+    const data: { date: string, conc_ec?: number; conc_ic?: number; value?: number }[] = [];
 
     for (let i = 0; i < parseInt(count as string, 10); i++) {
-      if (type === 'conc') {
+      if (type === "conc") {
         data.push({
           date: getDate(i),
           conc_ec: getRandomValue(),
@@ -58,8 +58,10 @@ export default async (req: NowRequest, res: NowResponse) => {
     } else {
       res.status(200).json({ data });
     }
-  } catch (error) {
-    console.error(error);
-    res.status(400).send(errMsg);
+  } catch (error: unknown) {
+    // console.error(error);
+    if (error instanceof Error) {
+      res.status(400).send(error.message);
+    }
   }
 };
