@@ -103,7 +103,7 @@
     "@types/dotenv": "8.2.0",
     "@types/turf": "3.5.32",
     "aws-sdk": "2.539.0",
-    "class-validator": "0.10.0",
+    "class-validator": "0.14.0",
     "connect-redis": "4.0.3",
     "cors": "2.8.5",
     "dotenv": "8.1.0",
