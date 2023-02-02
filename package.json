@@ -25,8 +25,8 @@
   "devDependencies": {
     "cz-conventional-changelog": "3.1.0",
     "husky": "3.1.0",
-    "lerna": "3.20.2",
-    "lerna-changelog": "0.8.3"
+    "lerna": "6.4.1",
+    "lerna-changelog": "2.2.0"
   },
   "config": {
     "commitizen": {
