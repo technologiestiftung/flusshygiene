@@ -18,6 +18,7 @@ import { radolanFilenameParser } from "./radolan-file-name-parser";
 import { stringArrayDiff } from "./string-array-diff";
 import { mail, IMailOpts } from "./mail";
 import { getDirectoryListingLinks } from "./directory-listing";
+import { isFileZeroByte } from "./zero-size";
 
 const rimrafAsync = util.promisify(rimraf);
 
@@ -161,10 +162,13 @@ export const main: (options: IObject) => Promise<void> = async _options => {
       path.resolve(process.cwd(), "./combined.log"),
       "utf8",
     );
-    const elog = fs.readFileSync(
-      path.resolve(process.cwd(), "./error.log"),
-      "utf8",
-    );
+    const eLogPath = path.resolve(process.cwd(), "./error.log");
+
+    if (isFileZeroByte(eLogPath)) {
+      return;
+    }
+
+    const elog = fs.readFileSync(eLogPath, "utf8");
     // silence
     if (elog.length === 0) {
       return;
