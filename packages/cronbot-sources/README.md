@@ -1,6 +1,6 @@
 # `@tsb/cronbot-sources`
 
-This is a testing api for the cronbot package. Needs a [Zeit.co/now](https://zeit.co/home) account and now cli installed `npm install -g now@latest`.
+This is a testing api for the cronbot package. Needs a [vercel.com/now](https://vercel.com/) account and now cli installed `npm install -g now@latest`.
 
 ## Usage
 
@@ -16,6 +16,12 @@ curl "https://cronbot-sources.now.sh?count=10&type=conc"
 
 ```bash
 now dev
+```
+
+### Testing
+
+```bashh
+npm test
 ```
 
 ## Deploy
