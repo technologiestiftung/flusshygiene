@@ -17,12 +17,12 @@ So supporting IE has no priority for this project and we will drop support witho
 We are part of BrowserStack's non-profit program, helping us deliver an even better user experience.
 
 <a href="https://www.browserstack.com/">
-  <img src="https://p14.zdusercontent.com/attachment/1015988/Hjnr3apa9OCplUi1GbaLiCVa7?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..QA4hJSE7NQfMjFDK1w6tog.0-YOVfCRjxpeHUf5tjKutEEoQn-U5peEUgQ6ZxBZugOJrShlKGm0lCgAURhV9T8Y-dIiFS9xTpdJ0UVPzSL1k4ka4emU3lzjerjHwhHt3Yl65Fs3S4JUWOhHvmiiG9-C0DvY7PJAEpwtGMNf-auRy84MUiYSMIriQzwkTTBJ7rdm7laryRnCGntFYfhs_GgGK38QEk8ZUhmx6M45yPoGTYrwjFPN85D3YmUA1zsEYEYKpIYOE2zdWT38wtQ6yyNWFTi6GyVQZ-p8nXAGbE5ZQR8XlKU2CquvZurSDtFeWhM.BIRFSvq27MoywSgtua3tYw" height="100">
+  <img src="../../docs/images/browserstack-logo-600x315.png" height="100">
 </a>
 
 ---
 
-A Single Page Application (SPA) for interacting with the [technologiestiftung/flusshygiene-postgres-api](https://github.com/technologiestiftung/flusshygiene-postgres-api). Part of the FLusshygiene project.
+A Single Page Application (SPA) for interacting with the [technologiestiftung/flusshygiene-postgres-api](https://github.com/technologiestiftung/flusshygiene-postgres-api). Part of the Flusshygiene project.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -30,58 +30,43 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Node.js
 - Auth0 Account
-- A running instance of flusshygiene-postgres-api with postgres/postgis DB
 
-## Setup
+## Development
 
-- tbd
+Set the following environment variables:
 
-### Setup Auth0
+```bash
+PORT=3000
+REACT_APP_MAPBOX_API_TOKEN=
+REACT_APP_AUTH0_DOMAIN=
+REACT_APP_AUTH0_CLIENTID=
+REACT_APP_AUTH0_AUDIENCE=
+REACT_APP_DOMAIN_URL=https://www.example.com
+REACT_APP_DOMAIN_NICE_NAME=www.example.com
+REACT_APP_API_HOST=
+REACT_APP_EVENT_SOURCE_URL=/middlelayer/stream
+REACT_APP_ADMIN_MAIL=foo@example.com
+```
 
-- tbd
+Run the following processes in their respective order (for the postgres-api package you will have to set its environment variable. See its README.md).
 
-## Usage
+```bash
+# session 1
+# start the react frontend
+cd packages/cms-spa/
+npm start
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.  
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.  
-You will also see any lint errors in the console.
+# session 2
+# start the postgres and redis db
+cd packages/postgres-api
+docker-compose up
+#session 3
+# if populate is set to the db will be pre populated
+cd packages/postgres-api/
+POPULATE=true NODE_ENV=development npm run dev
+```
 
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.  
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.  
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.  
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-<!-- touch -->
-<!--touch-->
